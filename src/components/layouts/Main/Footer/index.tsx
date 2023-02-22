@@ -46,7 +46,8 @@ const MainLayoutFooter = (props: Props) => {
     const mainFooterResizeObserver = new ResizeObserver((entries, observer) => {
       entries.forEach((entry) => {
         const heightInRem = `${(entry.contentRect.height / 16).toFixed(2)}rem`;
-        console.log("heightInRem", heightInRem);
+        process.env.NODE_ENV === "development" &&
+          console.log("heightInRem", heightInRem);
       });
     });
 

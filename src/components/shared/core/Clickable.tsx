@@ -30,7 +30,6 @@ type Props = {
 const Clickable = ({ variants = {}, className, ...props }: Props) => {
   const handleClassName = useCallback(
     (clickableType: ClickableTypes) => {
-      console.log("className", className);
       return handleClickableVariants({
         btn:
           typeof variants.btn !== "undefined"

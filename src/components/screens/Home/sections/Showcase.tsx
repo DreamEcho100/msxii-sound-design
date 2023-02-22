@@ -36,9 +36,9 @@ const ProductBundleCard = (
 const HomeShowcaseSection = (props: Props) => {
   return (
     <section className="bg-basic-secondary-500 sm:p-main-p-3">
-      <div className="flex flex-col gap-4 bg-basic-secondary-900 p-main-p-3 sm:rounded-xl">
+      <div className="flex flex-col gap-16 bg-basic-secondary-900 p-main-p-3 sm:rounded-xl">
         <section>
-          <header className="flex flex-col gap-2 pl-8 rtl:pr-8 rtl:pl-0">
+          <header className="flex flex-col gap-8 pl-8 rtl:pr-8 rtl:pl-0">
             <h2 className="text-h1 font-black">New Releases</h2>
             <div className="flex flex-wrap gap-4">
               {[

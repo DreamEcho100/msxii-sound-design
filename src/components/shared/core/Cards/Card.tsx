@@ -18,7 +18,7 @@ const handleBasicProductCardImageVariants = cva("aspect-square rounded-lg", {
   defaultVariants: { "aspect-ratio": "square", "object-fit": "contain" },
 });
 const handleBasicProductCardTitleVariants = cva(
-  "text-sm font-normal leading-4 min-h-[4ch]",
+  "text-sm font-medium leading-4 min-h-[4ch]",
   {
     variants: {
       "text-align": { center: "text-center" },
@@ -65,7 +65,9 @@ export const ProductExtraDetails = (props: {
 }) => {
   return (
     <>
-      <p className="font-normal">$ {props.product.price}</p>
+      <p className="font-normal text-basic-primary-400">
+        $ {props.product.price}
+      </p>
       <Clickable
         variants={{ btn: "secondary", p: "v1-sm" }}
         className="whitespace-nowrap text-sm uppercase"

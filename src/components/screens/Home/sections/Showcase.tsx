@@ -15,7 +15,7 @@ const ProductCard = (props: { product: Product }) => {
     <BasicProductCard
       product={props.product}
       extraDetailsElem={<ProductExtraDetails product={props.product} />}
-      containerVariants={{ "aspect-ratio": null }}
+      containerVariants={{ "aspect-ratio": "card" }}
     />
   );
 };

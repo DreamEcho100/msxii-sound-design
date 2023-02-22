@@ -7,9 +7,9 @@ const handleClickableVariants = cva("", {
   variants: {
     btn: {
       primary:
-        "font-medium rounded-3xl bg-basic-primary-900 text-basic-primary-100 hover:bg-basic-primary-200 hover:text-basic-secondary-200 duration-150 transition-all",
+        "font-medium bg-basic-primary-900 text-basic-primary-100 hover:bg-basic-primary-200 hover:text-basic-secondary-200 duration-150 transition-all",
       secondary:
-        "font-medium rounded-3xl bg-basic-primary-200 text-basic-secondary-200 hover:bg-basic-primary-900 hover:text-basic-primary-100 duration-150 transition-all",
+        "font-medium bg-basic-primary-200 text-basic-secondary-200 hover:bg-basic-primary-900 hover:text-basic-primary-100 duration-150 transition-all",
     },
     w: { fit: "w-fit", full: "w-full" },
     p: {
@@ -18,8 +18,9 @@ const handleClickableVariants = cva("", {
       "v1-lg": "px-8 py-2",
       "v1-xl": "px-10 py-2",
     },
+    rounded: { "3xl": "rounded-3xl" },
   },
-  defaultVariants: { btn: "primary", w: "fit" },
+  defaultVariants: { btn: "primary", w: "fit", rounded: "3xl" },
 });
 
 type Props = {

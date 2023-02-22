@@ -4,9 +4,9 @@ import Clickable from "../Clickable";
 import Image from "next/image";
 import { VariantProps, cva } from "class-variance-authority";
 
-const handleBasicProductCardContainerVariants = cva("flex flex-col", {
+const handleBasicProductCardContainerVariants = cva("flex flex-col flex-grow", {
   variants: {
-    "aspect-ratio": { video: "aspect-video", card: "aspect-[9/16]" },
+    "aspect-ratio": { video: "aspect-video", card: "aspect-[1.91/1]" },
   },
   defaultVariants: { "aspect-ratio": "card" },
 });
@@ -18,7 +18,7 @@ const handleBasicProductCardImageVariants = cva("aspect-square rounded-lg", {
   defaultVariants: { "aspect-ratio": "square", "object-fit": "contain" },
 });
 const handleBasicProductCardTitleVariants = cva(
-  "text-[1rem] font-normal leading-4",
+  "text-sm font-normal leading-4 min-h-[4ch]",
   {
     variants: {
       "text-align": { center: "text-center" },
@@ -68,7 +68,7 @@ export const ProductExtraDetails = (props: {
       <p className="font-normal">$ {props.product.price}</p>
       <Clickable
         variants={{ btn: "secondary", p: "v1-sm" }}
-        className="whitespace-nowrap uppercase"
+        className="whitespace-nowrap text-sm uppercase"
       >
         Add To Cart
       </Clickable>

@@ -5,9 +5,12 @@ type Props = {};
 
 const AboutMSXIISoundDesign = (props: Props) => {
   return (
-    <section className="bg-basic-secondary-500 text-basic-primary-500 sm:p-main-p-3">
-      <div className="flex flex-col gap-8 bg-special-secondary-500 p-main-p-3 sm:rounded-xl lg:flex-row">
-        <div className="lg:text-align-initial flex flex-col gap-8 text-center lg:w-1/2">
+    <section className="bg-basic-secondary-500 text-basic-primary-500 sm:px-main-p-3 sm:py-main-p-2">
+      <div className="flex flex-col-reverse justify-center gap-4 bg-special-secondary-500 px-main-p-2 sm:gap-12 sm:rounded-xl lg:flex-row lg:px-main-p-1">
+        <div
+          className="lg:text-align-initial flex 
+flex-col gap-8 pb-main-p-2 text-center lg:w-1/2 lg:max-w-screen-sm lg:pt-main-p-1"
+        >
           <header>
             <h2 className="text-h1 font-black">About MSXII Sound Design</h2>
           </header>
@@ -41,7 +44,7 @@ const AboutMSXIISoundDesign = (props: Props) => {
             alt=""
             width={600}
             height={500}
-            className="max-w-[80%]"
+            className="w-[70%] max-w-[512px]"
           />
         </div>
       </div>

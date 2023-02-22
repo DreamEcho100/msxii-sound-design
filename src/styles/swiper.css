@@ -17,7 +17,7 @@
   background-repeat: no-repeat;
   background-position: center;
   right: 0% !important;
-  transform: translateY(-50%) !important;
+  transform: translate(10%, -50%) !important;
 }
 .swiper-button-next:after,
 [dir="rtl"] .swiper-button-prev:after {
@@ -32,7 +32,7 @@
   background-repeat: no-repeat;
   background-position: center;
   left: 0% !important;
-  transform: translateY(-50%) !important;
+  transform: translate(10%, -50%) !important;
 }
 .swiper-button-prev:after,
 [dir="rtl"] .swiper-button-next:after {
@@ -41,7 +41,7 @@
 
 .swiper-button-next,
 .swiper-button-prev {
-  width: 1.25rem !important;
+  width: 0.75rem !important;
   margin: 0 !important;
 }
 

@@ -15,7 +15,7 @@ const MainLayout = (props: Props) => {
     <>
       <MainLayoutHeader />
       {/* min-h-main-content */}
-      <main className="m-auto mt-main-header-h max-w-main">
+      <main className="mx-auto mt-main-header-h max-w-main">
         {props.children}
       </main>
       <MainLayoutFooter />

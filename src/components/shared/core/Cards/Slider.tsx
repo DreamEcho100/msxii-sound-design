@@ -37,10 +37,7 @@ const ProductsSlider = <CardElemProps extends Record<string, unknown>>({
         {...swiperProps}
       >
         {fakeProductsData.map((item) => (
-          <SwiperSlide
-            key={item.key}
-            className="flex flex-col items-center justify-center px-4 text-center"
-          >
+          <SwiperSlide key={item.key} className="flex flex-col px-4">
             {<CardElem product={item} {...cardsSharedProps} />}
           </SwiperSlide>
         ))}

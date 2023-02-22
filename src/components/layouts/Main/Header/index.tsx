@@ -109,14 +109,14 @@ const MainLayoutHeader = (props: Props) => {
           <Clickable
             title="cart"
             variants={{ btn: null, p: null }}
-            className="relative"
+            className="relative flex flex-wrap gap-1"
           >
-            <BsCart3 />
-            <span className="absolute flex items-end justify-end whitespace-nowrap">
+            <BsCart3 /> 0 Items
+            {/* <span className="absolute flex items-end justify-end whitespace-nowrap">
               <small className="text-[50%]">
                 <span className="font-sans">0</span> ITEMS
               </small>
-            </span>
+            </span> */}
           </Clickable>
           <Clickable
             onClick={handleToggleSideNav}

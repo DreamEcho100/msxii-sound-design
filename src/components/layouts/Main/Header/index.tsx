@@ -132,14 +132,14 @@ const MainLayoutHeader = (props: Props) => {
           className="flex w-full flex-col
 				lg:hidden"
         >
-          <ul>
+          <ul className="font-medium">
             {headersLinks.map((item) => (
               <li
                 key={item.title}
                 className={cx(
-                  "flex flex-wrap border-b-[0.0625rem] border-solid border-b-special-primary-500 px-main-p-3  last:border-0 sm:px-main-p-1",
-                  "hover:bg-gradient-to-br hover:from-basic-primary-200 hover:to-special-primary-400 hover:text-special-secondary-100 hover:transition-all hover:duration-150",
-                  "focus-within:bg-gradient-to-br focus-within:from-basic-primary-300 focus-within:to-special-primary-500 focus-within:text-special-secondary-100 focus:transition-all focus:duration-150"
+                  "flex flex-wrap border-b-[0.0625rem] border-solid border-b-special-primary-500 px-main-p-3  last:border-0 sm:px-main-p-1"
+                  // "hover:bg-gradient-to-br hover:from-basic-primary-200 hover:to-special-primary-400 hover:text-special-secondary-100 hover:transition-all hover:duration-150",
+                  // "focus-within:bg-gradient-to-br focus-within:from-basic-primary-300 focus-within:to-special-primary-500 focus-within:text-special-secondary-100 focus:transition-all focus:duration-150"
                 )}
               >
                 {"href" in item ? (
@@ -147,9 +147,15 @@ const MainLayoutHeader = (props: Props) => {
                     href="/"
                     isA="next-js"
                     className={cx(
-                      "mx-auto w-full max-w-main whitespace-nowrap p-1"
+                      "mx-auto w-full max-w-main whitespace-nowrap bg-clip-text p-1",
+                      "bg-black",
+                      "hover:bg-gradient-to-br hover:from-basic-primary-200 hover:to-special-primary-400 hover:text-special-secondary-100 hover:transition-all hover:duration-150",
+                      "focus:bg-gradient-to-br focus:from-basic-primary-300 focus:to-special-primary-500 focus:text-special-secondary-100 focus:transition-all focus:duration-150"
                     )}
                     variants={{ rounded: null, p: null }}
+                    style={{
+                      WebkitTextFillColor: "transparent",
+                    }}
                   >
                     {item.title}
                   </Clickable>
@@ -158,7 +164,7 @@ const MainLayoutHeader = (props: Props) => {
                     <DropdownButton
                       shape="text"
                       title="settings and other options"
-                      defaultTextColor="text-inherit"
+                      defaultTextColor=""
                     >
                       <BsChevronDown /> {item.title}
                     </DropdownButton>

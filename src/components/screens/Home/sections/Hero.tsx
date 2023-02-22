@@ -35,6 +35,7 @@ const HeroHomeSection = (props: Props) => {
             width={390}
             height={285}
             className="max-h-full scale-[0.6] object-contain"
+            priority
           />
         </div>
         <div className="absolute inset-0 flex items-end justify-end">
@@ -44,6 +45,7 @@ const HeroHomeSection = (props: Props) => {
             width={390}
             height={285}
             className="max-h-full scale-[0.6] object-contain"
+            priority
           />
         </div>
       </div>

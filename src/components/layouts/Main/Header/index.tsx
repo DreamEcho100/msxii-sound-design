@@ -65,7 +65,13 @@ const MainLayoutHeader = (props: Props) => {
       <div className="mx-auto flex h-main-header-h w-full max-w-main flex-grow items-center justify-between gap-4 px-main-p-3 font-medium sm:px-main-p-1">
         <div className="">
           <Clickable href="/" isA="next-js">
-            <Image src="/images/logo.png" alt="logo" width="60" height="48" />
+            <Image
+              src="/images/logo.png"
+              alt="logo"
+              width="60"
+              height="48"
+              priority
+            />
           </Clickable>
         </div>
         <nav className="mx-16 hidden max-w-screen-sm flex-grow items-center justify-between gap-2 lg:flex">

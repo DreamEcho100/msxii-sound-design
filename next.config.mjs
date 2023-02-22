@@ -20,5 +20,6 @@ const config = {
     locales: ["en"],
     defaultLocale: "en",
   },
+  // experimental: {}
 };
 export default config;

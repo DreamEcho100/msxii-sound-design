@@ -28,7 +28,7 @@ const ProductBundleCard = (
       product={props.product}
       containerVariants={{ "aspect-ratio": "video" }}
       // imageVariants={{ "aspect-ratio": "video", "object-fit": "cover" }}
-      titleVariants={{ "text-align": "center" }}
+      titleVariants={{ "text-align": "center", "text-size": "lg" }}
     />
   );
 };
@@ -36,7 +36,7 @@ const ProductBundleCard = (
 const HomeShowcaseSection = (props: Props) => {
   return (
     <section className="bg-basic-secondary-500 sm:p-main-p-3">
-      <div className="flex flex-col gap-16 bg-basic-secondary-900 p-main-p-3 sm:rounded-xl">
+      <div className="flex flex-col gap-16 bg-basic-secondary-900 p-main-p-3 text-basic-primary-600 sm:rounded-xl">
         <section>
           <header className="flex flex-col gap-8 pl-8 rtl:pr-8 rtl:pl-0">
             <h2 className="text-h1 font-black">New Releases</h2>

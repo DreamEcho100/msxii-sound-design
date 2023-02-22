@@ -158,6 +158,7 @@ const MainLayoutHeader = (props: Props) => {
                     <DropdownButton
                       shape="text"
                       title="settings and other options"
+                      defaultTextColor="text-inherit"
                     >
                       <BsChevronDown /> {item.title}
                     </DropdownButton>

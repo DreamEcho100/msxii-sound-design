@@ -81,8 +81,8 @@ const HomeShowcaseSection = (props: Props) => {
               slidesPerView: 1,
               breakpoints: {
                 500: { slidesPerView: 2 },
-                1024: { slidesPerView: 3 },
-                1250: { slidesPerView: 4 },
+                1150: { slidesPerView: 3 },
+                1400: { slidesPerView: 4 },
               },
             }}
             CardElem={ProductBundleCard}

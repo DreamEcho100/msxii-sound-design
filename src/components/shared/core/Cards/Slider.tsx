@@ -29,9 +29,9 @@ const ProductsSlider = <CardElemProps extends Record<string, unknown>>({
         slidesPerView={1}
         breakpoints={{
           500: { slidesPerView: 2 },
-          700: { slidesPerView: 3 },
-          1024: { slidesPerView: 5 },
-          1250: { slidesPerView: 6 },
+          768: { slidesPerView: 3 },
+          1150: { slidesPerView: 5 },
+          1400: { slidesPerView: 6 },
         }}
         loop
         {...swiperProps}

@@ -17,6 +17,11 @@ const handleClickableVariants = cva("", {
       "v1-md": "px-6 py-2",
       "v1-lg": "px-8 py-2",
       "v1-xl": "px-10 py-2",
+      //
+      "v2-sm": "px-4 py-1",
+      "v2-md": "px-6 py-1",
+      "v2-lg": "px-8 py-1",
+      "v2-xl": "px-10 py-1",
     },
     rounded: { "3xl": "rounded-3xl" },
   },

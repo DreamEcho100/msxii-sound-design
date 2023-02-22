@@ -34,7 +34,7 @@ const HomeLatestBlogsSection = (props: Props) => {
               >
                 <div className="sm:text-align-initial flex flex-col items-center justify-between gap-2 p-8 text-center sm:w-1/2 sm:items-start sm:gap-0 lg:p-4">
                   <Clickable
-                    variants={{ btn: "secondary", rounded: null, p: "v1-sm" }}
+                    variants={{ btn: "secondary", rounded: null, p: "v2-sm" }}
                   >
                     Blog post
                   </Clickable>

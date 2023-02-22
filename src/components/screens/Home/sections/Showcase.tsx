@@ -1,38 +1,13 @@
 import React from "react";
 import {
-  BasicProductCard,
-  ProductExtraDetails,
+  ProductBundleCard,
+  ProductCard,
 } from "~/components/shared/core/Cards/Card";
-import { Product } from "~/utils/types";
 import ProductsSlider from "~/components/shared/core/Cards/Slider";
 import Clickable from "~/components/shared/core/Clickable";
 import { cx } from "class-variance-authority";
 
 type Props = {};
-
-const ProductCard = (props: { product: Product }) => {
-  return (
-    <BasicProductCard
-      product={props.product}
-      extraDetailsElem={<ProductExtraDetails product={props.product} />}
-      containerVariants={{ "aspect-ratio": "card" }}
-    />
-  );
-};
-
-const ProductBundleCard = (
-  props: Pick<Parameters<typeof BasicProductCard>[0], "product">
-) => {
-  return (
-    <BasicProductCard
-      product={props.product}
-      containerVariants={{ "aspect-ratio": "video" }}
-      // imageVariants={{ "aspect-ratio": "video", "object-fit": "cover" }}
-      titleVariants={{ "text-align": "center", "text-size": "lg" }}
-    />
-  );
-};
-
 const HomeShowcaseSection = (props: Props) => {
   return (
     <section className="bg-basic-secondary-500 sm:p-main-p-3">

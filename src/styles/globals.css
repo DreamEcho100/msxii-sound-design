@@ -89,6 +89,13 @@
     --leading-primary-6: 1.25rem; /* 20px */
   }
 
+  @media only screen and (max-width: 768px) {
+    :root {
+      --size-h1: 2.5rem; /* 40px */
+      --leading-primary-2: 2.2rem; /* 36px */
+    }
+  }
+
   html,
   body {
     width: 100%;

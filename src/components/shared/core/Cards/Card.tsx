@@ -3,12 +3,12 @@ import { fakeProductsData } from "~/utils/appData";
 import Clickable from "../Clickable";
 import Image from "next/image";
 import { VariantProps, cva } from "class-variance-authority";
+import { Product } from "~/utils/types";
 
 const handleBasicProductCardContainerVariants = cva("flex flex-col flex-grow", {
   variants: {
     "aspect-ratio": { video: "aspect-video", card: "aspect-[1.91/1]" },
   },
-  defaultVariants: { "aspect-ratio": "card" },
 });
 const handleBasicProductCardImageVariants = cva("aspect-square rounded-lg", {
   variants: {
@@ -81,5 +81,28 @@ export const ProductExtraDetails = (props: {
         Add To Cart
       </Clickable>
     </>
+  );
+};
+
+export const ProductCard = (props: { product: Product }) => {
+  return (
+    <BasicProductCard
+      product={props.product}
+      extraDetailsElem={<ProductExtraDetails product={props.product} />}
+      containerVariants={{ "aspect-ratio": "card" }}
+    />
+  );
+};
+
+export const ProductBundleCard = (
+  props: Pick<Parameters<typeof BasicProductCard>[0], "product">
+) => {
+  return (
+    <BasicProductCard
+      product={props.product}
+      containerVariants={{ "aspect-ratio": "video" }}
+      imageVariants={{ "aspect-ratio": "video", "object-fit": "cover" }}
+      titleVariants={{ "text-align": "center", "text-size": "lg" }}
+    />
   );
 };

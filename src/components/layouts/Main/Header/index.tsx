@@ -56,7 +56,7 @@ const MainLayoutHeader = (props: Props) => {
   return (
     <header
       className={cx(
-        "fixed top-0 left-0 right-0 z-10 flex flex-col",
+        "fixed top-0 left-0 right-0 z-10 flex flex-col transition-all duration-300",
         isSideNavOpen
           ? "bg-basic-secondary-500"
           : "bg-basic-secondary-500/80 backdrop-blur-sm"
@@ -138,8 +138,8 @@ const MainLayoutHeader = (props: Props) => {
                 key={item.title}
                 className={cx(
                   "flex flex-wrap border-b-[0.0625rem] border-solid border-b-special-primary-500 px-main-p-3  last:border-0 sm:px-main-p-1",
-                  "hover:bg-gradient-to-br hover:from-basic-primary-200 hover:to-special-primary-400 hover:text-special-secondary-100",
-                  "focus-within:bg-gradient-to-br focus-within:from-basic-primary-300 focus-within:to-special-primary-500 focus-within:text-special-secondary-100"
+                  "hover:bg-gradient-to-br hover:from-basic-primary-200 hover:to-special-primary-400 hover:text-special-secondary-100 hover:transition-all hover:duration-150",
+                  "focus-within:bg-gradient-to-br focus-within:from-basic-primary-300 focus-within:to-special-primary-500 focus-within:text-special-secondary-100 focus:transition-all focus:duration-150"
                 )}
               >
                 {"href" in item ? (

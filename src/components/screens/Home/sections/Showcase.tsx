@@ -72,7 +72,7 @@ const HomeShowcaseSection = (props: Props) => {
           <ProductsSlider CardElem={ProductCard} />
         </section>
         <section>
-          <header>
+          <header className="pl-8 rtl:pr-8 rtl:pl-0">
             <h2 className="text-h1 font-black">Bundles</h2>
           </header>
           <ProductsSlider CardElem={ProductCard} />

@@ -137,7 +137,7 @@ const MainLayoutHeader = (props: Props) => {
               <li
                 key={item.title}
                 className={cx(
-                  "flex flex-wrap border-b-[0.0625rem] border-solid border-b-special-primary-500 px-main-p-3  last:border-0 sm:px-main-p-1"
+                  "flex flex-wrap border-b-[0.0625rem] border-solid border-b-special-primary-500 px-main-p-3 sm:px-main-p-1" // last:border-0
                   // "hover:bg-gradient-to-br hover:from-basic-primary-200 hover:to-special-primary-400 hover:text-special-secondary-100 hover:transition-all hover:duration-150",
                   // "focus-within:bg-gradient-to-br focus-within:from-basic-primary-300 focus-within:to-special-primary-500 focus-within:text-special-secondary-100 focus:transition-all focus:duration-150"
                 )}

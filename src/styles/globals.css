@@ -3,10 +3,10 @@
 @tailwind utilities;
 
 @layer base {
-  :root {
-    --tw-bg-opacity: 1;
+	:root {
+		--tw-bg-opacity: 1;
 
-    /* white: {
+		/* white: {
     100: "#fdfdfd",
     200: "#fbfbfb",
     300: "#f8f8f8",
@@ -17,111 +17,112 @@
     800: "#626262",
     900: "#313131"
 }, */
-    /* black */
-    --color-basic-primary-0: 255 255 255;
-    --color-basic-primary-100: 210 210 210;
-    --color-basic-primary-200: 165 165 165;
-    --color-basic-primary-300: 120 120 120;
-    --color-basic-primary-400: 75 75 75;
-    --color-basic-primary-500: 31 31 31;
-    --color-basic-primary-600: 24 24 24;
-    --color-basic-primary-700: 18 18 18;
-    --color-basic-primary-800: 13 13 13;
-    --color-basic-primary-900: 6 6 6;
-    --color-basic-primary-1000: 0 0 0;
+		/* black */
+		--color-basic-primary-0: 255 255 255;
+		--color-basic-primary-100: 210 210 210;
+		--color-basic-primary-200: 165 165 165;
+		--color-basic-primary-300: 120 120 120;
+		--color-basic-primary-400: 75 75 75;
+		--color-basic-primary-500: 31 31 31;
+		--color-basic-primary-600: 24 24 24;
+		--color-basic-primary-700: 18 18 18;
+		--color-basic-primary-800: 13 13 13;
+		--color-basic-primary-900: 6 6 6;
+		--color-basic-primary-1000: 0 0 0;
 
-    --color-basic-secondary-0: 0 0 0;
-    --color-basic-secondary-100: 251 251 251;
-    --color-basic-secondary-200: 251 251 251;
-    --color-basic-secondary-300: 251 251 251;
-    --color-basic-secondary-400: 195 195 195;
-    --color-basic-secondary-500: 244 244 244;
-    --color-basic-secondary-600: 246 246 246;
-    --color-basic-secondary-700: 248 248 248;
-    --color-basic-secondary-800: 251 251 251;
-    --color-basic-secondary-900: 253 253 253;
-    --color-basic-secondary-1000: 255 255 255;
+		--color-basic-secondary-0: 0 0 0;
+		--color-basic-secondary-100: 251 251 251;
+		--color-basic-secondary-200: 251 251 251;
+		--color-basic-secondary-300: 251 251 251;
+		--color-basic-secondary-400: 195 195 195;
+		--color-basic-secondary-500: 244 244 244;
+		--color-basic-secondary-600: 246 246 246;
+		--color-basic-secondary-700: 248 248 248;
+		--color-basic-secondary-800: 251 251 251;
+		--color-basic-secondary-900: 253 253 253;
+		--color-basic-secondary-1000: 255 255 255;
 
-    /* green */
-    --color-special-primary-100: 214 245 245;
-    --color-special-primary-200: 173 234 234;
-    --color-special-primary-300: 132 224 224;
-    --color-special-primary-400: 91 213 213;
-    --color-special-primary-500: 50 203 203;
-    --color-special-primary-600: 40 162 162;
-    --color-special-primary-700: 30 122 122;
-    --color-special-primary-800: 20 81 81;
-    --color-special-primary-900: 10 41 41;
+		/* green */
+		--color-special-primary-100: 214 245 245;
+		--color-special-primary-200: 173 234 234;
+		--color-special-primary-300: 132 224 224;
+		--color-special-primary-400: 91 213 213;
+		--color-special-primary-500: 50 203 203;
+		--color-special-primary-600: 40 162 162;
+		--color-special-primary-700: 30 122 122;
+		--color-special-primary-800: 20 81 81;
+		--color-special-primary-900: 10 41 41;
 
-    /* yellow */
-    --color-special-secondary-100: 250 242 227;
-    --color-special-secondary-200: 246 229 199;
-    --color-special-secondary-300: 241 215 170;
-    --color-special-secondary-400: 237 202 142;
-    --color-special-secondary-500: 232 189 114;
-    --color-special-secondary-600: 186 151 91;
-    --color-special-secondary-700: 139 113 68;
-    --color-special-secondary-800: 93 76 46;
-    --color-special-secondary-900: 46 38 23;
+		/* yellow */
+		--color-special-secondary-100: 250 242 227;
+		--color-special-secondary-200: 246 229 199;
+		--color-special-secondary-300: 241 215 170;
+		--color-special-secondary-400: 237 202 142;
+		--color-special-secondary-500: 232 189 114;
+		--color-special-secondary-600: 186 151 91;
+		--color-special-secondary-700: 139 113 68;
+		--color-special-secondary-800: 93 76 46;
+		--color-special-secondary-900: 46 38 23;
 
-    /*  */
-    --main-max-w: 1728px;
-    --main-header-h: 4rem;
-    --size-h1: 3rem;
-    --size-h2: 2rem;
-    --size-h3: 1.8rem;
-    --size-h4: 1.6rem;
-    --size-h5: 1.4rem;
-    --size-h6: 1.2rem;
-    --main-p-1: 4rem;
-    --main-p-2: 3rem;
-    --main-p-3: 2rem;
-    --main-p-4: 1rem;
+		/*  */
+		--main-max-w: 1728px;
+		--main-header-h: 4rem;
+		--size-h1: 3rem;
+		--size-h2: 2rem;
+		--size-h3: 1.8rem;
+		--size-h4: 1.6rem;
+		--size-h5: 1.4rem;
+		--size-h6: 1.2rem;
+		--main-p-1: 4rem;
+		--main-p-2: 3rem;
+		--main-p-3: 2rem;
+		--main-p-4: 1rem;
 
-    --main-content-min-h: calc(100vh - var(--main-header-h));
+		--main-content-min-h: calc(100vh - var(--main-header-h));
 
-    --leading-h1: 3.5rem; /* 62px */
-    --leading-primary-1: 2.5rem; /* 40px */
-    --leading-primary-2: 2.25rem; /* 36px */
-    --leading-primary-3: 2rem; /* 32px */
-    --leading-primary-4: 1.75rem; /* 28px */
-    --leading-primary-5: 1.5rem; /* 24px */
-    --leading-primary-6: 1.25rem; /* 20px */
-  }
+		--leading-h1: 3.5rem; /* 62px */
+		--leading-h2: 3rem; /* 62px */
+		--leading-primary-1: 2.5rem; /* 40px */
+		--leading-primary-2: 2.25rem; /* 36px */
+		--leading-primary-3: 2rem; /* 32px */
+		--leading-primary-4: 1.75rem; /* 28px */
+		--leading-primary-5: 1.5rem; /* 24px */
+		--leading-primary-6: 1.25rem; /* 20px */
+	}
 
-  @media only screen and (max-width: 768px) {
-    :root {
-      --size-h1: 2.5rem; /* 40px */
-      --leading-primary-2: 2.2rem; /* 36px */
-    }
-  }
+	@media only screen and (max-width: 768px) {
+		:root {
+			--size-h1: 2.5rem; /* 40px */
+			--leading-primary-2: 2.2rem; /* 36px */
+		}
+	}
 
-  html,
-  body {
-    width: 100%;
-    height: 100%;
-  }
+	html,
+	body {
+		width: 100%;
+		height: 100%;
+	}
 
-  body {
-    font-weight: 400;
-  }
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    font-weight: 900;
-    line-height: var(--leading-primary-1);
-  }
+	body {
+		font-weight: 400;
+	}
+	h1,
+	h2,
+	h3,
+	h4,
+	h5,
+	h6 {
+		font-weight: 900;
+		line-height: var(--leading-primary-1);
+	}
 
-  svg {
-    font-size: inherit;
-  }
+	svg {
+		font-size: inherit;
+	}
 }
 
 @layer utilities {
-  .text-align-initial {
-    text-align: initial;
-  }
+	.text-align-initial {
+		text-align: initial;
+	}
 }

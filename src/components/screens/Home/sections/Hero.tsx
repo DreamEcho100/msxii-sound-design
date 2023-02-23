@@ -1,54 +1,54 @@
-import Image from 'next/image'
-import React from 'react'
-import Clickable from '~/components/shared/core/Clickable'
+import Image from 'next/image';
+import React from 'react';
+import Clickable from '~/components/shared/core/Clickable';
 
 const HeroHomeSection = () => {
-  return (
-    <section className="flex flex-col justify-center bg-basic-secondary-500 p-main-p-3 text-basic-primary-500 sm:p-main-p-1 md:flex-row ">
-      <div className="md:text-align-initial flex flex-col items-center justify-center gap-8 text-center text-[1.75rem] md:w-1/2 md:items-start md:justify-start min-[1350px]:w-auto">
-        <h1 className="text-h1 leading-h1">
-          Unlock Limitless Possibilities with <br /> MSXAudio Sample Packs
-        </h1>
-        <p className="max-w-[41.25rem] leading-primary-1">
-          MSXAudio sample packs offer a wide range of high-quality audio and
-          MIDI samples for music producers and creators of all skill levels.
-          Each pack contains a carefully curated selection of sounds, loops, and
-          one-shots, covering a variety of styles and genres.
-        </p>
+	return (
+		<section className="flex flex-col justify-center bg-basic-secondary-500 p-main-p-3 text-basic-primary-500 sm:p-main-p-1 md:flex-row ">
+			<div className="md:text-align-initial flex flex-col items-center justify-center gap-8 text-center text-[1.75rem] md:w-1/2 md:items-start md:justify-start min-[1350px]:w-auto">
+				<h1 className="text-h1 leading-h1">
+					Unlock Limitless Possibilities with <br /> MSXAudio Sample Packs
+				</h1>
+				<p className="max-w-[41.25rem] leading-primary-1">
+					MSXAudio sample packs offer a wide range of high-quality audio and
+					MIDI samples for music producers and creators of all skill levels.
+					Each pack contains a carefully curated selection of sounds, loops, and
+					one-shots, covering a variety of styles and genres.
+				</p>
 
-        <Clickable
-          href="/"
-          isA="next-js"
-          variants={{ btn: 'primary', p: 'v2-xl' }}
-          className="mt-4"
-        >
-          SHOP NOW
-        </Clickable>
-      </div>
-      <div className="relative isolate h-96 max-w-[512px] flex-grow md:h-auto">
-        <div className="absolute inset-0 flex items-center justify-start">
-          <Image
-            src="/images/audio-player.png"
-            alt=""
-            width={390}
-            height={285}
-            className="max-h-full scale-[0.6] object-contain"
-            priority
-          />
-        </div>
-        <div className="absolute inset-0 flex items-end justify-end">
-          <Image
-            src="/images/camera.png"
-            alt=""
-            width={390}
-            height={285}
-            className="max-h-full scale-[0.6] object-contain"
-            priority
-          />
-        </div>
-      </div>
-    </section>
-  )
-}
+				<Clickable
+					href="/"
+					isA="next-js"
+					variants={{ btn: 'primary', p: 'v2-xl' }}
+					className="mt-8"
+				>
+					SHOP NOW
+				</Clickable>
+			</div>
+			<div className="relative isolate h-96 max-w-[512px] flex-grow md:h-auto">
+				<div className="absolute inset-0 flex items-center justify-start">
+					<Image
+						src="/images/audio-player.png"
+						alt=""
+						width={390}
+						height={285}
+						className="max-h-full scale-[0.6] object-contain"
+						priority
+					/>
+				</div>
+				<div className="absolute inset-0 flex items-end justify-end">
+					<Image
+						src="/images/camera.png"
+						alt=""
+						width={390}
+						height={285}
+						className="max-h-full scale-[0.6] object-contain"
+						priority
+					/>
+				</div>
+			</div>
+		</section>
+	);
+};
 
-export default HeroHomeSection
+export default HeroHomeSection;

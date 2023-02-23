@@ -1,25 +1,21 @@
-import { Html, Head, Main, NextScript } from 'next/document'
+import { Html, Head, Main, NextScript } from 'next/document';
+
+import { cx } from 'class-variance-authority';
+import { ralewayFont } from '~/utils/fonts';
 
 export default function Document() {
-  return (
-    <Html lang="en">
-      <Head>
-        <meta charSet="UTF-8" />
-        {/* <link rel="preload" href="/svg/bbblurry.svg" /> */}
-        <link
-          rel="preconnect"
-          href="https://fonts.gstatic.com"
-          crossOrigin=""
-        />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;900&display=swap"
-          rel="stylesheet"
-        />
-      </Head>
-      <body className="light" style={{ fontFamily: "'Raleway', sans-serif" }}>
-        <Main />
-        <NextScript />
-      </body>
-    </Html>
-  )
+	return (
+		<Html lang="en">
+			<Head>
+				<meta charSet="UTF-8" />
+			</Head>
+			<body
+				className={cx('light', ralewayFont.className)}
+				style={{ fontFamily: "'Raleway', sans-serif" }}
+			>
+				<Main />
+				<NextScript />
+			</body>
+		</Html>
+	);
 }

@@ -1,11 +1,9 @@
-import { type NextPage } from "next";
-import Head from "next/head";
+import { type NextPage } from 'next'
+import Head from 'next/head'
 
-import { api } from "~/utils/api";
-import HomeScreen from "~/components/screens/Home";
+import HomeScreen from '~/components/screens/Home'
 
 const HomePage: NextPage = () => {
-  const hello = api.example.hello.useQuery({ text: "from tRPC" });
 
   return (
     <>
@@ -16,7 +14,7 @@ const HomePage: NextPage = () => {
       </Head>
       <HomeScreen />
     </>
-  );
-};
+  )
+}
 
-export default HomePage;
+export default HomePage

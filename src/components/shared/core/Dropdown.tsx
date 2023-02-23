@@ -1,12 +1,12 @@
-import { Menu, Transition } from "@headlessui/react";
-import { Fragment } from "react";
-import Clickable from "../core/Clickable";
+import { Menu, Transition } from '@headlessui/react'
+import { Fragment } from 'react'
+import Clickable from '../core/Clickable'
 
 const Dropdown = (props: Partial<Parameters<typeof Menu>[0]>) => {
-  return <Menu as="div" className="relative inline-block" {...props} />;
-};
+  return <Menu as="div" className="relative inline-block" {...props} />
+}
 
-export default Dropdown;
+export default Dropdown
 
 export const DropdownItems = (
   props: Partial<Parameters<typeof Menu.Items>[0]>
@@ -25,19 +25,19 @@ export const DropdownItems = (
       {...props}
     />
   </Transition>
-);
+)
 
 export const DropdownItem = (
   props: Partial<Parameters<typeof Menu.Item>[0]>
-) => <Menu.Item className="p-2" {...props} />;
+) => <Menu.Item className="p-2" {...props} />
 
 export const DropdownButton = ({
   active,
-  defaultTextColor = "text-gray-900",
+  defaultTextColor = 'text-gray-900',
   ...props
 }: Partial<Parameters<typeof Menu.Button>[0]> & {
-  active?: boolean;
-  defaultTextColor?: string;
+  active?: boolean
+  defaultTextColor?: string
 }) => (
   <Menu.Button
     {...props}
@@ -45,8 +45,8 @@ export const DropdownButton = ({
     variants={{ btn: null, p: null, rounded: null }}
     className={`${
       active
-        ? "bg-gradient-to-br from-basic-primary-300 to-special-primary-500 text-special-secondary-100 transition-all duration-150"
+        ? 'bg-gradient-to-br from-basic-primary-300 to-special-primary-500 text-special-secondary-100 transition-all duration-150'
         : defaultTextColor
     } group flex w-full items-center gap-1 whitespace-nowrap`}
   />
-);
+)

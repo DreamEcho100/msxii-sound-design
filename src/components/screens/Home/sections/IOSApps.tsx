@@ -1,29 +1,27 @@
-import Image from "next/image";
-import React from "react";
-import { BsArrowRight } from "react-icons/bs";
-import Clickable from "~/components/shared/core/Clickable";
-
-type Props = {};
+import Image from 'next/image'
+import React from 'react'
+import { BsArrowRight } from 'react-icons/bs'
+import Clickable from '~/components/shared/core/Clickable'
 
 const products = [
   {
-    id: "1",
-    title: "Loops Go Crazy Vol. 5",
-    image: { src: "/images/Rectangle 9.png", alt: "" },
+    id: '1',
+    title: 'Loops Go Crazy Vol. 5',
+    image: { src: '/images/Rectangle 9.png', alt: '' }
   },
   {
-    id: "2",
-    title: "CHOMPLR",
-    image: { src: "/images/Mask group.png", alt: "" },
+    id: '2',
+    title: 'CHOMPLR',
+    image: { src: '/images/Mask group.png', alt: '' }
   },
   {
-    id: "3",
-    title: "LO-FLY DIRT",
-    image: { src: "/images/Mask group-1.png", alt: "" },
-  },
-];
+    id: '3',
+    title: 'LO-FLY DIRT',
+    image: { src: '/images/Mask group-1.png', alt: '' }
+  }
+]
 
-const HomeIOSAppsSection = (props: Props) => {
+const HomeIOSAppsSection = () => {
   return (
     <section className="bg-basic-secondary-500 p-main-p-3">
       <div className="flex flex-col gap-8">
@@ -49,7 +47,7 @@ const HomeIOSAppsSection = (props: Props) => {
                 isA="next-js"
                 className="flex flex-wrap items-center gap-2 text-xl"
               >
-                Discover more{" "}
+                Discover more{' '}
                 <BsArrowRight className="scale-x-110 text-special-primary-500 rtl:rotate-180" />
               </Clickable>
             </article>
@@ -57,7 +55,7 @@ const HomeIOSAppsSection = (props: Props) => {
         </div>
       </div>
     </section>
-  );
-};
+  )
+}
 
-export default HomeIOSAppsSection;
+export default HomeIOSAppsSection

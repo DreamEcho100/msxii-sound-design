@@ -1,24 +1,22 @@
-import Image from "next/image";
-import React from "react";
-import { BsArrowRight } from "react-icons/bs";
-import Clickable from "~/components/shared/core/Clickable";
-
-type Props = {};
+import Image from 'next/image'
+import React from 'react'
+import { BsArrowRight } from 'react-icons/bs'
+import Clickable from '~/components/shared/core/Clickable'
 
 const blogs = [
   {
-    id: "1",
-    title: "Tape Series Vol. 1 from MSXIISound and AKAI Pro",
-    image: { src: "/images/Rectangle 14.png", alt: "" },
+    id: '1',
+    title: 'Tape Series Vol. 1 from MSXIISound and AKAI Pro',
+    image: { src: '/images/Rectangle 14.png', alt: '' }
   },
   {
-    id: "2",
-    title: "Holiday Jams By The WVGRD",
-    image: { src: "/images/Rectangle 15.png", alt: "" },
-  },
-];
+    id: '2',
+    title: 'Holiday Jams By The WVGRD',
+    image: { src: '/images/Rectangle 15.png', alt: '' }
+  }
+]
 
-const HomeLatestBlogsSection = (props: Props) => {
+const HomeLatestBlogsSection = () => {
   return (
     <section className="bg-basic-secondary-500 text-basic-primary-500 sm:px-main-p-3 sm:py-main-p-2">
       <div className="bg-special-primary-500 py-main-p-1 px-main-p-2  sm:rounded-xl md:p-main-p-1">
@@ -35,7 +33,7 @@ const HomeLatestBlogsSection = (props: Props) => {
                 <div className="sm:text-align-initial flex flex-col items-center justify-between gap-2 p-8 text-center sm:w-1/2 sm:items-start sm:gap-0 lg:p-8">
                   <Clickable
                     className="rounded-sm"
-                    variants={{ btn: "secondary", rounded: null, p: "v2-sm" }}
+                    variants={{ btn: 'secondary', rounded: null, p: 'v2-sm' }}
                   >
                     Blog post
                   </Clickable>
@@ -49,7 +47,7 @@ const HomeLatestBlogsSection = (props: Props) => {
                     isA="next-js"
                     className="flex flex-wrap items-center gap-2 text-xl"
                   >
-                    Learn more{" "}
+                    Learn more{' '}
                     <BsArrowRight className="scale-x-110 text-special-primary-500 rtl:rotate-180" />
                   </Clickable>
                 </div>
@@ -74,7 +72,7 @@ const HomeLatestBlogsSection = (props: Props) => {
         </div>
       </div>
     </section>
-  );
-};
+  )
+}
 
-export default HomeLatestBlogsSection;
+export default HomeLatestBlogsSection

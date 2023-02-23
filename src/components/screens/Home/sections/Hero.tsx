@@ -1,10 +1,8 @@
-import Image from "next/image";
-import React from "react";
-import Clickable from "~/components/shared/core/Clickable";
+import Image from 'next/image'
+import React from 'react'
+import Clickable from '~/components/shared/core/Clickable'
 
-type Props = {};
-
-const HeroHomeSection = (props: Props) => {
+const HeroHomeSection = () => {
   return (
     <section className="flex flex-col justify-center bg-basic-secondary-500 p-main-p-3 text-basic-primary-500 sm:p-main-p-1 md:flex-row ">
       <div className="md:text-align-initial flex flex-col items-center justify-center gap-8 text-center text-[1.75rem] md:w-1/2 md:items-start md:justify-start min-[1350px]:w-auto">
@@ -21,7 +19,7 @@ const HeroHomeSection = (props: Props) => {
         <Clickable
           href="/"
           isA="next-js"
-          variants={{ btn: "primary", p: "v2-xl" }}
+          variants={{ btn: 'primary', p: 'v2-xl' }}
           className="mt-4"
         >
           SHOP NOW
@@ -50,7 +48,7 @@ const HeroHomeSection = (props: Props) => {
         </div>
       </div>
     </section>
-  );
-};
+  )
+}
 
-export default HeroHomeSection;
+export default HeroHomeSection

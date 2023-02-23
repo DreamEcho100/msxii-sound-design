@@ -1,9 +1,7 @@
-import Image from "next/image";
-import React from "react";
+import Image from 'next/image'
+import React from 'react'
 
-type Props = {};
-
-const AboutMSXIISoundDesign = (props: Props) => {
+const AboutMSXIISoundDesign = () => {
   return (
     <section className="bg-basic-secondary-500 text-basic-primary-500 sm:px-main-p-3 sm:py-main-p-2">
       <div className="flex flex-col-reverse justify-center gap-4 bg-special-secondary-500 px-main-p-2 sm:gap-12 sm:rounded-xl lg:flex-row lg:px-main-p-1">
@@ -28,14 +26,14 @@ gap-8 pb-main-p-2 text-center text-lg font-medium lg:w-1/2 lg:max-w-screen-sm lg
           </p>
           <p>
             In addition to our own line of products on msxaudio.com and what
-            you've seen on social media, we offer the iOS Apps Fly Tape and
-            Lo-Fly Dirt. We've also done countless work/partnerships with
+            you&apos;ve seen on social media, we offer the iOS Apps Fly Tape and
+            Lo-Fly Dirt. We&apos;ve also done countless work/partnerships with
             companies such as Native Instruments (Sierra Grove/Elastic
             Thump/Aquarius Earth), Akai (Soul Provider 1, 2, & Vintage
             Provider), Ableton (Beat Tools & Live 10 factory content), Novation,
             Intua, Serato, Our niche is in creative sound design solutions for
-            music producers and we're pretty knowledgeable on just about any
-            platform, DAW, instrument, device, and more!
+            music producers and we&apos;re pretty knowledgeable on just about
+            any platform, DAW, instrument, device, and more!
           </p>
         </div>
         <div className="flex items-start justify-center lg:w-1/2">
@@ -49,7 +47,7 @@ gap-8 pb-main-p-2 text-center text-lg font-medium lg:w-1/2 lg:max-w-screen-sm lg
         </div>
       </div>
     </section>
-  );
-};
+  )
+}
 
-export default AboutMSXIISoundDesign;
+export default AboutMSXIISoundDesign

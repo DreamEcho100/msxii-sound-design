@@ -1,62 +1,25 @@
-import Image from "next/image";
-import React, { useEffect, useRef } from "react";
-import { FaFacebookF, FaInstagram, FaTwitter, FaYoutube } from "react-icons/fa";
-import Clickable from "~/components/shared/core/Clickable";
+import Image from 'next/image'
+import React, { useEffect, useRef } from 'react'
+import { FaFacebookF, FaInstagram, FaTwitter, FaYoutube } from 'react-icons/fa'
+import Clickable from '~/components/shared/core/Clickable'
 
-type Props = {};
-
-const headersLinks = [
-  {
-    title: "New Releases",
-    href: "/",
-  },
-  {
-    title: "iOS Apps",
-    href: "/",
-  },
-  {
-    title: "Blue Label",
-    href: "/",
-  },
-  {
-    title: "Samples",
-    links: [
-      { title: "Item 1", href: "/" },
-      { title: "Item 2", href: "/" },
-      { title: "Item 3", href: "/" },
-    ],
-  },
-  {
-    title: "Bundles",
-    href: "/",
-  },
-  {
-    title: "Blog",
-    href: "/",
-  },
-  {
-    title: "Merch",
-    href: "/",
-  },
-] as const;
-
-const MainLayoutFooter = (props: Props) => {
-  const mainFooterRef = useRef<HTMLElement>(null);
+const MainLayoutFooter = () => {
+  const mainFooterRef = useRef<HTMLElement>(null)
   useEffect(() => {
-    const mainFooterResizeObserver = new ResizeObserver((entries, observer) => {
+    const mainFooterResizeObserver = new ResizeObserver((entries) => {
       entries.forEach((entry) => {
-        const heightInRem = `${(entry.contentRect.height / 16).toFixed(2)}rem`;
-        process.env.NODE_ENV === "development" &&
-          console.log("heightInRem", heightInRem);
-      });
-    });
+        const heightInRem = `${(entry.contentRect.height / 16).toFixed(2)}rem`
+        process.env.NODE_ENV === 'development' &&
+          console.log('heightInRem', heightInRem)
+      })
+    })
 
-    if (!mainFooterRef.current) return;
+    if (!mainFooterRef.current) return
 
-    mainFooterResizeObserver.observe(mainFooterRef.current);
+    mainFooterResizeObserver.observe(mainFooterRef.current)
 
-    return () => mainFooterResizeObserver.disconnect();
-  }, []);
+    return () => mainFooterResizeObserver.disconnect()
+  }, [])
 
   return (
     <footer id="main-footer" ref={mainFooterRef}>
@@ -85,7 +48,7 @@ const MainLayoutFooter = (props: Props) => {
         </div>
       </div>
     </footer>
-  );
-};
+  )
+}
 
-export default MainLayoutFooter;
+export default MainLayoutFooter

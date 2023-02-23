@@ -1,67 +1,64 @@
-import Image from "next/image";
-import Clickable from "~/components/shared/core/Clickable";
-import { BsPersonFill, BsCart3 } from "react-icons/bs";
-import { IoMdArrowDropdown } from "react-icons/io";
-import { BiSearch } from "react-icons/bi";
-import { GiHamburgerMenu } from "react-icons/gi";
+import Image from 'next/image'
+import Clickable from '~/components/shared/core/Clickable'
+import { BsPersonFill, BsCart3 } from 'react-icons/bs'
+import { IoMdArrowDropdown } from 'react-icons/io'
+import { BiSearch } from 'react-icons/bi'
+import { GiHamburgerMenu } from 'react-icons/gi'
 import Dropdown, {
   DropdownButton,
   DropdownItem,
-  DropdownItems,
-} from "~/components/shared/core/Dropdown";
-import { useState } from "react";
-import { cx } from "class-variance-authority";
-import { Menu } from "@headlessui/react";
-
-type Props = {};
+  DropdownItems
+} from '~/components/shared/core/Dropdown'
+import { useState } from 'react'
+import { cx } from 'class-variance-authority'
 
 const headersLinks = [
   {
-    title: "New Releases",
-    href: "/",
+    title: 'New Releases',
+    href: '/'
   },
   {
-    title: "iOS Apps",
-    href: "/",
+    title: 'iOS Apps',
+    href: '/'
   },
   {
-    title: "Blue Label",
-    href: "/",
+    title: 'Blue Label',
+    href: '/'
   },
   {
-    title: "Samples",
+    title: 'Samples',
     links: [
-      { title: "Item 1", href: "/" },
-      { title: "Item 2", href: "/" },
-      { title: "Item 3", href: "/" },
-    ],
+      { title: 'Item 1', href: '/' },
+      { title: 'Item 2', href: '/' },
+      { title: 'Item 3', href: '/' }
+    ]
   },
   {
-    title: "Bundles",
-    href: "/",
+    title: 'Bundles',
+    href: '/'
   },
   {
-    title: "Blog",
-    href: "/",
+    title: 'Blog',
+    href: '/'
   },
   {
-    title: "Merch",
-    href: "/",
-  },
-] as const;
+    title: 'Merch',
+    href: '/'
+  }
+] as const
 
-const MainLayoutHeader = (props: Props) => {
-  const [isSideNavOpen, setIsSideNavOpen] = useState(false);
-  const handleToggleSideNav = () => setIsSideNavOpen((prev) => !prev);
+const MainLayoutHeader = () => {
+  const [isSideNavOpen, setIsSideNavOpen] = useState(false)
+  const handleToggleSideNav = () => setIsSideNavOpen((prev) => !prev)
 
   return (
     <>
       <header
         className={cx(
-          "fixed top-0 left-0 right-0 z-10 flex flex-col transition-all duration-300",
+          'fixed top-0 left-0 right-0 z-10 flex flex-col transition-all duration-300',
           isSideNavOpen
-            ? "bg-basic-secondary-500"
-            : "bg-basic-secondary-500/80 backdrop-blur-sm"
+            ? 'bg-basic-secondary-500'
+            : 'bg-basic-secondary-500/80 backdrop-blur-sm'
         )}
       >
         <div className="mx-auto flex h-main-header-h w-full max-w-main flex-grow items-center justify-between gap-4 px-main-p-3 font-medium sm:px-main-p-1">
@@ -78,7 +75,7 @@ const MainLayoutHeader = (props: Props) => {
           </div>
           <nav className="mx-16 hidden max-w-screen-sm flex-grow items-center justify-between gap-2 uppercase lg:flex">
             {headersLinks.map((item) =>
-              "href" in item ? (
+              'href' in item ? (
                 <Clickable
                   key={item.title}
                   href="/"
@@ -122,7 +119,7 @@ const MainLayoutHeader = (props: Props) => {
               variants={{ btn: null, p: null }}
               className="relative flex flex-wrap items-center gap-1"
             >
-              <BsCart3 className="h-4 w-4" />{" "}
+              <BsCart3 className="h-4 w-4" />{' '}
               <span className="font-sans">0 ITEMS</span>
               {/* <span className="absolute flex items-end justify-end whitespace-nowrap">
               <small className="text-[50%]">
@@ -134,7 +131,7 @@ const MainLayoutHeader = (props: Props) => {
               onClick={handleToggleSideNav}
               variants={{ btn: null, p: null }}
               className="block lg:hidden"
-              title={`${isSideNavOpen ? "Open" : "Close"} the navigation menu`}
+              title={`${isSideNavOpen ? 'Open' : 'Close'} the navigation menu`}
             >
               <GiHamburgerMenu className="h-4 w-4" />
             </Clickable>
@@ -150,30 +147,30 @@ const MainLayoutHeader = (props: Props) => {
                 <li
                   key={item.title}
                   className={cx(
-                    "flex flex-wrap border-b-[0.0625rem] border-solid border-b-special-primary-500 px-main-p-3 sm:px-main-p-1" // last:border-0
+                    'flex flex-wrap border-b-[0.0625rem] border-solid border-b-special-primary-500 px-main-p-3 sm:px-main-p-1' // last:border-0
                     // "hover:bg-gradient-to-br hover:from-basic-primary-200 hover:to-special-primary-400 hover:text-special-secondary-100 hover:transition-all hover:duration-150",
                     // "focus-within:bg-gradient-to-br focus-within:from-basic-primary-300 focus-within:to-special-primary-500 focus-within:text-special-secondary-100 focus:transition-all focus:duration-150"
                   )}
                 >
-                  {"href" in item ? (
+                  {'href' in item ? (
                     <Clickable
                       href="/"
                       isA="next-js"
                       className={cx(
-                        "mx-auto w-full max-w-main whitespace-nowrap bg-clip-text p-1",
-                        "bg-black",
-                        "hover:bg-gradient-to-br hover:from-basic-primary-200 hover:to-special-primary-400 hover:text-special-secondary-100 hover:transition-all hover:duration-150",
-                        "focus:bg-gradient-to-br focus:from-basic-primary-300 focus:to-special-primary-500 focus:text-special-secondary-100 focus:transition-all focus:duration-150"
+                        'mx-auto w-full max-w-main whitespace-nowrap bg-clip-text p-1',
+                        'bg-black',
+                        'hover:bg-gradient-to-br hover:from-basic-primary-200 hover:to-special-primary-400 hover:text-special-secondary-100 hover:transition-all hover:duration-150',
+                        'focus:bg-gradient-to-br focus:from-basic-primary-300 focus:to-special-primary-500 focus:text-special-secondary-100 focus:transition-all focus:duration-150'
                       )}
                       variants={{ rounded: null, p: null }}
                       style={{
-                        WebkitTextFillColor: "transparent",
+                        WebkitTextFillColor: 'transparent'
                       }}
                       onClick={handleToggleSideNav}
                       onKeyDown={(event) => {
-                        if (event.key === "Enter" || event.keyCode === 13) {
-                          event.currentTarget.click();
-                          handleToggleSideNav();
+                        if (event.key === 'Enter' || event.keyCode === 13) {
+                          event.currentTarget.click()
+                          handleToggleSideNav()
                         }
                       }}
                     >
@@ -215,7 +212,7 @@ const MainLayoutHeader = (props: Props) => {
         />
       )}
     </>
-  );
-};
+  )
+}
 
-export default MainLayoutHeader;
+export default MainLayoutHeader

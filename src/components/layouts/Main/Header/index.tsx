@@ -11,7 +11,6 @@ import Dropdown, {
 } from '~/components/shared/core/Dropdown';
 import { useState } from 'react';
 import { cx } from 'class-variance-authority';
-import { interFont } from '~/utils/fonts';
 
 const headersLinks = [
 	{

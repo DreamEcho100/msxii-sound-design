@@ -80,7 +80,7 @@
 
     --main-content-min-h: calc(100vh - var(--main-header-h));
 
-    --leading-h1: 3.875rem; /* 62px */
+    --leading-h1: 3.5rem; /* 62px */
     --leading-primary-1: 2.5rem; /* 40px */
     --leading-primary-2: 2.25rem; /* 36px */
     --leading-primary-3: 2rem; /* 32px */
@@ -113,6 +113,10 @@
   h6 {
     font-weight: 900;
     line-height: var(--leading-primary-1);
+  }
+
+  svg {
+    font-size: inherit;
   }
 }
 

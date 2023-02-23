@@ -27,6 +27,7 @@ const ProductsSlider = <CardElemProps extends Record<string, unknown>>({
         navigation
         autoplay={{ delay: 7500 }}
         slidesPerView={1}
+        spaceBetween={20}
         breakpoints={{
           500: { slidesPerView: 2 },
           768: { slidesPerView: 3 },
@@ -37,7 +38,7 @@ const ProductsSlider = <CardElemProps extends Record<string, unknown>>({
         {...swiperProps}
       >
         {fakeProductsData.map((item) => (
-          <SwiperSlide key={item.key} className="flex flex-col px-4">
+          <SwiperSlide key={item.key} className="flex flex-col">
             {<CardElem product={item} {...cardsSharedProps} />}
           </SwiperSlide>
         ))}

@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Clickable from "~/components/shared/core/Clickable";
-import { BsPersonFill, BsCart3, BsChevronDown } from "react-icons/bs";
+import { BsPersonFill, BsCart3 } from "react-icons/bs";
+import { IoMdArrowDropdown } from "react-icons/io";
 import { BiSearch } from "react-icons/bi";
 import { GiHamburgerMenu } from "react-icons/gi";
 import Dropdown, {
@@ -75,7 +76,7 @@ const MainLayoutHeader = (props: Props) => {
               />
             </Clickable>
           </div>
-          <nav className="mx-16 hidden max-w-screen-sm flex-grow items-center justify-between gap-2 lg:flex">
+          <nav className="mx-16 hidden max-w-screen-sm flex-grow items-center justify-between gap-2 uppercase lg:flex">
             {headersLinks.map((item) =>
               "href" in item ? (
                 <Clickable
@@ -92,14 +93,14 @@ const MainLayoutHeader = (props: Props) => {
                     shape="text"
                     title="settings and other options"
                   >
-                    <BsChevronDown /> {item.title}
+                    <IoMdArrowDropdown className="text-lg" /> {item.title}
                   </DropdownButton>
                   <DropdownItems>
                     {item.links.map(({ href, title }) => (
                       <DropdownItem key={title}>
                         {({ active }) => (
                           <DropdownButton href={href} active={active}>
-                            {title}
+                            <span className="p-2">{title}</span>
                           </DropdownButton>
                         )}
                       </DropdownItem>
@@ -114,14 +115,15 @@ const MainLayoutHeader = (props: Props) => {
               <BiSearch />
             </Clickable>
             <Clickable href="/" isA="next-js" title="profile">
-              <BsPersonFill className="text-special-primary-500" />
+              <BsPersonFill className="h-4 w-4 text-special-primary-500" />
             </Clickable>
             <Clickable
               title="cart"
               variants={{ btn: null, p: null }}
-              className="relative flex flex-wrap gap-1"
+              className="relative flex flex-wrap items-center gap-1"
             >
-              <BsCart3 /> 0 Items
+              <BsCart3 className="h-4 w-4" />{" "}
+              <span className="font-sans">0 ITEMS</span>
               {/* <span className="absolute flex items-end justify-end whitespace-nowrap">
               <small className="text-[50%]">
                 <span className="font-sans">0</span> ITEMS
@@ -134,13 +136,13 @@ const MainLayoutHeader = (props: Props) => {
               className="block lg:hidden"
               title={`${isSideNavOpen ? "Open" : "Close"} the navigation menu`}
             >
-              <GiHamburgerMenu />
+              <GiHamburgerMenu className="h-4 w-4" />
             </Clickable>
           </div>
         </div>
         {isSideNavOpen && (
           <nav
-            className="flex w-full flex-col
+            className="flex w-full flex-col uppercase
 				lg:hidden"
           >
             <ul className="font-medium">
@@ -184,14 +186,14 @@ const MainLayoutHeader = (props: Props) => {
                         title="settings and other options"
                         defaultTextColor=""
                       >
-                        <BsChevronDown /> {item.title}
+                        <IoMdArrowDropdown className="text-lg" /> {item.title}
                       </DropdownButton>
                       <DropdownItems>
                         {item.links.map(({ href, title }) => (
                           <DropdownItem key={title}>
                             {({ active }) => (
                               <DropdownButton href={href} active={active}>
-                                {title}
+                                <span className="p-2">{title}</span>
                               </DropdownButton>
                             )}
                           </DropdownItem>

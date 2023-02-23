@@ -13,7 +13,7 @@ const HomeShowcaseSection = (props: Props) => {
     <section className="bg-basic-secondary-500 sm:p-main-p-3">
       <div className="flex flex-col gap-16 bg-basic-secondary-900 p-main-p-3 text-basic-primary-600 sm:rounded-xl">
         <section>
-          <header className="flex flex-col gap-8 pl-8 rtl:pr-8 rtl:pl-0">
+          <header className="flex flex-col gap-8 pl-8 text-basic-primary-500 rtl:pr-8 rtl:pl-0">
             <h2 className="text-h1 font-black">New Releases</h2>
             <div className="flex flex-wrap gap-4">
               {[
@@ -29,7 +29,12 @@ const HomeShowcaseSection = (props: Props) => {
                 <Clickable
                   key={item.title}
                   variants={{ btn: null, p: null }}
-                  className="relative"
+                  className={cx(
+                    "relative",
+                    item.isActive
+                      ? "text-basic-primary-900"
+                      : "text-basic-primary-300"
+                  )}
                 >
                   {item.title}
                   <div className="absolute inset-0 flex items-end justify-start">
@@ -46,22 +51,23 @@ const HomeShowcaseSection = (props: Props) => {
           </header>
           <ProductsSlider CardElem={ProductCard} />
         </section>
-        <section>
+        <section className="flex flex-col gap-4">
           <header className="pl-8 rtl:pr-8 rtl:pl-0">
             <h2 className="text-h1 font-black">Bundles</h2>
           </header>
-          <ProductsSlider CardElem={ProductCard} />
-          <ProductsSlider
-            swiperProps={{
-              slidesPerView: 1,
-              breakpoints: {
-                500: { slidesPerView: 2 },
-                1150: { slidesPerView: 3 },
-                1400: { slidesPerView: 4 },
-              },
-            }}
-            CardElem={ProductBundleCard}
-          />
+          <div className="flex flex-col gap-8">
+            <ProductsSlider CardElem={ProductCard} />
+            <ProductsSlider
+              swiperProps={{
+                slidesPerView: 1,
+                breakpoints: {
+                  768: { slidesPerView: 2 },
+                  1150: { slidesPerView: 4 },
+                },
+              }}
+              CardElem={ProductBundleCard}
+            />
+          </div>
         </section>
       </div>
     </section>

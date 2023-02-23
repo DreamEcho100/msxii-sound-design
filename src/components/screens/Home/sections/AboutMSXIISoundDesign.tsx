@@ -44,7 +44,7 @@ gap-8 pb-main-p-2 text-center text-lg font-medium lg:w-1/2 lg:max-w-screen-sm lg
             alt=""
             width={600}
             height={500}
-            className="w-[70%] max-w-[512px]"
+            className="w-3/4 md:w-1/2 lg:w-11/12"
           />
         </div>
       </div>

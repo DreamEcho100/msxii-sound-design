@@ -5,11 +5,14 @@ import Image from "next/image";
 import { VariantProps, cva } from "class-variance-authority";
 import { Product } from "~/utils/types";
 
-const handleBasicProductCardContainerVariants = cva("flex flex-col flex-grow", {
-  variants: {
-    "aspect-ratio": { video: "aspect-video", card: "aspect-[1.91/1]" },
-  },
-});
+const handleBasicProductCardContainerVariants = cva(
+  "flex flex-col flex-grow px-1",
+  {
+    variants: {
+      "aspect-ratio": { video: "aspect-video", card: "aspect-[1.91/1]" },
+    },
+  }
+);
 const handleBasicProductCardImageVariants = cva("aspect-square rounded-lg", {
   variants: {
     "aspect-ratio": { video: "aspect-video", square: "aspect-square" },
@@ -101,7 +104,7 @@ export const ProductBundleCard = (
     <BasicProductCard
       product={props.product}
       containerVariants={{ "aspect-ratio": "video" }}
-      imageVariants={{ "aspect-ratio": "video", "object-fit": "cover" }}
+      imageVariants={{ "object-fit": "cover" }}
       titleVariants={{ "text-align": "center", "text-size": "lg" }}
     />
   );

@@ -30,10 +30,11 @@ const HomeLatestBlogsSection = (props: Props) => {
             {blogs.map((blog) => (
               <article
                 key={blog.id}
-                className="flex aspect-video flex-col-reverse rounded-lg bg-basic-primary-0 text-basic-secondary-0 sm:flex-row md:max-w-[600px]"
+                className="flex aspect-video flex-col-reverse rounded-lg bg-basic-primary-0 sm:flex-row md:max-w-[600px]"
               >
-                <div className="sm:text-align-initial flex flex-col items-center justify-between gap-2 p-8 text-center sm:w-1/2 sm:items-start sm:gap-0 lg:p-4">
+                <div className="sm:text-align-initial flex flex-col items-center justify-between gap-2 p-8 text-center sm:w-1/2 sm:items-start sm:gap-0 lg:p-8">
                   <Clickable
+                    className="rounded-sm"
                     variants={{ btn: "secondary", rounded: null, p: "v2-sm" }}
                   >
                     Blog post
@@ -46,10 +47,10 @@ const HomeLatestBlogsSection = (props: Props) => {
                   <Clickable
                     href="/"
                     isA="next-js"
-                    className="flex flex-wrap items-center gap-1"
+                    className="flex flex-wrap items-center gap-2 text-xl"
                   >
                     Learn more{" "}
-                    <BsArrowRight className="text-special-primary-500" />
+                    <BsArrowRight className="scale-x-110 text-special-primary-500 rtl:rotate-180" />
                   </Clickable>
                 </div>
                 <div className="flex flex-col sm:w-1/2">

@@ -12,12 +12,12 @@
 .swiper-button-next,
 [dir="rtl"] .swiper-button-prev {
   content: "" !important;
-  background-image: url("/svgs/right-arrow.svg");
+  background-image: url("/svgs/right-arrow 2.svg");
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
   right: 0% !important;
-  transform: translate(5%, -100%) !important;
+  transform: translate(0%, -100%) !important;
 }
 .swiper-button-next:after,
 [dir="rtl"] .swiper-button-prev:after {
@@ -27,12 +27,12 @@
 .swiper-button-prev,
 [dir="rtl"] .swiper-button-next {
   content: "" !important;
-  background-image: url("/svgs/left-arrow.svg");
+  background-image: url("/svgs/left-arrow 2.svg");
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
   left: 0% !important;
-  transform: translate(5%, -100%) !important;
+  transform: translate(0, -100%) !important;
 }
 .swiper-button-prev:after,
 [dir="rtl"] .swiper-button-next:after {

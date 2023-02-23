@@ -47,9 +47,10 @@ const HomeIOSAppsSection = (props: Props) => {
               <Clickable
                 href="/"
                 isA="next-js"
-                className="flex flex-wrap items-center gap-1"
+                className="flex flex-wrap items-center gap-2 text-xl"
               >
-                Discover more <BsArrowRight />
+                Discover more{" "}
+                <BsArrowRight className="scale-x-110 text-special-primary-500 rtl:rotate-180" />
               </Clickable>
             </article>
           ))}

@@ -15,7 +15,7 @@ const HomeShowcaseSection = (props: Props) => {
         <section>
           <header className="flex flex-col gap-8 pl-8 text-basic-primary-500 rtl:pr-8 rtl:pl-0">
             <h2 className="text-h1 font-black">New Releases</h2>
-            <div className="flex flex-wrap gap-4">
+            <div className="flex flex-wrap gap-x-4 gap-y-3">
               {[
                 { title: "NEW RELEASES", isActive: true },
                 { title: "Bundles", isActive: false },

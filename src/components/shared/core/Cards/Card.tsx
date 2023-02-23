@@ -74,7 +74,7 @@ export const ProductExtraDetails = (props: {
 }) => {
   return (
     <>
-      <p className="font-normal text-basic-primary-900/80">
+      <p className="-translate-y-[20%] font-normal text-basic-primary-900/80">
         $ {props.product.price}
       </p>
       <Clickable

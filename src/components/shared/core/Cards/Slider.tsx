@@ -51,10 +51,9 @@ const ProductsSlider = <CardElemProps extends Record<string, unknown>>({
 			</button>
 			<button
 				title="previous slide"
-				style={{ zIndex: 2 }}
 				onClick={() => SwiperInstanceRef.current?.slidePrev()}
 				className={cx(
-					'hover:scale-[1.25] transition-all duration-150 absolute top-1/2 -translate-y-1/2 w-4 h-8 aspect-[1.91/1]',
+					'z-[2] hover:scale-[1.25] transition-all duration-150 absolute top-1/2 -translate-y-1/2 w-4 h-8 aspect-[1.91/1]',
 					'-left-4 rtl:-right-4 rtl:left-aright-auto rtl:rotate-180'
 				)}
 			>

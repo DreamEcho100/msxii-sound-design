@@ -4,24 +4,28 @@ import Clickable from '../Clickable';
 import Image from 'next/image';
 import { VariantProps, cva } from 'class-variance-authority';
 import { Product } from '~/utils/types';
+import classes from './index.module.css';
 
 const handleBasicProductCardContainerVariants = cva(
-	'flex flex-col flex-grow px-1',
+	'flex flex-col flex-grow px-1 group duration-300 delay-75 transition-all',
 	{
 		variants: {
 			'aspect-ratio': { video: 'aspect-video', card: 'aspect-[1.91/1]' }
 		}
 	}
 );
-const handleBasicProductCardImageVariants = cva('aspect-square rounded-lg', {
-	variants: {
-		'aspect-ratio': { video: 'aspect-video', square: 'aspect-square' },
-		'object-fit': { contain: 'object-contain', cover: 'object-cover' }
-	},
-	defaultVariants: { 'aspect-ratio': 'square', 'object-fit': 'contain' }
-});
+const handleBasicProductCardImageVariants = cva(
+	'aspect-square rounded-lg relative overflow-hidden',
+	{
+		variants: {
+			'aspect-ratio': { video: 'aspect-video', square: 'aspect-square' },
+			'object-fit': { contain: 'object-contain', cover: 'object-cover' }
+		},
+		defaultVariants: { 'aspect-ratio': 'square', 'object-fit': 'contain' }
+	}
+);
 const handleBasicProductCardTitleVariants = cva(
-	'font-medium leading-4 min-h-[4ch]',
+	'font-medium leading-4 ellipse-text',
 	{
 		variants: {
 			'text-align': { center: 'text-center' },
@@ -46,20 +50,25 @@ export const BasicProductCard = (props: {
 }) => {
 	return (
 		<article
-			className={handleBasicProductCardContainerVariants(
-				props.containerVariants
-			)}
+			className={handleBasicProductCardContainerVariants({
+				...(props.containerVariants || {}),
+				className: 'card-animation-1'
+			})}
 		>
-			<Image
-				src={props.product.image.src}
-				alt={props.product.image.alt}
-				width={800}
-				height={800}
-				className={handleBasicProductCardImageVariants(props.imageVariants)}
-			/>
+			<div className={handleBasicProductCardImageVariants(props.imageVariants)}>
+				<Image
+					src={props.product.image.src}
+					alt={props.product.image.alt}
+					width={800}
+					height={800}
+					className="w-full h-full group-hover:scale-125 duration-75 transition-all"
+				/>
+				<div className="absolute inset-0 group-hover:bg-black/0 bg-black/5" />
+			</div>
 			<div className="text-align-initial flex flex-grow flex-col justify-between gap-2 px-2 py-3 leading-primary-5">
 				<h3
 					className={handleBasicProductCardTitleVariants(props.titleVariants)}
+					title={props.product.title}
 				>
 					{props.product.title}
 				</h3>

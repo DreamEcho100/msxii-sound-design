@@ -61,26 +61,24 @@ const MainLayoutHeader = () => {
 						: 'bg-basic-secondary-500/80 backdrop-blur-sm'
 				)}
 			>
-				<div className="mx-auto flex h-main-header-h w-full max-w-main flex-grow items-center justify-between gap-4 px-main-p-3 font-medium sm:px-main-p-1">
-					<div className="">
-						<Clickable href="/" isA="next-js">
-							<Image
-								src="/images/logo.png"
-								alt="logo"
-								width="60"
-								height="48"
-								priority
-							/>
-						</Clickable>
-					</div>
-					<nav className="mx-16 hidden max-w-screen-sm flex-grow items-center justify-between gap-2 uppercase lg:flex">
+				<div className="mx-auto flex h-main-header-h w-full max-w-main flex-grow items-center justify-between gap-4 px-main-p-3 font-medium sm:px-main-p-2">
+					<Clickable href="/" isA="next-js" className="w-16 h-12 aspect-video">
+						<Image
+							src="/images/logo.png"
+							alt="logo"
+							width="60"
+							height="48"
+							priority
+						/>
+					</Clickable>
+					<nav className="hidden max-w-screen-md flex-grow items-center justify-between gap-2 uppercase lg:flex">
 						{headersLinks.map((item) =>
 							'href' in item ? (
 								<Clickable
 									key={item.title}
 									href="/"
 									isA="next-js"
-									className="whitespace-nowrap"
+									className="whitespace-nowrap hover:text-special-primary-400 duration-150"
 								>
 									{item.title}
 								</Clickable>
@@ -89,8 +87,10 @@ const MainLayoutHeader = () => {
 									<DropdownButton
 										shape="text"
 										title="settings and other options"
+										defaultTextColor=""
 									>
-										<IoMdArrowDropdown className="text-xl" /> {item.title}
+										<IoMdArrowDropdown className="text-xl hover:text-special-primary-400 duration-150" />{' '}
+										{item.title}
 									</DropdownButton>
 									<DropdownItems>
 										{item.links.map(({ href, title }) => (

@@ -41,6 +41,7 @@ export const DropdownButton = ({
 }) => (
 	<Menu.Button
 		{...props}
+		isA="button"
 		as={Clickable}
 		variants={null}
 		className={`${

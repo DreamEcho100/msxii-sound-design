@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import React from 'react';
 import { BsArrowRight } from 'react-icons/bs';
+import CTAButton from '~/components/shared/core/Cards/CTAButton';
 import Clickable from '~/components/shared/core/Clickable';
 
 const blogs = [
@@ -24,13 +25,13 @@ const HomeLatestBlogsSection = () => {
 					<header>
 						<h2 className="text-h1 leading-h2 font-black">Latest Blogs</h2>
 					</header>
-					<div className="flex w-fit flex-col gap-8 lg:flex-row">
+					<div className="cardsContainer flex w-fit flex-col gap-8 lg:flex-row">
 						{blogs.map((blog) => (
 							<article
 								key={blog.id}
-								className="flex aspect-video flex-col-reverse rounded-lg bg-basic-primary-0 sm:flex-row md:max-w-[600px]"
+								className="card-animation-1 duration-300 transition-all flex aspect-video flex-col-reverse rounded-lg bg-basic-primary-0 sm:flex-row md:max-w-[600px]"
 							>
-								<div className="sm:text-align-initial flex flex-col items-center justify-between gap-2 p-8 text-center sm:w-1/2 sm:items-start sm:gap-0 lg:p-8">
+								<div className="group sm:text-align-initial flex flex-col items-center justify-between gap-2 p-8 text-center sm:w-1/2 sm:items-start sm:gap-0 lg:p-8">
 									<Clickable
 										className="rounded-[0.25rem]"
 										variants={{ btn: 'secondary', rounded: null, p: 'v2-sm' }}
@@ -42,27 +43,20 @@ const HomeLatestBlogsSection = () => {
 											{blog.title}
 										</Clickable>
 									</h3>
-									<Clickable
-										href="/"
-										isA="next-js"
-										className="flex flex-wrap items-center gap-2 text-xl"
-									>
-										Learn more{' '}
-										<BsArrowRight className="scale-x-125 scale-y-110 text-special-primary-500 rtl:rotate-180" />
-									</Clickable>
+									<CTAButton href="/" isA="next-js" text="Learn more" />
 								</div>
 								<div className="flex flex-col sm:w-1/2">
 									<Clickable
 										href="/"
 										isA="next-js"
-										className="block h-full w-full"
+										className="block h-full w-full overflow-hidden"
 									>
 										<Image
 											src={blog.image.src}
 											alt={blog.image.alt}
 											width={900}
 											height={500}
-											className="h-full w-full object-cover object-right"
+											className="h-full w-full object-cover object-right bg-fixed duration-150 hover:scale-110 card-img-animation-1"
 										/>
 									</Clickable>
 								</div>

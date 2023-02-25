@@ -1,7 +1,6 @@
 import Image from 'next/image';
 import React from 'react';
-import { BsArrowRight } from 'react-icons/bs';
-import Clickable from '~/components/shared/core/Clickable';
+import CTAButton from '~/components/shared/core/Cards/CTAButton';
 
 const products = [
 	{
@@ -30,28 +29,25 @@ const HomeIOSAppsSection = () => {
 						iOS Apps
 					</h2>
 				</header>
-				<div className="flex flex-wrap justify-center gap-4 lg:flex-nowrap">
+				<div className="cardsContainer flex flex-wrap justify-center gap-4 lg:flex-nowrap">
 					{products.map((item) => (
 						<article
 							key={item.id}
-							className="flex w-full flex-col gap-1 md:w-[46%] lg:w-[33%]"
+							className="card-animation-1 flex w-full flex-col gap-1 md:w-[46%] lg:w-[33%]"
 						>
-							<Image
-								src={item.image.src}
-								alt={item.image.alt}
-								width={900}
-								height={500}
-							/>
-							<h3 className="text-h5 font-medium">{item.title}</h3>
-
-							<Clickable
-								href="/"
-								isA="next-js"
-								className="flex flex-wrap items-center gap-2 text-xl"
-							>
-								Discover more{' '}
-								<BsArrowRight className="scale-x-125 scale-y-110 text-special-primary-500 rtl:rotate-180" />
-							</Clickable>
+							<div className="overflow-hidden rounded-xl">
+								<Image
+									src={item.image.src}
+									alt={item.image.alt}
+									width={900}
+									height={500}
+									className="card-img-animation-1 duration-300"
+								/>
+							</div>
+							<div className="group flex flex-col gap-1">
+								<h3 className="text-h5 font-medium">{item.title}</h3>
+								<CTAButton href="/" isA="next-js" text="Discover more" />
+							</div>
 						</article>
 					))}
 				</div>

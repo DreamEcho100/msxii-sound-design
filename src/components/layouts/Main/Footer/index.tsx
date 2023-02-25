@@ -23,7 +23,7 @@ const MainLayoutFooter = () => {
 
 	return (
 		<footer id="main-footer" ref={mainFooterRef}>
-			<div className="mx-auto flex max-w-main flex-grow flex-wrap items-center justify-around gap-x-8 gap-y-4 py-main-p-4 px-main-p-1 text-center font-medium sm:justify-between">
+			<div className="mx-auto flex max-w-main flex-grow flex-wrap items-center justify-around gap-x-8 gap-y-4 py-main-p-4 px-main-p-3 sm:px-main-p-2 text-center font-medium sm:justify-between">
 				<div className="">
 					<small>&copy; 2023 MSXII Sound</small>
 				</div>

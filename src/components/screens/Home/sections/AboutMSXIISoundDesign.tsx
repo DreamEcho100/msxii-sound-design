@@ -1,6 +1,13 @@
+import { cx } from 'class-variance-authority';
 import Image from 'next/image';
 import React from 'react';
 import Clickable from '~/components/shared/core/Clickable';
+
+const anchorClasses = cx(
+	'border-b-[0.0625rem] border-solid border-b-black',
+	'duration-150 transition-all',
+	'hover:text-basic-primary-400 hover:border-b-basic-primary-300'
+);
 
 const AboutMSXIISoundDesign = () => {
 	return (
@@ -31,7 +38,7 @@ gap-8 pb-main-p-2 text-center text-lg font-medium lg:w-1/2 lg:max-w-screen-sm lg
 						In addition to our own line of products on
 						<Clickable
 							target="_blank"
-							className="border-b-[0.0625rem] border-solid border-b-black"
+							className={anchorClasses}
 							href="https//msxaudio.com"
 						>
 							msxaudio.com
@@ -39,7 +46,7 @@ gap-8 pb-main-p-2 text-center text-lg font-medium lg:w-1/2 lg:max-w-screen-sm lg
 						and what you&apos;ve seen on social media, we offer the iOS Apps{' '}
 						<Clickable
 							target="_blank"
-							className="border-b-[0.0625rem] border-solid border-b-black"
+							className={anchorClasses}
 							href="https://apps.apple.com/us/app/fly-tape/id1343651192"
 						>
 							Fly Tape
@@ -47,7 +54,7 @@ gap-8 pb-main-p-2 text-center text-lg font-medium lg:w-1/2 lg:max-w-screen-sm lg
 						and
 						<Clickable
 							target="_blank"
-							className="border-b-[0.0625rem] border-solid border-b-black"
+							className={anchorClasses}
 							href="https://apps.apple.com/us/app/lo-fly-dirt/id1292776927"
 						>
 							Lo-Fly Dirt
@@ -56,7 +63,7 @@ gap-8 pb-main-p-2 text-center text-lg font-medium lg:w-1/2 lg:max-w-screen-sm lg
 						such as Native Instruments (
 						<Clickable
 							target="_blank"
-							className="border-b-[0.0625rem] border-solid border-b-black"
+							className={anchorClasses}
 							href="https://www.native-instruments.com/en/products/komplete/expansions/sierra-grove/"
 						>
 							Sierra Grove
@@ -64,7 +71,7 @@ gap-8 pb-main-p-2 text-center text-lg font-medium lg:w-1/2 lg:max-w-screen-sm lg
 						/
 						<Clickable
 							target="_blank"
-							className="border-b-[0.0625rem] border-solid border-b-black"
+							className={anchorClasses}
 							href="https://www.native-instruments.com/en/products/komplete/expansions/elastic-thump/"
 						>
 							Elastic Thump
@@ -72,7 +79,7 @@ gap-8 pb-main-p-2 text-center text-lg font-medium lg:w-1/2 lg:max-w-screen-sm lg
 						/
 						<Clickable
 							target="_blank"
-							className="border-b-[0.0625rem] border-solid border-b-black"
+							className={anchorClasses}
 							href="https://www.native-instruments.com/en/products/komplete/expansions/aquarius-earth/"
 						>
 							Aquarius Earth
@@ -80,7 +87,7 @@ gap-8 pb-main-p-2 text-center text-lg font-medium lg:w-1/2 lg:max-w-screen-sm lg
 						), Akai (
 						<Clickable
 							target="_blank"
-							className="border-b-[0.0625rem] border-solid border-b-black"
+							className={anchorClasses}
 							href="https://www.thempcstore.com/#cbp=assets/ajax-meet-the-team/soul-provider.html"
 						>
 							Soul Provider
@@ -88,7 +95,7 @@ gap-8 pb-main-p-2 text-center text-lg font-medium lg:w-1/2 lg:max-w-screen-sm lg
 						1, 2, &{' '}
 						<Clickable
 							target="_blank"
-							className="border-b-[0.0625rem] border-solid border-b-black"
+							className={anchorClasses}
 							href="https://www.thempcstore.com/#cbp=assets/ajax-meet-the-team/vintage-provider.html"
 						>
 							Vintage Provider
@@ -96,7 +103,7 @@ gap-8 pb-main-p-2 text-center text-lg font-medium lg:w-1/2 lg:max-w-screen-sm lg
 						), Ableton (
 						<Clickable
 							target="_blank"
-							className="border-b-[0.0625rem] border-solid border-b-black"
+							className={anchorClasses}
 							href="https://www.ableton.com/en/packs/beat-tools/"
 						>
 							Beat Tools
@@ -104,7 +111,7 @@ gap-8 pb-main-p-2 text-center text-lg font-medium lg:w-1/2 lg:max-w-screen-sm lg
 						& Live 10 factory content), Novation,{' '}
 						<Clickable
 							target="_blank"
-							className="border-b-[0.0625rem] border-solid border-b-black"
+							className={anchorClasses}
 							href="https://intua.net/packs/msxii-the-constituents/"
 						>
 							Intua

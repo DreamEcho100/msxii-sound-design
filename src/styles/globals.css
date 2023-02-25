@@ -125,4 +125,24 @@
 	.text-align-initial {
 		text-align: initial;
 	}
+	.ellipse-text {
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		overflow: hidden;
+	}
+
+	.cardsContainer:hover .card-animation-1:not(:hover, :focus-within, :focus) {
+		filter: brightness(0.75);
+	}
+	.cardsContainer .card-animation-1:hover,
+	.cardsContainer .card-animation-1:focus-within,
+	.cardsContainer .card-animation-1:focus {
+		filter: brightness(1.05);
+	}
+
+	.cardsContainer .card-img-animation-1:hover,
+	.cardsContainer .card-img-animation-1:focus-within,
+	.cardsContainer .card-img-animation-1:focus {
+		transform: scale(1.1);
+	}
 }

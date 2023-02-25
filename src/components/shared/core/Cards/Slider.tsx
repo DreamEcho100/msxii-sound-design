@@ -9,6 +9,8 @@ import { fakeProductsData } from '~/utils/appData';
 import { Product } from '~/utils/types';
 import { cx } from 'class-variance-authority';
 
+import classes from './index.module.css';
+
 type Props<CardElemProps extends Record<string, unknown>> = {
 	CardElem: FunctionComponent<CardElemProps & { product: Product }>;
 	cardsSharedProps?: CardElemProps;
@@ -30,7 +32,8 @@ const ProductsSlider = <CardElemProps extends Record<string, unknown>>({
 				style={{
 					backgroundImage: 'url("/svgs/right-arrow 2.svg")',
 					backgroundPosition: 'center',
-					backgroundSize: 'cover',
+					backgroundSize: 'contain',
+					backgroundRepeat: 'no-repeat',
 					zIndex: 2
 				}}
 				onClick={() => SwiperInstanceRef.current?.slideNext()}
@@ -44,7 +47,8 @@ const ProductsSlider = <CardElemProps extends Record<string, unknown>>({
 				style={{
 					backgroundImage: 'url("/svgs/left-arrow 2.svg")',
 					backgroundPosition: 'center',
-					backgroundSize: 'cover',
+					backgroundSize: 'contain',
+					backgroundRepeat: 'no-repeat',
 					zIndex: 2
 				}}
 				onClick={() => SwiperInstanceRef.current?.slidePrev()}
@@ -54,6 +58,7 @@ const ProductsSlider = <CardElemProps extends Record<string, unknown>>({
 				)}
 			/>
 			<Swiper
+				className="cardsContainer"
 				onSwiper={(swiperInstance) =>
 					(SwiperInstanceRef.current = swiperInstance)
 				}

@@ -1,0 +1,15 @@
+.swiperContainer {
+}
+
+.card {
+}
+
+.cardTitle {
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden;
+}
+
+.swiperContainer:hover .card:not(:hover, :focus-within, :focus) {
+	filter: brightness(0.75);
+}

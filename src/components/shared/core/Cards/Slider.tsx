@@ -10,6 +10,7 @@ import { Product } from '~/utils/types';
 import { cx } from 'class-variance-authority';
 
 import classes from './index.module.css';
+import Image from 'next/image';
 
 type Props<CardElemProps extends Record<string, unknown>> = {
 	CardElem: FunctionComponent<CardElemProps & { product: Product }>;
@@ -29,34 +30,46 @@ const ProductsSlider = <CardElemProps extends Record<string, unknown>>({
 		<div className="relative">
 			<button
 				title="next slide"
-				style={{
-					backgroundImage: 'url("/svgs/right-arrow 2.svg")',
-					backgroundPosition: 'center',
-					backgroundSize: 'contain',
-					backgroundRepeat: 'no-repeat',
-					zIndex: 2
-				}}
+				style={{ zIndex: 2 }}
 				onClick={() => SwiperInstanceRef.current?.slideNext()}
 				className={cx(
-					'absolute top-1/2 -translate-y-1/2 w-4 h-8 aspect-[1.91/1]',
+					'hover:scale-[1.25] transition-all duration-150 absolute top-1/2 -translate-y-1/2 w-4 h-8 aspect-[1.91/1]',
 					'-right-4 rtl:-left-4 rtl:right-auto rtl:rotate-180'
 				)}
-			/>
-			<button
-				title="previous slide"
-				style={{
-					backgroundImage: 'url("/svgs/left-arrow 2.svg")',
+			>
+				{/* backgroundImage: 'url("/svgs/right-arrow 2.svg")',
 					backgroundPosition: 'center',
 					backgroundSize: 'contain',
-					backgroundRepeat: 'no-repeat',
-					zIndex: 2
-				}}
+					backgroundRepeat: 'no-repeat', */}
+				<Image
+					src="/svgs/right-arrow 2.svg"
+					alt=""
+					width={50}
+					height={100}
+					className="w-full h-full object-contain object-center"
+				/>
+			</button>
+			<button
+				title="previous slide"
+				style={{ zIndex: 2 }}
 				onClick={() => SwiperInstanceRef.current?.slidePrev()}
 				className={cx(
-					'absolute top-1/2 -translate-y-1/2 w-4 h-8 aspect-[1.91/1]',
+					'hover:scale-[1.25] transition-all duration-150 absolute top-1/2 -translate-y-1/2 w-4 h-8 aspect-[1.91/1]',
 					'-left-4 rtl:-right-4 rtl:left-aright-auto rtl:rotate-180'
 				)}
-			/>
+			>
+				{/* backgroundImage: 'url("/svgs/left-arrow 2.svg")',
+					backgroundPosition: 'center',
+					backgroundSize: 'contain',
+					backgroundRepeat: 'no-repeat', */}
+				<Image
+					src="/svgs/left-arrow 2.svg"
+					alt=""
+					width={50}
+					height={100}
+					className="w-full h-full object-contain object-center"
+				/>
+			</button>
 			<Swiper
 				className="cardsContainer"
 				onSwiper={(swiperInstance) =>

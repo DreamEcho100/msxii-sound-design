@@ -23,7 +23,7 @@ const handleClickableVariants = cva('', {
 			'v2-lg': 'px-8 py-1',
 			'v2-xl': 'px-10 py-1'
 		},
-		rounded: { '3xl': 'rounded-3xl' }
+		rounded: { '3xl': 'rounded-3xl', '3xl.2': 'rounded-[1.75rem]' }
 	}
 	// defaultVariants: { btn: 'primary', w: 'fit', rounded: '3xl' }
 });

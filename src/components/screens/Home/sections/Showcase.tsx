@@ -48,7 +48,10 @@ const HomeShowcaseSection = () => {
 							))}
 						</div>
 					</header>
-					<ProductsSlider CardElem={ProductCard} />
+					<ProductsSlider
+						CardElem={ProductCard}
+						cardsSharedProps={{ imageVariants: { animation: null } }}
+					/>
 				</section>
 				<section className="flex flex-col gap-4">
 					<header className="pl-8 rtl:pr-8 rtl:pl-0">

@@ -87,10 +87,10 @@ const MainLayoutHeader = () => {
 									<DropdownButton
 										shape="text"
 										title="settings and other options"
-										defaultTextColor=""
+										className="hover:text-special-primary-400 duration-150"
 									>
-										<IoMdArrowDropdown className="text-xl hover:text-special-primary-400 duration-150" />{' '}
-										{item.title}
+										<IoMdArrowDropdown className="text-xl" /> {item.title}
+										<span className="pl-1" />
 									</DropdownButton>
 									<DropdownItems>
 										{item.links.map(({ href, title }) => (
@@ -180,9 +180,10 @@ const MainLayoutHeader = () => {
 											<DropdownButton
 												shape="text"
 												title="settings and other options"
-												defaultTextColor=""
+												className="hover:text-special-primary-400 duration-150"
 											>
 												<IoMdArrowDropdown className="text-xl" /> {item.title}
+												<span className="pl-1" />
 											</DropdownButton>
 											<DropdownItems>
 												{item.links.map(({ href, title }) => (

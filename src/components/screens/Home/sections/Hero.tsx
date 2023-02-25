@@ -19,8 +19,8 @@ const HeroHomeSection = () => {
 				<Clickable
 					href="/"
 					isA="next-js"
-					variants={{ btn: 'primary', p: 'v2-xl', rounded: '3xl' }}
-					className="mt-8"
+					variants={{ btn: 'primary', p: 'v2-xl', rounded: '3xl.2' }}
+					className="mt-6"
 				>
 					SHOP NOW
 				</Clickable>

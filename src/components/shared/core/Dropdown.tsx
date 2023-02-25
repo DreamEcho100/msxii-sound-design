@@ -33,21 +33,21 @@ export const DropdownItem = (
 
 export const DropdownButton = ({
 	active,
-	defaultTextColor = 'text-gray-900',
 	...props
 }: Partial<Parameters<typeof Menu.Button>[0]> & {
 	active?: boolean;
-	defaultTextColor?: string;
-}) => (
-	<Menu.Button
-		{...props}
-		isA="button"
-		as={Clickable}
-		variants={null}
-		className={`${
-			active
-				? 'bg-gradient-to-br from-basic-primary-300 to-special-primary-500 text-special-secondary-100 transition-all duration-150'
-				: defaultTextColor
-		} group flex w-full items-center gap-1 whitespace-nowrap`}
-	/>
-);
+}) => {
+	return (
+		<Menu.Button
+			{...props}
+			isA="button"
+			as={Clickable}
+			variants={null}
+			className={`${
+				active
+					? 'bg-gradient-to-br from-basic-primary-300 to-special-primary-500 text-special-secondary-100 transition-all duration-150'
+					: ''
+			} group flex w-full items-center gap-1 whitespace-nowrap`}
+		/>
+	);
+};

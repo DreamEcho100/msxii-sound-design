@@ -14,7 +14,7 @@ const handleBasicProductCardContainerVariants = cva(
 		}
 	}
 );
-const handleBasicProductCardImageVariants = cva(
+const handleBasicProductCardImageContainerVariants = cva(
 	'aspect-square rounded-lg relative overflow-hidden',
 	{
 		variants: {
@@ -22,6 +22,13 @@ const handleBasicProductCardImageVariants = cva(
 			'object-fit': { contain: 'object-contain', cover: 'object-cover' }
 		},
 		defaultVariants: { 'aspect-ratio': 'square', 'object-fit': 'contain' }
+	}
+);
+const handleBasicProductCardImageVariants = cva(
+	'w-full h-full duration-150 transition-all',
+	{
+		variants: { animation: { 'card-img-1': 'card-img-animation-1' } },
+		defaultVariants: { animation: 'card-img-1' }
 	}
 );
 const handleBasicProductCardTitleVariants = cva(
@@ -45,6 +52,9 @@ export const BasicProductCard = (props: {
 	containerVariants?: VariantProps<
 		typeof handleBasicProductCardContainerVariants
 	>;
+	imageContainerVariants?: VariantProps<
+		typeof handleBasicProductCardImageContainerVariants
+	>;
 	imageVariants?: VariantProps<typeof handleBasicProductCardImageVariants>;
 	titleVariants?: VariantProps<typeof handleBasicProductCardTitleVariants>;
 }) => {
@@ -55,15 +65,18 @@ export const BasicProductCard = (props: {
 				className: 'card-animation-1'
 			})}
 		>
-			<div className={handleBasicProductCardImageVariants(props.imageVariants)}>
+			<div
+				className={handleBasicProductCardImageContainerVariants(
+					props.imageContainerVariants
+				)}
+			>
 				<Image
 					src={props.product.image.src}
 					alt={props.product.image.alt}
 					width={800}
 					height={800}
-					className="w-full h-full group-hover:scale-125 duration-75 transition-all"
+					className={handleBasicProductCardImageVariants(props.imageVariants)}
 				/>
-				<div className="absolute inset-0 group-hover:bg-black/0 bg-black/5" />
 			</div>
 			<div className="text-align-initial flex flex-grow flex-col justify-between gap-2 px-2 py-3 leading-primary-5">
 				<h3
@@ -96,12 +109,16 @@ export const ProductExtraDetails = (props: {
 	);
 };
 
-export const ProductCard = (props: { product: Product }) => {
+export const ProductCard = ({
+	product,
+	...props
+}: { product: Product } & Partial<Parameters<typeof BasicProductCard>[0]>) => {
 	return (
 		<BasicProductCard
-			product={props.product}
-			extraDetailsElem={<ProductExtraDetails product={props.product} />}
+			product={product}
+			extraDetailsElem={<ProductExtraDetails product={product} />}
 			containerVariants={{ 'aspect-ratio': 'card' }}
+			{...props}
 		/>
 	);
 };
@@ -113,7 +130,7 @@ export const ProductBundleCard = (
 		<BasicProductCard
 			product={props.product}
 			containerVariants={{ 'aspect-ratio': 'video' }}
-			imageVariants={{ 'object-fit': 'cover' }}
+			imageContainerVariants={{ 'object-fit': 'cover' }}
 			titleVariants={{ 'text-align': 'center', 'text-size': 'lg' }}
 		/>
 	);

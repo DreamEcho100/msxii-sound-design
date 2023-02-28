@@ -13,7 +13,7 @@ const HomeShowcaseSection = () => {
 			<div className="flex flex-col gap-16 bg-basic-secondary-900 p-main-p-3 text-basic-primary-600 sm:rounded-xl">
 				<section>
 					<header className="flex flex-col gap-8 pl-8 text-basic-primary-500 rtl:pr-8 rtl:pl-0">
-						<h2 className="text-h1 leading-h2 font-black">New Releases</h2>
+						<h2 className="text-h1 leading-h2 font-bold">New Releases</h2>
 						<div className="flex flex-wrap gap-x-4 gap-y-3">
 							{[
 								{ title: 'NEW RELEASES', isActive: true },
@@ -55,7 +55,7 @@ const HomeShowcaseSection = () => {
 				</section>
 				<section className="flex flex-col gap-4">
 					<header className="pl-8 rtl:pr-8 rtl:pl-0">
-						<h2 className="text-h1 leading-h2 font-black">Bundles</h2>
+						<h2 className="text-h1 leading-h2 font-bold">Bundles</h2>
 					</header>
 					<div className="flex flex-col gap-8">
 						<ProductsSlider CardElem={ProductCard} />

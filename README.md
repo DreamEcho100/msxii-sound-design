@@ -30,3 +30,5 @@ Follow our deployment guides for [Vercel](https://create.t3.gg/en/deployment/ver
 ##
 
 <https://chat.openai.com/chat/6e53e674-72b8-441b-9bd9-097144a746cb>
+<https://codesandbox.io/s/d8llw?file=/src/App.js:1883-1892>
+<https://codesandbox.io/s/q558p?file=/src/App.js>

@@ -15,10 +15,10 @@ const AboutMSXIISoundDesign = () => {
 			<div className="flex flex-col-reverse justify-center gap-4 bg-special-secondary-500 px-main-p-2 sm:gap-12 sm:rounded-xl lg:flex-row lg:px-main-p-1">
 				<div
 					className="lg:text-align-initial flex flex-col 
-gap-8 pb-main-p-2 text-center text-lg font-medium lg:w-1/2 lg:max-w-screen-sm lg:pt-main-p-1"
+gap-8 pb-main-p-2 text-center text-lg font-normal lg:w-1/2 lg:max-w-screen-sm lg:pt-main-p-1"
 				>
 					<header>
-						<h2 className="text-h1 leading-h2 font-black">
+						<h2 className="text-h1 leading-h2 font-bold">
 							About MSXII Sound Design
 						</h2>
 					</header>

@@ -32,7 +32,7 @@ const handleBasicProductCardImageVariants = cva(
 	}
 );
 const handleBasicProductCardTitleVariants = cva(
-	'font-medium leading-4 ellipse-text',
+	'font-normal leading-4 ellipse-text',
 	{
 		variants: {
 			'text-align': { center: 'text-center' },
@@ -96,7 +96,7 @@ export const ProductExtraDetails = (props: {
 }) => {
 	return (
 		<>
-			<p className="-translate-y-[20%] font-normal text-basic-primary-900/80">
+			<p className="-translate-y-[20%] font-light text-basic-primary-900/80">
 				$ {props.product.price}
 			</p>
 			<Clickable

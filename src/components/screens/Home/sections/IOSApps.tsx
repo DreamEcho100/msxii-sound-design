@@ -45,7 +45,7 @@ const HomeIOSAppsSection = () => {
 								/>
 							</div>
 							<div className="group flex flex-col gap-1">
-								<h3 className="text-h5 font-medium">{item.title}</h3>
+								<h3 className="text-h5 font-normal">{item.title}</h3>
 								<CTAButton href="/" isA="next-js" text="Discover more" />
 							</div>
 						</article>

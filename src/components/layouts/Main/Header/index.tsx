@@ -165,7 +165,7 @@ const MainLayoutHeader = () => {
 				<AnimatePresence>
 					{isSearchMenuOpen && (
 						<motion.div
-							initial={{ opacity: 0.5, y: '-100%' }}
+							initial={{ opacity: 0.75, y: '-100%' }}
 							animate={{ opacity: 1, y: '0%' }}
 							exit={{ opacity: 0, y: '-100%' }}
 							transition={{ duration: 0.3 }}
@@ -197,7 +197,7 @@ const MainLayoutHeader = () => {
 				<AnimatePresence>
 					{isDropdownMenuOnLessThanLGOpen && (
 						<motion.nav
-							initial={{ opacity: 0.5, y: '-100%' }}
+							initial={{ opacity: 0.75, y: '-100%' }}
 							animate={{ opacity: 1, y: '0%' }}
 							exit={{ opacity: 0, y: '-100%' }}
 							transition={{ duration: 0.3 }}

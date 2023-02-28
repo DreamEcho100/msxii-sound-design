@@ -169,28 +169,30 @@ const MainLayoutHeader = () => {
 							animate={{ opacity: 1, y: '0%' }}
 							exit={{ opacity: 0, y: '-100%' }}
 							transition={{ duration: 0.3 }}
-							className="px-main-p-3 sm:px-main-p-2 pb-4 bg-bg-primary-500 -z-[1]"
+							className="-z-[1] flex justify-end"
 						>
-							<form className="bg-white text-black flex items-center h-8">
-								<Clickable
-									variants={null}
-									className="px-2 bg-black/10 focus:bg-black/25 duration-100 transition-all h-full"
-									onClick={toggleSearchMenu}
-								>
-									<BiX />
-								</Clickable>
-								<input
-									type="search"
-									className="h-full bg-transparent flex-grow outline-none px-3 py-2"
-								/>
-								<Clickable
-									variants={null}
-									className="px-2 bg-black/10 focus:bg-black/25 duration-100 transition-all h-full"
-									type="submit"
-								>
-									<BiSearchAlt />
-								</Clickable>
-							</form>
+							<div className="bg-bg-primary-500 w-full md:w-96 max-w-full">
+								<form className="bg-white text-black flex items-center h-8">
+									<Clickable
+										variants={null}
+										className="px-2 bg-black/10 focus:bg-black/25 duration-100 transition-all h-full"
+										type="submit"
+									>
+										<BiSearchAlt />
+									</Clickable>
+									<input
+										type="search"
+										className="h-full bg-transparent flex-grow outline-none px-3 py-2"
+									/>
+									<Clickable
+										variants={null}
+										className="px-2 bg-black/10 focus:bg-black/25 duration-100 transition-all h-full"
+										onClick={toggleSearchMenu}
+									>
+										<BiX />
+									</Clickable>
+								</form>
+							</div>
 						</motion.div>
 					)}
 				</AnimatePresence>
@@ -218,7 +220,7 @@ const MainLayoutHeader = () => {
 												isA="next-js"
 												className={cx(
 													'mx-auto w-full max-w-main whitespace-nowrap bg-clip-text p-1',
-													'bg-black',
+													'bg-text-primary-500',
 													'hover:bg-gradient-to-br hover:from-text-primary-200 hover:to-special-primary-400 hover:text-special-secondary-100 hover:transition-all hover:duration-150',
 													'focus:bg-gradient-to-br focus:from-text-primary-300 focus:to-special-primary-500 focus:text-special-secondary-100 focus:transition-all focus:duration-150'
 												)}
@@ -268,7 +270,13 @@ const MainLayoutHeader = () => {
 			</header>
 			{isAnyMenuOpen && (
 				<button
-					className="fixed inset-0 z-[9] block w-full h-full bg-text-primary-900/50 backdrop-blur-[0.0625rem]"
+					className={cx(
+						'fixed inset-0 z-[9] block w-full h-full',
+						// isSearchMenuOpen
+						// 	? ''
+						// 	:
+						'bg-initial-primary-900/60 backdrop-blur-[0.0625rem]'
+					)}
 					onClick={closeAllMenus}
 					title="Close all opened menus."
 				/>

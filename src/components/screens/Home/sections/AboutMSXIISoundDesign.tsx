@@ -6,16 +6,16 @@ import Clickable from '~/components/shared/core/Clickable';
 const anchorClasses = cx(
 	'border-b-[0.0625rem] border-solid border-b-black',
 	'duration-150 transition-all',
-	'hover:text-text-primary-400 hover:border-b-text-primary-300'
+	'hover:text-text-primary-200 hover:border-b-text-primary-300'
 );
 
 const AboutMSXIISoundDesign = () => {
 	return (
-		<section className="bg-initial-secondary-500 text-initial-primary-500 sm:px-main-p-3 sm:py-main-p-2">
-			<div className="flex flex-col-reverse justify-center gap-4 bg-special-secondary-500 px-main-p-2 sm:gap-12 sm:rounded-xl lg:flex-row lg:px-main-p-1">
+		<section className="sm:px-main-p-3 sm:py-main-p-2">
+			<div className="flex flex-col-reverse justify-center gap-4 bg-initial-secondary-500 dark:bg-initial-secondary-700 text-initial-primary-0 px-main-p-2 sm:gap-12 sm:rounded-xl lg:flex-row lg:px-main-p-1">
 				<div
 					className="lg:text-align-initial flex flex-col 
-gap-8 pb-main-p-2 text-center text-lg font-normal lg:w-1/2 lg:max-w-screen-sm lg:pt-main-p-1"
+gap-8 pb-main-p-2 text-center text-lg font-normal lg:w-3/4 lg:max-w-screen-md lg:pt-main-p-1"
 				>
 					<header>
 						<h2 className="text-h1 leading-h2 font-bold">
@@ -121,7 +121,7 @@ gap-8 pb-main-p-2 text-center text-lg font-normal lg:w-1/2 lg:max-w-screen-sm lg
 						platform, DAW, instrument, device, and more!
 					</p>
 				</div>
-				<div className="flex items-start justify-center lg:w-1/2">
+				<div className="flex items-start justify-center lg:flex-grow">
 					<Image
 						src="/images/image 8.png"
 						alt=""

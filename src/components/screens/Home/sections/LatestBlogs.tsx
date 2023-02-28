@@ -19,8 +19,8 @@ const blogs = [
 
 const HomeLatestBlogsSection = () => {
 	return (
-		<section className="bg-initial-secondary-500 text-initial-primary-500 sm:px-main-p-3 sm:py-main-p-2">
-			<div className="bg-special-primary-500 py-main-p-1 px-main-p-2  sm:rounded-xl md:p-main-p-1">
+		<section className="sm:px-main-p-3 sm:py-main-p-2">
+			<div className="bg-special-primary-500 text-initial-primary-500 py-main-p-1 px-main-p-2  sm:rounded-xl md:p-main-p-1">
 				<div className="mx-auto flex w-fit flex-col gap-4 sm:gap-12">
 					<header>
 						<h2 className="text-h1 leading-h2 font-bold">Latest Blogs</h2>

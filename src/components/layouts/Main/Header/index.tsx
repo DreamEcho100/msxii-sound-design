@@ -165,10 +165,10 @@ const MainLayoutHeader = () => {
 				<AnimatePresence>
 					{isSearchMenuOpen && (
 						<motion.div
-							initial={{ opacity: 0, y: '-100%' }}
+							initial={{ opacity: 0.5, y: '-100%' }}
 							animate={{ opacity: 1, y: '0%' }}
 							exit={{ opacity: 0, y: '-100%' }}
-							transition={{ type: 'just' }}
+							transition={{ duration: 0.3 }}
 							className="px-main-p-3 sm:px-main-p-2 pb-4 bg-basic-secondary-500 -z-[1]"
 						>
 							<form className="bg-white flex items-center h-8">
@@ -197,10 +197,10 @@ const MainLayoutHeader = () => {
 				<AnimatePresence>
 					{isDropdownMenuOnLessThanLGOpen && (
 						<motion.nav
-							initial={{ opacity: 0, y: '-100%' }}
+							initial={{ opacity: 0.5, y: '-100%' }}
 							animate={{ opacity: 1, y: '0%' }}
 							exit={{ opacity: 0, y: '-100%' }}
-							transition={{ type: 'just' }}
+							transition={{ duration: 0.3 }}
 							className="flex w-full flex-col bg-basic-secondary-500 -z-[2] uppercase
 					lg:hidden"
 						>

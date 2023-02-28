@@ -28,7 +28,7 @@ const ProductsSlider = <CardElemProps extends Record<string, unknown>>({
 	return (
 		<div className="relative">
 			<button
-				title="next slide"
+				title="Next slide."
 				style={{ zIndex: 2 }}
 				onClick={() => SwiperInstanceRef.current?.slideNext()}
 				className={cx(
@@ -45,7 +45,7 @@ const ProductsSlider = <CardElemProps extends Record<string, unknown>>({
 				/>
 			</button>
 			<button
-				title="previous slide"
+				title="Previous slide."
 				onClick={() => SwiperInstanceRef.current?.slidePrev()}
 				className={cx(
 					'z-[2] hover:scale-[1.25] focus:scale-[1.25] transition-all duration-150 absolute top-1/2 -translate-y-1/2 w-4 h-8 aspect-[1.91/1]',

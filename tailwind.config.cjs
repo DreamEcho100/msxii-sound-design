@@ -25,32 +25,63 @@ module.exports = {
 				// => @media (min-width: 1536px) { ... }
 			},
 			colors: {
-				basic: {
+				initial: {
 					primary: {
-						0: 'rgba(var(--color-basic-primary-0) / <alpha-value>)',
-						100: 'rgba(var(--color-basic-primary-100) / <alpha-value>)',
-						200: 'rgba(var(--color-basic-primary-200) / <alpha-value>)',
-						300: 'rgba(var(--color-basic-primary-300) / <alpha-value>)',
-						400: 'rgba(var(--color-basic-primary-400) / <alpha-value>)',
-						500: 'rgba(var(--color-basic-primary-500) / <alpha-value>)',
-						600: 'rgba(var(--color-basic-primary-600) / <alpha-value>)',
-						700: 'rgba(var(--color-basic-primary-700) / <alpha-value>)',
-						800: 'rgba(var(--color-basic-primary-800) / <alpha-value>)',
-						900: 'rgba(var(--color-basic-primary-900) / <alpha-value>)',
-						1000: 'rgba(var(--color-basic-primary-1000) / <alpha-value>)'
+						0: 'rgba(var(--color-initial-primary-0) / <alpha-value>)',
+						100: 'rgba(var(--color-initial-primary-100) / <alpha-value>)',
+						200: 'rgba(var(--color-initial-primary-200) / <alpha-value>)',
+						300: 'rgba(var(--color-initial-primary-300) / <alpha-value>)',
+						400: 'rgba(var(--color-initial-primary-400) / <alpha-value>)',
+						500: 'rgba(var(--color-initial-primary-500) / <alpha-value>)',
+						600: 'rgba(var(--color-initial-primary-600) / <alpha-value>)',
+						700: 'rgba(var(--color-initial-primary-700) / <alpha-value>)',
+						800: 'rgba(var(--color-initial-primary-800) / <alpha-value>)',
+						900: 'rgba(var(--color-initial-primary-900) / <alpha-value>)',
+						1000: 'rgba(var(--color-initial-primary-1000) / <alpha-value>)'
 					},
 					secondary: {
-						0: 'rgba(var(--color-basic-secondary-0) / <alpha-value>)',
-						100: 'rgba(var(--color-basic-secondary-100) / <alpha-value>)',
-						200: 'rgba(var(--color-basic-secondary-200) / <alpha-value>)',
-						300: 'rgba(var(--color-basic-secondary-300) / <alpha-value>)',
-						400: 'rgba(var(--color-basic-secondary-400) / <alpha-value>)',
-						500: 'rgba(var(--color-basic-secondary-500) / <alpha-value>)',
-						600: 'rgba(var(--color-basic-secondary-600) / <alpha-value>)',
-						700: 'rgba(var(--color-basic-secondary-700) / <alpha-value>)',
-						800: 'rgba(var(--color-basic-secondary-800) / <alpha-value>)',
-						900: 'rgba(var(--color-basic-secondary-900) / <alpha-value>)',
-						1000: 'rgba(var(--color-basic-secondary-1000) / <alpha-value>)'
+						0: 'rgba(var(--color-initial-primary-0) / <alpha-value>)',
+						100: 'rgba(var(--color-initial-primary-100) / <alpha-value>)',
+						200: 'rgba(var(--color-initial-primary-200) / <alpha-value>)',
+						300: 'rgba(var(--color-initial-primary-300) / <alpha-value>)',
+						400: 'rgba(var(--color-initial-primary-400) / <alpha-value>)',
+						500: 'rgba(var(--color-initial-primary-500) / <alpha-value>)',
+						600: 'rgba(var(--color-initial-primary-600) / <alpha-value>)',
+						700: 'rgba(var(--color-initial-primary-700) / <alpha-value>)',
+						800: 'rgba(var(--color-initial-primary-800) / <alpha-value>)',
+						900: 'rgba(var(--color-initial-primary-900) / <alpha-value>)',
+						1000: 'rgba(var(--color-initial-primary-1000) / <alpha-value>)'
+					}
+				},
+
+				text: {
+					primary: {
+						0: 'rgba(var(--color-text-primary-0) / <alpha-value>)',
+						100: 'rgba(var(--color-text-primary-100) / <alpha-value>)',
+						200: 'rgba(var(--color-text-primary-200) / <alpha-value>)',
+						300: 'rgba(var(--color-text-primary-300) / <alpha-value>)',
+						400: 'rgba(var(--color-text-primary-400) / <alpha-value>)',
+						500: 'rgba(var(--color-text-primary-500) / <alpha-value>)',
+						600: 'rgba(var(--color-text-primary-600) / <alpha-value>)',
+						700: 'rgba(var(--color-text-primary-700) / <alpha-value>)',
+						800: 'rgba(var(--color-text-primary-800) / <alpha-value>)',
+						900: 'rgba(var(--color-text-primary-900) / <alpha-value>)',
+						1000: 'rgba(var(--color-text-primary-1000) / <alpha-value>)'
+					}
+				},
+				bg: {
+					primary: {
+						0: 'rgba(var(--color-bg-primary-0) / <alpha-value>)',
+						100: 'rgba(var(--color-bg-primary-100) / <alpha-value>)',
+						200: 'rgba(var(--color-bg-primary-200) / <alpha-value>)',
+						300: 'rgba(var(--color-bg-primary-300) / <alpha-value>)',
+						400: 'rgba(var(--color-bg-primary-400) / <alpha-value>)',
+						500: 'rgba(var(--color-bg-primary-500) / <alpha-value>)',
+						600: 'rgba(var(--color-bg-primary-600) / <alpha-value>)',
+						700: 'rgba(var(--color-bg-primary-700) / <alpha-value>)',
+						800: 'rgba(var(--color-bg-primary-800) / <alpha-value>)',
+						900: 'rgba(var(--color-bg-primary-900) / <alpha-value>)',
+						1000: 'rgba(var(--color-bg-primary-1000) / <alpha-value>)'
 					}
 				},
 				special: {

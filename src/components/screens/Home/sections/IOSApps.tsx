@@ -22,12 +22,10 @@ const products = [
 
 const HomeIOSAppsSection = () => {
 	return (
-		<section className="bg-basic-secondary-500 p-main-p-3">
+		<section className="p-main-p-3">
 			<div className="flex flex-col gap-8">
 				<header>
-					<h2 className="text-h1 leading-h2 text-basic-primary-500">
-						iOS Apps
-					</h2>
+					<h2 className="text-h1 leading-h2">iOS Apps</h2>
 				</header>
 				<div className="cardsContainer flex flex-wrap justify-center gap-4 lg:flex-nowrap">
 					{products.map((item) => (

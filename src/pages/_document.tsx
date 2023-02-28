@@ -10,7 +10,10 @@ export default function Document() {
 				<meta charSet="UTF-8" />
 			</Head>
 			<body
-				className={cx('light', ralewayFont.className)}
+				className={cx(
+					'light bg-bg-primary-500 text-text-primary-500',
+					ralewayFont.className
+				)}
 				style={{ fontFamily: "'Raleway', sans-serif" }}
 			>
 				<Main />

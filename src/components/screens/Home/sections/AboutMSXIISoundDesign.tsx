@@ -6,12 +6,12 @@ import Clickable from '~/components/shared/core/Clickable';
 const anchorClasses = cx(
 	'border-b-[0.0625rem] border-solid border-b-black',
 	'duration-150 transition-all',
-	'hover:text-basic-primary-400 hover:border-b-basic-primary-300'
+	'hover:text-text-primary-400 hover:border-b-text-primary-300'
 );
 
 const AboutMSXIISoundDesign = () => {
 	return (
-		<section className="bg-basic-secondary-500 text-basic-primary-500 sm:px-main-p-3 sm:py-main-p-2">
+		<section className="bg-initial-secondary-500 text-initial-primary-500 sm:px-main-p-3 sm:py-main-p-2">
 			<div className="flex flex-col-reverse justify-center gap-4 bg-special-secondary-500 px-main-p-2 sm:gap-12 sm:rounded-xl lg:flex-row lg:px-main-p-1">
 				<div
 					className="lg:text-align-initial flex flex-col 

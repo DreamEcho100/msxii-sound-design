@@ -19,7 +19,7 @@ const blogs = [
 
 const HomeLatestBlogsSection = () => {
 	return (
-		<section className="bg-basic-secondary-500 text-basic-primary-500 sm:px-main-p-3 sm:py-main-p-2">
+		<section className="bg-initial-secondary-500 text-initial-primary-500 sm:px-main-p-3 sm:py-main-p-2">
 			<div className="bg-special-primary-500 py-main-p-1 px-main-p-2  sm:rounded-xl md:p-main-p-1">
 				<div className="mx-auto flex w-fit flex-col gap-4 sm:gap-12">
 					<header>
@@ -29,7 +29,7 @@ const HomeLatestBlogsSection = () => {
 						{blogs.map((blog) => (
 							<article
 								key={blog.id}
-								className="card-animation-1 duration-300 transition-all flex aspect-video flex-col-reverse rounded-lg bg-basic-primary-0 sm:flex-row md:max-w-[600px]"
+								className="card-animation-1 duration-300 transition-all flex aspect-video flex-col-reverse rounded-lg bg-text-primary-0 sm:flex-row md:max-w-[600px]"
 							>
 								<div className="group sm:text-align-initial flex flex-col items-center justify-between gap-2 p-8 text-center sm:w-1/2 sm:items-start sm:gap-0 lg:p-8">
 									<Clickable

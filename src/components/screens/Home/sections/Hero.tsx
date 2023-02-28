@@ -4,7 +4,7 @@ import Clickable from '~/components/shared/core/Clickable';
 
 const HeroHomeSection = () => {
 	return (
-		<section className="flex flex-col justify-center bg-basic-secondary-500 p-main-p-3 text-basic-primary-500 sm:p-main-p-1 md:flex-row ">
+		<section className="flex flex-col justify-center p-main-p-3 sm:p-main-p-1 md:flex-row ">
 			<div className="md:text-align-initial flex flex-col items-center justify-center gap-8 text-center text-[1.75rem] md:w-1/2 md:items-start md:justify-start min-[1350px]:w-auto">
 				<h1 className="text-h1 leading-h1">
 					Unlock Limitless Possibilities with <br /> MSXAudio Sample Packs

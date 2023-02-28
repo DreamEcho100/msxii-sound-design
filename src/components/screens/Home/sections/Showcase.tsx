@@ -9,10 +9,10 @@ import { cx } from 'class-variance-authority';
 
 const HomeShowcaseSection = () => {
 	return (
-		<section className="bg-basic-secondary-500 sm:p-main-p-3">
-			<div className="flex flex-col gap-16 bg-basic-secondary-900 p-main-p-3 text-basic-primary-600 sm:rounded-xl">
+		<section className="sm:p-main-p-3">
+			<div className="flex flex-col gap-16 bg-bg-primary-600/25 p-main-p-3 sm:rounded-xl">
 				<section>
-					<header className="flex flex-col gap-8 pl-8 text-basic-primary-500 rtl:pr-8 rtl:pl-0">
+					<header className="flex flex-col gap-8 pl-8 rtl:pr-8 rtl:pl-0">
 						<h2 className="text-h1 leading-h2 font-bold">New Releases</h2>
 						<div className="flex flex-wrap gap-x-4 gap-y-3">
 							{[
@@ -31,8 +31,8 @@ const HomeShowcaseSection = () => {
 									className={cx(
 										'relative',
 										item.isActive
-											? 'text-basic-primary-900'
-											: 'text-basic-primary-300 duration-100 hover:text-basic-primary-500 focus:text-basic-primary-500 outline-none'
+											? 'text-text-primary-600'
+											: 'text-text-primary-600/50 duration-100 hover:text-text-primary-500 focus:text-text-primary-500 outline-none'
 									)}
 								>
 									{item.title}

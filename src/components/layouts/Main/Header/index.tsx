@@ -60,7 +60,7 @@ const MainLayoutHeader = () => {
 
 		isSearchMenuOpen,
 		toggleSearchMenu
-	} = useGlobalStore();
+	} = useGlobalStore((store) => store.menus);
 
 	const isAnyMenuOpen = useMemo(
 		() => isDropdownMenuOnLessThanLGOpen || isSearchMenuOpen,

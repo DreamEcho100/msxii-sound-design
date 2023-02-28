@@ -168,13 +168,7 @@ const MainLayoutHeader = () => {
 							initial={{ opacity: 0, y: '-100%' }}
 							animate={{ opacity: 1, y: '0%' }}
 							exit={{ opacity: 0, y: '-100%' }}
-							transition={{
-								type: 'spring',
-								damping: 20,
-								stiffness: 125,
-								bounce: 0.1,
-								duration: 0.3
-							}}
+							transition={{ type: 'just' }}
 							className="px-main-p-3 sm:px-main-p-2 pb-4 bg-basic-secondary-500 -z-[1]"
 						>
 							<form className="bg-white flex items-center h-8">
@@ -206,13 +200,7 @@ const MainLayoutHeader = () => {
 							initial={{ opacity: 0, y: '-100%' }}
 							animate={{ opacity: 1, y: '0%' }}
 							exit={{ opacity: 0, y: '-100%' }}
-							transition={{
-								type: 'spring',
-								damping: 20,
-								stiffness: 125,
-								bounce: 0.1,
-								duration: 0.3
-							}}
+							transition={{ type: 'just' }}
 							className="flex w-full flex-col bg-basic-secondary-500 -z-[2] uppercase
 					lg:hidden"
 						>

@@ -46,8 +46,8 @@ const heroImages: (CustomMotionProps & { path: string })[] = [
 
 const HeroHomeSection = () => {
 	return (
-		<section className="flex flex-col gap-4 justify-center p-main-p-3 sm:p-main-p-1 md:flex-row ">
-			<div className="md:text-align-initial flex flex-col items-center justify-center gap-8 text-center text-[1.4rem] md:w-1/2 md:items-start md:justify-start min-[1350px]:w-auto">
+		<section className="flex flex-col gap-4 justify-center p-main-p-3 sm:p-main-p-1 lg:flex-row ">
+			<div className="lg:text-align-initial flex flex-col items-center justify-center gap-8 text-center text-[1.4rem] lg:w-1/2 lg:items-start lg:justify-start min-[1350px]:w-auto">
 				<motion.h1
 					initial={{ opacity: 0, y: '2rem' }}
 					animate={{ opacity: 1, y: '0%' }}

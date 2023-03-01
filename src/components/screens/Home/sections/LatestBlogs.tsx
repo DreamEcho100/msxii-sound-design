@@ -1,6 +1,5 @@
 import Image from 'next/image';
 import React from 'react';
-import { BsArrowRight } from 'react-icons/bs';
 import CTAButton from '~/components/shared/core/Cards/CTAButton';
 import Clickable from '~/components/shared/core/Clickable';
 

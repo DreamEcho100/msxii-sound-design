@@ -2,9 +2,22 @@ import Image from 'next/image';
 import { motion } from 'framer-motion';
 import Clickable from '~/components/shared/core/Clickable';
 
+const heroImagesPathNumberTransformer = (num: number) =>
+	`/images/hero-section/${num}.png`;
+
+const heroImages: (Parameters<typeof motion.div>[0] & { path: string })[] = [
+	{ path: heroImagesPathNumberTransformer(7) },
+	{ path: heroImagesPathNumberTransformer(6) },
+	{ path: heroImagesPathNumberTransformer(5) },
+	{ path: heroImagesPathNumberTransformer(4) },
+	{ path: heroImagesPathNumberTransformer(3) },
+	{ path: heroImagesPathNumberTransformer(2) },
+	{ path: heroImagesPathNumberTransformer(1) }
+];
+
 const HeroHomeSection = () => {
 	return (
-		<section className="flex flex-col justify-center p-main-p-3 sm:p-main-p-1 md:flex-row ">
+		<section className="flex flex-col gap-4 justify-center p-main-p-3 sm:p-main-p-1 md:flex-row ">
 			<div className="md:text-align-initial flex flex-col items-center justify-center gap-8 text-center text-[1.5rem] md:w-1/2 md:items-start md:justify-start min-[1350px]:w-auto">
 				<motion.h1
 					initial={{ opacity: 0, y: '2rem' }}
@@ -44,8 +57,8 @@ const HeroHomeSection = () => {
 					</motion.span>
 				</span>
 			</div>
-			<div className="relative isolate h-96 max-w-[512px] flex-grow md:h-auto">
-				<div className="absolute inset-0 flex items-center justify-start">
+			<div className="relative flex-grow flex items-center justify-center">
+				{/* <div className="absolute inset-0 flex items-center justify-start">
 					<Image
 						src="/images/audio-player.png"
 						alt=""
@@ -54,16 +67,26 @@ const HeroHomeSection = () => {
 						className="max-h-full scale-[0.6] object-contain"
 						priority
 					/>
-				</div>
-				<div className="absolute inset-0 flex items-end justify-end">
-					<Image
-						src="/images/camera.png"
-						alt=""
-						width={390}
-						height={285}
-						className="max-h-full scale-[0.6] object-contain"
-						priority
-					/>
+				</div> */}
+				{/* isolate h-96 max-w-[512px] md:h-auto */}
+				<div className="relative w-96 h-96">
+					{heroImages.map(({ path, ...props }) => (
+						<motion.div
+							key={path}
+							{...props}
+							initial={{ y: '10%' }}
+							className="w-full h-full aspect-square absolute inset-0"
+						>
+							<Image
+								src={path}
+								alt=""
+								width={390}
+								height={285}
+								className="w-full h-full object-cover scale-50"
+								priority
+							/>
+						</motion.div>
+					))}
 				</div>
 			</div>
 		</section>

@@ -16,11 +16,11 @@ type CustomMotionProps = Omit<MotionProps, 'animate'> & {
 const heroImages: (CustomMotionProps & { path: string })[] = [
 	{
 		path: heroImagesPathNumberTransformer(7),
-		animate: { scale: 0.4, x: '30%', rotateZ: '10deg' }
+		animate: { scale: 0.4, x: '30%', rotateZ: '12deg' }
 	},
 	{
 		path: heroImagesPathNumberTransformer(6),
-		animate: { scale: 0.5, x: '0%', rotateZ: '10deg' }
+		animate: { scale: 0.5, x: '0%', rotateZ: '8deg' }
 	},
 	{
 		path: heroImagesPathNumberTransformer(5),
@@ -28,19 +28,19 @@ const heroImages: (CustomMotionProps & { path: string })[] = [
 	},
 	{
 		path: heroImagesPathNumberTransformer(4),
-		animate: { scale: 0.6, x: '-10%', rotateZ: '-2.5deg' }
+		animate: { scale: 0.6, x: '-15%', rotateZ: '-1.5deg' }
 	},
 	{
 		path: heroImagesPathNumberTransformer(3),
-		animate: { scale: 0.6, x: '0%', rotateZ: '-2.5deg' }
+		animate: { scale: 0.6, x: '-5%', rotateZ: '-1.5deg' }
 	},
 	{
 		path: heroImagesPathNumberTransformer(2),
-		animate: { scale: 0.6, x: '10%', rotateZ: '-2.5deg' }
+		animate: { scale: 0.6, x: '5%', rotateZ: '-1.5deg' }
 	},
 	{
 		path: heroImagesPathNumberTransformer(1),
-		animate: { scale: 0.6, x: '20%', rotateZ: '-2.5deg' }
+		animate: { scale: 0.6, x: '15%', rotateZ: '-1.5deg' }
 	}
 ];
 
@@ -86,7 +86,7 @@ const HeroHomeSection = () => {
 					</motion.span>
 				</span>
 			</div>
-			<div className="relative flex-grow flex items-center justify-center p-8">
+			<div className="relative flex-grow flex items-center justify-center p-12 lg:p-0">
 				<div className="relative w-96 h-96">
 					{heroImages.map(({ path, animate, ...props }, index, arr) => (
 						<motion.div
@@ -95,13 +95,14 @@ const HeroHomeSection = () => {
 							animate={{
 								y: `${
 									// Translate down more by the value of the index
+									// With a special handle for index 2
 									(
-										(index + 1 / arr.length) *
+										((index + 1) / arr.length) *
 											// Amplifier for the translation value
 											// Where the indexes after 1 are amplified more
-											(index > 1 ? 8 + index * 0.5 : 6) -
+											(index > 1 ? 77 : 60) -
 										// To keep the distance between them the same and translating them all up by fixed value
-										30
+										40
 									).toFixed(2)
 								}%`,
 								...animate

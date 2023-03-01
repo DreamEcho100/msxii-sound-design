@@ -1,18 +1,47 @@
 import Image from 'next/image';
-import { motion } from 'framer-motion';
+import { VariantLabels, motion } from 'framer-motion';
 import Clickable from '~/components/shared/core/Clickable';
 
 const heroImagesPathNumberTransformer = (num: number) =>
 	`/images/hero-section/${num}.png`;
 
-const heroImages: (Parameters<typeof motion.div>[0] & { path: string })[] = [
-	{ path: heroImagesPathNumberTransformer(7) },
-	{ path: heroImagesPathNumberTransformer(6) },
-	{ path: heroImagesPathNumberTransformer(5) },
-	{ path: heroImagesPathNumberTransformer(4) },
-	{ path: heroImagesPathNumberTransformer(3) },
-	{ path: heroImagesPathNumberTransformer(2) },
-	{ path: heroImagesPathNumberTransformer(1) }
+type MotionProps = Parameters<typeof motion.div>[0];
+type CustomMotionProps = Omit<MotionProps, 'animate'> & {
+	animate: Exclude<
+		NonNullable<MotionProps['animate']>,
+		boolean | VariantLabels
+	>;
+};
+
+const heroImages: (CustomMotionProps & { path: string })[] = [
+	{
+		path: heroImagesPathNumberTransformer(7),
+		animate: { scale: 0.3, x: '30%', rotateZ: '10deg' }
+	},
+	{
+		path: heroImagesPathNumberTransformer(6),
+		animate: { scale: 0.4, x: '0%', rotateZ: '10deg' }
+	},
+	{
+		path: heroImagesPathNumberTransformer(5),
+		animate: { scale: 0.5, x: '30%' }
+	},
+	{
+		path: heroImagesPathNumberTransformer(4),
+		animate: { scale: 0.5, x: '-10%', rotateZ: '-2.5deg' }
+	},
+	{
+		path: heroImagesPathNumberTransformer(3),
+		animate: { scale: 0.5, x: '0%', rotateZ: '-2.5deg' }
+	},
+	{
+		path: heroImagesPathNumberTransformer(2),
+		animate: { scale: 0.5, x: '10%', rotateZ: '-2.5deg' }
+	},
+	{
+		path: heroImagesPathNumberTransformer(1),
+		animate: { scale: 0.5, x: '20%', rotateZ: '-2.5deg' }
+	}
 ];
 
 const HeroHomeSection = () => {
@@ -70,11 +99,24 @@ const HeroHomeSection = () => {
 				</div> */}
 				{/* isolate h-96 max-w-[512px] md:h-auto */}
 				<div className="relative w-96 h-96">
-					{heroImages.map(({ path, ...props }) => (
+					{heroImages.map(({ path, animate, ...props }, index, arr) => (
 						<motion.div
 							key={path}
 							{...props}
-							initial={{ y: '10%' }}
+							animate={{
+								y: `${(
+									(index + 1 / arr.length) * (index > 1 ? 8 + index * 0.5 : 6) -
+									30
+								).toFixed(2)}%`,
+								...animate
+							}}
+							transition={{
+								type: 'spring',
+								damping: 10,
+								stiffness: 100,
+								delay: 0.8,
+								duration: 1
+							}}
 							className="w-full h-full aspect-square absolute inset-0"
 						>
 							<Image
@@ -82,7 +124,7 @@ const HeroHomeSection = () => {
 								alt=""
 								width={390}
 								height={285}
-								className="w-full h-full object-cover scale-50"
+								className="w-full h-full object-cover"
 								priority
 							/>
 						</motion.div>

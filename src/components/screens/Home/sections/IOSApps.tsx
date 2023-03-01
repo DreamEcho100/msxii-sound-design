@@ -31,7 +31,7 @@ const HomeIOSAppsSection = () => {
 					{products.map((item) => (
 						<article
 							key={item.id}
-							className="card-animation-1 flex w-full flex-col gap-1 md:w-[46%] lg:w-[33%]"
+							className="flex w-full flex-col gap-1 md:w-[46%] lg:w-[33%]"
 						>
 							<div className="overflow-hidden rounded-xl">
 								<Image
@@ -39,7 +39,7 @@ const HomeIOSAppsSection = () => {
 									alt={item.image.alt}
 									width={900}
 									height={500}
-									className="card-img-zoom-animation-1 duration-300"
+									className="card-img-zoom-animation-1 duration-300 ease-in"
 								/>
 							</div>
 							<div className="group flex flex-col gap-1">

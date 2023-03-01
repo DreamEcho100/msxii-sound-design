@@ -51,6 +51,19 @@ module.exports = {
 						800: 'rgba(var(--color-initial-primary-800) / <alpha-value>)',
 						900: 'rgba(var(--color-initial-primary-900) / <alpha-value>)',
 						1000: 'rgba(var(--color-initial-primary-1000) / <alpha-value>)'
+					},
+					ternary: {
+						0: 'rgba(var(--color-initial-ternary-0) / <alpha-value>)',
+						100: 'rgba(var(--color-initial-ternary-100) / <alpha-value>)',
+						200: 'rgba(var(--color-initial-ternary-200) / <alpha-value>)',
+						300: 'rgba(var(--color-initial-ternary-300) / <alpha-value>)',
+						400: 'rgba(var(--color-initial-ternary-400) / <alpha-value>)',
+						500: 'rgba(var(--color-initial-ternary-500) / <alpha-value>)',
+						600: 'rgba(var(--color-initial-ternary-600) / <alpha-value>)',
+						700: 'rgba(var(--color-initial-ternary-700) / <alpha-value>)',
+						800: 'rgba(var(--color-initial-ternary-800) / <alpha-value>)',
+						900: 'rgba(var(--color-initial-ternary-900) / <alpha-value>)',
+						1000: 'rgba(var(--color-initial-ternary-1000) / <alpha-value>)'
 					}
 				},
 

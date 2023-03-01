@@ -7,8 +7,8 @@ interface GlobalStore {
 		isDropdownMenuOnLessThanLGOpen: boolean;
 		toggleDropdownMenuOnLessThanLG: () => void;
 
-		isSearchMenuOpen: boolean;
-		toggleSearchMenu: () => void;
+		isSearchMenuDropdownOpen: boolean;
+		toggleSearchMenuDropdown: () => void;
 	};
 	themeConfig: {
 		currentTheme: 'dark' | 'light';
@@ -27,19 +27,19 @@ export const useGlobalStore = create<GlobalStore>((set) => ({
 				}
 			})),
 
-		isSearchMenuOpen: false,
-		toggleSearchMenu: () =>
+		isSearchMenuDropdownOpen: false,
+		toggleSearchMenuDropdown: () =>
 			set(({ menus }) => ({
 				menus: {
 					...menus,
-					isSearchMenuOpen: !menus.isSearchMenuOpen
+					isSearchMenuDropdownOpen: !menus.isSearchMenuDropdownOpen
 				}
 			})),
 		closeAllMenus: () =>
 			set(({ menus }) => ({
 				menus: {
 					...menus,
-					isSearchMenuOpen: false,
+					isSearchMenuDropdownOpen: false,
 					isDropdownMenuOnLessThanLGOpen: false
 				}
 			}))
@@ -54,7 +54,7 @@ export const useGlobalStore = create<GlobalStore>((set) => ({
 				document.body.classList.remove(currentTheme);
 				document.body.classList.add(newTheme);
 
-				localStorage.setItem('theme', newTheme);
+				localStorage.setItem('currentTheme', newTheme);
 
 				return { themeConfig: { ...themeConfig, currentTheme: newTheme } };
 			});

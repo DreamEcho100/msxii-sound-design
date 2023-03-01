@@ -7,9 +7,9 @@ const handleClickableVariants = cva('', {
 	variants: {
 		btn: {
 			primary:
-				'font-normal bg-initial-primary-900 text-initial-secondary-0 hover:bg-initial-primary-100 hover:text-initial-secondary-900 duration-150 transition-all',
+				'font-normal bg-initial-primary-900 text-initial-secondary-0 hover:bg-initial-primary-100 hover:text-initial-secondary-900 duration-150 transition-all hover:-translate-y-[7.5%]',
 			secondary:
-				'font-normal bg-initial-primary-100 text-initial-secondary-900 hover:bg-initial-primary-900 hover:text-initial-primary-0 duration-150 transition-all'
+				'font-normal bg-initial-primary-100 text-initial-secondary-900 hover:bg-initial-primary-900 hover:text-initial-primary-0 duration-150 transition-all hover:-translate-y-[7.5%]'
 		},
 		w: { fit: 'w-fit', full: 'w-full' },
 		p: {

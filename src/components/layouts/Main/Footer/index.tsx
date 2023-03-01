@@ -85,9 +85,8 @@ const MainLayoutFooter = () => {
 										className={cx(
 											'flex flex-wrap sm:flex-nowrap items-center gap-1 w-fit border-b-[0.125rem] border-solid border-b-transparent outline-none',
 											'duration-150 transition-all',
-											'hover:text-text-primary-500',
-											'focus:border-b-text-primary-200 focus:text-text-primary-500',
-											'focus:hover:border-b-text-primary-300'
+											'focus:border-b-text-primary-200 focus:text-text-primary-300',
+											'hover:text-text-primary-500 hover:border-b-text-primary-500'
 										)}
 									>
 										{link.icon}
@@ -137,28 +136,34 @@ const MainLayoutFooter = () => {
 						</Clickable>
 					</div>
 					<div className="flex flex-wrap items-center justify-center gap-2">
-						<Clickable
-							variants={null}
-							className={cx(
-								'w-12 h-6 flex justify-start items-center px-1 cursor-pointer rounded-[2.5rem] bg-text-primary-300/40',
-								isDarkTheme ? 'justify-end bg-text-primary-500/40' : undefined
-							)}
-							onClick={() => changeCurrentTheme()}
-							title={`Set theme to ${isDarkTheme ? 'light' : 'dark'} mode.`}
-						>
-							<motion.div
+						<div className="flex">
+							<p className="text-[90%]">
+								{isDarkTheme ? 'Dark' : 'Light'} mode
+							</p>
+							&nbsp;
+							<Clickable
+								variants={null}
 								className={cx(
-									'w-4 h-4 bg-text-primary-0 rounded-[50%]',
-									isDarkTheme ? 'bg-text-primary-1000/50' : ''
+									'w-12 h-6 flex justify-start items-center px-1 cursor-pointer rounded-[2.5rem] bg-text-primary-300/40',
+									isDarkTheme ? 'justify-end bg-text-primary-500/40' : undefined
 								)}
-								layout
-								transition={{
-									type: 'spring',
-									stiffness: 700,
-									damping: 30
-								}}
-							/>
-						</Clickable>
+								onClick={() => changeCurrentTheme()}
+								title={`Set theme to ${isDarkTheme ? 'light' : 'dark'} mode.`}
+							>
+								<motion.div
+									className={cx(
+										'w-4 h-4 bg-text-primary-0 rounded-[50%]',
+										isDarkTheme ? 'bg-text-primary-1000/50' : ''
+									)}
+									layout
+									transition={{
+										type: 'spring',
+										stiffness: 700,
+										damping: 30
+									}}
+								/>
+							</Clickable>
+						</div>
 						<ul className="flex flex-wrap gap-2">
 							<li>
 								<Clickable

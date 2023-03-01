@@ -30,9 +30,10 @@ const handleBasicProductCardImageVariants = cva(
 			animation: {
 				'zoom-1': 'card-img-zoom-animation-1',
 				'zoom-1-1': 'card-img-zoom-animation-1-1'
-			}
+			},
+			'animation-duration': { '300ms': 'duration-300 ease-in' }
 		},
-		defaultVariants: { animation: 'zoom-1-1' }
+		defaultVariants: { animation: 'zoom-1-1', 'animation-duration': '300ms' }
 	}
 );
 const handleBasicProductCardTitleVariants = cva(
@@ -67,8 +68,6 @@ export const BasicProductCard = (props: {
 			className={handleBasicProductCardContainerVariants(
 				props.containerVariants
 			)}
-			// ...(props.containerVariants || {}),
-			// className: 'card-animation-1'
 		>
 			<div
 				className={handleBasicProductCardImageContainerVariants(

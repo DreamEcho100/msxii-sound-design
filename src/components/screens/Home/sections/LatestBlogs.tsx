@@ -28,7 +28,7 @@ const HomeLatestBlogsSection = () => {
 						{blogs.map((blog) => (
 							<article
 								key={blog.id}
-								className="card-animation-1 duration-300 transition-all flex aspect-video flex-col-reverse rounded-lg bg-text-primary-0 sm:flex-row md:max-w-[600px]"
+								className="duration-300 transition-all flex aspect-video flex-col-reverse rounded-lg bg-text-primary-0 sm:flex-row md:max-w-[600px]"
 							>
 								<div className="group sm:text-align-initial flex flex-col items-center justify-between gap-2 p-8 text-center sm:w-1/2 sm:items-start sm:gap-0 lg:p-8">
 									<Clickable
@@ -55,7 +55,7 @@ const HomeLatestBlogsSection = () => {
 											alt={blog.image.alt}
 											width={900}
 											height={500}
-											className="h-full w-full object-cover object-right bg-fixed hover:scale-110 card-img-zoom-animation-1 duration-300"
+											className="h-full w-full object-cover object-right bg-fixed hover:scale-110 card-img-zoom-animation-1 duration-300 ease-in"
 										/>
 									</Clickable>
 								</div>

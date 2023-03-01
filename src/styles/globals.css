@@ -31,6 +31,18 @@
 		--color-initial-secondary-900: 49 49 49;
 		--color-initial-secondary-1000: 0 0 0;
 
+		--color-initial-ternary-0: 0 0 0;
+		--color-initial-ternary-100: 206 207 209;
+		--color-initial-ternary-200: 157 159 162;
+		--color-initial-ternary-300: 109 112 116;
+		--color-initial-ternary-400: 60 64 69;
+		--color-initial-ternary-500: 12 17 24;
+		--color-initial-ternary-600: 9 13 18;
+		--color-initial-ternary-700: 7 10 14;
+		--color-initial-ternary-800: 4 6 9;
+		--color-initial-ternary-900: 2 3 5;
+		--color-initial-ternary-1000: 255 255 255;
+
 		/**/
 
 		--color-text-primary-0: var(--color-initial-primary-0);
@@ -149,17 +161,17 @@
 	--color-text-primary-900: var(--color-initial-secondary-900);
 	--color-text-primary-1000: var(--color-initial-secondary-1000);
 
-	--color-bg-primary-0: var(--color-initial-primary-0);
-	--color-bg-primary-100: var(--color-initial-primary-100);
-	--color-bg-primary-200: var(--color-initial-primary-200);
-	--color-bg-primary-300: var(--color-initial-primary-300);
-	--color-bg-primary-400: var(--color-initial-primary-400);
-	--color-bg-primary-500: var(--color-initial-primary-500);
-	--color-bg-primary-600: var(--color-initial-primary-600);
-	--color-bg-primary-700: var(--color-initial-primary-700);
-	--color-bg-primary-800: var(--color-initial-primary-800);
-	--color-bg-primary-900: var(--color-initial-primary-900);
-	--color-bg-primary-1000: var(--color-initial-primary-1000);
+	--color-bg-primary-0: var(--color-initial-ternary-0);
+	--color-bg-primary-100: var(--color-initial-ternary-100);
+	--color-bg-primary-200: var(--color-initial-ternary-200);
+	--color-bg-primary-300: var(--color-initial-ternary-300);
+	--color-bg-primary-400: var(--color-initial-ternary-400);
+	--color-bg-primary-500: var(--color-initial-ternary-500);
+	--color-bg-primary-600: var(--color-initial-ternary-600);
+	--color-bg-primary-700: var(--color-initial-ternary-700);
+	--color-bg-primary-800: var(--color-initial-ternary-800);
+	--color-bg-primary-900: var(--color-initial-ternary-900);
+	--color-bg-primary-1000: var(--color-initial-ternary-1000);
 }
 
 @layer utilities {

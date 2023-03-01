@@ -125,7 +125,7 @@ const MainLayoutFooter = () => {
 							&copy;&nbsp;2023&nbsp;
 							<Link
 								href="/"
-								className="border-b-[0.125rem] border-solid border-b-text-primary-200"
+								className="border-b-[0.0625rem] border-solid border-b-text-primary-200"
 							>
 								MSXII Sound
 							</Link>

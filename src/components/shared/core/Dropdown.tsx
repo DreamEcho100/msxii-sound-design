@@ -1,7 +1,7 @@
 import { Menu, Transition } from '@headlessui/react';
 import { Fragment } from 'react';
 import Clickable from '../core/Clickable';
-import type { ClickableProps } from '../Clickable';
+import type { ButtonProps } from '../Clickable';
 
 const Dropdown = (props: Partial<Parameters<typeof Menu>[0]>) => {
 	return <Menu as="div" className="relative inline-block" {...props} />;
@@ -35,13 +35,12 @@ export const DropdownItem = (
 export const DropdownButton = ({
 	active,
 	...props
-}: Partial<ClickableProps> & {
+}: Partial<ButtonProps> & {
 	active?: boolean;
 }) => {
 	return (
 		<Menu.Button
 			{...props}
-			isA="button"
 			as={Clickable}
 			variants={null}
 			className={`${

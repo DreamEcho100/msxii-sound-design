@@ -13,6 +13,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { cx } from 'class-variance-authority';
 import { useGlobalStore } from '~/utils/store';
 import { useMemo } from 'react';
+import { useRouter } from 'next/router';
 
 const headersLinks = [
 	{
@@ -50,8 +51,8 @@ const headersLinks = [
 ] as const;
 
 const MainLayoutHeader = () => {
-	// const [isSideNavOpen, setIsSideNavOpen] = useState(false);
-	// const handleToggleSideNav = () => setIsSideNavOpen((prev) => !prev);
+	const router = useRouter();
+
 	const {
 		closeAllMenus,
 
@@ -115,7 +116,10 @@ const MainLayoutHeader = () => {
 										{item.links.map(({ href, title }) => (
 											<DropdownItem key={title}>
 												{({ active }) => (
-													<DropdownButton href={href} active={active}>
+													<DropdownButton
+														active={active}
+														onClick={() => router.push(href)}
+													>
 														<span className="p-2">{title}</span>
 													</DropdownButton>
 												)}
@@ -250,7 +254,10 @@ const MainLayoutHeader = () => {
 													{item.links.map(({ href, title }) => (
 														<DropdownItem key={title}>
 															{({ active }) => (
-																<DropdownButton href={href} active={active}>
+																<DropdownButton
+																	active={active}
+																	onClick={() => router.push(href)}
+																>
 																	<span className="p-2">{title}</span>
 																</DropdownButton>
 															)}

@@ -16,6 +16,9 @@ interface GlobalStore {
 	};
 }
 
+const generateOppositeTheme = (theme?: 'dark' | 'light') =>
+	theme === 'light' ? 'dark' : 'light';
+
 export const useGlobalStore = create<GlobalStore>((set) => ({
 	menus: {
 		isDropdownMenuOnLessThanLGOpen: false,
@@ -48,8 +51,10 @@ export const useGlobalStore = create<GlobalStore>((set) => ({
 		currentTheme: 'light',
 		changeCurrentTheme(passedTheme) {
 			set(({ themeConfig }) => {
-				const currentTheme = passedTheme || themeConfig.currentTheme;
-				const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+				const currentTheme = passedTheme
+					? generateOppositeTheme(passedTheme)
+					: themeConfig.currentTheme;
+				const newTheme = generateOppositeTheme(currentTheme);
 
 				document.body.classList.remove(currentTheme);
 				document.body.classList.add(newTheme);

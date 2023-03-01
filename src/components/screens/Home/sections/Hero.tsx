@@ -122,7 +122,7 @@ const HeroHomeSection = () => {
 								damping: 10,
 								stiffness: 100,
 								delay: 0.8,
-								duration: 0.6
+								duration: 0.3
 							}}
 							className="w-full h-full aspect-square absolute inset-0"
 						>

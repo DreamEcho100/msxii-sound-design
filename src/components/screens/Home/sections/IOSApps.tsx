@@ -27,7 +27,7 @@ const HomeIOSAppsSection = () => {
 				<header>
 					<h2 className="text-h1 leading-h2">iOS Apps</h2>
 				</header>
-				<div className="cardsContainer flex flex-wrap justify-center gap-4 lg:flex-nowrap">
+				<div className="cards-container flex flex-wrap justify-center gap-4 lg:flex-nowrap">
 					{products.map((item) => (
 						<article
 							key={item.id}

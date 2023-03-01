@@ -4,7 +4,6 @@ import Clickable from '../Clickable';
 import Image from 'next/image';
 import { VariantProps, cva } from 'class-variance-authority';
 import { Product } from '~/utils/types';
-import classes from './index.module.css';
 
 const handleBasicProductCardContainerVariants = cva(
 	'flex flex-col flex-grow px-1 group duration-300 delay-75 transition-all',
@@ -27,7 +26,8 @@ const handleBasicProductCardImageContainerVariants = cva(
 const handleBasicProductCardImageVariants = cva(
 	'w-full h-full duration-150 transition-all',
 	{
-		variants: { animation: { 'card-img-1': 'card-img-animation-1' } }
+		variants: { animation: { 'card-img-1': 'card-img-animation-1' } },
+		defaultVariants: { animation: 'card-img-1' }
 	}
 );
 const handleBasicProductCardTitleVariants = cva(

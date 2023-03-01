@@ -61,7 +61,7 @@ const ProductsSlider = <CardElemProps extends Record<string, unknown>>({
 				/>
 			</button>
 			<Swiper
-				className="cardsContainer"
+				className="cards-container"
 				onSwiper={(swiperInstance) =>
 					(SwiperInstanceRef.current = swiperInstance)
 				}

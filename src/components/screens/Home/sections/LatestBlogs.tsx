@@ -25,7 +25,7 @@ const HomeLatestBlogsSection = () => {
 					<header>
 						<h2 className="text-h1 leading-h2 font-bold">Latest Blogs</h2>
 					</header>
-					<div className="cardsContainer flex w-fit flex-col gap-8 lg:flex-row">
+					<div className="cards-container flex w-fit flex-col gap-8 lg:flex-row">
 						{blogs.map((blog) => (
 							<article
 								key={blog.id}

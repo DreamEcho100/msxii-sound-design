@@ -2,26 +2,26 @@ import type { AnchorHTMLAttributes, ButtonHTMLAttributes } from 'react';
 
 import Link from 'next/link';
 
+type SharedProps = {
+	className?: string | ((clickableType: ClickableTypes) => string);
+};
+
 export type ButtonProps = {
 	isA?: 'button';
 	href?: never;
-} & Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'className'>;
-export type NextJsLinkProps = { isA: 'next-js' } & Omit<
-	Parameters<typeof Link>[0],
-	'className'
->;
+} & SharedProps &
+	Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'className'>;
+export type NextJsLinkProps = { isA: 'next-js' } & SharedProps &
+	Omit<Parameters<typeof Link>[0], 'className'>;
 export type BasicAnchor = {
 	isA?: 'basic-link';
 	href: string;
-} & Omit<AnchorHTMLAttributes<HTMLAnchorElement>, 'href' | 'className'>;
+} & SharedProps &
+	Omit<AnchorHTMLAttributes<HTMLAnchorElement>, 'href' | 'className'>;
 
 export type ClickableProps = ButtonProps | NextJsLinkProps | BasicAnchor;
 
 export type ClickableTypes = 'button' | 'next-js' | 'basic-link';
-
-type Props = {
-	className: string | ((clickableType: ClickableTypes) => string);
-} & ClickableProps;
 
 // const isAnAnchorProps = (
 // 	props: Record<string, any>,
@@ -47,16 +47,16 @@ const isAButtonProps = (
 ): props is ButtonHTMLAttributes<HTMLButtonElement> =>
 	!props.href || isA === 'button';
 
-const handleClassName = (oprions: {
-	className: Props['className'];
+const handleClassName = (options: {
+	className: ClickableProps['className'];
 	clickableType: ClickableTypes;
 }) => {
-	if (typeof oprions.className === 'function')
-		return oprions.className(oprions.clickableType);
-	return oprions.className;
+	if (typeof options.className === 'function')
+		return options.className(options.clickableType);
+	return options.className;
 };
 
-const Clickable = ({ isA, className, ...props }: Props) => {
+const Clickable = ({ isA, className, ...props }: ClickableProps) => {
 	if (isAButtonProps(props, isA))
 		return (
 			<BasicButton

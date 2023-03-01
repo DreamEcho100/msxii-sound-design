@@ -86,7 +86,7 @@ const HeroHomeSection = () => {
 					</motion.span>
 				</span>
 			</div>
-			<div className="relative flex-grow flex items-center justify-center p-12 lg:p-0">
+			<div className="relative flex-grow flex items-center justify-center p-16 pb-10 lg:p-0">
 				<div className="relative w-96 h-96">
 					{heroImages.map(({ path, animate, ...props }, index, arr) => (
 						<motion.div

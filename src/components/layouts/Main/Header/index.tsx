@@ -105,7 +105,6 @@ const MainLayoutHeader = () => {
 							) : (
 								<Dropdown key={item.title}>
 									<DropdownButton
-										shape="text"
 										title="Settings and other options."
 										className="hover:text-special-primary-400 duration-150"
 									>
@@ -241,7 +240,6 @@ const MainLayoutHeader = () => {
 										) : (
 											<Dropdown>
 												<DropdownButton
-													shape="text"
 													title="Settings and other options."
 													className="hover:text-special-primary-400 duration-150"
 												>

@@ -78,7 +78,7 @@ const HeroHomeSection = () => {
 						<Clickable
 							href="/"
 							isA="next-js"
-							variants={{ btn: 'primary', p: 'v2-xl', rounded: '3xl.2' }}
+							variants={{ btn: 'primary', p: 'v1-xl', rounded: '3xl.2' }}
 							className="mt-6"
 						>
 							SHOP NOW
@@ -87,17 +87,6 @@ const HeroHomeSection = () => {
 				</span>
 			</div>
 			<div className="relative flex-grow flex items-center justify-center">
-				{/* <div className="absolute inset-0 flex items-center justify-start">
-					<Image
-						src="/images/audio-player.png"
-						alt=""
-						width={390}
-						height={285}
-						className="max-h-full scale-[0.6] object-contain"
-						priority
-					/>
-				</div> */}
-				{/* isolate h-96 max-w-[512px] md:h-auto */}
 				<div className="relative w-96 h-96">
 					{heroImages.map(({ path, animate, ...props }, index, arr) => (
 						<motion.div

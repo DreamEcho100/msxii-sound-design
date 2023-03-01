@@ -59,10 +59,11 @@ export const BasicProductCard = (props: {
 }) => {
 	return (
 		<article
-			className={handleBasicProductCardContainerVariants({
-				...(props.containerVariants || {}),
-				className: 'card-animation-1'
-			})}
+			className={handleBasicProductCardContainerVariants(
+				props.containerVariants
+			)}
+			// ...(props.containerVariants || {}),
+			// className: 'card-animation-1'
 		>
 			<div
 				className={handleBasicProductCardImageContainerVariants(

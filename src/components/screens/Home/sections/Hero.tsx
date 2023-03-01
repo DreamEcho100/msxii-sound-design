@@ -104,8 +104,13 @@ const HeroHomeSection = () => {
 							key={path}
 							{...props}
 							animate={{
-								y: `${(
-									(index + 1 / arr.length) * (index > 1 ? 8 + index * 0.5 : 6) -
+								y: `${// Translate down more by the value of the index
+								(
+									(index + 1 / arr.length) *
+										// Amplifier for the translation value
+										// Where the indexes after 1 are amplified more
+										(index > 1 ? 8 + index * 0.5 : 6) -
+									// To keep the distance between them the same and translating them all up by fixed value
 									30
 								).toFixed(2)}%`,
 								...animate

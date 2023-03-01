@@ -16,38 +16,38 @@ type CustomMotionProps = Omit<MotionProps, 'animate'> & {
 const heroImages: (CustomMotionProps & { path: string })[] = [
 	{
 		path: heroImagesPathNumberTransformer(7),
-		animate: { scale: 0.3, x: '30%', rotateZ: '10deg' }
+		animate: { scale: 0.4, x: '30%', rotateZ: '10deg' }
 	},
 	{
 		path: heroImagesPathNumberTransformer(6),
-		animate: { scale: 0.4, x: '0%', rotateZ: '10deg' }
+		animate: { scale: 0.5, x: '0%', rotateZ: '10deg' }
 	},
 	{
 		path: heroImagesPathNumberTransformer(5),
-		animate: { scale: 0.5, x: '30%' }
+		animate: { scale: 0.6, x: '30%' }
 	},
 	{
 		path: heroImagesPathNumberTransformer(4),
-		animate: { scale: 0.5, x: '-10%', rotateZ: '-2.5deg' }
+		animate: { scale: 0.6, x: '-10%', rotateZ: '-2.5deg' }
 	},
 	{
 		path: heroImagesPathNumberTransformer(3),
-		animate: { scale: 0.5, x: '0%', rotateZ: '-2.5deg' }
+		animate: { scale: 0.6, x: '0%', rotateZ: '-2.5deg' }
 	},
 	{
 		path: heroImagesPathNumberTransformer(2),
-		animate: { scale: 0.5, x: '10%', rotateZ: '-2.5deg' }
+		animate: { scale: 0.6, x: '10%', rotateZ: '-2.5deg' }
 	},
 	{
 		path: heroImagesPathNumberTransformer(1),
-		animate: { scale: 0.5, x: '20%', rotateZ: '-2.5deg' }
+		animate: { scale: 0.6, x: '20%', rotateZ: '-2.5deg' }
 	}
 ];
 
 const HeroHomeSection = () => {
 	return (
 		<section className="flex flex-col gap-4 justify-center p-main-p-3 sm:p-main-p-1 md:flex-row ">
-			<div className="md:text-align-initial flex flex-col items-center justify-center gap-8 text-center text-[1.5rem] md:w-1/2 md:items-start md:justify-start min-[1350px]:w-auto">
+			<div className="md:text-align-initial flex flex-col items-center justify-center gap-8 text-center text-[1.4rem] md:w-1/2 md:items-start md:justify-start min-[1350px]:w-auto">
 				<motion.h1
 					initial={{ opacity: 0, y: '2rem' }}
 					animate={{ opacity: 1, y: '0%' }}
@@ -118,11 +118,11 @@ const HeroHomeSection = () => {
 								...animate
 							}}
 							transition={{
-								type: 'spring',
+								// type: 'spring',
 								damping: 10,
 								stiffness: 100,
 								delay: 0.8,
-								duration: 1
+								duration: 0.6
 							}}
 							className="w-full h-full aspect-square absolute inset-0"
 						>

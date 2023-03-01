@@ -9,7 +9,7 @@
 	padding: 1rem 0;
 }
 
-.swiper-button-next,
+/* .swiper-button-next,
 [dir='rtl'] .swiper-button-prev {
 	content: '' !important;
 	background-image: url('/svgs/right-arrow 2.svg');
@@ -43,7 +43,7 @@
 .swiper-button-prev {
 	width: 0.75rem !important;
 	margin: 0 !important;
-}
+} */
 
 @media (max-width: 768px) {
 	.swiper-button-next,

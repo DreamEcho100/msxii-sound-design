@@ -1,5 +1,5 @@
 import { Menu, Transition } from '@headlessui/react';
-import { Fragment } from 'react';
+import { Fragment, ReactNode } from 'react';
 import Clickable from '../core/Clickable';
 import type { ButtonProps } from '../Clickable';
 
@@ -9,9 +9,12 @@ const Dropdown = (props: Partial<Parameters<typeof Menu>[0]>) => {
 
 export default Dropdown;
 
-export const DropdownItems = (
-	props: Partial<Parameters<typeof Menu.Items>[0]>
-) => (
+export const DropdownItems = ({
+	children,
+	...props
+}: Partial<Parameters<typeof Menu.Items>[0]> & {
+	children: ReactNode;
+}) => (
 	<Transition
 		as={Fragment}
 		enter="transition ease-out duration-100"
@@ -22,9 +25,14 @@ export const DropdownItems = (
 		leaveTo="transform opacity-0 scale-95"
 	>
 		<Menu.Items
-			className="bg-bg-primary-600 absolute right-0 mt-2 flex w-full origin-top-right flex-col divide-y divide-gray-100 overflow-hidden whitespace-nowrap rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+			className="bg-bg-primary-600/50 backdrop absolute right-0 mt-2 flex w-full origin-top-right flex-col divide-y divide-gray-100 overflow-hidden whitespace-nowrap rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
 			{...props}
-		/>
+		>
+			<div className="relative isolate">
+				<div className="absolute inset-0 -z-10 bg-text-primary-100" />
+				{children}
+			</div>
+		</Menu.Items>
 	</Transition>
 );
 

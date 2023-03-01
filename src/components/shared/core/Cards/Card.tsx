@@ -6,7 +6,7 @@ import { VariantProps, cva } from 'class-variance-authority';
 import { Product } from '~/utils/types';
 
 const handleBasicProductCardContainerVariants = cva(
-	'flex flex-col flex-grow px-1 group duration-300 delay-75 transition-all',
+	'card flex flex-col flex-grow px-1 group duration-300 delay-75 transition-all',
 	{
 		variants: {
 			'aspect-ratio': { video: 'aspect-video', card: 'aspect-[1.91/1]' }
@@ -26,8 +26,13 @@ const handleBasicProductCardImageContainerVariants = cva(
 const handleBasicProductCardImageVariants = cva(
 	'w-full h-full duration-150 transition-all',
 	{
-		variants: { animation: { 'card-img-1': 'card-img-animation-1' } },
-		defaultVariants: { animation: 'card-img-1' }
+		variants: {
+			animation: {
+				'zoom-1': 'card-img-zoom-animation-1',
+				'zoom-1-1': 'card-img-zoom-animation-1-1'
+			}
+		},
+		defaultVariants: { animation: 'zoom-1-1' }
 	}
 );
 const handleBasicProductCardTitleVariants = cva(

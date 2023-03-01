@@ -181,9 +181,13 @@
 		filter: brightness(1.05);
 	}
 
-	.cards-container .card-img-animation-1:hover,
-	.cards-container .card-img-animation-1:focus-within,
-	.cards-container .card-img-animation-1:focus {
+	.cards-container .card-img-zoom-animation-1:hover,
+	.cards-container .card-img-zoom-animation-1:focus {
+		transform: scale(1.1);
+	}
+
+	.card:hover .card-img-zoom-animation-1-1,
+	.card:focus-within .card-img-zoom-animation-1-1 {
 		transform: scale(1.1);
 	}
 }

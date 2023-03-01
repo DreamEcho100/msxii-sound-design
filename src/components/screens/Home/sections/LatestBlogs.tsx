@@ -56,7 +56,7 @@ const HomeLatestBlogsSection = () => {
 											alt={blog.image.alt}
 											width={900}
 											height={500}
-											className="h-full w-full object-cover object-right bg-fixed hover:scale-110 card-img-animation-1 duration-300"
+											className="h-full w-full object-cover object-right bg-fixed hover:scale-110 card-img-zoom-animation-1 duration-300"
 										/>
 									</Clickable>
 								</div>

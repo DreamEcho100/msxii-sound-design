@@ -39,7 +39,7 @@ const HomeIOSAppsSection = () => {
 									alt={item.image.alt}
 									width={900}
 									height={500}
-									className="card-img-animation-1 duration-300"
+									className="card-img-zoom-animation-1 duration-300"
 								/>
 							</div>
 							<div className="group flex flex-col gap-1">

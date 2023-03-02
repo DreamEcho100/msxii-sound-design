@@ -10,7 +10,7 @@ import { cx } from 'class-variance-authority';
 const HomeShowcaseSection = () => {
 	return (
 		<section className="sm:p-main-p-3">
-			<div className="flex flex-col gap-16 bg-bg-primary-600/25 p-main-p-3 sm:rounded-xl">
+			<div className="flex flex-col gap-16 bg-bg-primary-100 p-main-p-3 sm:rounded-xl">
 				<section>
 					<header className="flex flex-col gap-8 pl-4 rtl:pr-4 rtl:pl-0">
 						<h2 className="text-h1 leading-h2 font-black">New Releases</h2>

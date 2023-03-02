@@ -47,12 +47,12 @@ const heroImages: (CustomMotionProps & { path: string })[] = [
 const HeroHomeSection = () => {
 	return (
 		<section className="flex flex-col gap-4 justify-center p-main-p-3 sm:p-main-p-1 lg:flex-row ">
-			<div className="lg:text-align-initial flex flex-col items-center justify-center gap-8 text-center text-[1.4rem] lg:w-1/2 lg:items-start lg:justify-start min-[1350px]:w-auto">
+			<div className="lg:text-align-initial font-medium flex flex-col items-center justify-center gap-8 text-center text-[1.4rem] lg:w-1/2 lg:items-start lg:justify-start min-[1350px]:w-auto">
 				<motion.h1
 					initial={{ opacity: 0, y: '2rem' }}
 					animate={{ opacity: 1, y: '0%' }}
 					transition={{ duration: 0.3, delay: 0 }}
-					className="text-h1 leading-h1"
+					className="text-h1 font-medium leading-h1"
 				>
 					Unlock Limitless Possibilities with <br /> MSXAudio Sample Packs
 				</motion.h1>
@@ -60,7 +60,7 @@ const HeroHomeSection = () => {
 					initial={{ opacity: 0, y: '2rem' }}
 					animate={{ opacity: 1, y: '0%' }}
 					transition={{ duration: 0.3, delay: 0.2 }}
-					className="max-w-[41.25rem] leading-primary-1"
+					className="max-w-[41.25rem] leading-primary-2"
 				>
 					MSXAudio sample packs offer a wide range of high-quality audio and
 					MIDI samples for music producers and creators of all skill levels.
@@ -78,7 +78,12 @@ const HeroHomeSection = () => {
 						<Clickable
 							href="/"
 							isA="next-js"
-							variants={{ btn: 'primary', p: 'v1-xl', rounded: '3xl.2' }}
+							variants={{
+								btn: 'primary',
+								py: 'semi-sm',
+								px: '3xl',
+								rounded: 'md'
+							}}
 							className="mt-6"
 						>
 							SHOP NOW

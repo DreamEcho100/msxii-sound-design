@@ -15,12 +15,16 @@ type Props<CardElemProps extends Record<string, unknown>> = {
 	CardElem: FunctionComponent<CardElemProps & { product: Product }>;
 	cardsSharedProps?: CardElemProps;
 	swiperProps?: Parameters<typeof Swiper>[0];
+	nextSlideButtonClassName?: string;
+	previousSlideButtonClassName?: string;
 };
 
 const ProductsSlider = <CardElemProps extends Record<string, unknown>>({
 	CardElem,
 	swiperProps = {},
-	cardsSharedProps = {} as CardElemProps
+	cardsSharedProps = {} as CardElemProps,
+	nextSlideButtonClassName,
+	previousSlideButtonClassName
 }: Props<CardElemProps>) => {
 	const SwiperInstanceRef = useRef<
 		Parameters<NonNullable<Parameters<typeof Swiper>[0]['onSwiper']>>[0] | null
@@ -33,7 +37,8 @@ const ProductsSlider = <CardElemProps extends Record<string, unknown>>({
 				onClick={() => SwiperInstanceRef.current?.slideNext()}
 				className={cx(
 					'hover:scale-[1.25] focus:scale-[1.25] transition-all duration-150 absolute top-1/2 -translate-y-1/2 w-4 h-8 aspect-[1.91/1]',
-					'-right-4 rtl:-left-4 rtl:right-auto rtl:rotate-180'
+					'-right-4 rtl:-left-4 rtl:right-auto rtl:rotate-180',
+					nextSlideButtonClassName
 				)}
 			>
 				<Image
@@ -49,7 +54,8 @@ const ProductsSlider = <CardElemProps extends Record<string, unknown>>({
 				onClick={() => SwiperInstanceRef.current?.slidePrev()}
 				className={cx(
 					'z-[2] hover:scale-[1.25] focus:scale-[1.25] transition-all duration-150 absolute top-1/2 -translate-y-1/2 w-4 h-8 aspect-[1.91/1]',
-					'-left-4 rtl:-right-4 rtl:left-aright-auto rtl:rotate-180'
+					'-left-4 rtl:-right-4 rtl:left-aright-auto rtl:rotate-180',
+					previousSlideButtonClassName
 				)}
 			>
 				<Image
@@ -71,10 +77,10 @@ const ProductsSlider = <CardElemProps extends Record<string, unknown>>({
 				slidesPerView={1}
 				spaceBetween={20}
 				breakpoints={{
-					500: { slidesPerView: 2 },
+					384: { slidesPerView: 2 },
 					768: { slidesPerView: 3 },
-					1150: { slidesPerView: 5 },
-					1400: { slidesPerView: 6 }
+					1024: { slidesPerView: 5 },
+					1280: { slidesPerView: 6 }
 				}}
 				loop
 				{...swiperProps}

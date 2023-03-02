@@ -10,10 +10,10 @@ const CTAButton = ({ text, ...props }: Props) => {
 	return (
 		<Clickable
 			{...props}
-			className="flex flex-wrap items-center gap-2 text-xl hover:gap-x-4 group-hover:gap-x-4 transition-all duration-150"
+			className="flex flex-wrap items-center gap-2 hover:gap-x-4 group-hover:gap-x-4 transition-all duration-150"
 		>
 			{text}{' '}
-			<BsArrowRight className="scale-x-125 scale-y-110 text-special-primary-500 rtl:rotate-180" />
+			<BsArrowRight className="scale-x-90 scale-y-110 text-special-primary-500 rtl:rotate-180" />
 		</Clickable>
 	);
 };

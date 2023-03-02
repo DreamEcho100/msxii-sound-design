@@ -37,7 +37,7 @@ const handleBasicProductCardImageVariants = cva(
 	}
 );
 const handleBasicProductCardTitleVariants = cva(
-	'font-normal leading-4 ellipse-text',
+	'font-medium leading-4 ellipse-text',
 	{
 		variants: {
 			'text-align': { center: 'text-center' },
@@ -104,7 +104,11 @@ export const ProductExtraDetails = (props: {
 				$ {props.product.price}
 			</p>
 			<Clickable
-				variants={{ btn: 'secondary', p: 'v1-sm' }}
+				variants={{
+					btn: 'secondary',
+					py: 'sm',
+					px: 'lg'
+				}}
 				className="whitespace-nowrap text-sm uppercase"
 			>
 				Add To Cart
@@ -135,7 +139,7 @@ export const ProductBundleCard = (
 			product={props.product}
 			containerVariants={{ 'aspect-ratio': 'video' }}
 			imageContainerVariants={{ 'object-fit': 'cover' }}
-			titleVariants={{ 'text-align': 'center', 'text-size': 'lg' }}
+			titleVariants={{ 'text-align': 'center', 'text-size': 'md' }}
 		/>
 	);
 };

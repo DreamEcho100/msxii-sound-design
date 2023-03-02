@@ -19,12 +19,12 @@ const blogs = [
 const HomeLatestBlogsSection = () => {
 	return (
 		<section className="sm:px-main-p-3 sm:py-main-p-2">
-			<div className="bg-special-primary-500 text-initial-primary-500 py-main-p-1 px-main-p-2  sm:rounded-xl md:p-main-p-1">
+			<div className="bg-[url(/images/5414679a34fb63f864a17c2a951305deb4840b49.jpeg)] py-main-p-1 px-main-p-2  sm:rounded-xl md:p-main-p-1">
 				<div className="mx-auto flex w-fit flex-col gap-4 sm:gap-12">
-					<header>
-						<h2 className="text-h1 leading-h2 font-bold">Latest Blogs</h2>
+					<header className="text-initial-primary-0">
+						<h2 className="text-h1 leading-h2 font-black">Latest Blogs</h2>
 					</header>
-					<div className="cards-container flex w-fit flex-col gap-8 lg:flex-row">
+					<div className="cards-container text-initial-primary-500 flex w-fit flex-col gap-8 lg:flex-row">
 						{blogs.map((blog) => (
 							<article
 								key={blog.id}
@@ -33,11 +33,16 @@ const HomeLatestBlogsSection = () => {
 								<div className="group sm:text-align-initial flex flex-col items-center justify-between gap-2 p-8 text-center sm:w-1/2 sm:items-start sm:gap-0 lg:p-8">
 									<Clickable
 										className="rounded-[0.25rem]"
-										variants={{ btn: 'secondary', rounded: null, p: 'v2-sm' }}
+										variants={{
+											btn: 'secondary',
+											rounded: null,
+											py: 'extra-sm',
+											px: 'sm'
+										}}
 									>
 										Blog post
 									</Clickable>
-									<h3 className="text-h5 leading-primary-4">
+									<h3 className="text-xl font-normal leading-primary-4">
 										<Clickable href="/" isA="next-js">
 											{blog.title}
 										</Clickable>
@@ -49,6 +54,7 @@ const HomeLatestBlogsSection = () => {
 										href="/"
 										isA="next-js"
 										className="block h-full w-full overflow-hidden"
+										variants={null}
 									>
 										<Image
 											src={blog.image.src}

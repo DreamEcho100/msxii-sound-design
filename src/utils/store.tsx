@@ -1,3 +1,4 @@
+import { z } from 'zod';
 import { create } from 'zustand';
 
 interface GlobalStore {
@@ -13,6 +14,7 @@ interface GlobalStore {
 	themeConfig: {
 		currentTheme: 'dark' | 'light';
 		changeCurrentTheme: (passedTheme?: 'dark' | 'light') => void;
+		setCurrentThemeFromLocalStorage: () => void;
 	};
 }
 
@@ -63,6 +65,23 @@ export const useGlobalStore = create<GlobalStore>((set) => ({
 
 				return { themeConfig: { ...themeConfig, currentTheme: newTheme } };
 			});
-		}
+		},
+		setCurrentThemeFromLocalStorage: () =>
+			set(({ themeConfig }) => {
+				let lsCurrentTheme: 'light' | 'dark';
+
+				try {
+					lsCurrentTheme = z
+						.enum(['light', 'dark'])
+						.parse(localStorage.getItem('currentTheme'));
+				} catch (error) {
+					lsCurrentTheme = 'light';
+				}
+
+				// changeCurrentTheme(lsCurrentTheme);
+				return {
+					themeConfig: { ...themeConfig, currentTheme: lsCurrentTheme }
+				};
+			})
 	}
 }));

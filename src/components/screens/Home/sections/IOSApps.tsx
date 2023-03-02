@@ -25,13 +25,15 @@ const HomeIOSAppsSection = () => {
 		<section className="p-main-p-3">
 			<div className="flex flex-col gap-8">
 				<header>
-					<h2 className="text-h1 leading-h2">iOS Apps</h2>
+					<h2 className="text-h1 font-black leading-h2 uppercase md:px-4">
+						iOS Apps
+					</h2>
 				</header>
-				<div className="cards-container flex flex-wrap justify-center gap-4 lg:flex-nowrap">
+				<div className="cards-container flex flex-wrap justify-around gap-6 lg:flex-nowrap">
 					{products.map((item) => (
 						<article
 							key={item.id}
-							className="flex w-full flex-col gap-1 md:w-[46%] lg:w-[33%]"
+							className="flex gap-4 w-full flex-col md:w-[46%] lg:w-[33%]"
 						>
 							<div className="overflow-hidden rounded-xl">
 								<Image
@@ -42,8 +44,8 @@ const HomeIOSAppsSection = () => {
 									className="card-img-zoom-animation-1 duration-300 ease-in"
 								/>
 							</div>
-							<div className="group flex flex-col gap-1">
-								<h3 className="text-h5 font-normal">{item.title}</h3>
+							<div className="group flex flex-col">
+								<h3 className="font-normal leading-4">{item.title}</h3>
 								<CTAButton href="/" isA="next-js" text="Discover more" />
 							</div>
 						</article>

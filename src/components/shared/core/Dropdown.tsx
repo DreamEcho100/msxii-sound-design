@@ -29,7 +29,7 @@ export const DropdownItems = ({
 			{...props}
 		>
 			<div className="relative isolate">
-				<div className="absolute inset-0 -z-10 bg-text-primary-100" />
+				<div className="absolute inset-0 -z-10 bg-bg-primary-400" />
 				{children}
 			</div>
 		</Menu.Items>

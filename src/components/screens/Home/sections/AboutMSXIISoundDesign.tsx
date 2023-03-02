@@ -12,13 +12,13 @@ const anchorClasses = cx(
 const AboutMSXIISoundDesign = () => {
 	return (
 		<section className="sm:px-main-p-3 sm:py-main-p-2">
-			<div className="flex flex-col-reverse justify-center gap-4 bg-initial-secondary-500 dark:bg-initial-secondary-700 text-initial-primary-0 px-main-p-2 sm:gap-12 sm:rounded-xl lg:flex-row lg:px-main-p-1">
+			<div className="flex flex-col-reverse justify-center gap-4 bg-initial-secondary-500 dark:bg-bg-primary-900 text-initial-primary-0 px-main-p-2 sm:gap-12 sm:rounded-xl lg:flex-row lg:px-main-p-1">
 				<div
 					className="lg:text-align-initial flex flex-col 
-gap-8 pb-main-p-2 text-center text-xl font-medium lg:w-3/4 lg:max-w-screen-md lg:pt-main-p-1"
+gap-8 pb-main-p-2 text-center text-base font-medium lg:w-3/4 lg:max-w-screen-md lg:pt-main-p-1"
 				>
 					<header>
-						<h2 className="text-h2 leading-h2 font-black">
+						<h2 className="text-h3 leading-h2 font-black">
 							About MSXII Sound Design
 						</h2>
 					</header>

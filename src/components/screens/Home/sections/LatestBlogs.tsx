@@ -21,18 +21,18 @@ const HomeLatestBlogsSection = () => {
 		<section className="sm:px-main-p-3 sm:py-main-p-2">
 			<div className="bg-[url(/images/5414679a34fb63f864a17c2a951305deb4840b49.jpeg)] bg-cover bg-center bg-no-repeat py-main-p-1 px-main-p-2  sm:rounded-xl md:p-main-p-1">
 				<div className="mx-auto flex w-fit flex-col gap-4 sm:gap-12">
-					<header className="text-initial-primary-0">
+					<header className="text-initial-primary-900">
 						<h2 className="text-h1 leading-h2 font-black">Latest Blogs</h2>
 					</header>
 					<div className="cards-container text-initial-primary-500 flex w-fit flex-col gap-8 lg:flex-row">
 						{blogs.map((blog) => (
 							<article
 								key={blog.id}
-								className="duration-300 transition-all flex aspect-video flex-col-reverse rounded-lg bg-text-primary-0 sm:flex-row md:max-w-[600px]"
+								className="duration-300 transition-all flex aspect-video flex-col-reverse rounded-lg overflow-hidden bg-text-primary-0 sm:flex-row md:max-w-[600px]"
 							>
 								<div className="group sm:text-align-initial flex flex-col items-center justify-between gap-2 p-8 text-center sm:w-1/2 sm:items-start sm:gap-0 lg:p-8">
 									<Clickable
-										className="rounded-[0.25rem]"
+										className="rounded-[0.25rem] text-sm"
 										variants={{
 											btn: 'secondary',
 											rounded: null,
@@ -42,7 +42,7 @@ const HomeLatestBlogsSection = () => {
 									>
 										Blog post
 									</Clickable>
-									<h3 className="text-xl font-normal leading-primary-4">
+									<h3 className="text-lg font-normal leading-primary-4">
 										<Clickable href="/" isA="next-js">
 											{blog.title}
 										</Clickable>

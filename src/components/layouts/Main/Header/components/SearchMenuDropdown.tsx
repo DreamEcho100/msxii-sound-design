@@ -25,8 +25,8 @@ const SearchMenuDropdown = () => {
 					transition={{ duration: 0.3 }}
 					className="flex justify-end"
 				>
-					<div className="bg-bg-primary-0 w-full max-w-screen-md md:rounded-bl-lg md:rtl:rounded-br-lg overflow-hidden">
-						<form className="bg-bg-primary-600/75 text-text-primary-600  flex items-center px-4 gap-4">
+					<div className="bg-bg-primary-0 w-full max-w-screen-md md:rounded-b-lg  md:mx-8 overflow-hidden">
+						<form className="bg-bg-primary-600/75 dark:bg-bg-primary-400 text-text-primary-600  flex items-center px-4 gap-4">
 							<Clickable
 								variants={null}
 								className=" focus:bg-black/25 duration-100 transition-all"

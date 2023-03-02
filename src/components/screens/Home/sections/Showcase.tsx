@@ -6,11 +6,12 @@ import {
 import ProductsSlider from '~/components/shared/core/Cards/Slider';
 import Clickable from '~/components/shared/core/Clickable';
 import { cx } from 'class-variance-authority';
+import { fakeProductsBaseData } from '~/utils/appData';
 
 const HomeShowcaseSection = () => {
 	return (
 		<section className="sm:p-main-p-3">
-			<div className="flex flex-col gap-16 bg-bg-primary-100 p-main-p-3 sm:rounded-xl">
+			<div className="flex flex-col gap-16 bg-bg-primary-100 dark:bg-bg-primary-900 p-main-p-3 sm:rounded-xl">
 				<section>
 					<header className="flex flex-col gap-8 pl-4 rtl:pr-4 rtl:pl-0">
 						<h2 className="text-h1 leading-h2 font-black">New Releases</h2>
@@ -64,7 +65,7 @@ const HomeShowcaseSection = () => {
 							nextSlideButtonClassName="-translate-y-[200%] lg:-translate-y-[225%]"
 							previousSlideButtonClassName="-translate-y-[200%] lg:-translate-y-[225%]"
 						/>
-						<ProductsSlider
+						{/* <ProductsSlider
 							swiperProps={{
 								slidesPerView: 1,
 								breakpoints: {
@@ -75,7 +76,26 @@ const HomeShowcaseSection = () => {
 								}
 							}}
 							CardElem={ProductBundleCard}
-						/>
+						/> */}
+						<div
+							// style={{
+							// 	display: 'grid',
+							// 	gridTemplateColumns: 'repeat(auto-fill, minmax(20%, 1fr))',
+							// 	gap: '1rem'
+							// }}
+							className={cx(
+								'grid gap-8',
+								'sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4'
+							)}
+						>
+							{fakeProductsBaseData.slice(0, 4).map((item) => (
+								<ProductBundleCard
+									key={item.id}
+									product={item}
+									// containerClassName="w-[12.5rem]"
+								/>
+							))}
+						</div>
 					</div>
 				</section>
 			</div>

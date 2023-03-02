@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
-import { fakeProductsData } from '~/utils/appData';
+import { fakeProductsBaseData, fakeProductsData } from '~/utils/appData';
 import Clickable from '../Clickable';
 import Image from 'next/image';
 import { VariantProps, cva } from 'class-variance-authority';
@@ -14,7 +14,7 @@ const handleBasicProductCardContainerVariants = cva(
 	}
 );
 const handleBasicProductCardImageContainerVariants = cva(
-	'aspect-square rounded-lg relative overflow-hidden',
+	'aspect-square rounded-lg relative overflow-hidden max-w-full',
 	{
 		variants: {
 			'aspect-ratio': { video: 'aspect-video', square: 'aspect-square' },
@@ -52,11 +52,12 @@ const handleBasicProductCardTitleVariants = cva(
 );
 
 export const BasicProductCard = (props: {
-	product: (typeof fakeProductsData)[0];
+	product: (typeof fakeProductsBaseData)[0];
 	extraDetailsElem?: ReactNode;
 	containerVariants?: VariantProps<
 		typeof handleBasicProductCardContainerVariants
 	>;
+	containerClassName?: string;
 	imageContainerVariants?: VariantProps<
 		typeof handleBasicProductCardImageContainerVariants
 	>;
@@ -65,9 +66,10 @@ export const BasicProductCard = (props: {
 }) => {
 	return (
 		<article
-			className={handleBasicProductCardContainerVariants(
-				props.containerVariants
-			)}
+			className={handleBasicProductCardContainerVariants({
+				...(props.containerVariants || {}),
+				className: props.containerClassName
+			})}
 		>
 			<div
 				className={handleBasicProductCardImageContainerVariants(
@@ -131,15 +133,18 @@ export const ProductCard = ({
 	);
 };
 
-export const ProductBundleCard = (
-	props: Pick<Parameters<typeof BasicProductCard>[0], 'product'>
-) => {
+export const ProductBundleCard = ({
+	product,
+	...props
+}: Pick<Parameters<typeof BasicProductCard>[0], 'product'> &
+	Omit<Partial<Parameters<typeof BasicProductCard>[0]>, 'product'>) => {
 	return (
 		<BasicProductCard
-			product={props.product}
+			product={product}
 			containerVariants={{ 'aspect-ratio': 'video' }}
 			imageContainerVariants={{ 'object-fit': 'cover' }}
 			titleVariants={{ 'text-align': 'center', 'text-size': 'md' }}
+			{...props}
 		/>
 	);
 };

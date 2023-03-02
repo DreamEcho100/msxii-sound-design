@@ -1,6 +1,6 @@
 const handleDefaultImagesPath = (path: string) => `/images/${path}`;
 
-const fakeProductsBaseData = [
+export const fakeProductsBaseData = [
 	{
 		id: 1,
 		title: 'Loops Go Crazy Vol. 5',

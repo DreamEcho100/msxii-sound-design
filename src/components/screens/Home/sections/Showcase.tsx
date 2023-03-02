@@ -57,7 +57,7 @@ const HomeShowcaseSection = () => {
 				</section>
 				<section className="flex flex-col gap-4">
 					<header className="pl-6 rtl:pr-6 rtl:pl-0">
-						<h2 className="text-h1 leading-h2 font-bold">Bundles</h2>
+						<h2 className="text-h1 leading-h2 font-black">Bundles</h2>
 					</header>
 					<div className="flex flex-col gap-8">
 						<ProductsSlider

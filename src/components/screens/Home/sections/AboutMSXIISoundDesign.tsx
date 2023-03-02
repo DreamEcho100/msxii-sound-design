@@ -18,7 +18,7 @@ const AboutMSXIISoundDesign = () => {
 gap-8 pb-main-p-2 text-center text-base font-medium lg:w-3/4 lg:max-w-screen-md lg:pt-main-p-1"
 				>
 					<header>
-						<h2 className="text-h3 leading-h2 font-black">
+						<h2 className="text-h1 leading-h2 font-black">
 							About MSXII Sound Design
 						</h2>
 					</header>

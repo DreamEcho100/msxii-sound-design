@@ -7,20 +7,19 @@ import { api } from '~/utils/api';
 import '~/styles/globals.css';
 import '~/styles/swiper.css';
 import MainLayout from '~/components/layouts/Main';
-import { useGlobalStore } from '~/utils/store';
+import { useGlobalStore } from '~/store';
 import { useEffect } from 'react';
+import { getCurrentThemeFromLocalStorage } from '~/store/utils';
 
 const MyApp: AppType<{ session: Session | null }> = ({
 	Component,
 	pageProps: { session, ...pageProps }
 }) => {
-	const { setCurrentThemeFromLocalStorage } = useGlobalStore(
-		(store) => store.themeConfig
-	);
+	const { changeCurrentTheme } = useGlobalStore((store) => store.themeConfig);
 
 	useEffect(
-		() => setCurrentThemeFromLocalStorage(),
-		[setCurrentThemeFromLocalStorage]
+		() => changeCurrentTheme(getCurrentThemeFromLocalStorage()),
+		[changeCurrentTheme]
 	);
 
 	return (

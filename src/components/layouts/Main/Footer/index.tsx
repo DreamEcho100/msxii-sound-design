@@ -4,7 +4,7 @@ import { FaFacebookF, FaInstagram, FaTwitter, FaYoutube } from 'react-icons/fa';
 import Clickable from '~/components/shared/core/Clickable';
 import { motion } from 'framer-motion';
 import { cx } from 'class-variance-authority';
-import { useGlobalStore } from '~/utils/store';
+import { useGlobalStore } from '~/store';
 import { MdEmail } from 'react-icons/md';
 import Link from 'next/link';
 

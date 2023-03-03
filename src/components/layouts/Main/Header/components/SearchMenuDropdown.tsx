@@ -2,7 +2,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { useEffect, useRef, useState } from 'react';
 import { BiSearchAlt2, BiX } from 'react-icons/bi';
 import Clickable from '~/components/shared/core/Clickable';
-import { useGlobalStore } from '~/utils/store';
+import { useGlobalStore } from '~/store';
 
 const SearchMenuDropdown = () => {
 	const searchQueryInputRef = useRef<HTMLInputElement>(null);

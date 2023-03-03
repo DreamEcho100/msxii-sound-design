@@ -11,7 +11,7 @@ import Dropdown, {
 } from '~/components/shared/core/Dropdown';
 import { AnimatePresence, motion } from 'framer-motion';
 import { cx } from 'class-variance-authority';
-import { useGlobalStore } from '~/utils/store';
+import { useGlobalStore } from '~/store';
 import { useMemo } from 'react';
 import { useRouter } from 'next/router';
 import SearchMenuDropdown from './components/SearchMenuDropdown';

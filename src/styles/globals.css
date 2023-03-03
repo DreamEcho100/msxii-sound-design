@@ -154,17 +154,17 @@
 	--color-text-primary-900: var(--color-initial-secondary-900);
 	--color-text-primary-1000: var(--color-initial-secondary-1000);
 
-	--color-bg-primary-0: var(--color-initial-ternary-0);
-	--color-bg-primary-100: var(--color-initial-ternary-100);
-	--color-bg-primary-200: var(--color-initial-ternary-200);
-	--color-bg-primary-300: var(--color-initial-ternary-300);
-	--color-bg-primary-400: var(--color-initial-ternary-400);
-	--color-bg-primary-500: var(--color-initial-ternary-500);
-	--color-bg-primary-600: var(--color-initial-ternary-600);
-	--color-bg-primary-700: var(--color-initial-ternary-700);
-	--color-bg-primary-800: var(--color-initial-ternary-800);
-	--color-bg-primary-900: var(--color-initial-ternary-900);
-	--color-bg-primary-1000: var(--color-initial-ternary-1000);
+	--color-bg-primary-0: var(--color-initial-primary-0);
+	--color-bg-primary-100: var(--color-initial-primary-100);
+	--color-bg-primary-200: var(--color-initial-primary-200);
+	--color-bg-primary-300: var(--color-initial-primary-300);
+	--color-bg-primary-400: var(--color-initial-primary-400);
+	--color-bg-primary-500: var(--color-initial-primary-500);
+	--color-bg-primary-600: var(--color-initial-primary-600);
+	--color-bg-primary-700: var(--color-initial-primary-700);
+	--color-bg-primary-800: var(--color-initial-primary-800);
+	--color-bg-primary-900: var(--color-initial-primary-900);
+	--color-bg-primary-1000: var(--color-initial-primary-1000);
 }
 
 @layer utilities {

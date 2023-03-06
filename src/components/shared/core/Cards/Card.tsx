@@ -103,10 +103,9 @@ export const ProductExtraDetails = ({
 	product: ShopifyProduct;
 	buttonProps?: Partial<Parameters<typeof Clickable>[0]>;
 }) => {
-	console.log('buttonProps', buttonProps);
 	return (
 		<>
-			<p className="-translate-y-[20%] font-light text-text-primary-500/60">
+			<p className="-translate-y-[20%] font-normal text-text-primary-500/60">
 				$ {product.price}{' '}
 				<del className="text-red-500">{product.compare_at_price}</del>
 			</p>

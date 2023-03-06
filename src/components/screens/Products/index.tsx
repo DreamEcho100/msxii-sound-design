@@ -102,7 +102,9 @@ const ProductsScreen = ({ products }: { products: ShopifyProduct[] }) => {
 						>
 							<div className="flex flex-col gap-1">
 								<header className="flex gap-2 justify-between">
-									<p>Shop all</p>
+									<h3 className="text-h4 text-text-primary-300 sm:whitespace-nowrap">
+										Shop all
+									</h3>
 									<Clickable
 										variants={null}
 										onClick={() => setIsFiltersMenuActive((prev) => !prev)}
@@ -130,7 +132,9 @@ const ProductsScreen = ({ products }: { products: ShopifyProduct[] }) => {
 								className="origin-left rtl:origin-right flex-col gap-1 bg-bg-primary-500 py-main-p-3 h-full z-[2] sm:flex"
 							>
 								<header className="flex gap-2 justify-between">
-									<p>Shop all</p>
+									<h3 className="text-h4 text-text-primary-300 sm:whitespace-nowrap">
+										Shop all
+									</h3>
 									<Clickable
 										variants={null}
 										onClick={() => setIsFiltersMenuActive((prev) => !prev)}
@@ -149,7 +153,12 @@ const ProductsScreen = ({ products }: { products: ShopifyProduct[] }) => {
 				)}
 				<div className="max-w-full overflow-hidden bg-bg-primary-100 dark:bg-bg-primary-900 isolate flex-grow transition-all sm:rounded-2xl">
 					<header className="flex justify-between pt-8 pb-4 px-8">
-						<h1 className="text-h1 font-black">All Packs</h1>
+						<h1 className="text-h1 font-black">
+							{selectedCategories.length === categories.length ||
+							selectedCategories.length === 0
+								? 'All Packs'
+								: 'Filtered Packs'}
+						</h1>
 						<Clickable
 							variants={null}
 							onClick={() => setIsFiltersMenuActive((prev) => !prev)}

@@ -3,6 +3,7 @@ import { ProductCard } from '~/components/shared/core/Cards/Card';
 import ProductsSlider from '~/components/shared/core/Cards/Slider';
 import Clickable from '~/components/shared/core/Clickable';
 import { ShopifyProduct } from '~/utils/types';
+import { GiHamburgerMenu } from 'react-icons/gi';
 
 const CategoriesMenu = ({
 	categories,
@@ -14,11 +15,15 @@ const CategoriesMenu = ({
 	selectedCategories: string[];
 }) => {
 	return (
-		<>
+		<div className="flex flex-col gap-1">
 			{categories.map((category) => (
-				<label key={category} className="flex gap-1 sm:whitespace-nowrap">
+				<label
+					key={category}
+					className="flex items-center gap-1 sm:whitespace-nowrap cursor-pointer"
+				>
 					<input
 						type="checkbox"
+						className="accent-special-primary-500 w-5 h-5 aspect-square"
 						checked={selectedCategories.includes(category)}
 						value={category}
 						onChange={(event) =>
@@ -32,13 +37,12 @@ const CategoriesMenu = ({
 					{category}
 				</label>
 			))}
-		</>
+		</div>
 	);
 };
 
 const ProductsScreen = ({ products }: { products: ShopifyProduct[] }) => {
-	const [isFiltersMenuOnSmallScreens, setIsFiltersMenuOnSmallScreens] =
-		useState(false);
+	const [isFiltersMenuActive, setIsFiltersMenuActive] = useState(false);
 	const { productsByCategory, categories } = useMemo(() => {
 		const productsCategoryMap: Record<string, typeof products> = {};
 
@@ -86,9 +90,36 @@ const ProductsScreen = ({ products }: { products: ShopifyProduct[] }) => {
 	return (
 		<section>
 			<div className="">
-				<div className="flex relative sm:p-main-p-3">
-					{isFiltersMenuOnSmallScreens && (
+				<div className="flex relative sm:p-main-p-3 sm:gap-main-p-3">
+					{isFiltersMenuActive && (
 						<div className="absolute top-0 left-0 bg-bg-primary bg-bg-primary-500 p-8 h-full z-[2] sm:hidden">
+							<div className="flex flex-col gap-1">
+								<header className="flex gap-2 justify-end">
+									<Clickable
+										variants={null}
+										onClick={() => setIsFiltersMenuActive((prev) => !prev)}
+									>
+										<GiHamburgerMenu className="text-lg" />
+									</Clickable>
+								</header>
+								<CategoriesMenu
+									categories={categories}
+									setSelectedCategories={setSelectedCategories}
+									selectedCategories={selectedCategories}
+								/>
+							</div>
+						</div>
+					)}
+					{isFiltersMenuActive && (
+						<div className="hidden flex-col gap-1 bg-bg-primary-500 max-w-[90%] py-main-p-3 h-full z-[2] sm:flex">
+							<header className="flex gap-2 justify-end">
+								<Clickable
+									variants={null}
+									onClick={() => setIsFiltersMenuActive((prev) => !prev)}
+								>
+									<GiHamburgerMenu className="text-lg" />
+								</Clickable>
+							</header>
 							<CategoriesMenu
 								categories={categories}
 								setSelectedCategories={setSelectedCategories}
@@ -96,22 +127,14 @@ const ProductsScreen = ({ products }: { products: ShopifyProduct[] }) => {
 							/>
 						</div>
 					)}
-					<div className="bg-bg-primary-500 p-main-p-3 max-w-[90%] h-full z-[2] hidden sm:block">
-						<CategoriesMenu
-							categories={categories}
-							setSelectedCategories={setSelectedCategories}
-							selectedCategories={selectedCategories}
-						/>
-					</div>
 					<div className="max-w-full overflow-hidden bg-bg-primary-100 dark:bg-bg-primary-900 isolate flex-grow">
 						<header className="flex justify-between pt-8 pb-4 px-8">
 							<h1 className="text-h1">All Products</h1>
 							<Clickable
 								variants={null}
-								onClick={() => setIsFiltersMenuOnSmallScreens((prev) => !prev)}
-								className=" sm:hidden"
+								onClick={() => setIsFiltersMenuActive((prev) => !prev)}
 							>
-								|||
+								<GiHamburgerMenu className="text-lg" />
 							</Clickable>
 						</header>
 						{filteredProductsByCategory.map((productByCategory) => (

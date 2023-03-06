@@ -165,6 +165,12 @@
 	--color-bg-primary-800: var(--color-initial-primary-800);
 	--color-bg-primary-900: var(--color-initial-primary-900);
 	--color-bg-primary-1000: var(--color-initial-primary-1000);
+
+	color-scheme: dark;
+}
+
+.light {
+	color-scheme: light;
 }
 
 @layer utilities {

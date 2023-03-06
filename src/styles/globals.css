@@ -69,16 +69,16 @@
 		--color-bg-primary-900: var(--color-initial-secondary-900);
 		--color-bg-primary-1000: var(--color-initial-secondary-1000);
 
-		/* green */
-		--color-special-primary-100: 214 245 245;
-		--color-special-primary-200: 173 234 234;
-		--color-special-primary-300: 132 224 224;
-		--color-special-primary-400: 91 213 213;
-		--color-special-primary-500: 50 203 203;
-		--color-special-primary-600: 40 162 162;
-		--color-special-primary-700: 30 122 122;
-		--color-special-primary-800: 20 81 81;
-		--color-special-primary-900: 10 41 41;
+		/* gray */
+		--color-special-primary-100: 232 248 254;
+		--color-special-primary-200: 211 242 253;
+		--color-special-primary-300: 186 233 252;
+		--color-special-primary-400: 163 226 251;
+		--color-special-primary-500: 140 219 250;
+		--color-special-primary-600: 112 175 200;
+		--color-special-primary-700: 84 131 150;
+		--color-special-primary-800: 56 88 100;
+		--color-special-primary-900: 28 44 50;
 
 		/* yellow */
 		--color-special-secondary-100: 250 242 227;

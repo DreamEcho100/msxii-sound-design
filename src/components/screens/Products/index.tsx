@@ -1,42 +1,80 @@
-import { Dispatch, SetStateAction, useMemo, useState } from 'react';
+import {
+	Dispatch,
+	InputHTMLAttributes,
+	SetStateAction,
+	useMemo,
+	useState
+} from 'react';
 import { ProductCard } from '~/components/shared/core/Cards/Card';
 import ProductsSlider from '~/components/shared/core/Cards/Slider';
 import Clickable from '~/components/shared/core/Clickable';
 import { ShopifyProduct } from '~/utils/types';
-import { GiHamburgerMenu } from 'react-icons/gi';
+import { GiSettingsKnobs } from 'react-icons/gi';
 import { motion, AnimatePresence } from 'framer-motion';
+
+const CheckboxField = ({
+	children,
+	...props
+}: InputHTMLAttributes<HTMLInputElement>) => {
+	return (
+		<label className="flex items-center gap-1 sm:whitespace-nowrap cursor-pointer">
+			<input
+				type="checkbox"
+				className="accent-special-primary-500 w-5 h-5 aspect-square"
+				{...props}
+			/>
+			{children}
+		</label>
+	);
+};
 
 const CategoriesMenu = ({
 	categories,
 	setSelectedCategories,
-	selectedCategories
+	selectedCategories,
+	setIsAllCategoriesDisplayed,
+	isAllCategoriesDisplayed
 }: {
 	categories: string[];
 	setSelectedCategories: Dispatch<SetStateAction<string[]>>;
 	selectedCategories: string[];
+	setIsAllCategoriesDisplayed: Dispatch<SetStateAction<boolean>>;
+	isAllCategoriesDisplayed: boolean;
 }) => {
 	return (
 		<div className="flex flex-col gap-1">
-			{categories.map((category) => (
-				<label
-					key={category}
-					className="flex items-center gap-1 sm:whitespace-nowrap cursor-pointer"
+			<div className="flex flex-col gap-1">
+				<CheckboxField
+					checked={selectedCategories.length === categories.length}
+					value="ALL"
+					onChange={(event) => {
+						setSelectedCategories(event.target.checked ? categories : []);
+						setIsAllCategoriesDisplayed(event.target.checked);
+					}}
 				>
-					<input
-						type="checkbox"
-						className="accent-special-primary-500 w-5 h-5 aspect-square"
-						checked={selectedCategories.includes(category)}
-						value={category}
-						onChange={(event) =>
-							setSelectedCategories((prev) =>
-								event.target.checked
-									? [...prev, event.target.value]
-									: prev.filter((category) => category !== event.target.value)
-							)
-						}
-					/>
+					All
+				</CheckboxField>
+			</div>
+			{categories.map((category) => (
+				<CheckboxField
+					key={category}
+					checked={
+						isAllCategoriesDisplayed || selectedCategories.includes(category)
+					}
+					value={category}
+					onChange={(event) => {
+						if (isAllCategoriesDisplayed && !event.target.checked)
+							setIsAllCategoriesDisplayed(false);
+
+						setSelectedCategories((prev) =>
+							event.target.checked
+								? [...prev, event.target.value]
+								: prev.filter((category) => category !== event.target.value)
+						);
+					}}
+				>
 					{category}
-				</label>
+				</CheckboxField>
 			))}
 		</div>
 	);
@@ -70,23 +108,24 @@ const ProductsScreen = ({ products }: { products: ShopifyProduct[] }) => {
 		};
 	}, [products]);
 
-	const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+	const [selectedCategories, setSelectedCategories] =
+		useState<string[]>(categories);
+	const [isAllCategoriesDisplayed, setIsAllCategoriesDisplayed] =
+		useState(true);
 
 	const filteredProductsByCategory = useMemo(() => {
-		let filteredProductsByCategory: typeof productsByCategory = [];
+		if (isAllCategoriesDisplayed) return productsByCategory;
 
-		if (selectedCategories.length === 0) {
-			filteredProductsByCategory = productsByCategory;
-		} else {
-			productsByCategory.forEach((productByCategory) => {
-				if (selectedCategories.includes(productByCategory[0])) {
-					filteredProductsByCategory.push(productByCategory);
-				}
-			});
-		}
+		const filteredProductsByCategory: typeof productsByCategory = [];
+
+		productsByCategory.forEach((productByCategory) => {
+			if (selectedCategories.includes(productByCategory[0])) {
+				filteredProductsByCategory.push(productByCategory);
+			}
+		});
 
 		return filteredProductsByCategory;
-	}, [productsByCategory, selectedCategories]);
+	}, [isAllCategoriesDisplayed, productsByCategory, selectedCategories]);
 
 	return (
 		<section>
@@ -108,25 +147,25 @@ const ProductsScreen = ({ products }: { products: ShopifyProduct[] }) => {
 									<Clickable
 										variants={null}
 										onClick={() => setIsFiltersMenuActive((prev) => !prev)}
-										title={`${
-											isFiltersMenuActive ? 'Hide' : 'Show'
-										} the filters`}
+										title={`${isFiltersMenuActive ? 'Hide' : 'Show'} filters`}
 									>
-										<GiHamburgerMenu className="text-lg" />
+										<GiSettingsKnobs className="text-xl font-black scale-y-110 rotate-90" />
 									</Clickable>
 								</header>
 								<CategoriesMenu
 									categories={categories}
 									setSelectedCategories={setSelectedCategories}
 									selectedCategories={selectedCategories}
+									setIsAllCategoriesDisplayed={setIsAllCategoriesDisplayed}
+									isAllCategoriesDisplayed={isAllCategoriesDisplayed}
 								/>
 							</div>
 						</motion.div>
 					</AnimatePresence>
 				)}
-				{isFiltersMenuActive && (
-					<div className="hidden sm:flex">
-						<AnimatePresence>
+				<div className="hidden sm:flex">
+					<AnimatePresence>
+						{isFiltersMenuActive && (
 							<motion.div
 								initial={{ scaleX: 0, width: 0 }}
 								animate={{ scaleX: 1, width: 'auto' }}
@@ -141,22 +180,22 @@ const ProductsScreen = ({ products }: { products: ShopifyProduct[] }) => {
 									<Clickable
 										variants={null}
 										onClick={() => setIsFiltersMenuActive((prev) => !prev)}
-										title={`${
-											isFiltersMenuActive ? 'Hide' : 'Show'
-										} the filters`}
+										title={`${isFiltersMenuActive ? 'Hide' : 'Show'} filters`}
 									>
-										<GiHamburgerMenu className="text-lg" />
+										<GiSettingsKnobs className="text-xl font-black scale-y-110 rotate-90" />
 									</Clickable>
 								</header>
 								<CategoriesMenu
 									categories={categories}
 									setSelectedCategories={setSelectedCategories}
 									selectedCategories={selectedCategories}
+									setIsAllCategoriesDisplayed={setIsAllCategoriesDisplayed}
+									isAllCategoriesDisplayed={isAllCategoriesDisplayed}
 								/>
 							</motion.div>
-						</AnimatePresence>
-					</div>
-				)}
+						)}
+					</AnimatePresence>
+				</div>
 				<div className="max-w-full overflow-hidden bg-bg-primary-100 dark:bg-bg-primary-900 isolate flex-grow transition-all sm:rounded-2xl">
 					<header className="flex justify-between pt-8 pb-4 px-8">
 						<h1 className="text-h1 font-black">
@@ -168,9 +207,13 @@ const ProductsScreen = ({ products }: { products: ShopifyProduct[] }) => {
 						<Clickable
 							variants={null}
 							onClick={() => setIsFiltersMenuActive((prev) => !prev)}
-							title={`${isFiltersMenuActive ? 'Hide' : 'Show'} the filters`}
+							title={`${isFiltersMenuActive ? 'Hide' : 'Show'} filters`}
+							className="flex items-center gap-1"
 						>
-							<GiHamburgerMenu className="text-lg" />
+							<span className="text-text-primary-300 font-medium">
+								{isFiltersMenuActive ? 'Hide' : 'Show'} filters
+							</span>
+							<GiSettingsKnobs className="text-xl font-black scale-y-110 rotate-90" />
 						</Clickable>
 					</header>
 					{filteredProductsByCategory.map((productByCategory) => (
@@ -188,8 +231,8 @@ const ProductsScreen = ({ products }: { products: ShopifyProduct[] }) => {
 										breakpoints: {
 											384: { slidesPerView: 1 },
 											768: { slidesPerView: 3 },
-											1024: { slidesPerView: 5 },
-											1280: { slidesPerView: 6 }
+											1024: { slidesPerView: 4 },
+											1280: { slidesPerView: 5 }
 										}
 									}}
 									cardsSharedProps={{

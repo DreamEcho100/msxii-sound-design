@@ -1,4 +1,3 @@
-import React from 'react';
 import {
 	ProductBundleCard,
 	ProductCard
@@ -6,7 +5,6 @@ import {
 import ProductsSlider from '~/components/shared/core/Cards/Slider';
 import Clickable from '~/components/shared/core/Clickable';
 import { cx } from 'class-variance-authority';
-import { fakeProductsBaseData } from '~/utils/appData';
 import { ShopifyProduct } from '~/utils/types';
 
 const HomeShowcaseSection = ({ products }: { products: ShopifyProduct[] }) => {

@@ -55,7 +55,7 @@ export interface ShopifyProduct {
 	created_at: Date | string;
 	vendor: string;
 	type: string;
-	tags: any[];
+	tags: string[];
 	price: number;
 	price_min: number;
 	price_max: number;

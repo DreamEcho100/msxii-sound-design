@@ -1,4 +1,4 @@
-import Image from 'next/image';
+import CustomNextImage from '~/components/shared/CustomNextImage';
 import { useEffect, useRef } from 'react';
 import { FaFacebookF, FaInstagram, FaTwitter, FaYoutube } from 'react-icons/fa';
 import Clickable from '~/components/shared/core/Clickable';
@@ -132,7 +132,12 @@ const MainLayoutFooter = () => {
 					</div>
 					<div className="">
 						<Clickable href="/" isA="next-js">
-							<Image src="/images/logo.png" alt="logo" width="60" height="48" />
+							<CustomNextImage
+								src="/images/logo.png"
+								alt="logo"
+								width="60"
+								height="48"
+							/>
 						</Clickable>
 					</div>
 					<div className="flex flex-wrap items-center justify-center gap-2">

@@ -7,8 +7,9 @@ import ProductsSlider from '~/components/shared/core/Cards/Slider';
 import Clickable from '~/components/shared/core/Clickable';
 import { cx } from 'class-variance-authority';
 import { fakeProductsBaseData } from '~/utils/appData';
+import { ShopifyProduct } from '~/utils/types';
 
-const HomeShowcaseSection = () => {
+const HomeShowcaseSection = ({ products }: { products: ShopifyProduct[] }) => {
 	return (
 		<section className="sm:p-main-p-3">
 			<div className="flex flex-col gap-16 bg-bg-primary-100 dark:bg-bg-primary-900 p-main-p-3 sm:rounded-xl">
@@ -50,6 +51,7 @@ const HomeShowcaseSection = () => {
 						</div>
 					</header>
 					<ProductsSlider
+						products={products}
 						CardElem={ProductCard}
 						nextSlideButtonClassName="-translate-y-[200%] lg:-translate-y-[225%]"
 						previousSlideButtonClassName="-translate-y-[200%] lg:-translate-y-[225%]"
@@ -61,6 +63,7 @@ const HomeShowcaseSection = () => {
 					</header>
 					<div className="flex flex-col gap-8">
 						<ProductsSlider
+							products={products}
 							CardElem={ProductCard}
 							nextSlideButtonClassName="-translate-y-[200%] lg:-translate-y-[225%]"
 							previousSlideButtonClassName="-translate-y-[200%] lg:-translate-y-[225%]"
@@ -88,13 +91,19 @@ const HomeShowcaseSection = () => {
 								'sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4'
 							)}
 						>
-							{fakeProductsBaseData.slice(0, 4).map((item) => (
-								<ProductBundleCard
-									key={item.id}
-									product={item}
-									// containerClassName="w-[12.5rem]"
-								/>
-							))}
+							{products
+								.filter(
+									(product) =>
+										product.title.toLowerCase().search('bundle') !== -1
+								)
+								.slice(0, 4)
+								.map((item) => (
+									<ProductBundleCard
+										key={item.id}
+										product={item}
+										// containerClassName="w-[12.5rem]"
+									/>
+								))}
 						</div>
 					</div>
 				</section>

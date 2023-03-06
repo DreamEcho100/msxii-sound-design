@@ -5,14 +5,15 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 
 import 'swiper/css';
 import 'swiper/css/navigation';
-import { fakeProductsData } from '~/utils/appData';
-import { Product } from '~/utils/types';
+// import { fakeProductsData } from '~/utils/appData';
+import { ShopifyProduct } from '~/utils/types';
 import { cx } from 'class-variance-authority';
 
 import Image from 'next/image';
 
 type Props<CardElemProps extends Record<string, unknown>> = {
-	CardElem: FunctionComponent<CardElemProps & { product: Product }>;
+	products: ShopifyProduct[];
+	CardElem: FunctionComponent<CardElemProps & { product: ShopifyProduct }>;
 	cardsSharedProps?: CardElemProps;
 	swiperProps?: Parameters<typeof Swiper>[0];
 	nextSlideButtonClassName?: string;
@@ -20,6 +21,7 @@ type Props<CardElemProps extends Record<string, unknown>> = {
 };
 
 const ProductsSlider = <CardElemProps extends Record<string, unknown>>({
+	products,
 	CardElem,
 	swiperProps = {},
 	cardsSharedProps = {} as CardElemProps,
@@ -85,8 +87,8 @@ const ProductsSlider = <CardElemProps extends Record<string, unknown>>({
 				loop
 				{...swiperProps}
 			>
-				{fakeProductsData.map((item) => (
-					<SwiperSlide key={item.key} className="flex flex-col">
+				{products.map((item) => (
+					<SwiperSlide key={item.id} className="flex flex-col">
 						{<CardElem product={item} {...cardsSharedProps} />}
 					</SwiperSlide>
 				))}

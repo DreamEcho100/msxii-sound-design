@@ -1,9 +1,8 @@
 import { ReactNode } from 'react';
-import { fakeProductsBaseData, fakeProductsData } from '~/utils/appData';
 import Clickable from '../Clickable';
 import Image from 'next/image';
 import { VariantProps, cva } from 'class-variance-authority';
-import { Product } from '~/utils/types';
+import { ShopifyProduct } from '~/utils/types';
 
 const handleBasicProductCardContainerVariants = cva(
 	'card flex flex-col flex-grow px-1 group duration-300 delay-75 transition-all',
@@ -52,7 +51,7 @@ const handleBasicProductCardTitleVariants = cva(
 );
 
 export const BasicProductCard = (props: {
-	product: (typeof fakeProductsBaseData)[0];
+	product: ShopifyProduct;
 	extraDetailsElem?: ReactNode;
 	containerVariants?: VariantProps<
 		typeof handleBasicProductCardContainerVariants
@@ -77,8 +76,8 @@ export const BasicProductCard = (props: {
 				)}
 			>
 				<Image
-					src={props.product.image.src}
-					alt={props.product.image.alt}
+					src={props.product.featured_image}
+					alt={props.product.title}
 					width={800}
 					height={800}
 					className={handleBasicProductCardImageVariants(props.imageVariants)}
@@ -97,9 +96,7 @@ export const BasicProductCard = (props: {
 	);
 };
 
-export const ProductExtraDetails = (props: {
-	product: (typeof fakeProductsData)[0];
-}) => {
+export const ProductExtraDetails = (props: { product: ShopifyProduct }) => {
 	return (
 		<>
 			<p className="-translate-y-[20%] font-light text-text-primary-500/60">
@@ -122,7 +119,9 @@ export const ProductExtraDetails = (props: {
 export const ProductCard = ({
 	product,
 	...props
-}: { product: Product } & Partial<Parameters<typeof BasicProductCard>[0]>) => {
+}: { product: ShopifyProduct } & Partial<
+	Parameters<typeof BasicProductCard>[0]
+>) => {
 	return (
 		<BasicProductCard
 			product={product}

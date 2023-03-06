@@ -4,6 +4,7 @@ import ProductsSlider from '~/components/shared/core/Cards/Slider';
 import Clickable from '~/components/shared/core/Clickable';
 import { ShopifyProduct } from '~/utils/types';
 import { GiHamburgerMenu } from 'react-icons/gi';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const CategoriesMenu = ({
 	categories,
@@ -92,42 +93,60 @@ const ProductsScreen = ({ products }: { products: ShopifyProduct[] }) => {
 			<div className="">
 				<div className="flex relative sm:p-main-p-3 sm:gap-main-p-3">
 					{isFiltersMenuActive && (
-						<div className="absolute top-0 left-0 bg-bg-primary bg-bg-primary-500 p-8 h-full z-[2] sm:hidden">
-							<div className="flex flex-col gap-1">
-								<header className="flex gap-2 justify-end">
-									<Clickable
-										variants={null}
-										onClick={() => setIsFiltersMenuActive((prev) => !prev)}
-									>
-										<GiHamburgerMenu className="text-lg" />
-									</Clickable>
-								</header>
-								<CategoriesMenu
-									categories={categories}
-									setSelectedCategories={setSelectedCategories}
-									selectedCategories={selectedCategories}
-								/>
-							</div>
-						</div>
+						<AnimatePresence>
+							<motion.div
+								initial={{ scaleX: 0 }}
+								animate={{ scaleX: 1 }}
+								exit={{ scaleX: 0 }}
+								transition={{ duration: 0.3 }}
+								className="origin-left rtl:origin-right absolute top-0 left-0 bg-bg-primary bg-bg-primary-500 p-8 h-full z-[2] sm:hidden sm:opacity-0 sm:pointer-events-none"
+							>
+								<div className="flex flex-col gap-1">
+									<header className="flex gap-2 justify-end">
+										<Clickable
+											variants={null}
+											onClick={() => setIsFiltersMenuActive((prev) => !prev)}
+										>
+											<GiHamburgerMenu className="text-lg" />
+										</Clickable>
+									</header>
+									<CategoriesMenu
+										categories={categories}
+										setSelectedCategories={setSelectedCategories}
+										selectedCategories={selectedCategories}
+									/>
+								</div>
+							</motion.div>
+						</AnimatePresence>
 					)}
 					{isFiltersMenuActive && (
-						<div className="hidden flex-col gap-1 bg-bg-primary-500 max-w-[90%] py-main-p-3 h-full z-[2] sm:flex">
-							<header className="flex gap-2 justify-end">
-								<Clickable
-									variants={null}
-									onClick={() => setIsFiltersMenuActive((prev) => !prev)}
+						<div className="hidden sm:flex">
+							<AnimatePresence>
+								<motion.div
+									initial={{ scaleX: 0, width: 0 }}
+									animate={{ scaleX: 1, width: 'auto' }}
+									exit={{ scaleX: 0, width: 0 }}
+									transition={{ duration: 0.3 }}
+									className="origin-left rtl:origin-right flex-col gap-1 bg-bg-primary-500 py-main-p-3 h-full z-[2] sm:flex"
 								>
-									<GiHamburgerMenu className="text-lg" />
-								</Clickable>
-							</header>
-							<CategoriesMenu
-								categories={categories}
-								setSelectedCategories={setSelectedCategories}
-								selectedCategories={selectedCategories}
-							/>
+									<header className="flex gap-2 justify-end">
+										<Clickable
+											variants={null}
+											onClick={() => setIsFiltersMenuActive((prev) => !prev)}
+										>
+											<GiHamburgerMenu className="text-lg" />
+										</Clickable>
+									</header>
+									<CategoriesMenu
+										categories={categories}
+										setSelectedCategories={setSelectedCategories}
+										selectedCategories={selectedCategories}
+									/>
+								</motion.div>
+							</AnimatePresence>
 						</div>
 					)}
-					<div className="max-w-full overflow-hidden bg-bg-primary-100 dark:bg-bg-primary-900 isolate flex-grow">
+					<div className="max-w-full overflow-hidden bg-bg-primary-100 dark:bg-bg-primary-900 isolate flex-grow transition-all">
 						<header className="flex justify-between pt-8 pb-4 px-8">
 							<h1 className="text-h1">All Products</h1>
 							<Clickable

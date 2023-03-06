@@ -99,7 +99,7 @@ const ProductsScreen = ({ products }: { products: ShopifyProduct[] }) => {
 								animate={{ scaleX: 1 }}
 								exit={{ scaleX: 0 }}
 								transition={{ duration: 0.3 }}
-								className="origin-left rtl:origin-right absolute top-0 left-0 bg-bg-primary bg-bg-primary-500 p-8 h-full z-[2] sm:hidden sm:opacity-0 sm:pointer-events-none"
+								className="origin-left rtl:origin-right max-w-[90%] absolute top-0 left-0 bg-bg-primary bg-bg-primary-500 p-8 h-full z-[2] sm:hidden sm:opacity-0 sm:pointer-events-none"
 							>
 								<div className="flex flex-col gap-1">
 									<header className="flex gap-2 justify-end">

@@ -3,13 +3,19 @@ import { default as ClickableBase, ClickableTypes } from '../Clickable';
 import type { ClickableProps } from '../Clickable';
 import { useCallback } from 'react';
 
+const sharedAnimationClasses =
+	'duration-150 transition-all hover:-translate-y-[7.5%]';
+
 const handleClickableVariants = cva('', {
 	variants: {
 		btn: {
-			primary:
-				'font-normal bg-initial-primary-900 text-initial-secondary-0 hover:bg-initial-primary-100 hover:text-initial-secondary-900 duration-150 transition-all hover:-translate-y-[7.5%]',
-			secondary:
-				'font-normal bg-initial-primary-200 text-initial-secondary-0 hover:bg-initial-primary-900 hover:text-initial-primary-0 duration-150 transition-all hover:-translate-y-[7.5%]'
+			primary: `bg-initial-primary-900 text-initial-secondary-0 hover:bg-initial-primary-100 hover:text-initial-secondary-900 ${sharedAnimationClasses}`,
+			secondary: `bg-initial-primary-200 text-initial-secondary-0 hover:bg-initial-primary-900 hover:text-initial-primary-0 ${sharedAnimationClasses}`,
+			'light:primary_dark:secondary': [
+				sharedAnimationClasses,
+				'bg-initial-primary-900 text-initial-secondary-0 hover:bg-initial-primary-100 hover:text-initial-secondary-900',
+				'dark:bg-initial-primary-200 dark:text-initial-secondary-0 dark:hover:bg-initial-primary-900 dark:hover:text-initial-primary-0'
+			]
 		},
 		w: { fit: 'w-fit', full: 'w-full' },
 		py: {
@@ -36,9 +42,12 @@ const handleClickableVariants = cva('', {
 			md: 'rounded-md',
 			'3xl': 'rounded-3xl',
 			'3xl.2': 'rounded-[1.75rem]'
+		},
+		'font-weight': {
+			normal: 'font-normal'
 		}
-	}
-	// defaultVariants: { btn: 'primary', w: 'fit', rounded: '3xl' }
+	},
+	defaultVariants: { 'font-weight': 'normal' }
 });
 
 type Props = {

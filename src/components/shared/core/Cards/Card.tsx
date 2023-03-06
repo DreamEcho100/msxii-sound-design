@@ -96,11 +96,19 @@ export const BasicProductCard = (props: {
 	);
 };
 
-export const ProductExtraDetails = (props: { product: ShopifyProduct }) => {
+export const ProductExtraDetails = ({
+	product,
+	buttonProps = {}
+}: {
+	product: ShopifyProduct;
+	buttonProps?: Partial<Parameters<typeof Clickable>[0]>;
+}) => {
+	console.log('buttonProps', buttonProps);
 	return (
 		<>
 			<p className="-translate-y-[20%] font-light text-text-primary-500/60">
-				$ {props.product.price}
+				$ {product.price}{' '}
+				<del className="text-red-500">{product.compare_at_price}</del>
 			</p>
 			<Clickable
 				variants={{
@@ -109,6 +117,7 @@ export const ProductExtraDetails = (props: { product: ShopifyProduct }) => {
 					px: 'lg'
 				}}
 				className="whitespace-nowrap text-sm uppercase"
+				{...(buttonProps as any)}
 			>
 				Add To Cart
 			</Clickable>
@@ -118,14 +127,18 @@ export const ProductExtraDetails = (props: { product: ShopifyProduct }) => {
 
 export const ProductCard = ({
 	product,
+	extraDetailsElemProps,
 	...props
-}: { product: ShopifyProduct } & Partial<
-	Parameters<typeof BasicProductCard>[0]
->) => {
+}: {
+	product: ShopifyProduct;
+	extraDetailsElemProps?: Partial<Parameters<typeof ProductExtraDetails>[0]>;
+} & Partial<Parameters<typeof BasicProductCard>[0]>) => {
 	return (
 		<BasicProductCard
 			product={product}
-			extraDetailsElem={<ProductExtraDetails product={product} />}
+			extraDetailsElem={
+				<ProductExtraDetails {...extraDetailsElemProps} product={product} />
+			}
 			containerVariants={{ 'aspect-ratio': 'card' }}
 			{...props}
 		/>

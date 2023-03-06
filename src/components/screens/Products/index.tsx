@@ -43,7 +43,7 @@ const CategoriesMenu = ({
 };
 
 const ProductsScreen = ({ products }: { products: ShopifyProduct[] }) => {
-	const [isFiltersMenuActive, setIsFiltersMenuActive] = useState(false);
+	const [isFiltersMenuActive, setIsFiltersMenuActive] = useState(true);
 	const { productsByCategory, categories } = useMemo(() => {
 		const productsCategoryMap: Record<string, typeof products> = {};
 
@@ -90,94 +90,107 @@ const ProductsScreen = ({ products }: { products: ShopifyProduct[] }) => {
 
 	return (
 		<section>
-			<div className="">
-				<div className="flex relative sm:p-main-p-3 sm:gap-main-p-3">
-					{isFiltersMenuActive && (
+			<div className="flex relative sm:p-main-p-3 py-main-p-1 sm:gap-main-p-3">
+				{isFiltersMenuActive && (
+					<AnimatePresence>
+						<motion.div
+							initial={{ scaleX: 0 }}
+							animate={{ scaleX: 1 }}
+							exit={{ scaleX: 0 }}
+							transition={{ duration: 0.3 }}
+							className="origin-left rtl:origin-right max-w-[90%] absolute top-0 left-0 bg-bg-primary bg-bg-primary-500 p-8 h-full z-[2] sm:hidden sm:opacity-0 sm:pointer-events-none"
+						>
+							<div className="flex flex-col gap-1">
+								<header className="flex gap-2 justify-between">
+									<p>Shop all</p>
+									<Clickable
+										variants={null}
+										onClick={() => setIsFiltersMenuActive((prev) => !prev)}
+									>
+										<GiHamburgerMenu className="text-lg" />
+									</Clickable>
+								</header>
+								<CategoriesMenu
+									categories={categories}
+									setSelectedCategories={setSelectedCategories}
+									selectedCategories={selectedCategories}
+								/>
+							</div>
+						</motion.div>
+					</AnimatePresence>
+				)}
+				{isFiltersMenuActive && (
+					<div className="hidden sm:flex">
 						<AnimatePresence>
 							<motion.div
-								initial={{ scaleX: 0 }}
-								animate={{ scaleX: 1 }}
-								exit={{ scaleX: 0 }}
+								initial={{ scaleX: 0, width: 0 }}
+								animate={{ scaleX: 1, width: 'auto' }}
+								exit={{ scaleX: 0, width: 0 }}
 								transition={{ duration: 0.3 }}
-								className="origin-left rtl:origin-right max-w-[90%] absolute top-0 left-0 bg-bg-primary bg-bg-primary-500 p-8 h-full z-[2] sm:hidden sm:opacity-0 sm:pointer-events-none"
+								className="origin-left rtl:origin-right flex-col gap-1 bg-bg-primary-500 py-main-p-3 h-full z-[2] sm:flex"
 							>
-								<div className="flex flex-col gap-1">
-									<header className="flex gap-2 justify-end">
-										<Clickable
-											variants={null}
-											onClick={() => setIsFiltersMenuActive((prev) => !prev)}
-										>
-											<GiHamburgerMenu className="text-lg" />
-										</Clickable>
-									</header>
-									<CategoriesMenu
-										categories={categories}
-										setSelectedCategories={setSelectedCategories}
-										selectedCategories={selectedCategories}
-									/>
-								</div>
+								<header className="flex gap-2 justify-between">
+									<p>Shop all</p>
+									<Clickable
+										variants={null}
+										onClick={() => setIsFiltersMenuActive((prev) => !prev)}
+									>
+										<GiHamburgerMenu className="text-lg" />
+									</Clickable>
+								</header>
+								<CategoriesMenu
+									categories={categories}
+									setSelectedCategories={setSelectedCategories}
+									selectedCategories={selectedCategories}
+								/>
 							</motion.div>
 						</AnimatePresence>
-					)}
-					{isFiltersMenuActive && (
-						<div className="hidden sm:flex">
-							<AnimatePresence>
-								<motion.div
-									initial={{ scaleX: 0, width: 0 }}
-									animate={{ scaleX: 1, width: 'auto' }}
-									exit={{ scaleX: 0, width: 0 }}
-									transition={{ duration: 0.3 }}
-									className="origin-left rtl:origin-right flex-col gap-1 bg-bg-primary-500 py-main-p-3 h-full z-[2] sm:flex"
-								>
-									<header className="flex gap-2 justify-end">
-										<Clickable
-											variants={null}
-											onClick={() => setIsFiltersMenuActive((prev) => !prev)}
-										>
-											<GiHamburgerMenu className="text-lg" />
-										</Clickable>
-									</header>
-									<CategoriesMenu
-										categories={categories}
-										setSelectedCategories={setSelectedCategories}
-										selectedCategories={selectedCategories}
-									/>
-								</motion.div>
-							</AnimatePresence>
-						</div>
-					)}
-					<div className="max-w-full overflow-hidden bg-bg-primary-100 dark:bg-bg-primary-900 isolate flex-grow transition-all">
-						<header className="flex justify-between pt-8 pb-4 px-8">
-							<h1 className="text-h1">All Products</h1>
-							<Clickable
-								variants={null}
-								onClick={() => setIsFiltersMenuActive((prev) => !prev)}
-							>
-								<GiHamburgerMenu className="text-lg" />
-							</Clickable>
-						</header>
-						{filteredProductsByCategory.map((productByCategory) => (
-							<div className="px-8" key={productByCategory[0]}>
-								<h2 className="text-h2">{productByCategory[0]}</h2>
-								<div className="">
-									<ProductsSlider
-										products={productByCategory[1]}
-										CardElem={ProductCard}
-										nextSlideButtonClassName="-translate-y-[200%] lg:-translate-y-[225%]"
-										previousSlideButtonClassName="-translate-y-[200%] lg:-translate-y-[225%]"
-										swiperProps={{
-											breakpoints: {
-												384: { slidesPerView: 1 },
-												768: { slidesPerView: 3 },
-												1024: { slidesPerView: 5 },
-												1280: { slidesPerView: 6 }
-											}
-										}}
-									/>
-								</div>
-							</div>
-						))}
 					</div>
+				)}
+				<div className="max-w-full overflow-hidden bg-bg-primary-100 dark:bg-bg-primary-900 isolate flex-grow transition-all sm:rounded-2xl">
+					<header className="flex justify-between pt-8 pb-4 px-8">
+						<h1 className="text-h1 font-black">All Packs</h1>
+						<Clickable
+							variants={null}
+							onClick={() => setIsFiltersMenuActive((prev) => !prev)}
+						>
+							<GiHamburgerMenu className="text-lg" />
+						</Clickable>
+					</header>
+					{filteredProductsByCategory.map((productByCategory) => (
+						<div className="px-8" key={productByCategory[0]}>
+							<h2 className="text-h4 text-text-primary-300 px-4">
+								{productByCategory[0]}
+							</h2>
+							<div className="">
+								<ProductsSlider
+									products={productByCategory[1]}
+									CardElem={ProductCard}
+									nextSlideButtonClassName="-translate-y-[200%] lg:-translate-y-[225%]"
+									previousSlideButtonClassName="-translate-y-[200%] lg:-translate-y-[225%]"
+									swiperProps={{
+										breakpoints: {
+											384: { slidesPerView: 1 },
+											768: { slidesPerView: 3 },
+											1024: { slidesPerView: 5 },
+											1280: { slidesPerView: 6 }
+										}
+									}}
+									cardsSharedProps={{
+										extraDetailsElemProps: {
+											buttonProps: {
+												variants: {
+													btn: 'light:primary_dark:secondary',
+													py: 'sm',
+													px: 'lg'
+												} as any
+											}
+										}
+									}}
+								/>
+							</div>
+						</div>
+					))}
 				</div>
 			</div>
 		</section>

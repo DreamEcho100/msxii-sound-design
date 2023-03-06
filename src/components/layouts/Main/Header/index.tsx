@@ -147,8 +147,13 @@ const MainLayoutHeader = () => {
 							>
 								<BiSearchAlt2 className="text-xl" />
 							</Clickable>
-							<Clickable href="/" isA="next-js" title="profile">
-								<BsPersonFill className="text-xl text-special-primary-500" />
+							<Clickable
+								href="/"
+								isA="next-js"
+								title="profile"
+								className="text-xl text-special-primary-500 hover:text-special-primary-900 focus:text-special-primary-900"
+							>
+								<BsPersonFill />
 							</Clickable>
 							<Clickable
 								title="cart"
@@ -156,11 +161,6 @@ const MainLayoutHeader = () => {
 								className="relative flex items-start gap-1 whitespace-nowrap translate-y-[0.25ch]"
 							>
 								<BsCart3 className="text-xl" /> 0 ITEMS
-								{/* <span className="absolute flex items-end justify-end whitespace-nowrap">
-              <small className="text-[50%]">
-                <span className="font-sans">0</span> ITEMS
-              </small>
-            </span> */}
 							</Clickable>
 							<Clickable
 								onClick={toggleDropdownMenuOnLessThanLG}

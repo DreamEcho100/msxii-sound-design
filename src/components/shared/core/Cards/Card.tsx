@@ -1,8 +1,9 @@
-import { ReactNode } from 'react';
+import { ReactNode, useMemo } from 'react';
 import Clickable from '../Clickable';
 import Image from 'next/image';
 import { VariantProps, cva } from 'class-variance-authority';
 import { ShopifyProduct } from '~/utils/types';
+import { BiPlay } from 'react-icons/bi';
 
 const handleBasicProductCardContainerVariants = cva(
 	'card flex flex-col flex-grow px-1 group duration-300 delay-75 transition-all',
@@ -62,6 +63,7 @@ export const BasicProductCard = (props: {
 	>;
 	imageVariants?: VariantProps<typeof handleBasicProductCardImageVariants>;
 	titleVariants?: VariantProps<typeof handleBasicProductCardTitleVariants>;
+	isPlayButtonActive?: boolean;
 }) => {
 	return (
 		<article
@@ -82,6 +84,14 @@ export const BasicProductCard = (props: {
 					height={800}
 					className={handleBasicProductCardImageVariants(props.imageVariants)}
 				/>
+				{props.isPlayButtonActive && (
+					<Clickable
+						className="absolute bottom-0 right-0 my-3 mx-4"
+						variants={{ px: 'sm', py: 'sm', rounded: 'full' }}
+					>
+						<BiPlay className="text-3xl" />
+					</Clickable>
+				)}
 			</div>
 			<div className="text-align-initial flex flex-grow flex-col justify-between gap-2 px-2 py-3 leading-primary-5">
 				<h3
@@ -103,11 +113,21 @@ export const ProductExtraDetails = ({
 	product: ShopifyProduct;
 	buttonProps?: Partial<Parameters<typeof Clickable>[0]>;
 }) => {
+	const { price, compare_at_price } = useMemo(() => {
+		const price = (product.price / 100).toFixed(2);
+		const compare_at_price = product.compare_at_price
+			? (product.compare_at_price / 100).toFixed(2)
+			: null;
+
+		return { price, compare_at_price };
+	}, [product.price, product.compare_at_price]);
 	return (
 		<>
-			<p className="-translate-y-[20%] font-normal text-text-primary-500/60">
-				$ {product.price}{' '}
-				<del className="text-red-500">{product.compare_at_price}</del>
+			<p className="-translate-y-[20%] text-[90%] whitespace-nowrap font-normal text-text-primary-500/60">
+				$ {price}{' '}
+				{compare_at_price && (
+					<del className="text-red-500">{compare_at_price}</del>
+				)}
 			</p>
 			<Clickable
 				variants={{

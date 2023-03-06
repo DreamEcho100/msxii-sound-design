@@ -41,7 +41,8 @@ const handleClickableVariants = cva('', {
 		rounded: {
 			md: 'rounded-md',
 			'3xl': 'rounded-3xl',
-			'3xl.2': 'rounded-[1.75rem]'
+			'3xl.2': 'rounded-[1.75rem]',
+			full: 'rounded-full'
 		},
 		'font-weight': {
 			normal: 'font-normal'

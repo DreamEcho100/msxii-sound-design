@@ -182,8 +182,8 @@ const ProductsScreen = ({ products }: { products: ShopifyProduct[] }) => {
 								<ProductsSlider
 									products={productByCategory[1]}
 									CardElem={ProductCard}
-									nextSlideButtonClassName="-translate-y-[200%] lg:-translate-y-[225%]"
-									previousSlideButtonClassName="-translate-y-[200%] lg:-translate-y-[225%]"
+									nextSlideButtonClassName="scale-[50%] -translate-y-[200%] lg:-translate-y-[225%]"
+									previousSlideButtonClassName="scale-[50%] -translate-y-[200%] lg:-translate-y-[225%]"
 									swiperProps={{
 										breakpoints: {
 											384: { slidesPerView: 1 },
@@ -193,6 +193,7 @@ const ProductsScreen = ({ products }: { products: ShopifyProduct[] }) => {
 										}
 									}}
 									cardsSharedProps={{
+										isPlayButtonActive: true,
 										extraDetailsElemProps: {
 											buttonProps: {
 												variants: {

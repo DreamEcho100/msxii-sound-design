@@ -96,7 +96,7 @@ const ProductsScreen = ({ products }: { products: ShopifyProduct[] }) => {
 							/>
 						</div>
 					)}
-					<div className="bg-bg-primary-500 p-main-p-3 h-full z-[2] hidden sm:block">
+					<div className="bg-bg-primary-500 p-main-p-3 max-w-[90%] h-full z-[2] hidden sm:block">
 						<CategoriesMenu
 							categories={categories}
 							setSelectedCategories={setSelectedCategories}

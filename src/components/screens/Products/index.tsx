@@ -108,6 +108,9 @@ const ProductsScreen = ({ products }: { products: ShopifyProduct[] }) => {
 									<Clickable
 										variants={null}
 										onClick={() => setIsFiltersMenuActive((prev) => !prev)}
+										title={`${
+											isFiltersMenuActive ? 'Hide' : 'Show'
+										} the filters`}
 									>
 										<GiHamburgerMenu className="text-lg" />
 									</Clickable>
@@ -138,6 +141,9 @@ const ProductsScreen = ({ products }: { products: ShopifyProduct[] }) => {
 									<Clickable
 										variants={null}
 										onClick={() => setIsFiltersMenuActive((prev) => !prev)}
+										title={`${
+											isFiltersMenuActive ? 'Hide' : 'Show'
+										} the filters`}
 									>
 										<GiHamburgerMenu className="text-lg" />
 									</Clickable>
@@ -162,13 +168,14 @@ const ProductsScreen = ({ products }: { products: ShopifyProduct[] }) => {
 						<Clickable
 							variants={null}
 							onClick={() => setIsFiltersMenuActive((prev) => !prev)}
+							title={`${isFiltersMenuActive ? 'Hide' : 'Show'} the filters`}
 						>
 							<GiHamburgerMenu className="text-lg" />
 						</Clickable>
 					</header>
 					{filteredProductsByCategory.map((productByCategory) => (
 						<div className="px-8" key={productByCategory[0]}>
-							<h2 className="text-h4 text-text-primary-300 px-4">
+							<h2 className="text-h4 text-text-primary-300 px-4 font-normal">
 								{productByCategory[0]}
 							</h2>
 							<div className="">

@@ -97,7 +97,7 @@
 		--size-h1: 2rem;
 		--size-h2: 1.9rem;
 		--size-h3: 1.8rem;
-		--size-h4: 1.6rem;
+		--size-h4: 1.5rem;
 		--size-h5: 1.4rem;
 		--size-h6: 1.2rem;
 		--main-p-1: 4rem;
@@ -107,8 +107,8 @@
 
 		--main-content-min-h: calc(100vh - var(--main-header-h));
 
-		--leading-h1: 3rem; /* 62px */
-		--leading-h2: 2.75rem; /* 62px */
+		--leading-h1: 2.75rem; /* 44px */
+		--leading-h2: 2.75rem; /* 44px */
 		--leading-primary-1: 2.5rem; /* 40px */
 		--leading-primary-2: 2.25rem; /* 36px */
 		--leading-primary-3: 2rem; /* 32px */

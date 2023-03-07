@@ -60,7 +60,7 @@ const HeroHomeSection = () => {
 					initial={{ opacity: 0, y: '2rem' }}
 					animate={{ opacity: 1, y: '0%' }}
 					transition={{ duration: 0.3, delay: 0.2 }}
-					className="max-w-[41.25rem] leading-primary-2"
+					className="max-w-[41.25rem] leading-primary-4"
 				>
 					MSXAudio sample packs offer a wide range of high-quality audio and
 					MIDI samples for music producers and creators of all skill levels.

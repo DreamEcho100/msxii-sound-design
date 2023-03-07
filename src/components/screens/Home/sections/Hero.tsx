@@ -15,33 +15,33 @@ type CustomMotionProps = Omit<MotionProps, 'animate'> & {
 
 const heroImages: (CustomMotionProps & { path: string })[] = [
 	{
-		path: heroImagesPathNumberTransformer(7),
+		path: heroImagesPathNumberTransformer(6),
 		animate: { scale: 0.4, x: '30%', rotateZ: '12deg' }
 	},
 	{
-		path: heroImagesPathNumberTransformer(6),
+		path: heroImagesPathNumberTransformer(5),
 		animate: { scale: 0.5, x: '0%', rotateZ: '8deg' }
 	},
 	{
-		path: heroImagesPathNumberTransformer(5),
+		path: heroImagesPathNumberTransformer(4),
 		animate: { scale: 0.6, x: '30%' }
 	},
 	{
-		path: heroImagesPathNumberTransformer(4),
+		path: heroImagesPathNumberTransformer(3),
 		animate: { scale: 0.6, x: '-15%', rotateZ: '-1.5deg' }
 	},
 	{
-		path: heroImagesPathNumberTransformer(3),
+		path: heroImagesPathNumberTransformer(2),
 		animate: { scale: 0.6, x: '-5%', rotateZ: '-1.5deg' }
 	},
 	{
-		path: heroImagesPathNumberTransformer(2),
-		animate: { scale: 0.6, x: '5%', rotateZ: '-1.5deg' }
-	},
-	{
 		path: heroImagesPathNumberTransformer(1),
-		animate: { scale: 0.6, x: '15%', rotateZ: '-1.5deg' }
+		animate: { scale: 0.6, x: '5%', rotateZ: '-1.5deg' }
 	}
+	// {
+	// 	path: heroImagesPathNumberTransformer(1),
+	// 	animate: { scale: 0.6, x: '15%', rotateZ: '-1.5deg' }
+	// }
 ];
 
 const HeroHomeSection = () => {
@@ -91,7 +91,7 @@ const HeroHomeSection = () => {
 					</motion.span>
 				</span>
 			</div>
-			<div className="relative flex-grow flex items-center justify-center p-16 pb-10 lg:p-0">
+			<div className="relative flex-grow flex items-center justify-center p-8 sm:p-16 pb-10 lg:p-0">
 				<div className="relative w-96 h-96">
 					{heroImages.map(({ path, animate, ...props }, index, arr) => (
 						<motion.div

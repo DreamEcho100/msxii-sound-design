@@ -25,7 +25,7 @@ const HomeIOSAppsSection = () => {
 		<section className="p-main-p-3">
 			<div className="flex flex-col gap-8">
 				<header>
-					<h2 className="text-h1 font-black leading-h2 uppercase md:px-4">
+					<h2 className="text-h1 font-semibold leading-h2 uppercase md:px-4">
 						iOS Apps
 					</h2>
 				</header>
@@ -44,7 +44,7 @@ const HomeIOSAppsSection = () => {
 									className="card-img-zoom-animation-1 duration-300 ease-in"
 								/>
 							</div>
-							<div className="group flex flex-col">
+							<div className="group flex flex-col gap-2">
 								<h3 className="font-normal leading-4">{item.title}</h3>
 								<CTAButton href="/" isA="next-js" text="Discover more" />
 							</div>

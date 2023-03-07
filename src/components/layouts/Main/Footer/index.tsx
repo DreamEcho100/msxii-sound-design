@@ -110,7 +110,7 @@ const MainLayoutFooter = () => {
 								className="bg-transparent border-b-[0.125rem] border-solid border-b-text-primary-200 py-2 outline-none"
 							/>
 							<Clickable
-								variants={{ rounded: 'md' }}
+								variants={{ rounded: 'md', w: 'full', py: 'md' }}
 								className="text-h5 uppercase font-medium"
 							>
 								subscribe
@@ -130,7 +130,7 @@ const MainLayoutFooter = () => {
 							</Link>
 						</small>
 					</div>
-					<div className="">
+					<div className="md:ml-12 rtl:md:mr-12">
 						<Clickable href="/" isA="next-js">
 							<CustomNextImage
 								src="/images/logo.png"

@@ -86,10 +86,10 @@ export const BasicProductCard = (props: {
 				/>
 				{props.isPlayButtonActive && (
 					<Clickable
-						className="absolute bottom-0 right-0 my-3 mx-4"
+						className="absolute bottom-0 right-0 my-3 mx-4 flex items-center justify-center"
 						variants={{ px: 'sm', py: 'sm', rounded: 'full' }}
 					>
-						<BiPlay className="text-3xl" />
+						<BiPlay className="text-3xl translate-x-[7.5%] scale-110 rtl:-translate-x-[5%] rtl:rotate-180" />
 					</Clickable>
 				)}
 			</div>

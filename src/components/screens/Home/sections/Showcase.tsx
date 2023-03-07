@@ -13,7 +13,7 @@ const HomeShowcaseSection = ({ products }: { products: ShopifyProduct[] }) => {
 			<div className="flex flex-col gap-16 bg-bg-primary-100 dark:bg-bg-primary-900 p-main-p-3 sm:rounded-xl">
 				<section>
 					<header className="flex flex-col gap-8 pl-4 rtl:pr-4 rtl:pl-0">
-						<h2 className="text-h1 leading-h2 font-black">New Releases</h2>
+						<h2 className="text-h1 leading-h2 font-semibold">New Releases</h2>
 						<div className="flex flex-wrap gap-x-4 gap-y-3 text-base">
 							{[
 								{ title: 'NEW RELEASES', isActive: true },
@@ -57,7 +57,7 @@ const HomeShowcaseSection = ({ products }: { products: ShopifyProduct[] }) => {
 				</section>
 				<section className="flex flex-col gap-4">
 					<header className="pl-6 rtl:pr-6 rtl:pl-0">
-						<h2 className="text-h1 leading-h2 font-black">Bundles</h2>
+						<h2 className="text-h1 leading-h2 font-semibold">Bundles</h2>
 					</header>
 					<div className="flex flex-col gap-8">
 						<ProductsSlider

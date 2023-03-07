@@ -22,7 +22,7 @@ const HomeLatestBlogsSection = () => {
 			<div className="bg-[url(/images/5414679a34fb63f864a17c2a951305deb4840b49.jpeg)] bg-cover bg-center bg-no-repeat py-main-p-1 px-main-p-2  sm:rounded-xl md:p-main-p-1">
 				<div className="mx-auto flex w-fit flex-col gap-4 sm:gap-12">
 					<header className="text-initial-primary-900">
-						<h2 className="text-h1 leading-h2 font-black">Latest Blogs</h2>
+						<h2 className="text-h1 leading-h2 font-semibold">Latest Blogs</h2>
 					</header>
 					<div className="cards-container text-initial-primary-500 flex w-fit flex-col gap-8 lg:flex-row">
 						{blogs.map((blog) => (

@@ -31,47 +31,26 @@ const CheckboxField = ({
 const CategoriesMenu = ({
 	categories,
 	setSelectedCategories,
-	selectedCategories,
-	setIsAllCategoriesDisplayed,
-	isAllCategoriesDisplayed
+	selectedCategories
 }: {
 	categories: string[];
 	setSelectedCategories: Dispatch<SetStateAction<string[]>>;
 	selectedCategories: string[];
-	setIsAllCategoriesDisplayed: Dispatch<SetStateAction<boolean>>;
-	isAllCategoriesDisplayed: boolean;
 }) => {
 	return (
 		<div className="flex flex-col gap-1">
-			<div className="flex flex-col gap-1">
-				<CheckboxField
-					checked={selectedCategories.length === categories.length}
-					value="ALL"
-					onChange={(event) => {
-						setSelectedCategories(event.target.checked ? categories : []);
-						setIsAllCategoriesDisplayed(event.target.checked);
-					}}
-				>
-					All
-				</CheckboxField>
-			</div>
 			{categories.map((category) => (
 				<CheckboxField
 					key={category}
-					checked={
-						isAllCategoriesDisplayed || selectedCategories.includes(category)
-					}
+					checked={selectedCategories.includes(category)}
 					value={category}
-					onChange={(event) => {
-						if (isAllCategoriesDisplayed && !event.target.checked)
-							setIsAllCategoriesDisplayed(false);
-
+					onChange={(event) =>
 						setSelectedCategories((prev) =>
 							event.target.checked
 								? [...prev, event.target.value]
 								: prev.filter((category) => category !== event.target.value)
-						);
-					}}
+						)
+					}
 				>
 					{category}
 				</CheckboxField>
@@ -108,13 +87,10 @@ const ProductsScreen = ({ products }: { products: ShopifyProduct[] }) => {
 		};
 	}, [products]);
 
-	const [selectedCategories, setSelectedCategories] =
-		useState<string[]>(categories);
-	const [isAllCategoriesDisplayed, setIsAllCategoriesDisplayed] =
-		useState(true);
+	const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
 
 	const filteredProductsByCategory = useMemo(() => {
-		if (isAllCategoriesDisplayed) return productsByCategory;
+		if (selectedCategories.length === 0) return productsByCategory;
 
 		const filteredProductsByCategory: typeof productsByCategory = [];
 
@@ -125,7 +101,7 @@ const ProductsScreen = ({ products }: { products: ShopifyProduct[] }) => {
 		});
 
 		return filteredProductsByCategory;
-	}, [isAllCategoriesDisplayed, productsByCategory, selectedCategories]);
+	}, [productsByCategory, selectedCategories]);
 
 	return (
 		<section>
@@ -149,15 +125,13 @@ const ProductsScreen = ({ products }: { products: ShopifyProduct[] }) => {
 										onClick={() => setIsFiltersMenuActive((prev) => !prev)}
 										title={`${isFiltersMenuActive ? 'Hide' : 'Show'} filters`}
 									>
-										<GiSettingsKnobs className="text-xl font-black scale-y-110 rotate-90" />
+										<GiSettingsKnobs className="text-xl font-bold scale-y-110 rotate-90" />
 									</Clickable>
 								</header>
 								<CategoriesMenu
 									categories={categories}
 									setSelectedCategories={setSelectedCategories}
 									selectedCategories={selectedCategories}
-									setIsAllCategoriesDisplayed={setIsAllCategoriesDisplayed}
-									isAllCategoriesDisplayed={isAllCategoriesDisplayed}
 								/>
 							</div>
 						</motion.div>
@@ -182,15 +156,13 @@ const ProductsScreen = ({ products }: { products: ShopifyProduct[] }) => {
 										onClick={() => setIsFiltersMenuActive((prev) => !prev)}
 										title={`${isFiltersMenuActive ? 'Hide' : 'Show'} filters`}
 									>
-										<GiSettingsKnobs className="text-xl font-black scale-y-110 rotate-90" />
+										<GiSettingsKnobs className="text-xl font-bold scale-y-110 rotate-90" />
 									</Clickable>
 								</header>
 								<CategoriesMenu
 									categories={categories}
 									setSelectedCategories={setSelectedCategories}
 									selectedCategories={selectedCategories}
-									setIsAllCategoriesDisplayed={setIsAllCategoriesDisplayed}
-									isAllCategoriesDisplayed={isAllCategoriesDisplayed}
 								/>
 							</motion.div>
 						)}
@@ -198,7 +170,7 @@ const ProductsScreen = ({ products }: { products: ShopifyProduct[] }) => {
 				</div>
 				<div className="max-w-full overflow-hidden bg-bg-primary-100 dark:bg-bg-primary-900 isolate flex-grow transition-all sm:rounded-2xl">
 					<header className="flex justify-between pt-8 pb-4 px-8">
-						<h1 className="text-h1 font-black">
+						<h1 className="text-h1 font-semibold">
 							{selectedCategories.length === categories.length ||
 							selectedCategories.length === 0
 								? 'All Packs'
@@ -213,7 +185,7 @@ const ProductsScreen = ({ products }: { products: ShopifyProduct[] }) => {
 							<span className="text-text-primary-300 font-medium">
 								{isFiltersMenuActive ? 'Hide' : 'Show'} filters
 							</span>
-							<GiSettingsKnobs className="text-xl font-black scale-y-110 rotate-90" />
+							<GiSettingsKnobs className="text-xl font-bold scale-y-110 rotate-90" />
 						</Clickable>
 					</header>
 					{filteredProductsByCategory.map((productByCategory) => (

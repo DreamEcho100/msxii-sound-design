@@ -10,7 +10,7 @@ const handleClickableVariants = cva('', {
 	variants: {
 		btn: {
 			primary: `bg-initial-primary-900 text-initial-secondary-0 hover:bg-initial-primary-100 hover:text-initial-secondary-900 ${sharedAnimationClasses}`,
-			secondary: `bg-initial-primary-200 dark:bg-initial-primary-300 text-initial-secondary-0 hover:bg-initial-primary-500 hover:text-initial-primary-0 ${sharedAnimationClasses}`,
+			secondary: `bg-initial-primary-300 dark:bg-initial-primary-300 text-initial-secondary-0 hover:bg-initial-primary-500 hover:text-initial-primary-0 ${sharedAnimationClasses}`,
 			'light:primary_dark:secondary': [
 				sharedAnimationClasses,
 				'bg-initial-primary-900 text-initial-secondary-0 hover:bg-initial-primary-100 hover:text-initial-secondary-900',

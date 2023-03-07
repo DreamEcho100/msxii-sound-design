@@ -19,7 +19,7 @@ const blogs = [
 const HomeLatestBlogsSection = () => {
 	return (
 		<section className="sm:px-main-p-3 sm:py-main-p-2">
-			<div className="bg-[url(/images/5414679a34fb63f864a17c2a951305deb4840b49.jpeg)] bg-cover bg-center bg-no-repeat py-main-p-1 px-main-p-2  sm:rounded-xl md:p-main-p-1">
+			<div className="bg-bg-primary-0 py-main-p-1 px-main-p-2 sm:rounded-xl md:p-main-p-1">
 				<div className="mx-auto flex w-fit flex-col gap-4 sm:gap-12">
 					<header className="text-initial-primary-900">
 						<h2 className="text-h1 leading-h2 font-semibold">Latest Blogs</h2>
@@ -28,7 +28,7 @@ const HomeLatestBlogsSection = () => {
 						{blogs.map((blog) => (
 							<article
 								key={blog.id}
-								className="duration-300 transition-all flex aspect-video flex-col-reverse rounded-lg overflow-hidden bg-text-primary-0 sm:flex-row md:max-w-[600px]"
+								className="duration-300 transition-all flex aspect-video flex-col-reverse rounded-lg overflow-hidden bg-bg-primary-600 bg-opacity-20 dark:bg-opacity-100 text-text-primary-500 sm:flex-row md:max-w-[600px]"
 							>
 								<div className="group sm:text-align-initial flex flex-col items-center justify-between gap-2 p-8 text-center sm:w-1/2 sm:items-start sm:gap-0 lg:p-8">
 									<Clickable

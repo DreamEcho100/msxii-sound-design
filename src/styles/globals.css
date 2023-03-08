@@ -134,7 +134,7 @@
 	h5,
 	h6 {
 		font-weight: 700;
-		line-height: var(--leading-primary-1);
+		/* line-height: var(--leading-primary-1); */
 	}
 
 	svg {

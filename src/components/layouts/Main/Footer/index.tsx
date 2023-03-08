@@ -98,7 +98,7 @@ const MainLayoutFooter = () => {
 					))}
 					<div className="flex flex-col gap-4 flex-grow max-w-sm">
 						<header className="flex flex-col gap-2">
-							<h3 className="text-h4 dark:text-text-primary-500">
+							<h3 className="text-h4 font-medium dark:text-text-primary-500">
 								Join our newsletter
 							</h3>
 							<p>New Subscribers get our Site Sampler Free!</p>

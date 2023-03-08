@@ -42,9 +42,9 @@ const handleBasicProductCardTitleVariants = cva(
 		variants: {
 			'text-align': { center: 'text-center' },
 			'text-size': {
-				sm: 'text-sm',
+				sm: 'text-[0.0.875rem]',
 				md: 'text-[1rem] leading-primary-5',
-				lg: 'text-lg'
+				lg: 'text-[1.125rem]'
 			}
 		},
 		defaultVariants: { 'text-size': 'md' }

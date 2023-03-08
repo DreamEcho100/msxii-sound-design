@@ -74,7 +74,7 @@ const MainLayoutFooter = () => {
 					{footerLinks.map((item) => (
 						<ul key={item.text} className="flex flex-col gap-2">
 							<li>
-								<h3 className="text-h6 dark:text-text-primary-500">
+								<h3 className="text-h6 font-medium dark:text-text-primary-500">
 									{item.text}
 								</h3>
 							</li>
@@ -113,11 +113,12 @@ const MainLayoutFooter = () => {
 								variants={{
 									rounded: 'md',
 									w: 'full',
-									py: 'sm'
+									py: 'sm',
+									'font-weight': null
 								}}
-								className="text-h4 uppercase"
+								className="text-h4 font-normal uppercase"
 							>
-								subscribe
+								Subscribe
 							</Clickable>
 						</form>
 					</div>

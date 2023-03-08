@@ -42,7 +42,7 @@ const HomeLatestBlogsSection = () => {
 									>
 										Blog post
 									</Clickable>
-									<h3 className="text-lg font-normal leading-primary-4">
+									<h3 className="text-[1.125rem] font-normal">
 										<Clickable href="/" isA="next-js">
 											{blog.title}
 										</Clickable>

@@ -11,7 +11,7 @@ export interface Variant {
 	sku: string;
 	requires_shipping: boolean;
 	taxable: boolean;
-	featured_image: any | null;
+	featured_image: string | null;
 	available: boolean;
 	name: string;
 	public_title: string | null;

@@ -4,6 +4,8 @@ import Image from 'next/image';
 import { VariantProps, cva } from 'class-variance-authority';
 import { ShopifyProduct } from '~/utils/types';
 import { BiPlay } from 'react-icons/bi';
+import Link from 'next/link';
+import ProductPrice from '../ProductPrice';
 
 const handleBasicProductCardContainerVariants = cva(
 	'card flex flex-col flex-grow px-1 group duration-300 delay-75 transition-all',
@@ -77,13 +79,15 @@ export const BasicProductCard = (props: {
 					props.imageContainerVariants
 				)}
 			>
-				<Image
-					src={props.product.featured_image}
-					alt={props.product.title}
-					width={800}
-					height={800}
-					className={handleBasicProductCardImageVariants(props.imageVariants)}
-				/>
+				<Link href={`/products/${props.product.handle}`}>
+					<Image
+						src={props.product.featured_image}
+						alt={props.product.title}
+						width={800}
+						height={800}
+						className={handleBasicProductCardImageVariants(props.imageVariants)}
+					/>
+				</Link>
 				{props.isPlayButtonActive && (
 					<Clickable
 						className="absolute bottom-0 right-0 my-3 mx-4 flex items-center justify-center"
@@ -98,7 +102,9 @@ export const BasicProductCard = (props: {
 					className={handleBasicProductCardTitleVariants(props.titleVariants)}
 					title={props.product.title}
 				>
-					{props.product.title}
+					<Link href={`/products/${props.product.handle}`}>
+						{props.product.title}
+					</Link>
 				</h3>
 				{props.extraDetailsElem}
 			</div>
@@ -113,21 +119,13 @@ export const ProductExtraDetails = ({
 	product: ShopifyProduct;
 	buttonProps?: Partial<Parameters<typeof Clickable>[0]>;
 }) => {
-	const { price, compare_at_price } = useMemo(() => {
-		const price = (product.price / 100).toFixed(2);
-		const compare_at_price = product.compare_at_price
-			? (product.compare_at_price / 100).toFixed(2)
-			: null;
-
-		return { price, compare_at_price };
-	}, [product.price, product.compare_at_price]);
 	return (
 		<>
 			<p className="-translate-y-[20%] text-[90%] whitespace-nowrap font-normal text-text-primary-500/60">
-				$ {price}{' '}
-				{compare_at_price && (
-					<del className="text-red-500">{compare_at_price}</del>
-				)}
+				<ProductPrice
+					price={product.price}
+					compare_at_price={product.compare_at_price}
+				/>
 			</p>
 			<Clickable
 				variants={{

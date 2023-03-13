@@ -1,3 +1,5 @@
+import { TRPCError } from '@trpc/server';
+
 import { z } from 'zod';
 
 import { shopifyFakeProductsData } from '~/utils/appData';
@@ -14,5 +16,14 @@ export const productsRouter = createTRPCRouter({
 
 	getAll: publicProcedure.query(() => {
 		return shopifyFakeProductsData;
+	}),
+	getOneByHandle: publicProcedure.input(z.string()).query(({ input }) => {
+		const product = shopifyFakeProductsData.find(
+			(item) => item.handle === input
+		);
+
+		if (!product) throw new TRPCError({ code: 'NOT_FOUND' });
+
+		return product;
 	})
 });

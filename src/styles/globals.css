@@ -202,4 +202,53 @@
 	.card:focus-within .card-img-zoom-animation-1-1 {
 		transform: scale(1.1);
 	}
+
+	/*  */
+	.custom-prose {
+		max-width: min(100%, 120ch);
+		margin: auto;
+	}
+	.custom-prose > * {
+		max-width: 100%;
+		line-height: var(--leading-primary-4);
+		margin-top: 0.5rem;
+	}
+	.custom-prose :first {
+		margin-top: 0;
+	}
+
+	.custom-prose h1 {
+		font-size: var(--size-h1);
+	}
+	.custom-prose h2 {
+		font-size: var(--size-h2);
+	}
+	.custom-prose h3 {
+		font-size: var(--size-h3);
+	}
+	.custom-prose h4 {
+		font-size: var(--size-h4);
+	}
+	.custom-prose h5 {
+		font-size: var(--size-h5);
+	}
+	.custom-prose h6 {
+		font-size: var(--size-h6);
+	}
+
+	.custom-prose :is(h1, h2, h3, h4, h5, h6) {
+		margin-top: 0.75rem;
+		font-weight: bold;
+	}
+
+	.custom-prose :is(video, iframe, img) {
+		width: 100%;
+	}
+
+	.custom-prose ul,
+	.custom-prose ol {
+		list-style: initial;
+		list-style-position: inside;
+	}
+	/*  */
 }

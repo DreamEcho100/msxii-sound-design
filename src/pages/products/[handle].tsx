@@ -21,9 +21,6 @@ const ProductPage = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
 		typeof productQuery.data
 	>;
 
-	console.log('props', props);
-	console.log('productData', productData);
-
 	return (
 		<>
 			{/* <pre>

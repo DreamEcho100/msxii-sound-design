@@ -21,6 +21,10 @@ const ProductPage = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
 		typeof productQuery.data
 	>;
 
+	if (productQuery.isLoading) return <>Loading...</>;
+
+	if (productQuery.isError) return <>{productQuery.error.message}</>;
+
 	return (
 		<>
 			{/* <pre>

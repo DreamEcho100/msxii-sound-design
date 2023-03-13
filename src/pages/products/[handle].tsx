@@ -27,9 +27,6 @@ const ProductPage = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
 
 	return (
 		<>
-			{/* <pre>
-				<code>{JSON.stringify(productData, null, 2)}</code>
-			</pre> */}
 			<section className="px-main-p-4 sm:px-main-p-2 py-main-p-1 flex flex-wrap justify-center md:flex-nowrap gap-8">
 				<header className="flex flex-col-reverse items-center sm:items-start sm:flex-row-reverse md:flex-col-reverse gap-4 justify-center p-4">
 					<div className="text-center sm:text-align-initial flex-grow flex flex-col items-center sm:items-start gap-4 p-4">
@@ -42,7 +39,7 @@ const ProductPage = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
 								/>
 							</p>
 						</div>
-						<Clickable className="capitalize">Add To Cart</Clickable>
+						<Clickable className="uppercase">Add To Cart</Clickable>
 					</div>
 					<div className="aspect-square max-w-full w-60 lg:w-96 rounded-lg overflow-hidden">
 						<Image

@@ -13,8 +13,11 @@ import { api } from '~/utils/api';
 import Image from 'next/image';
 import ProductPrice from '~/components/shared/core/ProductPrice';
 import Clickable from '~/components/shared/core/Clickable';
+import { useState } from 'react';
+import { FaMinus, FaPlus } from 'react-icons/fa';
 
 const ProductPage = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
+	const [selectedQuantity, setSelectedQuantity] = useState(1);
 	const productQuery = api.products.getOneByHandle.useQuery(props.handle);
 
 	const productData = productQuery.data as NonNullable<
@@ -32,14 +35,64 @@ const ProductPage = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
 					<div className="text-center sm:text-align-initial flex-grow flex flex-col items-center sm:items-start gap-4 p-4">
 						<div className="flex flex-col gap-3">
 							<h1 className="text-h3">{productData.title}</h1>
-							<p className="whitespace-nowrap text-text-primary-500/60">
-								<ProductPrice
-									price={productData.price}
-									compare_at_price={productData.compare_at_price}
-								/>
-							</p>
+							<div className="w-fit flex flex-wrap gap-8 mx-auto sm:mx-0">
+								<p className="whitespace-nowrap text-text-primary-500/60">
+									<ProductPrice
+										price={productData.price}
+										compare_at_price={productData.compare_at_price}
+									/>
+								</p>
+								<div className="flex rounded-xl overflow-hidden">
+									<Clickable
+										variants={{ btn: null, px: null, py: null, rounded: null }}
+										className="bg-bg-primary-600 px-2 flex items-center justify-center"
+										onClick={() =>
+											setSelectedQuantity((prev) =>
+												prev === 0 ? prev : prev - 1
+											)
+										}
+										disabled={selectedQuantity === 0}
+									>
+										<FaMinus className="text-[60%]" />
+									</Clickable>
+									<input
+										className="w-fit px-2"
+										style={{
+											width: `${selectedQuantity.toString().length + 2}ch`
+										}}
+										value={selectedQuantity}
+										onChange={(event) =>
+											setSelectedQuantity((prev) => {
+												const valueAsNumberSchema = z
+													.number()
+													.min(0)
+													.finite()
+													.safeParse(Number(event.target.value));
+												return valueAsNumberSchema.success
+													? valueAsNumberSchema.data
+													: prev;
+												// isNaN(valueAsNumber) ||
+												// 	!isFinite(valueAsNumber) ||
+												// 	valueAsNumber < 0
+												// 	? prev
+												// 	: valueAsNumber;
+											})
+										}
+										name="selectedQuantity"
+									/>
+									<Clickable
+										variants={{ btn: null, px: null, py: null, rounded: null }}
+										className="bg-bg-primary-600 px-2 flex items-center justify-center"
+										onClick={() => setSelectedQuantity((prev) => prev + 1)}
+									>
+										<FaPlus className="text-[60%]" />
+									</Clickable>
+								</div>
+							</div>
 						</div>
-						<Clickable className="uppercase">Add To Cart</Clickable>
+						<Clickable className="uppercase" disabled={selectedQuantity === 0}>
+							Add To Cart
+						</Clickable>
 					</div>
 					<div className="aspect-square max-w-full w-60 lg:w-96 rounded-lg overflow-hidden">
 						<Image

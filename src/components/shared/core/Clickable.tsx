@@ -46,14 +46,20 @@ const handleClickableVariants = cva('', {
 		},
 		'font-weight': {
 			normal: 'font-normal'
+		},
+		disabled: {
+			true: 'bg-opacity-75 brightness-50 backdrop-grayscale grayscale backdrop-blur-sm backdrop-opacity-75 cursor-not-allowed'
 		}
 	},
 	defaultVariants: { 'font-weight': 'normal' }
 });
 
+// className='filter bg-opacity-75 brightness-50 backdrop-grayscale grayscale backdrop-blur-sm backdrop-opacity-75 cursor-not-allowed'
+
 type Props = {
 	variants?: VariantProps<typeof handleClickableVariants> | null;
 	className?: string;
+	disabled?: boolean;
 } & ClickableProps;
 
 const Clickable = ({ variants = {}, className, ...props }: Props) => {
@@ -82,6 +88,11 @@ const Clickable = ({ variants = {}, className, ...props }: Props) => {
 					? { className }
 					: {
 							...variants,
+							disabled: handleDefaultVariant<'disabled'>({
+								passedVariantValue: variants.disabled || !!props.disabled,
+								variantDefaultValue: null,
+								variantDefaultValueCondition: () => clickableType === 'button'
+							}),
 							btn: handleDefaultVariant<'btn'>({
 								passedVariantValue: variants.btn,
 								variantDefaultValue: 'primary',

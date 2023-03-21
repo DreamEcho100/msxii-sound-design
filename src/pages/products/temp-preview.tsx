@@ -116,6 +116,7 @@ const TempPreviewProductPage = () => {
 						width={800}
 						height={800}
 						className="w-full object-cover aspect-square"
+						priority
 					/>
 				</div>
 			</section>

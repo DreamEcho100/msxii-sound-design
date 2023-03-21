@@ -30,12 +30,12 @@ const TempPreviewProductPage = () => {
 	const [selectedQuantity, setSelectedQuantity] = useState(1);
 
 	return (
-		<div className="p-16 text-text-primary-300 flex flex-col gap-12">
+		<div className="text-h6 leading-primary-3 p-16 text-text-primary-300 flex flex-col gap-12">
 			<section className="w-full flex flex-col-reverse md:flex-row-reverse items-center gap-12 mx-auto max-w-[140ch]">
 				<div className="flex-grow my-4 flex flex-col gap-2 text-center md:text-align-initial">
 					<div className="flex flex-col gap-6 items-center md:items-start">
 						<div className="flex flex-col gap-2 items-center md:items-start">
-							<h1 className="text-text-primary-500 text-h4">
+							<h1 className="text-text-primary-500 text-h3">
 								{productData.title}
 							</h1>
 							<div className="w-fit flex flex-wrap gap-8 mx-auto sm:mx-0">
@@ -121,8 +121,8 @@ const TempPreviewProductPage = () => {
 				</div>
 			</section>
 			<section className="w-full mx-auto max-w-[140ch] flex flex-col py-16 gap-16">
-				<div className="px-8 mx-auto max-w-[131ch]">
-					<h2 className="font-normal text-text-primary-400 text-h4">Details</h2>
+				<div className="px-8 mx-auto max-w-[131ch] flex flex-col gap-2">
+					<h2 className="font-normal text-text-primary-400 text-h3">Details</h2>
 					<p>
 						35 original loops ready to rock in various tempos, keys, and with
 						numerous textures and colors. Processed tastefully to add warmth,
@@ -147,7 +147,7 @@ const TempPreviewProductPage = () => {
 				/>
 			</section>
 			<section className="w-full mx-auto max-w-[140ch] bg-initial-primary-0 text-initial-primary-500 flex flex-col gap-10 rounded-3xl py-12 px-16">
-				<h2 className="font-normal text-initial-primary-500 text-h4">
+				<h2 className="font-normal text-initial-primary-500 text-h3">
 					Preview Samples
 				</h2>
 				<div className="flex flex-col gap-8">
@@ -188,7 +188,7 @@ const TempPreviewProductPage = () => {
 			</div>
 			<article>
 				<header>
-					<h2 className="font-normal text-text-primary-400 text-h4">
+					<h2 className="font-normal text-text-primary-400 text-h3">
 						Related products
 					</h2>
 				</header>

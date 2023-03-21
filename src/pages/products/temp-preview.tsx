@@ -145,8 +145,8 @@ const TempPreviewProductPage = () => {
 					allowFullScreen
 				/>
 			</section>
-			<section className="w-full mx-auto max-w-[140ch] bg-bg-primary-0 flex flex-col gap-12 rounded-3xl py-8 px-16">
-				<h2 className="font-normal text-text-primary-300 text-h4">
+			<section className="w-full mx-auto max-w-[140ch] bg-initial-primary-0 text-initial-primary-500 flex flex-col gap-10 rounded-3xl py-12 px-16">
+				<h2 className="font-normal text-initial-primary-500 text-h4">
 					Preview Samples
 				</h2>
 				<div className="flex flex-col gap-8">
@@ -169,7 +169,7 @@ const TempPreviewProductPage = () => {
 							</div>
 							<div className="flex flex-col gap-2 flex-grow py-2">
 								<div className="rounded-sm py-2 bg-special-primary-500" />
-								<h3 className="font-normal text-text-primary-300 text-[100%]">
+								<h3 className="font-normal text-initial-primary-400 text-[100%]">
 									Lorem ipsum
 								</h3>
 							</div>

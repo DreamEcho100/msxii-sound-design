@@ -101,6 +101,81 @@ export const fakeProductsData = [
 	...fakeProductsBaseData
 ].map((product) => ({ key: `${Date.now()}-${Math.random()}`, ...product }));
 
+export const loopsGoCrazyVol5Product: ShopifyProduct  = {
+	id: 6879014912066,
+	title: 'Loops Go Crazy Vol. 5',
+	handle: 'loops-go-crazy-vol-5',
+	description:
+		'\u003cmeta charset="UTF-8"\u003e\n\u003cp data-mce-fragment="1"\u003eThe worldwide conglomerate @MSXIISOUND continues to keep music producers worldwide inspired with\u00a0the\u00a0Loops Go Crazy Vol. 5\u00a0sample pack! Back with the vibes, fans of our Billboard #1, multiple Grammy Nominated\u00a0\u003ca data-mce-fragment="1" href="https://www.msxaudio.com/search?type=product\u0026amp;q=lofi+melodics" target="_blank" data-mce-href="https://www.msxaudio.com/search?type=product\u0026amp;q=lofi+melodics"\u003eLofi Melodics\u003c/a\u003e series will find\u00a0this goldmine game changing!\u003c/p\u003e\n\u003cp data-mce-fragment="1"\u003e35\u00a0original\u00a0loops ready to rock in various tempos, keys, and with numerous textures and colors. Processed tastefully to add warmth, depth, and a creative touch, Loops Go Crazy Vol. 5\u00a0boasts more creativity, better\u00a0textures and the MSXII authentication you\'re looking for!\u003c/p\u003e\n\u003cp data-mce-fragment="1"\u003eWhen you need the best, tap in with MSXII. Purchase now \u0026amp; be a champ.\u003c/p\u003e\n\u003cp data-mce-fragment="1"\u003e\u003cem data-mce-fragment="1"\u003eDemo showcases a selection of these samples in the pack!\u003c/em\u003e\u003c/p\u003e\n\u003ciframe width="560" height="515" src="https://www.youtube.com/embed/TDI_97_Gu6c" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen\u003e\u003c/iframe\u003e',
+	published_at: '2023-01-20T18:42:55-06:00',
+	created_at: '2023-01-20T18:42:50-06:00',
+	vendor: 'MSXII Sound',
+	type: '',
+	tags: [ProductsTags.Loops],
+	price: 84200,
+	price_min: 84200,
+	price_max: 84200,
+	available: true,
+	price_varies: false,
+	compare_at_price: null,
+	compare_at_price_min: 0,
+	compare_at_price_max: 0,
+	compare_at_price_varies: false,
+	variants: [
+		{
+			id: 40172137873474,
+			title: 'Default Title',
+			option1: 'Default Title',
+			option2: null,
+			option3: null,
+			sku: '',
+			requires_shipping: false,
+			taxable: false,
+			featured_image: null,
+			available: true,
+			name: 'Loops Go Crazy Vol. 5',
+			public_title: null,
+			options: ['Default Title'],
+			price: 84200,
+			weight: 0,
+			compare_at_price: null,
+			inventory_quantity: -17,
+			inventory_management: null,
+			inventory_policy: 'deny',
+			barcode: '',
+			requires_selling_plan: false,
+			selling_plan_allocations: []
+		}
+	],
+	images: [
+		'https://cdn.shopify.com/s/files/1/0345/7209/products/LoopsGoCrazyVol.5Artwork.jpg?v=1674261773'
+	],
+	featured_image:
+		'https://cdn.shopify.com/s/files/1/0345/7209/products/LoopsGoCrazyVol.5Artwork.jpg?v=1674261773',
+	options: [{ name: 'Title', position: 1, values: ['Default Title'] }],
+	url: '/products/loops-go-crazy-vol-5',
+	media: [
+		{
+			alt: null,
+			id: 22349355614274,
+			position: 1,
+			preview_image: {
+				aspect_ratio: 1.0,
+				height: 2000,
+				width: 2000,
+				src: 'https://cdn.shopify.com/s/files/1/0345/7209/products/LoopsGoCrazyVol.5Artwork.jpg?v=1674261773'
+			},
+			aspect_ratio: 1.0,
+			height: 2000,
+			media_type: 'image',
+			src: 'https://cdn.shopify.com/s/files/1/0345/7209/products/LoopsGoCrazyVol.5Artwork.jpg?v=1674261773',
+			width: 2000
+		}
+	],
+	requires_selling_plan: false,
+	selling_plan_groups: []
+}
+
 export const shopifyFakeProductsData: ShopifyProduct[] = [
 	{
 		id: 4740822827074,
@@ -176,80 +251,7 @@ export const shopifyFakeProductsData: ShopifyProduct[] = [
 		requires_selling_plan: false,
 		selling_plan_groups: []
 	},
-	{
-		id: 6879014912066,
-		title: 'Loops Go Crazy Vol. 5',
-		handle: 'loops-go-crazy-vol-5',
-		description:
-			'\u003cmeta charset="UTF-8"\u003e\n\u003cp data-mce-fragment="1"\u003eThe worldwide conglomerate @MSXIISOUND continues to keep music producers worldwide inspired with\u00a0the\u00a0Loops Go Crazy Vol. 5\u00a0sample pack! Back with the vibes, fans of our Billboard #1, multiple Grammy Nominated\u00a0\u003ca data-mce-fragment="1" href="https://www.msxaudio.com/search?type=product\u0026amp;q=lofi+melodics" target="_blank" data-mce-href="https://www.msxaudio.com/search?type=product\u0026amp;q=lofi+melodics"\u003eLofi Melodics\u003c/a\u003e series will find\u00a0this goldmine game changing!\u003c/p\u003e\n\u003cp data-mce-fragment="1"\u003e35\u00a0original\u00a0loops ready to rock in various tempos, keys, and with numerous textures and colors. Processed tastefully to add warmth, depth, and a creative touch, Loops Go Crazy Vol. 5\u00a0boasts more creativity, better\u00a0textures and the MSXII authentication you\'re looking for!\u003c/p\u003e\n\u003cp data-mce-fragment="1"\u003eWhen you need the best, tap in with MSXII. Purchase now \u0026amp; be a champ.\u003c/p\u003e\n\u003cp data-mce-fragment="1"\u003e\u003cem data-mce-fragment="1"\u003eDemo showcases a selection of these samples in the pack!\u003c/em\u003e\u003c/p\u003e\n\u003ciframe width="560" height="515" src="https://www.youtube.com/embed/TDI_97_Gu6c" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen\u003e\u003c/iframe\u003e',
-		published_at: '2023-01-20T18:42:55-06:00',
-		created_at: '2023-01-20T18:42:50-06:00',
-		vendor: 'MSXII Sound',
-		type: '',
-		tags: [ProductsTags.Loops],
-		price: 84200,
-		price_min: 84200,
-		price_max: 84200,
-		available: true,
-		price_varies: false,
-		compare_at_price: null,
-		compare_at_price_min: 0,
-		compare_at_price_max: 0,
-		compare_at_price_varies: false,
-		variants: [
-			{
-				id: 40172137873474,
-				title: 'Default Title',
-				option1: 'Default Title',
-				option2: null,
-				option3: null,
-				sku: '',
-				requires_shipping: false,
-				taxable: false,
-				featured_image: null,
-				available: true,
-				name: 'Loops Go Crazy Vol. 5',
-				public_title: null,
-				options: ['Default Title'],
-				price: 84200,
-				weight: 0,
-				compare_at_price: null,
-				inventory_quantity: -17,
-				inventory_management: null,
-				inventory_policy: 'deny',
-				barcode: '',
-				requires_selling_plan: false,
-				selling_plan_allocations: []
-			}
-		],
-		images: [
-			'https://cdn.shopify.com/s/files/1/0345/7209/products/LoopsGoCrazyVol.5Artwork.jpg?v=1674261773'
-		],
-		featured_image:
-			'https://cdn.shopify.com/s/files/1/0345/7209/products/LoopsGoCrazyVol.5Artwork.jpg?v=1674261773',
-		options: [{ name: 'Title', position: 1, values: ['Default Title'] }],
-		url: '/products/loops-go-crazy-vol-5',
-		media: [
-			{
-				alt: null,
-				id: 22349355614274,
-				position: 1,
-				preview_image: {
-					aspect_ratio: 1.0,
-					height: 2000,
-					width: 2000,
-					src: 'https://cdn.shopify.com/s/files/1/0345/7209/products/LoopsGoCrazyVol.5Artwork.jpg?v=1674261773'
-				},
-				aspect_ratio: 1.0,
-				height: 2000,
-				media_type: 'image',
-				src: 'https://cdn.shopify.com/s/files/1/0345/7209/products/LoopsGoCrazyVol.5Artwork.jpg?v=1674261773',
-				width: 2000
-			}
-		],
-		requires_selling_plan: false,
-		selling_plan_groups: []
-	},
+	loopsGoCrazyVol5Product,
 	{
 		id: 6849904443458,
 		title: 'Schlump Loops Bundle',
@@ -2150,3 +2152,4 @@ export const shopifyFakeProductsData: ShopifyProduct[] = [
 		selling_plan_groups: []
 	}
 ];
+

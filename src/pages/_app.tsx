@@ -8,7 +8,7 @@ import '~/styles/globals.css';
 import '~/styles/swiper.css';
 import MainLayout from '~/components/layouts/Main';
 import { useGlobalStore } from '~/store';
-import { useEffect } from 'react';
+import { useEffect, useLayoutEffect } from 'react';
 import { getCurrentThemeFromLocalStorage } from '~/store/utils';
 
 const MyApp: AppType<{ session: Session | null }> = ({
@@ -21,6 +21,17 @@ const MyApp: AppType<{ session: Session | null }> = ({
 		() => changeCurrentTheme(getCurrentThemeFromLocalStorage()),
 		[changeCurrentTheme]
 	);
+
+	useEffect(() => {
+		setTimeout(
+			() =>
+				typeof document !== 'undefined' &&
+				(
+					document.querySelectorAll('button a')[0] as HTMLElement | null
+				)?.focus(),
+			100
+		);
+	}, []);
 
 	return (
 		<SessionProvider session={session}>

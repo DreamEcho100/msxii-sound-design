@@ -1,5 +1,12 @@
+import { cx } from 'class-variance-authority';
 import Image from 'next/image';
-import React, { useState } from 'react';
+import React, {
+	HTMLAttributes,
+	IframeHTMLAttributes,
+	useEffect,
+	useId,
+	useState
+} from 'react';
 import { BiPlay } from 'react-icons/bi';
 import { FaMinus, FaPlus } from 'react-icons/fa';
 import { z } from 'zod';
@@ -12,6 +19,7 @@ import {
 	loopsGoCrazyVol5Product as productData,
 	shopifyFakeProductsData
 } from '~/utils/appData';
+import { ImYoutube } from 'react-icons/im';
 
 const media = productData.media[0];
 
@@ -34,7 +42,7 @@ const TempPreviewProductPage = () => {
 			<section className="w-full flex flex-col-reverse md:flex-row-reverse items-center gap-12 mx-auto max-w-[140ch]">
 				<div className="flex-grow my-4 flex flex-col gap-2 text-center md:text-align-initial">
 					<div className="flex flex-col gap-6 items-center md:items-start">
-						<div className="flex flex-col gap-2 items-center md:items-start">
+						<div className="flex flex-col gap-4 items-center md:items-start">
 							<h1 className="text-text-primary-500 text-h3">
 								{productData.title}
 							</h1>
@@ -94,8 +102,8 @@ const TempPreviewProductPage = () => {
 							</div>
 						</div>
 						<Clickable
-							className="uppercase mt-4"
-							variants={{ py: 'sm', px: 'lg' }}
+							className="uppercase mt-4 text-[85%]"
+							variants={{ py: 'extra-sm', px: 'xl', 'font-weight': 'medium' }}
 							disabled={selectedQuantity === 0}
 						>
 							Add To Cart
@@ -121,7 +129,7 @@ const TempPreviewProductPage = () => {
 				</div>
 			</section>
 			<section className="w-full mx-auto max-w-[140ch] flex flex-col py-16 gap-16">
-				<div className="px-8 mx-auto max-w-[131ch] flex flex-col gap-2">
+				<div className="px-8 mx-auto max-w-[131ch] flex flex-col gap-4">
 					<h2 className="font-normal text-text-primary-400 text-h3">Details</h2>
 					<p>
 						35 original loops ready to rock in various tempos, keys, and with
@@ -135,15 +143,19 @@ const TempPreviewProductPage = () => {
 						champ. Demo showcases a selection of these samples in the pack!
 					</p>
 				</div>
-				<iframe
-					className="w-full rounded-3xl"
-					width="560"
-					height="515"
+				<YouTubeIFrame
+					containerProps={{
+						className: 'w-full rounded-3xl overflow-hidden relative isolate'
+					}}
+					overlayImageProps={{
+						src: productData.featured_image,
+						alt: productData.title
+					}}
+					width="550"
+					height="550"
 					src="https://www.youtube.com/embed/TDI_97_Gu6c"
 					title="YouTube video player"
-					frameBorder={0}
 					allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-					allowFullScreen
 				/>
 			</section>
 			<section className="w-full mx-auto max-w-[140ch] bg-initial-primary-0 text-initial-primary-500 flex flex-col gap-10 rounded-3xl py-12 px-16">
@@ -162,8 +174,13 @@ const TempPreviewProductPage = () => {
 									className="w-full h-full object-cover"
 								/>
 								<Clickable
-									className="absolute bottom-0 right-0 m-2 flex items-center justify-center"
-									variants={{ px: 'sm', py: 'sm', rounded: 'full' }}
+									className="hover:-translate-y-[60%] absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center justify-center"
+									variants={{
+										px: 'sm',
+										py: 'sm',
+										rounded: 'full',
+										transform: null
+									}}
 								>
 									<BiPlay className="text-2xl translate-x-[7.5%] scale-110 rtl:-translate-x-[5%] rtl:rotate-180" />
 								</Clickable>
@@ -179,14 +196,13 @@ const TempPreviewProductPage = () => {
 				</div>
 				<p>+ so many more high quality samples</p>
 			</section>
-			<div className="text-text-primary-500">
+			<article>
 				<CTAButton
 					text="Explore more high quality packs"
 					isA="next-js"
 					href="/products"
+					className="mb-8"
 				/>
-			</div>
-			<article>
 				<header>
 					<h2 className="font-normal text-text-primary-400 text-h3">
 						Related products
@@ -204,3 +220,77 @@ const TempPreviewProductPage = () => {
 };
 
 export default TempPreviewProductPage;
+
+type TNextImageProps = Parameters<typeof Image>[0];
+
+const YouTubeIFrame = ({
+	containerProps = {},
+	overlayImageProps,
+	...props
+}: IframeHTMLAttributes<HTMLIFrameElement> & {
+	containerProps?: HTMLAttributes<HTMLDivElement>;
+	overlayImageProps?: Omit<TNextImageProps, 'alt' | 'width' | 'height'> &
+		Partial<Pick<TNextImageProps, 'alt' | 'width' | 'height'>>;
+}) => {
+	const [isOverlayActive, setIsOverlayActive] = useState(!!overlayImageProps);
+	const iframeId = useId();
+
+	useEffect(() => {
+		if (typeof window === 'undefined') return;
+
+		const cb = () => {
+			setTimeout(() => {
+				if (
+					typeof document !== 'undefined' &&
+					document.activeElement?.tagName === 'IFRAME' &&
+					document.activeElement?.id === iframeId
+				)
+					setIsOverlayActive(false);
+			}, 0);
+		};
+
+		window.addEventListener('blur', cb);
+
+		return () => {
+			if (typeof document === 'undefined' || !document.getElementById(iframeId))
+				window.removeEventListener('blur', cb);
+		};
+	}, [iframeId]);
+	console.log('isOverlayActive', isOverlayActive);
+	return (
+		<div
+			{...containerProps}
+			className={cx(
+				containerProps.className,
+				'group',
+				isOverlayActive ? 'cursor-pointer' : ''
+			)}
+		>
+			<iframe
+				allowFullScreen
+				frameBorder={0}
+				{...props}
+				className={cx(
+					props.className,
+					'w-full',
+					isOverlayActive ? 'opacity-[0.01] brightness-[0.01]' : ''
+				)}
+				id={iframeId}
+			/>
+			{overlayImageProps && isOverlayActive && (
+				<div className="absolute inset-0 -z-10 w-full h-full">
+					<div className="w-full h-full relative">
+						<Image
+							width={550}
+							height={550}
+							alt=""
+							className="w-full h-full object-cover brightness-75 group-hover:brightness-100 duration-100 transition-all"
+							{...overlayImageProps}
+						/>
+						<ImYoutube className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-8xl text-special-primary-500 group-hover:text-special-primary-400 delay-75 duration-100 transition-all" />
+					</div>
+				</div>
+			)}
+		</div>
+	);
+};

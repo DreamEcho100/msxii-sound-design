@@ -3,8 +3,7 @@ import { default as ClickableBase, ClickableTypes } from '../Clickable';
 import type { ClickableProps } from '../Clickable';
 import { useCallback } from 'react';
 
-const sharedAnimationClasses =
-	'duration-150 transition-all hover:-translate-y-[7.5%]';
+const sharedAnimationClasses = 'duration-150 transition-all';
 
 const handleClickableVariants = cva('', {
 	variants: {
@@ -16,6 +15,9 @@ const handleClickableVariants = cva('', {
 				'bg-initial-primary-900 text-initial-secondary-0 hover:bg-initial-primary-100 hover:text-initial-secondary-900',
 				'dark:bg-initial-primary-300 dark:text-initial-secondary-0 dark:hover:bg-initial-primary-500 dark:hover:text-initial-primary-0'
 			]
+		},
+		transform: {
+			'hover:x0-y-7.5%': 'hover:-translate-y-[7.5%]'
 		},
 		w: { fit: 'w-fit', full: 'w-full' },
 		py: {
@@ -45,13 +47,14 @@ const handleClickableVariants = cva('', {
 			full: 'rounded-full'
 		},
 		'font-weight': {
-			normal: 'font-normal'
+			normal: 'font-normal',
+			medium: 'font-medium'
 		},
 		disabled: {
 			true: 'bg-opacity-75 brightness-50 backdrop-grayscale grayscale backdrop-blur-sm backdrop-opacity-75 cursor-not-allowed'
 		}
 	},
-	defaultVariants: { 'font-weight': 'normal' }
+	defaultVariants: { 'font-weight': 'normal', transform: 'hover:x0-y-7.5%' }
 });
 
 // className='filter bg-opacity-75 brightness-50 backdrop-grayscale grayscale backdrop-blur-sm backdrop-opacity-75 cursor-not-allowed'
@@ -117,6 +120,11 @@ const Clickable = ({ variants = {}, className, ...props }: Props) => {
 								passedVariantValue: variants?.w,
 								variantDefaultValue: 'fit',
 								variantDefaultValueCondition: () => true
+							}),
+							transform: handleDefaultVariant<'transform'>({
+								passedVariantValue: variants.transform,
+								variantDefaultValue: 'hover:x0-y-7.5%',
+								variantDefaultValueCondition: () => clickableType === 'button'
 							}),
 							className
 					  }

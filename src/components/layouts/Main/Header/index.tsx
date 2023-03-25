@@ -195,7 +195,7 @@ const MainLayoutHeader = () => {
 										>
 											{'href' in item ? (
 												<Clickable
-													href="/"
+													href={item.href}
 													isA="next-js"
 													className={cx(
 														'mx-auto w-full max-w-main whitespace-nowrap bg-clip-text p-1',
@@ -255,9 +255,9 @@ const MainLayoutHeader = () => {
 				<button
 					className={cx(
 						'fixed inset-0 z-[9] block w-full h-full',
-						// isSearchMenuDropdownOpen
-						// 	? ''
-						// 	:
+						isDropdownMenuOnLessThanLGOpen && !isSearchMenuDropdownOpen
+							? 'lg:hidden'
+							: '',
 						'bg-initial-primary-900/60 backdrop-blur-[0.0625rem]'
 					)}
 					onClick={closeAllMenus}

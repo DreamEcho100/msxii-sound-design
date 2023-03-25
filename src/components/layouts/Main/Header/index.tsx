@@ -23,7 +23,7 @@ const headersLinks = [
 	},
 	{
 		title: 'iOS Apps',
-		href: '/'
+		href: '/ios-apps'
 	},
 	{
 		title: 'Blue Label',

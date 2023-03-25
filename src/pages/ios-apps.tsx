@@ -46,6 +46,7 @@ const IOSAppsPage = () => {
 							className="w-full aspect-square overflow-hidden rounded-lg"
 						>
 							<Image
+								priority
 								src={`/images/ios-apps/${IOSApp.title}.png`}
 								alt={IOSApp.title}
 								width={500}

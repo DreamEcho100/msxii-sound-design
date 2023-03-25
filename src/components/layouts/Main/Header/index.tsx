@@ -104,7 +104,7 @@ const MainLayoutHeader = () => {
 								'href' in item ? (
 									<Clickable
 										key={item.title}
-										href="/"
+										href={item.href}
 										isA="next-js"
 										className="whitespace-nowrap hover:text-special-primary-400 duration-150"
 									>

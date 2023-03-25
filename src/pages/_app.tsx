@@ -8,7 +8,7 @@ import '~/styles/globals.css';
 import '~/styles/swiper.css';
 import MainLayout from '~/components/layouts/Main';
 import { useGlobalStore } from '~/store';
-import { useEffect, useLayoutEffect } from 'react';
+import { useEffect } from 'react';
 import { getCurrentThemeFromLocalStorage } from '~/store/utils';
 
 const MyApp: AppType<{ session: Session | null }> = ({

@@ -2,7 +2,7 @@ import {
 	ProductBundleCard,
 	ProductCard
 } from '~/components/shared/core/Cards/Card';
-import ProductsSlider from '~/components/shared/core/Cards/Slider';
+import { CardsSlider } from '~/components/shared/core/Cards/Slider';
 import Clickable from '~/components/shared/core/Clickable';
 import { cx } from 'class-variance-authority';
 import { ShopifyProduct } from '~/utils/types';
@@ -48,7 +48,7 @@ const HomeShowcaseSection = ({ products }: { products: ShopifyProduct[] }) => {
 							))}
 						</div>
 					</header>
-					<ProductsSlider
+					<CardsSlider
 						products={products}
 						CardElem={ProductCard}
 						nextSlideButtonClassName="-translate-y-[200%] lg:-translate-y-[225%]"
@@ -60,7 +60,7 @@ const HomeShowcaseSection = ({ products }: { products: ShopifyProduct[] }) => {
 						<h2 className="text-h1 leading-h2 font-semibold">Bundles</h2>
 					</header>
 					<div className="flex flex-col gap-8">
-						<ProductsSlider
+						<CardsSlider
 							products={products}
 							CardElem={ProductCard}
 							nextSlideButtonClassName="-translate-y-[200%] lg:-translate-y-[225%]"

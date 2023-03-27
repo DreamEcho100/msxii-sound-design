@@ -46,7 +46,7 @@ export type TabsBox = {
 	___type: (typeof BOXES_TYPES_map)['tabs'];
 	tabs: {
 		title: string;
-		data: MDBox;
+		data: Box;
 	}[];
 };
 export type SliderBox = {

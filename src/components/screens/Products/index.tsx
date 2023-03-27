@@ -6,7 +6,7 @@ import {
 	useState
 } from 'react';
 import { ProductCard } from '~/components/shared/core/Cards/Card';
-import ProductsSlider from '~/components/shared/core/Cards/Slider';
+import { CardsSlider } from '~/components/shared/core/Cards/Slider';
 import Clickable from '~/components/shared/core/Clickable';
 import { ShopifyProduct } from '~/utils/types';
 import { GiSettingsKnobs } from 'react-icons/gi';
@@ -194,7 +194,7 @@ const ProductsScreen = ({ products }: { products: ShopifyProduct[] }) => {
 								{productByCategory[0]}
 							</h2>
 							<div className="">
-								<ProductsSlider
+								<CardsSlider
 									products={productByCategory[1]}
 									CardElem={ProductCard}
 									nextSlideButtonClassName="scale-[50%] -translate-y-[200%] lg:-translate-y-[225%]"

@@ -2193,7 +2193,7 @@ const tabsBox: TabsBox = {
 	___type: BOXES_TYPES_map['tabs'],
 	tabs: [
 		{
-			title: 'DESCRIPTION',
+			title: 'Description',
 			data: {
 				___type: BOXES_TYPES_map['md'],
 				content: `An audio coloration utility plugin featuring individual modes for classic emulation of some iconic music production tools. This tool is meant to bring character, or "dirt" to your incoming audio signals.
@@ -2202,7 +2202,7 @@ Lo-Fly Dirt installs as an Audio Unit effect for hosts that support the format s
 			}
 		},
 		{
-			title: 'specs',
+			title: 'Specs',
 			data: {
 				___type: BOXES_TYPES_map['md'],
 				content: `### Default Mode:
@@ -2231,12 +2231,13 @@ Also built off the things we love about the classic 8 bit sound, but with a twis
 			}
 		},
 		{
-			title: 'userManual',
+			title: 'User Manual',
 			data: {
-				___type: BOXES_TYPES_map['md'],
-				content: `![](https://cdn.shopify.com/s/files/1/0345/7209/t/28/assets/pf-87a87505--loflydirtmanualdisplay.png?v=1589083025)
-
-Whats New:
+				___type: BOXES_TYPES_map['two-columns'],
+				columns: [
+					{
+						___type: BOXES_TYPES_map['md'],
+						content: `### Whats New:
 
 3.0 updates:
 - Adding factory & user presets
@@ -2245,7 +2246,27 @@ Whats New:
 You can check out the reference guide below:
 
 [Download Now](https://www.dropbox.com/s/qe3zlonoboja003/MSXII%20Lo-Fly%20Dirt%202v5%20Final.pdf?dl=0)`
+					},
+					{
+						___type: BOXES_TYPES_map['image-only'],
+						src: 'https://cdn.shopify.com/s/files/1/0345/7209/t/28/assets/pf-87a87505--loflydirtmanualdisplay.png?v=1589083025'
+					}
+				]
 			}
+			// 			{
+			// 				___type: BOXES_TYPES_map['md'],
+			// 				content: `![](https://cdn.shopify.com/s/files/1/0345/7209/t/28/assets/pf-87a87505--loflydirtmanualdisplay.png?v=1589083025)
+
+			// Whats New:
+
+			// 3.0 updates:
+			// - Adding factory & user presets
+			// - Other fixes & enhancements
+
+			// You can check out the reference guide below:
+
+			// [Download Now](https://www.dropbox.com/s/qe3zlonoboja003/MSXII%20Lo-Fly%20Dirt%202v5%20Final.pdf?dl=0)`
+			// 			}
 		}
 	]
 };
@@ -2306,8 +2327,8 @@ const createStandardSections = (boxes: Box[][]): StandardSection[] =>
 
 export const LoflyDirtIOSApp: Box[][] = [
 	[twoColumnsBox],
-	[iframeBox],
 	[tabsBox],
+	[iframeBox],
 	[sliderBox],
 	[sliderBox2]
 ];

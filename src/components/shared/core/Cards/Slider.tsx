@@ -1,4 +1,4 @@
-import { FunctionComponent, useRef } from 'react';
+import React, { FunctionComponent, ReactNode, useRef } from 'react';
 
 import { A11y, Autoplay } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -11,23 +11,43 @@ import { cx } from 'class-variance-authority';
 
 import Image from 'next/image';
 
-type Props<CardElemProps extends Record<string, unknown>> = {
-	products: ShopifyProduct[];
-	CardElem: FunctionComponent<CardElemProps & { product: ShopifyProduct }>;
-	cardsSharedProps?: CardElemProps;
+type SliderProps = {
+	children: ReactNode;
 	swiperProps?: Parameters<typeof Swiper>[0];
 	nextSlideButtonClassName?: string;
 	previousSlideButtonClassName?: string;
 };
 
-const ProductsSlider = <CardElemProps extends Record<string, unknown>>({
+interface CardsSliderProps<CardElemProps extends Record<string, unknown>>
+	extends Omit<SliderProps, 'children'> {
+	products: ShopifyProduct[];
+	CardElem: FunctionComponent<CardElemProps & { product: ShopifyProduct }>;
+	cardsSharedProps?: CardElemProps;
+}
+
+export const CardsSlider = <CardElemProps extends Record<string, unknown>>({
 	products,
 	CardElem,
-	swiperProps = {},
 	cardsSharedProps = {} as CardElemProps,
+	...props
+}: CardsSliderProps<CardElemProps>) => {
+	return (
+		<Slider {...props}>
+			{products.map((item) => (
+				<SwiperSlide key={item.id} className="flex flex-col">
+					{<CardElem product={item} {...cardsSharedProps} />}
+				</SwiperSlide>
+			))}
+		</Slider>
+	);
+};
+
+const Slider = ({
+	children,
+	swiperProps = {},
 	nextSlideButtonClassName,
 	previousSlideButtonClassName
-}: Props<CardElemProps>) => {
+}: SliderProps) => {
 	const SwiperInstanceRef = useRef<
 		Parameters<NonNullable<Parameters<typeof Swiper>[0]['onSwiper']>>[0] | null
 	>(null);
@@ -87,14 +107,10 @@ const ProductsSlider = <CardElemProps extends Record<string, unknown>>({
 				loop
 				{...swiperProps}
 			>
-				{products.map((item) => (
-					<SwiperSlide key={item.id} className="flex flex-col">
-						{<CardElem product={item} {...cardsSharedProps} />}
-					</SwiperSlide>
-				))}
+				{children}
 			</Swiper>
 		</div>
 	);
 };
 
-export default ProductsSlider;
+export default Slider;

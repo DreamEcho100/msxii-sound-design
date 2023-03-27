@@ -12,7 +12,7 @@ import { FaMinus, FaPlus } from 'react-icons/fa';
 import { z } from 'zod';
 import CTAButton from '~/components/shared/core/Cards/CTAButton';
 import { ProductCard } from '~/components/shared/core/Cards/Card';
-import ProductsSlider from '~/components/shared/core/Cards/Slider';
+import { CardsSlider } from '~/components/shared/core/Cards/Slider';
 import Clickable from '~/components/shared/core/Clickable';
 import ProductPrice from '~/components/shared/core/ProductPrice';
 import {
@@ -20,6 +20,7 @@ import {
 	shopifyFakeProductsData
 } from '~/utils/appData';
 import { ImYoutube } from 'react-icons/im';
+import { YouTubeIFrame } from '~/components/shared/Iframes';
 
 const media = productData.media[0];
 
@@ -208,7 +209,7 @@ const TempPreviewProductPage = () => {
 						Related products
 					</h2>
 				</header>
-				<ProductsSlider
+				<CardsSlider
 					products={products}
 					CardElem={ProductCard}
 					nextSlideButtonClassName="-translate-y-[200%] lg:-translate-y-[225%]"
@@ -220,77 +221,3 @@ const TempPreviewProductPage = () => {
 };
 
 export default TempPreviewProductPage;
-
-type TNextImageProps = Parameters<typeof Image>[0];
-
-const YouTubeIFrame = ({
-	containerProps = {},
-	overlayImageProps,
-	...props
-}: IframeHTMLAttributes<HTMLIFrameElement> & {
-	containerProps?: HTMLAttributes<HTMLDivElement>;
-	overlayImageProps?: Omit<TNextImageProps, 'alt' | 'width' | 'height'> &
-		Partial<Pick<TNextImageProps, 'alt' | 'width' | 'height'>>;
-}) => {
-	const [isOverlayActive, setIsOverlayActive] = useState(!!overlayImageProps);
-	const iframeId = useId();
-
-	useEffect(() => {
-		if (typeof window === 'undefined') return;
-
-		const cb = () => {
-			setTimeout(() => {
-				if (
-					typeof document !== 'undefined' &&
-					document.activeElement?.tagName === 'IFRAME' &&
-					document.activeElement?.id === iframeId
-				)
-					setIsOverlayActive(false);
-			}, 0);
-		};
-
-		window.addEventListener('blur', cb);
-
-		return () => {
-			if (typeof document === 'undefined' || !document.getElementById(iframeId))
-				window.removeEventListener('blur', cb);
-		};
-	}, [iframeId]);
-	console.log('isOverlayActive', isOverlayActive);
-	return (
-		<div
-			{...containerProps}
-			className={cx(
-				containerProps.className,
-				'group',
-				isOverlayActive ? 'cursor-pointer' : ''
-			)}
-		>
-			<iframe
-				allowFullScreen
-				frameBorder={0}
-				{...props}
-				className={cx(
-					props.className,
-					'w-full',
-					isOverlayActive ? 'opacity-[0.01] brightness-[0.01]' : ''
-				)}
-				id={iframeId}
-			/>
-			{overlayImageProps && isOverlayActive && (
-				<div className="absolute inset-0 -z-10 w-full h-full">
-					<div className="w-full h-full relative">
-						<Image
-							width={550}
-							height={550}
-							alt=""
-							className="w-full h-full object-cover brightness-75 group-hover:brightness-100 duration-100 transition-all"
-							{...overlayImageProps}
-						/>
-						<ImYoutube className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-8xl text-special-primary-500 group-hover:text-special-primary-400 delay-75 duration-100 transition-all" />
-					</div>
-				</div>
-			)}
-		</div>
-	);
-};

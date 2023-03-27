@@ -9,6 +9,13 @@
 	padding: 1rem 0;
 }
 
+.swiper-fluid .swiper-wrapper {
+	display: flex;
+}
+.swiper-fluid .swiper-slide {
+	flex-grow: 1;
+}
+
 /* .swiper-button-next,
 [dir='rtl'] .swiper-button-prev {
 	content: '' !important;

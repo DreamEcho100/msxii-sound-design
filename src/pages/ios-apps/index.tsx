@@ -40,7 +40,7 @@ const IOSAppsPage = () => {
 					<div key={IOSApp.title} className="w-80 flex flex-col gap-4">
 						<Clickable
 							href="/ios-apps/loflydirt"
-							target="_blank"
+							isA="next-js"
 							className="w-full aspect-square overflow-hidden rounded-lg"
 						>
 							<Image

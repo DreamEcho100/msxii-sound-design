@@ -1,5 +1,17 @@
 import { ShopifyProduct } from './types';
 
+import {
+	TwoColumnsBox,
+	BOXES_TYPES_map,
+	IframeBox,
+	SUB_BOXES_TYPES_map,
+	TabsBox,
+	SliderBox,
+	StandardSection,
+	SECTIONS_TYPES_map,
+	Box
+} from './types/custom-page';
+
 const handleDefaultImagesPath = (path: string) => `/images/${path}`;
 
 enum ProductsTags {
@@ -101,7 +113,7 @@ export const fakeProductsData = [
 	...fakeProductsBaseData
 ].map((product) => ({ key: `${Date.now()}-${Math.random()}`, ...product }));
 
-export const loopsGoCrazyVol5Product: ShopifyProduct  = {
+export const loopsGoCrazyVol5Product: ShopifyProduct = {
 	id: 6879014912066,
 	title: 'Loops Go Crazy Vol. 5',
 	handle: 'loops-go-crazy-vol-5',
@@ -174,7 +186,7 @@ export const loopsGoCrazyVol5Product: ShopifyProduct  = {
 	],
 	requires_selling_plan: false,
 	selling_plan_groups: []
-}
+};
 
 export const shopifyFakeProductsData: ShopifyProduct[] = [
 	{
@@ -2153,3 +2165,162 @@ export const shopifyFakeProductsData: ShopifyProduct[] = [
 	}
 ];
 
+const twoColumnsBox: TwoColumnsBox = {
+	___type: BOXES_TYPES_map['two-columns'],
+	columns: [
+		{
+			___type: BOXES_TYPES_map['image-only'],
+			src: 'https://cdn.shopify.com/s/files/1/0345/7209/t/28/assets/pf-50b7d524--Screen-Shot-20200327-at-12507-AM.png?v=1585290536'
+		},
+		{
+			___type: BOXES_TYPES_map['md'],
+			content: `# LO-FLY DIRT
+
+## IOS-APP
+
+[![](/images/custom-page/App-Store-Button-transparent.png)](https://apps.apple.com/us/app/lo-fly-dirt/id1292776927?ign-mpt=uo%3D4)
+
+An audio coloration utility plugin featuring individual modes for classic emulation of some iconic music production tools. This tool is meant to bring character, or "dirt" to your incoming audio signals. Lo-Fly Dirt installs as an Audio Unit effect for hosts that support the format such as Audio Bus, Beatmaker 3, Garage Band, Cubasis, AUM, etc.`
+		}
+	]
+};
+const iframeBox: IframeBox = {
+	___type: BOXES_TYPES_map['iframe'],
+	___subType: SUB_BOXES_TYPES_map['youtube'],
+	src: 'https://www.youtube.com/embed/GeD0lopiqsw?autoplay=0&loop=0&mute=0&controls=0&enablejsapi=1'
+};
+const tabsBox: TabsBox = {
+	___type: BOXES_TYPES_map['tabs'],
+	tabs: [
+		{
+			title: 'DESCRIPTION',
+			data: {
+				___type: BOXES_TYPES_map['md'],
+				content: `An audio coloration utility plugin featuring individual modes for classic emulation of some iconic music production tools. This tool is meant to bring character, or "dirt" to your incoming audio signals.
+				
+Lo-Fly Dirt installs as an Audio Unit effect for hosts that support the format such as AUM, Audio Bus, Beatmaker 3, Garage Band, Cubasis, etc.`
+			}
+		},
+		{
+			title: 'specs',
+			data: {
+				___type: BOXES_TYPES_map['md'],
+				content: `### Default Mode:
+
+Adds subtle character of the input sound. Simple saturation and light, preset compression are added to the overall sound bringing out unique tones & textures of your source audio. The wet/dry knob at the 100 or full position would leave source audio "warmed up.
+
+### 60 Mode:
+
+This preset mode is based on some of our favorite characteristics of an iconic drum machine. Activating this button should invite you to 12 bit nostalgia immediately boasting tasteful saturation, small amounts of compression, and a more rounded high end. Great on drums
+
+### 404 Mode:
+
+One of our favorites, this mode is the only mode that should add subtle low-pass filtering to the input signal. This mode will apply low pass filtering at 12db per octave around 11.6Khz. The wet/dry knob will continue to filter the sound to no more than 200Hz. The signal will benefit from some additional signal boosting with minimal make-up gain and small amounts of bit rate reduction, or "dirt.
+
+### 1200 Mode:
+
+Also built around our love for another iconic drum machine, this mode brings great punch, character, and dirt to any signal it treats. Especially useful for drums and percussion based audio. more punchier variation of the 60 mode. Enjoy 12 bit goodness by default, but additionally a boost the signals character by our dirt and boost in the low-mid frequencies
+
+### 8 Bit Mode: 
+
+Simply put, this mode brings back the classic sound of a legendary game console. We've added a bit of punch to the incoming signal and you're able to blend it with great 8 bit artifacts that will allow for some brand new creations...and fun
+
+### SK- 5 Mode:
+
+Also built off the things we love about the classic 8 bit sound, but with a twist...this mode adds HP filtering and punch! Instant dirt is applied when this mode is activated, high pass filtering and punch is applied as you move the signal from dry to wet. The HP filter is set to cutoff at 300Hz`
+			}
+		},
+		{
+			title: 'userManual',
+			data: {
+				___type: BOXES_TYPES_map['md'],
+				content: `![](https://cdn.shopify.com/s/files/1/0345/7209/t/28/assets/pf-87a87505--loflydirtmanualdisplay.png?v=1589083025)
+
+Whats New:
+
+3.0 updates:
+- Adding factory & user presets
+- Other fixes & enhancements
+
+You can check out the reference guide below:
+
+[Download Now](https://www.dropbox.com/s/qe3zlonoboja003/MSXII%20Lo-Fly%20Dirt%202v5%20Final.pdf?dl=0)`
+			}
+		}
+	]
+};
+const sliderBox: SliderBox = {
+	___type: BOXES_TYPES_map['slider'],
+	slides: [
+		{
+			___type: BOXES_TYPES_map['iframe'],
+			___subType: SUB_BOXES_TYPES_map['youtube'],
+			src: 'https://www.youtube.com/embed/fVYFHfw5bxE?autoplay=0&loop=0&mute=0&controls=1&enablejsapi=1'
+		},
+		{
+			___type: BOXES_TYPES_map['iframe'],
+			___subType: SUB_BOXES_TYPES_map['youtube'],
+			src: 'https://www.youtube.com/embed/vWyepI8I_R8?autoplay=0&loop=0&mute=0&controls=1&enablejsapi=1'
+		},
+		{
+			___type: BOXES_TYPES_map['iframe'],
+			___subType: SUB_BOXES_TYPES_map['youtube'],
+			src: 'https://www.youtube.com/embed/cGYDLxCIKnc?autoplay=0&loop=0&mute=0&controls=1&enablejsapi=1'
+		}
+	]
+};
+const sliderBox2: SliderBox = {
+	___type: BOXES_TYPES_map['slider'],
+	slides: [
+		{
+			___type: BOXES_TYPES_map['iframe'],
+			___subType: 'instagram',
+			src: 'https://www.instagram.com/p/B-PxUFQDDJv/?utm_source=ig_embed&utm_campaign=loading'
+		},
+
+		{
+			___type: BOXES_TYPES_map['iframe'],
+			___subType: 'instagram',
+			src: 'https://www.instagram.com/p/B7zHSBxHmrw/?utm_source=ig_embed&utm_campaign=loading'
+		},
+
+		{
+			___type: BOXES_TYPES_map['iframe'],
+			___subType: 'instagram',
+			src: 'https://www.instagram.com/p/BhcibxMAG8Z/?utm_source=ig_embed&utm_campaign=loading'
+		},
+
+		{
+			___type: BOXES_TYPES_map['iframe'],
+			___subType: 'instagram',
+			src: 'https://www.instagram.com/p/B7sPExan8Js/?utm_source=ig_embed&utm_campaign=loading'
+		}
+	]
+};
+
+const createStandardSections = (boxes: Box[][]): StandardSection[] =>
+	boxes.map((box) => ({
+		___type: SECTIONS_TYPES_map['standard-section'],
+		body: box
+	}));
+
+export const LoflyDirtIOSApp: Box[][] = [
+	[twoColumnsBox],
+	[iframeBox],
+	[tabsBox],
+	[sliderBox],
+	[sliderBox2]
+];
+
+export const FakeIOSProducts = [
+	{ slug: 'loflydirt', pageStructure: createStandardSections(LoflyDirtIOSApp) },
+	{
+		slug: 'loflydirt2',
+		pageStructure: createStandardSections(LoflyDirtIOSApp)
+	},
+	{
+		slug: 'loflydirt3',
+		pageStructure: createStandardSections(LoflyDirtIOSApp)
+	},
+	{ slug: 'loflydirt4', pageStructure: createStandardSections(LoflyDirtIOSApp) }
+];

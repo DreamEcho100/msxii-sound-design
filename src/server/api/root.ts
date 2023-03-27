@@ -1,3 +1,4 @@
+import { iosAppsRouter } from './routers/iosApps';
 import { createTRPCRouter } from '~/server/api/trpc';
 import { productsRouter } from '~/server/api/routers/products';
 
@@ -7,7 +8,8 @@ import { productsRouter } from '~/server/api/routers/products';
  * All routers added in /api/routers should be manually added here.
  */
 export const appRouter = createTRPCRouter({
-	products: productsRouter
+	products: productsRouter,
+	iosApps: iosAppsRouter
 });
 
 // export type definition of API

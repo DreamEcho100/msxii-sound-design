@@ -1,4 +1,4 @@
-import { fakeProductsData } from './appData';
+import { fakeProductsData } from '../appData';
 
 export type Product = (typeof fakeProductsData)[0];
 

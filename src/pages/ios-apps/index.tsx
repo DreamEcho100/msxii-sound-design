@@ -17,9 +17,7 @@ const IOSAppsData = [
 	},
 	{
 		title: 'Chomplr',
-		href: 'https://apps.apple.com/us/app/chomplr/id1470553213',
-		imgSrc:
-			'https://s3-alpha-sig.figma.com/img/e806/2b9c/827e1d7b005dbf087cb431f5035c2a2d?Expires=1680480000&Signature=D-rIT3scjhrce2A0eFRQn8FdpUPxYeVpsEfXTsDAxPMbe3rKOfRfUiitjcoWS7b0nYqkdK8JVCKYTrhdmtrpOgGfvXSwqUlWnEmL8mYZjcn~M4t7ucLwDtwYo5C95HytPoegNDMeFnbrZbfKaG5GYCk2~tYcCJoebhJCrst54RTw3RNX3C6nMGB2m616sIb11eAZt5OyEQY431O2Gk0t7oJCpWmEhf5r2xW0GeqVRv0tfGZscQW60GWGyrlfryb2VwgeyVT43kvsLZ1ndh4eyo8xuT5LbsHeCgzJRKRdYxJ4pmIyttqjEYJPck1vewsZ0yO4i8ptPUUOoCVGA2n9kg__&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4'
+		href: 'https://apps.apple.com/us/app/chomplr/id1470553213'
 	}
 ];
 
@@ -41,7 +39,7 @@ const IOSAppsPage = () => {
 				{IOSAppsData.map((IOSApp) => (
 					<div key={IOSApp.title} className="w-80 flex flex-col gap-4">
 						<Clickable
-							href={IOSApp.href}
+							href="/ios-apps/loflydirt"
 							target="_blank"
 							className="w-full aspect-square overflow-hidden rounded-lg"
 						>

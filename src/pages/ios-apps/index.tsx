@@ -35,7 +35,11 @@ const IOSAppsPage = () => {
 							/>
 						</Clickable>
 						<p className="font-light">
-							<Clickable href={`/ios-apps/${item.slug}`} target="_blank">
+							<Clickable
+								isA="next-js"
+								href={`/ios-apps/${item.slug}`}
+								target="_blank"
+							>
 								{item.title}
 							</Clickable>
 						</p>

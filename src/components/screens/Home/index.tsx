@@ -1,4 +1,3 @@
-import React from 'react';
 import HeroHomeSection from './sections/Hero';
 import HomeShowcaseSection from './sections/Showcase';
 import HomeLatestBlogsSection from './sections/LatestBlogs';

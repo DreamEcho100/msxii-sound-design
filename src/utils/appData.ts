@@ -2253,20 +2253,6 @@ You can check out the reference guide below:
 					}
 				]
 			}
-			// 			{
-			// 				___type: BOXES_TYPES_map['md'],
-			// 				content: `![](https://cdn.shopify.com/s/files/1/0345/7209/t/28/assets/pf-87a87505--loflydirtmanualdisplay.png?v=1589083025)
-
-			// Whats New:
-
-			// 3.0 updates:
-			// - Adding factory & user presets
-			// - Other fixes & enhancements
-
-			// You can check out the reference guide below:
-
-			// [Download Now](https://www.dropbox.com/s/qe3zlonoboja003/MSXII%20Lo-Fly%20Dirt%202v5%20Final.pdf?dl=0)`
-			// 			}
 		}
 	]
 };
@@ -2319,29 +2305,56 @@ const sliderBox2: SliderBox = {
 	]
 };
 
-const createStandardSections = (boxes: Box[][]): StandardSection[] =>
+const createStandardSections = ({
+	boxes
+}: {
+	boxes: Box[][];
+}): StandardSection[] =>
 	boxes.map((box) => ({
 		___type: SECTIONS_TYPES_map['standard-section'],
 		body: box
 	}));
 
-export const LoflyDirtIOSApp: Box[][] = [
-	[twoColumnsBox],
-	[tabsBox],
-	[iframeBox],
-	[sliderBox],
-	[sliderBox2]
+const createStandardSection = (
+	params: Pick<
+		StandardSection,
+		'body' | 'title' | 'description' | 'customPageClassesKeys'
+	>
+): StandardSection => ({
+	___type: SECTIONS_TYPES_map['standard-section'],
+	...params
+});
+
+export const LoflyDirtIOSApp: StandardSection[] = [
+	createStandardSection({ body: [twoColumnsBox] }),
+	createStandardSection({ body: [tabsBox] }),
+	createStandardSection({ body: [iframeBox] }),
+	createStandardSection({
+		body: [sliderBox],
+		title: 'Tutorial'
+	}),
+	createStandardSection({
+		body: [{ ...sliderBox2, slidesPerViewType: 'large-slides' }],
+		title: 'LO-FLY DIRT Around The Web',
+		customPageClassesKeys: ['section-container-v1']
+	})
 ];
 
 export const FakeIOSProducts = [
-	{ slug: 'loflydirt', pageStructure: createStandardSections(LoflyDirtIOSApp) },
+	{
+		slug: 'loflydirt',
+		pageStructure: LoflyDirtIOSApp
+	},
 	{
 		slug: 'loflydirt2',
-		pageStructure: createStandardSections(LoflyDirtIOSApp)
+		pageStructure: LoflyDirtIOSApp
 	},
 	{
 		slug: 'loflydirt3',
-		pageStructure: createStandardSections(LoflyDirtIOSApp)
+		pageStructure: LoflyDirtIOSApp
 	},
-	{ slug: 'loflydirt4', pageStructure: createStandardSections(LoflyDirtIOSApp) }
+	{
+		slug: 'loflydirt4',
+		pageStructure: LoflyDirtIOSApp
+	}
 ];

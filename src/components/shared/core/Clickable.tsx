@@ -114,7 +114,7 @@ const Clickable = ({ variants = {}, className, ...props }: Props) => {
 							rounded: handleDefaultVariant<'rounded'>({
 								passedVariantValue: variants?.rounded,
 								variantDefaultValue: '3xl',
-								variantDefaultValueCondition: () => true
+								variantDefaultValueCondition: () => clickableType === 'button'
 							}),
 							w: handleDefaultVariant<'w'>({
 								passedVariantValue: variants?.w,
@@ -130,7 +130,7 @@ const Clickable = ({ variants = {}, className, ...props }: Props) => {
 					  }
 			);
 		},
-		[className, variants]
+		[className, props.disabled, variants]
 	);
 
 	return (

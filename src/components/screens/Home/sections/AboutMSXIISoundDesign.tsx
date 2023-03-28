@@ -1,6 +1,6 @@
 import { cx } from 'class-variance-authority';
 import Image from 'next/image';
-import React from 'react';
+
 import Clickable from '~/components/shared/core/Clickable';
 
 const anchorClasses = cx(

@@ -17,6 +17,7 @@ import {
 	BOXES_TYPES_map,
 	Box,
 	SUB_BOXES_TYPES_map,
+	StandardSection,
 	TabsBox
 } from '~/utils/types/custom-page';
 import ReactMarkdown from 'react-markdown';
@@ -25,7 +26,7 @@ import customPageClasses from '~/styles/custom-page.module.css';
 import { cx } from 'class-variance-authority';
 import * as Tabs from '@radix-ui/react-tabs';
 import InstagramIframe, { YouTubeIFrame } from '~/components/shared/Iframes';
-import Slider, { CardsSlider } from '~/components/shared/core/Cards/Slider';
+import Slider from '~/components/shared/core/Cards/Slider';
 import { SwiperSlide } from 'swiper/react';
 
 const IOSAppPage = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
@@ -42,16 +43,30 @@ const IOSAppPage = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
 	return (
 		<div className="max-w-[100ch] mx-auto py-16 px-16 text-h6 flex flex-col gap-16 text-text-primary-400">
 			{pageStructure.map((section, index) => (
-				<SectionBody key={index} boxes={section.body} />
+				<SectionBody key={index} section={section} />
 			))}
 		</div>
 	);
 };
 
-const SectionBody = ({ boxes }: { boxes: Box[] }) => {
+const SectionBody = ({ section }: { section: StandardSection }) => {
 	return (
-		<section className="">
-			{boxes.map((box, index) => {
+		<section
+			className={cx(
+				'flex flex-col gap-2',
+				...(section.customPageClassesKeys
+					? section.customPageClassesKeys.map((key) => customPageClasses[key])
+					: [])
+			)}
+		>
+			{!!(section.title || section.description) && (
+				<header className="px-2">
+					{section.title && (
+						<h2 className="text-h4 font-medium">{section.title}</h2>
+					)}
+				</header>
+			)}
+			{section.body.map((box, index) => {
 				return <SectionBodyBox key={index} box={box} />;
 			})}
 		</section>
@@ -107,10 +122,6 @@ const SectionBodyBox = ({
 							customPageClassName
 						)
 					}}
-					// overlayImageProps={{
-					// 	src: productData.featured_image,
-					// 	alt: productData.title
-					// }}
 					youTubeIconVariants={{
 						fontSize:
 							parentBox === BOXES_TYPES_map['slider'] ? 'small' : 'medium'
@@ -128,17 +139,36 @@ const SectionBodyBox = ({
 
 	if (box.___type === BOXES_TYPES_map['slider']) {
 		return (
-			<Slider
-				swiperProps={{
-					className: cx(customPageClasses['swiper'], 'swiper-fluid')
-				}}
-			>
-				{box.slides.map((slide) => (
-					<SwiperSlide key={slide.src} className="flex flex-col">
-						<SectionBodyBox box={slide} parentBox={box.___type} />
-					</SwiperSlide>
-				))}
-			</Slider>
+			<div className={customPageClassName}>
+				<Slider
+					swiperProps={{
+						className: cx(
+							customPageClassName,
+							customPageClasses['swiper'],
+							'swiper-fluid'
+						),
+						breakpoints:
+							box.slidesPerViewType === 'large-slides'
+								? {
+										640: { slidesPerView: 2 },
+										1024: { slidesPerView: 3 },
+										1280: { slidesPerView: 4 }
+								  }
+								: {
+										400: { slidesPerView: 2 },
+										768: { slidesPerView: 3 },
+										1024: { slidesPerView: 4 },
+										1280: { slidesPerView: 5 }
+								  }
+					}}
+				>
+					{box.slides.map((slide) => (
+						<SwiperSlide key={slide.src} className="flex flex-col">
+							<SectionBodyBox box={slide} parentBox={box.___type} />
+						</SwiperSlide>
+					))}
+				</Slider>
+			</div>
 		);
 	}
 
@@ -191,8 +221,8 @@ const TabsBox = ({ box, className }: { box: TabsBox; className: string }) => (
 				<Tabs.Trigger
 					key={tab.title}
 					className={cx(
-						'text-h3 font-light border-[0.125rem] border-solid border-transparent',
-						'data-[state=active]:font-medium data-[state=active]:border-solid data-[state=active]:pb-1 data-[state=active]:border-b-text-primary-400 data-[state=active]:text-text-primary-600'
+						'text-h4 font-light border-[0.125rem] border-solid border-transparent',
+						'data-[state=active]:font-bold data-[state=active]:border-solid data-[state=active]:pb-1 data-[state=active]:border-b-text-primary-400 data-[state=active]:text-text-primary-600'
 					)}
 					value={tab.title}
 				>
@@ -203,7 +233,6 @@ const TabsBox = ({ box, className }: { box: TabsBox; className: string }) => (
 
 		{box.tabs.map((tab) => (
 			<Tabs.Content key={tab.title} className="" value={tab.title}>
-				{/* <ReactMarkdown>{tab.data.content}</ReactMarkdown> */}
 				<SectionBodyBox box={tab.data} />
 			</Tabs.Content>
 		))}

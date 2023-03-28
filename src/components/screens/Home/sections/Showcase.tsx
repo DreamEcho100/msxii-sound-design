@@ -11,8 +11,8 @@ const HomeShowcaseSection = ({ products }: { products: ShopifyProduct[] }) => {
 	return (
 		<section className="sm:p-main-p-3">
 			<div className="flex flex-col gap-16 bg-bg-primary-100 dark:bg-bg-primary-900 p-main-p-3 sm:rounded-xl">
-				<section>
-					<header className="flex flex-col gap-8 pl-4 rtl:pr-4 rtl:pl-0">
+				<article className="px-4">
+					<header className="flex flex-col gap-8 rtl:pl-0">
 						<h2 className="text-h1 leading-h2 font-semibold">New Releases</h2>
 						<div className="flex flex-wrap gap-x-4 gap-y-3 text-base">
 							{[
@@ -54,9 +54,9 @@ const HomeShowcaseSection = ({ products }: { products: ShopifyProduct[] }) => {
 						nextSlideButtonClassName="-translate-y-[200%] lg:-translate-y-[225%]"
 						previousSlideButtonClassName="-translate-y-[200%] lg:-translate-y-[225%]"
 					/>
-				</section>
-				<section className="flex flex-col gap-4">
-					<header className="pl-6 rtl:pr-6 rtl:pl-0">
+				</article>
+				<article className="flex flex-col gap-4 px-4">
+					<header>
 						<h2 className="text-h1 leading-h2 font-semibold">Bundles</h2>
 					</header>
 					<div className="flex flex-col gap-8">
@@ -104,7 +104,7 @@ const HomeShowcaseSection = ({ products }: { products: ShopifyProduct[] }) => {
 								))}
 						</div>
 					</div>
-				</section>
+				</article>
 			</div>
 		</section>
 	);

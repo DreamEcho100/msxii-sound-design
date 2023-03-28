@@ -52,6 +52,7 @@ export type TabsBox = {
 export type SliderBox = {
 	___type: (typeof BOXES_TYPES_map)['slider'];
 	slides: IframeBox[];
+	slidesPerViewType?: 'default' | 'large-slides'; // ! move to there own enums
 };
 export type TwoColumnsBox = {
 	___type: (typeof BOXES_TYPES_map)['two-columns'];
@@ -68,5 +69,8 @@ export type Box =
 
 export type StandardSection = {
 	___type: (typeof SECTIONS_TYPES_map)['standard-section'];
+	customPageClassesKeys?: string[];
+	title?: string;
+	description?: string;
 	body: Box[];
 };

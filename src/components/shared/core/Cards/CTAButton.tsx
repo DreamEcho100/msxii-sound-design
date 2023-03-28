@@ -1,4 +1,3 @@
-import React from 'react';
 import Clickable from '../Clickable';
 import { BsArrowRight } from 'react-icons/bs';
 import { cx } from 'class-variance-authority';

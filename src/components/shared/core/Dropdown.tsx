@@ -25,7 +25,7 @@ export const DropdownItems = ({
 		leaveTo="transform opacity-0 scale-95"
 	>
 		<Menu.Items
-			className="bg-bg-primary-600/50 backdrop absolute right-0 mt-2 flex w-full origin-top-right flex-col divide-y divide-gray-100 overflow-hidden whitespace-nowrap rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+			className="bg-bg-primary-600/50 backdrop absolute left-0 rtl:right-0 rtl:left-auto mt-2 flex min-w-full origin-top-right flex-col divide-y divide-gray-100 overflow-hidden whitespace-nowrap rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
 			{...props}
 		>
 			<div className="relative isolate">
@@ -55,7 +55,7 @@ export const DropdownButton = ({
 				active
 					? 'bg-gradient-to-br from-initial-primary-300 to-initial-primary-500 text-special-secondary-100 transition-all duration-150'
 					: ''
-			} group flex w-full items-center gap-1 whitespace-nowrap`}
+			} group flex min-w-full items-center gap-1 whitespace-nowrap`}
 		/>
 	);
 };

@@ -63,7 +63,7 @@ export const YouTubeIFrame = ({
 			if (typeof document === 'undefined' || !document.getElementById(iframeId))
 				window.removeEventListener('blur', cb);
 		};
-	}, [iframeId]);
+	}, [iframeId, isOverlayActive]);
 	console.log('isOverlayActive', isOverlayActive);
 	return (
 		<div
@@ -134,7 +134,6 @@ const InstagramIframe = ({
 					boxShadow: '0 0 1px 0 rgba(0,0,0,0.5),0 1px 10px 0 rgba(0,0,0,0.15)',
 					margin: '1px',
 					maxWidth: '658px',
-					// minWidth: '326px',
 					padding: 0,
 					width: 'calc(100% - 2px)'
 				}}
@@ -406,7 +405,7 @@ const InstagramIframe = ({
 				</div>
 			</blockquote>
 			<Script
-				strategy="lazyOnload"
+				strategy="afterInteractive"
 				async
 				src="https://www.instagram.com/embed.js"
 			/>

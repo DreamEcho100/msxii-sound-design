@@ -32,9 +32,9 @@ const headersLinks = [
 	{
 		title: 'Samples',
 		links: [
-			{ title: 'Item 1', href: '/' },
-			{ title: 'Item 2', href: '/' },
-			{ title: 'Item 3', href: '/' }
+			{ title: 'Drum Kits', href: '/' },
+			{ title: 'Ableton Racks', href: '/' },
+			{ title: 'Vinyl', href: '/' }
 		]
 	},
 	{

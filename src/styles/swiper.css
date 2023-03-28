@@ -1,6 +1,6 @@
 .swiper {
-	padding-left: 1rem !important;
-	padding-right: 1rem !important;
+	/* padding-left: 1rem !important;
+	padding-right: 1rem !important; */
 	--swiper-pagination-bullet-inactive-color: #7548fe;
 	--swiper-pagination-color: #7548fe;
 }

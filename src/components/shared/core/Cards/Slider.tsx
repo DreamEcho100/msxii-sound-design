@@ -59,7 +59,7 @@ const Slider = ({
 				onClick={() => SwiperInstanceRef.current?.slideNext()}
 				className={cx(
 					'hover:scale-[1.25] focus:scale-[1.25] transition-all duration-150 absolute top-1/2 -translate-y-1/2 w-4 h-8 aspect-[1.91/1]',
-					'-right-4 rtl:-left-4 rtl:right-auto rtl:rotate-180',
+					'-right-8 rtl:-left-8 rtl:right-auto rtl:rotate-180',
 					nextSlideButtonClassName
 				)}
 			>
@@ -76,7 +76,7 @@ const Slider = ({
 				onClick={() => SwiperInstanceRef.current?.slidePrev()}
 				className={cx(
 					'z-[2] hover:scale-[1.25] focus:scale-[1.25] transition-all duration-150 absolute top-1/2 -translate-y-1/2 w-4 h-8 aspect-[1.91/1]',
-					'-left-4 rtl:-right-4 rtl:left-aright-auto rtl:rotate-180',
+					'-left-8 rtl:-right-8 rtl:left-aright-auto rtl:rotate-180',
 					previousSlideButtonClassName
 				)}
 			>

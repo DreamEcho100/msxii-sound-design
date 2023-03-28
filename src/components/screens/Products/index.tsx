@@ -168,8 +168,8 @@ const ProductsScreen = ({ products }: { products: ShopifyProduct[] }) => {
 						)}
 					</AnimatePresence>
 				</div>
-				<div className="max-w-full overflow-hidden bg-bg-primary-100 dark:bg-bg-primary-900 isolate flex-grow transition-all sm:rounded-2xl">
-					<header className="flex justify-between pt-8 pb-4 px-12">
+				<div className="px-12 max-w-full overflow-hidden bg-bg-primary-100 dark:bg-bg-primary-900 isolate flex-grow transition-all sm:rounded-2xl">
+					<header className="flex justify-between pt-8 pb-4 px-2">
 						<h1 className="text-h1 font-semibold">
 							{selectedCategories.length === categories.length ||
 							selectedCategories.length === 0
@@ -189,7 +189,7 @@ const ProductsScreen = ({ products }: { products: ShopifyProduct[] }) => {
 						</Clickable>
 					</header>
 					{filteredProductsByCategory.map((productByCategory) => (
-						<div className="px-8" key={productByCategory[0]}>
+						<article key={productByCategory[0]}>
 							<h2 className="text-h4 text-text-primary-300 px-4 font-normal">
 								{productByCategory[0]}
 							</h2>
@@ -221,7 +221,7 @@ const ProductsScreen = ({ products }: { products: ShopifyProduct[] }) => {
 									}}
 								/>
 							</div>
-						</div>
+						</article>
 					))}
 				</div>
 			</div>

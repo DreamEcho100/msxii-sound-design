@@ -82,9 +82,12 @@ const Clickable = ({ isA, className, ...props }: ClickableProps) => {
 			/>
 		);
 
-	throw new Error(
-		'Invalid properties passed:' // + JSON.stringify(props, null, 2)
-	);
+	const errorMessage = `Invalid properties passed`;
+
+	console.error(errorMessage);
+	console.error(props);
+
+	return <></>;
 };
 
 export default Clickable;

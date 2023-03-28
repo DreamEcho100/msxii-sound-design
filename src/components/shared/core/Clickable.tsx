@@ -57,8 +57,6 @@ const handleClickableVariants = cva('', {
 	defaultVariants: { 'font-weight': 'normal', transform: 'hover:x0-y-7.5%' }
 });
 
-// className='filter bg-opacity-75 brightness-50 backdrop-grayscale grayscale backdrop-blur-sm backdrop-opacity-75 cursor-not-allowed'
-
 type Props = {
 	variants?: VariantProps<typeof handleClickableVariants> | null;
 	className?: string;
@@ -133,17 +131,7 @@ const Clickable = ({ variants = {}, className, ...props }: Props) => {
 		[className, props.disabled, variants]
 	);
 
-	return (
-		<ClickableBase
-			{...props}
-			// className={(clickableType) => {
-			// 	return handleClickableVariants({
-			// 		...variants, className
-			// 	})
-			// }}
-			className={handleClassName}
-		/>
-	);
+	return <ClickableBase {...props} className={handleClassName} />;
 };
 
 export default Clickable;

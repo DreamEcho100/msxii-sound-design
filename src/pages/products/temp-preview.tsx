@@ -1,12 +1,5 @@
-import { cx } from 'class-variance-authority';
 import Image from 'next/image';
-import React, {
-	HTMLAttributes,
-	IframeHTMLAttributes,
-	useEffect,
-	useId,
-	useState
-} from 'react';
+import React, { useState } from 'react';
 import { BiPlay } from 'react-icons/bi';
 import { FaMinus, FaPlus } from 'react-icons/fa';
 import { z } from 'zod';
@@ -19,7 +12,6 @@ import {
 	loopsGoCrazyVol5Product as productData,
 	shopifyFakeProductsData
 } from '~/utils/appData';
-import { ImYoutube } from 'react-icons/im';
 import { YouTubeIFrame } from '~/components/shared/Iframes';
 
 const media = productData.media[0];

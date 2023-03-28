@@ -1,4 +1,4 @@
-import { ReactNode, useMemo } from 'react';
+import { ReactNode } from 'react';
 import Clickable from '../Clickable';
 import Image from 'next/image';
 import { VariantProps, cva } from 'class-variance-authority';

@@ -9,7 +9,8 @@ import {
 	SliderBox,
 	StandardSection,
 	SECTIONS_TYPES_map,
-	Box
+	Box,
+	RowsOnlyBox
 } from './types/custom-page';
 
 const handleDefaultImagesPath = (path: string) => `/images/${path}`;
@@ -2165,48 +2166,64 @@ export const shopifyFakeProductsData: ShopifyProduct[] = [
 	}
 ];
 
-const twoColumnsBox: TwoColumnsBox = {
-	___type: BOXES_TYPES_map['two-columns'],
-	columns: [
-		{
-			___type: BOXES_TYPES_map['image-only'],
-			src: 'https://cdn.shopify.com/s/files/1/0345/7209/t/28/assets/pf-50b7d524--Screen-Shot-20200327-at-12507-AM.png?v=1585290536'
-		},
-		{
-			___type: BOXES_TYPES_map['md'],
-			content: `# LO-FLY DIRT
+const createStandardSection = (
+	params: Pick<
+		StandardSection,
+		'body' | 'title' | 'description' | 'customPageClassesKeys'
+	>
+): StandardSection => ({
+	___type: SECTIONS_TYPES_map['standard-section'],
+	...params
+});
 
+export const LoflyDirtIOSApp: StandardSection[] = (() => {
+	const appLink =
+		'https://apps.apple.com/us/app/lo-fly-dirt/id1292776927?ign-mpt=uo%3D4';
+
+	const twoColumnsBox: TwoColumnsBox = {
+		___type: BOXES_TYPES_map['two-columns'],
+		columns: [
+			{
+				customPageClassesKeys: ['center-on-ls-md-screens'],
+				___type: BOXES_TYPES_map['image-only'],
+				src: 'https://cdn.shopify.com/s/files/1/0345/7209/t/28/assets/pf-50b7d524--Screen-Shot-20200327-at-12507-AM.png?v=1585290536'
+			},
+			{
+				customPageClassesKeys: ['center-on-ls-md-screens'],
+				___type: BOXES_TYPES_map['md'],
+				content: `# LO-FLY DIRT
+	
 ## IOS-APP
 
-[![](/images/custom-page/App-Store-Button-transparent.png)](https://apps.apple.com/us/app/lo-fly-dirt/id1292776927?ign-mpt=uo%3D4)
+[![](/images/custom-page/App-Store-Button-transparent.png)](${appLink})
 
 An audio coloration utility plugin featuring individual modes for classic emulation of some iconic music production tools. This tool is meant to bring character, or "dirt" to your incoming audio signals. Lo-Fly Dirt installs as an Audio Unit effect for hosts that support the format such as Audio Bus, Beatmaker 3, Garage Band, Cubasis, AUM, etc.`
-		}
-	]
-};
-const iframeBox: IframeBox = {
-	___type: BOXES_TYPES_map['iframe'],
-	___subType: SUB_BOXES_TYPES_map['youtube'],
-	src: 'https://www.youtube.com/embed/GeD0lopiqsw?autoplay=0&loop=0&mute=0&controls=0&enablejsapi=1'
-};
-const tabsBox: TabsBox = {
-	___type: BOXES_TYPES_map['tabs'],
-	tabs: [
-		{
-			title: 'Description',
-			data: {
-				___type: BOXES_TYPES_map['md'],
-				content: `An audio coloration utility plugin featuring individual modes for classic emulation of some iconic music production tools. This tool is meant to bring character, or "dirt" to your incoming audio signals.
-				
-Lo-Fly Dirt installs as an Audio Unit effect for hosts that support the format such as AUM, Audio Bus, Beatmaker 3, Garage Band, Cubasis, etc.`
 			}
-		},
-		{
-			title: 'Specs',
-			data: {
-				___type: BOXES_TYPES_map['md'],
-				content: `### Default Mode:
-
+		]
+	};
+	const iframeBox: IframeBox = {
+		___type: BOXES_TYPES_map['iframe'],
+		___subType: SUB_BOXES_TYPES_map['youtube'],
+		src: 'https://www.youtube.com/embed/GeD0lopiqsw?autoplay=0&loop=0&mute=0&controls=0&enablejsapi=1'
+	};
+	const tabsBox: TabsBox = {
+		___type: BOXES_TYPES_map['tabs'],
+		tabs: [
+			{
+				title: 'Description',
+				data: {
+					___type: BOXES_TYPES_map['md'],
+					content: `An audio coloration utility plugin featuring individual modes for classic emulation of some iconic music production tools. This tool is meant to bring character, or "dirt" to your incoming audio signals.
+					
+Lo-Fly Dirt installs as an Audio Unit effect for hosts that support the format such as AUM, Audio Bus, Beatmaker 3, Garage Band, Cubasis, etc.`
+				}
+			},
+			{
+				title: 'Specs',
+				data: {
+					___type: BOXES_TYPES_map['md'],
+					content: `### Default Mode:
+	
 Adds subtle character of the input sound. Simple saturation and light, preset compression are added to the overall sound bringing out unique tones & textures of your source audio. The wet/dry knob at the 100 or full position would leave source audio "warmed up.
 
 ### 60 Mode:
@@ -2228,17 +2245,18 @@ Simply put, this mode brings back the classic sound of a legendary game console.
 ### SK- 5 Mode:
 
 Also built off the things we love about the classic 8 bit sound, but with a twist...this mode adds HP filtering and punch! Instant dirt is applied when this mode is activated, high pass filtering and punch is applied as you move the signal from dry to wet. The HP filter is set to cutoff at 300Hz`
-			}
-		},
-		{
-			title: 'User Manual',
-			data: {
-				___type: BOXES_TYPES_map['two-columns'],
-				columns: [
-					{
-						___type: BOXES_TYPES_map['md'],
-						content: `### Whats New:
-
+				}
+			},
+			{
+				title: 'User Manual',
+				data: {
+					___type: BOXES_TYPES_map['two-columns'],
+					columns: [
+						{
+							customPageClassesKeys: ['center-on-ls-md-screens'],
+							___type: BOXES_TYPES_map['md'],
+							content: `### Whats New:
+	
 3.0 updates:
 - Adding factory & user presets
 - Other fixes & enhancements
@@ -2246,115 +2264,780 @@ Also built off the things we love about the classic 8 bit sound, but with a twis
 You can check out the reference guide below:
 
 [Download Now](https://www.dropbox.com/s/qe3zlonoboja003/MSXII%20Lo-Fly%20Dirt%202v5%20Final.pdf?dl=0)`
-					},
-					{
-						___type: BOXES_TYPES_map['image-only'],
-						src: 'https://cdn.shopify.com/s/files/1/0345/7209/t/28/assets/pf-87a87505--loflydirtmanualdisplay.png?v=1589083025'
-					}
-				]
+						},
+						{
+							customPageClassesKeys: ['center-on-ls-md-screens'],
+							___type: BOXES_TYPES_map['image-only'],
+							src: 'https://cdn.shopify.com/s/files/1/0345/7209/t/28/assets/pf-87a87505--loflydirtmanualdisplay.png?v=1589083025'
+						}
+					]
+				}
 			}
-		}
-	]
+		]
+	};
+	const sliderBox: SliderBox = {
+		___type: BOXES_TYPES_map['slider'],
+		slides: [
+			{
+				___type: BOXES_TYPES_map['iframe'],
+				___subType: SUB_BOXES_TYPES_map['youtube'],
+				src: 'https://www.youtube.com/embed/fVYFHfw5bxE?autoplay=0&loop=0&mute=0&controls=1&enablejsapi=1'
+			},
+			{
+				___type: BOXES_TYPES_map['iframe'],
+				___subType: SUB_BOXES_TYPES_map['youtube'],
+				src: 'https://www.youtube.com/embed/vWyepI8I_R8?autoplay=0&loop=0&mute=0&controls=1&enablejsapi=1'
+			},
+			{
+				___type: BOXES_TYPES_map['iframe'],
+				___subType: SUB_BOXES_TYPES_map['youtube'],
+				src: 'https://www.youtube.com/embed/cGYDLxCIKnc?autoplay=0&loop=0&mute=0&controls=1&enablejsapi=1'
+			}
+		]
+	};
+	const sliderBox2: SliderBox = {
+		___type: BOXES_TYPES_map['slider'],
+		slides: [
+			{
+				___type: BOXES_TYPES_map['iframe'],
+				___subType: 'instagram',
+				src: 'https://www.instagram.com/p/B-PxUFQDDJv/?utm_source=ig_embed&utm_campaign=loading'
+			},
+			{
+				___type: BOXES_TYPES_map['iframe'],
+				___subType: 'instagram',
+				src: 'https://www.instagram.com/p/B7zHSBxHmrw/?utm_source=ig_embed&utm_campaign=loading'
+			},
+			{
+				___type: BOXES_TYPES_map['iframe'],
+				___subType: 'instagram',
+				src: 'https://www.instagram.com/p/BhcibxMAG8Z/?utm_source=ig_embed&utm_campaign=loading'
+			},
+			{
+				___type: BOXES_TYPES_map['iframe'],
+				___subType: 'instagram',
+				src: 'https://www.instagram.com/p/B7sPExan8Js/?utm_source=ig_embed&utm_campaign=loading'
+			}
+		]
+	};
+	const rowsOnlyBox: RowsOnlyBox = {
+		___type: 'rows-only',
+		customPageClassesKeys: ['center-content'],
+		rows: [
+			{
+				___type: 'md',
+				content: `![](https://cdn.shopify.com/s/files/1/0345/7209/t/28/assets/pf-d22a5c09--MSXIIAUDIOLOFIDIRTAPPICON3x-Edited.jpg?v=1582621861)
+
+[![](/images/custom-page/App-Store-Button-transparent.png)](${appLink})`
+			}
+		]
+	};
+
+	return [
+		createStandardSection({ body: [twoColumnsBox] }),
+		createStandardSection({ body: [tabsBox] }),
+		createStandardSection({ body: [iframeBox] }),
+		createStandardSection({
+			body: [sliderBox],
+			title: 'Tutorial'
+		}),
+		createStandardSection({
+			body: [{ ...sliderBox2, slidesPerViewType: 'large-slides' }],
+			title: 'LO-FLY DIRT Around The Web',
+			customPageClassesKeys: ['section-container-v1']
+		}),
+		createStandardSection({ body: [rowsOnlyBox] })
+	];
+})();
+export const FlyTapeIOSApp: StandardSection[] = (() => {
+	const appLink = 'https://apps.apple.com/us/app/fly-tape/id1343651192';
+
+	const twoColumnsBox: TwoColumnsBox = {
+		___type: BOXES_TYPES_map['two-columns'],
+		columns: [
+			{
+				customPageClassesKeys: ['center-on-ls-md-screens'],
+				___type: BOXES_TYPES_map['image-only'],
+				src: 'https://cdn.shopify.com/s/files/1/0345/7209/t/28/assets/pf-f357e20c--Flytapeappdisplay.png?v=1589053729'
+			},
+			{
+				customPageClassesKeys: ['center-on-ls-md-screens'],
+				___type: BOXES_TYPES_map['md'],
+				content: `# Fly Tape
+## IOS-APP
+
+[![](/images/custom-page/App-Store-Button-transparent.png)](${appLink})
+
+Fly-Tape is a unique MSXII look on some of the aspects about tape that we love while adding some unique features that are enjoyable!
+
+Fly Tape installs as an iOS AUv3 FX plugin, designed for use within host apps such as Garageband, Beatmaker 3, Cubasis, Audiobus, and more. Standalone mode for demo purposes.`
+			}
+		]
+	};
+	const iframeBox: IframeBox = {
+		___type: BOXES_TYPES_map['iframe'],
+		___subType: SUB_BOXES_TYPES_map['youtube'],
+		src: 'https://www.youtube.com/embed/OLPSb69q5mM?autoplay=0&loop=0&mute=0&controls=0&enablejsapi=1'
+	};
+	const tabsBox: TabsBox = {
+		___type: BOXES_TYPES_map['tabs'],
+		tabs: [
+			{
+				title: 'Description',
+				data: {
+					___type: BOXES_TYPES_map['md'],
+					content: `Named for it's performance style of use, users can adding FX to their incoming audio signals in many ways "on the Fly." Sliders for textured nuances such as hiss & pitch will allow you to dial in tasteful settings that can become reminiscent of cassette tapes. These also can be automated via midi cc for additional modulation.`
+				}
+			},
+			{
+				title: 'Specs',
+				data: {
+					___type: BOXES_TYPES_map['md'],
+					content: `### Fly Tape FX:
+
+Fly Tape includes numerous touch based FX. These FX also release upon button release to enhance the performance experience. Additionally, some FX have more settings upon a quick, double-tap of the effect.
+
+
+### Play Button
+
+- Will start audio (demo drum loop) in standalone mode
+- Disabled while in plugin mode
+
+### Stop Button
+
+- Will stop playing audio with a scrubbing, slow down effect
+- Release will resume audio
+
+### Pause Button
+
+- A simple audio mute. Useful for drops in performance
+- Release will resume audio
+
+### Bypass Switch
+
+- Bypass Fly-Tape audio effect unit as a whole
+
+### Noise Slider
+
+- Gradual increase of "hiss" simulation from left to right
+
+### Pitch Slider
+
+- Gradual detuning of audio from left (normal) to right (-.50 cents)
+
+### Half-Speed FX Button
+
+- Plays audio at half-speed
+- Normal playback resumes on release
+- Half-Speed will stay in time with current host tempo
+
+### Saturate Button
+
+- 2 saturation modes "Clean" & "Gritty" available
+- Quick double tap will prompt small menu option
+- Release will resume normal audio without effect
+
+### Lofi Button
+
+- 3 lofi modes "70's", "80's", and "90's" available
+- Quick double tap will prompt small menu option
+- Release will resume normal audio without effect
+
+### Loop Button
+
+- Reverses and loops audio while pressed
+- Release will resume normal audio without effect
+
+### Stutter Button
+
+- 8 stutter quantize settings available
+- Quick double tap will prompt small menu option
+- Settings available are 1/2, 1/4, 1/8, 1/8T, 1/16, 1/16T, 1/32, 1/64
+- Stutter is immediate upon press, release will resume audio without effect
+
+### Tips:
+
+FX buttons can be chained in unique ways to deliver awesome results such as Lofi "70's --> Saturate "Clean" --> Half-Speed.
+
+All parameters of Fly Tape can be mapped in your favorite hosts. For example, you can map the Noise & Pitch sliders to faders or knobs on your favorite midi controller.
+
+Fly Tape's Midi CC values are listed below:
+
+- Bypass: 102
+- Pitch: 103
+- Noise: 104
+- Tape Stop: 106
+- Mute (Pause): 107
+- Half-Speed: 108
+- Saturate: 109
+- Lofi: 110
+- Loop: 111
+- Stutter: 112`
+				}
+			},
+			{
+				title: 'User Manual',
+				data: {
+					___type: BOXES_TYPES_map['two-columns'],
+					columns: [
+						{
+							customPageClassesKeys: ['center-on-ls-md-screens'],
+							___type: BOXES_TYPES_map['md'],
+							content: `### Whats New:
+	
+2.0 updates:
+- General bug fixes, enhancements, and iOS 12 compatibility issues fixed.
+
+You can check out the reference guide below
+
+[Download Now](https://www.dropbox.com/s/b3fb168ozmz3i4o/MSXII%20Fly%20Tape%202v0%20Final.pdf?dl=0)`
+						},
+						{
+							customPageClassesKeys: ['center-on-ls-md-screens'],
+							___type: BOXES_TYPES_map['image-only'],
+							src: 'https://cdn.shopify.com/s/files/1/0345/7209/t/28/assets/pf-f7f4b998--FlyTapeManualImage.png?v=1589395846'
+						}
+					]
+				}
+			}
+		]
+	};
+	const sliderBox: SliderBox = {
+		___type: BOXES_TYPES_map['slider'],
+		slides: [
+			{
+				___type: BOXES_TYPES_map['iframe'],
+				___subType: SUB_BOXES_TYPES_map['youtube'],
+				src: 'https://www.youtube.com/embed/dAaKwsDX11U?autoplay=0&loop=0&mute=0&controls=1&enablejsapi=1'
+			},
+			{
+				___type: BOXES_TYPES_map['iframe'],
+				___subType: SUB_BOXES_TYPES_map['youtube'],
+				src: 'https://www.youtube.com/embed/K-W9vtIRAZw?autoplay=0&loop=0&mute=0&controls=1&enablejsapi=1'
+			},
+			{
+				___type: BOXES_TYPES_map['iframe'],
+				___subType: SUB_BOXES_TYPES_map['youtube'],
+				src: 'https://www.youtube.com/embed/vWyepI8I_R8?autoplay=0&loop=0&mute=0&controls=1&enablejsapi=1'
+			}
+		]
+	};
+	const sliderBox2: SliderBox = {
+		___type: BOXES_TYPES_map['slider'],
+		slides: [
+			{
+				___type: BOXES_TYPES_map['iframe'],
+				___subType: 'instagram',
+				src: 'https://www.instagram.com/p/B86N3QiHJcn/?utm_source=ig_embed&utm_campaign=loading'
+			},
+			{
+				___type: BOXES_TYPES_map['iframe'],
+				___subType: 'instagram',
+				src: 'https://www.instagram.com/p/B8qiCA6i3qa/?utm_source=ig_embed&utm_campaign=loading'
+			},
+			{
+				___type: BOXES_TYPES_map['iframe'],
+				___subType: 'instagram',
+				src: 'https://www.instagram.com/p/BvJsq-qAqzU/?utm_source=ig_embed&utm_campaign=loading'
+			},
+			{
+				___type: BOXES_TYPES_map['iframe'],
+				___subType: 'instagram',
+				src: 'https://www.instagram.com/p/B7sPExan8Js/?utm_source=ig_embed&utm_campaign=loading'
+			}
+		]
+	};
+	const rowsOnlyBox: RowsOnlyBox = {
+		___type: 'rows-only',
+		customPageClassesKeys: ['center-content'],
+		rows: [
+			{
+				___type: 'md',
+				content: `![](/images/custom-page/FlyTapeappicon1.png)
+				
+[![](/images/custom-page/App-Store-Button-transparent.png)](${appLink})`
+			}
+		]
+	};
+
+	return [
+		createStandardSection({ body: [twoColumnsBox] }),
+		createStandardSection({ body: [tabsBox] }),
+		createStandardSection({ body: [iframeBox] }),
+		createStandardSection({
+			body: [sliderBox],
+			title: 'Tutorial'
+		}),
+		createStandardSection({
+			body: [{ ...sliderBox2, slidesPerViewType: 'large-slides' }],
+			title: 'LO-FLY DIRT Around The Web',
+			customPageClassesKeys: ['section-container-v1']
+		}),
+		createStandardSection({ body: [rowsOnlyBox] })
+	];
+})();
+export const FlyTape2IOSApp: StandardSection[] = (() => {
+	const appLink = 'https://apps.apple.com/us/app/fly-tape-2/id1552463664';
+
+	const twoColumnsBox: TwoColumnsBox = {
+		___type: BOXES_TYPES_map['two-columns'],
+		columns: [
+			{
+				___type: BOXES_TYPES_map['image-only'],
+				customPageClassesKeys: ['center-on-ls-md-screens'],
+				src: 'https://cdn.shopify.com/s/files/1/0345/7209/t/28/assets/pf-baa9b738--Screen-Shot-20210324-at-35800-PM.png?v=1616619654'
+			},
+			{
+				___type: BOXES_TYPES_map['md'],
+				customPageClassesKeys: ['center-on-ls-md-screens'],
+				content: `# Fly Tape 2
+## IOS-APP
+
+[![](/images/custom-page/App-Store-Button-transparent.png)](${appLink})
+
+FlyTape 2 builds on the principles of the original FlyTape. A love of vintage sounds and character is our thing and FlyTape 2 fits this ethos as a unique take on the features of classic tape. Named for it's style, performance and user improvisation control, it’s FX can be added to incoming audio signals in many ways "on the fly". Sliders for textured nuances such as noise hiss will allow you to dial in tasteful settings reminiscent of cassette tapes. These also can be automated via midi cc for additional modulation.
+
+FlyTape 2 installs as an iOS AUv3 plugin effect, designed for use within host apps such as Garageband, Beatmaker 3, Cubasis, Audiobus, and more.`
+			}
+		]
+	};
+	const iframeBox: IframeBox = {
+		___type: BOXES_TYPES_map['iframe'],
+		___subType: SUB_BOXES_TYPES_map['youtube'],
+		src: 'https://www.youtube.com/embed/gTB_8Vc0bXg?autoplay=0&loop=0&mute=0&controls=0&enablejsapi=1'
+	};
+	const tabsBox: TabsBox = {
+		___type: BOXES_TYPES_map['tabs'],
+		tabs: [
+			{
+				title: 'Description',
+				data: {
+					___type: BOXES_TYPES_map['md'],
+					content: `FlyTape 2 builds on the principles of the original FlyTape. A love of vintage sounds and character is our thing and FlyTape 2 fits this ethos as a unique take on the features of classic tape. Named for it's style, performance and user improvisation control, it's FX can be added to incoming audio signals in many ways "on the fly".
+
+Sliders for textured nuances such as noise hiss will allow you to dial in tasteful settings reminiscent of cassette tapes. These also can be automated via midi cc for additional modulation.
+
+FlyTape 2 installs as an iOS AUv3 plugin effect, designed for use within host apps such as Garageband, AUM, Beatmaker 3, Cubasis, Audiobus, and more.
+
+![](https://cdn.shopify.com/s/files/1/0345/7209/t/28/assets/pf-48baa9b7--ft2-site.jpg?v=1616619608)
+					`
+				}
+			},
+			{
+				title: 'Specs',
+				data: {
+					___type: BOXES_TYPES_map['md'],
+					content: `![](https://cdn.shopify.com/s/files/1/0345/7209/t/28/assets/pf-70d1e1f6--Screen-Shot-20210331-at-35150-PM-Edited.jpg?v=1617224012)`
+				}
+			},
+			{
+				title: 'User Manual',
+				data: {
+					___type: BOXES_TYPES_map['two-columns'],
+					columns: [
+						{
+							customPageClassesKeys: ['center-on-ls-md-screens'],
+							___type: BOXES_TYPES_map['md'],
+							content: `### Whats New:
+	
+- Fly Tape 2 - Version  1.0 Release
+
+You can check out the reference guide/manual below. Download and save to your iPhone/iPad on iBooks
+
+[Download Now](https://www.dropbox.com/s/ezrh4mgarxka8u2/MSXII%20Fly%20Tape%202%20User%20Manual.pdf?dl=0)
+
+> **READING IS FUNDAMENTAL.**`
+						},
+						{
+							customPageClassesKeys: ['center-on-ls-md-screens'],
+							___type: BOXES_TYPES_map['image-only'],
+							src: 'https://cdn.shopify.com/s/files/1/0345/7209/t/28/assets/pf-6ed32248--Screen-Shot-20210324-at-13333-PM.png?v=1616610936'
+						}
+					]
+				}
+			}
+		]
+	};
+	const iframeBox2: IframeBox = {
+		___type: BOXES_TYPES_map['iframe'],
+		___subType: SUB_BOXES_TYPES_map['youtube'],
+		src: 'https://www.youtube.com/embed/JkfyYC4lqwg?autoplay=0&loop=0&mute=0&controls=0&enablejsapi=1'
+	};
+	const sliderBox: SliderBox = {
+		___type: BOXES_TYPES_map['slider'],
+		slides: [
+			{
+				___type: BOXES_TYPES_map['iframe'],
+				___subType: 'instagram',
+				src: 'https://www.instagram.com/p/CNTX4dLn0hd/?utm_source=ig_embed&utm_campaign=loading'
+			},
+			{
+				___type: BOXES_TYPES_map['iframe'],
+				___subType: 'instagram',
+				src: 'https://www.instagram.com/p/CNS7eIgDxgB/?utm_source=ig_embed&utm_campaign=loading'
+			},
+			{
+				___type: BOXES_TYPES_map['iframe'],
+				___subType: 'instagram',
+				src: 'https://www.instagram.com/p/CNToL2vD7YT/?utm_source=ig_embed&utm_campaign=loading'
+			}
+		]
+	};
+	const rowsOnlyBox: RowsOnlyBox = {
+		___type: 'rows-only',
+		customPageClassesKeys: ['center-content'],
+		rows: [
+			{
+				___type: 'md',
+				content: `![](https://cdn.shopify.com/s/files/1/0345/7209/t/28/assets/pf-2248baa9--tape-2-crop.jpg?v=1616617146)
+				
+[![](/images/custom-page/App-Store-Button-transparent.png)](${appLink})`
+			}
+		]
+	};
+
+	return [
+		createStandardSection({ body: [twoColumnsBox] }),
+		createStandardSection({ body: [tabsBox] }),
+		createStandardSection({ body: [iframeBox] }),
+		createStandardSection({
+			body: [iframeBox2],
+			title: 'Tutorial'
+		}),
+		createStandardSection({
+			body: [{ ...sliderBox, slidesPerViewType: 'large-slides' }],
+			title: 'LO-FLY DIRT Around The Web',
+			customPageClassesKeys: ['section-container-v1']
+		}),
+		createStandardSection({ body: [rowsOnlyBox] })
+	];
+})();
+export const ChomplrOSApp: StandardSection[] = (() => {
+	const appLink = 'https://apps.apple.com/us/app/chomplr/id1470553213';
+
+	const twoColumnsBox: TwoColumnsBox = {
+		___type: BOXES_TYPES_map['two-columns'],
+		columns: [
+			{
+				customPageClassesKeys: ['center-on-ls-md-screens'],
+				___type: BOXES_TYPES_map['image-only'],
+				src: 'https://cdn.shopify.com/s/files/1/0345/7209/t/28/assets/pf-8930ec95--Chomplrappdisplay-Edited.jpg?v=1617338387'
+			},
+			{
+				customPageClassesKeys: ['center-on-ls-md-screens'],
+				___type: BOXES_TYPES_map['md'],
+				content: `# Chomplr
+## IOS-APP
+
+[![](/images/custom-page/App-Store-Button-transparent.png)](${appLink})
+
+The Chomplr name is taken from sample "Chopping Rompler", inspired by the timeless workflow of creating music using samples. Chomplr brings a new iOS approach to creative sample manipulation.
+
+As a standalone module or AUv3 plugin, Chomplr offers quick access to it's robust sample library and an online store is built in.`
+			}
+		]
+	};
+	const iframeBox: IframeBox = {
+		___type: BOXES_TYPES_map['iframe'],
+		___subType: SUB_BOXES_TYPES_map['youtube'],
+		src: 'https://www.youtube.com/embed/sxgSyJ5J-LE?autoplay=0&loop=0&mute=0&controls=0&enablejsapi=1'
+	};
+	const tabsBox: TabsBox = {
+		___type: BOXES_TYPES_map['tabs'],
+		tabs: [
+			{
+				title: 'Description',
+				data: {
+					___type: BOXES_TYPES_map['md'],
+					content: `The Chomplr name is taken from sample "Chopping Rompler", inspired by the timeless workflow of creating music using samples. Chomplr brings a new iOS approach to creative sample manipulation. As a standalone module or AUv3 plugin, Chomplr offers quick access to it's robust sample library and an online store is built in. All samples in Chomplr are royalty free for use within the app.
+
+Sample data can be edited and one or more effects added and adjusted in quick and simple fashion. While a wealth of parameters are provided, the true user experience and inspiration comes from slicing, tweaking and editing while playing by ear. Chomplr installs as an iOS AUv3 plugin instrument, compatible for use within host apps such as Garageband, Beatmaker 3, Cubasis, Audiobus, AUM, iMPC, and more.
+
+![](https://cdn.shopify.com/s/files/1/0345/7209/t/28/assets/pf-bf14c87c--Screen-Shot-20210402-at-121259-AM.png?v=1617340398)`
+				}
+			},
+			{
+				title: 'Specs',
+				data: {
+					___type: BOXES_TYPES_map['md'],
+					content: `![](https://cdn.shopify.com/s/files/1/0345/7209/t/28/assets/pf-87726dce--Screen-Shot-20210401-at-114212-PM.png?v=1617338611)`
+				}
+			},
+			{
+				title: 'User Manual',
+				data: {
+					___type: BOXES_TYPES_map['two-columns'],
+					columns: [
+						{
+							customPageClassesKeys: ['center-on-ls-md-screens'],
+							___type: BOXES_TYPES_map['md'],
+							content: `### What's New:
+Chomplr 1.2.0; 
+- adding sample import (IAP) function for .wav / .aiff / .mp3 / .m4a files
+- adding support for iPhone
+- adding store & browser filtering by type
+- other fixes & enhancements
+
+You can check out the reference guide/manual below. Download and save to your iPhone/iPad on iBooks.
+
+[Download Now](https://www.dropbox.com/s/ayvw7jmr6ohu2wv/MSXII-Chomplr%201v2.pdf?dl=0)
+
+> **READING IS FUNDAMENTAL.**`
+						},
+						{
+							customPageClassesKeys: ['center-on-ls-md-screens'],
+							___type: BOXES_TYPES_map['image-only'],
+							src: 'https://cdn.shopify.com/s/files/1/0345/7209/t/28/assets/pf-f7f4b998--FlyTapeManualImage.png?v=1589395846'
+						}
+					]
+				}
+			}
+		]
+	};
+	const sliderBox: SliderBox = {
+		___type: BOXES_TYPES_map['slider'],
+		slides: [
+			{
+				___type: BOXES_TYPES_map['iframe'],
+				___subType: SUB_BOXES_TYPES_map['youtube'],
+				src: 'https://www.youtube.com/embed/Cqg0OA7htUA?autoplay=0&loop=0&mute=0&controls=0&enablejsapi=1'
+			},
+			{
+				___type: BOXES_TYPES_map['iframe'],
+				___subType: SUB_BOXES_TYPES_map['youtube'],
+				src: 'https://www.youtube.com/embed/8Z8E2f0-3_s?autoplay=0&loop=0&mute=0&controls=1&enablejsapi=1'
+			},
+			{
+				___type: BOXES_TYPES_map['iframe'],
+				___subType: SUB_BOXES_TYPES_map['youtube'],
+				src: 'https://www.youtube.com/embed/5KIpovYrVgM?autoplay=0&loop=0&mute=0&controls=1&enablejsapi=1'
+			},
+			{
+				___type: BOXES_TYPES_map['iframe'],
+				___subType: SUB_BOXES_TYPES_map['youtube'],
+				src: 'https://www.youtube.com/embed/-bc9IS4cTAo?autoplay=0&loop=0&mute=0&controls=1&enablejsapi=1'
+			}
+		]
+	};
+	const sliderBox2: SliderBox = {
+		___type: BOXES_TYPES_map['slider'],
+		slides: [
+			{
+				___type: BOXES_TYPES_map['iframe'],
+				___subType: 'instagram',
+				src: 'https://www.instagram.com/p/CLuGkpDDRlb/?utm_source=ig_embed&utm_campaign=loading'
+			},
+			{
+				___type: BOXES_TYPES_map['iframe'],
+				___subType: 'instagram',
+				src: 'https://www.instagram.com/p/CCtMoZNBt7Y/?utm_source=ig_embed&utm_campaign=loading'
+			},
+			{
+				___type: BOXES_TYPES_map['iframe'],
+				___subType: 'instagram',
+				src: 'https://www.instagram.com/p/CMfLPRxjjJN/?utm_source=ig_embed&utm_campaign=loading'
+			},
+			{
+				___type: BOXES_TYPES_map['iframe'],
+				___subType: 'instagram',
+				src: 'https://www.instagram.com/p/CC4LSdjjylx/?utm_source=ig_embed&utm_campaign=loading'
+			},
+			{
+				___type: BOXES_TYPES_map['iframe'],
+				___subType: 'instagram',
+				src: 'https://www.instagram.com/p/CLxm8cRBT0t/?utm_source=ig_embed&utm_campaign=loading'
+			},
+			{
+				___type: BOXES_TYPES_map['iframe'],
+				___subType: 'instagram',
+				src: 'https://www.instagram.com/p/CBfn6gCFlcg/?utm_source=ig_embed&utm_campaign=loading'
+			},
+			{
+				___type: BOXES_TYPES_map['iframe'],
+				___subType: 'instagram',
+				src: 'https://www.instagram.com/p/CBfuNm-l0m7/?utm_source=ig_embed&utm_campaign=loading'
+			},
+			{
+				___type: BOXES_TYPES_map['iframe'],
+				___subType: 'instagram',
+				src: 'https://www.instagram.com/p/CBgycnWhsmX/?utm_source=ig_embed&utm_campaign=loading'
+			},
+			{
+				___type: BOXES_TYPES_map['iframe'],
+				___subType: 'instagram',
+				src: 'https://www.instagram.com/p/CBg6C-DDLte/?utm_source=ig_embed&utm_campaign=loading'
+			},
+			{
+				___type: BOXES_TYPES_map['iframe'],
+				___subType: 'instagram',
+				src: 'https://www.instagram.com/p/CJtubblDjjp/?utm_source=ig_embed&utm_campaign=loading'
+			},
+			{
+				___type: BOXES_TYPES_map['iframe'],
+				___subType: 'instagram',
+				src: 'https://www.instagram.com/p/CBhXuCZAuRH/?utm_source=ig_embed&utm_campaign=loading'
+			},
+			{
+				___type: BOXES_TYPES_map['iframe'],
+				___subType: 'instagram',
+				src: 'https://www.instagram.com/p/CBjGQ8HhQLC/?utm_source=ig_embed&utm_campaign=loading'
+			},
+			{
+				___type: BOXES_TYPES_map['iframe'],
+				___subType: 'instagram',
+				src: 'https://www.instagram.com/p/CBhVAAthJta/?utm_source=ig_embed&utm_campaign=loading'
+			},
+			{
+				___type: BOXES_TYPES_map['iframe'],
+				___subType: 'instagram',
+				src: 'https://www.instagram.com/p/CBjHPxApheh/?utm_source=ig_embed&utm_campaign=loading'
+			},
+			{
+				___type: BOXES_TYPES_map['iframe'],
+				___subType: 'instagram',
+				src: 'https://www.instagram.com/p/CBjxT40AciL/?utm_source=ig_embed&utm_campaign=loading'
+			},
+			{
+				___type: BOXES_TYPES_map['iframe'],
+				___subType: 'instagram',
+				src: 'https://www.instagram.com/p/CB0kO-fhFNr/?utm_source=ig_embed&utm_campaign=loading'
+			},
+			{
+				___type: BOXES_TYPES_map['iframe'],
+				___subType: 'instagram',
+				src: 'https://www.instagram.com/p/CB4Mxc8DOHG/?utm_source=ig_embed&utm_campaign=loading'
+			},
+			{
+				___type: BOXES_TYPES_map['iframe'],
+				___subType: 'instagram',
+				src: 'https://www.instagram.com/p/CB4QghSDOcD/?utm_source=ig_embed&utm_campaign=loading'
+			},
+			{
+				___type: BOXES_TYPES_map['iframe'],
+				___subType: 'instagram',
+				src: 'https://www.instagram.com/p/CB5yz03h-dl/?utm_source=ig_embed&utm_campaign=loading'
+			},
+			{
+				___type: BOXES_TYPES_map['iframe'],
+				___subType: 'instagram',
+				src: 'https://www.instagram.com/p/CB6w5URDkkw/?utm_source=ig_embed&utm_campaign=loading'
+			},
+			{
+				___type: BOXES_TYPES_map['iframe'],
+				___subType: 'instagram',
+				src: 'https://www.instagram.com/padbeatmakers/?utm_source=ig_embed&utm_campaign=loading'
+			},
+			{
+				___type: BOXES_TYPES_map['iframe'],
+				___subType: 'instagram',
+				src: 'https://www.instagram.com/p/CJ5wMLrDvkt/?utm_source=ig_embed&utm_campaign=loading'
+			},
+			{
+				___type: BOXES_TYPES_map['iframe'],
+				___subType: 'instagram',
+				src: 'https://www.instagram.com/tv/CI-kl3fgyhe/?utm_source=ig_embed&utm_campaign=loading'
+			},
+			{
+				___type: BOXES_TYPES_map['iframe'],
+				___subType: 'instagram',
+				src: 'https://www.instagram.com/p/CBlMUq8DUDH/?utm_source=ig_embed&utm_campaign=loading'
+			},
+			{
+				___type: BOXES_TYPES_map['iframe'],
+				___subType: 'instagram',
+				src: 'https://www.instagram.com/p/CIPK_ThjLhm/?utm_source=ig_embed&utm_campaign=loading'
+			},
+			{
+				___type: BOXES_TYPES_map['iframe'],
+				___subType: 'instagram',
+				src: 'https://www.instagram.com/p/B9w_aSTnFzi/?utm_source=ig_embed&utm_campaign=loading'
+			},
+			{
+				___type: BOXES_TYPES_map['iframe'],
+				___subType: 'instagram',
+				src: 'https://www.instagram.com/p/CBlG2KMDr9Q/?utm_source=ig_embed&utm_campaign=loading'
+			},
+			{
+				___type: BOXES_TYPES_map['iframe'],
+				___subType: 'instagram',
+				src: 'https://www.instagram.com/p/CCALMMbhDQH/?utm_source=ig_embed&utm_campaign=loading'
+			},
+			{
+				___type: BOXES_TYPES_map['iframe'],
+				___subType: 'instagram',
+				src: 'https://www.instagram.com/p/CByeBQnh9SH/?utm_source=ig_embed&utm_campaign=loading'
+			}
+		]
+	};
+	const rowsOnlyBox: RowsOnlyBox = {
+		___type: 'rows-only',
+		customPageClassesKeys: ['center-content'],
+		rows: [
+			{
+				___type: 'md',
+				content: `![](https://cdn.shopify.com/s/files/1/0345/7209/t/28/assets/pf-ce3c55b2--ChomplrAppstoreicon188x182.png?v=1589530651)
+				
+[![](/images/custom-page/App-Store-Button-transparent.png)](${appLink})`
+			}
+		]
+	};
+
+	return [
+		createStandardSection({ body: [twoColumnsBox] }),
+		createStandardSection({ body: [tabsBox] }),
+		createStandardSection({ body: [iframeBox] }),
+		createStandardSection({
+			body: [sliderBox],
+			title: 'Tutorial'
+		}),
+		createStandardSection({
+			body: [{ ...sliderBox2, slidesPerViewType: 'large-slides' }],
+			title: 'LO-FLY DIRT Around The Web',
+			customPageClassesKeys: ['section-container-v1']
+		}),
+		createStandardSection({ body: [rowsOnlyBox] })
+	];
+})();
+
+export const loFlyDirtBasicData = {
+	title: 'Lo-Fly Dirt',
+	slug: 'lo-fly-dirt'
 };
-const sliderBox: SliderBox = {
-	___type: BOXES_TYPES_map['slider'],
-	slides: [
-		{
-			___type: BOXES_TYPES_map['iframe'],
-			___subType: SUB_BOXES_TYPES_map['youtube'],
-			src: 'https://www.youtube.com/embed/fVYFHfw5bxE?autoplay=0&loop=0&mute=0&controls=1&enablejsapi=1'
-		},
-		{
-			___type: BOXES_TYPES_map['iframe'],
-			___subType: SUB_BOXES_TYPES_map['youtube'],
-			src: 'https://www.youtube.com/embed/vWyepI8I_R8?autoplay=0&loop=0&mute=0&controls=1&enablejsapi=1'
-		},
-		{
-			___type: BOXES_TYPES_map['iframe'],
-			___subType: SUB_BOXES_TYPES_map['youtube'],
-			src: 'https://www.youtube.com/embed/cGYDLxCIKnc?autoplay=0&loop=0&mute=0&controls=1&enablejsapi=1'
-		}
-	]
+export const flyTape2BasicData = {
+	title: 'Fly Tape 2',
+	slug: 'fly-tape-2'
 };
-const sliderBox2: SliderBox = {
-	___type: BOXES_TYPES_map['slider'],
-	slides: [
-		{
-			___type: BOXES_TYPES_map['iframe'],
-			___subType: 'instagram',
-			src: 'https://www.instagram.com/p/B-PxUFQDDJv/?utm_source=ig_embed&utm_campaign=loading'
-		},
-
-		{
-			___type: BOXES_TYPES_map['iframe'],
-			___subType: 'instagram',
-			src: 'https://www.instagram.com/p/B7zHSBxHmrw/?utm_source=ig_embed&utm_campaign=loading'
-		},
-
-		{
-			___type: BOXES_TYPES_map['iframe'],
-			___subType: 'instagram',
-			src: 'https://www.instagram.com/p/BhcibxMAG8Z/?utm_source=ig_embed&utm_campaign=loading'
-		},
-
-		{
-			___type: BOXES_TYPES_map['iframe'],
-			___subType: 'instagram',
-			src: 'https://www.instagram.com/p/B7sPExan8Js/?utm_source=ig_embed&utm_campaign=loading'
-		}
-	]
+export const flyTapeBasicData = {
+	title: 'Fly Tape',
+	slug: 'fly-tape'
+};
+export const chomplrBasicData = {
+	title: 'Chomplr',
+	slug: 'chomplr'
 };
 
-const createStandardSections = ({
-	boxes
-}: {
-	boxes: Box[][];
-}): StandardSection[] =>
-	boxes.map((box) => ({
-		___type: SECTIONS_TYPES_map['standard-section'],
-		body: box
-	}));
+export const IOSProductsBasicData = [
+	loFlyDirtBasicData,
+	flyTape2BasicData,
+	flyTapeBasicData,
+	chomplrBasicData
+] as const;
 
-const createStandardSection = (
-	params: Pick<
-		StandardSection,
-		'body' | 'title' | 'description' | 'customPageClassesKeys'
-	>
-): StandardSection => ({
-	___type: SECTIONS_TYPES_map['standard-section'],
-	...params
-});
-
-export const LoflyDirtIOSApp: StandardSection[] = [
-	createStandardSection({ body: [twoColumnsBox] }),
-	createStandardSection({ body: [tabsBox] }),
-	createStandardSection({ body: [iframeBox] }),
-	createStandardSection({
-		body: [sliderBox],
-		title: 'Tutorial'
-	}),
-	createStandardSection({
-		body: [{ ...sliderBox2, slidesPerViewType: 'large-slides' }],
-		title: 'LO-FLY DIRT Around The Web',
-		customPageClassesKeys: ['section-container-v1']
-	})
-];
-
-export const FakeIOSProducts = [
+export const IOSProducts = [
 	{
-		slug: 'loflydirt',
+		slug: IOSProductsBasicData[0].slug,
 		pageStructure: LoflyDirtIOSApp
 	},
 	{
-		slug: 'loflydirt2',
-		pageStructure: LoflyDirtIOSApp
+		slug: IOSProductsBasicData[1].slug,
+		pageStructure: FlyTape2IOSApp
 	},
 	{
-		slug: 'loflydirt3',
-		pageStructure: LoflyDirtIOSApp
+		slug: IOSProductsBasicData[2].slug,
+		pageStructure: FlyTapeIOSApp
 	},
 	{
-		slug: 'loflydirt4',
-		pageStructure: LoflyDirtIOSApp
+		slug: IOSProductsBasicData[3].slug,
+		pageStructure: ChomplrOSApp
 	}
 ];

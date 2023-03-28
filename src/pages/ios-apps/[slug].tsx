@@ -10,7 +10,7 @@ import {
 import { z } from 'zod';
 import { appRouter } from '~/server/api/root';
 import { createInnerTRPCContext } from '~/server/api/trpc';
-import { FakeIOSProducts } from '~/utils/appData';
+import { IOSProducts } from '~/utils/appData';
 import { api } from '~/utils/api';
 import {
 	BOXES_TYPE,
@@ -41,7 +41,7 @@ const IOSAppPage = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
 	const pageStructure = iosAppData.pageStructure;
 
 	return (
-		<div className="max-w-[100ch] mx-auto py-16 px-16 text-h6 flex flex-col gap-16 text-text-primary-400">
+		<div className="max-w-[100ch] mx-auto py-16 px-4 sm:px-16 text-h6 flex flex-col gap-16 text-text-primary-400">
 			{pageStructure.map((section, index) => (
 				<SectionBody key={index} section={section} />
 			))}
@@ -83,13 +83,32 @@ const SectionBodyBox = ({
 	box: Box;
 	parentBox?: BOXES_TYPE;
 }) => {
-	const customPageClassName = createBoxTypeClass(box.___type);
+	console.log(
+		'box.customPageClassesKeys',
+		box.___type,
+		box.customPageClassesKeys
+	);
+	const customPageClassName = cx(
+		createBoxTypeClass(box.___type),
+		...(box.customPageClassesKeys
+			? box.customPageClassesKeys?.map((key) => customPageClasses[key])
+			: [])
+	);
 
 	if (box.___type === BOXES_TYPES_map['two-columns'])
 		return (
 			<div className={cx(customPageClassName)}>
 				{box.columns.map((column, index) => (
-					<SectionBodyBox key={index} box={column} />
+					<SectionBodyBox key={index} box={column} parentBox={box.___type} />
+				))}
+			</div>
+		);
+
+	if (box.___type === BOXES_TYPES_map['rows-only'])
+		return (
+			<div className={cx(customPageClassName)}>
+				{box.rows.map((row, index) => (
+					<SectionBodyBox key={index} box={row} parentBox={box.___type} />
 				))}
 			</div>
 		);
@@ -177,7 +196,7 @@ const SectionBodyBox = ({
 
 export const getStaticPaths: GetStaticPaths = () => {
 	return {
-		paths: FakeIOSProducts.map((item) => ({
+		paths: IOSProducts.map((item) => ({
 			params: { slug: item.slug }
 		})),
 		fallback: true
@@ -216,7 +235,10 @@ const TabsBox = ({ box, className }: { box: TabsBox; className: string }) => (
 		className={cx('flex flex-col gap-5 leading-7 w-full', className)}
 		defaultValue={box.tabs[0]?.title}
 	>
-		<Tabs.List className="w-full flex gap-4" aria-label="Manage your account">
+		<Tabs.List
+			className="w-full flex gap-4 items-center justify-center md:justify-start md:items-start"
+			aria-label="Manage your account"
+		>
 			{box.tabs.map((tab) => (
 				<Tabs.Trigger
 					key={tab.title}

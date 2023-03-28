@@ -2,24 +2,26 @@ import Image from 'next/image';
 
 import CTAButton from '~/components/shared/core/Cards/CTAButton';
 import Clickable from '~/components/shared/core/Clickable';
+import {
+	loFlyDirtBasicData,
+	flyTape2BasicData,
+	chomplrBasicData
+} from '~/utils/appData';
 
 const products = [
 	{
 		id: '1',
-		title: 'Loops Go Crazy Vol. 5',
-		href: '/ios-apps/loflydirt',
+		...flyTape2BasicData,
 		image: { src: '/images/Rectangle 9.png', alt: '' }
 	},
 	{
 		id: '2',
-		title: 'CHOMPLR',
-		href: '/ios-apps/loflydirt',
+		...chomplrBasicData,
 		image: { src: '/images/Mask group.png', alt: '' }
 	},
 	{
 		id: '3',
-		title: 'LO-FLY DIRT',
-		href: '/ios-apps/loflydirt',
+		...loFlyDirtBasicData,
 		image: { src: '/images/Mask group-1.png', alt: '' }
 	}
 ];
@@ -41,7 +43,7 @@ const HomeIOSAppsSection = () => {
 						>
 							<Clickable
 								className="overflow-hidden rounded-xl"
-								href={item.href}
+								href={`/ios-apps/${item.slug}`}
 								isA="next-js"
 							>
 								<Image
@@ -54,12 +56,12 @@ const HomeIOSAppsSection = () => {
 							</Clickable>
 							<div className="group flex flex-col gap-2">
 								<h3 className="font-normal leading-4">
-									<Clickable href={item.href} isA="next-js">
+									<Clickable href={`/ios-apps/${item.slug}`} isA="next-js">
 										{item.title}
 									</Clickable>
 								</h3>
 								<CTAButton
-									href={item.href}
+									href={`/ios-apps/${item.slug}`}
 									isA="next-js"
 									text="Discover more"
 								/>

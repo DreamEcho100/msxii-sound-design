@@ -8,6 +8,7 @@ export const SECTIONS_TYPES_map = Object.fromEntries(
 
 export const BOXES_TYPES = [
 	'two-columns',
+	'rows-only',
 	'image-only',
 	'md',
 	'iframe',
@@ -30,19 +31,23 @@ export const SUB_BOXES_TYPES_map = Object.fromEntries(
 };
 
 export type ImageOnly = {
+	customPageClassesKeys?: string[];
 	___type: (typeof BOXES_TYPES_map)['image-only'];
 	src: string;
 };
 export type MDBox = {
+	customPageClassesKeys?: string[];
 	___type: (typeof BOXES_TYPES_map)['md'];
 	content: string;
 };
 export type IframeBox = {
+	customPageClassesKeys?: string[];
 	___type: (typeof BOXES_TYPES_map)['iframe'];
 	___subType: SUB_BOXES_TYPE;
 	src: string;
 };
 export type TabsBox = {
+	customPageClassesKeys?: string[];
 	___type: (typeof BOXES_TYPES_map)['tabs'];
 	tabs: {
 		title: string;
@@ -50,13 +55,20 @@ export type TabsBox = {
 	}[];
 };
 export type SliderBox = {
+	customPageClassesKeys?: string[];
 	___type: (typeof BOXES_TYPES_map)['slider'];
 	slides: IframeBox[];
 	slidesPerViewType?: 'default' | 'large-slides'; // ! move to there own enums
 };
 export type TwoColumnsBox = {
+	customPageClassesKeys?: string[];
 	___type: (typeof BOXES_TYPES_map)['two-columns'];
 	columns: (ImageOnly | MDBox)[];
+};
+export type RowsOnlyBox = {
+	___type: (typeof BOXES_TYPES_map)['rows-only'];
+	customPageClassesKeys?: string[];
+	rows: Exclude<Box, RowsOnlyBox>[];
 };
 
 export type Box =
@@ -65,11 +77,12 @@ export type Box =
 	| IframeBox
 	| TabsBox
 	| SliderBox
-	| TwoColumnsBox;
+	| TwoColumnsBox
+	| RowsOnlyBox;
 
 export type StandardSection = {
-	___type: (typeof SECTIONS_TYPES_map)['standard-section'];
 	customPageClassesKeys?: string[];
+	___type: (typeof SECTIONS_TYPES_map)['standard-section'];
 	title?: string;
 	description?: string;
 	body: Box[];

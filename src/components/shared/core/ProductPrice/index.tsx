@@ -1,4 +1,4 @@
-import { HTMLAttributes, useMemo } from 'react';
+import { useMemo } from 'react';
 import { ShopifyProduct } from '~/utils/types';
 
 type Props = {

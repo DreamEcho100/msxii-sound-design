@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import { VariantLabels, motion } from 'framer-motion';
+import { motion } from 'framer-motion';
 import Clickable from '~/components/shared/core/Clickable';
 
 const heroImagesPathNumberTransformer = (num: number) =>
@@ -41,7 +41,7 @@ const heroImages: (CustomMotionProps & { path: string })[] = [
 
 const HeroHomeSection = () => {
 	return (
-		<section className="py-8 flex flex-col gap-2 justify-center px-main-p-3 sm:px-main-p-1 lg:flex-row ">
+		<section className="py-8 flex flex-col gap-2 justify-center px-main-p-3 sm:px-main-p-1 lg:flex-row overflow-hidden">
 			<div
 				className="py-main-p-3 
 sm:py-main-p-1 lg:text-align-initial font-normal flex flex-col items-center justify-center gap-8 text-center text-[1.125rem] lg:w-1/2 lg:items-start lg:justify-start min-[1350px]:w-auto"
@@ -97,7 +97,7 @@ sm:py-main-p-1 lg:text-align-initial font-normal flex flex-col items-center just
 							{...props}
 							animate={{
 								scale: 0.75,
-								x: ((index + 1) / arr.length) * 200 - 80,
+								x: ((index + 1) / arr.length) * 170 - 100,
 								y: ((index + 1) / arr.length) * 100 - 50
 							}}
 							transition={{

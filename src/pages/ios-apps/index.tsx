@@ -1,25 +1,7 @@
 import { cx } from 'class-variance-authority';
 import Image from 'next/image';
 import Clickable from '~/components/shared/core/Clickable';
-
-const IOSAppsData = [
-	{
-		title: 'Lo-Fly Dirt',
-		href: 'https://apps.apple.com/us/app/lo-fly-dirt/id1292776927?ign-mpt=uo%3D4'
-	},
-	{
-		title: 'Fly Tape 2',
-		href: 'https://apps.apple.com/us/app/fly-tape-2/id1552463664'
-	},
-	{
-		title: 'Fly Tape',
-		href: 'https://apps.apple.com/us/app/fly-tape/id1343651192'
-	},
-	{
-		title: 'Chomplr',
-		href: 'https://apps.apple.com/us/app/chomplr/id1470553213'
-	}
-];
+import { IOSProductsBasicData } from '~/utils/appData';
 
 const IOSAppsPage = () => {
 	return (
@@ -36,25 +18,25 @@ const IOSAppsPage = () => {
 				</p>
 			</header>
 			<div className="flex flex-wrap items-center justify-center gap-8 lg:flex-nowrap">
-				{IOSAppsData.map((IOSApp) => (
-					<div key={IOSApp.title} className="w-80 flex flex-col gap-4">
+				{IOSProductsBasicData.map((item) => (
+					<div key={item.title} className="w-80 flex flex-col gap-4">
 						<Clickable
-							href="/ios-apps/loflydirt"
+							href={`/ios-apps/${item.slug}`}
 							isA="next-js"
 							className="w-full aspect-square overflow-hidden rounded-lg"
 						>
 							<Image
 								priority
-								src={`/images/ios-apps/${IOSApp.title}.png`}
-								alt={IOSApp.title}
+								src={`/images/ios-apps/${item.title}.png`}
+								alt={item.title}
 								width={500}
 								height={500}
 								className="w-full h-full object-cover"
 							/>
 						</Clickable>
 						<p className="font-light">
-							<Clickable href={IOSApp.href} target="_blank">
-								{IOSApp.title}
+							<Clickable href={`/ios-apps/${item.slug}`} target="_blank">
+								{item.title}
 							</Clickable>
 						</p>
 					</div>

@@ -17,7 +17,7 @@ const IOSAppsPage = () => {
 					Explore our unique and practical iOS apps.
 				</p>
 			</header>
-			<div className="flex flex-wrap items-center justify-center gap-8 lg:flex-nowrap">
+			<div className="flex flex-wrap items-center justify-center gap-8 lg:justify-between lg:flex-nowrap">
 				{IOSProductsBasicData.map((item) => (
 					<div key={item.title} className="w-80 flex flex-col gap-4">
 						<Clickable

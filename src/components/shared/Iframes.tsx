@@ -64,7 +64,7 @@ export const YouTubeIFrame = ({
 				window.removeEventListener('blur', cb);
 		};
 	}, [iframeId, isOverlayActive]);
-	console.log('isOverlayActive', isOverlayActive);
+
 	return (
 		<div
 			{...containerProps}

@@ -28,6 +28,7 @@ import * as Tabs from '@radix-ui/react-tabs';
 import InstagramIframe, { YouTubeIFrame } from '~/components/shared/Iframes';
 import Slider from '~/components/shared/core/Cards/Slider';
 import { SwiperSlide } from 'swiper/react';
+import { useMemo } from 'react';
 
 const IOSAppPage = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
 	const iosAppQuery = api.iosApps.getOneBySlug.useQuery(props.slug);
@@ -83,16 +84,15 @@ const SectionBodyBox = ({
 	box: Box;
 	parentBox?: BOXES_TYPE;
 }) => {
-	console.log(
-		'box.customPageClassesKeys',
-		box.___type,
-		box.customPageClassesKeys
-	);
-	const customPageClassName = cx(
-		createBoxTypeClass(box.___type),
-		...(box.customPageClassesKeys
-			? box.customPageClassesKeys?.map((key) => customPageClasses[key])
-			: [])
+	const customPageClassName = useMemo(
+		() =>
+			cx(
+				createBoxTypeClass(box.___type),
+				...(box.customPageClassesKeys
+					? box.customPageClassesKeys?.map((key) => customPageClasses[key])
+					: [])
+			),
+		[box.___type, box.customPageClassesKeys]
 	);
 
 	if (box.___type === BOXES_TYPES_map['two-columns'])

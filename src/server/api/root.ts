@@ -1,4 +1,5 @@
-import { iosAppsRouter } from './routers/iosApps';
+import { blogRouter } from './routers/blog';
+import { customPagesRouter } from './routers/custom-pages';
 import { createTRPCRouter } from '~/server/api/trpc';
 import { productsRouter } from '~/server/api/routers/products';
 
@@ -9,7 +10,8 @@ import { productsRouter } from '~/server/api/routers/products';
  */
 export const appRouter = createTRPCRouter({
 	products: productsRouter,
-	iosApps: iosAppsRouter
+	customPages: customPagesRouter,
+	blog: blogRouter
 });
 
 // export type definition of API

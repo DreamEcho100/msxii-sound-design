@@ -114,7 +114,7 @@ export const YouTubeIFrame = ({
 
 // "https://www.instagram.com/p/B-PxUFQDDJv/?utm_source=ig_embed&utm_campaign=loading"
 
-const InstagramIframe = ({
+export const InstagramIframe = ({
 	text = 'A post shared by MSXII Sound Design (@msxiisound)',
 	src
 }: {
@@ -412,5 +412,3 @@ const InstagramIframe = ({
 		</>
 	);
 };
-
-export default InstagramIframe;

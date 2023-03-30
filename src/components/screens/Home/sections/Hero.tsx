@@ -78,7 +78,7 @@ sm:py-main-p-1 lg:text-align-initial font-normal flex flex-col items-center just
 							isA="next-js"
 							variants={{
 								btn: 'primary',
-								py: 'semi-sm',
+								py: 'semi-md',
 								px: '3xl',
 								rounded: 'md'
 							}}

@@ -95,11 +95,11 @@
 		--main-max-w: 1728px;
 		--main-header-h: 4rem;
 		--size-h1: 2rem;
-		--size-h2: 1.9rem;
-		--size-h3: 1.8rem;
-		--size-h4: 1.4rem;
-		--size-h5: 1.3rem;
-		--size-h6: 1.2rem;
+		--size-h2: 1.8rem;
+		--size-h3: 1.7rem;
+		--size-h4: 1.5rem;
+		--size-h5: 1.25rem;
+		--size-h6: 1.15rem;
 		--main-p-1: 4rem;
 		--main-p-2: 3rem;
 		--main-p-3: 2rem;
@@ -168,6 +168,25 @@
 	--color-bg-primary-1000: var(--color-initial-primary-1000);
 
 	color-scheme: dark;
+}
+
+h1 {
+	--hIndex: 1;
+}
+h2 {
+	--hIndex: 2;
+}
+h3 {
+	--hIndex: 3;
+}
+h4 {
+	--hIndex: 4;
+}
+h5 {
+	--hIndex: 5;
+}
+h6 {
+	--hIndex: 6;
 }
 
 .light {

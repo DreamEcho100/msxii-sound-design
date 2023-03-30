@@ -10,6 +10,9 @@ import MainLayout from '~/components/layouts/Main';
 import { useGlobalStore } from '~/store';
 import { useEffect } from 'react';
 import { getCurrentThemeFromLocalStorage } from '~/store/utils';
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
 const MyApp: AppType<{ session: Session | null }> = ({
 	Component,
@@ -38,6 +41,7 @@ const MyApp: AppType<{ session: Session | null }> = ({
 			<MainLayout>
 				<Component {...pageProps} />
 			</MainLayout>
+			<ReactQueryDevtools initialIsOpen={true} />
 		</SessionProvider>
 	);
 };

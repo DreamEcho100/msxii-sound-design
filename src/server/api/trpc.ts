@@ -108,6 +108,16 @@ const enforceUserIsAuthed = t.middleware(({ ctx, next }) => {
 		}
 	});
 });
+const printInputs = t.middleware(
+	({ input, rawInput, path, meta, ctx, next }) => {
+		console.log('input', input);
+		console.log('rawInput', rawInput);
+		console.log('path', path);
+		console.log('meta', meta);
+
+		return next({ ctx });
+	}
+);
 
 /**
  * Protected (authenticated) procedure
@@ -118,3 +128,4 @@ const enforceUserIsAuthed = t.middleware(({ ctx, next }) => {
  * @see https://trpc.io/docs/procedures
  */
 export const protectedProcedure = t.procedure.use(enforceUserIsAuthed);
+export const printInputsProcedure = t.procedure.use(printInputs);

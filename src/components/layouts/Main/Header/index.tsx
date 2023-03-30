@@ -43,7 +43,7 @@ const headersLinks = [
 	},
 	{
 		title: 'Blog',
-		href: '/'
+		href: '/blog'
 	},
 	{
 		title: 'Merch',

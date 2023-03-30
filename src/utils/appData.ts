@@ -1,3 +1,5 @@
+import { VariantProps, cva } from 'class-variance-authority';
+
 import { ShopifyProduct } from './types';
 
 import {
@@ -9,7 +11,6 @@ import {
 	SliderBox,
 	StandardSection,
 	SECTIONS_TYPES_map,
-	Box,
 	RowsOnlyBox
 } from './types/custom-page';
 
@@ -2173,23 +2174,162 @@ const createStandardSection = (
 	>
 ): StandardSection => ({
 	___type: SECTIONS_TYPES_map['standard-section'],
+	stylesVariants: { 'gap-x': '2', 'gap-y': '2' },
 	...params
 });
+
+export const boxVariants = {
+	w: {
+		'40': 'w-40',
+		'44': 'w-44',
+		'48': 'w-48',
+		'52': 'w-52',
+		'56': 'w-56',
+		'60': 'w-60',
+		'64': 'w-64',
+		'72': 'w-72',
+		'80': 'w-80',
+		'96': 'w-96'
+	},
+	h: {
+		'40': 'w-40',
+		'44': 'w-44',
+		'48': 'w-48',
+		'52': 'w-52',
+		'56': 'w-56',
+		'60': 'w-60',
+		'64': 'w-64',
+		'72': 'w-72',
+		'80': 'w-80',
+		'96': 'w-96'
+	},
+	'gap-x': {
+		'1': 'gap-x-1',
+		'2': 'gap-x-2',
+		'3': 'gap-x-3',
+		'4': 'gap-x-4',
+		'5': 'gap-x-5',
+		'6': 'gap-x-6',
+		'7': 'gap-x-7',
+		'8': 'gap-x-8',
+		'9': 'gap-x-9',
+		'10': 'gap-x-10',
+		'11': 'gap-x-11',
+		'12': 'gap-x-12',
+		'14': 'gap-x-14',
+		'16': 'gap-x-16',
+		'18': 'gap-x-18',
+		'20': 'gap-x-20'
+	},
+	'gap-y': {
+		'1': 'gap-y-1',
+		'2': 'gap-y-2',
+		'3': 'gap-y-3',
+		'4': 'gap-y-4',
+		'5': 'gap-y-5',
+		'6': 'gap-y-6',
+		'7': 'gap-y-7',
+		'8': 'gap-y-8',
+		'9': 'gap-y-9',
+		'10': 'gap-y-10',
+		'11': 'gap-y-11',
+		'12': 'gap-y-12',
+		'14': 'gap-y-14',
+		'16': 'gap-y-16',
+		'18': 'gap-y-18',
+		'20': 'gap-y-20'
+	},
+	px: {
+		'1': 'px-1',
+		'2': 'px-2',
+		'3': 'px-3',
+		'4': 'px-4',
+		'5': 'px-5',
+		'6': 'px-6',
+		'7': 'px-7',
+		'8': 'px-8',
+		'9': 'px-9',
+		'10': 'px-10',
+		'11': 'px-11',
+		'12': 'px-12',
+		'14': 'px-14',
+		'16': 'px-16',
+		'18': 'px-18',
+		'20': 'px-20'
+	},
+	py: {
+		'1': 'py-1',
+		'2': 'py-2',
+		'3': 'py-3',
+		'4': 'py-4',
+		'5': 'py-5',
+		'6': 'py-6',
+		'7': 'py-7',
+		'8': 'py-8',
+		'9': 'py-9',
+		'10': 'py-10',
+		'11': 'py-11',
+		'12': 'py-12',
+		'14': 'py-14',
+		'16': 'py-16',
+		'18': 'py-18',
+		'20': 'py-20'
+	},
+	leading: {
+		3: 'leading-3',
+		4: 'leading-4',
+		5: 'leading-5',
+		6: 'leading-6',
+		7: 'leading-7',
+		8: 'leading-8',
+		9: 'leading-9',
+		10: 'leading-10',
+		none: 'leading-none',
+		tight: 'leading-tight',
+		snug: 'leading-snug',
+		normal: 'leading-normal',
+		relaxed: 'leading-relaxed',
+		loose: 'leading-loose'
+	},
+	rounded: {
+		sm: 'rounded-sm',
+		rounded: 'rounded',
+		md: 'rounded-md',
+		lg: 'rounded-lg',
+		xl: 'rounded-xl',
+		'2xl': 'rounded-2xl',
+		'3xl': 'rounded-3xl',
+		full: 'rounded-full'
+	},
+	'aspect-ratio': {
+		square: 'aspect-square',
+		video: 'aspect-video'
+	}
+} as const;
+
+export const handleBoxVariants = cva('', {
+	variants: boxVariants
+});
+
+export type BoxVariants = VariantProps<typeof handleBoxVariants>;
 
 export const LoflyDirtIOSApp: StandardSection[] = (() => {
 	const appLink =
 		'https://apps.apple.com/us/app/lo-fly-dirt/id1292776927?ign-mpt=uo%3D4';
 
 	const twoColumnsBox: TwoColumnsBox = {
+		stylesVariants: { 'gap-x': '8' },
 		___type: BOXES_TYPES_map['two-columns'],
 		columns: [
 			{
-				customPageClassesKeys: ['center-on-ls-md-screens'],
+				stylesVariants: { 'aspect-ratio': 'square' },
+				customPageClassesKeys: ['center-on-ls-md-screens', 'objects-contain'],
 				___type: BOXES_TYPES_map['image-only'],
 				src: 'https://cdn.shopify.com/s/files/1/0345/7209/t/28/assets/pf-50b7d524--Screen-Shot-20200327-at-12507-AM.png?v=1585290536'
 			},
 			{
 				customPageClassesKeys: ['center-on-ls-md-screens'],
+				stylesVariants: { 'gap-y': '2', px: '4' },
 				___type: BOXES_TYPES_map['md'],
 				content: `# LO-FLY DIRT
 	
@@ -2212,6 +2352,7 @@ An audio coloration utility plugin featuring individual modes for classic emulat
 			{
 				title: 'Description',
 				data: {
+					stylesVariants: { 'gap-y': '2', px: '4' },
 					___type: BOXES_TYPES_map['md'],
 					content: `An audio coloration utility plugin featuring individual modes for classic emulation of some iconic music production tools. This tool is meant to bring character, or "dirt" to your incoming audio signals.
 					
@@ -2221,6 +2362,7 @@ Lo-Fly Dirt installs as an Audio Unit effect for hosts that support the format s
 			{
 				title: 'Specs',
 				data: {
+					stylesVariants: { 'gap-y': '2', px: '4' },
 					___type: BOXES_TYPES_map['md'],
 					content: `### Default Mode:
 	
@@ -2250,10 +2392,12 @@ Also built off the things we love about the classic 8 bit sound, but with a twis
 			{
 				title: 'User Manual',
 				data: {
+					stylesVariants: { 'gap-x': '8' },
 					___type: BOXES_TYPES_map['two-columns'],
 					columns: [
 						{
 							customPageClassesKeys: ['center-on-ls-md-screens'],
+							stylesVariants: { 'gap-y': '2', px: '4' },
 							___type: BOXES_TYPES_map['md'],
 							content: `### Whats New:
 	
@@ -2266,7 +2410,10 @@ You can check out the reference guide below:
 [Download Now](https://www.dropbox.com/s/qe3zlonoboja003/MSXII%20Lo-Fly%20Dirt%202v5%20Final.pdf?dl=0)`
 						},
 						{
-							customPageClassesKeys: ['center-on-ls-md-screens'],
+							customPageClassesKeys: [
+								'center-on-ls-md-screens',
+								'object-contain'
+							],
 							___type: BOXES_TYPES_map['image-only'],
 							src: 'https://cdn.shopify.com/s/files/1/0345/7209/t/28/assets/pf-87a87505--loflydirtmanualdisplay.png?v=1589083025'
 						}
@@ -2322,13 +2469,17 @@ You can check out the reference guide below:
 	};
 	const rowsOnlyBox: RowsOnlyBox = {
 		___type: 'rows-only',
+		stylesVariants: { 'gap-y': '3' },
 		customPageClassesKeys: ['center-content'],
 		rows: [
 			{
+				stylesVariants: { rounded: '3xl' },
+				___type: 'image-only',
+				src: 'https://cdn.shopify.com/s/files/1/0345/7209/t/28/assets/pf-d22a5c09--MSXIIAUDIOLOFIDIRTAPPICON3x-Edited.jpg?v=1582621861'
+			},
+			{
 				___type: 'md',
-				content: `![](https://cdn.shopify.com/s/files/1/0345/7209/t/28/assets/pf-d22a5c09--MSXIIAUDIOLOFIDIRTAPPICON3x-Edited.jpg?v=1582621861)
-
-[![](/images/custom-page/App-Store-Button-transparent.png)](${appLink})`
+				content: `[![](/images/custom-page/App-Store-Button-transparent.png)](${appLink})`
 			}
 		]
 	};
@@ -2353,15 +2504,18 @@ export const FlyTapeIOSApp: StandardSection[] = (() => {
 	const appLink = 'https://apps.apple.com/us/app/fly-tape/id1343651192';
 
 	const twoColumnsBox: TwoColumnsBox = {
+		stylesVariants: { 'gap-x': '8' },
 		___type: BOXES_TYPES_map['two-columns'],
 		columns: [
 			{
-				customPageClassesKeys: ['center-on-ls-md-screens'],
+				stylesVariants: { 'aspect-ratio': 'square' },
+				customPageClassesKeys: ['center-on-ls-md-screens', 'objects-contain'],
 				___type: BOXES_TYPES_map['image-only'],
 				src: 'https://cdn.shopify.com/s/files/1/0345/7209/t/28/assets/pf-f357e20c--Flytapeappdisplay.png?v=1589053729'
 			},
 			{
 				customPageClassesKeys: ['center-on-ls-md-screens'],
+				stylesVariants: { 'gap-y': '2', px: '4' },
 				___type: BOXES_TYPES_map['md'],
 				content: `# Fly Tape
 ## IOS-APP
@@ -2385,6 +2539,7 @@ Fly Tape installs as an iOS AUv3 FX plugin, designed for use within host apps su
 			{
 				title: 'Description',
 				data: {
+					stylesVariants: { 'gap-y': '2', px: '4' },
 					___type: BOXES_TYPES_map['md'],
 					content: `Named for it's performance style of use, users can adding FX to their incoming audio signals in many ways "on the Fly." Sliders for textured nuances such as hiss & pitch will allow you to dial in tasteful settings that can become reminiscent of cassette tapes. These also can be automated via midi cc for additional modulation.`
 				}
@@ -2392,6 +2547,7 @@ Fly Tape installs as an iOS AUv3 FX plugin, designed for use within host apps su
 			{
 				title: 'Specs',
 				data: {
+					stylesVariants: { 'gap-y': '2', px: '4' },
 					___type: BOXES_TYPES_map['md'],
 					content: `### Fly Tape FX:
 
@@ -2478,10 +2634,12 @@ Fly Tape's Midi CC values are listed below:
 			{
 				title: 'User Manual',
 				data: {
+					stylesVariants: { 'gap-x': '8' },
 					___type: BOXES_TYPES_map['two-columns'],
 					columns: [
 						{
 							customPageClassesKeys: ['center-on-ls-md-screens'],
+							stylesVariants: { 'gap-y': '2', px: '4' },
 							___type: BOXES_TYPES_map['md'],
 							content: `### Whats New:
 	
@@ -2493,7 +2651,10 @@ You can check out the reference guide below
 [Download Now](https://www.dropbox.com/s/b3fb168ozmz3i4o/MSXII%20Fly%20Tape%202v0%20Final.pdf?dl=0)`
 						},
 						{
-							customPageClassesKeys: ['center-on-ls-md-screens'],
+							customPageClassesKeys: [
+								'center-on-ls-md-screens',
+								'object-contain'
+							],
 							___type: BOXES_TYPES_map['image-only'],
 							src: 'https://cdn.shopify.com/s/files/1/0345/7209/t/28/assets/pf-f7f4b998--FlyTapeManualImage.png?v=1589395846'
 						}
@@ -2549,13 +2710,17 @@ You can check out the reference guide below
 	};
 	const rowsOnlyBox: RowsOnlyBox = {
 		___type: 'rows-only',
+		stylesVariants: { 'gap-y': '3' },
 		customPageClassesKeys: ['center-content'],
 		rows: [
 			{
+				stylesVariants: { rounded: '3xl' },
+				___type: 'image-only',
+				src: '/images/custom-page/FlyTapeappicon1.png'
+			},
+			{
 				___type: 'md',
-				content: `![](/images/custom-page/FlyTapeappicon1.png)
-				
-[![](/images/custom-page/App-Store-Button-transparent.png)](${appLink})`
+				content: `[![](/images/custom-page/App-Store-Button-transparent.png)](${appLink})`
 			}
 		]
 	};
@@ -2580,14 +2745,17 @@ export const FlyTape2IOSApp: StandardSection[] = (() => {
 	const appLink = 'https://apps.apple.com/us/app/fly-tape-2/id1552463664';
 
 	const twoColumnsBox: TwoColumnsBox = {
+		stylesVariants: { 'gap-x': '8' },
 		___type: BOXES_TYPES_map['two-columns'],
 		columns: [
 			{
+				stylesVariants: { 'aspect-ratio': 'square' },
+				customPageClassesKeys: ['center-on-ls-md-screens', 'objects-contain'],
 				___type: BOXES_TYPES_map['image-only'],
-				customPageClassesKeys: ['center-on-ls-md-screens'],
 				src: 'https://cdn.shopify.com/s/files/1/0345/7209/t/28/assets/pf-baa9b738--Screen-Shot-20210324-at-35800-PM.png?v=1616619654'
 			},
 			{
+				stylesVariants: { 'gap-y': '2', px: '4' },
 				___type: BOXES_TYPES_map['md'],
 				customPageClassesKeys: ['center-on-ls-md-screens'],
 				content: `# Fly Tape 2
@@ -2595,7 +2763,7 @@ export const FlyTape2IOSApp: StandardSection[] = (() => {
 
 [![](/images/custom-page/App-Store-Button-transparent.png)](${appLink})
 
-FlyTape 2 builds on the principles of the original FlyTape. A love of vintage sounds and character is our thing and FlyTape 2 fits this ethos as a unique take on the features of classic tape. Named for it's style, performance and user improvisation control, it’s FX can be added to incoming audio signals in many ways "on the fly". Sliders for textured nuances such as noise hiss will allow you to dial in tasteful settings reminiscent of cassette tapes. These also can be automated via midi cc for additional modulation.
+FlyTape 2 builds on the principles of the original FlyTape. A love of vintage sounds and character is our thing and FlyTape 2 fits this ethos as a unique take on the features of classic tape. Named for it's style, performance and user improvisation control, it's FX can be added to incoming audio signals in many ways "on the fly". Sliders for textured nuances such as noise hiss will allow you to dial in tasteful settings reminiscent of cassette tapes. These also can be automated via midi cc for additional modulation.
 
 FlyTape 2 installs as an iOS AUv3 plugin effect, designed for use within host apps such as Garageband, Beatmaker 3, Cubasis, Audiobus, and more.`
 			}
@@ -2612,6 +2780,7 @@ FlyTape 2 installs as an iOS AUv3 plugin effect, designed for use within host ap
 			{
 				title: 'Description',
 				data: {
+					stylesVariants: { 'gap-y': '2', px: '4' },
 					___type: BOXES_TYPES_map['md'],
 					content: `FlyTape 2 builds on the principles of the original FlyTape. A love of vintage sounds and character is our thing and FlyTape 2 fits this ethos as a unique take on the features of classic tape. Named for it's style, performance and user improvisation control, it's FX can be added to incoming audio signals in many ways "on the fly".
 
@@ -2626,6 +2795,7 @@ FlyTape 2 installs as an iOS AUv3 plugin effect, designed for use within host ap
 			{
 				title: 'Specs',
 				data: {
+					stylesVariants: { 'gap-y': '2', px: '4' },
 					___type: BOXES_TYPES_map['md'],
 					content: `![](https://cdn.shopify.com/s/files/1/0345/7209/t/28/assets/pf-70d1e1f6--Screen-Shot-20210331-at-35150-PM-Edited.jpg?v=1617224012)`
 				}
@@ -2633,10 +2803,12 @@ FlyTape 2 installs as an iOS AUv3 plugin effect, designed for use within host ap
 			{
 				title: 'User Manual',
 				data: {
+					stylesVariants: { 'gap-x': '8' },
 					___type: BOXES_TYPES_map['two-columns'],
 					columns: [
 						{
 							customPageClassesKeys: ['center-on-ls-md-screens'],
+							stylesVariants: { 'gap-y': '2', px: '4' },
 							___type: BOXES_TYPES_map['md'],
 							content: `### Whats New:
 	
@@ -2649,7 +2821,10 @@ You can check out the reference guide/manual below. Download and save to your iP
 > **READING IS FUNDAMENTAL.**`
 						},
 						{
-							customPageClassesKeys: ['center-on-ls-md-screens'],
+							customPageClassesKeys: [
+								'center-on-ls-md-screens',
+								'object-contain'
+							],
 							___type: BOXES_TYPES_map['image-only'],
 							src: 'https://cdn.shopify.com/s/files/1/0345/7209/t/28/assets/pf-6ed32248--Screen-Shot-20210324-at-13333-PM.png?v=1616610936'
 						}
@@ -2685,13 +2860,17 @@ You can check out the reference guide/manual below. Download and save to your iP
 	};
 	const rowsOnlyBox: RowsOnlyBox = {
 		___type: 'rows-only',
+		stylesVariants: { 'gap-y': '3' },
 		customPageClassesKeys: ['center-content'],
 		rows: [
 			{
+				stylesVariants: { rounded: '3xl' },
+				___type: 'image-only',
+				src: 'https://cdn.shopify.com/s/files/1/0345/7209/t/28/assets/pf-2248baa9--tape-2-crop.jpg?v=1616617146'
+			},
+			{
 				___type: 'md',
-				content: `![](https://cdn.shopify.com/s/files/1/0345/7209/t/28/assets/pf-2248baa9--tape-2-crop.jpg?v=1616617146)
-				
-[![](/images/custom-page/App-Store-Button-transparent.png)](${appLink})`
+				content: `[![](/images/custom-page/App-Store-Button-transparent.png)](${appLink})`
 			}
 		]
 	};
@@ -2716,15 +2895,18 @@ export const ChomplrOSApp: StandardSection[] = (() => {
 	const appLink = 'https://apps.apple.com/us/app/chomplr/id1470553213';
 
 	const twoColumnsBox: TwoColumnsBox = {
+		stylesVariants: { 'gap-x': '8' },
 		___type: BOXES_TYPES_map['two-columns'],
 		columns: [
 			{
-				customPageClassesKeys: ['center-on-ls-md-screens'],
+				stylesVariants: { 'aspect-ratio': 'square' },
+				customPageClassesKeys: ['center-on-ls-md-screens', 'objects-contain'],
 				___type: BOXES_TYPES_map['image-only'],
 				src: 'https://cdn.shopify.com/s/files/1/0345/7209/t/28/assets/pf-8930ec95--Chomplrappdisplay-Edited.jpg?v=1617338387'
 			},
 			{
 				customPageClassesKeys: ['center-on-ls-md-screens'],
+				stylesVariants: { 'gap-y': '2', px: '4' },
 				___type: BOXES_TYPES_map['md'],
 				content: `# Chomplr
 ## IOS-APP
@@ -2748,6 +2930,7 @@ As a standalone module or AUv3 plugin, Chomplr offers quick access to it's robus
 			{
 				title: 'Description',
 				data: {
+					stylesVariants: { 'gap-y': '2', px: '4' },
 					___type: BOXES_TYPES_map['md'],
 					content: `The Chomplr name is taken from sample "Chopping Rompler", inspired by the timeless workflow of creating music using samples. Chomplr brings a new iOS approach to creative sample manipulation. As a standalone module or AUv3 plugin, Chomplr offers quick access to it's robust sample library and an online store is built in. All samples in Chomplr are royalty free for use within the app.
 
@@ -2759,6 +2942,7 @@ Sample data can be edited and one or more effects added and adjusted in quick an
 			{
 				title: 'Specs',
 				data: {
+					stylesVariants: { 'gap-y': '2', px: '4' },
 					___type: BOXES_TYPES_map['md'],
 					content: `![](https://cdn.shopify.com/s/files/1/0345/7209/t/28/assets/pf-87726dce--Screen-Shot-20210401-at-114212-PM.png?v=1617338611)`
 				}
@@ -2766,10 +2950,12 @@ Sample data can be edited and one or more effects added and adjusted in quick an
 			{
 				title: 'User Manual',
 				data: {
+					stylesVariants: { 'gap-x': '8' },
 					___type: BOXES_TYPES_map['two-columns'],
 					columns: [
 						{
 							customPageClassesKeys: ['center-on-ls-md-screens'],
+							stylesVariants: { 'gap-y': '2', px: '4' },
 							___type: BOXES_TYPES_map['md'],
 							content: `### What's New:
 Chomplr 1.2.0; 
@@ -2785,7 +2971,10 @@ You can check out the reference guide/manual below. Download and save to your iP
 > **READING IS FUNDAMENTAL.**`
 						},
 						{
-							customPageClassesKeys: ['center-on-ls-md-screens'],
+							customPageClassesKeys: [
+								'center-on-ls-md-screens',
+								'object-contain'
+							],
 							___type: BOXES_TYPES_map['image-only'],
 							src: 'https://cdn.shopify.com/s/files/1/0345/7209/t/28/assets/pf-f7f4b998--FlyTapeManualImage.png?v=1589395846'
 						}
@@ -2971,13 +3160,17 @@ You can check out the reference guide/manual below. Download and save to your iP
 	};
 	const rowsOnlyBox: RowsOnlyBox = {
 		___type: 'rows-only',
+		stylesVariants: { 'gap-y': '3' },
 		customPageClassesKeys: ['center-content'],
 		rows: [
 			{
+				stylesVariants: { rounded: '3xl' },
+				___type: 'image-only',
+				src: 'https://cdn.shopify.com/s/files/1/0345/7209/t/28/assets/pf-ce3c55b2--ChomplrAppstoreicon188x182.png?v=1589530651'
+			},
+			{
 				___type: 'md',
-				content: `![](https://cdn.shopify.com/s/files/1/0345/7209/t/28/assets/pf-ce3c55b2--ChomplrAppstoreicon188x182.png?v=1589530651)
-				
-[![](/images/custom-page/App-Store-Button-transparent.png)](${appLink})`
+				content: `[![](/images/custom-page/App-Store-Button-transparent.png)](${appLink})`
 			}
 		]
 	};
@@ -3023,21 +3216,161 @@ export const IOSProductsBasicData = [
 	chomplrBasicData
 ] as const;
 
-export const IOSProducts = [
+export const CustomPages: {
+	slug: string;
+	mainTag?: string;
+	pageStructure: StandardSection[];
+}[] = [
 	{
 		slug: IOSProductsBasicData[0].slug,
+		mainTag: 'ios-app-sub-page',
 		pageStructure: LoflyDirtIOSApp
 	},
 	{
 		slug: IOSProductsBasicData[1].slug,
+		mainTag: 'ios-app-sub-page',
 		pageStructure: FlyTape2IOSApp
 	},
 	{
 		slug: IOSProductsBasicData[2].slug,
+		mainTag: 'ios-app-sub-page',
 		pageStructure: FlyTapeIOSApp
 	},
 	{
 		slug: IOSProductsBasicData[3].slug,
+		mainTag: 'ios-app-sub-page',
 		pageStructure: ChomplrOSApp
+	},
+	{
+		slug: 'about',
+		mainTag: 'about-page',
+		pageStructure: [
+			{
+				stylesVariants: { 'gap-y': '16' },
+				___type: 'standard-section',
+				title: 'About MSX Audio',
+				body: [
+					{
+						customPageClassesKeys: ['blog-post'],
+						___type: 'md',
+						content: `## What we do
+
+MSXII is committed to providing the audio community with quality, well-thought out, up-to-date, relevant & vintage sounds; sounds that are ready to use in your projects upon download. All material released is recorded through state-of-the-art equipment such as the SSL Duality, UA & Avalon preamps, vintage Neumann microphones, and into Apogee converters before landing into either Protools, Logic, or Live for print. Some projects will also receive further processing into vintage tape machines and other analog boards for added warmth and character. All products are mix-ready with light to little compression. No limiting or mastering is processed on our sounds to provide the user with the best possible end result for their project.
+
+## Credibility
+
+Our products and services have been used by and associated with the likes of numerous industry musicians and companies including: Dr. Dre, Ryan Leslie, Jay Electronica, MTV, VH1, E!, Snoop Dog, 9th Wonder, Eminem, Lil Brother, Centric, E!, Native Instruments, Output, Drumbroker, Novation, Intua, Akai, Ableton, and many more.
+
+![](/images/custom-page/credibility.png)
+
+## Compatibility
+
+All MSXII kits, breaks, sample packs, and sounds are compatible with any DAW, software program, drum machine or iOS device that accepts the .wav format. This includes Native Instruments Maschine, All Akai MPC's, Logic Pro/X, Pro Tools, Ableton Live, Propellerhead Reason, Cubase, Nuendo, FL Studio, and more.
+
+![](/images/custom-page/compatibility.png){.center}
+
+With any questions regarding our kits, breaks, or sample packs, contact us at msxaudio@gmail.com`
+					}
+				]
+			}
+		]
+	},
+	{
+		slug: 'support',
+		mainTag: 'support-page',
+		pageStructure: [
+			{
+				stylesVariants: { 'gap-y': '16' },
+				___type: 'standard-section',
+				title: 'Support',
+				body: [
+					{
+						customPageClassesKeys: ['blog-post'],
+						___type: 'md',
+						content: `## I purchased a product(s) and can't find the download link. Where is it?
+
+All drum kits and digital downloads links are sent to the e-mail address your order was placed under. Occasionally, some e-mail services and filters will re-direct our e-mails to your SPAM Folder/Filter. If your PayPal e-mail address is different than the order e-mail address, check your PayPal e-mail inbox. Please check your SPAM Folder/Filter before contacting us. Should you have further trouble locating your order download link, email us at support@msxaudio.com.
+
+## Are MSXII Sound Design packs royalty free?
+
+Some are.  Most notably our Blue Label products & those selected vibes from our app, Chomplr. You will see licensing info in each product we offer. For projects that are not royalty free such as the Soulful Stems 3, the Lofi Melodics Series, etc, you are able to sample from it and get a fair split on writers share & publishing with us. MSXII writers will be credited as writers of the works (co-production credit) which will all be worked out prior to your placement release.  All MSXII kits and sample packs are made completely from scratch and are our sole original works.  We guarantee no clearance issues. See PartyNextDoor's "Love Me Again" for an example below as our own [M.SIMPSON] is credited for writing the sample.
+
+![](https://s3-alpha-sig.figma.com/img/51b7/a1b0/41cc88a345253c17c84169da96ad0a81?Expires=1681084800&Signature=iKHREd70av-HYVb6BmSD9oOWVFk2C35Mk0rNT24L4qsuh0VZUI8kxtuYmSdW9ruTZ3Z~1HrmrFYKT1w~o6hmoJbT8Hab~MMY9RoHXzGzgSMN-jWLt~mVBFpkoPrwG0ZiPBB2WgOb5GVAP80oJ2DyNVli1P69WMHIJHHGoZiQ6FFMa-pwQOanSgOlwTBnr5P7KPVoo1vXqObQCuKycpP5dWAEJi4fPGZoH~mfVtpryU3IAiO-UzzGQgSNG1uO9wZmTy9dHUsZIjmGsHQyEUjl1VzZbTaVc25B7uKF~uTgwuJ9qg~77rYVB7BGeZWW2cfsYZ44HiL11KpenfsHt-Vm3Q__&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4)
+
+## Are your sounds compatible with my software/sampler?
+
+All MSXII Sound Design kits, breaks, sample packs, and sounds are compatible with any DAW, software program, drum machine or iOS device that accepts the .wav format. This includes Native Instruments Maschine, Beatmaker 3, Korg Gadget, Cubasis, All Akai MPC's, Logic Pro/X, Pro Tools, Ableton Live, Propellerhead Reason, Cubase, Nuendo, FL Studio, and more.
+
+## What is your refund policy?
+
+Since we sell a digital product, there are no refunds that are given.  We're as transparent as possible with the creation of our product to ensure the end user has full knowledge of what their purchase will yield.  A good name is better than any dollar...we pride ourselves on a solid business and a solid product.
+
+## How often do you do free giveaways & contests?
+
+We do these from time to time.  In order to be notified of any MSXII giveaways or contests, you must subscribe to our mailing list.  To sign up, click here.
+
+## PRIVACY POLICY
+
+We are committed to protecting your privacy. There is an opt-in policy to receive marketing and other e-blasts about future products available as well as deals and coupons. If you do not wish to receive these emails you can opt out by simply removing the check from the marketing box below upon check out. We will never sell your email or personal information.
+
+## SECURITY POLICY
+
+Your payment and personal information is always safe. Our SSL (secure server software) is the industry standard and among the best software available today for secure commerce transactions. It encrypts all of your personal information, including credit card number, name, and address, so that it cannot be read over the internet.
+For all other questions and inquiries, feel free to email our support at support@msxaudio.com.`
+					}
+				]
+			}
+		]
+	},
+	{
+		slug: 'license-agreement',
+		mainTag: 'license-agreement-page',
+		pageStructure: [
+			{
+				stylesVariants: { 'gap-y': '16' },
+				___type: 'standard-section',
+				title: 'License Agreement',
+				description: `By purchasing any MSXII Sound Design product you accept the following product license agreement:`,
+				body: [
+					{
+						customPageClassesKeys: ['blog-post'],
+						___type: 'md',
+						content: `#### 1. License Grant:
+
+The license for this product is granted only to a single user.  You may use our product(s) on up to two (2) computers, which computers shall be owned and used by you exclusively.  If you need more, special arrangements may be made on a case-by-case basis.  All sounds and samples in compositional format in our products are licensed, but not sold, to you by MSXII Sound Design for commercial and non-commercial use in music, sound-effect, audio/video post-production, performance, broadcast or similar finished content-creation and production use with proper clearance for any commercial usage.
+
+This license is nontransferable and expressly forbids resale or lease or share of the product(s).
+
+This license also expressly forbids any inclusion of content contained within our libraries, or any other MSXII Sound Design library, into any other virtual instrument, sample pack, drum kit, or library of any kind, without our express written consent. This license forbids any re-distribution method of this product, or its sounds, through any means, including but not limited to, re-sampling, mixing, processing, isolating, or embedding into software or hardware of any kind, for the purpose of re-recording or reproduction as part of any free or commercial library of musical and/or sound effect samples and/or articulations, or any form of musical sample or sound effect sample playback system or device or on a stand alone basis.
+
+#### 2.  Rights Policy:
+
+The product, including accompanying documentation, is protected by copyright laws and international copyright treaties, as well as other intellectual property laws and treaties. MSXII Sound Design retains full copyright privileges and complete ownership of all recorded sounds, instrument programming, documentation and musical performances included in these product(s).  Any rights not specifically granted herein are reserved by MSXII Sound Design.
+
+Any unauthorized use, distribution or reproduction of the product shall not be permitted, shall constitute a violation of law, and shall entitle MSXII Sound Design to, in addition to any other remedy at law or equity, injunctive relief.  It is unlawful to deliberately circumvent, alter or delete technological measures of protection and information provided by MSXII Sound Design which identifies the products, its owner and the terms and conditions for its use. If the product(s) ends up in other people's music, you will be held legally responsible, so we ask you to keep this product for yourself.  You further agree to take all reasonable steps to protect this product from unauthorized copying or use.
+
+#### 3. Limited Warranty/Limitation of Liability:
+
+TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, MSXII SOUND DESIGN DISCLAIMS ALL WARRANTIES AND CONDITIONS, EITHER EXPRESS OR IMPLIED, INCLUDING, BUT NOT LIMITED TO, IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, WARRANTIES OF SATISFACTORY QUALITY, TITLE, AND NON-INFRINGEMENT, WITH REGARD TO THE PRODUCT. TO THE MAXIMUM EXTENT PERMITTED BY LAW, NEITHER MSXII SOUND DESIGN, ITS SUPPLIERS, DEALERS, DISTRIBUTORS, NOR THE AGENTS OR EMPLOYEES OF THE FOREGOING WILL BE LIABLE FOR ANY INDIRECT, CONSEQUENTIAL, SPECIAL OR INCIDENTAL DAMAGES OF ANY SORT, (INCLUDING, WITHOUT LIMITATION, DAMAGES FOR LOST PROFITS, BUSINESS INTERRUPTION OR LOSS OF DATA ARISING OUT OF THE USE OF THE PRODUCT) WHETHER OR NOT SAME HAVE BEEN NOTIFIED OF THE POSSIBILITY OF SUCH DAMAGES, OR OF ANY CLAIM BY ANY OTHER PARTY.
+
+#### 4. Term:
+
+This license agreement is effective from the moment the product is received by any means, within or outside of these terms.  The license will remain in full effect until termination.  The license is terminated if you break any of the terms or conditions of this agreement.  Upon termination you agree to destroy all copies and contents of the product at your own expense.  In the event of termination, the following sections of this license will survive: 1,2,3,4,5 and 6.
+
+#### 5. Bundles & Discounts
+
+All bundle and discounted purchases and prices apply only to the product line at the time of purchase. Customers who purchased a bundle or used a discount to the complete product line are not eligible for additional discounts or free products on future product releases unless specifically noted by MSXII Sound Design.
+
+#### 6. General Terms:
+
+(a) This license shall be governed by Texas law applicable to contracts fully negotiated, executed and performed therein. Only the Texas courts (state and federal) shall have jurisdiction over controversies regarding this license; any proceeding involving such a controversy shall be brought in those courts, and not elsewhere. In the event of any claim arising from the breach or alleged breach of the terms of this license, the prevailing party shall be entitled to reasonable attorneys’ fees and court costs.
+
+(b) You agree that this license contains the complete agreement between the parties hereto, and supersedes all other communication, relating to the subject matter of the license.
+
+(c) You acknowledge that you have read this license and understand it and agree to be bound by its terms and conditions.`
+					}
+				]
+			}
+		]
 	}
 ];

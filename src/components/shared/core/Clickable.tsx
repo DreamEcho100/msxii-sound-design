@@ -23,7 +23,7 @@ const handleClickableVariants = cva('', {
 		py: {
 			'extra-sm': 'py-1',
 			sm: 'py-2',
-			'semi-sm': 'py-3',
+			'semi-md': 'py-3',
 			md: 'py-4',
 			lg: 'py-6',
 			xl: 'py-8',
@@ -33,7 +33,7 @@ const handleClickableVariants = cva('', {
 		px: {
 			'extra-sm': 'px-1',
 			sm: 'px-2',
-			'semi-sm': 'px-3',
+			'semi-md': 'px-3',
 			md: 'px-4',
 			lg: 'px-6',
 			xl: 'px-8',
@@ -89,11 +89,15 @@ const Clickable = ({ variants = {}, className, ...props }: Props) => {
 					? { className }
 					: {
 							...variants,
-							disabled: handleDefaultVariant<'disabled'>({
-								passedVariantValue: variants.disabled || !!props.disabled,
-								variantDefaultValue: null,
-								variantDefaultValueCondition: () => clickableType === 'button'
-							}),
+							disabled:
+								variants.disabled === null
+									? false
+									: handleDefaultVariant<'disabled'>({
+											passedVariantValue: variants.disabled || !!props.disabled,
+											variantDefaultValue: null,
+											variantDefaultValueCondition: () =>
+												clickableType === 'button'
+									  }),
 							btn: handleDefaultVariant<'btn'>({
 								passedVariantValue: variants.btn,
 								variantDefaultValue: 'primary',

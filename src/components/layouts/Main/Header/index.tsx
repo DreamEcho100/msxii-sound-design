@@ -106,7 +106,7 @@ const MainLayoutHeader = () => {
 										key={item.title}
 										href={item.href}
 										isA="next-js"
-										className="whitespace-nowrap hover:text-special-primary-400 duration-150"
+										className="whitespace-nowrap hover:text-special-primary-700 duration-150"
 									>
 										{item.title}
 									</Clickable>
@@ -114,7 +114,7 @@ const MainLayoutHeader = () => {
 									<Dropdown key={item.title}>
 										<DropdownButton
 											title="Settings and other options."
-											className="hover:text-special-primary-400 duration-150"
+											className="hover:text-special-primary-700 duration-150"
 										>
 											<IoMdArrowDropdown className="text-xl" /> {item.title}
 											<span className="pl-1" />
@@ -200,7 +200,7 @@ const MainLayoutHeader = () => {
 													className={cx(
 														'mx-auto w-full max-w-main whitespace-nowrap bg-clip-text p-1',
 														'bg-text-primary-500',
-														'hover:bg-gradient-to-br hover:from-text-primary-200 hover:to-special-primary-400 hover:text-special-secondary-100 hover:transition-all hover:duration-150',
+														'hover:bg-gradient-to-br hover:from-text-primary-200 hover:to-special-primary-700 hover:text-special-secondary-100 hover:transition-all hover:duration-150',
 														'focus:bg-gradient-to-br focus:from-text-primary-300 focus:to-special-primary-500 focus:text-special-secondary-100 focus:transition-all focus:duration-150'
 													)}
 													variants={null}
@@ -221,7 +221,7 @@ const MainLayoutHeader = () => {
 												<Dropdown>
 													<DropdownButton
 														title="Settings and other options."
-														className="hover:text-special-primary-400 duration-150"
+														className="hover:text-special-primary-700 duration-150"
 													>
 														<IoMdArrowDropdown className="text-xl" />{' '}
 														{item.title}

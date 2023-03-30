@@ -41,7 +41,7 @@ const MyApp: AppType<{ session: Session | null }> = ({
 			<MainLayout>
 				<Component {...pageProps} />
 			</MainLayout>
-			<ReactQueryDevtools initialIsOpen={true} />
+			<ReactQueryDevtools initialIsOpen={false} />
 		</SessionProvider>
 	);
 };

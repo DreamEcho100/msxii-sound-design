@@ -8,10 +8,13 @@ import { api } from '~/utils/api';
 import { ProductCard } from '~/components/shared/core/Cards/Card';
 
 const MerchesPage: NextPage = () => {
-	const MerchesQuery = api.merches.getAll.useQuery();
+	const merchesQuery = api.merches.getAll.useQuery();
 
-	const productData = MerchesQuery.data!;
-	console.log('data', productData);
+	if (merchesQuery.isLoading) return <>Loading...</>;
+
+	if (merchesQuery.isError) return <>{merchesQuery.error.message}</>;
+
+	const productData = merchesQuery.data!;
 
 	return (
 		<section className="flex flex-col gap-20 justify-center px-main-p-3 sm:px-main-p-1 py-main-p-1">

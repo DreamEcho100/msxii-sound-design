@@ -11,6 +11,10 @@ import { api } from '~/utils/api';
 const HomePage: NextPage = () => {
 	const productsQuery = api.products.getAll.useQuery();
 
+	if (productsQuery.isLoading) return <>Loading...</>;
+
+	if (productsQuery.isError) return <>{productsQuery.error.message}</>;
+
 	return (
 		<>
 			<Head>

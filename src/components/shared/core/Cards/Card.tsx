@@ -73,8 +73,6 @@ export const BasicProductCard = (props: {
 }) => {
 	const routeBase = props.routeBase ?? '/products';
 
-	console.log('props.product', props.product);
-
 	return (
 		<article
 			className={handleBasicProductCardContainerVariants({

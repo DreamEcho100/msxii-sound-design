@@ -8,11 +8,14 @@ import Link from 'next/link';
 import ProductPrice from '../ProductPrice';
 
 const handleBasicProductCardContainerVariants = cva(
-	'card flex flex-col flex-grow px-1 group duration-300 delay-75 transition-all',
+	'max-w-full card flex flex-col px-1 group duration-300 delay-75 transition-all',
 	{
 		variants: {
-			'aspect-ratio': { video: 'aspect-video', card: 'aspect-[1.91/1]' }
-		}
+			'aspect-ratio': { video: 'aspect-video', card: 'aspect-[1.91/1]' },
+			flex: { grow: 'flex-grow' },
+			w: { '64': 'w-64' }
+		},
+		defaultVariants: { w: '64' }
 	}
 );
 const handleBasicProductCardImageContainerVariants = cva(
@@ -26,7 +29,7 @@ const handleBasicProductCardImageContainerVariants = cva(
 	}
 );
 const handleBasicProductCardImageVariants = cva(
-	'w-full h-full duration-150 transition-all',
+	'w-full h-full duration-150 transition-all object-contain',
 	{
 		variants: {
 			animation: {
@@ -66,7 +69,12 @@ export const BasicProductCard = (props: {
 	imageVariants?: VariantProps<typeof handleBasicProductCardImageVariants>;
 	titleVariants?: VariantProps<typeof handleBasicProductCardTitleVariants>;
 	isPlayButtonActive?: boolean;
+	routeBase?: string;
 }) => {
+	const routeBase = props.routeBase ?? '/products';
+
+	console.log('props.product', props.product);
+
 	return (
 		<article
 			className={handleBasicProductCardContainerVariants({
@@ -79,7 +87,7 @@ export const BasicProductCard = (props: {
 					props.imageContainerVariants
 				)}
 			>
-				<Link href={`/products/${props.product.handle}`}>
+				<Link href={`${routeBase}/${props.product.handle}`}>
 					<Image
 						src={props.product.featured_image}
 						alt={props.product.title}
@@ -102,7 +110,7 @@ export const BasicProductCard = (props: {
 					className={handleBasicProductCardTitleVariants(props.titleVariants)}
 					title={props.product.title}
 				>
-					<Link href={`/products/${props.product.handle}`}>
+					<Link href={`${routeBase}/${props.product.handle}`}>
 						{props.product.title}
 					</Link>
 				</h3>
@@ -133,7 +141,7 @@ export const ProductExtraDetails = ({
 					py: 'sm',
 					px: 'lg'
 				}}
-				className="whitespace-nowrap text-sm uppercase"
+				className="lg:whitespace-nowrap text-sm uppercase"
 				{...(buttonProps as any)}
 			>
 				Add To Cart

@@ -26,7 +26,7 @@ const footerLinks = [
 		text: 'Navigation',
 		links: [
 			{ text: 'Search', href: '/', icon: null },
-			{ text: 'Creative Space', href: '/', icon: null },
+			{ text: 'Creative Space', href: '/creative-space', icon: null },
 			{ text: 'About Us', href: '/about', icon: null },
 			{ text: 'Support', href: '/support', icon: null },
 			{ text: 'License Agreement', href: '/license-agreement', icon: null }

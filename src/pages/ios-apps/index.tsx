@@ -1,7 +1,7 @@
 import { cx } from 'class-variance-authority';
 import Image from 'next/image';
 import Clickable from '~/components/shared/core/Clickable';
-import { IOSProductsBasicData } from '~/utils/appData';
+import { IOSProductsBasicData } from '~/utils/appData/custom-pages/ios';
 
 const IOSAppsPage = () => {
 	return (

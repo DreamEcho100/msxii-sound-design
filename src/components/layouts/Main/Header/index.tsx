@@ -47,7 +47,7 @@ const headersLinks = [
 	},
 	{
 		title: 'Merch',
-		href: '/'
+		href: '/merches'
 	}
 ] as const;
 

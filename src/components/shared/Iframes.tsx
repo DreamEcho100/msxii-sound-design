@@ -116,15 +116,17 @@ export const YouTubeIFrame = ({
 
 export const InstagramIframe = ({
 	text = 'A post shared by MSXII Sound Design (@msxiisound)',
-	src
+	src,
+	className
 }: {
 	text?: string;
 	src: string;
+	className?: string;
 }) => {
 	return (
 		<>
 			<blockquote
-				className="instagram-media"
+				className={cx('instagram-media', className)}
 				data-instgrm-permalink={src}
 				data-instgrm-version={14}
 				style={{
@@ -410,5 +412,33 @@ export const InstagramIframe = ({
 				src="https://www.instagram.com/embed.js"
 			/>
 		</>
+	);
+};
+
+export const SoundcloudIframe = ({
+	src,
+	className
+}: {
+	src: string;
+	className?: string;
+}) => {
+	return (
+		<div
+			className={className}
+			style={{ left: 0, width: '100%', height: 166, position: 'relative' }}
+		>
+			<iframe
+				src={src}
+				style={{
+					top: 0,
+					left: 0,
+					width: '100%',
+					height: '100%',
+					position: 'absolute',
+					border: 0
+				}}
+				allowFullScreen
+			></iframe>
+		</div>
 	);
 };

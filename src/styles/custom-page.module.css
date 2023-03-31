@@ -213,3 +213,12 @@
 .slider-box iframe {
 	min-width: auto !important;
 }
+/*******************/
+/*  */
+/*******************/
+.image-only-box {
+	overflow: hidden;
+}
+.image-only-box img {
+	width: 100%;
+}

@@ -11,7 +11,11 @@ import {
 	StandardSection,
 	TabsBox
 } from '~/utils/types/custom-page';
-import { InstagramIframe, YouTubeIFrame } from '~/components/shared/Iframes';
+import {
+	InstagramIframe,
+	SoundcloudIframe,
+	YouTubeIFrame
+} from '~/components/shared/Iframes';
 import customPageClasses from '~/styles/custom-page.module.css';
 import Slider from '~/components/shared/core/Cards/Slider';
 import Image from 'next/image';
@@ -148,7 +152,6 @@ const SectionBodyBox = ({
 				<ReactMarkdown
 					components={{
 						img: ({ node, ...props }) => {
-							console.log('node', node);
 							if (!props.src) return <></>;
 							return (
 								// eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -199,7 +202,9 @@ const SectionBodyBox = ({
 				/>
 			);
 		if (box.___subType === SUB_BOXES_TYPES_map['instagram'])
-			return <InstagramIframe src={box.src} />;
+			return <InstagramIframe src={box.src} className={customPageClassName} />;
+		if (box.___subType === SUB_BOXES_TYPES_map['soundcloud'])
+			return <SoundcloudIframe src={box.src} className={customPageClassName} />;
 	}
 
 	if (box.___type === BOXES_TYPES_map['slider']) {

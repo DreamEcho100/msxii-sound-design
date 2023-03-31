@@ -10,9 +10,9 @@ import { ShopifyProduct } from '~/utils/types';
 const HomeShowcaseSection = ({ products }: { products: ShopifyProduct[] }) => {
 	return (
 		<section className="sm:p-main-p-3">
-			<div className="flex flex-col gap-16 bg-bg-primary-100 dark:bg-bg-primary-900 p-main-p-3 sm:rounded-xl">
+			<div className="flex flex-col gap-16 bg-bg-primary-100 py-main-p-2 px-main-p-4 dark:bg-bg-primary-900 sm:rounded-xl">
 				<article className="px-4">
-					<header className="flex flex-col gap-8 rtl:pl-0">
+					<header className="flex flex-col gap-8 px-6">
 						<h2 className="text-h1 leading-h2 font-semibold">New Releases</h2>
 						<div className="flex flex-wrap gap-x-4 gap-y-3 text-base">
 							{[
@@ -51,8 +51,8 @@ const HomeShowcaseSection = ({ products }: { products: ShopifyProduct[] }) => {
 					<CardsSlider
 						products={products}
 						CardElem={ProductCard}
-						nextSlideButtonClassName="-translate-y-[200%] lg:-translate-y-[225%]"
-						previousSlideButtonClassName="-translate-y-[200%] lg:-translate-y-[225%]"
+						nextSlideButtonClassName="-translate-y-[200%] lg:-translate-y-[200%]"
+						previousSlideButtonClassName="-translate-y-[200%] lg:-translate-y-[200%]"
 					/>
 				</article>
 				<article className="flex flex-col gap-4 px-4">
@@ -63,8 +63,8 @@ const HomeShowcaseSection = ({ products }: { products: ShopifyProduct[] }) => {
 						<CardsSlider
 							products={products}
 							CardElem={ProductCard}
-							nextSlideButtonClassName="-translate-y-[200%] lg:-translate-y-[225%]"
-							previousSlideButtonClassName="-translate-y-[200%] lg:-translate-y-[225%]"
+							nextSlideButtonClassName="-translate-y-[200%] lg:-translate-y-[200%]"
+							previousSlideButtonClassName="-translate-y-[200%] lg:-translate-y-[200%]"
 						/>
 						{/* <ProductsSlider
 							swiperProps={{
@@ -99,7 +99,7 @@ const HomeShowcaseSection = ({ products }: { products: ShopifyProduct[] }) => {
 									<ProductBundleCard
 										key={item.id}
 										product={item}
-										// containerClassName="w-[12.5rem]"
+										containerVariants={{ flex: 'grow', w: null }}
 									/>
 								))}
 						</div>

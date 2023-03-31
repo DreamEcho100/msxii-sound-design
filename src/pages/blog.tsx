@@ -54,7 +54,7 @@ const BlogPage = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
 
 	// return <blogScreen blog={blogQuery.data || []} />;
 	return (
-		<div className=" px-main-p-3 sm:px-main-p-1 py-main-p-1 flex flex-col gap-12">
+		<div className="px-main-p-3 sm:px-main-p-1 py-main-p-1 flex flex-col gap-12">
 			<header>
 				<h1 className="text-h3">MSXII Sound Blog</h1>
 			</header>

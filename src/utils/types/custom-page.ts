@@ -24,7 +24,7 @@ export const BOXES_TYPES_map = Object.fromEntries(
 	[Key in BOXES_TYPE]: Key;
 };
 
-export const SUB_BOXES_TYPES = ['youtube', 'instagram'] as const;
+export const SUB_BOXES_TYPES = ['youtube', 'instagram', 'soundcloud'] as const;
 export type SUB_BOXES_TYPE = (typeof SUB_BOXES_TYPES)[number];
 export const SUB_BOXES_TYPES_map = Object.fromEntries(
 	SUB_BOXES_TYPES.map((item) => [item, item])

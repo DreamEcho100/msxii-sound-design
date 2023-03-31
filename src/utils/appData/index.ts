@@ -1,7 +1,6 @@
 import { VariantProps, cva } from 'class-variance-authority';
 
-import { ShopifyProduct } from './types';
-
+import { ShopifyProduct } from '../types';
 import {
 	TwoColumnsBox,
 	BOXES_TYPES_map,
@@ -12,7 +11,7 @@ import {
 	StandardSection,
 	SECTIONS_TYPES_map,
 	RowsOnlyBox
-} from './types/custom-page';
+} from '../types/custom-page';
 
 const handleDefaultImagesPath = (path: string) => `/images/${path}`;
 
@@ -2180,6 +2179,7 @@ const createStandardSection = (
 
 export const boxVariants = {
 	w: {
+		full: 'w-full',
 		'40': 'w-40',
 		'44': 'w-44',
 		'48': 'w-48',
@@ -3368,6 +3368,58 @@ All bundle and discounted purchases and prices apply only to the product line at
 (b) You agree that this license contains the complete agreement between the parties hereto, and supersedes all other communication, relating to the subject matter of the license.
 
 (c) You acknowledge that you have read this license and understand it and agree to be bound by its terms and conditions.`
+					}
+				]
+			}
+		]
+	},
+	{
+		slug: 'creative-space',
+		mainTag: 'creative-space-page',
+		pageStructure: [
+			{
+				stylesVariants: { 'gap-y': '16' },
+				___type: 'standard-section',
+				title: 'Creative Space',
+				body: [
+					{
+						stylesVariants: { w: 'full', rounded: '3xl' },
+						___type: 'image-only',
+						src: 'https://cdn.shopify.com/s/files/1/0345/7209/files/unnamed_1024x1024.jpg?974986980763682955'
+					},
+					{
+						___type: 'md',
+						content: `Welcome to Creative Space!  This is a series of instructional videos showing the creative use and possibilities of MSX Audio sample packs, drum kits, construction packs, and drum breaks.  You're welcome to learn and enjoy!`
+					},
+					{
+						___type: 'iframe',
+						___subType: 'youtube',
+						src: 'https://www.youtube.com/embed/DQajIJ_LWUY?rel=0'
+					},
+					{
+						___type: 'iframe',
+						___subType: 'youtube',
+						src: 'https://www.youtube.com/embed/3ny7mrUjpZA?rel=0'
+					},
+					{
+						___type: 'iframe',
+						___subType: 'soundcloud',
+						src: 'https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/250757664&color=ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false'
+					},
+					{
+						___type: 'iframe',
+						___subType: 'youtube',
+						src: 'https://www.youtube.com/embed/XJihPAHx3mc?rel=0'
+					},
+					{
+						___type: 'iframe',
+						___subType: 'youtube',
+						src: 'https://www.youtube.com/embed/KacmJqcf8kU?rel=0'
+					},
+					{
+						___type: 'iframe',
+						___subType: 'youtube',
+						src: 'https://www.youtube.com/embed/iJeasAskVUk?rel=0'
 					}
 				]
 			}

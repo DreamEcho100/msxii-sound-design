@@ -51,45 +51,31 @@ const Slider = ({
 	const SwiperInstanceRef = useRef<
 		Parameters<NonNullable<Parameters<typeof Swiper>[0]['onSwiper']>>[0] | null
 	>(null);
+
 	return (
-		<div className="relative">
-			<button
-				title="Next slide."
-				style={{ zIndex: 2 }}
-				onClick={() => SwiperInstanceRef.current?.slideNext()}
-				className={cx(
-					'hover:scale-[1.25] focus:scale-[1.25] transition-all duration-150 absolute top-1/2 -translate-y-1/2 w-4 h-8 aspect-[1.91/1]',
-					'-right-8 rtl:-left-8 rtl:right-auto rtl:rotate-180',
-					nextSlideButtonClassName
-				)}
-			>
-				<Image
-					src="/svgs/right-arrow 2.svg"
-					alt=""
-					width={50}
-					height={100}
-					className="w-full h-full object-contain object-center"
-				/>
-			</button>
-			<button
-				title="Previous slide."
-				onClick={() => SwiperInstanceRef.current?.slidePrev()}
-				className={cx(
-					'z-[2] hover:scale-[1.25] focus:scale-[1.25] transition-all duration-150 absolute top-1/2 -translate-y-1/2 w-4 h-8 aspect-[1.91/1]',
-					'-left-8 rtl:-right-8 rtl:left-aright-auto rtl:rotate-180',
-					previousSlideButtonClassName
-				)}
-			>
-				<Image
-					src="/svgs/left-arrow 2.svg"
-					alt=""
-					width={50}
-					height={100}
-					className="w-full h-full object-contain object-center"
-				/>
-			</button>
+		<div className="flex gap-4">
+			<div className="flex items-center justify-center">
+				<button
+					title="Previous slide."
+					onClick={() => SwiperInstanceRef.current?.slidePrev()}
+					className={cx(
+						'hover:scale-[1.25] focus:scale-[1.25] transition-all duration-150 w-4 h-8 aspect-[1.91/1]',
+						'rtl:rotate-180',
+						previousSlideButtonClassName
+					)}
+				>
+					<Image
+						src="/svgs/left-arrow 2.svg"
+						alt=""
+						width={50}
+						height={100}
+						className="w-full h-full object-contain object-center"
+					/>
+				</button>
+			</div>
+
 			<Swiper
-				className="cards-container"
+				className="cards-container flex-grow"
 				onSwiper={(swiperInstance) =>
 					(SwiperInstanceRef.current = swiperInstance)
 				}
@@ -109,6 +95,26 @@ const Slider = ({
 			>
 				{children}
 			</Swiper>
+
+			<div className="flex items-center justify-center">
+				<button
+					title="Next slide."
+					onClick={() => SwiperInstanceRef.current?.slideNext()}
+					className={cx(
+						'hover:scale-[1.25] focus:scale-[1.25] transition-all duration-150 w-4 h-8 aspect-[1.91/1]',
+						' rtl:rotate-180',
+						nextSlideButtonClassName
+					)}
+				>
+					<Image
+						src="/svgs/right-arrow 2.svg"
+						alt=""
+						width={50}
+						height={100}
+						className="w-full h-full object-contain object-center"
+					/>
+				</button>
+			</div>
 		</div>
 	);
 };

@@ -1,3 +1,5 @@
+import type { ReactNode } from 'react';
+
 import * as Tabs from '@radix-ui/react-tabs';
 import { cx } from 'class-variance-authority';
 import ReactMarkdown from 'react-markdown';
@@ -23,6 +25,7 @@ import Image from 'next/image';
 
 type Props = {
 	customPage: CustomPage;
+	children?: ReactNode;
 };
 
 const CustomPageBuilder = (props: Props) => {
@@ -36,6 +39,7 @@ const CustomPageBuilder = (props: Props) => {
 			{props.customPage.pageStructure.map((section, index) => (
 				<SectionBody key={index} section={section} sectionIndex={index} />
 			))}
+			{props.children}
 		</div>
 	);
 };

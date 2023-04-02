@@ -13,7 +13,7 @@ const handleBasicProductCardContainerVariants = cva(
 		variants: {
 			'aspect-ratio': { video: 'aspect-video', card: 'aspect-[1.91/1]' },
 			flex: { grow: 'flex-grow' },
-			w: { '64': 'w-64' }
+			w: { '64': 'w-64', '72': 'w-72' }
 		},
 		defaultVariants: { w: '64' }
 	}

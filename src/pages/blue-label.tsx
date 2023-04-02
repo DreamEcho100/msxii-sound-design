@@ -62,15 +62,17 @@ const CreativeSpacePage = (
 	// );
 
 	return (
-		<div className="flex flex-col gap-12">
-			<CustomPageBuilder customPage={pageStructure} />
-
-			<div className="flex flex-wrap gap-8 justify-center">
+		<CustomPageBuilder customPage={pageStructure}>
+			<div className="flex flex-wrap gap-8 justify-center mt-16 w-full">
 				{productData.map((item) => (
-					<ProductCard key={item.handle} product={item as any} />
+					<ProductCard
+						key={item.handle}
+						product={item as any}
+						containerVariants={{ w: '72' }}
+					/>
 				))}
 			</div>
-		</div>
+		</CustomPageBuilder>
 	);
 };
 

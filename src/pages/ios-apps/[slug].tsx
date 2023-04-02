@@ -24,11 +24,9 @@ const IOSAppPage = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
 	if (customPageStructureQuery.isError)
 		return <>{customPageStructureQuery.error.message}</>;
 
-	const iosAppData = customPageStructureQuery.data;
+	const customPage = customPageStructureQuery.data;
 
-	const pageStructure = iosAppData.pageStructure;
-
-	return <CustomPageBuilder customPage={pageStructure} />;
+	return <CustomPageBuilder customPage={customPage} />;
 };
 
 export const getStaticPaths: GetStaticPaths = () => {

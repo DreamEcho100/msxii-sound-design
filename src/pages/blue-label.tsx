@@ -7,6 +7,7 @@ import { appRouter } from '~/server/api/root';
 import { createInnerTRPCContext } from '~/server/api/trpc';
 import { ProductsTags } from '~/utils/appData';
 import { ProductCard } from '~/components/shared/core/Cards/Card';
+// import Image from 'next/image';
 
 function duplicateArrayItemsUntilLength<T>(array: T[], length: number): T[] {
 	const arrayLength = array.length;
@@ -41,6 +42,24 @@ const CreativeSpacePage = (
 
 	const pageStructure = customPageStructureQuery.data;
 	const productData = duplicateArrayItemsUntilLength(productsQuery.data, 24);
+
+	// return (
+	// 	<div className="border border-solid border-black p-2 m-2 flex w-fit">
+	// 		{'_'
+	// 			.repeat(6)
+	// 			.split('_')
+	// 			.map((_, index) => (
+	// 				<Image
+	// 					key={index + 1}
+	// 					src={`/images/custom-page/compatibility/${index + 1}.png`}
+	// 					alt=""
+	// 					width={192}
+	// 					height={192}
+	// 					className="object-cover"
+	// 				/>
+	// 			))}
+	// 	</div>
+	// );
 
 	return (
 		<div className="flex flex-col gap-12">

@@ -3614,7 +3614,7 @@ Our products and services have been used by and associated with the likes of num
 
 All MSXII kits, breaks, sample packs, and sounds are compatible with any DAW, software program, drum machine or iOS device that accepts the .wav format. This includes Native Instruments Maschine, All Akai MPC's, Logic Pro/X, Pro Tools, Ableton Live, Propellerhead Reason, Cubase, Nuendo, FL Studio, and more.
 
-![](/images/custom-page/compatibility.png){.center}
+![](/images/custom-page/compatibility.png)
 
 With any questions regarding our kits, breaks, or sample packs, contact us at msxaudio@gmail.com`
 					}

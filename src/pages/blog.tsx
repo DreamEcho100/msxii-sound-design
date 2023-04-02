@@ -138,8 +138,10 @@ export async function getStaticProps() {
 	const blogGetManyInput: inferRouterInputs<AppRouter>['blog']['getMany'] = {
 		cursor: 0
 	};
-	await ssg.blog.getMany.prefetchInfinite(blogGetManyInput);
-	await ssg.blog.getAllSize.prefetch();
+	await Promise.all([
+		ssg.blog.getMany.prefetchInfinite(blogGetManyInput),
+		ssg.blog.getAllSize.prefetch()
+	]);
 
 	// Make sure to return { props: { trpcState: ssg.dehydrate() } }
 	return {

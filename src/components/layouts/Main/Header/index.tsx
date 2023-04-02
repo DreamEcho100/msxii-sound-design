@@ -27,7 +27,7 @@ const headersLinks = [
 	},
 	{
 		title: 'Blue Label',
-		href: '/'
+		href: '/blue-label'
 	},
 	{
 		title: 'Samples',

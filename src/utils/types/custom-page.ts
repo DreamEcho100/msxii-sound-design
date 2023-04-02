@@ -98,3 +98,11 @@ export type StandardSection = {
 	description?: string;
 	body: Box[];
 };
+
+export type CustomPage = {
+	stylesVariants?: BoxVariants;
+	customPageClassesKeys?: string[];
+	slug: string;
+	mainTag?: string | undefined;
+	pageStructure: StandardSection[];
+};

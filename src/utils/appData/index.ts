@@ -10,12 +10,13 @@ import {
 	SliderBox,
 	StandardSection,
 	SECTIONS_TYPES_map,
-	RowsOnlyBox
+	RowsOnlyBox,
+	CustomPage
 } from '../types/custom-page';
 
 const handleDefaultImagesPath = (path: string) => `/images/${path}`;
 
-enum ProductsTags {
+export enum ProductsTags {
 	'New Releases' = 'New Releases',
 	'Drum Kits' = 'Drum Kits',
 	'Sample Packs' = 'Sample Packs',
@@ -24,7 +25,8 @@ enum ProductsTags {
 	'Loops' = 'Loops',
 	'One Shot Drums' = 'One Shot Drums',
 	'Instrument Kits' = 'Instrument Kits',
-	'Presets' = 'Presets'
+	'Presets' = 'Presets',
+	FreeLabel = 'Free Label'
 }
 
 export const fakeProductsBaseData = [
@@ -872,7 +874,7 @@ export const shopifyFakeProductsData: ShopifyProduct[] = [
 		created_at: '2022-11-18T14:58:09-06:00',
 		vendor: 'MSXII Sound',
 		type: '',
-		tags: [ProductsTags.Loops],
+		tags: [ProductsTags.Loops, ProductsTags.FreeLabel],
 		price: 93600,
 		price_min: 93600,
 		price_max: 93600,
@@ -2163,6 +2165,309 @@ export const shopifyFakeProductsData: ShopifyProduct[] = [
 		],
 		requires_selling_plan: false,
 		selling_plan_groups: []
+	},
+	{
+		id: 338431053,
+		title: 'The Steinway Stabs',
+		handle: 'the-steinway-stabs',
+		description:
+			'\u003cdiv\u003e\u003ciframe width="560" height="515" src="//www.youtube.com/embed/9-VBycfaEJo" frameborder="0" allowfullscreen="allowfullscreen"\u003e\u003c/iframe\u003e\u003c/div\u003e\n\u003cdiv\u003e\u003cbr\u003e\u003c/div\u003e\n\u003cdiv\u003e\u003cbr\u003e\u003c/div\u003e\n\u003cdiv\u003eMSXII Sound Design is pleased to release The Steinway Stabs!\u00a0 The project is from a Steinway and Sons 1910 Vertegrand Piano.\u00a0 As a family heirloom dating back to the 1960\'s, we\'ve now decided to put this incredible instrument out in it\'s most pure form. Steinway pianos have a history of fine craftsmanship and resonance. \u00a0This piano still has the ivory keytops and original strings.\u00a0 The Vertegrand is literally their model Grand piano flipped upright. \u00a0This improves overall resonance and tone which sets it apart from other upright studio pianos.\u00a0 If you want authentic, real, and legendary piano samples in your arsenal, look no further!\u003c/div\u003e\n\u003cdiv\u003e\u003cbr\u003e\u003c/div\u003e\n\u003cdiv\u003eKit Features:\u003c/div\u003e\n\u003cdiv\u003e\n\u003cul\u003e\n\u003cli\u003eLive recorded samples in 16bit .wav form of a Steinway and Sons 1910 Vertegrand Piano\u003c/li\u003e\n\u003cli\u003eNumerous playable chords including Maj and Min in various keys and inversions\u003c/li\u003e\n\u003cli\u003eFocused on more colorful chords; sus4 chords with +9 and +13 chords\u003c/li\u003e\n\u003cli\u003eIncludes block chords and the arpeggiated attacks\u003c/li\u003e\n\u003cli\u003eA sound that cannot be replicated due to the natural de-tuning of certain keys inducing tones and harmonics not achievable otherwise\u003c/li\u003e\n\u003cli\u003eMost chords with root on C, but can be mapped to fit whatever key you\'re working in\u003c/li\u003e\n\u003cli\u003ePair with octave bass notes for pure jazz\u003c/li\u003e\n\u003cli\u003eSamples organized by folders with key \u0026amp; chord info\u003c/li\u003e\n\u003cli\u003eCompatible with all major software DAWs and hardware samplers\u003c/li\u003e\n\u003cli\u003e\u003cstrong\u003eCompletely Royalty-Free\u003c/strong\u003e\u003c/li\u003e\n\u003c/ul\u003e\n\u003ciframe width="100%" height="166" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/156923787\u0026amp;color=ff5500\u0026amp;auto_play=false\u0026amp;hide_related=false\u0026amp;show_comments=true\u0026amp;show_user=true\u0026amp;show_reposts=false" frameborder="no" scrolling="no"\u003e\u003c/iframe\u003e\n\u003c/div\u003e',
+		published_at: '2014-07-03T09:51:00-05:00',
+		created_at: '2014-07-03T09:58:08-05:00',
+		vendor: 'MSXII Sound',
+		type: 'Sample Pack',
+		tags: ['Loops', 'Samples'],
+		price: 93600,
+		price_min: 93600,
+		price_max: 93600,
+		available: true,
+		price_varies: false,
+		compare_at_price: null,
+		compare_at_price_min: 0,
+		compare_at_price_max: 0,
+		compare_at_price_varies: false,
+		variants: [
+			{
+				id: 825051149,
+				title: 'Default Title',
+				option1: 'Default Title',
+				option2: null,
+				option3: null,
+				sku: '',
+				requires_shipping: false,
+				taxable: false,
+				featured_image: null,
+				available: true,
+				name: 'The Steinway Stabs',
+				public_title: null,
+				options: ['Default Title'],
+				price: 93600,
+				weight: 0,
+				compare_at_price: null,
+				inventory_quantity: -1,
+				inventory_management: null,
+				inventory_policy: 'deny',
+				barcode: '',
+				// quantity_rule: { min: 1, max: null, increment: 1 },
+				requires_selling_plan: false,
+				selling_plan_allocations: []
+			}
+		],
+		images: [
+			'https://cdn.shopify.com/s/files/1/0345/7209/products/Steinway_Stabs_Cover.jpg?v=1404399488'
+		],
+		featured_image:
+			'https://cdn.shopify.com/s/files/1/0345/7209/products/Steinway_Stabs_Cover.jpg?v=1404399488',
+		options: [{ name: 'Title', position: 1, values: ['Default Title'] }],
+		url: '/products/the-steinway-stabs',
+		media: [
+			{
+				alt: null,
+				id: 12360450114,
+				position: 1,
+				preview_image: {
+					aspect_ratio: 1.0,
+					height: 1500,
+					width: 1500,
+					src: 'https://cdn.shopify.com/s/files/1/0345/7209/products/Steinway_Stabs_Cover.jpg?v=1404399488'
+				},
+				aspect_ratio: 1.0,
+				height: 1500,
+				media_type: 'image',
+				src: 'https://cdn.shopify.com/s/files/1/0345/7209/products/Steinway_Stabs_Cover.jpg?v=1404399488',
+				width: 1500
+			}
+		],
+		requires_selling_plan: false,
+		selling_plan_groups: []
+	},
+	{
+		id: 6700008407106,
+		title:
+			'Cassettes \u0026 Pedals Vol. 9 - Ambient Loops, Textures, and Tones',
+		handle: 'cassettes-pedals-vol-9-ambient-loops-textures-and-tones',
+		description:
+			'\u003cp data-mce-fragment="1"\u003e@MSXIISound releases\u00a0Vol. 9\u00a0of the now classic\u00a0concept series, Cassettes \u0026amp; Pedals!\u003c/p\u003e\n\u003cp data-mce-fragment="1"\u003eC\u0026amp;P Vol. 9\u00a0is\u00a0uh vibe!\u00a0 Crafted with airy vocal chops, silky guitars, rumbling bass textures...\u00a0Vol. 9 has it all.\u00a0These are long-form compositions. Pack sits\u00a0over 425\u00a0mb before zip.\u003c/p\u003e\n\u003cp data-mce-fragment="1"\u003eWe explored our vintage synths, guitars, vocals, outboard FX, pedals, and most importantly the nuances of cassette tape. Driving lush reverbs \u0026amp; delays in musical context to the Tascam Portastudio 4 track cassette recorder yields some interesting results!\u00a0\u003c/p\u003e\n\u003cp data-mce-fragment="1"\u003e25 full compositions bless\u00a0this sample pack. All\u00a0completely royalty-free\u00a0per our\u00a0\u003ca href="https://www.msxaudio.com/collections/blue-label" data-mce-fragment="1" data-mce-href="https://www.msxaudio.com/collections/blue-label" target="_blank"\u003eBlue Labe\u003c/a\u003el release\u00a0imprint. Be different \u0026amp; break away from the norm.\u00a0Purchase\u00a0the entire \u003ca href="https://www.msxaudio.com/collections/bundles/products/cassettes-pedals-bundle" data-mce-fragment="1" data-mce-href="https://www.msxaudio.com/collections/bundles/products/cassettes-pedals-bundle" target="_blank"\u003eCassettes \u0026amp; Pedals Bundle\u003c/a\u003e and save\u00a0if you\'ve missed them!\u003c/p\u003e\n\u003cp data-mce-fragment="1"\u003eStay with us @MSXIISound on IG // Twitter\u00a0\u003c/p\u003e\n\u003ciframe width="560" height="515" src="https://www.youtube.com/embed/JOFIbSx6FXg" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen\u003e\u003c/iframe\u003e',
+		published_at: '2022-01-16T23:41:58-06:00',
+		created_at: '2022-01-16T23:41:56-06:00',
+		vendor: 'MSXII Sound',
+		type: '',
+		tags: [ProductsTags.Loops, ProductsTags.FreeLabel],
+		price: 93600,
+		price_min: 93600,
+		price_max: 93600,
+		available: true,
+		price_varies: false,
+		compare_at_price: null,
+		compare_at_price_min: 0,
+		compare_at_price_max: 0,
+		compare_at_price_varies: false,
+		variants: [
+			{
+				id: 39669709668418,
+				title: 'Default Title',
+				option1: 'Default Title',
+				option2: null,
+				option3: null,
+				sku: '',
+				requires_shipping: false,
+				taxable: false,
+				featured_image: null,
+				available: true,
+				name: 'Cassettes \u0026 Pedals Vol. 9 - Ambient Loops, Textures, and Tones',
+				public_title: null,
+				options: ['Default Title'],
+				price: 93600,
+				weight: 0,
+				compare_at_price: null,
+				inventory_quantity: -22,
+				inventory_management: null,
+				inventory_policy: 'deny',
+				barcode: '',
+				// quantity_rule: { min: 1, max: null, increment: 1 },
+				requires_selling_plan: false,
+				selling_plan_allocations: []
+			}
+		],
+		images: [
+			'https://cdn.shopify.com/s/files/1/0345/7209/products/Cassettes_PedalsV.9art.jpg?v=1642398119'
+		],
+		featured_image:
+			'https://cdn.shopify.com/s/files/1/0345/7209/products/Cassettes_PedalsV.9art.jpg?v=1642398119',
+		options: [{ name: 'Title', position: 1, values: ['Default Title'] }],
+		url: '/products/cassettes-pedals-vol-9-ambient-loops-textures-and-tones',
+		media: [
+			{
+				alt: null,
+				id: 21059307962434,
+				position: 1,
+				preview_image: {
+					aspect_ratio: 1.0,
+					height: 2000,
+					width: 2000,
+					src: 'https://cdn.shopify.com/s/files/1/0345/7209/products/Cassettes_PedalsV.9art.jpg?v=1642398119'
+				},
+				aspect_ratio: 1.0,
+				height: 2000,
+				media_type: 'image',
+				src: 'https://cdn.shopify.com/s/files/1/0345/7209/products/Cassettes_PedalsV.9art.jpg?v=1642398119',
+				width: 2000
+			}
+		],
+		requires_selling_plan: false,
+		selling_plan_groups: []
+	},
+	{
+		id: 6539134140482,
+		title:
+			'Cassettes \u0026 Pedals Vol. 5 - Ambient Loops, Textures, and Tones',
+		handle: 'cassettes-pedals-vol-5-ambient-loops-textures-and-tones',
+		description:
+			'\u003cp data-mce-fragment="1"\u003eMSXII Sound Design\u00a0releases Vol. 5\u00a0of the incredible concept series, Cassettes \u0026amp; Pedals! Volume 5\u00a0packs tons of mood invoking progressions, evolving textures, and tasteful character useful for sample chopping in your favorite sampler!\u003c/p\u003e\n\u003cp data-mce-fragment="1"\u003eWe explored our vintage synths, guitars, vocals, outboard FX, pedals, and most importantly the nuances of cassette tape. Driving lush reverbs \u0026amp; delays in musical context to the Tascam Portastudio 4 track cassette recorder yields some interesting results!\u00a0\u003c/p\u003e\n\u003cp data-mce-fragment="1"\u003e26 full compositions grace this sample pack. All\u00a0completely royalty-free\u00a0per our\u00a0\u003ca data-mce-fragment="1" href="https://www.msxaudio.com/collections/blue-label" target="_blank" data-mce-href="https://www.msxaudio.com/collections/blue-label"\u003eBlue Labe\u003c/a\u003el release\u00a0imprint.\u00a0329\u00a0MB download before zip. Be different \u0026amp; break away from the norm.\u00a0Purchase both\u00a0\u003ca data-mce-fragment="1" href="https://www.msxaudio.com/products/cassettes-pedals-vol-1-ambient-loops-textures-and-tones" target="_blank" data-mce-href="https://www.msxaudio.com/products/cassettes-pedals-vol-1-ambient-loops-textures-and-tones"\u003e\u00a0C\u0026amp;P Vol. 1\u003c/a\u003e\u00a0,\u00a0\u003ca data-mce-fragment="1" href="https://www.msxaudio.com/products/cassettes-pedals-vol-2-ambient-loops-textures-and-tones" data-mce-href="https://www.msxaudio.com/products/cassettes-pedals-vol-2-ambient-loops-textures-and-tones"\u003eC\u0026amp;P Vol. 2\u003c/a\u003e\u00a0,\u003ca data-mce-fragment="1" href="https://www.msxaudio.com/products/cassettes-pedals-3-ambient-loops-textures-and-tones" target="_blank" data-mce-href="https://www.msxaudio.com/products/cassettes-pedals-3-ambient-loops-textures-and-tones"\u003eC\u0026amp;P Vol. 3\u003c/a\u003e, and \u003ca href="https://www.msxaudio.com/products/cassettes-pedals-vol-4-ambient-loops-textures-and-tones" target="_blank"\u003eC\u0026amp;P Vol. 4\u003c/a\u003e\u00a0if you\'ve missed them!\u003c/p\u003e\n\u003cp data-mce-fragment="1"\u003eStay with us @MSXIISound on IG // Twitter\u003c/p\u003e\n\u003ciframe width="560" height="515\n15" src="https://www.youtube.com/embed/JUsAoubxMWs" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""\u003e\u003c/iframe\u003e',
+		published_at: '2021-03-03T19:16:23-06:00',
+		created_at: '2021-03-03T19:16:22-06:00',
+		vendor: 'MSXII Sound',
+		type: '',
+		tags: [ProductsTags.Loops, ProductsTags.FreeLabel],
+		price: 93600,
+		price_min: 93600,
+		price_max: 93600,
+		available: true,
+		price_varies: false,
+		compare_at_price: null,
+		compare_at_price_min: 0,
+		compare_at_price_max: 0,
+		compare_at_price_varies: false,
+		variants: [
+			{
+				id: 39253853929538,
+				title: 'Default Title',
+				option1: 'Default Title',
+				option2: null,
+				option3: null,
+				sku: '',
+				requires_shipping: false,
+				taxable: false,
+				featured_image: null,
+				available: true,
+				name: 'Cassettes \u0026 Pedals Vol. 5 - Ambient Loops, Textures, and Tones',
+				public_title: null,
+				options: ['Default Title'],
+				price: 93600,
+				weight: 0,
+				compare_at_price: null,
+				inventory_quantity: -40,
+				inventory_management: null,
+				inventory_policy: 'deny',
+				barcode: '',
+				// quantity_rule: { min: 1, max: null, increment: 1 },
+				requires_selling_plan: false,
+				selling_plan_allocations: []
+			}
+		],
+		images: [
+			'https://cdn.shopify.com/s/files/1/0345/7209/products/Cassettes_PedalsV.5_8d44b44c-f329-4bc9-9fc4-f03c44f826f3.jpg?v=1614820584'
+		],
+		featured_image:
+			'https://cdn.shopify.com/s/files/1/0345/7209/products/Cassettes_PedalsV.5_8d44b44c-f329-4bc9-9fc4-f03c44f826f3.jpg?v=1614820584',
+		options: [{ name: 'Title', position: 1, values: ['Default Title'] }],
+		url: '/products/cassettes-pedals-vol-5-ambient-loops-textures-and-tones',
+		media: [
+			{
+				alt: null,
+				id: 20236712738882,
+				position: 1,
+				preview_image: {
+					aspect_ratio: 1.0,
+					height: 2000,
+					width: 2000,
+					src: 'https://cdn.shopify.com/s/files/1/0345/7209/products/Cassettes_PedalsV.5_8d44b44c-f329-4bc9-9fc4-f03c44f826f3.jpg?v=1614820584'
+				},
+				aspect_ratio: 1.0,
+				height: 2000,
+				media_type: 'image',
+				src: 'https://cdn.shopify.com/s/files/1/0345/7209/products/Cassettes_PedalsV.5_8d44b44c-f329-4bc9-9fc4-f03c44f826f3.jpg?v=1614820584',
+				width: 2000
+			}
+		],
+		requires_selling_plan: false,
+		selling_plan_groups: []
+	},
+	{
+		id: 6849880326210,
+		title:
+			'Cassettes \u0026 Pedals Vol. 10 - Ambient Loops, Textures, and Tones',
+		handle: 'cassettes-pedals-vol-10-ambient-loops-textures-and-tones',
+		description:
+			'\u003cmeta charset="UTF-8"\u003e\n\u003cp data-mce-fragment="1"\u003eMSXIISound\u00a0presents Vol. 10\u00a0of the now classic\u00a0concept series, Cassettes \u0026amp; Pedals!\u003c/p\u003e\n\u003cp data-mce-fragment="1"\u003eC\u0026amp;P Vol. 10\u00a0is a culmination of excellence!\u00a0We\'ve added more vibes and textures, crafted with airy vocal chops and guitar riffs that will surely inspire you. You need more than the usual in sample packs? This is it.\u00a0These are long-form compositions. Pack sits\u00a0over 439\u00a0mb before zip.\u003c/p\u003e\n\u003cp data-mce-fragment="1"\u003eWe explored our vintage synths, guitars, vocals, outboard FX, pedals, and most importantly the nuances of cassette tape. Driving lush reverbs \u0026amp; delays in musical context to the Tascam Portastudio 4 track cassette recorder yields some interesting results!\u00a0\u003c/p\u003e\n\u003cp data-mce-fragment="1"\u003e30\u00a0full compositions bless\u00a0this sample pack. All\u00a0completely royalty-free\u00a0per our\u00a0\u003ca href="https://www.msxaudio.com/collections/blue-label" data-mce-fragment="1" data-mce-href="https://www.msxaudio.com/collections/blue-label" target="_blank"\u003eBlue Labe\u003c/a\u003el release\u00a0imprint. Be different \u0026amp; break away from the norm.\u00a0Purchase\u00a0the entire \u003ca href="https://www.msxaudio.com/collections/bundles/products/cassettes-pedals-bundle" data-mce-fragment="1" data-mce-href="https://www.msxaudio.com/collections/bundles/products/cassettes-pedals-bundle" target="_blank"\u003eCassettes \u0026amp; Pedals Bundle\u003c/a\u003e and save\u00a0if you\'ve missed them!\u003c/p\u003e\n\u003cp data-mce-fragment="1"\u003eStay with us @MSXIISound on IG // Twitter\u00a0\u003c/p\u003e\n\u003ciframe width="560" height="515" src="https://www.youtube.com/embed/VNXHmLnH4As" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen\u003e\u003c/iframe\u003e',
+		published_at: '2022-11-18T14:58:12-06:00',
+		created_at: '2022-11-18T14:58:09-06:00',
+		vendor: 'MSXII Sound',
+		type: '',
+		tags: [ProductsTags.Loops, ProductsTags.FreeLabel],
+		price: 93600,
+		price_min: 93600,
+		price_max: 93600,
+		available: true,
+		price_varies: false,
+		compare_at_price: null,
+		compare_at_price_min: 0,
+		compare_at_price_max: 0,
+		compare_at_price_varies: false,
+		variants: [
+			{
+				id: 40090071466050,
+				title: 'Default Title',
+				option1: 'Default Title',
+				option2: null,
+				option3: null,
+				sku: '',
+				requires_shipping: false,
+				taxable: false,
+				featured_image: null,
+				available: true,
+				name: 'Cassettes \u0026 Pedals Vol. 10 - Ambient Loops, Textures, and Tones',
+				public_title: null,
+				options: ['Default Title'],
+				price: 93600,
+				weight: 0,
+				compare_at_price: null,
+				inventory_quantity: -35,
+				inventory_management: null,
+				inventory_policy: 'deny',
+				barcode: '',
+				// quantity_rule: { min: 1, max: null, increment: 1 },
+				requires_selling_plan: false,
+				selling_plan_allocations: []
+			}
+		],
+		images: [
+			'https://cdn.shopify.com/s/files/1/0345/7209/products/Cassettes_Pedals10.jpg?v=1668805091'
+		],
+		featured_image:
+			'https://cdn.shopify.com/s/files/1/0345/7209/products/Cassettes_Pedals10.jpg?v=1668805091',
+		options: [{ name: 'Title', position: 1, values: ['Default Title'] }],
+		url: '/products/cassettes-pedals-vol-10-ambient-loops-textures-and-tones',
+		media: [
+			{
+				alt: null,
+				id: 22080056295490,
+				position: 1,
+				preview_image: {
+					aspect_ratio: 1.0,
+					height: 2500,
+					width: 2500,
+					src: 'https://cdn.shopify.com/s/files/1/0345/7209/products/Cassettes_Pedals10.jpg?v=1668805091'
+				},
+				aspect_ratio: 1.0,
+				height: 2500,
+				media_type: 'image',
+				src: 'https://cdn.shopify.com/s/files/1/0345/7209/products/Cassettes_Pedals10.jpg?v=1668805091',
+				width: 2500
+			}
+		],
+		requires_selling_plan: false,
+		selling_plan_groups: []
 	}
 ];
 
@@ -2178,6 +2483,9 @@ const createStandardSection = (
 });
 
 export const boxVariants = {
+	'max-w': {
+		'100ch': 'max-w-[100ch]'
+	},
 	w: {
 		full: 'w-full',
 		'40': 'w-40',
@@ -2238,6 +2546,9 @@ export const boxVariants = {
 		'16': 'gap-y-16',
 		'18': 'gap-y-18',
 		'20': 'gap-y-20'
+	},
+	mx: {
+		auto: 'mx-auto'
 	},
 	px: {
 		'1': 'px-1',
@@ -3216,32 +3527,68 @@ export const IOSProductsBasicData = [
 	chomplrBasicData
 ] as const;
 
-export const CustomPages: {
-	slug: string;
-	mainTag?: string;
-	pageStructure: StandardSection[];
-}[] = [
+export const CustomPages: CustomPage[] = [
 	{
+		stylesVariants: {
+			'max-w': '100ch',
+			mx: 'auto',
+			px: '12',
+			py: '16',
+			'gap-x': '16',
+			'gap-y': '16'
+		},
 		slug: IOSProductsBasicData[0].slug,
 		mainTag: 'ios-app-sub-page',
 		pageStructure: LoflyDirtIOSApp
 	},
 	{
+		stylesVariants: {
+			'max-w': '100ch',
+			mx: 'auto',
+			px: '12',
+			py: '16',
+			'gap-x': '16',
+			'gap-y': '16'
+		},
 		slug: IOSProductsBasicData[1].slug,
 		mainTag: 'ios-app-sub-page',
 		pageStructure: FlyTape2IOSApp
 	},
 	{
+		stylesVariants: {
+			'max-w': '100ch',
+			mx: 'auto',
+			px: '12',
+			py: '16',
+			'gap-x': '16',
+			'gap-y': '16'
+		},
 		slug: IOSProductsBasicData[2].slug,
 		mainTag: 'ios-app-sub-page',
 		pageStructure: FlyTapeIOSApp
 	},
 	{
+		stylesVariants: {
+			'max-w': '100ch',
+			mx: 'auto',
+			px: '12',
+			py: '16',
+			'gap-x': '16',
+			'gap-y': '16'
+		},
 		slug: IOSProductsBasicData[3].slug,
 		mainTag: 'ios-app-sub-page',
 		pageStructure: ChomplrOSApp
 	},
 	{
+		stylesVariants: {
+			'max-w': '100ch',
+			mx: 'auto',
+			px: '12',
+			py: '16',
+			'gap-x': '16',
+			'gap-y': '16'
+		},
 		slug: 'about',
 		mainTag: 'about-page',
 		pageStructure: [
@@ -3276,6 +3623,14 @@ With any questions regarding our kits, breaks, or sample packs, contact us at ms
 		]
 	},
 	{
+		stylesVariants: {
+			'max-w': '100ch',
+			mx: 'auto',
+			px: '12',
+			py: '16',
+			'gap-x': '16',
+			'gap-y': '16'
+		},
 		slug: 'support',
 		mainTag: 'support-page',
 		pageStructure: [
@@ -3323,6 +3678,14 @@ For all other questions and inquiries, feel free to email our support at support
 		]
 	},
 	{
+		stylesVariants: {
+			'max-w': '100ch',
+			mx: 'auto',
+			px: '12',
+			py: '16',
+			'gap-x': '16',
+			'gap-y': '16'
+		},
 		slug: 'license-agreement',
 		mainTag: 'license-agreement-page',
 		pageStructure: [
@@ -3374,6 +3737,14 @@ All bundle and discounted purchases and prices apply only to the product line at
 		]
 	},
 	{
+		stylesVariants: {
+			'max-w': '100ch',
+			mx: 'auto',
+			px: '12',
+			py: '16',
+			'gap-x': '16',
+			'gap-y': '16'
+		},
 		slug: 'creative-space',
 		mainTag: 'creative-space-page',
 		pageStructure: [
@@ -3420,6 +3791,34 @@ All bundle and discounted purchases and prices apply only to the product line at
 						___type: 'iframe',
 						___subType: 'youtube',
 						src: 'https://www.youtube.com/embed/iJeasAskVUk?rel=0'
+					}
+				]
+			}
+		]
+	},
+	{
+		stylesVariants: {
+			px: '12',
+			py: '16',
+			'gap-x': '16',
+			'gap-y': '16'
+		},
+		slug: 'blue-label',
+		mainTag: 'blue-label-page',
+		pageStructure: [
+			{
+				stylesVariants: { 'gap-y': '16' },
+				___type: 'standard-section',
+				title: 'BLUE LABEL',
+				body: [
+					{
+						stylesVariants: { w: 'full', rounded: '3xl' },
+						___type: 'image-only',
+						src: 'https://s3-alpha-sig.figma.com/img/6b87/e37b/85972ec45a3df6dda53c3dc2cc6a1668?Expires=1681084800&Signature=APuChhqaPDDGQ~v27MUlWEaokRsH7p7vIV0bKZOirtCBXVXkRcPc7jPIbipb4cP765HlYfGDcV2loyCtsbzAFF6FmLW5Wu01R5Dd~0K446QWPCrrIuZIklJ-m3Z6d3DN2Dd2Spn5vv8AQI97ungPJRGBNVlZpBM~LzlkXqfMX8h45UmgJrMdEUVr3TXj5KFuvbF95CXPyDvfUlUqEQhuCl6cc4aM0ZIcvratmii1SaBUmkIjIo-VF7RfH-yLvVGo~eLCKg0pbIvcJVwpZSl7JrbKdIpj-BUlGg26FRRVnNYYd2SWQSpW-h-CFsp~kXvTQDVJIzMXWmfdlyQz1Vo9eA__&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4'
+					},
+					{
+						___type: 'md',
+						content: `Welcome to the MSXII Blue Label.  The MSXII Blue Label is a brand new segment of periodic releases that are completely royalty-free for use. No such follow up or clearance is required. While we have a very clear, concise license use case policy with our compositional based products such as Lofi Melodics, Synthesized Soul, 70's Soul Aesthetics etc, we understand that all end use cases are different. Here's a line & label that requires no questions asked. Use however, whenever, wherever you'd like & generate as much income in your endeavors as possible w/o having to contact our support. Each product will be marked with a "Blue Label" banner in the top left corner of it's product as well as include a .pdf inside its packaging. Most MSXII Blue Label compositional packs will include stems options at checkout or as included in the product. Trap Melodics Vol. 1 kicks this off!`
 					}
 				]
 			}

@@ -28,7 +28,7 @@ const IOSAppPage = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
 
 	const pageStructure = iosAppData.pageStructure;
 
-	return <CustomPageBuilder pageStructure={pageStructure} />;
+	return <CustomPageBuilder customPage={pageStructure} />;
 };
 
 export const getStaticPaths: GetStaticPaths = () => {

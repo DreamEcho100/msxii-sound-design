@@ -18,7 +18,7 @@ const CreativeSpacePage = () => {
 
 	const pageStructure = customPageStructureQuery.data;
 
-	return <CustomPageBuilder pageStructure={pageStructure.pageStructure} />;
+	return <CustomPageBuilder customPage={pageStructure} />;
 };
 
 export const getStaticProps: GetStaticProps = async (ctx) => {

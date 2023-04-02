@@ -17,5 +17,20 @@ export const productsRouter = createTRPCRouter({
 		if (!product) throw new TRPCError({ code: 'NOT_FOUND' });
 
 		return product;
-	})
+	}),
+	getManyByTags: publicProcedure
+		.input(
+			z.object({
+				tags: z.array(z.string())
+			})
+		)
+		.query(({ input }) => {
+			const product = shopifyFakeProductsData.filter((item) =>
+				item.tags.some((tag) => input.tags.includes(tag))
+			);
+
+			if (!product) throw new TRPCError({ code: 'NOT_FOUND' });
+
+			return product;
+		})
 });

@@ -7,6 +7,7 @@ import {
 	BOXES_TYPE,
 	BOXES_TYPES_map,
 	Box,
+	CustomPage,
 	SUB_BOXES_TYPES_map,
 	StandardSection,
 	TabsBox
@@ -21,13 +22,18 @@ import Slider from '~/components/shared/core/Cards/Slider';
 import Image from 'next/image';
 
 type Props = {
-	pageStructure: StandardSection[];
+	customPage: CustomPage;
 };
 
 const CustomPageBuilder = (props: Props) => {
 	return (
-		<div className="max-w-[100ch] mx-auto py-16 px-4 sm:px-16 text-h6 flex flex-col gap-16 text-text-primary-400">
-			{props.pageStructure.map((section, index) => (
+		<div
+			className={handleBoxVariants({
+				...props.customPage.stylesVariants,
+				className: 'text-h6 flex flex-col text-text-primary-400'
+			})}
+		>
+			{props.customPage.pageStructure.map((section, index) => (
 				<SectionBody key={index} section={section} sectionIndex={index} />
 			))}
 		</div>

@@ -81,7 +81,7 @@ const BlogPage = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
 					))}
 				</div>
 				<footer className="flex flex-col items-center justify-center">
-					<div className="flex items-center gap-8 text-h5 text-text-primary-400">
+					<div className="flex items-center gap-6 text-h5 text-text-primary-400">
 						<Clickable
 							variants={null}
 							className="flex items-center disabled:text-text-primary-200 disabled:cursor-not-allowed"

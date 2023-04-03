@@ -47,6 +47,7 @@ const handleClickableVariants = cva('', {
 			full: 'rounded-full'
 		},
 		'font-weight': {
+			light: 'font-light',
 			normal: 'font-normal',
 			medium: 'font-medium'
 		},
@@ -54,7 +55,7 @@ const handleClickableVariants = cva('', {
 			true: 'bg-opacity-75 brightness-50 backdrop-grayscale grayscale backdrop-blur-sm backdrop-opacity-75 cursor-not-allowed'
 		}
 	},
-	defaultVariants: { 'font-weight': 'normal', transform: 'hover:x0-y-7.5%' }
+	defaultVariants: { transform: 'hover:x0-y-7.5%' }
 });
 
 type Props = {

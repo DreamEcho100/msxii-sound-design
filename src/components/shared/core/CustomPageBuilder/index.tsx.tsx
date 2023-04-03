@@ -93,17 +93,18 @@ const SectionBody = ({
 			)}
 		>
 			{!!(section.title || section.description) && (
-				<header>
+				<header className="flex flex-col gap-8">
 					{section.title && (
 						<h2
 							className={cx(
-								sectionIndex === 0 ? 'text-h1' : 'text-h4',
-								'font-medium'
+								sectionIndex === 0 ? 'font-semibold' : '',
+								'text-h3 text-text-primary-500'
 							)}
 						>
 							{section.title}
 						</h2>
 					)}
+					{section.description && <p>{section.description}</p>}
 				</header>
 			)}
 			{section.body.map((box, index) => {

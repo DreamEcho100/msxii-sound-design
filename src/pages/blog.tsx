@@ -56,9 +56,9 @@ const BlogPage = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
 	return (
 		<div className="px-main-p-3 sm:px-main-p-1 py-main-p-1 flex flex-col gap-12">
 			<header>
-				<h1 className="text-h3">MSXII Sound Blog</h1>
+				<h1 className="text-h3 font-semibold">MSXII Sound Blog</h1>
 			</header>
-			<section className="flex flex-col gap-4">
+			<section className="flex flex-col gap-8">
 				<header>
 					<h2 className="text-h4 text-text-primary-400">News</h2>
 				</header>
@@ -76,12 +76,29 @@ const BlogPage = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
 								height={300}
 								className="object-cover aspect-video"
 							/>
-							<h3 className="text-base">{item.title}</h3>
+							<h3 className="text-base font-light">{item.title}</h3>
 						</article>
 					))}
 				</div>
 				<footer className="flex flex-col items-center justify-center">
-					<div className="flex items-center gap-4 text-h4 text-text-primary-400">
+					<div className="flex items-center gap-8 text-h5 text-text-primary-400">
+						<Clickable
+							variants={null}
+							className="flex items-center disabled:text-text-primary-200 disabled:cursor-not-allowed"
+							disabled={disablePreviousPageButton}
+							onClick={() => {
+								if (canGoTohPreviousPage())
+									setCurrentPageIndex((prev) => prev - 1);
+							}}
+						>
+							{!disablePreviousPageButton && (
+								<>
+									<HiOutlineArrowNarrowLeft className="translate-y-[10%]" />
+									&nbsp;
+								</>
+							)}
+							Newer
+						</Clickable>
 						<Clickable
 							variants={null}
 							className="flex items-center disabled:text-text-primary-200 disabled:cursor-not-allowed"
@@ -92,28 +109,11 @@ const BlogPage = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
 								}
 							}}
 						>
+							Older
 							{!disableNextPageButton && (
 								<>
-									<HiOutlineArrowNarrowLeft className="translate-y-[5%]" />
 									&nbsp;
-								</>
-							)}
-							Newer
-						</Clickable>
-						<Clickable
-							variants={null}
-							className="flex items-center disabled:text-text-primary-200 disabled:cursor-not-allowed"
-							disabled={disablePreviousPageButton}
-							onClick={() => {
-								if (canGoTohPreviousPage())
-									setCurrentPageIndex((prev) => prev - 1);
-							}}
-						>
-							Older
-							{!disablePreviousPageButton && (
-								<>
-									&nbsp;
-									<HiOutlineArrowNarrowRight className="translate-y-[5%]" />
+									<HiOutlineArrowNarrowRight className="translate-y-[10%]" />
 								</>
 							)}
 						</Clickable>

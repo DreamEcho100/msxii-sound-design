@@ -44,7 +44,7 @@ const HeroHomeSection = () => {
 		<section className="py-8 flex flex-col gap-2 justify-center px-main-p-3 sm:px-main-p-1 lg:flex-row overflow-hidden">
 			<div
 				className="py-main-p-3 
-sm:py-main-p-1 lg:text-align-initial font-normal flex flex-col items-center justify-center gap-8 text-center text-[1.125rem] lg:w-1/2 lg:items-start lg:justify-start min-[1350px]:w-auto"
+sm:py-main-p-1 lg:text-align-initial flex flex-col items-center justify-center gap-8 text-center text-[1.125rem] lg:w-1/2 lg:items-start lg:justify-start min-[1350px]:w-auto"
 			>
 				<motion.h1
 					initial={{ opacity: 0, y: '2rem' }}

@@ -63,7 +63,12 @@ const CreativeSpacePage = (
 
 	return (
 		<CustomPageBuilder customPage={pageStructure}>
-			<div className="flex flex-wrap gap-8 justify-center mt-16 w-full">
+			<div
+				className="grid gap-8 justify-items-center"
+				style={{
+					gridTemplateColumns: 'repeat(auto-fill, minmax(15rem, 1fr))'
+				}}
+			>
 				{productData.map((item) => (
 					<ProductCard
 						key={item.handle}

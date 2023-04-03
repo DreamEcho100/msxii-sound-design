@@ -1,6 +1,6 @@
 import { blogRouter } from './routers/blog';
 import { customPagesRouter } from './routers/custom-pages';
-import { merchesRouter } from './routers/merches';
+import { merchRouter } from './routers/merch';
 import { createTRPCRouter } from '~/server/api/trpc';
 import { productsRouter } from '~/server/api/routers/products';
 
@@ -13,7 +13,7 @@ export const appRouter = createTRPCRouter({
 	products: productsRouter,
 	customPages: customPagesRouter,
 	blog: blogRouter,
-	merches: merchesRouter
+	merch: merchRouter
 });
 
 // export type definition of API

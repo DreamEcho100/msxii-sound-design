@@ -12,6 +12,9 @@
 .swiper-fluid .swiper-wrapper {
 	display: flex;
 }
+.swiper-fluid {
+	flex-grow: 1;
+}
 .swiper-fluid .swiper-slide {
 	flex-grow: 1;
 }

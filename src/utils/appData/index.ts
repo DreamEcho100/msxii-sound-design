@@ -2392,82 +2392,6 @@ export const shopifyFakeProductsData: ShopifyProduct[] = [
 		],
 		requires_selling_plan: false,
 		selling_plan_groups: []
-	},
-	{
-		id: 6849880326210,
-		title:
-			'Cassettes \u0026 Pedals Vol. 10 - Ambient Loops, Textures, and Tones',
-		handle: 'cassettes-pedals-vol-10-ambient-loops-textures-and-tones',
-		description:
-			'\u003cmeta charset="UTF-8"\u003e\n\u003cp data-mce-fragment="1"\u003eMSXIISound\u00a0presents Vol. 10\u00a0of the now classic\u00a0concept series, Cassettes \u0026amp; Pedals!\u003c/p\u003e\n\u003cp data-mce-fragment="1"\u003eC\u0026amp;P Vol. 10\u00a0is a culmination of excellence!\u00a0We\'ve added more vibes and textures, crafted with airy vocal chops and guitar riffs that will surely inspire you. You need more than the usual in sample packs? This is it.\u00a0These are long-form compositions. Pack sits\u00a0over 439\u00a0mb before zip.\u003c/p\u003e\n\u003cp data-mce-fragment="1"\u003eWe explored our vintage synths, guitars, vocals, outboard FX, pedals, and most importantly the nuances of cassette tape. Driving lush reverbs \u0026amp; delays in musical context to the Tascam Portastudio 4 track cassette recorder yields some interesting results!\u00a0\u003c/p\u003e\n\u003cp data-mce-fragment="1"\u003e30\u00a0full compositions bless\u00a0this sample pack. All\u00a0completely royalty-free\u00a0per our\u00a0\u003ca href="https://www.msxaudio.com/collections/blue-label" data-mce-fragment="1" data-mce-href="https://www.msxaudio.com/collections/blue-label" target="_blank"\u003eBlue Labe\u003c/a\u003el release\u00a0imprint. Be different \u0026amp; break away from the norm.\u00a0Purchase\u00a0the entire \u003ca href="https://www.msxaudio.com/collections/bundles/products/cassettes-pedals-bundle" data-mce-fragment="1" data-mce-href="https://www.msxaudio.com/collections/bundles/products/cassettes-pedals-bundle" target="_blank"\u003eCassettes \u0026amp; Pedals Bundle\u003c/a\u003e and save\u00a0if you\'ve missed them!\u003c/p\u003e\n\u003cp data-mce-fragment="1"\u003eStay with us @MSXIISound on IG // Twitter\u00a0\u003c/p\u003e\n\u003ciframe width="560" height="515" src="https://www.youtube.com/embed/VNXHmLnH4As" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen\u003e\u003c/iframe\u003e',
-		published_at: '2022-11-18T14:58:12-06:00',
-		created_at: '2022-11-18T14:58:09-06:00',
-		vendor: 'MSXII Sound',
-		type: '',
-		tags: [ProductsTags.Loops, ProductsTags.FreeLabel],
-		price: 93600,
-		price_min: 93600,
-		price_max: 93600,
-		available: true,
-		price_varies: false,
-		compare_at_price: null,
-		compare_at_price_min: 0,
-		compare_at_price_max: 0,
-		compare_at_price_varies: false,
-		variants: [
-			{
-				id: 40090071466050,
-				title: 'Default Title',
-				option1: 'Default Title',
-				option2: null,
-				option3: null,
-				sku: '',
-				requires_shipping: false,
-				taxable: false,
-				featured_image: null,
-				available: true,
-				name: 'Cassettes \u0026 Pedals Vol. 10 - Ambient Loops, Textures, and Tones',
-				public_title: null,
-				options: ['Default Title'],
-				price: 93600,
-				weight: 0,
-				compare_at_price: null,
-				inventory_quantity: -35,
-				inventory_management: null,
-				inventory_policy: 'deny',
-				barcode: '',
-				// quantity_rule: { min: 1, max: null, increment: 1 },
-				requires_selling_plan: false,
-				selling_plan_allocations: []
-			}
-		],
-		images: [
-			'https://cdn.shopify.com/s/files/1/0345/7209/products/Cassettes_Pedals10.jpg?v=1668805091'
-		],
-		featured_image:
-			'https://cdn.shopify.com/s/files/1/0345/7209/products/Cassettes_Pedals10.jpg?v=1668805091',
-		options: [{ name: 'Title', position: 1, values: ['Default Title'] }],
-		url: '/products/cassettes-pedals-vol-10-ambient-loops-textures-and-tones',
-		media: [
-			{
-				alt: null,
-				id: 22080056295490,
-				position: 1,
-				preview_image: {
-					aspect_ratio: 1.0,
-					height: 2500,
-					width: 2500,
-					src: 'https://cdn.shopify.com/s/files/1/0345/7209/products/Cassettes_Pedals10.jpg?v=1668805091'
-				},
-				aspect_ratio: 1.0,
-				height: 2500,
-				media_type: 'image',
-				src: 'https://cdn.shopify.com/s/files/1/0345/7209/products/Cassettes_Pedals10.jpg?v=1668805091',
-				width: 2500
-			}
-		],
-		requires_selling_plan: false,
-		selling_plan_groups: []
 	}
 ];
 
@@ -2615,6 +2539,10 @@ export const boxVariants = {
 	'aspect-ratio': {
 		square: 'aspect-square',
 		video: 'aspect-video'
+	},
+	'object-fit': {
+		cover: 'object-cover',
+		contain: 'object-contain'
 	}
 } as const;
 
@@ -3726,7 +3654,7 @@ All bundle and discounted purchases and prices apply only to the product line at
 
 #### 6. General Terms:
 
-(a) This license shall be governed by Texas law applicable to contracts fully negotiated, executed and performed therein. Only the Texas courts (state and federal) shall have jurisdiction over controversies regarding this license; any proceeding involving such a controversy shall be brought in those courts, and not elsewhere. In the event of any claim arising from the breach or alleged breach of the terms of this license, the prevailing party shall be entitled to reasonable attorneys’ fees and court costs.
+(a) This license shall be governed by Texas law applicable to contracts fully negotiated, executed and performed therein. Only the Texas courts (state and federal) shall have jurisdiction over controversies regarding this license; any proceeding involving such a controversy shall be brought in those courts, and not elsewhere. In the event of any claim arising from the breach or alleged breach of the terms of this license, the prevailing party shall be entitled to reasonable attorneys' fees and court costs.
 
 (b) You agree that this license contains the complete agreement between the parties hereto, and supersedes all other communication, relating to the subject matter of the license.
 
@@ -3809,10 +3737,15 @@ All bundle and discounted purchases and prices apply only to the product line at
 			{
 				stylesVariants: { 'gap-y': '16' },
 				___type: 'standard-section',
-				title: 'BLUE LABEL',
+				title: 'Blue Label',
 				body: [
 					{
-						stylesVariants: { w: 'full', rounded: '3xl' },
+						stylesVariants: {
+							w: 'full',
+							rounded: '3xl',
+							'max-w': '100ch',
+							mx: 'auto'
+						},
 						___type: 'image-only',
 						src: 'https://s3-alpha-sig.figma.com/img/6b87/e37b/85972ec45a3df6dda53c3dc2cc6a1668?Expires=1681084800&Signature=APuChhqaPDDGQ~v27MUlWEaokRsH7p7vIV0bKZOirtCBXVXkRcPc7jPIbipb4cP765HlYfGDcV2loyCtsbzAFF6FmLW5Wu01R5Dd~0K446QWPCrrIuZIklJ-m3Z6d3DN2Dd2Spn5vv8AQI97ungPJRGBNVlZpBM~LzlkXqfMX8h45UmgJrMdEUVr3TXj5KFuvbF95CXPyDvfUlUqEQhuCl6cc4aM0ZIcvratmii1SaBUmkIjIo-VF7RfH-yLvVGo~eLCKg0pbIvcJVwpZSl7JrbKdIpj-BUlGg26FRRVnNYYd2SWQSpW-h-CFsp~kXvTQDVJIzMXWmfdlyQz1Vo9eA__&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4'
 					},
@@ -3821,6 +3754,25 @@ All bundle and discounted purchases and prices apply only to the product line at
 						content: `Welcome to the MSXII Blue Label.  The MSXII Blue Label is a brand new segment of periodic releases that are completely royalty-free for use. No such follow up or clearance is required. While we have a very clear, concise license use case policy with our compositional based products such as Lofi Melodics, Synthesized Soul, 70's Soul Aesthetics etc, we understand that all end use cases are different. Here's a line & label that requires no questions asked. Use however, whenever, wherever you'd like & generate as much income in your endeavors as possible w/o having to contact our support. Each product will be marked with a "Blue Label" banner in the top left corner of it's product as well as include a .pdf inside its packaging. Most MSXII Blue Label compositional packs will include stems options at checkout or as included in the product. Trap Melodics Vol. 1 kicks this off!`
 					}
 				]
+			}
+		]
+	},
+	{
+		stylesVariants: {
+			px: '12',
+			py: '16',
+			'gap-x': '16',
+			'gap-y': '16'
+		},
+		slug: 'merch',
+		mainTag: 'merch-page',
+		pageStructure: [
+			{
+				stylesVariants: { 'gap-y': '16' },
+				___type: 'standard-section',
+				title: 'Merch',
+				description: 'Explore our merch products',
+				body: []
 			}
 		]
 	}

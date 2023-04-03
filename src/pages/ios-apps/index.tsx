@@ -12,7 +12,7 @@ const IOSAppsPage = () => {
 			)}
 		>
 			<header className="flex flex-col gap-6 text-center lg:text-align-initial">
-				<h1 className="text-h3 font-extrabold">iOS Apps</h1>
+				<h1 className="text-h3 font-semibold">iOS Apps</h1>
 				<p className="text-text-primary-400 font-light">
 					Explore our unique and practical iOS apps.
 				</p>
@@ -34,7 +34,7 @@ const IOSAppsPage = () => {
 								className="w-full h-full object-cover"
 							/>
 						</Clickable>
-						<p className="font-light">
+						<p>
 							<Clickable
 								isA="next-js"
 								href={`/ios-apps/${item.slug}`}

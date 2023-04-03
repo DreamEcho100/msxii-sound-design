@@ -47,7 +47,7 @@ const headersLinks = [
 	},
 	{
 		title: 'Merch',
-		href: '/merches'
+		href: '/merch'
 	}
 ] as const;
 
@@ -79,7 +79,7 @@ const MainLayoutHeader = () => {
 				<div className="mx-auto w-full max-w-main flex flex-col">
 					<div
 						className={cx(
-							'flex w-full h-main-header-h items-center justify-between gap-4 px-main-p-3 font-normal sm:px-main-p-2',
+							'flex w-full h-main-header-h items-center justify-between gap-4 px-main-p-3 sm:px-main-p-2',
 							'relative z-[2]',
 							isAnyMenuOpen
 								? 'bg-bg-primary-500'
@@ -185,7 +185,7 @@ const MainLayoutHeader = () => {
 								className="flex w-full flex-col bg-bg-primary-500 uppercase
 					lg:hidden"
 							>
-								<ul className="font-normal">
+								<ul>
 									{headersLinks.map((item) => (
 										<li
 											key={item.title}

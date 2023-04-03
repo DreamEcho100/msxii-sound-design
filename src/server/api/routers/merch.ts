@@ -98,7 +98,7 @@ const FakeMerchesData = [
 	}
 ];
 
-export const merchesRouter = createTRPCRouter({
+export const merchRouter = createTRPCRouter({
 	getAll: publicProcedure.query(() => {
 		return FakeMerchesData;
 	}),

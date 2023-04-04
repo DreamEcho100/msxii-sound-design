@@ -1,5 +1,5 @@
 import { VariantProps, cva, cx } from 'class-variance-authority';
-import Image from 'next/image';
+import CustomNextImage from '~/components/shared/CustomNextImage';
 import Script from 'next/script';
 import {
 	HTMLAttributes,
@@ -10,7 +10,7 @@ import {
 } from 'react';
 import { ImYoutube } from 'react-icons/im';
 
-type TNextImageProps = Parameters<typeof Image>[0];
+type TNextImageProps = Parameters<typeof CustomNextImage>[0];
 
 const handleYouTubeIconVariants = cva(
 	'relative text-special-primary-500 group-hover:text-special-primary-400 delay-75 duration-100 transition-all',
@@ -89,10 +89,9 @@ export const YouTubeIFrame = ({
 				<div className="absolute inset-0 w-full h-full pointer-events-none">
 					<div className="w-full h-full relative">
 						{overlayImageProps && (
-							<Image
+							<CustomNextImage
 								width={550}
 								height={550}
-								alt=""
 								className="w-full h-full object-cover brightness-75 group-hover:brightness-100 duration-100 transition-all"
 								{...overlayImageProps}
 							/>

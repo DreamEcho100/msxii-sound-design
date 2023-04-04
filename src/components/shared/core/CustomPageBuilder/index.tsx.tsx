@@ -21,7 +21,7 @@ import {
 } from '~/components/shared/Iframes';
 import customPageClasses from '~/styles/custom-page.module.css';
 import Slider from '~/components/shared/core/Cards/Slider';
-import Image from 'next/image';
+import CustomNextImage from '~/components/shared/CustomNextImage';
 
 type Props = {
 	customPage: CustomPage;
@@ -153,7 +153,7 @@ const SectionBodyBox = ({
 	if (box.___type === BOXES_TYPES_map['image-only'])
 		return (
 			<div className={cx(customPageClassName, 'w-40')}>
-				<Image src={box.src} alt="" width={500} height={500} />
+				<CustomNextImage src={box.src} width={500} height={500} />
 			</div>
 		);
 
@@ -167,8 +167,7 @@ const SectionBodyBox = ({
 							return (
 								// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 								// @ts-ignore
-								<Image
-									alt=""
+								<CustomNextImage
 									{...props}
 									unoptimized
 									width={100}

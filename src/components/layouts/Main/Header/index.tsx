@@ -1,4 +1,4 @@
-import Image from 'next/image';
+import CustomNextImage from '~/components/shared/CustomNextImage';
 import Clickable from '~/components/shared/core/Clickable';
 import { BsPersonFill, BsCart3 } from 'react-icons/bs';
 import { IoMdArrowDropdown } from 'react-icons/io';
@@ -39,7 +39,7 @@ const headersLinks = [
 	},
 	{
 		title: 'Bundles',
-		href: '/'
+		href: '/products/?tags=Bundles'
 	},
 	{
 		title: 'Blog',
@@ -91,7 +91,7 @@ const MainLayoutHeader = () => {
 							isA="next-js"
 							className="w-16 h-12 aspect-video"
 						>
-							<Image
+							<CustomNextImage
 								src="/images/logo.png"
 								alt="logo"
 								width="60"

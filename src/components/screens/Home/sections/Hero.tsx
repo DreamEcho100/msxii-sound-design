@@ -1,4 +1,4 @@
-import Image from 'next/image';
+import CustomNextImage from '~/components/shared/CustomNextImage';
 import { motion } from 'framer-motion';
 import Clickable from '~/components/shared/core/Clickable';
 
@@ -109,9 +109,8 @@ sm:py-main-p-1 lg:text-align-initial flex flex-col items-center justify-center g
 							}}
 							className="w-full h-full aspect-square absolute inset-0"
 						>
-							<Image
+							<CustomNextImage
 								src={path}
-								alt=""
 								width={500}
 								height={500}
 								className="w-full h-full object-contain rounded-xl"

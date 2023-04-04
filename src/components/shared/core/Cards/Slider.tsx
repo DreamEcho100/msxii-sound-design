@@ -9,7 +9,7 @@ import 'swiper/css/navigation';
 import { ShopifyProduct } from '~/utils/types';
 import { cx } from 'class-variance-authority';
 
-import Image from 'next/image';
+import CustomNextImage from '~/components/shared/CustomNextImage';
 
 type SliderProps = {
 	children: ReactNode;
@@ -64,9 +64,8 @@ const Slider = ({
 						previousSlideButtonClassName
 					)}
 				>
-					<Image
+					<CustomNextImage
 						src="/svgs/left-arrow 2.svg"
-						alt=""
 						width={50}
 						height={100}
 						className="w-full h-full object-contain object-center"
@@ -106,9 +105,8 @@ const Slider = ({
 						nextSlideButtonClassName
 					)}
 				>
-					<Image
+					<CustomNextImage
 						src="/svgs/right-arrow 2.svg"
-						alt=""
 						width={50}
 						height={100}
 						className="w-full h-full object-contain object-center"

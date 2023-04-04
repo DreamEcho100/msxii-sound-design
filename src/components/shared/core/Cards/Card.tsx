@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 import Clickable from '../Clickable';
-import Image from 'next/image';
+import CustomNextImage from '~/components/shared/CustomNextImage';
 import { VariantProps, cva } from 'class-variance-authority';
 import { ShopifyProduct } from '~/utils/types';
 import { BiPlay } from 'react-icons/bi';
@@ -86,7 +86,7 @@ export const BasicProductCard = (props: {
 				)}
 			>
 				<Link href={`${routeBase}/${props.product.handle}`}>
-					<Image
+					<CustomNextImage
 						src={props.product.featured_image}
 						alt={props.product.title}
 						width={800}

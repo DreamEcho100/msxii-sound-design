@@ -2,6 +2,7 @@ import {
 	Dispatch,
 	InputHTMLAttributes,
 	SetStateAction,
+	useEffect,
 	useMemo,
 	useState
 } from 'react';
@@ -11,6 +12,8 @@ import Clickable from '~/components/shared/core/Clickable';
 import { ShopifyProduct } from '~/utils/types';
 import { GiSettingsKnobs } from 'react-icons/gi';
 import { motion, AnimatePresence } from 'framer-motion';
+
+import { useSearchParams } from 'next/navigation';
 
 const CheckboxField = ({
 	children,
@@ -61,6 +64,7 @@ const CategoriesMenu = ({
 
 const ProductsScreen = ({ products }: { products: ShopifyProduct[] }) => {
 	const [isFiltersMenuActive, setIsFiltersMenuActive] = useState(true);
+	const searchParams = useSearchParams();
 	const { productsByCategory, categories } = useMemo(() => {
 		const productsCategoryMap: Record<string, typeof products> = {};
 
@@ -88,6 +92,14 @@ const ProductsScreen = ({ products }: { products: ShopifyProduct[] }) => {
 	}, [products]);
 
 	const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+
+	useEffect(() => {
+		if (typeof window !== 'undefined') window.searchParams = searchParams;
+		console.log('searchParams', searchParams);
+		console.log('productsByCategory', productsByCategory);
+		const tags = searchParams.get('tags');
+		if (tags) setSelectedCategories(tags.split(','));
+	}, [searchParams]);
 
 	const filteredProductsByCategory = useMemo(() => {
 		if (selectedCategories.length === 0) return productsByCategory;

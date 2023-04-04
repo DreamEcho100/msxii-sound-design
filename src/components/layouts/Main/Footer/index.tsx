@@ -12,20 +12,24 @@ const footerLinks = [
 	{
 		text: 'Collections',
 		links: [
-			{ text: 'New Releases', href: '/', icon: null },
-			{ text: 'Loops', href: '/', icon: null },
-			{ text: 'One shot drums', href: '/', icon: null },
-			{ text: 'Sample Packs', href: '/', icon: null },
-			{ text: 'Drum Kits', href: '/', icon: null },
-			{ text: 'Construction Kits', href: '/', icon: null },
-			{ text: 'Presets', href: '/', icon: null },
-			{ text: 'Bundles', href: '/', icon: null }
+			{
+				text: 'New Releases',
+				href: `/products/?tags=New Releases`,
+				icon: null
+			},
+			{ text: 'Loops', href: `/products/?tags=Loops`, icon: null },
+			{ text: 'One shot drums', href: `/`, icon: null },
+			{ text: 'Sample Packs', href: `/products/?tags=Samples`, icon: null },
+			{ text: 'Drum Kits', href: `/products/?tags=Drum Kits`, icon: null },
+			{ text: 'Construction Kits', href: `/`, icon: null },
+			{ text: 'Presets', href: `/`, icon: null },
+			{ text: 'Bundles', href: '/products/?tags=Bundles', icon: null }
 		]
 	},
 	{
 		text: 'Navigation',
 		links: [
-			{ text: 'Search', href: '/', icon: null },
+			{ text: 'Search', href: '/products', icon: null },
 			{ text: 'Creative Space', href: '/creative-space', icon: null },
 			{ text: 'About Us', href: '/about', icon: null },
 			{ text: 'Support', href: '/support', icon: null },

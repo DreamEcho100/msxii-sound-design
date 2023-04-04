@@ -1,4 +1,4 @@
-import Image from 'next/image';
+import CustomNextImage from '~/components/shared/CustomNextImage';
 
 import CTAButton from '~/components/shared/core/Cards/CTAButton';
 import Clickable from '~/components/shared/core/Clickable';
@@ -46,7 +46,7 @@ const HomeIOSAppsSection = () => {
 								href={`/ios-apps/${item.slug}`}
 								isA="next-js"
 							>
-								<Image
+								<CustomNextImage
 									src={item.image.src}
 									alt={item.image.alt}
 									width={900}

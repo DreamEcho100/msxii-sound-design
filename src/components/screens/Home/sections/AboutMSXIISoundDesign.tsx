@@ -1,5 +1,5 @@
 import { cx } from 'class-variance-authority';
-import Image from 'next/image';
+import CustomNextImage from '~/components/shared/CustomNextImage';
 
 import Clickable from '~/components/shared/core/Clickable';
 
@@ -122,9 +122,8 @@ gap-8 pb-main-p-2 text-center text-base font-medium lg:w-3/4 lg:max-w-screen-md 
 					</p>
 				</div>
 				<div className="flex items-start justify-center lg:flex-grow">
-					<Image
+					<CustomNextImage
 						src="/images/image 8.png"
-						alt=""
 						width={600}
 						height={500}
 						className="w-3/4 md:w-1/2 lg:w-11/12"

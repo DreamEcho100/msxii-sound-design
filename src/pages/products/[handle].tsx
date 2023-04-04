@@ -10,7 +10,7 @@ import { appRouter } from '~/server/api/root';
 import { createInnerTRPCContext } from '~/server/api/trpc';
 import { shopifyFakeProductsData } from '~/utils/appData';
 import { api } from '~/utils/api';
-import Image from 'next/image';
+import CustomNextImage from '~/components/shared/CustomNextImage';
 import ProductPrice from '~/components/shared/core/ProductPrice';
 import Clickable from '~/components/shared/core/Clickable';
 import { useState } from 'react';
@@ -95,9 +95,8 @@ const ProductPage = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
 						</Clickable>
 					</div>
 					<div className="aspect-square max-w-full w-60 lg:w-96 rounded-lg overflow-hidden">
-						<Image
+						<CustomNextImage
 							src={productData.featured_image}
-							alt=""
 							width={800}
 							height={800}
 							className="w-full h-full object-cover"

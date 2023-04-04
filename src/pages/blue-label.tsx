@@ -7,7 +7,8 @@ import { appRouter } from '~/server/api/root';
 import { createInnerTRPCContext } from '~/server/api/trpc';
 import { ProductsTags } from '~/utils/appData';
 import { ProductCard } from '~/components/shared/core/Cards/Card';
-// import Image from 'next/image';
+
+// import CustomNextImage from '~/components/shared/CustomNextImage';
 
 function duplicateArrayItemsUntilLength<T>(array: T[], length: number): T[] {
 	const arrayLength = array.length;
@@ -46,18 +47,21 @@ const CreativeSpacePage = (
 	// return (
 	// 	<div className="border border-solid border-black p-2 m-2 flex w-fit">
 	// 		{'_'
-	// 			.repeat(6)
+	// 			.repeat(7)
 	// 			.split('_')
-	// 			.map((_, index) => (
-	// 				<Image
-	// 					key={index + 1}
-	// 					src={`/images/custom-page/compatibility/${index + 1}.png`}
-	// 					alt=""
-	// 					width={192}
-	// 					height={192}
-	// 					className="object-cover"
-	// 				/>
-	// 			))}
+	// 			.map((_, index) =>
+	// 				index === 4 ? (
+	// 					<></>
+	// 				) : (
+	// 					<CustomNextImage
+	// 						key={index + 1}
+	// 						src={`/images/custom-page/credibility/${index + 1}.png`}
+	// 						width={192}
+	// 						height={192}
+	// 						className="object-contain"
+	// 					/>
+	// 				)
+	// 			)}
 	// 	</div>
 	// );
 

@@ -6,12 +6,12 @@ import superjson from 'superjson';
 import { api } from '~/utils/api';
 import { InferGetStaticPropsType } from 'next';
 import { inferRouterInputs } from '@trpc/server';
-import Image from 'next/image';
 import {
 	HiOutlineArrowNarrowLeft,
 	HiOutlineArrowNarrowRight
 } from 'react-icons/hi';
 import Clickable from '~/components/shared/core/Clickable';
+import CustomNextImage from '~/components/shared/CustomNextImage';
 
 const BlogPage = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
 	const [currentPageIndex, setCurrentPageIndex] = useState(
@@ -68,10 +68,9 @@ const BlogPage = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
 							key={item.id}
 							className="w-80 overflow-hidden rounded-lg flex flex-col gap-2 flex-grow"
 						>
-							<Image
+							<CustomNextImage
 								unoptimized
 								src={item.image.src}
-								alt=""
 								width={500}
 								height={300}
 								className="object-cover aspect-video"

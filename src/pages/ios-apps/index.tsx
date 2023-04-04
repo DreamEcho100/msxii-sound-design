@@ -1,5 +1,5 @@
 import { cx } from 'class-variance-authority';
-import Image from 'next/image';
+import CustomNextImage from '~/components/shared/CustomNextImage';
 import Clickable from '~/components/shared/core/Clickable';
 import { IOSProductsBasicData } from '~/utils/appData';
 
@@ -25,7 +25,7 @@ const IOSAppsPage = () => {
 							isA="next-js"
 							className="w-full aspect-square overflow-hidden rounded-lg"
 						>
-							<Image
+							<CustomNextImage
 								priority
 								src={`/images/ios-apps/${item.title}.png`}
 								alt={item.title}

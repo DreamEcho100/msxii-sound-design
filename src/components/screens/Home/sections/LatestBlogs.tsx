@@ -1,4 +1,4 @@
-import Image from 'next/image';
+import CustomNextImage from '~/components/shared/CustomNextImage';
 
 import CTAButton from '~/components/shared/core/Cards/CTAButton';
 import Clickable from '~/components/shared/core/Clickable';
@@ -55,7 +55,7 @@ const HomeLatestBlogsSection = () => {
 										isA="next-js"
 										className="block h-full w-full overflow-hidden"
 									>
-										<Image
+										<CustomNextImage
 											src={blog.image.src}
 											alt={blog.image.alt}
 											width={900}

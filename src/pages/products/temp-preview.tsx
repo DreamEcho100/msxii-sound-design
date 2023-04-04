@@ -1,4 +1,4 @@
-import Image from 'next/image';
+import CustomNextImage from '~/components/shared/CustomNextImage';
 import React, { useState } from 'react';
 import { BiPlay } from 'react-icons/bi';
 import { FaMinus, FaPlus } from 'react-icons/fa';
@@ -111,9 +111,8 @@ const TempPreviewProductPage = () => {
 					</div>
 				</div>
 				<div className="aspect-square md:w-4/12 rounded-xl overflow-hidden">
-					<Image
+					<CustomNextImage
 						src={productData.featured_image}
-						alt=""
 						width={800}
 						height={800}
 						className="w-full object-cover aspect-square"
@@ -159,7 +158,7 @@ const TempPreviewProductPage = () => {
 					{medias.map((media) => (
 						<article key={productData.id} className="flex gap-8">
 							<div className="w-24 h-24 aspect-square overflow-hidden rounded-sm relative">
-								<Image
+								<CustomNextImage
 									src={media.src}
 									alt={media.alt || ''}
 									width={800}

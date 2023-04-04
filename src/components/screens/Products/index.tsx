@@ -94,10 +94,8 @@ const ProductsScreen = ({ products }: { products: ShopifyProduct[] }) => {
 	const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
 
 	useEffect(() => {
-		if (typeof window !== 'undefined') window.searchParams = searchParams;
-		console.log('searchParams', searchParams);
-		console.log('productsByCategory', productsByCategory);
 		const tags = searchParams.get('tags');
+
 		if (tags) setSelectedCategories(tags.split(','));
 	}, [searchParams]);
 

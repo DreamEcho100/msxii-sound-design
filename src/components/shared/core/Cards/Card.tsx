@@ -6,6 +6,7 @@ import { ShopifyProduct } from '~/utils/types';
 import { BiPlay } from 'react-icons/bi';
 import Link from 'next/link';
 import ProductPrice from '../ProductPrice';
+import { useGlobalStore } from '~/store';
 
 const handleBasicProductCardContainerVariants = cva(
 	'max-w-full card flex flex-col px-1 group duration-300 delay-75 transition-all',
@@ -125,6 +126,8 @@ export const ProductExtraDetails = ({
 	product: ShopifyProduct;
 	buttonProps?: Partial<Parameters<typeof Clickable>[0]>;
 }) => {
+	const addToCart = useGlobalStore((store) => store.cart.addToCart);
+
 	return (
 		<>
 			<p className="-translate-y-[20%] text-[90%] whitespace-nowrap font-normal text-text-primary-500/60">
@@ -140,6 +143,7 @@ export const ProductExtraDetails = ({
 					px: 'lg'
 				}}
 				className="lg:whitespace-nowrap text-sm uppercase"
+				onClick={() => addToCart(product, 1)}
 				{...(buttonProps as any)}
 			>
 				Add To Cart

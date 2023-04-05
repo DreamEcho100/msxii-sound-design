@@ -12,9 +12,14 @@ import Dropdown, {
 import { AnimatePresence, motion } from 'framer-motion';
 import { cx } from 'class-variance-authority';
 import { useGlobalStore } from '~/store';
-import { useMemo } from 'react';
 import { useRouter } from 'next/router';
 import SearchMenuDropdown from './components/SearchMenuDropdown';
+import dynamic from 'next/dynamic';
+import CartDropdown from './components/CartDropdown';
+
+const DynamicAuthDialog = dynamic(() => import('./components/AuthDialog'), {
+	ssr: false
+});
 
 const headersLinks = [
 	{
@@ -54,20 +59,34 @@ const headersLinks = [
 const MainLayoutHeader = () => {
 	const router = useRouter();
 
-	const {
-		closeAllMenus,
-
-		isDropdownMenuOnLessThanLGOpen,
-		toggleDropdownMenuOnLessThanLG,
-
-		isSearchMenuDropdownOpen,
-		toggleSearchMenuDropdown
-	} = useGlobalStore((store) => store.menus);
-
-	const isAnyMenuOpen = useMemo(
-		() => isDropdownMenuOnLessThanLGOpen || isSearchMenuDropdownOpen,
-		[isDropdownMenuOnLessThanLGOpen, isSearchMenuDropdownOpen]
+	const closeAllMenus = useGlobalStore((store) => store.menus.closeAllMenus);
+	const toggleDropdownMenuOnLessThanLG = useGlobalStore(
+		(store) => store.menus.toggleDropdownMenuOnLessThanLG
 	);
+	const toggleSearchMenuDropdown = useGlobalStore(
+		(store) => store.menus.toggleSearchMenuDropdown
+	);
+	const toggleCartDropdown = useGlobalStore(
+		(store) => store.cart.toggleCartDropdown
+	);
+	const toggleAuthDialogOpen = useGlobalStore(
+		(store) => store.dialogs.auth.toggleOpen
+	);
+
+	const isDropdownMenuOnLessThanLGOpen = useGlobalStore(
+		(store) => store.menus.isDropdownMenuOnLessThanLGOpen
+	);
+	const isSearchMenuDropdownOpen = useGlobalStore(
+		(store) => store.menus.isSearchMenuDropdownOpen
+	);
+	const isCartDropdownOpen = useGlobalStore(
+		(store) => store.cart.isCartDropdownOpen
+	);
+
+	const isAnyMenuOpen =
+		isDropdownMenuOnLessThanLGOpen ||
+		isSearchMenuDropdownOpen ||
+		isCartDropdownOpen;
 
 	return (
 		<>
@@ -152,6 +171,7 @@ const MainLayoutHeader = () => {
 								isA="next-js"
 								title="profile"
 								className="text-xl text-special-primary-500 hover:text-special-primary-900 focus:text-special-primary-900"
+								onClick={toggleAuthDialogOpen}
 							>
 								<BsPersonFill />
 							</Clickable>
@@ -159,6 +179,7 @@ const MainLayoutHeader = () => {
 								title="cart"
 								variants={null}
 								className="relative flex items-start gap-1 whitespace-nowrap translate-y-[0.25ch]"
+								onClick={toggleCartDropdown}
 							>
 								<BsCart3 className="text-xl" /> 0 ITEMS
 							</Clickable>
@@ -172,6 +193,7 @@ const MainLayoutHeader = () => {
 							>
 								<GiHamburgerMenu className="text-xl" />
 							</Clickable>
+							<CartDropdown />
 						</div>
 					</div>
 					<SearchMenuDropdown />
@@ -258,12 +280,15 @@ const MainLayoutHeader = () => {
 						isDropdownMenuOnLessThanLGOpen && !isSearchMenuDropdownOpen
 							? 'lg:hidden'
 							: '',
-						'bg-initial-primary-900/60 backdrop-blur-[0.0625rem]'
+						isCartDropdownOpen
+							? 'bg-initial-primary-900/10 dark:bg-initial-primary-900/25'
+							: 'bg-initial-primary-900/60 backdrop-blur-[0.0625rem]'
 					)}
 					onClick={closeAllMenus}
 					title="Close all opened menus."
 				/>
 			)}
+			<DynamicAuthDialog />
 		</>
 	);
 };

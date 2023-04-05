@@ -9,7 +9,9 @@ const SearchMenuDropdown = () => {
 	const [formValues, setFormValues] = useState({
 		searchQuery: ''
 	});
-	const { isSearchMenuDropdownOpen } = useGlobalStore((store) => store.menus);
+	const isSearchMenuDropdownOpen = useGlobalStore(
+		(store) => store.menus.isSearchMenuDropdownOpen
+	);
 
 	useEffect(() => {
 		if (isSearchMenuDropdownOpen) searchQueryInputRef.current?.focus();

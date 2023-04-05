@@ -18,7 +18,9 @@ const MyApp: AppType<{ session: Session | null }> = ({
 	Component,
 	pageProps: { session, ...pageProps }
 }) => {
-	const { changeCurrentTheme } = useGlobalStore((store) => store.themeConfig);
+	const changeCurrentTheme = useGlobalStore(
+		(store) => store.themeConfig.changeCurrentTheme
+	);
 
 	useEffect(
 		() => changeCurrentTheme(getCurrentThemeFromLocalStorage()),

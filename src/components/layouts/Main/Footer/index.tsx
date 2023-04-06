@@ -183,8 +183,8 @@ const MainLayoutFooter = () => {
 								<Clickable
 									isA="basic-link"
 									href="https://www.facebook.com/MSXIIsound/"
-									className=""
 									title="facebook"
+									target="_blank"
 								>
 									<FaFacebookF />
 								</Clickable>
@@ -193,8 +193,8 @@ const MainLayoutFooter = () => {
 								<Clickable
 									isA="basic-link"
 									href="https://twitter.com/msxiisound"
-									className=""
 									title="twitter"
+									target="_blank"
 								>
 									<FaTwitter />
 								</Clickable>
@@ -203,8 +203,8 @@ const MainLayoutFooter = () => {
 								<Clickable
 									isA="basic-link"
 									href="https://www.youtube.com/user/MSXAudio"
-									className=""
 									title="youtube"
+									target="_blank"
 								>
 									<FaYoutube />
 								</Clickable>
@@ -213,8 +213,8 @@ const MainLayoutFooter = () => {
 								<Clickable
 									isA="basic-link"
 									href="https://instagram.com/789643928"
-									className=""
 									title="instagram"
+									target="_blank"
 								>
 									<FaInstagram />
 								</Clickable>

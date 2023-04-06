@@ -2051,7 +2051,7 @@ export const shopifyFakeProductsData: ShopifyProduct[] = [
 		created_at: '2021-07-14T17:52:27-05:00',
 		vendor: 'MSXII Sound',
 		type: '',
-		tags: [ProductsTags.Bundles],
+		tags: [ProductsTags.Bundles, ProductsTags['One Shot Drums']],
 		price: 193400,
 		price_min: 193400,
 		price_max: 193400,

@@ -74,7 +74,7 @@ sm:py-main-p-1 lg:text-align-initial flex flex-col items-center justify-center g
 						// whileHover={{ y: '-7.5%', dur: 0.1 }}
 					>
 						<Clickable
-							href="/"
+							href="/products"
 							isA="next-js"
 							variants={{
 								btn: 'primary',

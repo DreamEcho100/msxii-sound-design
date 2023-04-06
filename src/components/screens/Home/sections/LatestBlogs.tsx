@@ -28,7 +28,7 @@ const HomeLatestBlogsSection = () => {
 						{blogs.map((blog) => (
 							<article
 								key={blog.id}
-								className="duration-300 transition-all flex aspect-video flex-col-reverse rounded-lg overflow-hidden bg-bg-primary-600 bg-opacity-20 dark:bg-opacity-100 text-text-primary-500 sm:flex-row md:max-w-[600px]"
+								className="duration-300 transition-all flex sm:aspect-video flex-col-reverse rounded-lg overflow-hidden bg-bg-primary-600 bg-opacity-20 dark:bg-opacity-100 text-text-primary-500 sm:flex-row md:max-w-[600px]"
 							>
 								<div className="group sm:text-align-initial flex flex-col items-center justify-between gap-2 p-8 text-center sm:w-1/2 sm:items-start sm:gap-0 lg:p-8">
 									<Clickable

@@ -8,52 +8,107 @@ import { useGlobalStore } from '~/store';
 import { MdEmail } from 'react-icons/md';
 import Link from 'next/link';
 
-const footerLinks = [
-	{
-		text: 'Collections',
-		links: [
-			{
-				text: 'New Releases',
-				href: `/products/?tags=New Releases`,
-				icon: null
-			},
-			{ text: 'Loops', href: `/products/?tags=Loops`, icon: null },
-			{ text: 'One shot drums', href: `/`, icon: null },
-			{ text: 'Sample Packs', href: `/products/?tags=Samples`, icon: null },
-			{ text: 'Drum Kits', href: `/products/?tags=Drum Kits`, icon: null },
-			{ text: 'Construction Kits', href: `/`, icon: null },
-			{ text: 'Presets', href: `/`, icon: null },
-			{ text: 'Bundles', href: '/products/?tags=Bundles', icon: null }
-		]
-	},
-	{
-		text: 'Navigation',
-		links: [
-			{ text: 'Search', href: '/products', icon: null },
-			{ text: 'Creative Space', href: '/creative-space', icon: null },
-			{ text: 'About Us', href: '/about', icon: null },
-			{ text: 'Support', href: '/support', icon: null },
-			{ text: 'License Agreement', href: '/license-agreement', icon: null }
-		]
-	},
-	{
-		text: 'Contact Us',
-		links: [
-			{
-				text: 'support@msxaudio.com',
-				href: 'mailto:support@msxaudio.com',
-				icon: <MdEmail />
-			}
-		]
-	}
-];
-
 const MainLayoutFooter = () => {
 	const mainFooterRef = useRef<HTMLElement>(null);
-	const { changeCurrentTheme, currentTheme } = useGlobalStore(
-		(store) => store.themeConfig
+	const currentTheme = useGlobalStore(
+		(store) => store.themeConfig.currentTheme
+	);
+	const changeCurrentTheme = useGlobalStore(
+		(store) => store.themeConfig.changeCurrentTheme
+	);
+	const toggleSearchMenuDropdown = useGlobalStore(
+		(store) => store.menus.toggleSearchMenuDropdown
 	);
 	const isDarkTheme = currentTheme === 'dark';
+
+	const footerLinks: {
+		text: string;
+		links: ({
+			text: string;
+			// href: string;
+			icon: JSX.Element | null;
+		} & Parameters<typeof Clickable>[0])[];
+	}[] = [
+		{
+			text: 'Collections',
+			links: [
+				{
+					text: 'New Releases',
+					isA: 'next-js',
+					href: `/products/?tags=New Releases`,
+					icon: null
+				},
+				{
+					text: 'Loops',
+					isA: 'next-js',
+					href: `/products/?tags=Loops`,
+					icon: null
+				},
+				{
+					text: 'One shot drums',
+					isA: 'next-js',
+					href: `/products/?tags=One Shot Drums`,
+					icon: null
+				},
+				{
+					text: 'Sample Packs',
+					isA: 'next-js',
+					href: `/products/?tags=Samples`,
+					icon: null
+				},
+				{
+					text: 'Drum Kits',
+					isA: 'next-js',
+					href: `/products/?tags=Drum Kits`,
+					icon: null
+				},
+				{ text: 'Construction Kits', isA: 'next-js', href: `/`, icon: null },
+				{ text: 'Presets', isA: 'next-js', href: `/`, icon: null },
+				{
+					text: 'Bundles',
+					isA: 'next-js',
+					href: '/products/?tags=Bundles',
+					icon: null
+				}
+			]
+		},
+		{
+			text: 'Navigation',
+			links: [
+				{
+					text: 'Search',
+					icon: null,
+					isA: 'button',
+					variants: null,
+					onClick: toggleSearchMenuDropdown
+				},
+				{
+					text: 'Creative Space',
+					isA: 'next-js',
+					href: '/creative-space',
+					icon: null
+				},
+				{ text: 'About Us', isA: 'next-js', href: '/about', icon: null },
+				{ text: 'Support', isA: 'next-js', href: '/support', icon: null },
+				{
+					text: 'License Agreement',
+					isA: 'next-js',
+					href: '/license-agreement',
+					icon: null
+				}
+			]
+		},
+		{
+			text: 'Contact Us',
+			links: [
+				{
+					text: 'support@msxaudio.com',
+					href: 'mailto:support@msxaudio.com',
+					icon: <MdEmail />
+				}
+			]
+		}
+	];
 
 	useEffect(() => {
 		const mainFooterResizeObserver = new ResizeObserver((entries) => {
@@ -82,10 +137,10 @@ const MainLayoutFooter = () => {
 									{item.text}
 								</h3>
 							</li>
-							{item.links.map((link) => (
-								<li key={link.text}>
-									<Link
-										href={link.href}
+							{item.links.map(({ icon, text, ...itemProps }) => (
+								<li key={text}>
+									<Clickable
+										{...itemProps}
 										className={cx(
 											'flex flex-wrap sm:flex-nowrap items-center gap-1 w-fit border-b-[0.125rem] border-solid border-b-transparent outline-none',
 											'duration-150 transition-all',
@@ -93,9 +148,9 @@ const MainLayoutFooter = () => {
 											'hover:text-text-primary-500 hover:border-b-text-primary-500'
 										)}
 									>
-										{link.icon}
-										{link.text}
-									</Link>
+										{icon}
+										{text}
+									</Clickable>
 								</li>
 							))}
 						</ul>

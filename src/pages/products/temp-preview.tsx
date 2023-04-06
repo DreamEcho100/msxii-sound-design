@@ -1,8 +1,6 @@
 import CustomNextImage from '~/components/shared/CustomNextImage';
 import React, { useState } from 'react';
 import { BiPlay } from 'react-icons/bi';
-import { FaMinus, FaPlus } from 'react-icons/fa';
-import { z } from 'zod';
 import CTAButton from '~/components/shared/core/Cards/CTAButton';
 import { ProductCard } from '~/components/shared/core/Cards/Card';
 import { CardsSlider } from '~/components/shared/core/Cards/Slider';
@@ -13,6 +11,7 @@ import {
 	shopifyFakeProductsData
 } from '~/utils/appData';
 import { YouTubeIFrame } from '~/components/shared/Iframes';
+import ProductQuantityControllers from '~/components/shared/core/ProductQuantityControllers';
 
 const media = productData.media[0];
 
@@ -46,52 +45,16 @@ const TempPreviewProductPage = () => {
 										compare_at_price={productData.compare_at_price}
 									/>
 								</p>
-								<div className="flex rounded-xl overflow-hidden">
-									<Clickable
-										variants={{ btn: null, px: null, py: null, rounded: null }}
-										className="bg-bg-primary-600 px-2 flex items-center justify-center"
-										onClick={() =>
-											setSelectedQuantity((prev) =>
-												prev === 0 ? prev : prev - 1
-											)
-										}
-										disabled={selectedQuantity === 0}
-									>
-										<FaMinus className="text-[60%]" />
-									</Clickable>
-									<input
-										className="w-fit px-2"
-										style={{
-											width: `${selectedQuantity.toString().length + 2}ch`
-										}}
-										value={selectedQuantity}
-										onChange={(event) =>
-											setSelectedQuantity((prev) => {
-												const valueAsNumberSchema = z
-													.number()
-													.min(0)
-													.finite()
-													.safeParse(Number(event.target.value));
-												return valueAsNumberSchema.success
-													? valueAsNumberSchema.data
-													: prev;
-												// isNaN(valueAsNumber) ||
-												// 	!isFinite(valueAsNumber) ||
-												// 	valueAsNumber < 0
-												// 	? prev
-												// 	: valueAsNumber;
-											})
-										}
-										name="selectedQuantity"
-									/>
-									<Clickable
-										variants={{ btn: null, px: null, py: null, rounded: null }}
-										className="bg-bg-primary-600 px-2 flex items-center justify-center"
-										onClick={() => setSelectedQuantity((prev) => prev + 1)}
-									>
-										<FaPlus className="text-[60%]" />
-									</Clickable>
-								</div>
+								<ProductQuantityControllers
+									handleIncreaseByOne={() =>
+										setSelectedQuantity((prev) => prev + 1)
+									}
+									handleDecreaseByOne={() =>
+										setSelectedQuantity((prev) => prev - 1)
+									}
+									handleSetSelectedQuantity={setSelectedQuantity}
+									quantity={selectedQuantity}
+								/>
 							</div>
 						</div>
 						<Clickable

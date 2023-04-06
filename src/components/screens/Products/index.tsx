@@ -4,6 +4,7 @@ import {
 	SetStateAction,
 	useEffect,
 	useMemo,
+	useRef,
 	useState
 } from 'react';
 import { ProductCard } from '~/components/shared/core/Cards/Card';
@@ -63,6 +64,7 @@ const CategoriesMenu = ({
 };
 
 const ProductsScreen = ({ products }: { products: ShopifyProduct[] }) => {
+	const filterMenuOnSMScreensCloseButtonRef = useRef<HTMLButtonElement>(null);
 	const [isFiltersMenuActive, setIsFiltersMenuActive] = useState(true);
 	const searchParams = useSearchParams();
 	const { productsByCategory, categories } = useMemo(() => {
@@ -99,6 +101,15 @@ const ProductsScreen = ({ products }: { products: ShopifyProduct[] }) => {
 		if (tags) setSelectedCategories(tags.split(','));
 	}, [searchParams]);
 
+	useEffect(() => {
+		const timeoutId = setTimeout(() => {
+			if (!filterMenuOnSMScreensCloseButtonRef.current) return;
+			filterMenuOnSMScreensCloseButtonRef.current.click();
+		}, 0);
+
+		return () => clearTimeout(timeoutId);
+	}, []);
+
 	const filteredProductsByCategory = useMemo(() => {
 		if (selectedCategories.length === 0) return productsByCategory;
 
@@ -130,13 +141,13 @@ const ProductsScreen = ({ products }: { products: ShopifyProduct[] }) => {
 									<h3 className="text-h4 text-text-primary-300 sm:whitespace-nowrap">
 										Shop all
 									</h3>
-									<Clickable
-										variants={null}
+									<button
 										onClick={() => setIsFiltersMenuActive((prev) => !prev)}
+										ref={filterMenuOnSMScreensCloseButtonRef}
 										title={`${isFiltersMenuActive ? 'Hide' : 'Show'} filters`}
 									>
 										<GiSettingsKnobs className="text-xl font-bold scale-y-110 rotate-90" />
-									</Clickable>
+									</button>
 								</header>
 								<CategoriesMenu
 									categories={categories}

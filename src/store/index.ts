@@ -8,7 +8,10 @@ interface GlobalStore {
 
 		isCartDropdownOpen: boolean;
 		toggleCartDropdown(): void;
-		addToCart(product: ShopifyProduct, quantity: number): void;
+		addToCart(
+			product: ShopifyProduct,
+			quantity: number | ((value: number) => number)
+		): void;
 	};
 	menus: {
 		closeAllMenus(): void;
@@ -50,26 +53,44 @@ export const useGlobalStore = create<GlobalStore>((set, get) => ({
 		addToCart: (product, quantity) =>
 			set(({ cart }) => {
 				get().menus.closeAllMenus();
-				// const cartItems = {
-				// 	...cart.items,
-				// 	[title]: title in cart.items && cart.items[title] ? { ...cart.items[title] }: { ...product }
-				// };
 				const cartItemIndex = cart.items.findIndex(
 					(item) => item.id === product.id
 				);
 
-				const cartItems =
-					cartItemIndex === -1
-						? [{ ...product, quantity }, ...cart.items]
-						: cart.items.map((cartItem, index) => {
-								if (index === cartItemIndex) {
-									return {
-										...cartItem,
-										quantity: cartItem.quantity + quantity
-									};
-								}
-								return cartItem;
-						  });
+				let cartItems: typeof cart.items = [];
+
+				if (cartItemIndex === -1) {
+					cartItems = [
+						{
+							...product,
+							quantity: typeof quantity === 'function' ? quantity(0) : quantity
+						},
+						...cart.items
+					];
+				} else {
+					let cartItem: (typeof cart.items)[number];
+					let cartItemQuantity: number;
+
+					for (let i = 0; i < cart.items.length; i++) {
+						cartItem = cart.items[i]!;
+
+						if (i === cartItemIndex) {
+							cartItemQuantity =
+								typeof quantity === 'function'
+									? quantity(cartItem.quantity)
+									: cartItem.quantity + quantity;
+
+							if (cartItemQuantity <= 0) continue;
+							cartItems.push({
+								...cartItem,
+								quantity: cartItemQuantity
+							});
+							continue;
+						}
+
+						cartItems.push(cartItem);
+					}
+				}
 
 				return {
 					cart: {

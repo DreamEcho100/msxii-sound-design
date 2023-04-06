@@ -1,6 +1,6 @@
 import CustomNextImage from '~/components/shared/CustomNextImage';
 import Clickable from '~/components/shared/core/Clickable';
-import { BsPersonFill, BsCart3 } from 'react-icons/bs';
+import { BsPersonFill } from 'react-icons/bs';
 import { IoMdArrowDropdown } from 'react-icons/io';
 import { BiSearchAlt2 } from 'react-icons/bi';
 import { GiHamburgerMenu } from 'react-icons/gi';
@@ -16,6 +16,8 @@ import { useRouter } from 'next/router';
 import SearchMenuDropdown from './components/SearchMenuDropdown';
 import dynamic from 'next/dynamic';
 import CartDropdown from './components/CartDropdown';
+import CartDropdownButton from './components/CartDropdownButton';
+import Overlay from './components/Overlay';
 
 const DynamicAuthDialog = dynamic(() => import('./components/AuthDialog'), {
 	ssr: false
@@ -24,7 +26,7 @@ const DynamicAuthDialog = dynamic(() => import('./components/AuthDialog'), {
 const headersLinks = [
 	{
 		title: 'New Releases',
-		href: '/'
+		href: '/products/?tags=New Releases'
 	},
 	{
 		title: 'iOS Apps',
@@ -37,10 +39,18 @@ const headersLinks = [
 	{
 		title: 'Samples',
 		links: [
-			{ title: 'Drum Kits', href: '/' },
-			{ title: 'Ableton Racks', href: '/' },
-			{ title: 'Vinyl', href: '/' }
-		]
+			{ title: 'Drum Kits', href: '/products/?tags=Drum Kits' },
+			{
+				title: 'Ableton Racks',
+				href: 'https://racksforlive.com/',
+				isA: 'normal-link'
+			},
+			{ title: 'Vinyl', href: '/vinyl' }
+		] as {
+			readonly title: 'Ableton Racks';
+			readonly href: 'https://racksforlive.com/';
+			readonly isA?: 'normal-link';
+		}[]
 	},
 	{
 		title: 'Bundles',
@@ -59,15 +69,11 @@ const headersLinks = [
 const MainLayoutHeader = () => {
 	const router = useRouter();
 
-	const closeAllMenus = useGlobalStore((store) => store.menus.closeAllMenus);
 	const toggleDropdownMenuOnLessThanLG = useGlobalStore(
 		(store) => store.menus.toggleDropdownMenuOnLessThanLG
 	);
 	const toggleSearchMenuDropdown = useGlobalStore(
 		(store) => store.menus.toggleSearchMenuDropdown
-	);
-	const toggleCartDropdown = useGlobalStore(
-		(store) => store.cart.toggleCartDropdown
 	);
 	const toggleAuthDialogOpen = useGlobalStore(
 		(store) => store.dialogs.auth.toggleOpen
@@ -99,7 +105,7 @@ const MainLayoutHeader = () => {
 					<div
 						className={cx(
 							'flex w-full h-main-header-h items-center justify-between gap-4 px-main-p-3 sm:px-main-p-2',
-							'relative z-[2]',
+							'relative z-[2] isolate',
 							isAnyMenuOpen
 								? 'bg-bg-primary-500'
 								: 'bg-bg-primary-500/80 dark:bg-bg-primary-500/90 backdrop-blur-sm'
@@ -118,7 +124,7 @@ const MainLayoutHeader = () => {
 								priority
 							/>
 						</Clickable>
-						<nav className="hidden max-w-screen-md flex-grow items-center justify-between gap-2 uppercase lg:flex">
+						<nav className="relative hidden max-w-screen-md flex-grow items-center justify-between gap-2 uppercase lg:flex">
 							{headersLinks.map((item) =>
 								'href' in item ? (
 									<Clickable
@@ -139,12 +145,17 @@ const MainLayoutHeader = () => {
 											<span className="pl-1" />
 										</DropdownButton>
 										<DropdownItems>
-											{item.links.map(({ href, title }) => (
+											{item.links.map(({ href, title, isA }) => (
 												<DropdownItem key={title}>
 													{({ active }) => (
 														<DropdownButton
 															active={active}
-															onClick={() => router.push(href)}
+															onClick={() => {
+																if (isA === 'normal-link') open(href, '_blank');
+																else router.push(href);
+
+																toggleDropdownMenuOnLessThanLG();
+															}}
 														>
 															<span className="p-2">{title}</span>
 														</DropdownButton>
@@ -156,7 +167,7 @@ const MainLayoutHeader = () => {
 								)
 							)}
 						</nav>
-						<div className="flex items-center gap-4">
+						<div className="flex items-center gap-4 py-2">
 							<Clickable
 								title={`${
 									isSearchMenuDropdownOpen ? 'Close' : 'Open'
@@ -170,19 +181,16 @@ const MainLayoutHeader = () => {
 								href="/"
 								isA="next-js"
 								title="profile"
-								className="text-xl text-special-primary-500 hover:text-special-primary-900 focus:text-special-primary-900"
+								className={cx(
+									'text-xl text-special-primary-500',
+									'hover:text-special-primary-900 focus:text-special-primary-900',
+									'hover:text-special-primary-600 focus:text-special-primary-600'
+								)}
 								onClick={toggleAuthDialogOpen}
 							>
 								<BsPersonFill />
 							</Clickable>
-							<Clickable
-								title="cart"
-								variants={null}
-								className="relative flex items-start gap-1 whitespace-nowrap translate-y-[0.25ch]"
-								onClick={toggleCartDropdown}
-							>
-								<BsCart3 className="text-xl" /> 0 ITEMS
-							</Clickable>
+							<CartDropdownButton />
 							<Clickable
 								onClick={toggleDropdownMenuOnLessThanLG}
 								variants={null}
@@ -230,12 +238,6 @@ const MainLayoutHeader = () => {
 														WebkitTextFillColor: 'transparent'
 													}}
 													onClick={toggleDropdownMenuOnLessThanLG}
-													onKeyDown={(event) => {
-														if (event.key === 'Enter' || event.keyCode === 13) {
-															event.currentTarget.click();
-															toggleDropdownMenuOnLessThanLG();
-														}
-													}}
 												>
 													{item.title}
 												</Clickable>
@@ -250,12 +252,18 @@ const MainLayoutHeader = () => {
 														<span className="pl-1" />
 													</DropdownButton>
 													<DropdownItems>
-														{item.links.map(({ href, title }) => (
+														{item.links.map(({ href, title, isA }) => (
 															<DropdownItem key={title}>
 																{({ active }) => (
 																	<DropdownButton
 																		active={active}
-																		onClick={() => router.push(href)}
+																		onClick={() => {
+																			if (isA === 'normal-link')
+																				open(href, '_blank');
+																			else router.push(href);
+
+																			toggleDropdownMenuOnLessThanLG();
+																		}}
 																	>
 																		<span className="p-2">{title}</span>
 																	</DropdownButton>
@@ -273,21 +281,7 @@ const MainLayoutHeader = () => {
 					</AnimatePresence>
 				</div>
 			</header>
-			{isAnyMenuOpen && (
-				<button
-					className={cx(
-						'fixed inset-0 z-[9] block w-full h-full',
-						isDropdownMenuOnLessThanLGOpen && !isSearchMenuDropdownOpen
-							? 'lg:hidden'
-							: '',
-						isCartDropdownOpen
-							? 'bg-initial-primary-900/10 dark:bg-initial-primary-900/25'
-							: 'bg-initial-primary-900/60 backdrop-blur-[0.0625rem]'
-					)}
-					onClick={closeAllMenus}
-					title="Close all opened menus."
-				/>
-			)}
+			<Overlay />
 			<DynamicAuthDialog />
 		</>
 	);

@@ -30,7 +30,7 @@ const handleBasicProductCardImageContainerVariants = cva(
 	}
 );
 const handleBasicProductCardImageVariants = cva(
-	'w-full h-full duration-150 transition-all object-contain',
+	'w-full h-full duration-150 transition-all object-cover',
 	{
 		variants: {
 			animation: {

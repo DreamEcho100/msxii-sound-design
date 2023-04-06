@@ -2392,6 +2392,282 @@ export const shopifyFakeProductsData: ShopifyProduct[] = [
 		],
 		requires_selling_plan: false,
 		selling_plan_groups: []
+	},
+	{
+		id: 799282200683,
+		title: "70's Soul Aesthetics Vinyl",
+		handle: '70s-soul-aesthetics-vinyl',
+		description:
+			'\u003cp\u003eThe limited\u00a0edition vinyl\u00a0to the incredible 70\'s Soul Aesthetics from MSXII!\u00a0This 12" vinyl is now shipping!\u00a0\u003c/p\u003e\n\u003cp\u003eVinyl Features:\u003c/p\u003e\n\u003cul\u003e\n\u003cli\u003e2 more bonus compositions not on digital version\u003c/li\u003e\n\u003cli\u003eBonus tracks w/o drums for ultimate sampling experience\u003c/li\u003e\n\u003c/ul\u003e\n\u003cmeta charset="utf-8"\u003e\n\u003cp\u003eMSXII is pleased to present the most incredible 70\'s Soul Aesthetics! Birthed from the acclaimed\u003cspan\u003e\u00a0\u003c/span\u003e\u003ca href="https://www.youtube.com/watch?v=13iYJeAiwMY" target="_blank" rel="noopener noreferrer"\u003eSoulful Stems\u003c/a\u003e, The 70\'s Soul Aesthetics looks to expand upon that foundation with better textures, instrumentation, experimentation, character, and much more! This project is packed for the producer needing INSTANT inspirational material with instrumentation including Rhodes Mark II, live bass, live drums, analog vintage synths, organ, and much more!\u00a0\u003c/p\u003e\n\u003cp\u003eThis project was also meticulously recorded through API \u0026amp; Neve preamps, bussed, and then brought back to the Neve 542 Tape 500 series to further process with 3rd order harmonics for the ultimate texture. If you\'re needing samples with that authentic, dusty, vintage, classic vibe, look no further.\u003c/p\u003e\n\u003cp\u003eCop the digital version with stems [all individual instrument tracks] - \u003cspan style="color: #ff0000;"\u003e\u003ca href="https://www.msxaudio.com/products/70s-soul-aesthetics" target="_blank" style="color: #ff0000;" rel="noopener noreferrer"\u003e\u003cstrong\u003eClick Here\u003c/strong\u003e\u003c/a\u003e\u003c/span\u003e\u003c/p\u003e\n\u003ciframe width="460" height="515" src="https://www.youtube.com/embed/mNehpDqFnpg" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen=""\u003e\u003c/iframe\u003e \u003ciframe width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/437972487\u0026amp;color=%23c74c4c\u0026amp;auto_play=false\u0026amp;hide_related=false\u0026amp;show_comments=true\u0026amp;show_user=true\u0026amp;show_reposts=false\u0026amp;show_teaser=true"\u003e\u003c/iframe\u003e',
+		published_at: '2018-05-04T12:07:34-05:00',
+		created_at: '2018-05-04T12:14:01-05:00',
+		vendor: 'MSXII Sound',
+		type: '',
+		tags: [ProductsTags['Vinyl']],
+		price: 84700,
+		price_min: 84700,
+		price_max: 84700,
+		available: false,
+		price_varies: false,
+		compare_at_price: null,
+		compare_at_price_min: 0,
+		compare_at_price_max: 0,
+		compare_at_price_varies: false,
+		variants: [
+			{
+				id: 8684193153131,
+				title: 'Default Title',
+				option1: 'Default Title',
+				option2: null,
+				option3: null,
+				sku: '',
+				requires_shipping: true,
+				taxable: false,
+				featured_image: null,
+				available: false,
+				name: "70's Soul Aesthetics Vinyl",
+				public_title: null,
+				options: ['Default Title'],
+				price: 84700,
+				weight: 454,
+				compare_at_price: null,
+				inventory_quantity: 0,
+				inventory_management: 'shopify',
+				inventory_policy: 'deny',
+				barcode: '',
+				// quantity_rule: { min: 1, max: null, increment: 1 },
+				requires_selling_plan: false,
+				selling_plan_allocations: []
+			}
+		],
+		images: [
+			'https://cdn.shopify.com/s/files/1/0345/7209/products/70s_Soul_Aesthetics_Art_1.png?v=1533887322',
+			'https://cdn.shopify.com/s/files/1/0345/7209/products/70s_Soul_Aesthetics_On_Deck.png?v=1533887322',
+			'https://cdn.shopify.com/s/files/1/0345/7209/products/70s_Soul_Aesthetics_Art_1.jpg?v=1533887322'
+		],
+		featured_image:
+			'https://cdn.shopify.com/s/files/1/0345/7209/products/70s_Soul_Aesthetics_Art_1.png?v=1533887322',
+		options: [{ name: 'Title', position: 1, values: ['Default Title'] }],
+		url: '/products/70s-soul-aesthetics-vinyl',
+		media: [
+			{
+				alt: null,
+				id: 1253199347778,
+				position: 1,
+				preview_image: {
+					aspect_ratio: 1.0,
+					height: 3000,
+					width: 3000,
+					src: 'https://cdn.shopify.com/s/files/1/0345/7209/products/70s_Soul_Aesthetics_Art_1.png?v=1533887322'
+				},
+				aspect_ratio: 1.0,
+				height: 3000,
+				media_type: 'image',
+				src: 'https://cdn.shopify.com/s/files/1/0345/7209/products/70s_Soul_Aesthetics_Art_1.png?v=1533887322',
+				width: 3000
+			},
+			{
+				alt: null,
+				id: 1253201477698,
+				position: 2,
+				preview_image: {
+					aspect_ratio: 1.0,
+					height: 3000,
+					width: 3000,
+					src: 'https://cdn.shopify.com/s/files/1/0345/7209/products/70s_Soul_Aesthetics_On_Deck.png?v=1533887322'
+				},
+				aspect_ratio: 1.0,
+				height: 3000,
+				media_type: 'image',
+				src: 'https://cdn.shopify.com/s/files/1/0345/7209/products/70s_Soul_Aesthetics_On_Deck.png?v=1533887322',
+				width: 3000
+			},
+			{
+				alt: null,
+				id: 1253195284546,
+				position: 3,
+				preview_image: {
+					aspect_ratio: 1.0,
+					height: 2000,
+					width: 2000,
+					src: 'https://cdn.shopify.com/s/files/1/0345/7209/products/70s_Soul_Aesthetics_Art_1.jpg?v=1533887322'
+				},
+				aspect_ratio: 1.0,
+				height: 2000,
+				media_type: 'image',
+				src: 'https://cdn.shopify.com/s/files/1/0345/7209/products/70s_Soul_Aesthetics_Art_1.jpg?v=1533887322',
+				width: 2000
+			}
+		],
+		requires_selling_plan: false,
+		selling_plan_groups: []
+	},
+	{
+		id: 8499589264,
+		title: 'The Breaks Collective Vol. 1 - (12" Vinyl)',
+		handle: 'the-breaks-collective-vol-1-12-vinyl',
+		description:
+			'\u003cmeta charset="utf-8"\u003e\n\u003cp\u003e\u003cspan\u003eThe incredible team from MSXII Sound Design is back once again with another sought after vinyl release. The Breaks Collective Vol. 1 features some of the most unique, creative, and original breaks around. From traditional styles with great texture to future, glitchy, analog driven distortion, this collection of breaks is the most eclectic you\u2019ll find.\u003c/span\u003e\u003c/p\u003e\n\u003cp\u003e\u003cspan\u003eThis is an extremely limited edition release. \u00a0Cop it before they\'re gone!\u003c/span\u003e\u003c/p\u003e\n\u003ch4\u003e\u003cspan\u003e\u003c/span\u003e\u003c/h4\u003e\n\u003ch2\u003eCurrently \u003cspan style="color: #ff0000;"\u003eSOLD OUT\u003c/span\u003e here. You can still purchase these via Fat Beats. \u003cspan style="color: #0000ff;"\u003e\u003cstrong\u003e\u003ca href="https://www.fatbeats.com/collections/msx-sound-design" target="_blank" title="CLICK HERE" rel="noopener noreferrer" style="color: #0000ff;"\u003eClick here\u003c/a\u003e\u003c/strong\u003e\u003c/span\u003e\n\u003c/h2\u003e\n\u003cp\u003e\u00a0\u003c/p\u003e\n\u003ciframe width="560" height="515" src="https://www.youtube.com/embed/zPFlWHzRCys" frameborder="0" allowfullscreen=""\u003e\u003c/iframe\u003e',
+		published_at: '2017-04-20T09:12:12-05:00',
+		created_at: '2017-03-09T20:14:36-06:00',
+		vendor: 'MSXII Sound',
+		type: '',
+		tags: [ProductsTags['Vinyl']],
+		price: 62700,
+		price_min: 62700,
+		price_max: 62700,
+		available: false,
+		price_varies: false,
+		compare_at_price: null,
+		compare_at_price_min: 0,
+		compare_at_price_max: 0,
+		compare_at_price_varies: false,
+		variants: [
+			{
+				id: 31914414800,
+				title: 'Default Title',
+				option1: 'Default Title',
+				option2: null,
+				option3: null,
+				sku: '',
+				requires_shipping: true,
+				taxable: false,
+				featured_image: null,
+				available: false,
+				name: 'The Breaks Collective Vol. 1 - (12" Vinyl)',
+				public_title: null,
+				options: ['Default Title'],
+				price: 62700,
+				weight: 0,
+				compare_at_price: null,
+				inventory_quantity: 0,
+				inventory_management: 'shopify',
+				inventory_policy: 'deny',
+				barcode: '',
+				// quantity_rule: { min: 1, max: null, increment: 1 },
+				requires_selling_plan: false,
+				selling_plan_allocations: []
+			}
+		],
+		images: [
+			'https://cdn.shopify.com/s/files/1/0345/7209/products/The_Breaks_Collective_MOCK_UP.jpg?v=1525454070',
+			'https://cdn.shopify.com/s/files/1/0345/7209/products/Vinyl.jpg?v=1525454070'
+		],
+		featured_image:
+			'https://cdn.shopify.com/s/files/1/0345/7209/products/The_Breaks_Collective_MOCK_UP.jpg?v=1525454070',
+		options: [{ name: 'Title', position: 1, values: ['Default Title'] }],
+		url: '/products/the-breaks-collective-vol-1-12-vinyl',
+		media: [
+			{
+				alt: null,
+				id: 252198355010,
+				position: 1,
+				preview_image: {
+					aspect_ratio: 1.411,
+					height: 1451,
+					width: 2048,
+					src: 'https://cdn.shopify.com/s/files/1/0345/7209/products/The_Breaks_Collective_MOCK_UP.jpg?v=1525454070'
+				},
+				aspect_ratio: 1.411,
+				height: 1451,
+				media_type: 'image',
+				src: 'https://cdn.shopify.com/s/files/1/0345/7209/products/The_Breaks_Collective_MOCK_UP.jpg?v=1525454070',
+				width: 2048
+			},
+			{
+				alt: null,
+				id: 252198387778,
+				position: 2,
+				preview_image: {
+					aspect_ratio: 1.007,
+					height: 595,
+					width: 599,
+					src: 'https://cdn.shopify.com/s/files/1/0345/7209/products/Vinyl.jpg?v=1525454070'
+				},
+				aspect_ratio: 1.007,
+				height: 595,
+				media_type: 'image',
+				src: 'https://cdn.shopify.com/s/files/1/0345/7209/products/Vinyl.jpg?v=1525454070',
+				width: 599
+			}
+		],
+		requires_selling_plan: false,
+		selling_plan_groups: []
+	},
+	{
+		id: 2030863301,
+		title: 'Soulful Stems 3 Vinyl',
+		handle: 'soulful-stems-3-vinyl',
+		description:
+			'\u003cp\u003eMSXII Sound Design is pleased to present the 3 peat for the famed Soulful Stems collection! \u00a0Nothing short of inspiring, this volume is extremely special. \u00a0\u00a0As always, the SS3 collection features the silky, smooth texture of sounds inspired by the late 60s \u0026amp; 70s. \u00a0Mixed ever-so-carefully to allow the instruments true colors shine. \u00a0Experience analog synthesizers, organs, Fender Rhodes, live bass, horns, and more played by veteran musicians from across the country. \u00a0We\'ve used vintage analog recording and mixing techniques to round out the sound for a warm, authentic character that is sure to give your production the right "feel." \u00a0Analog. Neve. Warm colors and Textures. \u00a0Vintage. \u00a0These are just a few of the adjectives that can best describe The Soulful Stems 3. \u00a0\u003c/p\u003e\n\u003cp\u003e\u003cspan\u003eKit Features:\u003c/span\u003e\u003c/p\u003e\n\u003cul\u003e\n\u003cli\u003e\u003cspan\u003eCompletely original MSXII compositions\u003c/span\u003e\u003c/li\u003e\n\u003cli\u003eLimited edition white vinyl available until sold out\u003c/li\u003e\n\u003cli\u003e\u003cspan\u003eLive bass, Fender Rhodes, live drums, horns, organ, analog synthesizers + more\u003c/span\u003e\u003c/li\u003e\n\u003cli\u003e\u003cspan\u003eComprised of instrumentation inspired by the soulful sounds of the late 1960s \u0026amp; early 1970s\u003c/span\u003e\u003c/li\u003e\n\u003cli\u003e\u003cspan\u003eMade for the producer that loves to sample. \u00a010 brand new \u0026amp; original sample compositions\u003c/span\u003e\u003c/li\u003e\n\u003cli\u003eCompositions\u00a0available in folders labeled "with and without drums"\u00a0\u003c/li\u003e\n\u003cli\u003e\u003cspan\u003eSonically saturated\u00a0and "warmed" up for that classic, "ready-to-be-sampled" feel\u003c/span\u003e\u003c/li\u003e\n\u003cli\u003e\u003cspan\u003eMSXII hassle free clearance\u003c/span\u003e\u003c/li\u003e\n\u003cli\u003e\u003cspan\u003eInstant digital download\u003c/span\u003e\u003c/li\u003e\n\u003cli\u003e\u003cspan\u003eCompatible with any DAW \u0026amp; sampler that accepts .wav files (Protools, Maschine, Akai MPC series, Reason, Logic, Ableton, Fruity Loops, etc)\u003c/span\u003e\u003c/li\u003e\n\u003c/ul\u003e\n\u003ciframe width="100%" height="166" scrolling="no" frameborder="no" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/221381408\u0026amp;color=ff5500\u0026amp;auto_play=false\u0026amp;hide_related=false\u0026amp;show_comments=true\u0026amp;show_user=true\u0026amp;show_reposts=false"\u003e\u003c/iframe\u003e \u003ciframe width="100%" height="166" scrolling="no" frameborder="no" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/216103069\u0026amp;color=ff5500\u0026amp;auto_play=false\u0026amp;hide_related=false\u0026amp;show_comments=true\u0026amp;show_user=true\u0026amp;show_reposts=false"\u003e\u003c/iframe\u003e',
+		published_at: '2018-05-04T12:05:08-05:00',
+		created_at: '2015-09-06T16:24:12-05:00',
+		vendor: 'MSXII Sound',
+		type: '',
+		tags: [ProductsTags['Vinyl']],
+		price: 62700,
+		price_min: 62700,
+		price_max: 62700,
+		available: false,
+		price_varies: false,
+		compare_at_price: null,
+		compare_at_price_min: 0,
+		compare_at_price_max: 0,
+		compare_at_price_varies: false,
+		variants: [
+			{
+				id: 5829406597,
+				title: 'Default Title',
+				option1: 'Default Title',
+				option2: null,
+				option3: null,
+				sku: '',
+				requires_shipping: true,
+				taxable: false,
+				featured_image: null,
+				available: false,
+				name: 'Soulful Stems 3 Vinyl',
+				public_title: null,
+				options: ['Default Title'],
+				price: 62700,
+				weight: 454,
+				compare_at_price: null,
+				inventory_quantity: 0,
+				inventory_management: 'shopify',
+				inventory_policy: 'deny',
+				barcode: '',
+				// quantity_rule: { min: 1, max: null, increment: 1 },
+				requires_selling_plan: false,
+				selling_plan_allocations: []
+			}
+		],
+		images: [
+			'https://cdn.shopify.com/s/files/1/0345/7209/products/SS3_Vinyl_grande_4b0e4a0f-8de0-49fe-a09a-1039dd5dfd95.jpg?v=1441574653'
+		],
+		featured_image:
+			'https://cdn.shopify.com/s/files/1/0345/7209/products/SS3_Vinyl_grande_4b0e4a0f-8de0-49fe-a09a-1039dd5dfd95.jpg?v=1441574653',
+		options: [{ name: 'Title', position: 1, values: ['Default Title'] }],
+		url: '/products/soulful-stems-3-vinyl',
+		media: [
+			{
+				alt: null,
+				id: 56288149570,
+				position: 1,
+				preview_image: {
+					aspect_ratio: 1.412,
+					height: 425,
+					width: 600,
+					src: 'https://cdn.shopify.com/s/files/1/0345/7209/products/SS3_Vinyl_grande_4b0e4a0f-8de0-49fe-a09a-1039dd5dfd95.jpg?v=1441574653'
+				},
+				aspect_ratio: 1.412,
+				height: 425,
+				media_type: 'image',
+				src: 'https://cdn.shopify.com/s/files/1/0345/7209/products/SS3_Vinyl_grande_4b0e4a0f-8de0-49fe-a09a-1039dd5dfd95.jpg?v=1441574653',
+				width: 600
+			}
+		],
+		requires_selling_plan: false,
+		selling_plan_groups: []
 	}
 ];
 

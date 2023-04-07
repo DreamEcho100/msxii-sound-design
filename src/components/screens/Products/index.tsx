@@ -15,6 +15,7 @@ import { GiSettingsKnobs } from 'react-icons/gi';
 import { motion, AnimatePresence } from 'framer-motion';
 
 import { useSearchParams } from 'next/navigation';
+import { useProductsTagsFilterManager } from '~/utils/hooks';
 
 const CheckboxField = ({
 	children,
@@ -67,39 +68,19 @@ const ProductsScreen = ({ products }: { products: ShopifyProduct[] }) => {
 	const filterMenuOnSMScreensCloseButtonRef = useRef<HTMLButtonElement>(null);
 	const [isFiltersMenuActive, setIsFiltersMenuActive] = useState(true);
 	const searchParams = useSearchParams();
-	const { productsByCategory, categories } = useMemo(() => {
-		const productsCategoryMap: Record<string, typeof products> = {};
 
-		products.forEach((product) => {
-			product.tags.forEach((tag) => {
-				if (
-					productsCategoryMap[tag] &&
-					Array.isArray(productsCategoryMap[tag])
-				) {
-					productsCategoryMap[tag]?.push(product);
-				} else {
-					productsCategoryMap[tag] = [product];
-				}
-			});
-		});
-
-		const productsByCategory = Object.entries(productsCategoryMap);
-		const categories = productsByCategory.map(
-			(productByCategory) => productByCategory[0]
-		);
-		return {
-			productsByCategory,
-			categories
-		};
-	}, [products]);
-
-	const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+	const {
+		productsByCategory,
+		categories,
+		selectedCategories,
+		setSelectedCategories
+	} = useProductsTagsFilterManager({ products });
 
 	useEffect(() => {
 		const tags = searchParams.get('tags');
 
 		if (tags) setSelectedCategories(tags.split(','));
-	}, [searchParams]);
+	}, [searchParams, setSelectedCategories]);
 
 	useEffect(() => {
 		const timeoutId = setTimeout(() => {

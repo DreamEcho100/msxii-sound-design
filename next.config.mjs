@@ -21,7 +21,7 @@ const config = {
 		defaultLocale: 'en'
 	},
 	images: {
-		domains: ['cdn.shopify.com', 's3-alpha-sig.figma.com']
+		domains: ['cdn.shopify.com']
 	},
 	experimental: {
 		fontLoaders: [

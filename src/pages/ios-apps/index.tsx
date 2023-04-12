@@ -17,7 +17,7 @@ const IOSAppsPage = () => {
 					Explore our unique and practical iOS apps.
 				</p>
 			</header>
-			<div className="grid grid-cols-[repeat(auto-fill,_minmax(15rem,_1fr))] gap-8 lg:justify-between lg:flex-nowrap">
+			<div className="grid grid-cols-[repeat(auto-fill,_minmax(12rem,_1fr))] gap-8 lg:justify-between lg:flex-nowrap">
 				{IOSProductsBasicData.map((item) => (
 					<div key={item.title} className="flex flex-col gap-4">
 						<Clickable

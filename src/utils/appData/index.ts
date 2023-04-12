@@ -3009,7 +3009,7 @@ You can check out the reference guide below:
 		}),
 		createStandardSection({
 			body: [{ ...sliderBox2, slidesPerViewType: 'large-slides' }],
-			title: 'LO-FLY DIRT Around The Web',
+			title: 'LO-FLY Dirt Around The Web',
 			customPageClassesKeys: ['section-container-v1']
 		}),
 		createStandardSection({ body: [rowsOnlyBox] })
@@ -3250,7 +3250,7 @@ You can check out the reference guide below
 		}),
 		createStandardSection({
 			body: [{ ...sliderBox2, slidesPerViewType: 'large-slides' }],
-			title: 'LO-FLY DIRT Around The Web',
+			title: 'Fly Tape Around The Web',
 			customPageClassesKeys: ['section-container-v1']
 		}),
 		createStandardSection({ body: [rowsOnlyBox] })
@@ -3400,7 +3400,7 @@ You can check out the reference guide/manual below. Download and save to your iP
 		}),
 		createStandardSection({
 			body: [{ ...sliderBox, slidesPerViewType: 'large-slides' }],
-			title: 'LO-FLY DIRT Around The Web',
+			title: 'Fly Tape 2 Around The Web',
 			customPageClassesKeys: ['section-container-v1']
 		}),
 		createStandardSection({ body: [rowsOnlyBox] })
@@ -3700,7 +3700,7 @@ You can check out the reference guide/manual below. Download and save to your iP
 		}),
 		createStandardSection({
 			body: [{ ...sliderBox2, slidesPerViewType: 'large-slides' }],
-			title: 'LO-FLY DIRT Around The Web',
+			title: 'Chomplr Around The World',
 			customPageClassesKeys: ['section-container-v1']
 		}),
 		createStandardSection({ body: [rowsOnlyBox] })
@@ -3854,7 +3854,7 @@ All drum kits and digital downloads links are sent to the e-mail address your or
 
 Some are.  Most notably our Blue Label products & those selected vibes from our app, Chomplr. You will see licensing info in each product we offer. For projects that are not royalty free such as the Soulful Stems 3, the Lofi Melodics Series, etc, you are able to sample from it and get a fair split on writers share & publishing with us. MSXII writers will be credited as writers of the works (co-production credit) which will all be worked out prior to your placement release.  All MSXII kits and sample packs are made completely from scratch and are our sole original works.  We guarantee no clearance issues. See PartyNextDoor's "Love Me Again" for an example below as our own [M.SIMPSON] is credited for writing the sample.
 
-![](https://s3-alpha-sig.figma.com/img/51b7/a1b0/41cc88a345253c17c84169da96ad0a81?Expires=1681084800&Signature=iKHREd70av-HYVb6BmSD9oOWVFk2C35Mk0rNT24L4qsuh0VZUI8kxtuYmSdW9ruTZ3Z~1HrmrFYKT1w~o6hmoJbT8Hab~MMY9RoHXzGzgSMN-jWLt~mVBFpkoPrwG0ZiPBB2WgOb5GVAP80oJ2DyNVli1P69WMHIJHHGoZiQ6FFMa-pwQOanSgOlwTBnr5P7KPVoo1vXqObQCuKycpP5dWAEJi4fPGZoH~mfVtpryU3IAiO-UzzGQgSNG1uO9wZmTy9dHUsZIjmGsHQyEUjl1VzZbTaVc25B7uKF~uTgwuJ9qg~77rYVB7BGeZWW2cfsYZ44HiL11KpenfsHt-Vm3Q__&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4)
+![](/images/support.png)
 
 ## Are your sounds compatible with my software/sampler?
 
@@ -4023,7 +4023,7 @@ All bundle and discounted purchases and prices apply only to the product line at
 							mx: 'auto'
 						},
 						___type: 'image-only',
-						src: 'https://s3-alpha-sig.figma.com/img/6b87/e37b/85972ec45a3df6dda53c3dc2cc6a1668?Expires=1681084800&Signature=APuChhqaPDDGQ~v27MUlWEaokRsH7p7vIV0bKZOirtCBXVXkRcPc7jPIbipb4cP765HlYfGDcV2loyCtsbzAFF6FmLW5Wu01R5Dd~0K446QWPCrrIuZIklJ-m3Z6d3DN2Dd2Spn5vv8AQI97ungPJRGBNVlZpBM~LzlkXqfMX8h45UmgJrMdEUVr3TXj5KFuvbF95CXPyDvfUlUqEQhuCl6cc4aM0ZIcvratmii1SaBUmkIjIo-VF7RfH-yLvVGo~eLCKg0pbIvcJVwpZSl7JrbKdIpj-BUlGg26FRRVnNYYd2SWQSpW-h-CFsp~kXvTQDVJIzMXWmfdlyQz1Vo9eA__&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4'
+						src: '/images/blue-label.png'
 					},
 					{
 						___type: 'md',

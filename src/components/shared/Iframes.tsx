@@ -1,14 +1,7 @@
 import { VariantProps, cva, cx } from 'class-variance-authority';
 import CustomNextImage from '~/components/shared/CustomNextImage';
 import Script from 'next/script';
-import {
-	HTMLAttributes,
-	IframeHTMLAttributes,
-	useEffect,
-	useId,
-	useState
-} from 'react';
-import { ImYoutube } from 'react-icons/im';
+import { HTMLAttributes, IframeHTMLAttributes } from 'react';
 
 type TNextImageProps = Parameters<typeof CustomNextImage>[0];
 
@@ -39,74 +32,15 @@ export const YouTubeIFrame = ({
 		Partial<Pick<TNextImageProps, 'alt' | 'width' | 'height'>>;
 	youTubeIconVariants?: VariantProps<typeof handleYouTubeIconVariants>;
 }) => {
-	const [isOverlayActive, setIsOverlayActive] = useState(true);
-	const iframeId = useId();
-
-	useEffect(() => {
-		if (typeof window === 'undefined') return;
-
-		const cb = () => {
-			setTimeout(() => {
-				if (
-					!isOverlayActive &&
-					typeof document !== 'undefined' &&
-					document.activeElement?.tagName === 'IFRAME' &&
-					document.activeElement?.id === iframeId
-				)
-					setIsOverlayActive(false);
-			}, 0);
-		};
-
-		window.addEventListener('blur', cb);
-
-		return () => {
-			if (typeof document === 'undefined' || !document.getElementById(iframeId))
-				window.removeEventListener('blur', cb);
-		};
-	}, [iframeId, isOverlayActive]);
-
 	return (
-		<div
-			{...containerProps}
-			className={cx(
-				containerProps.className,
-				'group',
-				isOverlayActive ? 'cursor-pointer' : ''
-			)}
-		>
+		<div {...containerProps} className={containerProps.className}>
 			<iframe
 				allowFullScreen
 				frameBorder={0}
 				{...props}
-				className={cx(
-					props.className,
-					'w-full',
-					isOverlayActive ? 'grayscale-[0.1] brightness-75' : ''
-				)}
-				id={iframeId}
+				className={cx(props.className, 'w-full')}
+				allow="autoplay"
 			/>
-			{isOverlayActive && (
-				<div className="absolute inset-0 w-full h-full pointer-events-none">
-					<div className="w-full h-full relative">
-						{overlayImageProps && (
-							<CustomNextImage
-								width={550}
-								height={550}
-								className="w-full h-full object-cover brightness-75 group-hover:brightness-100 duration-100 transition-all"
-								{...overlayImageProps}
-							/>
-						)}
-						<div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
-							<div className="relative">
-								<span className="isolate absolute -z-10 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 p-[25%] bg-white" />
-								<ImYoutube
-									className={handleYouTubeIconVariants(youTubeIconVariants)}
-								/>
-							</div>
-						</div>
-					</div>
-				</div>
-			)}
 		</div>
 	);
 };

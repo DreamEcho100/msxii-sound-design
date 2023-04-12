@@ -43,6 +43,7 @@ const MerchesPage: NextPage = () => {
 						product={item as any}
 						routeBase="/merch"
 						containerVariants={{ w: null }}
+						imageVariants={{ 'object-fit': 'contain' }}
 					/>
 				))}
 			</div>

@@ -30,16 +30,24 @@ const handleBasicProductCardImageContainerVariants = cva(
 	}
 );
 const handleBasicProductCardImageVariants = cva(
-	'w-full h-full duration-150 transition-all object-cover',
+	'w-full h-full duration-150 transition-all',
 	{
 		variants: {
 			animation: {
 				'zoom-1': 'card-img-zoom-animation-1',
 				'zoom-1-1': 'card-img-zoom-animation-1-1'
 			},
-			'animation-duration': { '300ms': 'duration-300 ease-in' }
+			'animation-duration': { '300ms': 'duration-300 ease-in' },
+			'object-fit': {
+				cover: 'object-cover',
+				contain: 'object-contain'
+			}
 		},
-		defaultVariants: { animation: 'zoom-1-1', 'animation-duration': '300ms' }
+		defaultVariants: {
+			animation: 'zoom-1-1',
+			'animation-duration': '300ms',
+			'object-fit': 'cover'
+		}
 	}
 );
 const handleBasicProductCardTitleVariants = cva(

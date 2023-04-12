@@ -31,7 +31,7 @@ const IOSAppsPage = () => {
 			<header className="flex flex-col gap-6 text-center lg:text-align-initial">
 				<h1 className="text-h3 font-semibold">Vinyl</h1>
 			</header>
-			<div className="grid grid-cols-[repeat(auto-fill,_minmax(15rem,_1fr))] gap-8 lg:justify-between lg:flex-nowrap">
+			<div className="grid grid-cols-[repeat(auto-fill,_minmax(12rem,_1fr))] gap-8 lg:justify-between lg:flex-nowrap">
 				{productsData.map((item) => (
 					<ProductCard
 						key={item.handle}

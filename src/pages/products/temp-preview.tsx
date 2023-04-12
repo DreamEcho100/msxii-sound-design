@@ -1,5 +1,5 @@
 import CustomNextImage from '~/components/shared/CustomNextImage';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { BiPlay } from 'react-icons/bi';
 import CTAButton from '~/components/shared/core/Cards/CTAButton';
 import { ProductCard } from '~/components/shared/core/Cards/Card';

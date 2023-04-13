@@ -196,22 +196,6 @@ const CustomProductScreen = ({
 }: {
 	children?: ReactNode;
 	productData: ShopifyProduct;
-	medias: {
-		alt: null;
-		id: number;
-		position: number;
-		preview_image: {
-			aspect_ratio: number;
-			height: number;
-			width: number;
-			src: string;
-		};
-		aspect_ratio: number;
-		height: number;
-		media_type: string;
-		src: string;
-		width: number;
-	}[];
 	products: ShopifyProduct[];
 }) => {
 	const [selectedQuantity, setSelectedQuantity] = useState(1);

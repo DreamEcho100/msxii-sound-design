@@ -21,11 +21,7 @@ const products = shopifyFakeProductsData.filter(
 
 const TempPreviewProductPage = () => {
 	return (
-		<CustomProductScreen
-			productData={productData}
-			medias={medias}
-			products={products}
-		>
+		<CustomProductScreen productData={productData} products={products}>
 			<section className="w-full mx-auto max-w-[140ch] flex flex-col py-16 gap-16">
 				<div className="px-8 mx-auto max-w-[131ch] flex flex-col gap-4">
 					<h2 className="font-normal text-text-primary-400 text-h3">Details</h2>

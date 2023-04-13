@@ -63,14 +63,14 @@ const Slider = ({
 			{...containerProps}
 			className={cx(
 				'relative flex gap-4',
-				verticalOnLG ? 'verticalOnLG' : 'lg:flex-col',
+				verticalOnLG ? 'verticalOnLG lg:flex-col' : '',
 				containerProps?.className
 			)}
 		>
 			<div
 				className={cx(
 					'flex items-center justify-center',
-					verticalOnLG ? 'lg:rotate-90 scale-75' : '',
+					// verticalOnLG ? 'lg:rotate-90 scale-75' : '',
 					!isNavButtonsOutside ? '' : 'absolute',
 					verticalOnLG && isNavButtonsOutside
 						? 'lg:right-auto lg:rtl:right-auto lg:top-0 lg:left-1/2 lg:rtl:left-1/2 lg:-translate-x-1/2 lg:-translate-y-full'
@@ -85,10 +85,10 @@ const Slider = ({
 					title="Previous slide."
 					onClick={() => SwiperInstanceRef.current?.slidePrev()}
 					className={cx(
-						'hover:scale-[1.25] focus:scale-[1.25] transition-all duration-150 w-4 h-8 aspect-[1.91/1]',
+						'hover:scale-[1.25] focus:scale-[1.25] transition-all duration-150 w-4 h-8 aspect-[1.91/1] rtl:rotate-180',
 						verticalOnLG
-							? 'rtl:rotate-180'
-							: 'rtl:rotate-180 lg:rotate-90 rtl:lg:rotate-90',
+							? 'lg:rotate-90 rtl:lg:rotate-90 scale-75'
+							: 'rtl:rotate-180',
 						previousSlideButtonClassName
 					)}
 				>
@@ -126,7 +126,7 @@ const Slider = ({
 			<div
 				className={cx(
 					'flex items-center justify-center',
-					verticalOnLG ? 'lg:rotate-90 scale-75' : '',
+					// verticalOnLG ? 'lg:rotate-90 scale-75' : '',
 					!isNavButtonsOutside ? '' : 'absolute',
 					verticalOnLG && isNavButtonsOutside
 						? 'lg:right-auto lg:rtl:right-auto lg:top-full lg:left-1/2 lg:rtl:left-1/2 lg:-translate-x-1/2 lg:translate-y-0'
@@ -143,8 +143,8 @@ const Slider = ({
 					className={cx(
 						'hover:scale-[1.25] focus:scale-[1.25] transition-all duration-150 w-4 h-8 aspect-[1.91/1]',
 						verticalOnLG
-							? ' rtl:rotate-180'
-							: ' rtl:rotate-180 lg:rotate-90 rtl:lg:rotate-90',
+							? 'lg:rotate-90 rtl:lg:rotate-90 scale-75'
+							: 'rtl:rotate-180',
 						nextSlideButtonClassName
 					)}
 				>

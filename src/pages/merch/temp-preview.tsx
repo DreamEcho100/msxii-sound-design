@@ -1,6 +1,8 @@
-import { shopifyFakeProductsData } from '~/utils/appData';
 import CustomProductScreen from '~/components/shared/core/CustomProductScreen';
-import { championHoodieMerch as productData } from '~/utils/appData/merch';
+import {
+	championHoodieMerch as productData,
+	merchesData
+} from '~/utils/appData/merch';
 
 const media = productData.media[0]!;
 
@@ -9,9 +11,7 @@ const medias = '_'
 	.split('_')
 	.map(() => media);
 
-const products = shopifyFakeProductsData.filter(
-	(product) => product.id !== productData.id
-);
+const products = merchesData.filter((product) => product.id !== productData.id);
 
 const TempPreviewProductPage = () => {
 	return (

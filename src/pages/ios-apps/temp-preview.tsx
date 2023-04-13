@@ -1,8 +1,6 @@
-import {
-	schlumpLoopsBundleProduct as productData,
-	shopifyFakeProductsData
-} from '~/utils/appData';
+import { shopifyFakeProductsData } from '~/utils/appData';
 import CustomProductScreen from '~/components/shared/core/CustomProductScreen';
+import { championHoodieMerch as productData } from '~/utils/appData/merch';
 
 const media = productData.media[0]!;
 

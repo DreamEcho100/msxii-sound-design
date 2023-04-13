@@ -40,7 +40,7 @@ const MerchesPage: NextPage = () => {
 				{productData.map((item) => (
 					<ProductCard
 						key={item.handle}
-						product={item as any}
+						product={item}
 						routeBase="/merch"
 						containerVariants={{ w: null }}
 						imageVariants={{ 'object-fit': 'contain' }}

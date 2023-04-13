@@ -14,8 +14,6 @@ import {
 	CustomPage
 } from '../types/custom-page';
 
-const handleDefaultImagesPath = (path: string) => `/images/${path}`;
-
 export enum ProductsTags {
 	'New Releases' = 'New Releases',
 	'Drum Kits' = 'Drum Kits',
@@ -28,93 +26,6 @@ export enum ProductsTags {
 	'Presets' = 'Presets',
 	FreeLabel = 'Free Label'
 }
-
-export const fakeProductsBaseData = [
-	{
-		id: 1,
-		title: 'Loops Go Crazy Vol. 5',
-		price: 26.99,
-		image: {
-			src: handleDefaultImagesPath(
-				'e6b9160e7b1a4bcfd9c8903c6b599305abd525fb.png'
-			),
-			alt: ''
-		}
-	},
-	{
-		id: 2,
-		title: 'Schlump Loops Bundle',
-		price: 369.99,
-		image: {
-			src: handleDefaultImagesPath(
-				'cdf81d3835669a8af7c9b66cf2e0a098d0e62e69.png'
-			),
-			alt: ''
-		}
-	},
-	{
-		id: 3,
-		title: 'The Horns of Ivory Soul Vol. 1',
-		price: 437.84,
-		image: {
-			src: handleDefaultImagesPath(
-				'17ee6b38a84b6a0fbb09316f5e46c8c0d039c40e.png'
-			),
-			alt: ''
-		}
-	},
-	{
-		id: 4,
-		title: 'R&B Soul Guitar Loops Vol. 1',
-		price: 24.99,
-		image: {
-			src: handleDefaultImagesPath(
-				'c01cc1aeb8019c3d4605c89f0f27cf8d89b48307.png'
-			),
-			alt: ''
-		}
-	},
-	{
-		id: 5,
-		title: 'High Art Vol. 1 - Tastemakers Edition',
-		price: 26.99,
-		image: {
-			src: handleDefaultImagesPath(
-				'cdf81d3835669a8af7c9b66cf2e0a098d0e62e69.png'
-			),
-			alt: ''
-		}
-	},
-	{
-		id: 6,
-		title: 'Cassettes & Pedals Bundle',
-		price: 39.99,
-		image: {
-			src: handleDefaultImagesPath(
-				'cab913d3485600dd99e93f305b788f0cf3aefe5e.png'
-			),
-			alt: ''
-		}
-	},
-	{
-		id: 7,
-		title: 'Sammich Kit 12',
-		price: 27.99,
-		image: {
-			src: handleDefaultImagesPath(
-				'87b6dec7d5bcf2c68d8bc2c35d17733ec4fbc969.png'
-			),
-			alt: ''
-		}
-	}
-];
-
-export const fakeProductsData = [
-	...fakeProductsBaseData,
-	...fakeProductsBaseData,
-	...fakeProductsBaseData,
-	...fakeProductsBaseData
-].map((product) => ({ key: `${Date.now()}-${Math.random()}`, ...product }));
 
 export const loopsGoCrazyVol5Product: ShopifyProduct = {
 	id: 6879014912066,
@@ -184,6 +95,319 @@ export const loopsGoCrazyVol5Product: ShopifyProduct = {
 			height: 2000,
 			media_type: 'image',
 			src: 'https://cdn.shopify.com/s/files/1/0345/7209/products/LoopsGoCrazyVol.5Artwork.jpg?v=1674261773',
+			width: 2000
+		}
+	],
+	requires_selling_plan: false,
+	selling_plan_groups: []
+};
+
+export const schlumpLoopsBundleProduct = {
+	id: 6849904443458,
+	title: 'Schlump Loops Bundle',
+	handle: 'schlump-loops-bundle',
+	description:
+		'\u003cp\u003eAll Schlump Loops combined into one bundled price! Over 420 schwangin, laid-back, off groove drum loops for you to use as-is or cut up for your music production. Here\'s what you\'ll get:\u003c/p\u003e\n\u003col\u003e\n\u003cli\u003e\n\u003cspan style="font-size: 1.4em;"\u003e\u003ca href="https://www.msxaudio.com/products/schlump-loops-1" target="_blank" rel="noopener noreferrer"\u003eSchlump Loops 1\u003c/a\u003e\u003c/span\u003e\u003cbr\u003e\n\u003c/li\u003e\n\u003cli\u003e\n\u003cspan style="font-size: 1.4em;"\u003e\u003ca href="https://www.msxaudio.com/products/schlump-loops-2" target="_blank" rel="noopener noreferrer"\u003eSchlump Loops 2\u003c/a\u003e\u003c/span\u003e\u003cbr\u003e\n\u003c/li\u003e\n\u003cli\u003e\n\u003cspan style="font-size: 1.4em;"\u003e\u003ca href="https://www.msxaudio.com/products/schlump-loops-3" target="_blank" rel="noopener noreferrer"\u003eSchlump Loops 3\u003c/a\u003e\u003c/span\u003e\u003cbr\u003e\n\u003c/li\u003e\n\u003cli\u003e\n\u003cspan style="font-size: 1.4em;"\u003e\u003ca href="https://www.msxaudio.com/products/schlump-loops-4" target="_blank" rel="noopener noreferrer"\u003eSchlump Loops 4\u003c/a\u003e\u003c/span\u003e\u003cbr\u003e\n\u003c/li\u003e\n\u003cli\u003e\n\u003cspan style="font-size: 1.4em;"\u003e\u003ca href="https://www.msxaudio.com/products/schlump-loops-5" target="_blank" rel="noopener noreferrer"\u003eSchlump Loops 5\u003c/a\u003e\u003c/span\u003e\u003cbr\u003e\n\u003c/li\u003e\n\u003cli\u003e\n\u003cspan style="font-size: 1.4em;"\u003e\u003ca href="https://www.msxaudio.com/products/schlump-loops-6" target="_blank" rel="noopener noreferrer"\u003eSchlump Loops 6\u003c/a\u003e\u003c/span\u003e\u003cbr\u003e\n\u003c/li\u003e\n\u003cli\u003e\n\u003cspan style="font-size: 1.4em;"\u003e\u003ca href="https://www.msxaudio.com/products/schlump-loops-7" target="_blank" rel="noopener noreferrer"\u003eSchlump Loops 7\u003c/a\u003e\u003c/span\u003e\u003cbr\u003e\n\u003c/li\u003e\n\u003cli\u003e\n\u003cspan style="font-size: 1.4em;"\u003e\u003ca href="https://www.msxaudio.com/products/schlump-loops-8" target="_blank" rel="noopener noreferrer"\u003eSchlump Loops 8\u003c/a\u003e\u003c/span\u003e\u003cbr\u003e\n\u003c/li\u003e\n\u003cli\u003e\n\u003cspan style="font-size: 1.4em;"\u003e\u003ca href="https://www.msxaudio.com/products/schlump-loops-9" target="_blank" rel="noopener noreferrer"\u003eSchlump Loops 9\u003c/a\u003e\u003c/span\u003e\u003cbr\u003e\n\u003c/li\u003e\n\u003cli\u003e\n\u003cspan style="font-size: 1.4em;"\u003e\u003ca href="https://www.msxaudio.com/products/schlump-loops-10" target="_blank" rel="noopener noreferrer"\u003eSchlump Loops 10\u003c/a\u003e\u003c/span\u003e\u003cbr\u003e\n\u003c/li\u003e\n\u003cli\u003e\n\u003cspan style="font-size: 1.4em;"\u003e\u003ca href="https://www.msxaudio.com/products/schlump-loops-11" target="_blank" rel="noopener noreferrer"\u003eSchlump Loops 11\u003c/a\u003e\u003c/span\u003e\u003cbr\u003e\n\u003c/li\u003e\n\u003cli\u003e\n\u003cspan style="font-size: 1.4em;"\u003e\u003ca href="https://www.msxaudio.com/products/schlump-loops-12" target="_blank" rel="noopener noreferrer"\u003eSchlump Loops 12\u003c/a\u003e\u003c/span\u003e\u003cbr\u003e\n\u003c/li\u003e\n\u003cli\u003e\n\u003cspan style="font-size: 1.4em;"\u003e\u003ca href="https://www.msxaudio.com/products/schlump-loops-13" target="_blank" rel="noopener noreferrer"\u003eSchlump Loops 13\u003c/a\u003e\u003c/span\u003e\u003cbr\u003e\n\u003c/li\u003e\n\u003cli\u003e\u003cspan style="font-size: 1.4em;"\u003e\u003ca href="https://www.msxaudio.com/products/schlump-loops-14" target="_blank" rel="noopener noreferrer"\u003eSchlump Loops 14\u003c/a\u003e\u003c/span\u003e\u003c/li\u003e\n\u003c/ol\u003e\n\u003ciframe src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/337241144\u0026amp;color=%23ff5500\u0026amp;auto_play=false\u0026amp;hide_related=false\u0026amp;show_comments=true\u0026amp;show_user=true\u0026amp;show_reposts=false\u0026amp;show_teaser=true" height="166" width="100%" allow="autoplay" frameborder="no" scrolling="no"\u003e\u003c/iframe\u003e\n\u003cdiv style="font-size: 10px; color: #cccccc; line-break: anywhere; word-break: normal; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; font-family: Interstate,Lucida Grande,Lucida Sans Unicode,Lucida Sans,Garuda,Verdana,Tahoma,sans-serif; font-weight: 100;"\u003e\n\u003ca style="color: #cccccc; text-decoration: none;" title="MSXIISound" href="https://soundcloud.com/msxiisound" target="_blank"\u003eMSXIISound\u003c/a\u003e \u00b7 \u003ca style="color: #cccccc; text-decoration: none;" title="Schlump Loops Demo" href="https://soundcloud.com/msxiisound/schlump-drums-demo" target="_blank"\u003eSchlump Loops Demo\u003c/a\u003e\n\u003c/div\u003e\n\u003ciframe src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/338229397\u0026amp;color=%23ff5500\u0026amp;auto_play=false\u0026amp;hide_related=false\u0026amp;show_comments=true\u0026amp;show_user=true\u0026amp;show_reposts=false\u0026amp;show_teaser=true" height="166" width="100%" allow="autoplay" frameborder="no" scrolling="no"\u003e\u003c/iframe\u003e\n\u003cdiv style="font-size: 10px; color: #cccccc; line-break: anywhere; word-break: normal; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; font-family: Interstate,Lucida Grande,Lucida Sans Unicode,Lucida Sans,Garuda,Verdana,Tahoma,sans-serif; font-weight: 100;"\u003e\n\u003ca style="color: #cccccc; text-decoration: none;" title="MSXIISound" href="https://soundcloud.com/msxiisound" target="_blank"\u003eMSXIISound\u003c/a\u003e \u00b7 \u003ca style="color: #cccccc; text-decoration: none;" title="Schlump Loops 2 Demo" href="https://soundcloud.com/msxiisound/schlump-loops-2-demo" target="_blank"\u003eSchlump Loops 2 Demo\u003c/a\u003e\n\u003c/div\u003e\n\u003ciframe src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/345657094\u0026amp;color=%23ff5500\u0026amp;auto_play=false\u0026amp;hide_related=false\u0026amp;show_comments=true\u0026amp;show_user=true\u0026amp;show_reposts=false\u0026amp;show_teaser=true" height="166" width="100%" allow="autoplay" frameborder="no" scrolling="no"\u003e\u003c/iframe\u003e\n\u003cdiv style="font-size: 10px; color: #cccccc; line-break: anywhere; word-break: normal; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; font-family: Interstate,Lucida Grande,Lucida Sans Unicode,Lucida Sans,Garuda,Verdana,Tahoma,sans-serif; font-weight: 100;"\u003e\n\u003ca style="color: #cccccc; text-decoration: none;" title="MSXIISound" href="https://soundcloud.com/msxiisound" target="_blank"\u003eMSXIISound\u003c/a\u003e \u00b7 \u003ca style="color: #cccccc; text-decoration: none;" title="MSXII - Schlump Loops 3 Demo [Heated Edition]" href="https://soundcloud.com/msxiisound/msxii-schlump-loops-3-demo-heated-edition" target="_blank"\u003eMSXII - Schlump Loops 3 Demo [Heated Edition]\u003c/a\u003e\n\u003c/div\u003e\n\u003ciframe src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/414654237\u0026amp;color=%23ff5500\u0026amp;auto_play=false\u0026amp;hide_related=false\u0026amp;show_comments=true\u0026amp;show_user=true\u0026amp;show_reposts=false\u0026amp;show_teaser=true" height="166" width="100%" allow="autoplay" frameborder="no" scrolling="no"\u003e\u003c/iframe\u003e\n\u003cdiv style="font-size: 10px; color: #cccccc; line-break: anywhere; word-break: normal; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; font-family: Interstate,Lucida Grande,Lucida Sans Unicode,Lucida Sans,Garuda,Verdana,Tahoma,sans-serif; font-weight: 100;"\u003e\n\u003ca style="color: #cccccc; text-decoration: none;" title="MSXIISound" href="https://soundcloud.com/msxiisound" target="_blank"\u003eMSXIISound\u003c/a\u003e \u00b7 \u003ca style="color: #cccccc; text-decoration: none;" title="Schlump Loops 4 Demo" href="https://soundcloud.com/msxiisound/schlump-loops-4-demo" target="_blank"\u003eSchlump Loops 4 Demo\u003c/a\u003e\n\u003c/div\u003e\n\u003ciframe src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/473689746\u0026amp;color=%23ff5500\u0026amp;auto_play=false\u0026amp;hide_related=false\u0026amp;show_comments=true\u0026amp;show_user=true\u0026amp;show_reposts=false\u0026amp;show_teaser=true" height="166" width="100%" allow="autoplay" frameborder="no" scrolling="no"\u003e\u003c/iframe\u003e\n\u003cdiv style="font-size: 10px; color: #cccccc; line-break: anywhere; word-break: normal; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; font-family: Interstate,Lucida Grande,Lucida Sans Unicode,Lucida Sans,Garuda,Verdana,Tahoma,sans-serif; font-weight: 100;"\u003e\n\u003ca style="color: #cccccc; text-decoration: none;" title="MSXIISound" href="https://soundcloud.com/msxiisound" target="_blank"\u003eMSXIISound\u003c/a\u003e \u00b7 \u003ca style="color: #cccccc; text-decoration: none;" title="Schlump Loops 5 Demo" href="https://soundcloud.com/msxiisound/schlump-loops-5-demo" target="_blank"\u003eSchlump Loops 5 Demo\u003c/a\u003e\n\u003c/div\u003e\n\u003ciframe title="YouTube video player" src="https://www.youtube.com/embed/-r2sMTHi5jU" height="515" width="560" allowfullscreen="" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" frameborder="0"\u003e\u003c/iframe\u003e \u003ciframe title="YouTube video player" src="https://www.youtube.com/embed/0snOf1pjrbk" height="515" width="560" allowfullscreen="" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" frameborder="0"\u003e\u003c/iframe\u003e \u003ciframe title="YouTube video player" src="https://www.youtube.com/embed/M8giEsOiYUI" height="515" width="560" allowfullscreen="" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" frameborder="0"\u003e\u003c/iframe\u003e \u003ciframe title="YouTube video player" src="https://www.youtube.com/embed/lmJPym6QtaQ" height="515" width="560" allowfullscreen="" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" frameborder="0"\u003e\u003c/iframe\u003e \u003ciframe title="YouTube video player" src="https://www.youtube.com/embed/3hUyGvvfr5I" height="515" width="560" allowfullscreen="" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" frameborder="0"\u003e\u003c/iframe\u003e \u003ciframe title="YouTube video player" src="https://www.youtube.com/embed/6_AAYVVJlVc" height="515" width="560" allowfullscreen="" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" frameborder="0"\u003e\u003c/iframe\u003e \u003ciframe title="YouTube video player" src="https://www.youtube.com/embed/XG1WXJRNh1k" height="515" width="560" allowfullscreen="" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" frameborder="0"\u003e\u003c/iframe\u003e \u003ciframe title="YouTube video player" src="https://www.youtube.com/embed/BnhYZqMWfcg" height="515" width="560" allowfullscreen="" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" frameborder="0"\u003e\u003c/iframe\u003e \u003ciframe title="YouTube video player" src="https://www.youtube.com/embed/MwjZ0Vr7Mh8" height="515" width="560" allowfullscreen="" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" frameborder="0"\u003e\u003c/iframe\u003e',
+	published_at: '2022-11-18T16:26:48-06:00',
+	created_at: '2022-11-18T16:26:39-06:00',
+	vendor: 'MSXII Sound',
+	type: '',
+	tags: [ProductsTags.Bundles, ProductsTags.Loops],
+	price: 1153800,
+	price_min: 1153800,
+	price_max: 1153800,
+	available: true,
+	price_varies: false,
+	compare_at_price: 1365400,
+	compare_at_price_min: 1365400,
+	compare_at_price_max: 1365400,
+	compare_at_price_varies: false,
+	variants: [
+		{
+			id: 40090143293506,
+			title: 'Default Title',
+			option1: 'Default Title',
+			option2: null,
+			option3: null,
+			sku: '',
+			requires_shipping: false,
+			taxable: false,
+			featured_image: null,
+			available: true,
+			name: 'Schlump Loops Bundle',
+			public_title: null,
+			options: ['Default Title'],
+			price: 1153800,
+			weight: 0,
+			compare_at_price: 1365400,
+			inventory_quantity: 0,
+			inventory_management: null,
+			inventory_policy: 'deny',
+			barcode: '',
+			requires_selling_plan: false,
+			selling_plan_allocations: []
+		}
+	],
+	images: [
+		'https://cdn.shopify.com/s/files/1/0345/7209/products/SchlumpLoops-BUNDLEart.jpg?v=1668810401',
+		'https://cdn.shopify.com/s/files/1/0345/7209/products/SchlumpLoops1art.jpg?v=1668810402',
+		'https://cdn.shopify.com/s/files/1/0345/7209/products/SchlumpLoops2artwork.jpg?v=1668810402',
+		'https://cdn.shopify.com/s/files/1/0345/7209/products/SchlumpLoops3art.jpg?v=1668810401',
+		'https://cdn.shopify.com/s/files/1/0345/7209/products/SchlumpLoops4art.jpg?v=1668810401',
+		'https://cdn.shopify.com/s/files/1/0345/7209/products/SchlumpLoops5art.jpg?v=1668810403',
+		'https://cdn.shopify.com/s/files/1/0345/7209/products/SchlumpLoops6.jpg?v=1668810403',
+		'https://cdn.shopify.com/s/files/1/0345/7209/products/SchlumpLoops7_976a0793-7481-4199-81be-65f0cf748dd3.jpg?v=1668810403',
+		'https://cdn.shopify.com/s/files/1/0345/7209/products/SchlumpLoops8art_65caf9fa-0cc8-4519-a060-a3ceb592d970.jpg?v=1668810402',
+		'https://cdn.shopify.com/s/files/1/0345/7209/products/SchlumpLoops9artwork.jpg?v=1668810402',
+		'https://cdn.shopify.com/s/files/1/0345/7209/products/SchlumpLoops10artwork_9e2b2a11-333c-413a-a9db-de799f71a8ad.jpg?v=1668810403',
+		'https://cdn.shopify.com/s/files/1/0345/7209/products/SchlumpLoops11artwork_54a02c6b-6a6e-4ba5-8252-6f4124607c20.jpg?v=1668810403',
+		'https://cdn.shopify.com/s/files/1/0345/7209/products/SchlumpLoops12artwork_a36d3984-f8dd-47a8-8a91-334c6489cfd0.jpg?v=1668810402',
+		'https://cdn.shopify.com/s/files/1/0345/7209/products/SchlumpLoops13art_ff098f20-be03-48c3-ba15-1145df42ce81.jpg?v=1668810401',
+		'https://cdn.shopify.com/s/files/1/0345/7209/products/SchlumpLoops14art_ab274abf-1ef0-463d-bdaa-e365f4f23850.jpg?v=1668810402'
+	],
+	featured_image:
+		'https://cdn.shopify.com/s/files/1/0345/7209/products/SchlumpLoops-BUNDLEart.jpg?v=1668810401',
+	options: [{ name: 'Title', position: 1, values: ['Default Title'] }],
+	url: '/products/schlump-loops-bundle',
+	media: [
+		{
+			alt: null,
+			id: 22080560791618,
+			position: 1,
+			preview_image: {
+				aspect_ratio: 1.0,
+				height: 2000,
+				width: 2000,
+				src: 'https://cdn.shopify.com/s/files/1/0345/7209/products/SchlumpLoops-BUNDLEart.jpg?v=1668810401'
+			},
+			aspect_ratio: 1.0,
+			height: 2000,
+			media_type: 'image',
+			src: 'https://cdn.shopify.com/s/files/1/0345/7209/products/SchlumpLoops-BUNDLEart.jpg?v=1668810401',
+			width: 2000
+		},
+		{
+			alt: null,
+			id: 22080560824386,
+			position: 2,
+			preview_image: {
+				aspect_ratio: 1.0,
+				height: 2000,
+				width: 2000,
+				src: 'https://cdn.shopify.com/s/files/1/0345/7209/products/SchlumpLoops1art.jpg?v=1668810402'
+			},
+			aspect_ratio: 1.0,
+			height: 2000,
+			media_type: 'image',
+			src: 'https://cdn.shopify.com/s/files/1/0345/7209/products/SchlumpLoops1art.jpg?v=1668810402',
+			width: 2000
+		},
+		{
+			alt: null,
+			id: 22080560857154,
+			position: 3,
+			preview_image: {
+				aspect_ratio: 1.0,
+				height: 2000,
+				width: 2000,
+				src: 'https://cdn.shopify.com/s/files/1/0345/7209/products/SchlumpLoops2artwork.jpg?v=1668810402'
+			},
+			aspect_ratio: 1.0,
+			height: 2000,
+			media_type: 'image',
+			src: 'https://cdn.shopify.com/s/files/1/0345/7209/products/SchlumpLoops2artwork.jpg?v=1668810402',
+			width: 2000
+		},
+		{
+			alt: null,
+			id: 22080560889922,
+			position: 4,
+			preview_image: {
+				aspect_ratio: 1.0,
+				height: 2000,
+				width: 2000,
+				src: 'https://cdn.shopify.com/s/files/1/0345/7209/products/SchlumpLoops3art.jpg?v=1668810401'
+			},
+			aspect_ratio: 1.0,
+			height: 2000,
+			media_type: 'image',
+			src: 'https://cdn.shopify.com/s/files/1/0345/7209/products/SchlumpLoops3art.jpg?v=1668810401',
+			width: 2000
+		},
+		{
+			alt: null,
+			id: 22080560922690,
+			position: 5,
+			preview_image: {
+				aspect_ratio: 1.0,
+				height: 2000,
+				width: 2000,
+				src: 'https://cdn.shopify.com/s/files/1/0345/7209/products/SchlumpLoops4art.jpg?v=1668810401'
+			},
+			aspect_ratio: 1.0,
+			height: 2000,
+			media_type: 'image',
+			src: 'https://cdn.shopify.com/s/files/1/0345/7209/products/SchlumpLoops4art.jpg?v=1668810401',
+			width: 2000
+		},
+		{
+			alt: null,
+			id: 22080560955458,
+			position: 6,
+			preview_image: {
+				aspect_ratio: 1.0,
+				height: 2000,
+				width: 2000,
+				src: 'https://cdn.shopify.com/s/files/1/0345/7209/products/SchlumpLoops5art.jpg?v=1668810403'
+			},
+			aspect_ratio: 1.0,
+			height: 2000,
+			media_type: 'image',
+			src: 'https://cdn.shopify.com/s/files/1/0345/7209/products/SchlumpLoops5art.jpg?v=1668810403',
+			width: 2000
+		},
+		{
+			alt: null,
+			id: 22080560988226,
+			position: 7,
+			preview_image: {
+				aspect_ratio: 1.0,
+				height: 2000,
+				width: 2000,
+				src: 'https://cdn.shopify.com/s/files/1/0345/7209/products/SchlumpLoops6.jpg?v=1668810403'
+			},
+			aspect_ratio: 1.0,
+			height: 2000,
+			media_type: 'image',
+			src: 'https://cdn.shopify.com/s/files/1/0345/7209/products/SchlumpLoops6.jpg?v=1668810403',
+			width: 2000
+		},
+		{
+			alt: null,
+			id: 22080561020994,
+			position: 8,
+			preview_image: {
+				aspect_ratio: 1.0,
+				height: 2000,
+				width: 2000,
+				src: 'https://cdn.shopify.com/s/files/1/0345/7209/products/SchlumpLoops7_976a0793-7481-4199-81be-65f0cf748dd3.jpg?v=1668810403'
+			},
+			aspect_ratio: 1.0,
+			height: 2000,
+			media_type: 'image',
+			src: 'https://cdn.shopify.com/s/files/1/0345/7209/products/SchlumpLoops7_976a0793-7481-4199-81be-65f0cf748dd3.jpg?v=1668810403',
+			width: 2000
+		},
+		{
+			alt: null,
+			id: 22080561053762,
+			position: 9,
+			preview_image: {
+				aspect_ratio: 1.0,
+				height: 2000,
+				width: 2000,
+				src: 'https://cdn.shopify.com/s/files/1/0345/7209/products/SchlumpLoops8art_65caf9fa-0cc8-4519-a060-a3ceb592d970.jpg?v=1668810402'
+			},
+			aspect_ratio: 1.0,
+			height: 2000,
+			media_type: 'image',
+			src: 'https://cdn.shopify.com/s/files/1/0345/7209/products/SchlumpLoops8art_65caf9fa-0cc8-4519-a060-a3ceb592d970.jpg?v=1668810402',
+			width: 2000
+		},
+		{
+			alt: null,
+			id: 22080561086530,
+			position: 10,
+			preview_image: {
+				aspect_ratio: 1.0,
+				height: 2000,
+				width: 2000,
+				src: 'https://cdn.shopify.com/s/files/1/0345/7209/products/SchlumpLoops9artwork.jpg?v=1668810402'
+			},
+			aspect_ratio: 1.0,
+			height: 2000,
+			media_type: 'image',
+			src: 'https://cdn.shopify.com/s/files/1/0345/7209/products/SchlumpLoops9artwork.jpg?v=1668810402',
+			width: 2000
+		},
+		{
+			alt: null,
+			id: 22080561119298,
+			position: 11,
+			preview_image: {
+				aspect_ratio: 1.0,
+				height: 2000,
+				width: 2000,
+				src: 'https://cdn.shopify.com/s/files/1/0345/7209/products/SchlumpLoops10artwork_9e2b2a11-333c-413a-a9db-de799f71a8ad.jpg?v=1668810403'
+			},
+			aspect_ratio: 1.0,
+			height: 2000,
+			media_type: 'image',
+			src: 'https://cdn.shopify.com/s/files/1/0345/7209/products/SchlumpLoops10artwork_9e2b2a11-333c-413a-a9db-de799f71a8ad.jpg?v=1668810403',
+			width: 2000
+		},
+		{
+			alt: null,
+			id: 22080561152066,
+			position: 12,
+			preview_image: {
+				aspect_ratio: 1.0,
+				height: 3000,
+				width: 3000,
+				src: 'https://cdn.shopify.com/s/files/1/0345/7209/products/SchlumpLoops11artwork_54a02c6b-6a6e-4ba5-8252-6f4124607c20.jpg?v=1668810403'
+			},
+			aspect_ratio: 1.0,
+			height: 3000,
+			media_type: 'image',
+			src: 'https://cdn.shopify.com/s/files/1/0345/7209/products/SchlumpLoops11artwork_54a02c6b-6a6e-4ba5-8252-6f4124607c20.jpg?v=1668810403',
+			width: 3000
+		},
+		{
+			alt: null,
+			id: 22080561184834,
+			position: 13,
+			preview_image: {
+				aspect_ratio: 1.0,
+				height: 3000,
+				width: 3000,
+				src: 'https://cdn.shopify.com/s/files/1/0345/7209/products/SchlumpLoops12artwork_a36d3984-f8dd-47a8-8a91-334c6489cfd0.jpg?v=1668810402'
+			},
+			aspect_ratio: 1.0,
+			height: 3000,
+			media_type: 'image',
+			src: 'https://cdn.shopify.com/s/files/1/0345/7209/products/SchlumpLoops12artwork_a36d3984-f8dd-47a8-8a91-334c6489cfd0.jpg?v=1668810402',
+			width: 3000
+		},
+		{
+			alt: null,
+			id: 22080561217602,
+			position: 14,
+			preview_image: {
+				aspect_ratio: 1.0,
+				height: 2000,
+				width: 2000,
+				src: 'https://cdn.shopify.com/s/files/1/0345/7209/products/SchlumpLoops13art_ff098f20-be03-48c3-ba15-1145df42ce81.jpg?v=1668810401'
+			},
+			aspect_ratio: 1.0,
+			height: 2000,
+			media_type: 'image',
+			src: 'https://cdn.shopify.com/s/files/1/0345/7209/products/SchlumpLoops13art_ff098f20-be03-48c3-ba15-1145df42ce81.jpg?v=1668810401',
+			width: 2000
+		},
+		{
+			alt: null,
+			id: 22080561250370,
+			position: 15,
+			preview_image: {
+				aspect_ratio: 1.0,
+				height: 2000,
+				width: 2000,
+				src: 'https://cdn.shopify.com/s/files/1/0345/7209/products/SchlumpLoops14art_ab274abf-1ef0-463d-bdaa-e365f4f23850.jpg?v=1668810402'
+			},
+			aspect_ratio: 1.0,
+			height: 2000,
+			media_type: 'image',
+			src: 'https://cdn.shopify.com/s/files/1/0345/7209/products/SchlumpLoops14art_ab274abf-1ef0-463d-bdaa-e365f4f23850.jpg?v=1668810402',
 			width: 2000
 		}
 	],
@@ -267,318 +491,7 @@ export const shopifyFakeProductsData: ShopifyProduct[] = [
 		selling_plan_groups: []
 	},
 	loopsGoCrazyVol5Product,
-	{
-		id: 6849904443458,
-		title: 'Schlump Loops Bundle',
-		handle: 'schlump-loops-bundle',
-		description:
-			'\u003cp\u003eAll Schlump Loops combined into one bundled price! Over 420 schwangin, laid-back, off groove drum loops for you to use as-is or cut up for your music production. Here\'s what you\'ll get:\u003c/p\u003e\n\u003col\u003e\n\u003cli\u003e\n\u003cspan style="font-size: 1.4em;"\u003e\u003ca href="https://www.msxaudio.com/products/schlump-loops-1" target="_blank" rel="noopener noreferrer"\u003eSchlump Loops 1\u003c/a\u003e\u003c/span\u003e\u003cbr\u003e\n\u003c/li\u003e\n\u003cli\u003e\n\u003cspan style="font-size: 1.4em;"\u003e\u003ca href="https://www.msxaudio.com/products/schlump-loops-2" target="_blank" rel="noopener noreferrer"\u003eSchlump Loops 2\u003c/a\u003e\u003c/span\u003e\u003cbr\u003e\n\u003c/li\u003e\n\u003cli\u003e\n\u003cspan style="font-size: 1.4em;"\u003e\u003ca href="https://www.msxaudio.com/products/schlump-loops-3" target="_blank" rel="noopener noreferrer"\u003eSchlump Loops 3\u003c/a\u003e\u003c/span\u003e\u003cbr\u003e\n\u003c/li\u003e\n\u003cli\u003e\n\u003cspan style="font-size: 1.4em;"\u003e\u003ca href="https://www.msxaudio.com/products/schlump-loops-4" target="_blank" rel="noopener noreferrer"\u003eSchlump Loops 4\u003c/a\u003e\u003c/span\u003e\u003cbr\u003e\n\u003c/li\u003e\n\u003cli\u003e\n\u003cspan style="font-size: 1.4em;"\u003e\u003ca href="https://www.msxaudio.com/products/schlump-loops-5" target="_blank" rel="noopener noreferrer"\u003eSchlump Loops 5\u003c/a\u003e\u003c/span\u003e\u003cbr\u003e\n\u003c/li\u003e\n\u003cli\u003e\n\u003cspan style="font-size: 1.4em;"\u003e\u003ca href="https://www.msxaudio.com/products/schlump-loops-6" target="_blank" rel="noopener noreferrer"\u003eSchlump Loops 6\u003c/a\u003e\u003c/span\u003e\u003cbr\u003e\n\u003c/li\u003e\n\u003cli\u003e\n\u003cspan style="font-size: 1.4em;"\u003e\u003ca href="https://www.msxaudio.com/products/schlump-loops-7" target="_blank" rel="noopener noreferrer"\u003eSchlump Loops 7\u003c/a\u003e\u003c/span\u003e\u003cbr\u003e\n\u003c/li\u003e\n\u003cli\u003e\n\u003cspan style="font-size: 1.4em;"\u003e\u003ca href="https://www.msxaudio.com/products/schlump-loops-8" target="_blank" rel="noopener noreferrer"\u003eSchlump Loops 8\u003c/a\u003e\u003c/span\u003e\u003cbr\u003e\n\u003c/li\u003e\n\u003cli\u003e\n\u003cspan style="font-size: 1.4em;"\u003e\u003ca href="https://www.msxaudio.com/products/schlump-loops-9" target="_blank" rel="noopener noreferrer"\u003eSchlump Loops 9\u003c/a\u003e\u003c/span\u003e\u003cbr\u003e\n\u003c/li\u003e\n\u003cli\u003e\n\u003cspan style="font-size: 1.4em;"\u003e\u003ca href="https://www.msxaudio.com/products/schlump-loops-10" target="_blank" rel="noopener noreferrer"\u003eSchlump Loops 10\u003c/a\u003e\u003c/span\u003e\u003cbr\u003e\n\u003c/li\u003e\n\u003cli\u003e\n\u003cspan style="font-size: 1.4em;"\u003e\u003ca href="https://www.msxaudio.com/products/schlump-loops-11" target="_blank" rel="noopener noreferrer"\u003eSchlump Loops 11\u003c/a\u003e\u003c/span\u003e\u003cbr\u003e\n\u003c/li\u003e\n\u003cli\u003e\n\u003cspan style="font-size: 1.4em;"\u003e\u003ca href="https://www.msxaudio.com/products/schlump-loops-12" target="_blank" rel="noopener noreferrer"\u003eSchlump Loops 12\u003c/a\u003e\u003c/span\u003e\u003cbr\u003e\n\u003c/li\u003e\n\u003cli\u003e\n\u003cspan style="font-size: 1.4em;"\u003e\u003ca href="https://www.msxaudio.com/products/schlump-loops-13" target="_blank" rel="noopener noreferrer"\u003eSchlump Loops 13\u003c/a\u003e\u003c/span\u003e\u003cbr\u003e\n\u003c/li\u003e\n\u003cli\u003e\u003cspan style="font-size: 1.4em;"\u003e\u003ca href="https://www.msxaudio.com/products/schlump-loops-14" target="_blank" rel="noopener noreferrer"\u003eSchlump Loops 14\u003c/a\u003e\u003c/span\u003e\u003c/li\u003e\n\u003c/ol\u003e\n\u003ciframe src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/337241144\u0026amp;color=%23ff5500\u0026amp;auto_play=false\u0026amp;hide_related=false\u0026amp;show_comments=true\u0026amp;show_user=true\u0026amp;show_reposts=false\u0026amp;show_teaser=true" height="166" width="100%" allow="autoplay" frameborder="no" scrolling="no"\u003e\u003c/iframe\u003e\n\u003cdiv style="font-size: 10px; color: #cccccc; line-break: anywhere; word-break: normal; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; font-family: Interstate,Lucida Grande,Lucida Sans Unicode,Lucida Sans,Garuda,Verdana,Tahoma,sans-serif; font-weight: 100;"\u003e\n\u003ca style="color: #cccccc; text-decoration: none;" title="MSXIISound" href="https://soundcloud.com/msxiisound" target="_blank"\u003eMSXIISound\u003c/a\u003e \u00b7 \u003ca style="color: #cccccc; text-decoration: none;" title="Schlump Loops Demo" href="https://soundcloud.com/msxiisound/schlump-drums-demo" target="_blank"\u003eSchlump Loops Demo\u003c/a\u003e\n\u003c/div\u003e\n\u003ciframe src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/338229397\u0026amp;color=%23ff5500\u0026amp;auto_play=false\u0026amp;hide_related=false\u0026amp;show_comments=true\u0026amp;show_user=true\u0026amp;show_reposts=false\u0026amp;show_teaser=true" height="166" width="100%" allow="autoplay" frameborder="no" scrolling="no"\u003e\u003c/iframe\u003e\n\u003cdiv style="font-size: 10px; color: #cccccc; line-break: anywhere; word-break: normal; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; font-family: Interstate,Lucida Grande,Lucida Sans Unicode,Lucida Sans,Garuda,Verdana,Tahoma,sans-serif; font-weight: 100;"\u003e\n\u003ca style="color: #cccccc; text-decoration: none;" title="MSXIISound" href="https://soundcloud.com/msxiisound" target="_blank"\u003eMSXIISound\u003c/a\u003e \u00b7 \u003ca style="color: #cccccc; text-decoration: none;" title="Schlump Loops 2 Demo" href="https://soundcloud.com/msxiisound/schlump-loops-2-demo" target="_blank"\u003eSchlump Loops 2 Demo\u003c/a\u003e\n\u003c/div\u003e\n\u003ciframe src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/345657094\u0026amp;color=%23ff5500\u0026amp;auto_play=false\u0026amp;hide_related=false\u0026amp;show_comments=true\u0026amp;show_user=true\u0026amp;show_reposts=false\u0026amp;show_teaser=true" height="166" width="100%" allow="autoplay" frameborder="no" scrolling="no"\u003e\u003c/iframe\u003e\n\u003cdiv style="font-size: 10px; color: #cccccc; line-break: anywhere; word-break: normal; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; font-family: Interstate,Lucida Grande,Lucida Sans Unicode,Lucida Sans,Garuda,Verdana,Tahoma,sans-serif; font-weight: 100;"\u003e\n\u003ca style="color: #cccccc; text-decoration: none;" title="MSXIISound" href="https://soundcloud.com/msxiisound" target="_blank"\u003eMSXIISound\u003c/a\u003e \u00b7 \u003ca style="color: #cccccc; text-decoration: none;" title="MSXII - Schlump Loops 3 Demo [Heated Edition]" href="https://soundcloud.com/msxiisound/msxii-schlump-loops-3-demo-heated-edition" target="_blank"\u003eMSXII - Schlump Loops 3 Demo [Heated Edition]\u003c/a\u003e\n\u003c/div\u003e\n\u003ciframe src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/414654237\u0026amp;color=%23ff5500\u0026amp;auto_play=false\u0026amp;hide_related=false\u0026amp;show_comments=true\u0026amp;show_user=true\u0026amp;show_reposts=false\u0026amp;show_teaser=true" height="166" width="100%" allow="autoplay" frameborder="no" scrolling="no"\u003e\u003c/iframe\u003e\n\u003cdiv style="font-size: 10px; color: #cccccc; line-break: anywhere; word-break: normal; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; font-family: Interstate,Lucida Grande,Lucida Sans Unicode,Lucida Sans,Garuda,Verdana,Tahoma,sans-serif; font-weight: 100;"\u003e\n\u003ca style="color: #cccccc; text-decoration: none;" title="MSXIISound" href="https://soundcloud.com/msxiisound" target="_blank"\u003eMSXIISound\u003c/a\u003e \u00b7 \u003ca style="color: #cccccc; text-decoration: none;" title="Schlump Loops 4 Demo" href="https://soundcloud.com/msxiisound/schlump-loops-4-demo" target="_blank"\u003eSchlump Loops 4 Demo\u003c/a\u003e\n\u003c/div\u003e\n\u003ciframe src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/473689746\u0026amp;color=%23ff5500\u0026amp;auto_play=false\u0026amp;hide_related=false\u0026amp;show_comments=true\u0026amp;show_user=true\u0026amp;show_reposts=false\u0026amp;show_teaser=true" height="166" width="100%" allow="autoplay" frameborder="no" scrolling="no"\u003e\u003c/iframe\u003e\n\u003cdiv style="font-size: 10px; color: #cccccc; line-break: anywhere; word-break: normal; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; font-family: Interstate,Lucida Grande,Lucida Sans Unicode,Lucida Sans,Garuda,Verdana,Tahoma,sans-serif; font-weight: 100;"\u003e\n\u003ca style="color: #cccccc; text-decoration: none;" title="MSXIISound" href="https://soundcloud.com/msxiisound" target="_blank"\u003eMSXIISound\u003c/a\u003e \u00b7 \u003ca style="color: #cccccc; text-decoration: none;" title="Schlump Loops 5 Demo" href="https://soundcloud.com/msxiisound/schlump-loops-5-demo" target="_blank"\u003eSchlump Loops 5 Demo\u003c/a\u003e\n\u003c/div\u003e\n\u003ciframe title="YouTube video player" src="https://www.youtube.com/embed/-r2sMTHi5jU" height="515" width="560" allowfullscreen="" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" frameborder="0"\u003e\u003c/iframe\u003e \u003ciframe title="YouTube video player" src="https://www.youtube.com/embed/0snOf1pjrbk" height="515" width="560" allowfullscreen="" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" frameborder="0"\u003e\u003c/iframe\u003e \u003ciframe title="YouTube video player" src="https://www.youtube.com/embed/M8giEsOiYUI" height="515" width="560" allowfullscreen="" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" frameborder="0"\u003e\u003c/iframe\u003e \u003ciframe title="YouTube video player" src="https://www.youtube.com/embed/lmJPym6QtaQ" height="515" width="560" allowfullscreen="" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" frameborder="0"\u003e\u003c/iframe\u003e \u003ciframe title="YouTube video player" src="https://www.youtube.com/embed/3hUyGvvfr5I" height="515" width="560" allowfullscreen="" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" frameborder="0"\u003e\u003c/iframe\u003e \u003ciframe title="YouTube video player" src="https://www.youtube.com/embed/6_AAYVVJlVc" height="515" width="560" allowfullscreen="" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" frameborder="0"\u003e\u003c/iframe\u003e \u003ciframe title="YouTube video player" src="https://www.youtube.com/embed/XG1WXJRNh1k" height="515" width="560" allowfullscreen="" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" frameborder="0"\u003e\u003c/iframe\u003e \u003ciframe title="YouTube video player" src="https://www.youtube.com/embed/BnhYZqMWfcg" height="515" width="560" allowfullscreen="" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" frameborder="0"\u003e\u003c/iframe\u003e \u003ciframe title="YouTube video player" src="https://www.youtube.com/embed/MwjZ0Vr7Mh8" height="515" width="560" allowfullscreen="" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" frameborder="0"\u003e\u003c/iframe\u003e',
-		published_at: '2022-11-18T16:26:48-06:00',
-		created_at: '2022-11-18T16:26:39-06:00',
-		vendor: 'MSXII Sound',
-		type: '',
-		tags: [ProductsTags.Bundles, ProductsTags.Loops],
-		price: 1153800,
-		price_min: 1153800,
-		price_max: 1153800,
-		available: true,
-		price_varies: false,
-		compare_at_price: 1365400,
-		compare_at_price_min: 1365400,
-		compare_at_price_max: 1365400,
-		compare_at_price_varies: false,
-		variants: [
-			{
-				id: 40090143293506,
-				title: 'Default Title',
-				option1: 'Default Title',
-				option2: null,
-				option3: null,
-				sku: '',
-				requires_shipping: false,
-				taxable: false,
-				featured_image: null,
-				available: true,
-				name: 'Schlump Loops Bundle',
-				public_title: null,
-				options: ['Default Title'],
-				price: 1153800,
-				weight: 0,
-				compare_at_price: 1365400,
-				inventory_quantity: 0,
-				inventory_management: null,
-				inventory_policy: 'deny',
-				barcode: '',
-				requires_selling_plan: false,
-				selling_plan_allocations: []
-			}
-		],
-		images: [
-			'https://cdn.shopify.com/s/files/1/0345/7209/products/SchlumpLoops-BUNDLEart.jpg?v=1668810401',
-			'https://cdn.shopify.com/s/files/1/0345/7209/products/SchlumpLoops1art.jpg?v=1668810402',
-			'https://cdn.shopify.com/s/files/1/0345/7209/products/SchlumpLoops2artwork.jpg?v=1668810402',
-			'https://cdn.shopify.com/s/files/1/0345/7209/products/SchlumpLoops3art.jpg?v=1668810401',
-			'https://cdn.shopify.com/s/files/1/0345/7209/products/SchlumpLoops4art.jpg?v=1668810401',
-			'https://cdn.shopify.com/s/files/1/0345/7209/products/SchlumpLoops5art.jpg?v=1668810403',
-			'https://cdn.shopify.com/s/files/1/0345/7209/products/SchlumpLoops6.jpg?v=1668810403',
-			'https://cdn.shopify.com/s/files/1/0345/7209/products/SchlumpLoops7_976a0793-7481-4199-81be-65f0cf748dd3.jpg?v=1668810403',
-			'https://cdn.shopify.com/s/files/1/0345/7209/products/SchlumpLoops8art_65caf9fa-0cc8-4519-a060-a3ceb592d970.jpg?v=1668810402',
-			'https://cdn.shopify.com/s/files/1/0345/7209/products/SchlumpLoops9artwork.jpg?v=1668810402',
-			'https://cdn.shopify.com/s/files/1/0345/7209/products/SchlumpLoops10artwork_9e2b2a11-333c-413a-a9db-de799f71a8ad.jpg?v=1668810403',
-			'https://cdn.shopify.com/s/files/1/0345/7209/products/SchlumpLoops11artwork_54a02c6b-6a6e-4ba5-8252-6f4124607c20.jpg?v=1668810403',
-			'https://cdn.shopify.com/s/files/1/0345/7209/products/SchlumpLoops12artwork_a36d3984-f8dd-47a8-8a91-334c6489cfd0.jpg?v=1668810402',
-			'https://cdn.shopify.com/s/files/1/0345/7209/products/SchlumpLoops13art_ff098f20-be03-48c3-ba15-1145df42ce81.jpg?v=1668810401',
-			'https://cdn.shopify.com/s/files/1/0345/7209/products/SchlumpLoops14art_ab274abf-1ef0-463d-bdaa-e365f4f23850.jpg?v=1668810402'
-		],
-		featured_image:
-			'https://cdn.shopify.com/s/files/1/0345/7209/products/SchlumpLoops-BUNDLEart.jpg?v=1668810401',
-		options: [{ name: 'Title', position: 1, values: ['Default Title'] }],
-		url: '/products/schlump-loops-bundle',
-		media: [
-			{
-				alt: null,
-				id: 22080560791618,
-				position: 1,
-				preview_image: {
-					aspect_ratio: 1.0,
-					height: 2000,
-					width: 2000,
-					src: 'https://cdn.shopify.com/s/files/1/0345/7209/products/SchlumpLoops-BUNDLEart.jpg?v=1668810401'
-				},
-				aspect_ratio: 1.0,
-				height: 2000,
-				media_type: 'image',
-				src: 'https://cdn.shopify.com/s/files/1/0345/7209/products/SchlumpLoops-BUNDLEart.jpg?v=1668810401',
-				width: 2000
-			},
-			{
-				alt: null,
-				id: 22080560824386,
-				position: 2,
-				preview_image: {
-					aspect_ratio: 1.0,
-					height: 2000,
-					width: 2000,
-					src: 'https://cdn.shopify.com/s/files/1/0345/7209/products/SchlumpLoops1art.jpg?v=1668810402'
-				},
-				aspect_ratio: 1.0,
-				height: 2000,
-				media_type: 'image',
-				src: 'https://cdn.shopify.com/s/files/1/0345/7209/products/SchlumpLoops1art.jpg?v=1668810402',
-				width: 2000
-			},
-			{
-				alt: null,
-				id: 22080560857154,
-				position: 3,
-				preview_image: {
-					aspect_ratio: 1.0,
-					height: 2000,
-					width: 2000,
-					src: 'https://cdn.shopify.com/s/files/1/0345/7209/products/SchlumpLoops2artwork.jpg?v=1668810402'
-				},
-				aspect_ratio: 1.0,
-				height: 2000,
-				media_type: 'image',
-				src: 'https://cdn.shopify.com/s/files/1/0345/7209/products/SchlumpLoops2artwork.jpg?v=1668810402',
-				width: 2000
-			},
-			{
-				alt: null,
-				id: 22080560889922,
-				position: 4,
-				preview_image: {
-					aspect_ratio: 1.0,
-					height: 2000,
-					width: 2000,
-					src: 'https://cdn.shopify.com/s/files/1/0345/7209/products/SchlumpLoops3art.jpg?v=1668810401'
-				},
-				aspect_ratio: 1.0,
-				height: 2000,
-				media_type: 'image',
-				src: 'https://cdn.shopify.com/s/files/1/0345/7209/products/SchlumpLoops3art.jpg?v=1668810401',
-				width: 2000
-			},
-			{
-				alt: null,
-				id: 22080560922690,
-				position: 5,
-				preview_image: {
-					aspect_ratio: 1.0,
-					height: 2000,
-					width: 2000,
-					src: 'https://cdn.shopify.com/s/files/1/0345/7209/products/SchlumpLoops4art.jpg?v=1668810401'
-				},
-				aspect_ratio: 1.0,
-				height: 2000,
-				media_type: 'image',
-				src: 'https://cdn.shopify.com/s/files/1/0345/7209/products/SchlumpLoops4art.jpg?v=1668810401',
-				width: 2000
-			},
-			{
-				alt: null,
-				id: 22080560955458,
-				position: 6,
-				preview_image: {
-					aspect_ratio: 1.0,
-					height: 2000,
-					width: 2000,
-					src: 'https://cdn.shopify.com/s/files/1/0345/7209/products/SchlumpLoops5art.jpg?v=1668810403'
-				},
-				aspect_ratio: 1.0,
-				height: 2000,
-				media_type: 'image',
-				src: 'https://cdn.shopify.com/s/files/1/0345/7209/products/SchlumpLoops5art.jpg?v=1668810403',
-				width: 2000
-			},
-			{
-				alt: null,
-				id: 22080560988226,
-				position: 7,
-				preview_image: {
-					aspect_ratio: 1.0,
-					height: 2000,
-					width: 2000,
-					src: 'https://cdn.shopify.com/s/files/1/0345/7209/products/SchlumpLoops6.jpg?v=1668810403'
-				},
-				aspect_ratio: 1.0,
-				height: 2000,
-				media_type: 'image',
-				src: 'https://cdn.shopify.com/s/files/1/0345/7209/products/SchlumpLoops6.jpg?v=1668810403',
-				width: 2000
-			},
-			{
-				alt: null,
-				id: 22080561020994,
-				position: 8,
-				preview_image: {
-					aspect_ratio: 1.0,
-					height: 2000,
-					width: 2000,
-					src: 'https://cdn.shopify.com/s/files/1/0345/7209/products/SchlumpLoops7_976a0793-7481-4199-81be-65f0cf748dd3.jpg?v=1668810403'
-				},
-				aspect_ratio: 1.0,
-				height: 2000,
-				media_type: 'image',
-				src: 'https://cdn.shopify.com/s/files/1/0345/7209/products/SchlumpLoops7_976a0793-7481-4199-81be-65f0cf748dd3.jpg?v=1668810403',
-				width: 2000
-			},
-			{
-				alt: null,
-				id: 22080561053762,
-				position: 9,
-				preview_image: {
-					aspect_ratio: 1.0,
-					height: 2000,
-					width: 2000,
-					src: 'https://cdn.shopify.com/s/files/1/0345/7209/products/SchlumpLoops8art_65caf9fa-0cc8-4519-a060-a3ceb592d970.jpg?v=1668810402'
-				},
-				aspect_ratio: 1.0,
-				height: 2000,
-				media_type: 'image',
-				src: 'https://cdn.shopify.com/s/files/1/0345/7209/products/SchlumpLoops8art_65caf9fa-0cc8-4519-a060-a3ceb592d970.jpg?v=1668810402',
-				width: 2000
-			},
-			{
-				alt: null,
-				id: 22080561086530,
-				position: 10,
-				preview_image: {
-					aspect_ratio: 1.0,
-					height: 2000,
-					width: 2000,
-					src: 'https://cdn.shopify.com/s/files/1/0345/7209/products/SchlumpLoops9artwork.jpg?v=1668810402'
-				},
-				aspect_ratio: 1.0,
-				height: 2000,
-				media_type: 'image',
-				src: 'https://cdn.shopify.com/s/files/1/0345/7209/products/SchlumpLoops9artwork.jpg?v=1668810402',
-				width: 2000
-			},
-			{
-				alt: null,
-				id: 22080561119298,
-				position: 11,
-				preview_image: {
-					aspect_ratio: 1.0,
-					height: 2000,
-					width: 2000,
-					src: 'https://cdn.shopify.com/s/files/1/0345/7209/products/SchlumpLoops10artwork_9e2b2a11-333c-413a-a9db-de799f71a8ad.jpg?v=1668810403'
-				},
-				aspect_ratio: 1.0,
-				height: 2000,
-				media_type: 'image',
-				src: 'https://cdn.shopify.com/s/files/1/0345/7209/products/SchlumpLoops10artwork_9e2b2a11-333c-413a-a9db-de799f71a8ad.jpg?v=1668810403',
-				width: 2000
-			},
-			{
-				alt: null,
-				id: 22080561152066,
-				position: 12,
-				preview_image: {
-					aspect_ratio: 1.0,
-					height: 3000,
-					width: 3000,
-					src: 'https://cdn.shopify.com/s/files/1/0345/7209/products/SchlumpLoops11artwork_54a02c6b-6a6e-4ba5-8252-6f4124607c20.jpg?v=1668810403'
-				},
-				aspect_ratio: 1.0,
-				height: 3000,
-				media_type: 'image',
-				src: 'https://cdn.shopify.com/s/files/1/0345/7209/products/SchlumpLoops11artwork_54a02c6b-6a6e-4ba5-8252-6f4124607c20.jpg?v=1668810403',
-				width: 3000
-			},
-			{
-				alt: null,
-				id: 22080561184834,
-				position: 13,
-				preview_image: {
-					aspect_ratio: 1.0,
-					height: 3000,
-					width: 3000,
-					src: 'https://cdn.shopify.com/s/files/1/0345/7209/products/SchlumpLoops12artwork_a36d3984-f8dd-47a8-8a91-334c6489cfd0.jpg?v=1668810402'
-				},
-				aspect_ratio: 1.0,
-				height: 3000,
-				media_type: 'image',
-				src: 'https://cdn.shopify.com/s/files/1/0345/7209/products/SchlumpLoops12artwork_a36d3984-f8dd-47a8-8a91-334c6489cfd0.jpg?v=1668810402',
-				width: 3000
-			},
-			{
-				alt: null,
-				id: 22080561217602,
-				position: 14,
-				preview_image: {
-					aspect_ratio: 1.0,
-					height: 2000,
-					width: 2000,
-					src: 'https://cdn.shopify.com/s/files/1/0345/7209/products/SchlumpLoops13art_ff098f20-be03-48c3-ba15-1145df42ce81.jpg?v=1668810401'
-				},
-				aspect_ratio: 1.0,
-				height: 2000,
-				media_type: 'image',
-				src: 'https://cdn.shopify.com/s/files/1/0345/7209/products/SchlumpLoops13art_ff098f20-be03-48c3-ba15-1145df42ce81.jpg?v=1668810401',
-				width: 2000
-			},
-			{
-				alt: null,
-				id: 22080561250370,
-				position: 15,
-				preview_image: {
-					aspect_ratio: 1.0,
-					height: 2000,
-					width: 2000,
-					src: 'https://cdn.shopify.com/s/files/1/0345/7209/products/SchlumpLoops14art_ab274abf-1ef0-463d-bdaa-e365f4f23850.jpg?v=1668810402'
-				},
-				aspect_ratio: 1.0,
-				height: 2000,
-				media_type: 'image',
-				src: 'https://cdn.shopify.com/s/files/1/0345/7209/products/SchlumpLoops14art_ab274abf-1ef0-463d-bdaa-e365f4f23850.jpg?v=1668810402',
-				width: 2000
-			}
-		],
-		requires_selling_plan: false,
-		selling_plan_groups: []
-	},
+	schlumpLoopsBundleProduct,
 	{
 		id: 6702735261762,
 		title: 'R\u0026B Soul Guitar Loops Vol. 1',
@@ -3491,7 +3404,7 @@ You can check out the reference guide/manual below. Download and save to your iP
 								'object-contain'
 							],
 							___type: BOXES_TYPES_map['image-only'],
-							src: 'https://cdn.shopify.com/s/files/1/0345/7209/t/28/assets/pf-f7f4b998--FlyTapeManualImage.png?v=1589395846'
+							src: 'https://cdn.shopify.com/s/files/1/0345/7209/t/28/assets/pf-edf62089--Screen-Shot-20210621-at-123253-PM.png?v=1624482138'
 						}
 					]
 				}
@@ -3935,66 +3848,6 @@ All bundle and discounted purchases and prices apply only to the product line at
 (b) You agree that this license contains the complete agreement between the parties hereto, and supersedes all other communication, relating to the subject matter of the license.
 
 (c) You acknowledge that you have read this license and understand it and agree to be bound by its terms and conditions.`
-					}
-				]
-			}
-		]
-	},
-	{
-		stylesVariants: {
-			'max-w': '100ch',
-			mx: 'auto',
-			px: '12',
-			py: '16',
-			'gap-x': '16',
-			'gap-y': '16'
-		},
-		slug: 'creative-space',
-		mainTag: 'creative-space-page',
-		pageStructure: [
-			{
-				stylesVariants: { 'gap-y': '16' },
-				___type: 'standard-section',
-				title: 'Creative Space',
-				body: [
-					{
-						stylesVariants: { w: 'full', rounded: '3xl' },
-						___type: 'image-only',
-						src: 'https://cdn.shopify.com/s/files/1/0345/7209/files/unnamed_1024x1024.jpg?974986980763682955'
-					},
-					{
-						___type: 'md',
-						content: `Welcome to Creative Space!  This is a series of instructional videos showing the creative use and possibilities of MSX Audio sample packs, drum kits, construction packs, and drum breaks.  You're welcome to learn and enjoy!`
-					},
-					{
-						___type: 'iframe',
-						___subType: 'youtube',
-						src: 'https://www.youtube.com/embed/DQajIJ_LWUY?rel=0'
-					},
-					{
-						___type: 'iframe',
-						___subType: 'youtube',
-						src: 'https://www.youtube.com/embed/3ny7mrUjpZA?rel=0'
-					},
-					{
-						___type: 'iframe',
-						___subType: 'soundcloud',
-						src: 'https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/250757664&color=ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false'
-					},
-					{
-						___type: 'iframe',
-						___subType: 'youtube',
-						src: 'https://www.youtube.com/embed/XJihPAHx3mc?rel=0'
-					},
-					{
-						___type: 'iframe',
-						___subType: 'youtube',
-						src: 'https://www.youtube.com/embed/KacmJqcf8kU?rel=0'
-					},
-					{
-						___type: 'iframe',
-						___subType: 'youtube',
-						src: 'https://www.youtube.com/embed/iJeasAskVUk?rel=0'
 					}
 				]
 			}

@@ -82,12 +82,6 @@ const MainLayoutFooter = () => {
 					variants: null,
 					onClick: toggleSearchMenuDropdown
 				},
-				{
-					text: 'Creative Space',
-					isA: 'next-js',
-					href: '/creative-space',
-					icon: null
-				},
 				{ text: 'About Us', isA: 'next-js', href: '/about', icon: null },
 				{ text: 'Support', isA: 'next-js', href: '/support', icon: null },
 				{

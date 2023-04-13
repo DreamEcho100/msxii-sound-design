@@ -1,7 +1,3 @@
-import { fakeProductsData } from '../appData';
-
-export type Product = (typeof fakeProductsData)[0];
-
 export interface Variant {
 	id: number;
 	title: string;
@@ -11,7 +7,37 @@ export interface Variant {
 	sku: string;
 	requires_shipping: boolean;
 	taxable: boolean;
-	featured_image: string | null;
+	featured_image:
+		| string
+		| {
+				id: number;
+				product_id: number;
+				position: number;
+				created_at: string;
+				updated_at: string;
+				alt: null;
+				width: number;
+				height: number;
+				src: string;
+				variant_ids: number[];
+		  }
+		| null;
+	featured_media?: {
+		alt: null;
+		id: number;
+		position: number;
+		preview_image: {
+			aspect_ratio: number;
+			height: number;
+			width: number;
+			src: string;
+		};
+	} | null;
+	quantity_rule?: {
+		min: number | null;
+		max: number | null;
+		increment: number;
+	} | null;
 	available: boolean;
 	name: string;
 	public_title: string | null;
@@ -22,7 +48,7 @@ export interface Variant {
 	inventory_quantity: number;
 	inventory_management: any | null;
 	inventory_policy: string;
-	barcode: string;
+	barcode: string | null;
 	requires_selling_plan: boolean;
 	selling_plan_allocations: any[];
 }
@@ -73,6 +99,11 @@ export interface ShopifyProduct {
 		position: number;
 		values: string[];
 	}[];
+	quantity_rule?: {
+		min: number | null;
+		max: number | null;
+		increment: number;
+	} | null;
 	url: string;
 	media: Media[];
 	requires_selling_plan: boolean;

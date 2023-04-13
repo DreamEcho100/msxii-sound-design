@@ -1,11 +1,11 @@
-import React, { FunctionComponent, ReactNode, useRef } from 'react';
+import type { FunctionComponent, HTMLAttributes, ReactNode } from 'react';
 
+import { useRef } from 'react';
 import { A11y, Autoplay } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
 import 'swiper/css';
 import 'swiper/css/navigation';
-// import { fakeProductsData } from '~/utils/appData';
 import { ShopifyProduct } from '~/utils/types';
 import { cx } from 'class-variance-authority';
 
@@ -16,6 +16,9 @@ type SliderProps = {
 	swiperProps?: Parameters<typeof Swiper>[0];
 	nextSlideButtonClassName?: string;
 	previousSlideButtonClassName?: string;
+	containerProps?: HTMLAttributes<HTMLDivElement>;
+	verticalOnLG?: boolean;
+	isNavButtonsOutside?: boolean;
 };
 
 interface CardsSliderProps<CardElemProps extends Record<string, unknown>>
@@ -46,21 +49,46 @@ const Slider = ({
 	children,
 	swiperProps = {},
 	nextSlideButtonClassName,
-	previousSlideButtonClassName
+	previousSlideButtonClassName,
+	verticalOnLG,
+	isNavButtonsOutside,
+	containerProps
 }: SliderProps) => {
 	const SwiperInstanceRef = useRef<
 		Parameters<NonNullable<Parameters<typeof Swiper>[0]['onSwiper']>>[0] | null
 	>(null);
 
 	return (
-		<div className="flex gap-4">
-			<div className="flex items-center justify-center">
+		<div
+			{...containerProps}
+			className={cx(
+				'relative flex gap-4',
+				verticalOnLG ? 'verticalOnLG' : 'lg:flex-col',
+				containerProps?.className
+			)}
+		>
+			<div
+				className={cx(
+					'flex items-center justify-center',
+					verticalOnLG ? 'lg:rotate-90 scale-75' : '',
+					!isNavButtonsOutside ? '' : 'absolute',
+					verticalOnLG && isNavButtonsOutside
+						? 'lg:right-auto lg:rtl:right-auto lg:top-0 lg:left-1/2 lg:rtl:left-1/2 lg:-translate-x-1/2 lg:-translate-y-full'
+						: '',
+
+					isNavButtonsOutside
+						? 'top-1/2 -translate-x-[150%] left-0 rtl:left-auto rtl:right-0 rtl:translate-x-[150%]'
+						: ''
+				)}
+			>
 				<button
 					title="Previous slide."
 					onClick={() => SwiperInstanceRef.current?.slidePrev()}
 					className={cx(
 						'hover:scale-[1.25] focus:scale-[1.25] transition-all duration-150 w-4 h-8 aspect-[1.91/1]',
-						'rtl:rotate-180',
+						verticalOnLG
+							? 'rtl:rotate-180'
+							: 'rtl:rotate-180 lg:rotate-90 rtl:lg:rotate-90',
 						previousSlideButtonClassName
 					)}
 				>
@@ -95,13 +123,28 @@ const Slider = ({
 				{children}
 			</Swiper>
 
-			<div className="flex items-center justify-center">
+			<div
+				className={cx(
+					'flex items-center justify-center',
+					verticalOnLG ? 'lg:rotate-90 scale-75' : '',
+					!isNavButtonsOutside ? '' : 'absolute',
+					verticalOnLG && isNavButtonsOutside
+						? 'lg:right-auto lg:rtl:right-auto lg:top-full lg:left-1/2 lg:rtl:left-1/2 lg:-translate-x-1/2 lg:translate-y-0'
+						: '',
+
+					isNavButtonsOutside
+						? 'top-1/2 translate-x-[150%] right-0 rtl:right-auto rtl:left-0 rtl:-translate-x-[150%]'
+						: ''
+				)}
+			>
 				<button
 					title="Next slide."
 					onClick={() => SwiperInstanceRef.current?.slideNext()}
 					className={cx(
 						'hover:scale-[1.25] focus:scale-[1.25] transition-all duration-150 w-4 h-8 aspect-[1.91/1]',
-						' rtl:rotate-180',
+						verticalOnLG
+							? ' rtl:rotate-180'
+							: ' rtl:rotate-180 lg:rotate-90 rtl:lg:rotate-90',
 						nextSlideButtonClassName
 					)}
 				>

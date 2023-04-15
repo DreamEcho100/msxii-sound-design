@@ -2597,7 +2597,8 @@ const createStandardSection = (
 
 export const boxVariants = {
 	'max-w': {
-		'100ch': 'max-w-[100ch]'
+		'100ch': 'max-w-[100ch]',
+		'125ch': 'max-w-[125ch]'
 	},
 	w: {
 		full: 'w-full',
@@ -3907,10 +3908,6 @@ All bundle and discounted purchases and prices apply only to the product line at
 	},
 	{
 		stylesVariants: {
-			'max-w': '100ch',
-			mx: 'auto',
-			px: '4',
-			py: '4',
 			'gap-x': '16',
 			'gap-y': '16'
 		},
@@ -3922,6 +3919,7 @@ All bundle and discounted purchases and prices apply only to the product line at
 				___type: 'standard-section',
 				body: [
 					{
+						stylesVariants: { 'max-w': '125ch', mx: 'auto' },
 						customPageClassesKeys: ['blog-post'],
 						___type: 'md',
 						content: `## Details

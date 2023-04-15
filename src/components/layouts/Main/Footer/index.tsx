@@ -261,7 +261,7 @@ const MainLayoutFooter = () => {
 							<li>
 								<Clickable
 									isA="basic-link"
-									href="https://instagram.com/789643928"
+									href="https://www.instagram.com/msxiisound/"
 									title="instagram"
 									target="_blank"
 								>

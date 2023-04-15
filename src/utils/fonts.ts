@@ -1,4 +1,4 @@
-import { Raleway } from '@next/font/google';
+import { Raleway } from 'next/font/google';
 
 export const ralewayFont = Raleway({
 	weight: ['300', '400', '500', '600', '700'],

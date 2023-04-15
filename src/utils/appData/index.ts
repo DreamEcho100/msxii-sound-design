@@ -3904,5 +3904,41 @@ All bundle and discounted purchases and prices apply only to the product line at
 				body: []
 			}
 		]
+	},
+	{
+		stylesVariants: {
+			'max-w': '100ch',
+			mx: 'auto',
+			px: '4',
+			py: '4',
+			'gap-x': '16',
+			'gap-y': '16'
+		},
+		slug: 'champion-hoodie',
+		mainTag: 'merch-page',
+		pageStructure: [
+			{
+				stylesVariants: { 'gap-y': '16' },
+				___type: 'standard-section',
+				body: [
+					{
+						customPageClassesKeys: ['blog-post'],
+						___type: 'md',
+						content: `## Details
+Lorem ipsum dolor sit amet consectetur adipisicing elit.
+Necessitatibus amet tempore delectus voluptatibus perspiciatis, et
+tempora non, deserunt molestias sint unde at debitis obcaecati nobis
+incidunt asperiores. Fugit, doloremque voluptates.
+
+|                 |     S    |   M      |     L    |     X    |    2XL   |
+| --------------- | -------- | -------- | -------- | -------- | -------- |
+| Length (inches) |  27 1/2  |  28 1/2  |  29 1/2  |  30 1/2  |  31 1/2  |
+| Width (inches)  |    21    |    23    | 	25 	 	 |    27  	|	 29      |
+
+`
+					}
+				]
+			}
+		]
 	}
 ];

@@ -192,11 +192,13 @@ const ProductImageShowcase = ({
 const CustomProductScreen = ({
 	productData,
 	children,
-	products
+	products,
+	cardsSliderProps = {}
 }: {
 	children?: ReactNode;
 	productData: ShopifyProduct;
 	products: ShopifyProduct[];
+	cardsSliderProps?: Partial<Parameters<typeof CardsSlider>[0]>;
 }) => {
 	const [selectedQuantity, setSelectedQuantity] = useState(1);
 
@@ -252,7 +254,7 @@ const CustomProductScreen = ({
 					text="Explore more high quality packs"
 					isA="next-js"
 					href="/products"
-					className="mb-8"
+					className="mb-12"
 				/>
 				<header>
 					<h2 className="font-normal text-text-primary-400 text-h3">
@@ -264,6 +266,7 @@ const CustomProductScreen = ({
 					CardElem={ProductCard}
 					nextSlideButtonClassName="-translate-y-[200%] lg:-translate-y-[225%]"
 					previousSlideButtonClassName="-translate-y-[200%] lg:-translate-y-[225%]"
+					{...cardsSliderProps}
 				/>
 			</article>
 		</div>

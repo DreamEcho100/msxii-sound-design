@@ -1,8 +1,15 @@
+import { createProxySSGHelpers } from '@trpc/react-query/ssg';
+import { GetStaticProps } from 'next';
 import CustomProductScreen from '~/components/shared/core/CustomProductScreen';
+import { appRouter } from '~/server/api/root';
+import { createInnerTRPCContext } from '~/server/api/trpc';
 import {
 	championHoodieMerch as productData,
 	merchesData
 } from '~/utils/appData/merch';
+import superjson from 'superjson';
+import CustomPageBuilder from '~/components/shared/core/CustomPageBuilder/index.tsx';
+import { api } from '~/utils/api';
 
 // const media = productData.media[0]!;
 
@@ -14,21 +21,49 @@ import {
 const products = merchesData.filter((product) => product.id !== productData.id);
 
 const TempPreviewProductPage = () => {
+	const customPageStructureQuery = api.customPages.getOne.useQuery({
+		mainTag: 'merch-page',
+		slug: productData.handle
+	});
+
+	if (customPageStructureQuery.isLoading) return <>Loading...</>;
+
+	if (customPageStructureQuery.isError)
+		return <>{customPageStructureQuery.error.message}</>;
+
+	const pageStructure = customPageStructureQuery.data;
+
 	return (
-		<CustomProductScreen productData={productData} products={products}>
-			<section className="w-full mx-auto max-w-[140ch] flex flex-col py-16 gap-16">
-				<div className="px-8 mx-auto max-w-[131ch] flex flex-col gap-4">
-					<h2 className="font-normal text-text-primary-400 text-h3">Details</h2>
-					<p>
-						Lorem ipsum dolor sit amet consectetur adipisicing elit.
-						Necessitatibus amet tempore delectus voluptatibus perspiciatis, et
-						tempora non, deserunt molestias sint unde at debitis obcaecati nobis
-						incidunt asperiores. Fugit, doloremque voluptates.
-					</p>
-				</div>
-			</section>
+		<CustomProductScreen
+			productData={productData}
+			products={products}
+			cardsSliderProps={{
+				cardsSharedProps: { routeBase: '/merch' }
+			}}
+		>
+			<CustomPageBuilder customPage={pageStructure} />
 		</CustomProductScreen>
 	);
+};
+
+export const getStaticProps: GetStaticProps = async (ctx) => {
+	const ssg = createProxySSGHelpers({
+		router: appRouter,
+		ctx: await createInnerTRPCContext({ session: null }),
+		transformer: superjson // optional - adds superjson serialization
+	});
+	/*
+	 * Prefetching the `customPages.getOneBySlug` query here.
+	 * `prefetchQuery` does not return the result - if you need that, use `fetchQuery` instead.
+	 */
+	await ssg.customPages.getOne.prefetch({ mainTag: 'merch-page' });
+	// Make sure to return { props: { trpcState: ssg.dehydrate() } }
+	return {
+		props: {
+			trpcState: ssg.dehydrate()
+		},
+		revalidate: 10
+	};
 };
 
 export default TempPreviewProductPage;

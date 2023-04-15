@@ -22,6 +22,7 @@ import {
 import customPageClasses from '~/styles/custom-page.module.css';
 import Slider from '~/components/shared/core/Cards/Slider';
 import CustomNextImage from '~/components/shared/CustomNextImage';
+import remarkGfm from 'remark-gfm';
 
 type Props = {
 	customPage: CustomPage;
@@ -180,6 +181,7 @@ const SectionBodyBox = ({
 							);
 						}
 					}}
+					remarkPlugins={[remarkGfm]}
 				>
 					{box.content}
 				</ReactMarkdown>

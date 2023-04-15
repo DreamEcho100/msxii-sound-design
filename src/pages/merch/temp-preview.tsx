@@ -23,7 +23,7 @@ const products = merchesData.filter((product) => product.id !== productData.id);
 const TempPreviewProductPage = () => {
 	const customPageStructureQuery = api.customPages.getOne.useQuery({
 		mainTag: 'merch-page',
-		slug: productData.handle
+		slug: 'champion-hoodie' // productData.handle
 	});
 
 	if (customPageStructureQuery.isLoading) return <>Loading...</>;
@@ -56,7 +56,10 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
 	 * Prefetching the `customPages.getOneBySlug` query here.
 	 * `prefetchQuery` does not return the result - if you need that, use `fetchQuery` instead.
 	 */
-	await ssg.customPages.getOne.prefetch({ mainTag: 'merch-page' });
+	await ssg.customPages.getOne.prefetch({
+		mainTag: 'merch-page',
+		slug: 'champion-hoodie' // productData.handle
+	});
 	// Make sure to return { props: { trpcState: ssg.dehydrate() } }
 	return {
 		props: {

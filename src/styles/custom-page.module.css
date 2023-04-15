@@ -155,16 +155,15 @@
 
 .md-box table {
 	border-collapse: collapse;
+	font-weight: lighter;
 	margin: 2em 0;
-	font-size: 1em;
-	font-family: Arial, sans-serif;
 	color: rgba(var(--color-text-primary-500) / 1);
 	background-color: rgba(var(--color-bg-primary-500) / 1);
 }
 
 .md-box table th {
 	text-align: center;
-	font-weight: normal;
+	font-weight: 500;
 	padding: 0.5em;
 	background-color: rgba(var(--color-bg-primary-600) / 0.35);
 	border: 0.0625px solid rgba(var(--color-bg-primary-600) / 0.5);
@@ -185,7 +184,7 @@
 	border: 0.0625px solid rgba(var(--color-bg-primary-300) / 0.5);
 }
 .md-box table td:first-child {
-	font-weight: bold;
+	font-weight: 500;
 }
 .md-box table tbody tr:nth-child(even) {
 	background-color: rgba(var(--color-bg-primary-600) / 0.2);

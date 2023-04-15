@@ -177,7 +177,7 @@ const ProductImageShowcase = ({
 										'aspect-square w-full h-full object-cover transition-all duration-300',
 										selectedImage === image
 											? 'ring-4 ring-special-primary-500 rounded-lg'
-											: ''
+											: 'rounded-md'
 									)}
 								/>
 							</button>

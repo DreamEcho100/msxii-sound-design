@@ -170,8 +170,8 @@ const ProductsScreen = ({ products }: { products: ShopifyProduct[] }) => {
 						)}
 					</AnimatePresence>
 				</div>
-				<div className="px-12 max-w-full overflow-hidden bg-bg-primary-100 dark:bg-bg-primary-900 isolate flex-grow transition-all sm:rounded-2xl">
-					<header className="flex justify-between pt-8 pb-4 px-2">
+				<div className="px-8 lg:px-12 py-12 flex flex-col gap-12 max-w-full overflow-hidden bg-bg-primary-100 dark:bg-bg-primary-900 isolate flex-grow transition-all sm:rounded-2xl">
+					<header className="flex justify-between">
 						<h1 className="text-h1 font-semibold">
 							{selectedCategories.length === categories.length ||
 							selectedCategories.length === 0
@@ -190,41 +190,47 @@ const ProductsScreen = ({ products }: { products: ShopifyProduct[] }) => {
 							<GiSettingsKnobs className="text-xl font-bold scale-y-110 rotate-90" />
 						</Clickable>
 					</header>
-					{filteredProductsByCategory.map((productByCategory) => (
-						<article key={productByCategory[0]}>
-							<h2 className="text-h4 text-text-primary-300 px-4 font-normal">
-								{productByCategory[0]}
-							</h2>
-							<div className="">
-								<CardsSlider
-									products={productByCategory[1]}
-									CardElem={ProductCard}
-									nextSlideButtonClassName="scale-[50%] -translate-y-[200%] lg:-translate-y-[225%]"
-									previousSlideButtonClassName="scale-[50%] -translate-y-[200%] lg:-translate-y-[225%]"
-									swiperProps={{
-										breakpoints: {
-											384: { slidesPerView: 1 },
-											768: { slidesPerView: 3 },
-											1024: { slidesPerView: 4 },
-											1280: { slidesPerView: 5 }
-										}
-									}}
-									cardsSharedProps={{
-										isPlayButtonActive: true,
-										extraDetailsElemProps: {
-											buttonProps: {
-												variants: {
-													btn: 'light:primary_dark:secondary',
-													py: 'sm',
-													px: 'lg'
-												} as any
+					<div className="flex flex-col gap-8">
+						{filteredProductsByCategory.map((productByCategory) => (
+							<article
+								key={productByCategory[0]}
+								className="flex flex-col gap-4"
+							>
+								<h2 className="text-h4 text-text-primary-300 font-normal">
+									{productByCategory[0]}
+								</h2>
+								<div className="">
+									<CardsSlider
+										isNavButtonsOutside
+										products={productByCategory[1]}
+										CardElem={ProductCard}
+										nextSlideButtonClassName="scale-[50%] -translate-y-[200%] lg:-translate-y-[225%]"
+										previousSlideButtonClassName="scale-[50%] -translate-y-[200%] lg:-translate-y-[225%]"
+										swiperProps={{
+											breakpoints: {
+												384: { slidesPerView: 1 },
+												768: { slidesPerView: 3 },
+												1024: { slidesPerView: 4 },
+												1280: { slidesPerView: 5 }
 											}
-										}
-									}}
-								/>
-							</div>
-						</article>
-					))}
+										}}
+										cardsSharedProps={{
+											isPlayButtonActive: true,
+											extraDetailsElemProps: {
+												buttonProps: {
+													variants: {
+														btn: 'light:primary_dark:secondary',
+														py: 'sm',
+														px: 'lg'
+													} as any
+												}
+											}
+										}}
+									/>
+								</div>
+							</article>
+						))}
+					</div>
 				</div>
 			</div>
 		</section>

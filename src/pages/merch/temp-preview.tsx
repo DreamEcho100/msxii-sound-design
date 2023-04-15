@@ -37,9 +37,8 @@ const TempPreviewProductPage = () => {
 		<CustomProductScreen
 			productData={productData}
 			products={products}
-			cardsSliderProps={{
-				cardsSharedProps: { routeBase: '/merch' }
-			}}
+			cardsSliderProps={{ cardsSharedProps: { routeBase: '/merch' } }}
+			ctaButtonProps={{ href: '/merch' }}
 		>
 			<CustomPageBuilder customPage={pageStructure} />
 		</CustomProductScreen>

@@ -14,6 +14,7 @@ import CTAButton from './Cards/CTAButton';
 import { ProductCard } from './Cards/Card';
 import Slider, { CardsSlider } from './Cards/Slider';
 import { ShopifyProduct } from '~/utils/types';
+import { NextJsLinkProps } from '../Clickable';
 
 function ImageMagnifier({
 	src,
@@ -193,12 +194,14 @@ const CustomProductScreen = ({
 	productData,
 	children,
 	products,
-	cardsSliderProps = {}
+	cardsSliderProps = {},
+	ctaButtonProps = {}
 }: {
 	children?: ReactNode;
 	productData: ShopifyProduct;
 	products: ShopifyProduct[];
 	cardsSliderProps?: Partial<Parameters<typeof CardsSlider>[0]>;
+	ctaButtonProps?: Partial<NextJsLinkProps>;
 }) => {
 	const [selectedQuantity, setSelectedQuantity] = useState(1);
 
@@ -254,7 +257,8 @@ const CustomProductScreen = ({
 					text="Explore more high quality packs"
 					isA="next-js"
 					href="/products"
-					className="mb-12"
+					{...ctaButtonProps}
+					className="mt-4 mb-16"
 				/>
 				<header>
 					<h2 className="font-normal text-text-primary-400 text-h3">

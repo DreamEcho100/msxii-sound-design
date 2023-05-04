@@ -23,13 +23,11 @@ const config = {
 	images: {
 		domains: ['cdn.shopify.com']
 	},
-	experimental: {
-		fontLoaders: [
-			{
-				loader: 'next/font/google',
-				options: { subsets: ['latin', 'raleway'] }
-			}
-		]
-	}
+	fontLoaders: [
+		{
+			loader: 'next/font/google',
+			options: { subsets: ['latin', 'raleway'] }
+		}
+	]
 };
 export default config;

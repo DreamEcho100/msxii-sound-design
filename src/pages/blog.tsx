@@ -12,6 +12,7 @@ import {
 } from 'react-icons/hi';
 import Clickable from '~/components/shared/core/Clickable';
 import CustomNextImage from '~/components/shared/CustomNextImage';
+import ImageMagnifier from '~/components/shared/ImageMagnifier';
 
 const BlogPage = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
 	const [currentPageIndex, setCurrentPageIndex] = useState(
@@ -60,26 +61,35 @@ const BlogPage = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
 			</header>
 			<section className="flex flex-col gap-8">
 				<header>
-					<h2 className="text-h4 text-text-primary-400">News</h2>
+					<h2 className="text-h4 text-text-primary-400 font-semibold">News</h2>
 				</header>
-				<div className="flex flex-wrap gap-8">
+				<div className="flex flex-wrap gap-12">
 					{currentPageItems.items.map((item) => (
 						<article
 							key={item.id}
-							className="w-60 overflow-hidden rounded-lg flex flex-col gap-2 flex-grow"
+							className="text-center w-52 flex flex-col gap-4"
 						>
-							<CustomNextImage
-								unoptimized
+							<ImageMagnifier
 								src={item.image.src}
-								width={500}
+								width={300}
 								height={300}
-								className="object-cover aspect-square"
+								className="object-cover rounded-lg"
+								containerProps={{ className: 'aspect-square' }}
+								priority
 							/>
-							<h3 className="text-base font-light">{item.title}</h3>
+							<h3 className="text-[1rem] leading-snug font-light flex-grow">
+								<small>{item.title}</small>
+							</h3>
+							<Clickable
+								variants={{ py: 'extra-sm', px: '3xl' }}
+								className="mx-auto capitalize"
+							>
+								read more
+							</Clickable>
 						</article>
 					))}
 				</div>
-				<footer className="flex flex-col items-center justify-center">
+				<footer className="flex flex-col items-center justify-center mt-4">
 					<div className="flex items-center gap-6 text-h5 text-text-primary-400">
 						<Clickable
 							variants={null}

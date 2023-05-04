@@ -1,4 +1,4 @@
-import { createProxySSGHelpers } from '@trpc/react-query/ssg';
+import { createServerSideHelpers } from '@trpc/react-query/server';
 import superjson from 'superjson';
 import {
 	GetStaticPaths,
@@ -127,7 +127,7 @@ export const getStaticProps = async (
 		.object({ handle: z.string().trim().min(1) })
 		.parse(context.params);
 
-	const ssg = createProxySSGHelpers({
+	const ssg = createServerSideHelpers({
 		router: appRouter,
 		ctx: await createInnerTRPCContext({ session: null }),
 		transformer: superjson // optional - adds superjson serialization

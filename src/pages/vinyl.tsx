@@ -1,4 +1,4 @@
-import { createProxySSGHelpers } from '@trpc/react-query/ssg';
+import { createServerSideHelpers } from '@trpc/react-query/server';
 import { cx } from 'class-variance-authority';
 import { GetStaticProps } from 'next';
 import superjson from 'superjson';
@@ -46,7 +46,7 @@ const IOSAppsPage = () => {
 };
 
 export const getStaticProps: GetStaticProps = async (ctx) => {
-	const ssg = createProxySSGHelpers({
+	const ssg = createServerSideHelpers({
 		router: appRouter,
 		ctx: await createInnerTRPCContext({ session: null }),
 		transformer: superjson // optional - adds superjson serialization

@@ -1,4 +1,4 @@
-import { createProxySSGHelpers } from '@trpc/react-query/ssg';
+import { createServerSideHelpers } from '@trpc/react-query/server';
 
 import { type NextPage } from 'next';
 
@@ -53,7 +53,7 @@ const MerchesPage: NextPage = () => {
 
 export async function getStaticProps() {
 	// context: GetStaticPropsContext<undefined>
-	const ssg = createProxySSGHelpers({
+	const ssg = createServerSideHelpers({
 		router: appRouter,
 		ctx: await createInnerTRPCContext({ session: null }),
 		transformer: superjson // optional - adds superjson serialization

@@ -3,7 +3,7 @@ import type {} from // GetStaticPropsContext,
 'next';
 import ProductsScreen from '~/components/screens/Products';
 
-import { createProxySSGHelpers } from '@trpc/react-query/ssg';
+import { createServerSideHelpers } from '@trpc/react-query/server';
 import { createInnerTRPCContext } from '~/server/api/trpc';
 import superjson from 'superjson';
 import { appRouter } from '~/server/api/root';
@@ -19,7 +19,7 @@ const ProductsPage = () =>
 
 export async function getStaticProps() {
 	// context: GetStaticPropsContext<undefined>
-	const ssg = createProxySSGHelpers({
+	const ssg = createServerSideHelpers({
 		router: appRouter,
 		ctx: await createInnerTRPCContext({ session: null }),
 		transformer: superjson // optional - adds superjson serialization

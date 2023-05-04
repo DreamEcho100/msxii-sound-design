@@ -1,4 +1,4 @@
-import { createProxySSGHelpers } from '@trpc/react-query/ssg';
+import { createServerSideHelpers } from '@trpc/react-query/server';
 import { useState } from 'react';
 import { AppRouter, appRouter } from '~/server/api/root';
 import { createInnerTRPCContext } from '~/server/api/trpc';
@@ -125,7 +125,7 @@ const BlogPage = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
 
 export async function getStaticProps() {
 	// context: GetStaticPropsContext<undefined>
-	const ssg = createProxySSGHelpers({
+	const ssg = createServerSideHelpers({
 		router: appRouter,
 		ctx: await createInnerTRPCContext({ session: null }),
 		transformer: superjson // optional - adds superjson serialization

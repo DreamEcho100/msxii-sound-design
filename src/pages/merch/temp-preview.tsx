@@ -1,4 +1,4 @@
-import { createProxySSGHelpers } from '@trpc/react-query/ssg';
+import { createServerSideHelpers } from '@trpc/react-query/server';
 import { GetStaticProps } from 'next';
 import CustomProductScreen from '~/components/shared/core/CustomProductScreen';
 import { appRouter } from '~/server/api/root';
@@ -46,7 +46,7 @@ const TempPreviewProductPage = () => {
 };
 
 export const getStaticProps: GetStaticProps = async (ctx) => {
-	const ssg = createProxySSGHelpers({
+	const ssg = createServerSideHelpers({
 		router: appRouter,
 		ctx: await createInnerTRPCContext({ session: null }),
 		transformer: superjson // optional - adds superjson serialization

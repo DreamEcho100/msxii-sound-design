@@ -2,9 +2,9 @@ import { type GetStaticProps } from 'next';
 import CustomPageBuilder from '~/components/shared/core/CustomPageBuilder/index.tsx';
 import { api } from '~/utils/api';
 import superjson from 'superjson';
-import { createProxySSGHelpers } from '@trpc/react-query/ssg';
 import { appRouter } from '~/server/api/root';
 import { createInnerTRPCContext } from '~/server/api/trpc';
+import { createServerSideHelpers } from '@trpc/react-query/server';
 
 const AboutPage = () => {
 	const customPageStructureQuery = api.customPages.getOne.useQuery({
@@ -22,7 +22,7 @@ const AboutPage = () => {
 };
 
 export const getStaticProps: GetStaticProps = async (ctx) => {
-	const ssg = createProxySSGHelpers({
+	const ssg = createServerSideHelpers({
 		router: appRouter,
 		ctx: await createInnerTRPCContext({ session: null }),
 		transformer: superjson // optional - adds superjson serialization

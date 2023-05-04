@@ -22,12 +22,6 @@ const config = {
 	},
 	images: {
 		domains: ['cdn.shopify.com']
-	},
-	fontLoaders: [
-		{
-			loader: 'next/font/google',
-			options: { subsets: ['latin', 'raleway'] }
-		}
-	]
+	}
 };
 export default config;

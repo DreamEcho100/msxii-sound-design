@@ -1,3 +1,5 @@
+const { fontFamily } = require('tailwindcss/defaultTheme')
+
 /** @type {import('tailwindcss').Config} */
 module.exports = {
 	content: ['./src/**/*.{js,ts,jsx,tsx}'],
@@ -123,6 +125,9 @@ module.exports = {
 					}
 				}
 			},
+			fontFamily: {
+        sans: ['var(--font-raleway)', ...fontFamily.sans],
+      },
 			fontSize: {
 				h1: 'var(--size-h1)',
 				h2: 'var(--size-h2)',

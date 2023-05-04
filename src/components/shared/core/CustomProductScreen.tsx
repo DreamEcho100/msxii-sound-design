@@ -142,14 +142,14 @@ const ProductImageShowcase = ({
 				<Slider
 					verticalOnLG
 					swiperProps={{
-						className: 'max-w-full max-h-[24rem]',
+						className: 'max-w-full max-h-[24rem] lg:max-w-[6rem]',
 						breakpoints: {
 							1024: {
 								direction: 'vertical'
 							}
 						},
 						slidesPerView: 4,
-						spaceBetween: 4,
+						spaceBetween: 8,
 						autoplay: false
 					}}
 					isNavButtonsOutside

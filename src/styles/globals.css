@@ -204,6 +204,9 @@ h6 {
 }
 
 @layer utilities {
+	.no-content {
+		content: '';
+	}
 	.text-align-initial {
 		text-align: initial;
 	}

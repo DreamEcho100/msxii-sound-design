@@ -12,7 +12,6 @@ import {
 } from 'react-icons/hi';
 import Clickable from '~/components/shared/core/Clickable';
 import CustomNextImage from '~/components/shared/CustomNextImage';
-import ImageMagnifier from '~/components/shared/ImageMagnifier';
 
 const BlogPage = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
 	const [currentPageIndex, setCurrentPageIndex] = useState(
@@ -63,20 +62,21 @@ const BlogPage = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
 				<header>
 					<h2 className="text-h4 text-text-primary-400 font-semibold">News</h2>
 				</header>
-				<div className="flex flex-wrap gap-12">
+				<div className="flex flex-wrap justify-between gap-12">
 					{currentPageItems.items.map((item) => (
 						<article
 							key={item.id}
-							className="text-center w-52 flex flex-col gap-4"
+							className="text-center w-56 flex flex-col gap-4"
 						>
-							<ImageMagnifier
-								src={item.image.src}
-								width={300}
-								height={300}
-								className="object-cover rounded-lg"
-								containerProps={{ className: 'aspect-square' }}
-								priority
-							/>
+							<div className="rounded-lg aspect-square overflow-hidden">
+								<CustomNextImage
+									src={item.image.src}
+									width={300}
+									height={300}
+									className="object-cover w-full h-full duration-300 ease-in hover:scale-110"
+									priority
+								/>
+							</div>
 							<h3 className="text-[1rem] leading-snug font-light flex-grow">
 								<small>{item.title}</small>
 							</h3>

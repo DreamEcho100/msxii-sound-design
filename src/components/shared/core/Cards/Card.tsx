@@ -12,7 +12,7 @@ const handleBasicProductCardContainerVariants = cva(
 	'max-w-full card flex flex-col px-1 group duration-300 delay-75 transition-all',
 	{
 		variants: {
-			'aspect-ratio': { video: 'aspect-video', card: 'aspect-[1.91/1]' },
+			'aspect-ratio': { video: 'aspect-video' },
 			flex: { grow: 'flex-grow' },
 			w: { '64': 'w-64', '72': 'w-72' }
 		},
@@ -174,7 +174,6 @@ export const ProductCard = ({
 			extraDetailsElem={
 				<ProductExtraDetails {...extraDetailsElemProps} product={product} />
 			}
-			containerVariants={{ 'aspect-ratio': 'card' }}
 			{...props}
 		/>
 	);

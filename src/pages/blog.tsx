@@ -66,14 +66,14 @@ const BlogPage = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
 					{currentPageItems.items.map((item) => (
 						<article
 							key={item.id}
-							className="w-80 overflow-hidden rounded-lg flex flex-col gap-2 flex-grow"
+							className="w-60 overflow-hidden rounded-lg flex flex-col gap-2 flex-grow"
 						>
 							<CustomNextImage
 								unoptimized
 								src={item.image.src}
 								width={500}
 								height={300}
-								className="object-cover aspect-video"
+								className="object-cover aspect-square"
 							/>
 							<h3 className="text-base font-light">{item.title}</h3>
 						</article>

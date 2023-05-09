@@ -68,7 +68,7 @@ const CreativeSpacePage = (
 	return (
 		<CustomPageBuilder customPage={pageStructure}>
 			<div
-				className="grid gap-8 justify-items-center"
+				className="grid gap-x-8 gap-y-12 justify-items-center"
 				style={{
 					gridTemplateColumns: 'repeat(auto-fill, minmax(15rem, 1fr))'
 				}}

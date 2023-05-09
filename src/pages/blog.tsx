@@ -62,7 +62,12 @@ const BlogPage = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
 				<header>
 					<h2 className="text-h4 text-text-primary-400 font-semibold">News</h2>
 				</header>
-				<div className="flex flex-wrap justify-between gap-12">
+				<div
+					className="grid gap-x-8 gap-y-12 justify-items-center"
+					style={{
+						gridTemplateColumns: 'repeat(auto-fill, minmax(15rem, 1fr))'
+					}}
+				>
 					{currentPageItems.items.map((item) => (
 						<article
 							key={item.id}

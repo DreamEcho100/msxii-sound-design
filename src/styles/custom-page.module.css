@@ -81,7 +81,7 @@
 	}
 }
 .two-columns-box .image-only-box {
-	min-width: 24rem;
+	/* min-width: 24rem; */
 }
 @media all and (max-width: 1024px) {
 	.two-columns-box .image-only-box {
@@ -109,8 +109,8 @@
 	width: fit-content;
 }
 .two-columns-box .image-only-box {
-	width: 24rem;
-	height: 24rem;
+	/* width: 24rem;
+	height: 24rem; */
 }
 .two-columns-box .image-only-box > img {
 	width: 100%;

@@ -163,13 +163,25 @@ const SectionBodyBox = ({
 			<div className={cx(customPageClassName)}>
 				<ReactMarkdown
 					components={{
-						img: ({ node, ...props }) => {
-							if (!props.src) return <></>;
+						img: ({ node, src, ...props }) => {
+							if (!src) return <></>;
+
+							let url: URL;
+
+							if (src.startsWith('/')) {
+								url = new URL(`http://localhost:3000${src}`);
+							} else url = new URL(src);
+
+							const params = url.searchParams;
+							const className = params.get('className')?.split(',').join(' '); // Outputs: "w40"
+
 							return (
 								// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 								// @ts-ignore
 								<CustomNextImage
 									{...props}
+									src={src}
+									className={className}
 									unoptimized
 									width={100}
 									height={500}

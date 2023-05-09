@@ -24,8 +24,9 @@ const CustomNextImage = ({
 	isAnimated,
 	...props
 }: ICustomNextImageProps) => {
-	const [isWeservNlOptimized, setIsWeservNlOptimized] =
-		useState(weservNlOptimized);
+	const [isWeservNlOptimized, setIsWeservNlOptimized] = useState(
+		process.env.NODE_ENV === 'production' ? weservNlOptimized : false
+	);
 	const [_src, setSrc] = useState(src);
 	const [isLoaded, setIsLoaded] = useState(false);
 

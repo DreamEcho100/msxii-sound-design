@@ -2601,7 +2601,22 @@ export const boxVariants = {
 		'125ch': 'max-w-[125ch]'
 	},
 	w: {
-		full: 'w-full',
+		'4': 'w-4',
+		'5': 'w-5',
+		'6': 'w-6',
+		'7': 'w-7',
+		'8': 'w-8',
+		'9': 'w-9',
+		'10': 'w-10',
+		'11': 'w-11',
+		'12': 'w-12',
+		'14': 'w-14',
+		'16': 'w-16',
+		'20': 'w-20',
+		'24': 'w-24',
+		'28': 'w-28',
+		'32': 'w-32',
+		'36': 'w-36',
 		'40': 'w-40',
 		'44': 'w-44',
 		'48': 'w-48',
@@ -2611,19 +2626,91 @@ export const boxVariants = {
 		'64': 'w-64',
 		'72': 'w-72',
 		'80': 'w-80',
-		'96': 'w-96'
+		'96': 'w-96',
+		'1/2': 'w-1/2',
+		'1/3': 'w-1/3',
+		'2/3': 'w-2/3',
+		'1/4': 'w-1/4',
+		'2/4': 'w-2/4',
+		'3/4': 'w-3/4',
+		'1/5': 'w-1/5',
+		'2/5': 'w-2/5',
+		'3/5': 'w-3/5',
+		'4/5': 'w-4/5',
+		'1/6': 'w-1/6',
+		'2/6': 'w-2/6',
+		'3/6': 'w-3/6',
+		'4/6': 'w-4/6',
+		'5/6': 'w-5/6',
+		'1/12': 'w-1/12',
+		'2/12': 'w-2/12',
+		'3/12': 'w-3/12',
+		'4/12': 'w-4/12',
+		'5/12': 'w-5/12',
+		'6/12': 'w-6/12',
+		'7/12': 'w-7/12',
+		'8/12': 'w-8/12',
+		'9/12': 'w-9/12',
+		'10/12': 'w-10/12',
+		'11/12': 'w-11/12',
+		full: 'w-full',
+		auto: 'w-auto'
 	},
 	h: {
-		'40': 'w-40',
-		'44': 'w-44',
-		'48': 'w-48',
-		'52': 'w-52',
-		'56': 'w-56',
-		'60': 'w-60',
-		'64': 'w-64',
-		'72': 'w-72',
-		'80': 'w-80',
-		'96': 'w-96'
+		'4': 'h-4',
+		'5': 'h-5',
+		'6': 'h-6',
+		'7': 'h-7',
+		'8': 'h-8',
+		'9': 'h-9',
+		'10': 'h-10',
+		'11': 'h-11',
+		'12': 'h-12',
+		'14': 'h-14',
+		'16': 'h-16',
+		'20': 'h-20',
+		'24': 'h-24',
+		'28': 'h-28',
+		'32': 'h-32',
+		'36': 'h-36',
+		'40': 'h-40',
+		'44': 'h-44',
+		'48': 'h-48',
+		'52': 'h-52',
+		'56': 'h-56',
+		'60': 'h-60',
+		'64': 'h-64',
+		'72': 'h-72',
+		'80': 'h-80',
+		'96': 'h-96',
+		'1/2': 'h-1/2',
+		'1/3': 'h-1/3',
+		'2/3': 'h-2/3',
+		'1/4': 'h-1/4',
+		'2/4': 'h-2/4',
+		'3/4': 'h-3/4',
+		'1/5': 'h-1/5',
+		'2/5': 'h-2/5',
+		'3/5': 'h-3/5',
+		'4/5': 'h-4/5',
+		'1/6': 'h-1/6',
+		'2/6': 'h-2/6',
+		'3/6': 'h-3/6',
+		'4/6': 'h-4/6',
+		'5/6': 'h-5/6',
+		'1/12': 'h-1/12',
+		'2/12': 'h-2/12',
+		'3/12': 'h-3/12',
+		'4/12': 'h-4/12',
+		'5/12': 'h-5/12',
+		'6/12': 'h-6/12',
+		'7/12': 'h-7/12',
+		'8/12': 'h-8/12',
+		'9/12': 'h-9/12',
+		'10/12': 'h-10/12',
+		'11/12': 'h-11/12',
+		full: 'h-full',
+		auto: 'h-auto'
 	},
 	'gap-x': {
 		'1': 'gap-x-1',
@@ -2751,8 +2838,8 @@ export const LoflyDirtIOSApp: StandardSection[] = (() => {
 		___type: BOXES_TYPES_map['two-columns'],
 		columns: [
 			{
-				stylesVariants: { 'aspect-ratio': 'square' },
 				customPageClassesKeys: ['center-on-ls-md-screens', 'objects-contain'],
+				stylesVariants: { w: '96', h: '96', 'aspect-ratio': 'square' },
 				___type: BOXES_TYPES_map['image-only'],
 				src: 'https://cdn.shopify.com/s/files/1/0345/7209/t/28/assets/pf-50b7d524--Screen-Shot-20200327-at-12507-AM.png?v=1585290536'
 			},
@@ -2764,7 +2851,7 @@ export const LoflyDirtIOSApp: StandardSection[] = (() => {
 	
 ## IOS-APP
 
-[![](/images/custom-page/App-Store-Button-transparent.png)](${appLink})
+[![](https://w7.pngwing.com/pngs/506/939/png-transparent-app-store-logo-iphone-app-store-get-started-now-button-electronics-text-telephone-call.png?className=w-44)](${appLink})
 
 An audio coloration utility plugin featuring individual modes for classic emulation of some iconic music production tools. This tool is meant to bring character, or "dirt" to your incoming audio signals. Lo-Fly Dirt installs as an Audio Unit effect for hosts that support the format such as Audio Bus, Beatmaker 3, Garage Band, Cubasis, AUM, etc.`
 			}
@@ -2843,6 +2930,7 @@ You can check out the reference guide below:
 								'center-on-ls-md-screens',
 								'object-contain'
 							],
+							stylesVariants: { w: '96' },
 							___type: BOXES_TYPES_map['image-only'],
 							src: 'https://cdn.shopify.com/s/files/1/0345/7209/t/28/assets/pf-87a87505--loflydirtmanualdisplay.png?v=1589083025'
 						}
@@ -2908,7 +2996,7 @@ You can check out the reference guide below:
 			},
 			{
 				___type: 'md',
-				content: `[![](/images/custom-page/App-Store-Button-transparent.png)](${appLink})`
+				content: `[![](https://w7.pngwing.com/pngs/506/939/png-transparent-app-store-logo-iphone-app-store-get-started-now-button-electronics-text-telephone-call.png?className=w-44)](${appLink})`
 			}
 		]
 	};
@@ -2937,8 +3025,8 @@ export const FlyTapeIOSApp: StandardSection[] = (() => {
 		___type: BOXES_TYPES_map['two-columns'],
 		columns: [
 			{
-				stylesVariants: { 'aspect-ratio': 'square' },
 				customPageClassesKeys: ['center-on-ls-md-screens', 'objects-contain'],
+				stylesVariants: { w: '96', h: '96', 'aspect-ratio': 'square' },
 				___type: BOXES_TYPES_map['image-only'],
 				src: 'https://cdn.shopify.com/s/files/1/0345/7209/t/28/assets/pf-f357e20c--Flytapeappdisplay.png?v=1589053729'
 			},
@@ -2949,7 +3037,7 @@ export const FlyTapeIOSApp: StandardSection[] = (() => {
 				content: `# Fly Tape
 ## IOS-APP
 
-[![](/images/custom-page/App-Store-Button-transparent.png)](${appLink})
+[![](https://w7.pngwing.com/pngs/506/939/png-transparent-app-store-logo-iphone-app-store-get-started-now-button-electronics-text-telephone-call.png?className=w-44)](${appLink})
 
 Fly-Tape is a unique MSXII look on some of the aspects about tape that we love while adding some unique features that are enjoyable!
 
@@ -3084,6 +3172,7 @@ You can check out the reference guide below
 								'center-on-ls-md-screens',
 								'object-contain'
 							],
+							stylesVariants: { w: '96', h: '96', 'aspect-ratio': 'square' },
 							___type: BOXES_TYPES_map['image-only'],
 							src: 'https://cdn.shopify.com/s/files/1/0345/7209/t/28/assets/pf-f7f4b998--FlyTapeManualImage.png?v=1589395846'
 						}
@@ -3149,7 +3238,7 @@ You can check out the reference guide below
 			},
 			{
 				___type: 'md',
-				content: `[![](/images/custom-page/App-Store-Button-transparent.png)](${appLink})`
+				content: `[![](https://w7.pngwing.com/pngs/506/939/png-transparent-app-store-logo-iphone-app-store-get-started-now-button-electronics-text-telephone-call.png?className=w-44)](${appLink})`
 			}
 		]
 	};
@@ -3178,8 +3267,8 @@ export const FlyTape2IOSApp: StandardSection[] = (() => {
 		___type: BOXES_TYPES_map['two-columns'],
 		columns: [
 			{
-				stylesVariants: { 'aspect-ratio': 'square' },
 				customPageClassesKeys: ['center-on-ls-md-screens', 'objects-contain'],
+				stylesVariants: { w: '96', h: '96', 'aspect-ratio': 'square' },
 				___type: BOXES_TYPES_map['image-only'],
 				src: 'https://cdn.shopify.com/s/files/1/0345/7209/t/28/assets/pf-baa9b738--Screen-Shot-20210324-at-35800-PM.png?v=1616619654'
 			},
@@ -3190,7 +3279,7 @@ export const FlyTape2IOSApp: StandardSection[] = (() => {
 				content: `# Fly Tape 2
 ## IOS-APP
 
-[![](/images/custom-page/App-Store-Button-transparent.png)](${appLink})
+[![](https://w7.pngwing.com/pngs/506/939/png-transparent-app-store-logo-iphone-app-store-get-started-now-button-electronics-text-telephone-call.png?className=w-44)](${appLink})
 
 FlyTape 2 builds on the principles of the original FlyTape. A love of vintage sounds and character is our thing and FlyTape 2 fits this ethos as a unique take on the features of classic tape. Named for it's style, performance and user improvisation control, it's FX can be added to incoming audio signals in many ways "on the fly". Sliders for textured nuances such as noise hiss will allow you to dial in tasteful settings reminiscent of cassette tapes. These also can be automated via midi cc for additional modulation.
 
@@ -3254,6 +3343,7 @@ You can check out the reference guide/manual below. Download and save to your iP
 								'center-on-ls-md-screens',
 								'object-contain'
 							],
+							stylesVariants: { w: '96', h: '96', 'aspect-ratio': 'square' },
 							___type: BOXES_TYPES_map['image-only'],
 							src: 'https://cdn.shopify.com/s/files/1/0345/7209/t/28/assets/pf-6ed32248--Screen-Shot-20210324-at-13333-PM.png?v=1616610936'
 						}
@@ -3299,7 +3389,7 @@ You can check out the reference guide/manual below. Download and save to your iP
 			},
 			{
 				___type: 'md',
-				content: `[![](/images/custom-page/App-Store-Button-transparent.png)](${appLink})`
+				content: `[![](https://w7.pngwing.com/pngs/506/939/png-transparent-app-store-logo-iphone-app-store-get-started-now-button-electronics-text-telephone-call.png?className=w-44)](${appLink})`
 			}
 		]
 	};
@@ -3328,8 +3418,8 @@ export const ChomplrOSApp: StandardSection[] = (() => {
 		___type: BOXES_TYPES_map['two-columns'],
 		columns: [
 			{
-				stylesVariants: { 'aspect-ratio': 'square' },
 				customPageClassesKeys: ['center-on-ls-md-screens', 'objects-contain'],
+				stylesVariants: { w: '96', h: '96', 'aspect-ratio': 'square' },
 				___type: BOXES_TYPES_map['image-only'],
 				src: 'https://cdn.shopify.com/s/files/1/0345/7209/t/28/assets/pf-8930ec95--Chomplrappdisplay-Edited.jpg?v=1617338387'
 			},
@@ -3340,7 +3430,7 @@ export const ChomplrOSApp: StandardSection[] = (() => {
 				content: `# Chomplr
 ## IOS-APP
 
-[![](/images/custom-page/App-Store-Button-transparent.png)](${appLink})
+[![](https://w7.pngwing.com/pngs/506/939/png-transparent-app-store-logo-iphone-app-store-get-started-now-button-electronics-text-telephone-call.png?className=w-44)](${appLink})
 
 The Chomplr name is taken from sample "Chopping Rompler", inspired by the timeless workflow of creating music using samples. Chomplr brings a new iOS approach to creative sample manipulation.
 
@@ -3404,6 +3494,7 @@ You can check out the reference guide/manual below. Download and save to your iP
 								'center-on-ls-md-screens',
 								'object-contain'
 							],
+							stylesVariants: { w: '96', h: '96', 'aspect-ratio': 'square' },
 							___type: BOXES_TYPES_map['image-only'],
 							src: 'https://cdn.shopify.com/s/files/1/0345/7209/t/28/assets/pf-edf62089--Screen-Shot-20210621-at-123253-PM.png?v=1624482138'
 						}
@@ -3599,7 +3690,7 @@ You can check out the reference guide/manual below. Download and save to your iP
 			},
 			{
 				___type: 'md',
-				content: `[![](/images/custom-page/App-Store-Button-transparent.png)](${appLink})`
+				content: `[![](https://w7.pngwing.com/pngs/506/939/png-transparent-app-store-logo-iphone-app-store-get-started-now-button-electronics-text-telephone-call.png?className=w-44)](${appLink})`
 			}
 		]
 	};

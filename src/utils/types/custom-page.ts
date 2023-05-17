@@ -15,7 +15,8 @@ export const BOXES_TYPES = [
 	'md',
 	'iframe',
 	'tabs',
-	'slider'
+	'slider',
+	'quote'
 ] as const;
 export type BOXES_TYPE = (typeof BOXES_TYPES)[number];
 export const BOXES_TYPES_map = Object.fromEntries(
@@ -60,12 +61,19 @@ export type TabsBox = {
 		data: Box;
 	}[];
 };
+export type QuoteBox = {
+	stylesVariants?: BoxVariants;
+	customPageClassesKeys?: string[];
+	___type: (typeof BOXES_TYPES_map)['quote'];
+	cite: string;
+	content: string;
+};
 export type SliderBox = {
 	stylesVariants?: BoxVariants;
 	customPageClassesKeys?: string[];
 	___type: (typeof BOXES_TYPES_map)['slider'];
-	slides: IframeBox[];
-	slidesPerViewType?: 'default' | 'large-slides'; // ! move to there own enums
+	slides: (IframeBox | QuoteBox)[];
+	slidesPerViewType?: 'default' | 'one-slide' | 'large-slides'; // ! move to there own enums
 };
 export type TwoColumnsBox = {
 	stylesVariants?: BoxVariants;
@@ -87,6 +95,7 @@ export type Box =
 	| IframeBox
 	| TabsBox
 	| SliderBox
+	| QuoteBox
 	| TwoColumnsBox
 	| RowsOnlyBox;
 

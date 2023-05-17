@@ -76,6 +76,47 @@ const TabsBox = ({ box, className }: { box: TabsBox; className: string }) => (
 	</Tabs.Root>
 );
 
+const ReactMarkdownFormatter = ({ content }: { content: string }) => {
+	return (
+		<ReactMarkdown
+			components={{
+				img: ({ node, src, ...props }) => {
+					if (!src) return <></>;
+
+					let url: URL;
+
+					if (src.startsWith('/')) {
+						url = new URL(`http://localhost:3000${src}`);
+					} else url = new URL(src);
+
+					const params = url.searchParams;
+					const className = params.get('className')?.split(',').join(' '); // Outputs: "w40"
+
+					return (
+						// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+						// @ts-ignore
+						<CustomNextImage
+							{...props}
+							src={src}
+							className={className}
+							unoptimized
+							width={100}
+							height={500}
+							onLoadingComplete={(img) => {
+								img.width = img.naturalWidth;
+								img.height = img.naturalHeight;
+							}}
+						/>
+					);
+				}
+			}}
+			remarkPlugins={[remarkGfm]}
+		>
+			{content}
+		</ReactMarkdown>
+	);
+};
+
 const SectionBody = ({
 	section,
 	sectionIndex
@@ -161,42 +202,17 @@ const SectionBodyBox = ({
 	if (box.___type === BOXES_TYPES_map['md'])
 		return (
 			<div className={cx(customPageClassName)}>
-				<ReactMarkdown
-					components={{
-						img: ({ node, src, ...props }) => {
-							if (!src) return <></>;
+				<ReactMarkdownFormatter content={box.content} />
+			</div>
+		);
 
-							let url: URL;
-
-							if (src.startsWith('/')) {
-								url = new URL(`http://localhost:3000${src}`);
-							} else url = new URL(src);
-
-							const params = url.searchParams;
-							const className = params.get('className')?.split(',').join(' '); // Outputs: "w40"
-
-							return (
-								// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-								// @ts-ignore
-								<CustomNextImage
-									{...props}
-									src={src}
-									className={className}
-									unoptimized
-									width={100}
-									height={500}
-									onLoadingComplete={(img) => {
-										img.width = img.naturalWidth;
-										img.height = img.naturalHeight;
-									}}
-								/>
-							);
-						}
-					}}
-					remarkPlugins={[remarkGfm]}
-				>
-					{box.content}
-				</ReactMarkdown>
+	if (box.___type === BOXES_TYPES_map['quote'])
+		return (
+			<div className={cx(customPageClassName)}>
+				<q>
+					<ReactMarkdownFormatter content={box.content} />
+				</q>
+				<cite>{box.cite}</cite>
 			</div>
 		);
 
@@ -248,6 +264,8 @@ const SectionBodyBox = ({
 										1024: { slidesPerView: 3 },
 										1280: { slidesPerView: 4 }
 								  }
+								: box.slidesPerViewType === 'one-slide'
+								? { 0: { slidesPerView: 1 } }
 								: {
 										400: { slidesPerView: 2 },
 										768: { slidesPerView: 3 },
@@ -256,8 +274,8 @@ const SectionBodyBox = ({
 								  }
 					}}
 				>
-					{box.slides.map((slide) => (
-						<SwiperSlide key={slide.src} className="flex flex-col">
+					{box.slides.map((slide, slideIndex) => (
+						<SwiperSlide key={slideIndex} className="flex flex-col">
 							<SectionBodyBox box={slide} parentBox={box.___type} />
 						</SwiperSlide>
 					))}

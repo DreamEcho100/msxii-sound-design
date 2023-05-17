@@ -1,5 +1,5 @@
 import { type GetStaticProps } from 'next';
-import CustomPageBuilder from '~/components/shared/core/CustomPageBuilder/index.tsx';
+import CustomPageBuilder from '~/components/shared/core/CustomPageBuilder';
 import { api } from '~/utils/api';
 import superjson from 'superjson';
 import { appRouter } from '~/server/api/root';

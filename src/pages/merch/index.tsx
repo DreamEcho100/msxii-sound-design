@@ -8,7 +8,7 @@ import { api } from '~/utils/api';
 import { appRouter } from '~/server/api/root';
 import { createInnerTRPCContext } from '~/server/api/trpc';
 import { ProductCard } from '~/components/shared/core/Cards/Card';
-import CustomPageBuilder from '~/components/shared/core/CustomPageBuilder/index.tsx';
+import CustomPageBuilder from '~/components/shared/core/CustomPageBuilder';
 
 const MerchesPage: NextPage = () => {
 	const merchQuery = api.merch.getAll.useQuery();

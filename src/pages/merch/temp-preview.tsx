@@ -8,7 +8,7 @@ import {
 	merchesData
 } from '~/utils/appData/merch';
 import superjson from 'superjson';
-import CustomPageBuilder from '~/components/shared/core/CustomPageBuilder/index.tsx';
+import CustomPageBuilder from '~/components/shared/core/CustomPageBuilder';
 import { api } from '~/utils/api';
 
 // const media = productData.media[0]!;

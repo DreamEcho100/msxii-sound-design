@@ -8,7 +8,7 @@ import {
 import { z } from 'zod';
 import { CustomPages } from '~/utils/appData';
 import { api } from '~/utils/api';
-import CustomPageBuilder from '~/components/shared/core/CustomPageBuilder/index.tsx';
+import CustomPageBuilder from '~/components/shared/core/CustomPageBuilder';
 import { createServerSideHelpers } from '@trpc/react-query/server';
 import { appRouter } from '~/server/api/root';
 import superjson from 'superjson';

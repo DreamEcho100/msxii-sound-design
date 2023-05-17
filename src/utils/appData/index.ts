@@ -10,6 +10,30 @@ import {
 } from './custom-pages/ios-apps';
 import { ProductsTags } from './custom-pages/utils';
 
+export const loFlyDirtBasicData = {
+	title: 'Lo-Fly Dirt',
+	slug: 'lo-fly-dirt'
+};
+export const flyTape2BasicData = {
+	title: 'Fly Tape 2',
+	slug: 'fly-tape-2'
+};
+export const flyTapeBasicData = {
+	title: 'Fly Tape',
+	slug: 'fly-tape'
+};
+export const chomplrBasicData = {
+	title: 'Chomplr',
+	slug: 'chomplr'
+};
+
+export const IOSProductsBasicData = [
+	loFlyDirtBasicData,
+	flyTape2BasicData,
+	flyTapeBasicData,
+	chomplrBasicData
+];
+
 export const loopsGoCrazyVol5Product: ShopifyProduct = {
 	id: 6879014912066,
 	title: 'Loops Go Crazy Vol. 5',

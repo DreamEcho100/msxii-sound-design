@@ -1,30 +1,7 @@
 import { cx } from 'class-variance-authority';
 import CustomNextImage from '~/components/shared/CustomNextImage';
 import Clickable from '~/components/shared/core/Clickable';
-
-const loFlyDirtBasicData = {
-	title: 'Lo-Fly Dirt',
-	slug: 'lo-fly-dirt'
-};
-const flyTape2BasicData = {
-	title: 'Fly Tape 2',
-	slug: 'fly-tape-2'
-};
-const flyTapeBasicData = {
-	title: 'Fly Tape',
-	slug: 'fly-tape'
-};
-const chomplrBasicData = {
-	title: 'Chomplr',
-	slug: 'chomplr'
-};
-
-const IOSProductsBasicData = [
-	loFlyDirtBasicData,
-	flyTape2BasicData,
-	flyTapeBasicData,
-	chomplrBasicData
-];
+import { IOSProductsBasicData } from '~/utils/appData';
 
 const IOSAppsPage = () => {
 	return (

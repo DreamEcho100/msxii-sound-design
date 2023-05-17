@@ -361,7 +361,6 @@ MSXII Sound really took iOS music production/beat making to	another level with t
 	];
 })();
 
-export const chomplrBasicData = {};
 const chomplrPageData: CustomPage = {
 	stylesVariants: {
 		'max-w': '100ch',

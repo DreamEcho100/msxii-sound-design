@@ -7,7 +7,11 @@ import {
 export const createStandardSection = (
 	params: Pick<
 		StandardSection,
-		'body' | 'title' | 'description' | 'customPageClassesKeys'
+		| 'body'
+		| 'title'
+		| 'description'
+		| 'customPageClassesKeys'
+		| 'stylesVariants'
 	>
 ): StandardSection => ({
 	___type: SECTIONS_TYPES_map['standard-section'],
@@ -31,7 +35,21 @@ export enum ProductsTags {
 export const boxVariants = {
 	'max-w': {
 		'100ch': 'max-w-[100ch]',
-		'125ch': 'max-w-[125ch]'
+		'125ch': 'max-w-[125ch]',
+		xs: 'max-w-xs',
+		sm: 'max-w-sm',
+		md: 'max-w-md',
+		xl: 'max-w-xl',
+		'2xl': 'max-w-2xl',
+		'3xl': 'max-w-3xl',
+		'4xl': 'max-w-4xl',
+		'5xl': 'max-w-5xl',
+		'6xl': 'max-w-6xl',
+		'7xl': 'max-w-7xl',
+		'screen-sm': 'max-w-screen-sm',
+		'screen-md': 'max-w-screen-md',
+		'screen-xl': 'max-w-screen-xl',
+		'screen-2xl': 'max-w-screen-2xl'
 	},
 	w: {
 		'4': 'w-4',

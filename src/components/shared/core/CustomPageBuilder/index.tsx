@@ -1,4 +1,9 @@
-import type { ReactNode } from 'react';
+import {
+	useState,
+	type CSSProperties,
+	type HTMLAttributes,
+	type ReactNode
+} from 'react';
 
 import * as Tabs from '@radix-ui/react-tabs';
 import { cx } from 'class-variance-authority';
@@ -10,6 +15,7 @@ import {
 	BOXES_TYPES_map,
 	Box,
 	CustomPage,
+	QuoteBox,
 	SUB_BOXES_TYPES_map,
 	StandardSection,
 	TabsBox
@@ -75,6 +81,76 @@ const TabsBox = ({ box, className }: { box: TabsBox; className: string }) => (
 		))}
 	</Tabs.Root>
 );
+
+const Quote = ({
+	box,
+	...props
+}: HTMLAttributes<HTMLDivElement> & { box: QuoteBox }) => {
+	const [isFullTestActive, setIsFullTestActive] = useState(false);
+
+	const TEXT_MAX_LENGTH = 200;
+	const isTextLong = box.content.length > TEXT_MAX_LENGTH;
+
+	return (
+		<div {...props} className={cx(props.className, 'group')}>
+			<CustomNextImage
+				src={`https://api.dicebear.com/6.x/initials/svg?seed=${box.cite}`}
+				alt={box.cite}
+				width={150}
+				height={150}
+				className="w-16 h-16 rounded-full relative -translate-x-2/3 left-0"
+			/>
+			<div className="flex flex-col -ml-8 pt-2">
+				<cite>
+					<strong className="text-text-primary-500 font-semibold text-[75%] group-hover:text-special-primary-600 group-focus-within:text-special-primary-600">
+						{box.cite}
+					</strong>
+				</cite>
+				<q className="text-[70%] flex-grow font-medium">
+					{isTextLong && !isFullTestActive ? (
+						<>
+							<pre
+								className="whitespace-pre-wrap inline"
+								style={{ fontFamily: 'inherit' }}
+							>
+								{box.content.slice(0, TEXT_MAX_LENGTH)}
+							</pre>
+							...&nbsp;
+							<button
+								className="text-[90%] capitalize text-special-primary-800 hover:text-special-primary-600 focus:text-special-primary-600"
+								onClick={() => setIsFullTestActive((prev) => !prev)}
+							>
+								<strong className="font-semibold">
+									<em>see more</em>
+								</strong>
+							</button>
+						</>
+					) : (
+						<>
+							<pre
+								className="whitespace-pre-wrap inline"
+								style={{ fontFamily: 'inherit' }}
+							>
+								{box.content}
+							</pre>
+							&nbsp;&nbsp;&nbsp;&nbsp;
+							{isTextLong && (
+								<button
+									className="text-[90%] capitalize text-special-primary-800 hover:text-special-primary-600 focus:text-special-primary-600"
+									onClick={() => setIsFullTestActive((prev) => !prev)}
+								>
+									<strong className="font-semibold">
+										<em>see less</em>
+									</strong>
+								</button>
+							)}
+						</>
+					)}
+				</q>
+			</div>
+		</div>
+	);
+};
 
 const ReactMarkdownFormatter = ({ content }: { content: string }) => {
 	return (
@@ -208,12 +284,11 @@ const SectionBodyBox = ({
 
 	if (box.___type === BOXES_TYPES_map['quote'])
 		return (
-			<div className={cx(customPageClassName)}>
-				<q>
-					<ReactMarkdownFormatter content={box.content} />
-				</q>
-				<cite>{box.cite}</cite>
-			</div>
+			<Quote
+				className={cx(customPageClassName)}
+				style={{ '--divider': 1 / 3, '--w': '3rem' } as CSSProperties}
+				box={box}
+			/>
 		);
 
 	if (box.___type === BOXES_TYPES_map['tabs']) {
@@ -274,12 +349,29 @@ const SectionBodyBox = ({
 								  }
 					}}
 				>
-					{box.slides.map((slide, slideIndex) => (
-						<SwiperSlide key={slideIndex} className="flex flex-col">
+					{box.slides.map((slide, index) => (
+						<SwiperSlide key={index} className="flex flex-col">
 							<SectionBodyBox box={slide} parentBox={box.___type} />
 						</SwiperSlide>
 					))}
 				</Slider>
+			</div>
+		);
+	}
+
+	if (box.___type === BOXES_TYPES_map['grid']) {
+		return (
+			<div
+				className={customPageClassName}
+				style={{
+					gridTemplateColumns: `repeat(auto-fill, minmax(${
+						box.gridTemplateColumns.min1
+					}, ${box.gridTemplateColumns.min2 || '1fr'}))`
+				}}
+			>
+				{box.items.map((item, index) => (
+					<SectionBodyBox key={index} box={item} parentBox={box.___type} />
+				))}
 			</div>
 		);
 	}

@@ -7,7 +7,8 @@ import {
 	TabsBox,
 	SliderBox,
 	RowsOnlyBox,
-	CustomPage
+	CustomPage,
+	GridBox
 } from '~/utils/types/custom-page';
 import { createStandardSection } from '../utils';
 
@@ -106,7 +107,6 @@ You can check out the reference guide/manual below. Download and save to your iP
 	};
 	const sliderBox: SliderBox = {
 		___type: BOXES_TYPES_map['slider'],
-		slidesPerViewType: 'one-slide',
 		slides: [
 			{
 				___type: BOXES_TYPES_map['iframe'],
@@ -130,28 +130,26 @@ You can check out the reference guide/manual below. Download and save to your iP
 			}
 		]
 	};
-	const sliderBox2: SliderBox = {
-		___type: BOXES_TYPES_map['slider'],
-		slides: [
+	const gridBox: GridBox = {
+		___type: BOXES_TYPES_map['grid'],
+		stylesVariants: { 'gap-x': '10', 'gap-y': '8' },
+		gridTemplateColumns: { min1: '15rem', min2: '1fr' },
+		items: [
 			{
 				// 01/21/2021
 				___type: BOXES_TYPES_map['quote'],
 				cite: 'Chim_ere',
-				content: `**You guys are on to something**
-
+				content: `You guys are on to something
 Shoutout to you guys. Love the product and the add on capability. Can we look at filesize
 reduction maybe something cloud based for the future. Also organization by bpm and key for the samples would be tremendo.
-
 It gives it the crate digger vibe when sorting through but to also have the option would be mad for productivity.
-
 Satisfied customer`
 			},
 			{
 				// 06/16/2020
 				___type: BOXES_TYPES_map['quote'],
 				cite: 'John Bartholomew',
-				content: `**The app we've been waiting for.....**
-
+				content: `The app we've been waiting for
 You know when you search the App Store, looking for a music production app that you didn't know you absolutely NEEDED, well, this is that ONE. Truly a samplers dream, and I'm not exaggerating. MSXii Sound Design has been making sound design incredibly fun, and this app is no exception. Chomplr packs a punch, preloaded with incredible sounds and amazingly easy process to sketch ideas out, and I know I'm only scratching the surface. You have to experience it to know what you've been missing.......
 o! Made a fire beat
 It's very glitchy. It loses trigger start and end`
@@ -166,16 +164,14 @@ It's very glitchy. It loses trigger start and end`
 				// 2y ago
 				___type: BOXES_TYPES_map['quote'],
 				cite: 'Dee Dot Major Music',
-				content: `**MXSii does it once again**
-
+				content: `MXSii does it once again
 As a user of a lot of their past products on my iPad, in Maschine & the MPC software they always deliver and this time is no different. This is recommended for anybody that likes making music on the iPad and looking for something new to create with.`
 			},
 			{
 				// 2y ago
 				___type: BOXES_TYPES_map['quote'],
 				cite: '1985Music.com',
-				content: `**Game changing app.**
-				
+				content: `Game changing app
 MSXII Sound really took iOS music production/beat making to	another level with this. Just download the app and purchase more of their sounds in the app and start creating instantly.`
 			}
 		]
@@ -353,9 +349,10 @@ MSXII Sound really took iOS music production/beat making to	another level with t
 			title: 'Tutorial'
 		}),
 		createStandardSection({
-			body: [sliderBox2],
-			title: 'Chomplr Around The World',
-			customPageClassesKeys: ['section-container-v1']
+			body: [gridBox],
+			// title: 'Chomplr Around The World',
+			stylesVariants: { 'gap-y': '8' }
+			// customPageClassesKeys: ['section-container-v1']
 		}),
 		createStandardSection({ body: [rowsOnlyBox] })
 	];

@@ -5,9 +5,9 @@ import {
 	IframeBox,
 	SUB_BOXES_TYPES_map,
 	TabsBox,
-	SliderBox,
 	RowsOnlyBox,
-	CustomPage
+	CustomPage,
+	GridBox
 } from '~/utils/types/custom-page';
 import { createStandardSection } from '../utils';
 
@@ -109,32 +109,30 @@ You can check out the reference guide/manual below. Download and save to your iP
 		___subType: SUB_BOXES_TYPES_map['youtube'],
 		src: 'https://www.youtube.com/embed/JkfyYC4lqwg?autoplay=0&loop=0&mute=0&controls=0&enablejsapi=1'
 	};
-	const sliderBox: SliderBox = {
-		___type: BOXES_TYPES_map['slider'],
-		slidesPerViewType: 'one-slide',
-		slides: [
+	const gridrBox: GridBox = {
+		___type: BOXES_TYPES_map['grid'],
+		stylesVariants: { 'gap-x': '10', 'gap-y': '8' },
+		gridTemplateColumns: { min1: '15rem', min2: '1fr' },
+		items: [
 			{
 				// 10/10/2022
 				___type: BOXES_TYPES_map['quote'],
 				cite: 'Reclusorap',
-				content: `**Good but can be better**
-
+				content: `Good but can be better
 I really love this app a lot... i just wish that it will be a standalone where you can upload your tracks directly into it. It would be a plus if the developers could add even more effects than what it have. For people that like that SP-404 type of fx this would be good but not enough to satisfy your needs. I would like to emphasize that having 16 fx's would be a great addition for a Fly Tape 3 version!`
 			},
 			{
 				// 2y ago
 				___type: BOXES_TYPES_map['quote'],
 				cite: 'Smoovbeats',
-				content: `**Got better!!**
-
+				content: `Got better!!
 You guys have done it again! Great app for adding sauce on the fly!`
 			},
 			{
 				// 2y ago
 				___type: BOXES_TYPES_map['quote'],
 				cite: 'Geeluminati',
-				content: `**MSXII Does It Again!**
-
+				content: `MSXII Does It Again!
 The original Fly Tape was like seasoning to my production but part 2 is now a main ingredient. The efx in real time are top notch like actual gear but somehow better.`
 			}
 			// {
@@ -180,9 +178,10 @@ The original Fly Tape was like seasoning to my production but part 2 is now a ma
 			title: 'Tutorial'
 		}),
 		createStandardSection({
-			body: [sliderBox],
-			title: 'Fly Tape 2 Around The Web',
-			customPageClassesKeys: ['section-container-v1']
+			body: [gridrBox],
+			// title: 'Fly Tape 2 Around The Web',
+			stylesVariants: { 'gap-y': '8' }
+			// customPageClassesKeys: ['section-container-v1']
 		}),
 		createStandardSection({ body: [rowsOnlyBox] })
 	];

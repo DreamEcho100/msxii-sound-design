@@ -7,7 +7,8 @@ import {
 	TabsBox,
 	SliderBox,
 	RowsOnlyBox,
-	CustomPage
+	CustomPage,
+	GridBox
 } from '~/utils/types/custom-page';
 import { createStandardSection } from '../utils';
 
@@ -141,32 +142,30 @@ You can check out the reference guide below:
 			}
 		]
 	};
-	const sliderBox2: SliderBox = {
-		___type: BOXES_TYPES_map['slider'],
-		slidesPerViewType: 'one-slide',
-		slides: [
+	const gridBox: GridBox = {
+		___type: BOXES_TYPES_map['grid'],
+		stylesVariants: { 'gap-x': '10', 'gap-y': '8' },
+		gridTemplateColumns: { min1: '15rem', min2: '1fr' },
+		items: [
 			{
 				// 06/06/2020
 				___type: BOXES_TYPES_map['quote'],
 				cite: 'John Bartholomew',
-				content: `**Sound design made easy!!**
-
+				content: `Sound design made easy!!
 Such a great app. Makes sound design super easy and fun. Add texture to your drums and make them stand out in the mix with a punch. Really with this app bring flava to any sound within your productions. Definitely cop this if you have been missing out!`
 			},
 			{
 				// 02/01/2021
 				___type: BOXES_TYPES_map['quote'],
 				cite: 'seltzernpopcorn',
-				content: `**iiilllilillliiiild(-_-)bliiiilllilillliii**
-
+				content: `iiilllilillliiiild(-_-)bliiiilllilillliii
 Thank you to MSXII for putting out this indispensable app for any producer looking to add a layer of grit and dirt that most distortion effects just don't do. I find myself using it on just about every production. The added presets have been wonderful (Goose Down in particular) I'll be bumping the MSXII creations through AUM and KOALA from here on out. SALUTE`
 			},
 			{
 				// 07/05/2020
 				___type: BOXES_TYPES_map['quote'],
 				cite: 'Dj Jiggz',
-				content: `**Use it on everything**
-
+				content: `Use it on everything
 I love how this app makes my samples sound. Plus its so much easier to treat a track with lo- fly rather than all the steps it would take to do the same thing with a number of different effects and plugins. Saturation, compression, bit reduction and more with just the turn of a knob and a few button presses. I use it on all my drum kits too. It gets a lot of use for many things.`
 			}
 			// {
@@ -217,9 +216,10 @@ I love how this app makes my samples sound. Plus its so much easier to treat a t
 			title: 'Tutorial'
 		}),
 		createStandardSection({
-			body: [sliderBox2],
-			title: 'LO-FLY Dirt Around The Web',
-			customPageClassesKeys: ['section-container-v1']
+			body: [gridBox],
+			// title: 'LO-FLY Dirt Around The Web',
+			stylesVariants: { 'gap-y': '8' }
+			// customPageClassesKeys: ['section-container-v1']
 		}),
 		createStandardSection({ body: [rowsOnlyBox] })
 	];

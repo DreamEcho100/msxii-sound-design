@@ -177,10 +177,11 @@ const ReactMarkdownFormatter = ({ content }: { content: string }) => {
 							unoptimized
 							width={800}
 							height={800}
-							onLoadingComplete={(img) => {
-								img.width = img.naturalWidth;
-								img.height = img.naturalHeight;
-							}}
+							weservNlOptimized={false}
+							// onLoadingComplete={(img) => {
+							// 	img.width = img.naturalWidth;
+							// 	img.height = img.naturalHeight;
+							// }}
 						/>
 					);
 				}

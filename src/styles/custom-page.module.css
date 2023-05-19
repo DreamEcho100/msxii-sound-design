@@ -4,6 +4,7 @@
 .section-container-v1 {
 	--tw-bg-opacity: 1;
 	background-color: rgba(var(--color-bg-primary-100) / var(--tw-bg-opacity));
+	color: rgba(var(--color-bg-primary-500) / var(--tw-bg-opacity));
 	padding: 2rem 1.5rem;
 	border-radius: 1rem;
 }

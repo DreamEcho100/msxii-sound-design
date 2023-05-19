@@ -246,11 +246,11 @@ You can check out the reference guide below
 			body: [sliderBox],
 			title: 'Tutorial'
 		}),
-		createStandardSection({
-			body: [sliderBox2],
-			title: 'Fly Tape Around The Web',
-			customPageClassesKeys: ['section-container-v1']
-		}),
+		// createStandardSection({
+		// 	body: [sliderBox2],
+		// 	title: 'Fly Tape Around The Web',
+		// 	customPageClassesKeys: ['section-container-v1']
+		// }),
 		createStandardSection({ body: [rowsOnlyBox] })
 	];
 })();

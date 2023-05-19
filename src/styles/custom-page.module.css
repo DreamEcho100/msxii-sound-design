@@ -303,6 +303,7 @@
 } */
 .quote-box {
 	background-color: rgba(var(--color-bg-primary-100) / 1);
+	color: rgba(var(--color-text-primary-500) / 1);
 	/* margin-left: calc(var(--w) * var(--divider));
 	margin-right: calc(var(--w) * var(--divider));
 	margin-top: calc(var(--w) * var(--divider)); */
@@ -318,6 +319,10 @@
 	padding: 1rem;
 	/* flex-direction: column; */
 	gap: 0.25rem;
+}
+:global(.dark) .quote-box {
+	background-color: rgba(var(--color-bg-primary-400) / 1);
+	color: rgba(var(--color-text-primary-400) / 1);
 }
 .quote-box q::after {
 	content: '';

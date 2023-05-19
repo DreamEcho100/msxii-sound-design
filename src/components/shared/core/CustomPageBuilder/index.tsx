@@ -86,10 +86,10 @@ const Quote = ({
 	box,
 	...props
 }: HTMLAttributes<HTMLDivElement> & { box: QuoteBox }) => {
-	const [isFullTestActive, setIsFullTestActive] = useState(false);
-
 	const TEXT_MAX_LENGTH = 200;
 	const isTextLong = box.content.length > TEXT_MAX_LENGTH;
+
+	const [isFullTextActive, setIsFullTextActive] = useState(!isTextLong);
 
 	return (
 		<div {...props} className={cx(props.className, 'group')}>
@@ -102,48 +102,44 @@ const Quote = ({
 			/>
 			<div className="flex flex-col -ml-8 pt-2">
 				<cite>
-					<strong className="text-text-primary-500 font-semibold text-[75%] group-hover:text-special-primary-600 group-focus-within:text-special-primary-600">
+					<strong
+						className={cx(
+							'text-text-primary-500 font-semibold text-[75%]',
+							'group-hover:text-special-primary-600 group-focus-within:text-special-primary-600',
+							'group-hover:text-special-primary-400 group-focus-within:text-special-primary-400'
+						)}
+					>
 						{box.cite}
 					</strong>
 				</cite>
 				<q className="text-[70%] flex-grow font-medium">
-					{isTextLong && !isFullTestActive ? (
+					<pre
+						className="whitespace-pre-wrap inline"
+						style={{ fontFamily: 'inherit' }}
+					>
+						{isFullTextActive
+							? box.content
+							: box.content.slice(0, TEXT_MAX_LENGTH)}
+					</pre>
+					{isTextLong && (
 						<>
-							<pre
-								className="whitespace-pre-wrap inline"
-								style={{ fontFamily: 'inherit' }}
-							>
-								{box.content.slice(0, TEXT_MAX_LENGTH)}
-							</pre>
-							...&nbsp;
+							{isFullTextActive ? (
+								<>&nbsp;&nbsp;&nbsp;&nbsp;</>
+							) : (
+								<>...&nbsp;</>
+							)}
 							<button
-								className="text-[90%] capitalize text-special-primary-800 hover:text-special-primary-600 focus:text-special-primary-600"
-								onClick={() => setIsFullTestActive((prev) => !prev)}
+								className={cx(
+									'text-[90%] capitalize',
+									'text-special-primary-800 hover:text-special-primary-600 focus:text-special-primary-600',
+									'dark:text-special-primary-600 dark:hover:text-special-primary-400 dark:focus:text-special-primary-400'
+								)}
+								onClick={() => setIsFullTextActive((prev) => !prev)}
 							>
 								<strong className="font-semibold">
-									<em>see more</em>
+									<em>see {isFullTextActive ? 'more' : 'less'}</em>
 								</strong>
 							</button>
-						</>
-					) : (
-						<>
-							<pre
-								className="whitespace-pre-wrap inline"
-								style={{ fontFamily: 'inherit' }}
-							>
-								{box.content}
-							</pre>
-							&nbsp;&nbsp;&nbsp;&nbsp;
-							{isTextLong && (
-								<button
-									className="text-[90%] capitalize text-special-primary-800 hover:text-special-primary-600 focus:text-special-primary-600"
-									onClick={() => setIsFullTestActive((prev) => !prev)}
-								>
-									<strong className="font-semibold">
-										<em>see less</em>
-									</strong>
-								</button>
-							)}
 						</>
 					)}
 				</q>

@@ -32,7 +32,7 @@ export const ChomplrOSApp: StandardSection[] = (() => {
 				content: `# Chomplr
 ## IOS-APP
 
-[![](https://w7.pngwing.com/pngs/506/939/png-transparent-app-store-logo-iphone-app-store-get-started-now-button-electronics-text-telephone-call.png?className=w-44)](${appLink})
+[![](https://assets.stickpng.com/images/5a902db97f96951c82922874.png?className=w-44)](${appLink})
 
 The Chomplr name is taken from sample "Chopping Rompler", inspired by the timeless workflow of creating music using samples. Chomplr brings a new iOS approach to creative sample manipulation.
 
@@ -335,7 +335,7 @@ MSXII Sound really took iOS music production/beat making to	another level with t
 			},
 			{
 				___type: 'md',
-				content: `[![](https://w7.pngwing.com/pngs/506/939/png-transparent-app-store-logo-iphone-app-store-get-started-now-button-electronics-text-telephone-call.png?className=w-44)](${appLink})`
+				content: `[![](https://assets.stickpng.com/images/5a902db97f96951c82922874.png?className=w-44)](${appLink})`
 			}
 		]
 	};

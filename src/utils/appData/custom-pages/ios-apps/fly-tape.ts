@@ -31,7 +31,7 @@ export const FlyTapeIOSApp: StandardSection[] = (() => {
 				content: `# Fly Tape
 ## IOS-APP
 
-[![](https://assets.stickpng.com/images/5a902db97f96951c82922874.png?className=w-44)](${appLink})
+[![](/images/App-Store-Button-transparent.png?className=w-44)](${appLink})
 
 Fly-Tape is a unique MSXII look on some of the aspects about tape that we love while adding some unique features that are enjoyable!
 
@@ -233,7 +233,7 @@ You can check out the reference guide below
 			},
 			{
 				___type: 'md',
-				content: `[![](https://assets.stickpng.com/images/5a902db97f96951c82922874.png?className=w-44)](${appLink})`
+				content: `[![](/images/App-Store-Button-transparent.png?className=w-44)](${appLink})`
 			}
 		]
 	};

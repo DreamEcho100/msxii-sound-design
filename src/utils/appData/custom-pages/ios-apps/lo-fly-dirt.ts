@@ -1,3 +1,5 @@
+// https://assets.stickpng.com/images/5a902db97f96951c82922874.png
+
 import {
 	StandardSection,
 	TwoColumnsBox,
@@ -34,7 +36,7 @@ const LoflyDirtIOSApp: StandardSection[] = (() => {
 	
 ## IOS-APP
 
-[![](https://assets.stickpng.com/images/5a902db97f96951c82922874.png?className=w-44)](${appLink})
+[![](/images/App-Store-Button-transparent.png?className=w-44)](${appLink})
 
 An audio coloration utility plugin featuring individual modes for classic emulation of some iconic music production tools. This tool is meant to bring character, or "dirt" to your incoming audio signals. Lo-Fly Dirt installs as an Audio Unit effect for hosts that support the format such as Audio Bus, Beatmaker 3, Garage Band, Cubasis, AUM, etc.`
 			}
@@ -202,7 +204,7 @@ I love how this app makes my samples sound. Plus its so much easier to treat a t
 			},
 			{
 				___type: 'md',
-				content: `[![](https://assets.stickpng.com/images/5a902db97f96951c82922874.png?className=w-44)](${appLink})`
+				content: `[![](/images/App-Store-Button-transparent.png?className=w-44)](${appLink})`
 			}
 		]
 	};

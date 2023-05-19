@@ -31,7 +31,7 @@ const FlyTape2IOSApp: StandardSection[] = (() => {
 				content: `# Fly Tape 2
 ## IOS-APP
 
-[![](https://assets.stickpng.com/images/5a902db97f96951c82922874.png?className=w-44)](${appLink})
+[![](/images/App-Store-Button-transparent.png?className=w-44)](${appLink})
 
 FlyTape 2 builds on the principles of the original FlyTape. A love of vintage sounds and character is our thing and FlyTape 2 fits this ethos as a unique take on the features of classic tape. Named for it's style, performance and user improvisation control, it's FX can be added to incoming audio signals in many ways "on the fly". Sliders for textured nuances such as noise hiss will allow you to dial in tasteful settings reminiscent of cassette tapes. These also can be automated via midi cc for additional modulation.
 
@@ -164,7 +164,7 @@ The original Fly Tape was like seasoning to my production but part 2 is now a ma
 			},
 			{
 				___type: 'md',
-				content: `[![](https://assets.stickpng.com/images/5a902db97f96951c82922874.png?className=w-44)](${appLink})`
+				content: `[![](/images/App-Store-Button-transparent.png?className=w-44)](${appLink})`
 			}
 		]
 	};

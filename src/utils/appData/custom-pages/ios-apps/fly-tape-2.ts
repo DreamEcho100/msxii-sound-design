@@ -58,7 +58,7 @@ Sliders for textured nuances such as noise hiss will allow you to dial in tastef
 
 FlyTape 2 installs as an iOS AUv3 plugin effect, designed for use within host apps such as Garageband, AUM, Beatmaker 3, Cubasis, Audiobus, and more.
 
-![](https://cdn.shopify.com/s/files/1/0345/7209/t/28/assets/pf-48baa9b7--ft2-site.jpg?v=1616619608)
+![](https://cdn.shopify.com/s/files/1/0345/7209/t/28/assets/pf-48baa9b7--ft2-site.jpg?v=1616619608&className=w-1/2,mx-auto)
 					`
 				}
 			},
@@ -73,7 +73,7 @@ FlyTape 2 installs as an iOS AUv3 plugin effect, designed for use within host ap
 			{
 				title: 'User Manual',
 				data: {
-					stylesVariants: { 'gap-x': '8' },
+					stylesVariants: { 'gap-x': '8', 'gap-y': '8' },
 					___type: BOXES_TYPES_map['two-columns'],
 					columns: [
 						{
@@ -95,7 +95,7 @@ You can check out the reference guide/manual below. Download and save to your iP
 								'center-on-ls-md-screens',
 								'object-contain'
 							],
-							stylesVariants: { w: '96' },
+							stylesVariants: { w: '1/2' },
 							___type: BOXES_TYPES_map['image-only'],
 							src: 'https://cdn.shopify.com/s/files/1/0345/7209/t/28/assets/pf-6ed32248--Screen-Shot-20210324-at-13333-PM.png?v=1616610936'
 						}
@@ -158,7 +158,7 @@ The original Fly Tape was like seasoning to my production but part 2 is now a ma
 		customPageClassesKeys: ['center-content'],
 		rows: [
 			{
-				stylesVariants: { rounded: '3xl' },
+				stylesVariants: { rounded: '5xl', w: '40', h: '40' },
 				___type: 'image-only',
 				src: 'https://cdn.shopify.com/s/files/1/0345/7209/t/28/assets/pf-2248baa9--tape-2-crop.jpg?v=1616617146'
 			},

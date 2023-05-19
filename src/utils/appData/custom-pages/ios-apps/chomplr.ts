@@ -71,7 +71,7 @@ Sample data can be edited and one or more effects added and adjusted in quick an
 			{
 				title: 'User Manual',
 				data: {
-					stylesVariants: { 'gap-x': '8' },
+					stylesVariants: { 'gap-x': '8', 'gap-y': '8' },
 					___type: BOXES_TYPES_map['two-columns'],
 					columns: [
 						{
@@ -96,7 +96,7 @@ You can check out the reference guide/manual below. Download and save to your iP
 								'center-on-ls-md-screens',
 								'object-contain'
 							],
-							stylesVariants: { w: '96' },
+							stylesVariants: { w: '1/2' },
 							___type: BOXES_TYPES_map['image-only'],
 							src: 'https://cdn.shopify.com/s/files/1/0345/7209/t/28/assets/pf-edf62089--Screen-Shot-20210621-at-123253-PM.png?v=1624482138'
 						}
@@ -329,7 +329,7 @@ MSXII Sound really took iOS music production/beat making to	another level with t
 		customPageClassesKeys: ['center-content'],
 		rows: [
 			{
-				stylesVariants: { rounded: '3xl' },
+				stylesVariants: { rounded: '5xl', w: '40', h: '40' },
 				___type: 'image-only',
 				src: 'https://cdn.shopify.com/s/files/1/0345/7209/t/28/assets/pf-ce3c55b2--ChomplrAppstoreicon188x182.png?v=1589530651'
 			},

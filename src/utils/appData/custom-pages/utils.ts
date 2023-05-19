@@ -262,6 +262,8 @@ export const boxVariants = {
 		xl: 'rounded-xl',
 		'2xl': 'rounded-2xl',
 		'3xl': 'rounded-3xl',
+		'4xl': 'rounded-[2rem]',
+		'5xl': 'rounded-[2.5rem]',
 		full: 'rounded-full'
 	},
 	'aspect-ratio': {

@@ -91,7 +91,7 @@ Also built off the things we love about the classic 8 bit sound, but with a twis
 			{
 				title: 'User Manual',
 				data: {
-					stylesVariants: { 'gap-x': '8' },
+					stylesVariants: { 'gap-x': '8', 'gap-y': '8' },
 					___type: BOXES_TYPES_map['two-columns'],
 					columns: [
 						{
@@ -113,7 +113,7 @@ You can check out the reference guide below:
 								'center-on-ls-md-screens',
 								'object-contain'
 							],
-							stylesVariants: { w: '96' },
+							stylesVariants: { w: '1/2' },
 							___type: BOXES_TYPES_map['image-only'],
 							src: 'https://cdn.shopify.com/s/files/1/0345/7209/t/28/assets/pf-87a87505--loflydirtmanualdisplay.png?v=1589083025'
 						}
@@ -196,7 +196,7 @@ I love how this app makes my samples sound. Plus its so much easier to treat a t
 		customPageClassesKeys: ['center-content'],
 		rows: [
 			{
-				stylesVariants: { rounded: '3xl' },
+				stylesVariants: { rounded: '5xl', w: '40', h: '40' },
 				___type: 'image-only',
 				src: 'https://cdn.shopify.com/s/files/1/0345/7209/t/28/assets/pf-d22a5c09--MSXIIAUDIOLOFIDIRTAPPICON3x-Edited.jpg?v=1582621861'
 			},

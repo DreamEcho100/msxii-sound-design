@@ -137,7 +137,7 @@ const Quote = ({
 								onClick={() => setIsFullTextActive((prev) => !prev)}
 							>
 								<strong className="font-semibold">
-									<em>see {isFullTextActive ? 'more' : 'less'}</em>
+									<em>see {isFullTextActive ? 'less' : 'more'}</em>
 								</strong>
 							</button>
 						</>
@@ -162,7 +162,10 @@ const ReactMarkdownFormatter = ({ content }: { content: string }) => {
 					} else url = new URL(src);
 
 					const params = url.searchParams;
+					console.log('url', url);
 					const className = params.get('className')?.split(',').join(' '); // Outputs: "w40"
+
+					console.log('className', className);
 
 					return (
 						// eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -266,7 +269,7 @@ const SectionBodyBox = ({
 
 	if (box.___type === BOXES_TYPES_map['image-only'])
 		return (
-			<div className={cx(customPageClassName, 'w-40')}>
+			<div className={cx(customPageClassName)}>
 				<CustomNextImage src={box.src} width={500} height={500} />
 			</div>
 		);

@@ -8,6 +8,11 @@
 	padding: 2rem 1.5rem;
 	border-radius: 1rem;
 }
+:global(.dark) .section-container-v1 {
+	--tw-bg-opacity: 1;
+	background-color: rgba(var(--color-bg-primary-600) / var(--tw-bg-opacity));
+	color: rgba(var(--color-bg-primary-600) / var(--tw-bg-opacity));
+}
 @media screen and (min-width: 500px) {
 	.section-container-v1 {
 		padding: 2rem 2rem;

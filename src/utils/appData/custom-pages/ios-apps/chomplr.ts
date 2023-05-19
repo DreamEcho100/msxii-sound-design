@@ -32,7 +32,7 @@ export const ChomplrOSApp: StandardSection[] = (() => {
 				content: `# Chomplr
 ## IOS-APP
 
-[![](/images/App-Store-Button-transparent.png?className=w-44)](${appLink})
+[![](https://texttofloss.com/wp-content/uploads/2021/01/App-Store-Button-transparent.png?className=w-44)](${appLink})
 
 The Chomplr name is taken from sample "Chopping Rompler", inspired by the timeless workflow of creating music using samples. Chomplr brings a new iOS approach to creative sample manipulation.
 
@@ -96,7 +96,7 @@ You can check out the reference guide/manual below. Download and save to your iP
 								'center-on-ls-md-screens',
 								'object-contain'
 							],
-							stylesVariants: { w: '1/2' },
+							stylesVariants: { w: '96' },
 							___type: BOXES_TYPES_map['image-only'],
 							src: 'https://cdn.shopify.com/s/files/1/0345/7209/t/28/assets/pf-edf62089--Screen-Shot-20210621-at-123253-PM.png?v=1624482138'
 						}
@@ -335,7 +335,7 @@ MSXII Sound really took iOS music production/beat making to	another level with t
 			},
 			{
 				___type: 'md',
-				content: `[![](/images/App-Store-Button-transparent.png?className=w-44)](${appLink})`
+				content: `[![](https://texttofloss.com/wp-content/uploads/2021/01/App-Store-Button-transparent.png?className=w-44)](${appLink})`
 			}
 		]
 	};
@@ -346,7 +346,8 @@ MSXII Sound really took iOS music production/beat making to	another level with t
 		createStandardSection({ body: [iframeBox] }),
 		createStandardSection({
 			body: [sliderBox],
-			title: 'Tutorial'
+			title: 'Tutorial',
+			stylesVariants: { 'gap-y': '4' }
 		}),
 		createStandardSection({
 			body: [gridBox],

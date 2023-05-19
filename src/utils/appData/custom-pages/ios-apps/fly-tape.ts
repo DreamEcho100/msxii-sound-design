@@ -31,7 +31,7 @@ export const FlyTapeIOSApp: StandardSection[] = (() => {
 				content: `# Fly Tape
 ## IOS-APP
 
-[![](/images/App-Store-Button-transparent.png?className=w-44)](${appLink})
+[![](https://texttofloss.com/wp-content/uploads/2021/01/App-Store-Button-transparent.png?className=w-44)](${appLink})
 
 Fly-Tape is a unique MSXII look on some of the aspects about tape that we love while adding some unique features that are enjoyable!
 
@@ -166,7 +166,7 @@ You can check out the reference guide below
 								'center-on-ls-md-screens',
 								'object-contain'
 							],
-							stylesVariants: { w: '1/2' },
+							stylesVariants: { w: '96' },
 							___type: BOXES_TYPES_map['image-only'],
 							src: 'https://cdn.shopify.com/s/files/1/0345/7209/t/28/assets/pf-f7f4b998--FlyTapeManualImage.png?v=1589395846'
 						}
@@ -233,7 +233,7 @@ You can check out the reference guide below
 			},
 			{
 				___type: 'md',
-				content: `[![](/images/App-Store-Button-transparent.png?className=w-44)](${appLink})`
+				content: `[![](https://texttofloss.com/wp-content/uploads/2021/01/App-Store-Button-transparent.png?className=w-44)](${appLink})`
 			}
 		]
 	};
@@ -244,7 +244,8 @@ You can check out the reference guide below
 		createStandardSection({ body: [iframeBox] }),
 		createStandardSection({
 			body: [sliderBox],
-			title: 'Tutorial'
+			title: 'Tutorial',
+			stylesVariants: { 'gap-y': '4' }
 		}),
 		createStandardSection({
 			body: [sliderBox2],

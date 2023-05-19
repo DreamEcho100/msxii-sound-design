@@ -31,7 +31,7 @@ const FlyTape2IOSApp: StandardSection[] = (() => {
 				content: `# Fly Tape 2
 ## IOS-APP
 
-[![](/images/App-Store-Button-transparent.png?className=w-44)](${appLink})
+[![](https://texttofloss.com/wp-content/uploads/2021/01/App-Store-Button-transparent.png?className=w-44)](${appLink})
 
 FlyTape 2 builds on the principles of the original FlyTape. A love of vintage sounds and character is our thing and FlyTape 2 fits this ethos as a unique take on the features of classic tape. Named for it's style, performance and user improvisation control, it's FX can be added to incoming audio signals in many ways "on the fly". Sliders for textured nuances such as noise hiss will allow you to dial in tasteful settings reminiscent of cassette tapes. These also can be automated via midi cc for additional modulation.
 
@@ -58,7 +58,7 @@ Sliders for textured nuances such as noise hiss will allow you to dial in tastef
 
 FlyTape 2 installs as an iOS AUv3 plugin effect, designed for use within host apps such as Garageband, AUM, Beatmaker 3, Cubasis, Audiobus, and more.
 
-![](https://cdn.shopify.com/s/files/1/0345/7209/t/28/assets/pf-48baa9b7--ft2-site.jpg?v=1616619608&className=w-1/2,max-w-xs,mx-auto)
+![](https://cdn.shopify.com/s/files/1/0345/7209/t/28/assets/pf-baa9b738--Screen-Shot-20210324-at-35800-PM.png?v=1616619654&className=w-1/2,max-w-xs,mx-auto)
 					`
 				}
 			},
@@ -95,7 +95,7 @@ You can check out the reference guide/manual below. Download and save to your iP
 								'center-on-ls-md-screens',
 								'object-contain'
 							],
-							stylesVariants: { w: '1/2' },
+							stylesVariants: { w: '96' },
 							___type: BOXES_TYPES_map['image-only'],
 							src: 'https://cdn.shopify.com/s/files/1/0345/7209/t/28/assets/pf-6ed32248--Screen-Shot-20210324-at-13333-PM.png?v=1616610936'
 						}
@@ -164,7 +164,7 @@ The original Fly Tape was like seasoning to my production but part 2 is now a ma
 			},
 			{
 				___type: 'md',
-				content: `[![](/images/App-Store-Button-transparent.png?className=w-44)](${appLink})`
+				content: `[![](https://texttofloss.com/wp-content/uploads/2021/01/App-Store-Button-transparent.png?className=w-44)](${appLink})`
 			}
 		]
 	};
@@ -175,7 +175,8 @@ The original Fly Tape was like seasoning to my production but part 2 is now a ma
 		createStandardSection({ body: [iframeBox] }),
 		createStandardSection({
 			body: [iframeBox2],
-			title: 'Tutorial'
+			title: 'Tutorial',
+			stylesVariants: { 'gap-y': '4' }
 		}),
 		createStandardSection({
 			body: [gridrBox],

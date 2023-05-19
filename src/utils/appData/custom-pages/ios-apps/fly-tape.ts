@@ -204,16 +204,16 @@ You can check out the reference guide below
 				___subType: 'instagram',
 				src: 'https://www.instagram.com/p/B86N3QiHJcn/?utm_source=ig_embed&utm_campaign=loading'
 			},
-			{
-				___type: BOXES_TYPES_map['iframe'],
-				___subType: 'instagram',
-				src: 'https://www.instagram.com/p/B8qiCA6i3qa/?utm_source=ig_embed&utm_campaign=loading'
-			},
-			{
-				___type: BOXES_TYPES_map['iframe'],
-				___subType: 'instagram',
-				src: 'https://www.instagram.com/p/BvJsq-qAqzU/?utm_source=ig_embed&utm_campaign=loading'
-			},
+			// {
+			// 	___type: BOXES_TYPES_map['iframe'],
+			// 	___subType: 'instagram',
+			// 	src: 'https://www.instagram.com/p/B8qiCA6i3qa/?utm_source=ig_embed&utm_campaign=loading'
+			// },
+			// {
+			// 	___type: BOXES_TYPES_map['iframe'],
+			// 	___subType: 'instagram',
+			// 	src: 'https://www.instagram.com/p/BvJsq-qAqzU/?utm_source=ig_embed&utm_campaign=loading'
+			// },
 			{
 				___type: BOXES_TYPES_map['iframe'],
 				___subType: 'instagram',
@@ -246,11 +246,11 @@ You can check out the reference guide below
 			body: [sliderBox],
 			title: 'Tutorial'
 		}),
-		// createStandardSection({
-		// 	body: [sliderBox2],
-		// 	title: 'Fly Tape Around The Web',
-		// 	customPageClassesKeys: ['section-container-v1']
-		// }),
+		createStandardSection({
+			body: [sliderBox2],
+			title: 'Fly Tape Around The Web',
+			customPageClassesKeys: ['section-container-v1']
+		}),
 		createStandardSection({ body: [rowsOnlyBox] })
 	];
 })();

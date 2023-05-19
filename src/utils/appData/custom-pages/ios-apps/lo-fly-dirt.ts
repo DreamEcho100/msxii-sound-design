@@ -115,7 +115,7 @@ You can check out the reference guide below:
 							],
 							stylesVariants: { w: '1/2' },
 							___type: BOXES_TYPES_map['image-only'],
-							src: 'https://cdn.shopify.com/s/files/1/0345/7209/t/28/assets/pf-87a87505--loflydirtmanualdisplay.png?v=1589083025'
+							src: '/images/ios-apps/Lo-fly@2x (1).jpg'
 						}
 					]
 				}

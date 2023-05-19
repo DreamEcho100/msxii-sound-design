@@ -271,7 +271,12 @@ const SectionBodyBox = ({
 	if (box.___type === BOXES_TYPES_map['image-only'])
 		return (
 			<div className={cx(customPageClassName)}>
-				<CustomNextImage src={box.src} width={500} height={500} />
+				<CustomNextImage
+					src={box.src}
+					width={800}
+					height={800}
+					weservNlOptimized={false}
+				/>
 			</div>
 		);
 

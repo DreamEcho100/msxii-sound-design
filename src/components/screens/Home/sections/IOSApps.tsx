@@ -49,8 +49,8 @@ const HomeIOSAppsSection = () => {
 								<CustomNextImage
 									src={item.image.src}
 									alt={item.image.alt}
-									width={900}
-									height={500}
+									width={1000}
+									height={1000}
 									className="card-img-zoom-animation-1 duration-300 ease-in"
 								/>
 							</Clickable>

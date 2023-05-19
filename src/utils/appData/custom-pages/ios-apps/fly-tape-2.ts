@@ -58,7 +58,7 @@ Sliders for textured nuances such as noise hiss will allow you to dial in tastef
 
 FlyTape 2 installs as an iOS AUv3 plugin effect, designed for use within host apps such as Garageband, AUM, Beatmaker 3, Cubasis, Audiobus, and more.
 
-![](https://cdn.shopify.com/s/files/1/0345/7209/t/28/assets/pf-48baa9b7--ft2-site.jpg?v=1616619608&className=w-1/2,mx-auto)
+![](https://cdn.shopify.com/s/files/1/0345/7209/t/28/assets/pf-48baa9b7--ft2-site.jpg?v=1616619608&className=w-1/2,max-w-xs,mx-auto)
 					`
 				}
 			},

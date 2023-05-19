@@ -162,10 +162,7 @@ const ReactMarkdownFormatter = ({ content }: { content: string }) => {
 					} else url = new URL(src);
 
 					const params = url.searchParams;
-					console.log('url', url);
 					const className = params.get('className')?.split(',').join(' '); // Outputs: "w40"
-
-					console.log('className', className);
 
 					return (
 						// eslint-disable-next-line @typescript-eslint/ban-ts-comment

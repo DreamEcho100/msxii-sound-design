@@ -175,8 +175,8 @@ const ReactMarkdownFormatter = ({ content }: { content: string }) => {
 							src={src}
 							className={className}
 							unoptimized
-							width={100}
-							height={500}
+							width={800}
+							height={800}
 							onLoadingComplete={(img) => {
 								img.width = img.naturalWidth;
 								img.height = img.naturalHeight;

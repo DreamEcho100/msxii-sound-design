@@ -15,6 +15,7 @@ import { cx } from 'class-variance-authority';
 
 import { useGlobalStore } from '~/store';
 import Clickable from '~/components/shared/core/Clickable';
+import { api } from '~/utils/api';
 
 const AuthDialog = () => {
 	const isAuthDialogOpen = useGlobalStore((store) => store.dialogs.auth.isOpen);
@@ -102,6 +103,12 @@ const LoginDialogContent = () => {
 		password: ''
 	});
 
+	const loginMutation = api.shopify.auth.login.useMutation({
+		onSuccess: () => {
+			//
+		}
+	});
+
 	return (
 		<>
 			<DialogContentHeader
@@ -125,7 +132,14 @@ const LoginDialogContent = () => {
 					)
 				}}
 			/>
-			<form className="flex flex-col gap-4 py-4">
+			<form
+				className="flex flex-col gap-4 py-4"
+				onSubmit={(event) => {
+					event.preventDefault();
+
+					loginMutation.mutate(formValues);
+				}}
+			>
 				<FormInput
 					name={'email'}
 					setFormValues={setFormValues}

@@ -3,6 +3,7 @@ import { customPagesRouter } from './routers/custom-pages';
 import { merchRouter } from './routers/merch';
 import { createTRPCRouter } from '~/server/api/trpc';
 import { productsRouter } from '~/server/api/routers/products';
+import { shopifyRouter } from './routers/shopfy';
 
 /**
  * This is the primary router for your server.
@@ -13,7 +14,8 @@ export const appRouter = createTRPCRouter({
 	products: productsRouter,
 	customPages: customPagesRouter,
 	blog: blogRouter,
-	merch: merchRouter
+	merch: merchRouter,
+	shopify: shopifyRouter
 });
 
 // export type definition of API

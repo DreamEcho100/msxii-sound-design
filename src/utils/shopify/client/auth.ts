@@ -54,7 +54,7 @@ const customerAccessTokenCreateMutation = async (
 const customerAccessTokenInputSchema = z.object({
 	customerAccessToken: z.string()
 });
-const customerAccessTokenQuery = async (
+const customerDataByAccessTokenQuery = async (
 	input: z.infer<typeof customerAccessTokenInputSchema>
 ) => {
 	const template = gql`
@@ -287,7 +287,7 @@ const auth = {
 			create: customerCreateMutation
 		}
 	},
-	query: { customer: { accessToken: customerAccessTokenQuery } }
+	query: { customer: { dataByAccessToken: customerDataByAccessTokenQuery } }
 };
 
 export default auth;

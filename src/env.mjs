@@ -20,10 +20,10 @@ const server = z.object({
 	),
 	// Add `.min(1) on ID and SECRET if you want to make sure they're not empty
 	SHOPIFY_STORE_FRONT_ACCESS_TOKEN: z.string(),
-	SHOPIFY_STORE_DOMAIN: z.string(),
-	SHOPIFY_STORE_URL: z.string(),
-	SHOPIFY_API_KEY: z.string(),
-	SHOPIFY_API_SECRET: z.string()
+	SHOPIFY_STORE_URL: z.string()
+	// SHOPIFY_STORE_DOMAIN: z.string(),
+	// SHOPIFY_API_KEY: z.string(),
+	// SHOPIFY_API_SECRET: z.string()
 });
 
 /**
@@ -49,10 +49,10 @@ const processEnv = {
 	//
 	SHOPIFY_STORE_FRONT_ACCESS_TOKEN:
 		process.env.SHOPIFY_STORE_FRONT_ACCESS_TOKEN,
-	SHOPIFY_STORE_DOMAIN: process.env.SHOPIFY_STORE_DOMAIN,
-	SHOPIFY_STORE_URL: process.env.SHOPIFY_STORE_URL,
-	SHOPIFY_API_KEY: process.env.SHOPIFY_API_KEY,
-	SHOPIFY_API_SECRET: process.env.SHOPIFY_API_SECRET
+	SHOPIFY_STORE_URL: process.env.SHOPIFY_STORE_URL
+	// SHOPIFY_STORE_DOMAIN: process.env.SHOPIFY_STORE_DOMAIN,
+	// SHOPIFY_API_KEY: process.env.SHOPIFY_API_KEY,
+	// SHOPIFY_API_SECRET: process.env.SHOPIFY_API_SECRET
 };
 
 // Don't touch the part below

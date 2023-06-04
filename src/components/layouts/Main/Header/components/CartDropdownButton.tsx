@@ -14,10 +14,13 @@ const CartDropdownButton = () => {
 		<Clickable
 			title="cart"
 			variants={null}
-			className="relative flex items-start gap-1 whitespace-nowrap translate-y-[0.25ch]"
+			className="relative flex whitespace-nowrap translate-y-[0.5ch]"
 			onClick={toggleCartDropdown}
 		>
-			<BsCart3 className="text-xl" /> {cartItemsSize} ITEMS
+			<BsCart3 className="text-xl" />
+			<small className="text-[60%]">
+				<strong className="font-bold leading-[3]">{cartItemsSize} ITEMS</strong>
+			</small>
 		</Clickable>
 	);
 };

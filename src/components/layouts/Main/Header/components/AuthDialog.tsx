@@ -15,7 +15,7 @@ import { cx } from 'class-variance-authority';
 
 import { useGlobalStore } from '~/store';
 import Clickable from '~/components/shared/core/Clickable';
-import { api } from '~/utils/api';
+import { useLoginMutation } from '~/utils/shopify/hooks';
 
 const AuthDialog = () => {
 	const isAuthDialogOpen = useGlobalStore((store) => store.dialogs.auth.isOpen);
@@ -97,15 +97,20 @@ const LoginDialogContent = () => {
 	const setAuthDialogState = useGlobalStore(
 		(store) => store.dialogs.auth.setDialogType
 	);
-
+	const toggleAuthDialogOpen = useGlobalStore(
+		(store) => store.dialogs.auth.toggleOpen
+	);
 	const [formValues, setFormValues] = useState({
 		email: '',
 		password: ''
 	});
 
-	const loginMutation = api.shopify.auth.login.useMutation({
+	const loginMutation = useLoginMutation({
+		onError: (err) => {
+			console.log('err', err);
+		},
 		onSuccess: () => {
-			//
+			toggleAuthDialogOpen();
 		}
 	});
 

@@ -2,6 +2,7 @@ import { gql } from 'graphql-request';
 import { z } from 'zod';
 import { TSHOPIFY_ERRORS_CODES } from '../errors';
 import { graphQLClient } from './utils';
+import { Customer } from '../types';
 
 export const customerAccessTokenCreateInputSchema = z.object({
 	email: z.string().email(),
@@ -57,6 +58,7 @@ const customerAccessTokenInputSchema = z.object({
 const customerDataByAccessTokenQuery = async (
 	input: z.infer<typeof customerAccessTokenInputSchema>
 ) => {
+	// https://shopify.dev/docs/api/storefront/2023-04/objects/Customer
 	const template = gql`
 	query {
 	customer(customerAccessToken: ${JSON.stringify(input.customerAccessToken)}) {
@@ -67,7 +69,18 @@ const customerDataByAccessTokenQuery = async (
 		email
 		phone
 		createdAt
-		defaultAddress {id address1 address2  city company country zip province phone}
+		updatedAt
+		defaultAddress {
+			id
+			address1
+			address2
+			city
+			company
+			country
+			zip
+			province
+			phone
+		}
 		addresses(first:250) {
 			 edges{
 				 node{
@@ -93,12 +106,12 @@ const customerDataByAccessTokenQuery = async (
 					email
 					name
 					phone
-	cancelReason
-	canceledAt
-	edited
-	financialStatus
-	fulfillmentStatus
-	statusUrl
+					cancelReason
+					canceledAt
+					edited
+					financialStatus
+					fulfillmentStatus
+					statusUrl
 					totalPrice {
 						amount
 						currencyCode
@@ -121,10 +134,10 @@ const customerDataByAccessTokenQuery = async (
 									currentQuantity
 									quantity
 									title
-			originalTotalPrice { 
-			amount
-			currencyCode
-			}
+									originalTotalPrice { 
+										amount
+										currencyCode
+									}
 									variant {
 										id
 										image {
@@ -173,20 +186,7 @@ const customerDataByAccessTokenQuery = async (
 }
  `;
 
-	return (await graphQLClient.request(template)) as {
-		// customerAccessTokenCreate: {
-		// customerAccessToken: {
-		// 	customerAccessToken: string;
-		// 	expiresAt: string;
-		// };
-		// customerUserErrors: {
-		// 	// https://shopify.dev/docs/api/storefront/2023-04/enums/CustomerErrorCode
-		// 	code: TSHOPIFY_ERRORS_CODES;
-		// 	field: string[];
-		// 	message: string;
-		// }[];
-		// };
-	};
+	return (await graphQLClient.request(template)) as { customer: Customer };
 };
 
 const customerAccessTokenDeleteSchema = z.object({

@@ -18,6 +18,8 @@ import dynamic from 'next/dynamic';
 import CartDropdown from './components/CartDropdown';
 import CartDropdownButton from './components/CartDropdownButton';
 import Overlay from './components/Overlay';
+import PersonIcon from './components/PersonIcon';
+import SignOutButton from './components/SignOutButton';
 
 const DynamicAuthDialog = dynamic(() => import('./components/AuthDialog'), {
 	ssr: false
@@ -74,9 +76,6 @@ const MainLayoutHeader = () => {
 	);
 	const toggleSearchMenuDropdown = useGlobalStore(
 		(store) => store.menus.toggleSearchMenuDropdown
-	);
-	const toggleAuthDialogOpen = useGlobalStore(
-		(store) => store.dialogs.auth.toggleOpen
 	);
 
 	const isDropdownMenuOnLessThanLGOpen = useGlobalStore(
@@ -167,7 +166,8 @@ const MainLayoutHeader = () => {
 								)
 							)}
 						</nav>
-						<div className="flex items-center gap-4 py-2">
+						<div className="flex items-center gap-2 py-2">
+							<SignOutButton />
 							<Clickable
 								title={`${
 									isSearchMenuDropdownOpen ? 'Close' : 'Open'
@@ -177,19 +177,7 @@ const MainLayoutHeader = () => {
 							>
 								<BiSearchAlt2 className="text-xl" />
 							</Clickable>
-							<Clickable
-								href="/"
-								isA="next-js"
-								title="profile"
-								className={cx(
-									'text-xl text-special-primary-500',
-									'hover:text-special-primary-900 focus:text-special-primary-900',
-									'hover:text-special-primary-600 focus:text-special-primary-600'
-								)}
-								onClick={toggleAuthDialogOpen}
-							>
-								<BsPersonFill />
-							</Clickable>
+							<PersonIcon />
 							<CartDropdownButton />
 							<Clickable
 								onClick={toggleDropdownMenuOnLessThanLG}

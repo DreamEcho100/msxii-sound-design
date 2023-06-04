@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import { Customer } from '~/utils/shopify/types';
 
 import { ShopifyProduct } from '~/utils/types';
 
@@ -34,12 +35,94 @@ interface GlobalStore {
 		currentTheme: 'dark' | 'light';
 		changeCurrentTheme: (passedTheme?: 'dark' | 'light') => void;
 	};
+	customerSession: {
+		utils: {
+			set: (
+				params:
+					| { type: 'LOADING'; payload?: null }
+					| { type: 'UNAUTHENTICATED'; payload?: null }
+					| {
+							type: 'AUTHENTICATED';
+							payload: {
+								customer: Customer;
+								accessToken: string;
+							};
+					  }
+			) => void;
+		};
+		attemptCounter: number;
+	} & (
+		| {
+				isLoading: true;
+				status: 'loading';
+				data: null;
+		  }
+		| {
+				isLoading: false;
+				status: 'unauthenticated';
+				data: null;
+		  }
+		| {
+				isLoading: false;
+				status: 'authenticated';
+				data: {
+					customer: Customer;
+					accessToken: string;
+				};
+		  }
+	);
 }
 
 const generateOppositeTheme = (theme?: 'dark' | 'light') =>
 	theme === 'light' ? 'dark' : 'light';
 
 export const useGlobalStore = create<GlobalStore>((set, get) => ({
+	customerSession: {
+		isLoading: true,
+		attemptCounter: 0,
+		status: 'loading',
+		data: null,
+		utils: {
+			set: ({ type, payload }) => {
+				switch (type) {
+					case 'LOADING':
+						return set((prev) => ({
+							...prev,
+							customerSession: {
+								...prev.customerSession,
+								data: null,
+								isLoading: true,
+								status: 'loading'
+							}
+						}));
+
+					case 'UNAUTHENTICATED':
+						return set((prev) => ({
+							...prev,
+							customerSession: {
+								...prev.customerSession,
+								data: null,
+								isLoading: false,
+								status: 'unauthenticated',
+								attemptCounter: prev.customerSession.attemptCounter + 1
+							}
+						}));
+
+					case 'AUTHENTICATED':
+						return set((prev) => ({
+							...prev,
+							customerSession: {
+								...prev.customerSession,
+								data: payload,
+								isLoading: false,
+								status: 'authenticated',
+								attemptCounter: prev.customerSession.attemptCounter + 1
+							}
+						}));
+				}
+			}
+		}
+	},
 	cart: {
 		items: [],
 		isCartDropdownOpen: false,

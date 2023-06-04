@@ -17,9 +17,25 @@ export const shopifyAuthRouter = createTRPCRouter({
 
 			const accessTokenInfo = await ctx.shopifyClient.auth.mutation.customer
 				.accessTokenCreate(input)
-				.then((result) => result.customerAccessTokenCreate.customerAccessToken);
+				.then((result) => {
+					if (result.customerAccessTokenCreate.customerUserErrors.length > 0)
+						throw new TRPCError({
+							code: 'BAD_REQUEST',
+							message: [
+								'please check your email and password',
+								...result.customerAccessTokenCreate.customerUserErrors.map(
+									(item) => item.message
+								)
+							].join('. \n')
+						});
 
-			console.log('accessTokenInfo.accessToken', accessTokenInfo.accessToken);
+					return result.customerAccessTokenCreate.customerAccessToken;
+				});
+
+			const data =
+				await ctx.shopifyClient.auth.query.customer.dataByAccessToken({
+					customerAccessToken: accessTokenInfo.accessToken
+				});
 
 			ctx.cookieManger.setOne(ACCESS_TOKEN_KEY, accessTokenInfo.accessToken, {
 				maxAge:
@@ -29,13 +45,48 @@ export const shopifyAuthRouter = createTRPCRouter({
 				sameSite: 'strict'
 			});
 
-			console.log(
-				'ctx.cookieManger.getOne(ACCESS_TOKEN_KEY)',
-				ctx.cookieManger.getOne(ACCESS_TOKEN_KEY)
-			);
+			return {
+				customer: data.customer,
+				accessToken: accessTokenInfo.accessToken
+			};
+		}),
 
-			ctx.shopifyClient.auth.query.customer.dataByAccessToken({
-				customerAccessToken: accessTokenInfo.accessToken
-			});
-		})
+	checkAccessToken: publicProcedure.query(async ({ ctx }) => {
+		if (!ctx.cookieManger)
+			throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR' });
+
+		const customerAccessToken = ctx.cookieManger.getOne(ACCESS_TOKEN_KEY);
+
+		if (
+			typeof customerAccessToken !== 'string' ||
+			customerAccessToken.length < 3
+		)
+			throw new TRPCError({ code: 'FORBIDDEN' });
+
+		const data = await ctx.shopifyClient.auth.query.customer.dataByAccessToken({
+			customerAccessToken
+		});
+
+		return {
+			customer: data.customer,
+			accessToken: customerAccessToken
+		};
+	}),
+
+	signOut: protectedProcedure.mutation(async ({ ctx }) => {
+		const data =
+			(await ctx.shopifyClient.auth.mutation.customer.accessTokenDelete({
+				customerAccessToken: ctx.accessToken
+			})) as {
+				customerAccessTokenDelete: {
+					deletedAccessToken: string;
+					deletedCustomerAccessTokenId: string;
+					userErrors: [];
+				};
+			};
+
+		ctx.cookieManger.deleteOne(ACCESS_TOKEN_KEY);
+
+		return data;
+	})
 });

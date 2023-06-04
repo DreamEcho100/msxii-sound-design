@@ -108,18 +108,17 @@ export const publicProcedure = t.procedure;
 
 /** Reusable middleware that enforces users are logged in before running the procedure. */
 const enforceUserIsAuthed = t.middleware(({ ctx, next }) => {
-	if (!ctx.cookieManger) {
-		throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR' });
-	}
+	if (!ctx.cookieManger) throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR' });
 
 	const accessToken = ctx.cookieManger.getOne(ACCESS_TOKEN_KEY);
 
-	if (!accessToken) {
+	if (typeof accessToken === 'string' && accessToken.length < 3)
 		throw new TRPCError({ code: 'UNAUTHORIZED' });
-	}
+
 	return next({
 		ctx: {
-			accessToken
+			accessToken: accessToken as string,
+			cookieManger: ctx.cookieManger
 			// infers the `session` as non-nullable
 			// session: { ...ctx.session, user: ctx.session.user }
 		}

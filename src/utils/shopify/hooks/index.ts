@@ -1,6 +1,32 @@
 import { useGlobalStore } from '~/store';
 import { api } from '~/utils/api';
 
+export const useRegisterMutation = ({
+	onError,
+	onSuccess
+}: {
+	onSuccess: () => void;
+	onError: (err: { message: string }) => void;
+}) => {
+	const setCustomerSession = useGlobalStore(
+		(store) => store.customerSession.utils.set
+	);
+
+	const registerMutation = api.shopify.auth.register.useMutation({
+		onMutate: () => setCustomerSession({ type: 'LOADING' }),
+		onSuccess: (result) => {
+			setCustomerSession({ type: 'AUTHENTICATED', payload: result });
+			onSuccess();
+		},
+		onError: (err) => {
+			setCustomerSession({ type: 'UNAUTHENTICATED' });
+			onError({ message: err.message });
+		}
+	});
+
+	return registerMutation;
+};
+
 export const useLoginMutation = ({
 	onError,
 	onSuccess
@@ -41,7 +67,6 @@ export const useCheckAccessToken = ({
 	const checkAccessTokenQuery = api.shopify.auth.checkAccessToken.useQuery(
 		undefined,
 		{
-			// on: () => setCustomerSession({ type: 'LOADING' }),
 			onSuccess: (result) => {
 				setCustomerSession({ type: 'AUTHENTICATED', payload: result });
 				onSuccess?.();

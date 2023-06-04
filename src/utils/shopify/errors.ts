@@ -35,5 +35,3 @@ export const SHOPIFY_ERRORS_CODES_MAP = {
 	/** Unidentified customer. */
 	UNIDENTIFIED_CUSTOMER: 'UNIDENTIFIED_CUSTOMER'
 };
-
-export type TSHOPIFY_ERRORS_CODES = keyof typeof SHOPIFY_ERRORS_CODES_MAP;

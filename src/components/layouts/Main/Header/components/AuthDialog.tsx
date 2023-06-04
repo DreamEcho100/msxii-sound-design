@@ -15,7 +15,8 @@ import { cx } from 'class-variance-authority';
 
 import { useGlobalStore } from '~/store';
 import Clickable from '~/components/shared/core/Clickable';
-import { useLoginMutation } from '~/utils/shopify/hooks';
+import { useLoginMutation, useRegisterMutation } from '~/utils/shopify/hooks';
+import { RouterInputs } from '~/utils/api';
 
 const AuthDialog = () => {
 	const isAuthDialogOpen = useGlobalStore((store) => store.dialogs.auth.isOpen);
@@ -130,6 +131,7 @@ const LoginDialogContent = () => {
 								)}
 								variants={{ btn: null, px: null, py: null }}
 								onClick={() => setAuthDialogState('register')}
+								disabled={loginMutation.isLoading}
 							>
 								Create a new one
 							</Clickable>
@@ -163,6 +165,7 @@ const LoginDialogContent = () => {
 					type="submit"
 					variants={{ py: 'sm', w: 'full' }}
 					className="mt-4"
+					disabled={loginMutation.isLoading}
 				>
 					Submit
 				</Clickable>
@@ -175,13 +178,27 @@ const RegisterDialogContent = () => {
 	const setAuthDialogState = useGlobalStore(
 		(store) => store.dialogs.auth.setDialogType
 	);
-
-	const [formValues, setFormValues] = useState({
+	const toggleAuthDialogOpen = useGlobalStore(
+		(store) => store.dialogs.auth.toggleOpen
+	);
+	const [formValues, setFormValues] = useState<
+		RouterInputs['shopify']['auth']['register']
+	>({
 		firstName: '',
 		lastName: '',
 		email: '',
 		password: '',
-		acceptMarketing: false
+		acceptsMarketing: false,
+		phone: undefined
+	});
+
+	const registerMutation = useRegisterMutation({
+		onError: (err) => {
+			console.log('err', err);
+		},
+		onSuccess: () => {
+			toggleAuthDialogOpen();
+		}
 	});
 
 	return (
@@ -200,6 +217,7 @@ const RegisterDialogContent = () => {
 								)}
 								variants={{ btn: null, px: null, py: null }}
 								onClick={() => setAuthDialogState('login')}
+								disabled={registerMutation.isLoading}
 							>
 								login
 							</Clickable>
@@ -207,7 +225,12 @@ const RegisterDialogContent = () => {
 					)
 				}}
 			/>
-			<form className="flex flex-col gap-4 py-4">
+			<form
+				className="flex flex-col gap-4 py-4"
+				onClick={() => {
+					registerMutation.mutate(formValues);
+				}}
+			>
 				<FormInput
 					name={'firstName'}
 					setFormValues={setFormValues}
@@ -240,6 +263,7 @@ const RegisterDialogContent = () => {
 					type="submit"
 					variants={{ py: 'sm', w: 'full' }}
 					className="mt-4"
+					disabled={registerMutation.isLoading}
 				>
 					Submit
 				</Clickable>

@@ -6,34 +6,79 @@ import {
 	publicProcedure
 } from '~/server/api/trpc';
 import { customerAccessTokenCreateInputSchema } from '~/utils/shopify/client/auth';
-import { ACCESS_TOKEN_KEY } from '~/utils/shopify/client/utils';
+import {
+	ACCESS_TOKEN_KEY,
+	handleShopifyErrors
+} from '~/utils/shopify/client/utils';
 
 export const shopifyAuthRouter = createTRPCRouter({
+	register: protectedProcedure
+		.input(
+			z.object({
+				firstName: z.string().min(2),
+				lastName: z.string().min(2),
+				email: z.string().email(),
+				password: z.string().min(8),
+				phone: z.string().optional(),
+				acceptsMarketing: z.boolean()
+			})
+		)
+		.mutation(async ({ ctx, input }) => {
+			const data = await ctx.shopifyClient.auth.customer.mutations
+				.create(input)
+				.then((result) => {
+					handleShopifyErrors(result.customerCreate.customerUserErrors, {
+						code: 'BAD_REQUEST',
+						errorCodeMessageMap: {
+							TAKEN: 'account already exists check your email for confirmation'
+						}
+					});
+
+					return result;
+				});
+
+			const accessTokenInfo = await ctx.shopifyClient.auth.customer.mutations
+				.accessTokenCreate(input)
+				.then((result) => {
+					handleShopifyErrors(
+						result.customerAccessTokenCreate.customerUserErrors,
+						{
+							code: 'BAD_REQUEST',
+							customMessage: 'please check your email and password'
+						}
+					);
+
+					return result.customerAccessTokenCreate.customerAccessToken;
+				});
+
+			return {
+				customer: data.customerCreate.customer,
+				accessToken: accessTokenInfo.accessToken
+			};
+		}),
+
 	login: publicProcedure
 		.input(customerAccessTokenCreateInputSchema)
 		.mutation(async ({ ctx, input }) => {
 			if (!ctx.cookieManger)
 				throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR' });
 
-			const accessTokenInfo = await ctx.shopifyClient.auth.mutation.customer
+			const accessTokenInfo = await ctx.shopifyClient.auth.customer.mutations
 				.accessTokenCreate(input)
 				.then((result) => {
-					if (result.customerAccessTokenCreate.customerUserErrors.length > 0)
-						throw new TRPCError({
+					handleShopifyErrors(
+						result.customerAccessTokenCreate.customerUserErrors,
+						{
 							code: 'BAD_REQUEST',
-							message: [
-								'please check your email and password',
-								...result.customerAccessTokenCreate.customerUserErrors.map(
-									(item) => item.message
-								)
-							].join('. \n')
-						});
+							customMessage: 'please check your email and password'
+						}
+					);
 
 					return result.customerAccessTokenCreate.customerAccessToken;
 				});
 
 			const data =
-				await ctx.shopifyClient.auth.query.customer.dataByAccessToken({
+				await ctx.shopifyClient.auth.customer.queries.dataByAccessToken({
 					customerAccessToken: accessTokenInfo.accessToken
 				});
 
@@ -63,9 +108,10 @@ export const shopifyAuthRouter = createTRPCRouter({
 		)
 			throw new TRPCError({ code: 'FORBIDDEN' });
 
-		const data = await ctx.shopifyClient.auth.query.customer.dataByAccessToken({
-			customerAccessToken
-		});
+		const data =
+			await ctx.shopifyClient.auth.customer.queries.dataByAccessToken({
+				customerAccessToken
+			});
 
 		return {
 			customer: data.customer,
@@ -75,7 +121,7 @@ export const shopifyAuthRouter = createTRPCRouter({
 
 	signOut: protectedProcedure.mutation(async ({ ctx }) => {
 		const data =
-			(await ctx.shopifyClient.auth.mutation.customer.accessTokenDelete({
+			(await ctx.shopifyClient.auth.customer.mutations.accessTokenDelete({
 				customerAccessToken: ctx.accessToken
 			})) as {
 				customerAccessTokenDelete: {

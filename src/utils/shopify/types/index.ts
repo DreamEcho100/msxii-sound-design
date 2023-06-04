@@ -1,3 +1,14 @@
+import { SHOPIFY_ERRORS_CODES_MAP } from '../errors';
+
+export type TSHOPIFY_ERRORS_CODES = keyof typeof SHOPIFY_ERRORS_CODES_MAP;
+
+export type ShopifyError = {
+	// https://shopify.dev/docs/api/storefront/2023-04/enums/CustomerErrorCode
+	code: TSHOPIFY_ERRORS_CODES;
+	field: string[];
+	message: string;
+};
+
 export interface Customer {
 	id: string;
 	firstName: string;

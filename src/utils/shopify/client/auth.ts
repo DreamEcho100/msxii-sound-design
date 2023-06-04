@@ -1,8 +1,7 @@
 import { gql } from 'graphql-request';
 import { z } from 'zod';
-import { TSHOPIFY_ERRORS_CODES } from '../errors';
-import { graphQLClient } from './utils';
-import { Customer } from '../types';
+import { customerGQLFields, graphQLClient } from './utils';
+import type { Customer, ShopifyError } from '../types';
 
 export const customerAccessTokenCreateInputSchema = z.object({
 	email: z.string().email(),
@@ -42,12 +41,7 @@ const customerAccessTokenCreateMutation = async (
 				accessToken: string;
 				expiresAt: string;
 			};
-			customerUserErrors: {
-				// https://shopify.dev/docs/api/storefront/2023-04/enums/CustomerErrorCode
-				code: TSHOPIFY_ERRORS_CODES;
-				field: string[];
-				message: string;
-			}[];
+			customerUserErrors: ShopifyError[];
 		};
 	};
 };
@@ -62,126 +56,7 @@ const customerDataByAccessTokenQuery = async (
 	const template = gql`
 	query {
 	customer(customerAccessToken: ${JSON.stringify(input.customerAccessToken)}) {
-		id
-		firstName
-		lastName
-		acceptsMarketing
-		email
-		phone
-		createdAt
-		updatedAt
-		defaultAddress {
-			id
-			address1
-			address2
-			city
-			company
-			country
-			zip
-			province
-			phone
-		}
-		addresses(first:250) {
-			 edges{
-				 node{
-					 id
-					 address1
-					 address2
-					 city
-					 company
-					 country
-					 firstName
-					 lastName
-					 province
-					 zip
-					 phone
-				 }
-			 }
-		}
-		orders(first:250) {
-			edges {
-				node{
-					id
-					orderNumber
-					email
-					name
-					phone
-					cancelReason
-					canceledAt
-					edited
-					financialStatus
-					fulfillmentStatus
-					statusUrl
-					totalPrice {
-						amount
-						currencyCode
-					}
-					totalShippingPrice {
-						amount
-						currencyCode
-					}
-					totalTax {
-						amount
-						currencyCode
-					}
-					totalRefunded{
-						amount
-						currencyCode
-					}
-					lineItems(first:250){
-							edges{
-								node{
-									currentQuantity
-									quantity
-									title
-									originalTotalPrice { 
-										amount
-										currencyCode
-									}
-									variant {
-										id
-										image {
-											id
-											height
-											width
-											url
-											altText
-										}
-										price {
-											amount
-											currencyCode
-										}
-										product {
-											id
-											handle
-											title
-											totalInventory
-											availableForSale
-											description
-											images(first:250){
-												edges { 
-													node {
-															id
-															width
-															height
-															url
-													}
-												}
-											}
-											updatedAt
-											createdAt
-										}
-										quantityAvailable
-										title
-									}
-								}
-							}
-					}
-					processedAt
-				}
-			}
-		}
-		
+		${customerGQLFields}
 	}
 }
  `;
@@ -243,51 +118,28 @@ const customerCreateMutation = async (
 					field
 					message
 				}
-				customer {
-					id
-					firstName
-					lastName
-					acceptsMarketing
-					defaultAddress {
-						address1
-						address2
-						city
-						company
-						country
-						province
-						zip
-					}
-					createdAt
-				}
+				customer { ${customerGQLFields} }
 			}
 		}
 	`;
 
 	return (await graphQLClient.request(template, { input })) as {
-		// customerAccessTokenCreate: {
-		// customerAccessToken: {
-		// 	customerAccessToken: string;
-		// 	expiresAt: string;
-		// };
-		// customerUserErrors: {
-		// 	// https://shopify.dev/docs/api/storefront/2023-04/enums/CustomerErrorCode
-		// 	code: TSHOPIFY_ERRORS_CODES;
-		// 	field: string[];
-		// 	message: string;
-		// }[];
-		// };
+		customerCreate: {
+			customer: Customer;
+			customerUserErrors: ShopifyError[];
+		};
 	};
 };
 
 const auth = {
-	mutation: {
-		customer: {
+	customer: {
+		mutations: {
 			accessTokenCreate: customerAccessTokenCreateMutation,
 			accessTokenDelete: customerAccessTokenDeleteMutation,
 			create: customerCreateMutation
-		}
-	},
-	query: { customer: { dataByAccessToken: customerDataByAccessTokenQuery } }
+		},
+		queries: { dataByAccessToken: customerDataByAccessTokenQuery }
+	}
 };
 
 export default auth;

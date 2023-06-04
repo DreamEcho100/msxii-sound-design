@@ -24,13 +24,16 @@ export const shopifyAuthRouter = createTRPCRouter({
 			})
 		)
 		.mutation(async ({ ctx, input }) => {
+			console.log('input', input);
 			const data = await ctx.shopifyClient.auth.customer.mutations
 				.create(input)
 				.then((result) => {
+					console.log('result', JSON.stringify(result, null, 4));
 					handleShopifyErrors(result.customerCreate.customerUserErrors, {
 						code: 'BAD_REQUEST',
 						errorCodeMessageMap: {
-							TAKEN: 'account already exists check your email for confirmation'
+							TAKEN:
+								'Email has already been taken, check your email for confirmation'
 						}
 					});
 
@@ -38,7 +41,7 @@ export const shopifyAuthRouter = createTRPCRouter({
 				});
 
 			const accessTokenInfo = await ctx.shopifyClient.auth.customer.mutations
-				.accessTokenCreate(input)
+				.accessTokenCreate({ email: input.email, password: input.password })
 				.then((result) => {
 					handleShopifyErrors(
 						result.customerAccessTokenCreate.customerUserErrors,
@@ -50,6 +53,14 @@ export const shopifyAuthRouter = createTRPCRouter({
 
 					return result.customerAccessTokenCreate.customerAccessToken;
 				});
+
+			ctx.cookieManger.setOne(ACCESS_TOKEN_KEY, accessTokenInfo.accessToken, {
+				maxAge:
+					(new Date(accessTokenInfo.expiresAt).getTime() - Date.now()) / 1000,
+				httpOnly: true,
+				secure: true,
+				sameSite: 'strict'
+			});
 
 			return {
 				customer: data.customerCreate.customer,

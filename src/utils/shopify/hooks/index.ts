@@ -75,9 +75,9 @@ export const useCheckAccessToken = ({
 				setCustomerSession({ type: 'UNAUTHENTICATED' });
 				onError?.({ message: err.message });
 			},
-			refetchOnMount: true,
 			refetchOnWindowFocus: true,
-			refetchOnReconnect: true
+			refetchOnReconnect: true,
+			retry: 7
 		}
 	);
 

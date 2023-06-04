@@ -24,7 +24,7 @@ export const handleShopifyErrors = (
 		throw new TRPCError({
 			code: options?.code || 'INTERNAL_SERVER_ERROR',
 			message: [
-				options?.errorCodeMessageMap,
+				options?.customMessage,
 				...customerUserErrors.map((item) =>
 					options?.errorCodeMessageMap?.[item.code]
 						? options.errorCodeMessageMap[item.code]

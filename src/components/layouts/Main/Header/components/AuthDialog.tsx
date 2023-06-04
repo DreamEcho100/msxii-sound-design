@@ -71,6 +71,7 @@ const DialogContentHeader = ({
 		<header className="flex flex-col gap-3">
 			<Dialog.Close onClick={toggleAuthDialogOpen} asChild>
 				<button
+					type="button"
 					className={cx(
 						'absolute top-3 right-3 inline-flex h-6 w-6 appearance-none items-center justify-center rounded-full text-2xl',
 						'text-special-primary-700 hover:text-special-primary-700/75',
@@ -227,7 +228,8 @@ const RegisterDialogContent = () => {
 			/>
 			<form
 				className="flex flex-col gap-4 py-4"
-				onClick={() => {
+				onSubmit={(event) => {
+					event.preventDefault();
 					registerMutation.mutate(formValues);
 				}}
 			>

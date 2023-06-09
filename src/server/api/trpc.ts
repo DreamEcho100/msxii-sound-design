@@ -40,7 +40,7 @@ export const createInnerTRPCContext = (opts: CreateContextOptions) => {
 	return {
 		session: opts.session,
 		prisma,
-		shopifyClient,
+		shopify,
 		cookieManger: opts.req && opts.res && getCookieManger(opts.req, opts.res)
 	};
 };
@@ -71,7 +71,7 @@ export const createTRPCContext = async (opts: CreateNextContextOptions) => {
  */
 import { initTRPC, TRPCError } from '@trpc/server';
 import superjson from 'superjson';
-import shopifyClient from '../../utils/shopify/client/index';
+import shopify from '../../utils/shopify/client/index';
 import { getCookieManger } from '~/utils/cookies';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { ACCESS_TOKEN_KEY } from '~/utils/shopify/client/utils';

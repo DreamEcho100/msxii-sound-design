@@ -1,7 +1,9 @@
-import auth from './auth';
+import shopifyGQLClient from './gql';
+import shopifyRestClient from './rest';
 
-export const shopifyClient = {
-	auth
+export const shopify = {
+	gqlClient: shopifyGQLClient,
+	restClient: shopifyRestClient
 };
 
-export default shopifyClient;
+export default shopify;

@@ -1,7 +1,8 @@
 import { gql } from 'graphql-request';
 import { z } from 'zod';
-import { customerGQLFields, graphQLClient } from './utils';
-import type { Customer, ShopifyError } from '../types';
+import { type Customer, ShopifyError } from '../../types';
+import { graphQLClient, customerGQLFields } from '../utils';
+// import type { Customer, ShopifyError } from '../../../types';
 
 export const customerAccessTokenCreateInputSchema = z.object({
 	email: z.string().email(),

@@ -10,6 +10,10 @@ import { api } from '~/utils/api';
 
 const HomePage: NextPage = () => {
 	const productsQuery = api.products.getAll.useQuery();
+	const productsQuery2 =
+		api.shopify.shopifyCollections.handles.getAll.useQuery();
+
+	console.log('productsQuery2.data', productsQuery2.data);
 
 	if (productsQuery.isLoading) return <>Loading...</>;
 

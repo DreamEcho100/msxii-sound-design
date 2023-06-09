@@ -1,6 +1,8 @@
-import { createTRPCRouter, publicProcedure } from '~/server/api/trpc';
+import { createTRPCRouter } from '~/server/api/trpc';
 import { shopifyAuthRouter } from './auth';
+import { shopifyCollectionsRouter } from './collections';
 
 export const shopifyRouter = createTRPCRouter({
-	auth: shopifyAuthRouter
+	auth: shopifyAuthRouter,
+	shopifyCollections: shopifyCollectionsRouter
 });

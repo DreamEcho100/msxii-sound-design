@@ -50,3 +50,43 @@ export interface Customer {
 		edges: any[];
 	};
 }
+
+export type Collection = {
+	edges: {
+		node: {
+			description: string;
+			descriptionHtml: string;
+			handle: string;
+			id: string;
+			onlineStoreUrl: string;
+			title: string;
+			updatedAt: string;
+			products: {
+				edges: {
+					node: {
+						id: string;
+						title: string;
+						availableForSale: boolean;
+						descriptionHtml: string;
+						vendor: string;
+						publishedAt: string;
+						onlineStoreUrl?: string | string;
+						productType: string;
+						handle: string;
+						images: {
+							edges: {
+								node: {
+									id: string;
+									src: string;
+									altText?: any;
+									width: number;
+									height: number;
+								};
+							}[];
+						};
+					};
+				}[];
+			};
+		};
+	}[];
+};

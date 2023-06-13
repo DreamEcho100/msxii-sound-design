@@ -9,20 +9,13 @@ import superjson from 'superjson';
 import { api } from '~/utils/api';
 
 const HomePage: NextPage = () => {
-	const productsQuery = api.products.getAll.useQuery();
 	const getAllBasicCollectionsShopify =
 		api.shopify.collections.getAllBasic.useQuery();
 
-	if (getAllBasicCollectionsShopify.isLoading || productsQuery.isLoading)
-		return <>Loading...</>;
+	if (getAllBasicCollectionsShopify.isLoading) return <>Loading...</>;
 
-	if (getAllBasicCollectionsShopify.isError || productsQuery.isError)
-		return (
-			<>
-				{productsQuery.error?.message ||
-					getAllBasicCollectionsShopify.error?.message}
-			</>
-		);
+	if (getAllBasicCollectionsShopify.isError)
+		return <>{getAllBasicCollectionsShopify.error?.message}</>;
 
 	return (
 		<>

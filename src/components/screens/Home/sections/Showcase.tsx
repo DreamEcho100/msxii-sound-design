@@ -80,10 +80,7 @@ const FilteredProducts = ({ collectionsBasic }: HomeScreenProps) => {
 	);
 };
 
-const HomeShowcaseSection = ({
-	products,
-	collectionsBasic
-}: HomeScreenProps) => {
+const HomeShowcaseSection = ({ collectionsBasic }: HomeScreenProps) => {
 	const flattenedCollectionEdges = useGetFlattenedDataEdge(
 		collectionsBasic.collections
 	);
@@ -117,10 +114,7 @@ const HomeShowcaseSection = ({
 	return (
 		<section className="sm:p-main-p-3">
 			<div className="flex flex-col gap-16 bg-bg-primary-100 py-main-p-2 px-main-p-4 dark:bg-bg-primary-900 sm:rounded-xl">
-				<FilteredProducts
-					products={products}
-					collectionsBasic={collectionsBasic}
-				/>
+				<FilteredProducts collectionsBasic={collectionsBasic} />
 				<article className="flex flex-col gap-4 px-4">
 					<header>
 						<h2 className="text-h1 leading-h2 font-semibold px-8">Bundles</h2>

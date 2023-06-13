@@ -8,17 +8,13 @@ import { RouterOutputs } from '~/utils/api';
 
 export interface HomeScreenProps {
 	collectionsBasic: RouterOutputs['shopify']['collections']['getAllBasic'];
-	products: ShopifyProduct[];
 }
 
-const HomeScreen = ({ products, collectionsBasic }: HomeScreenProps) => {
+const HomeScreen = ({ collectionsBasic }: HomeScreenProps) => {
 	return (
 		<>
 			<HeroHomeSection />
-			<HomeShowcaseSection
-				products={products}
-				collectionsBasic={collectionsBasic}
-			/>
+			<HomeShowcaseSection collectionsBasic={collectionsBasic} />
 			<HomeIOSAppsSection />
 			<HomeLatestBlogsSection />
 			<AboutMSXIISoundDesign />

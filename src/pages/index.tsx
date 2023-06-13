@@ -12,11 +12,6 @@ const HomePage: NextPage = () => {
 	const getAllBasicCollectionsShopify =
 		api.shopify.collections.getAllBasic.useQuery();
 
-	if (getAllBasicCollectionsShopify.isLoading) return <>Loading...</>;
-
-	if (getAllBasicCollectionsShopify.isError)
-		return <>{getAllBasicCollectionsShopify.error?.message}</>;
-
 	const props: HomeScreenProps = getAllBasicCollectionsShopify.isError
 		? {
 				isError: true,
@@ -76,7 +71,7 @@ export async function getStaticProps() {
 		props: {
 			trpcState: ssg.dehydrate()
 		},
-		revalidate: 10
+		revalidate: 60
 	};
 }
 

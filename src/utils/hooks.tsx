@@ -9,7 +9,9 @@ export const useGetFlattenedDataEdge = <Data,>(item: Edges<Data>) =>
 export const useBasicCollectionsHandleFilterManager = ({
 	collectionsEdges
 }: {
-	collectionsEdges: HomeScreenProps['collectionsBasic']['collections'];
+	collectionsEdges: NonNullable<
+		HomeScreenProps['collectionsBasic']
+	>['collections'];
 }) => {
 	const flattenedCollectionsEdges =
 		useGetFlattenedDataEdge<BasicCollection>(collectionsEdges);

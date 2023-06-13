@@ -13,7 +13,11 @@ import {
 } from '~/components/shared/core/Shopify/Cards/Card';
 import { BasicProduct } from '~/utils/shopify/types';
 
-const FilteredProducts = ({ collectionsBasic }: HomeScreenProps) => {
+const FilteredProducts = ({
+	collectionsBasic
+}: {
+	collectionsBasic: NonNullable<HomeScreenProps['collectionsBasic']>;
+}) => {
 	const {
 		categories,
 		collectionsByHandle,
@@ -80,7 +84,11 @@ const FilteredProducts = ({ collectionsBasic }: HomeScreenProps) => {
 	);
 };
 
-const HomeShowcaseSection = ({ collectionsBasic }: HomeScreenProps) => {
+const HomeShowcaseSection = ({
+	collectionsBasic
+}: {
+	collectionsBasic: NonNullable<HomeScreenProps['collectionsBasic']>;
+}) => {
 	const flattenedCollectionEdges = useGetFlattenedDataEdge(
 		collectionsBasic.collections
 	);
@@ -132,19 +140,13 @@ const HomeShowcaseSection = ({ collectionsBasic }: HomeScreenProps) => {
 								'sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4'
 							)}
 						>
-							{selectedBundlesCollections
-								// .filter(
-								// 	(product) =>
-								// 		product.title.toLowerCase().search('bundle') !== -1
-								// )
-								// .slice(0, 4)
-								.map((item) => (
-									<ProductBundleCard
-										key={item.id}
-										product={item}
-										containerVariants={{ flex: 'grow', w: null }}
-									/>
-								))}
+							{selectedBundlesCollections.map((item) => (
+								<ProductBundleCard
+									key={item.id}
+									product={item}
+									containerVariants={{ flex: 'grow', w: null }}
+								/>
+							))}
 						</div>
 					</div>
 				</article>
@@ -153,4 +155,13 @@ const HomeShowcaseSection = ({ collectionsBasic }: HomeScreenProps) => {
 	);
 };
 
-export default HomeShowcaseSection;
+const HomeShowcaseSectionContainer = (props: HomeScreenProps) => {
+	if (props.isSuccess)
+		return <HomeShowcaseSection collectionsBasic={props.collectionsBasic} />;
+
+	if (props.isError) return <>{props.error.message}</>;
+
+	return <>Loading...</>;
+};
+
+export default HomeShowcaseSectionContainer;

@@ -1,30 +1,37 @@
+import Clickable from '~/components/shared/core/Clickable';
+import { cx } from 'class-variance-authority';
+import {
+	useBasicCollectionsHandleFilterManager,
+	useGetFlattenedDataEdge
+} from '~/utils/hooks';
+import { useEffect, useMemo } from 'react';
+import { HomeScreenProps } from '..';
+import { CardsSlider } from '~/components/shared/core/Shopify/Cards/Slider';
 import {
 	ProductBundleCard,
 	ProductCard
-} from '~/components/shared/core/Cards/Card';
-import { CardsSlider } from '~/components/shared/core/Cards/Slider';
-import Clickable from '~/components/shared/core/Clickable';
-import { cx } from 'class-variance-authority';
-import { ShopifyProduct } from '~/utils/types';
-import { useProductsTagsFilterManager } from '~/utils/hooks';
-import { useEffect, useMemo } from 'react';
+} from '~/components/shared/core/Shopify/Cards/Card';
+import { BasicProduct } from '~/utils/shopify/types';
 
-const FilteredProducts = ({ products }: { products: ShopifyProduct[] }) => {
+const FilteredProducts = ({ collectionsBasic }: HomeScreenProps) => {
 	const {
 		categories,
-		productsByCategory,
+		collectionsByHandle,
 		selectedCategories,
-		setSelectedCategories
-	} = useProductsTagsFilterManager({ products });
+		setSelectedCategories,
+		flattenedCollectionsEdges
+	} = useBasicCollectionsHandleFilterManager({
+		collectionsEdges: collectionsBasic.collections
+	});
 
 	const selectedCategory = selectedCategories[0];
 
-	const filteredProducts = useMemo(
+	const filteredCollections = useMemo(
 		() =>
-			productsByCategory.filter(
+			collectionsByHandle.filter(
 				(item) => item[0] === selectedCategory
 			)?.[0]?.[1],
-		[productsByCategory, selectedCategory]
+		[collectionsByHandle, selectedCategory]
 	);
 	const firstCategory = categories[0];
 
@@ -44,13 +51,13 @@ const FilteredProducts = ({ products }: { products: ShopifyProduct[] }) => {
 							variants={null}
 							onClick={() => setSelectedCategories([item])}
 							className={cx(
-								'relative',
+								'relative capitalize',
 								selectedCategory === item
 									? 'text-text-primary-400/90 font-bold'
 									: 'text-text-primary-400/70 duration-100 hover:text-text-primary-500 focus:text-text-primary-500 outline-none font-medium'
 							)}
 						>
-							{item}
+							{item.replaceAll('-', ' ')}
 							<div className="absolute inset-0 flex items-end justify-start">
 								<div
 									className={cx(
@@ -64,7 +71,7 @@ const FilteredProducts = ({ products }: { products: ShopifyProduct[] }) => {
 				</div>
 			</header>
 			<CardsSlider
-				products={filteredProducts || products}
+				collections={filteredCollections || flattenedCollectionsEdges}
 				CardElem={ProductCard}
 				nextSlideButtonClassName="-translate-y-[200%] lg:-translate-y-[200%]"
 				previousSlideButtonClassName="-translate-y-[200%] lg:-translate-y-[200%]"
@@ -73,51 +80,70 @@ const FilteredProducts = ({ products }: { products: ShopifyProduct[] }) => {
 	);
 };
 
-const HomeShowcaseSection = ({ products }: { products: ShopifyProduct[] }) => {
+const HomeShowcaseSection = ({
+	products,
+	collectionsBasic
+}: HomeScreenProps) => {
+	const flattenedCollectionEdges = useGetFlattenedDataEdge(
+		collectionsBasic.collections
+	);
+	const bundlesCollections = useMemo(
+		() => flattenedCollectionEdges.filter((item) => item.handle === 'bundles'),
+		[flattenedCollectionEdges]
+	);
+	const selectedBundlesCollections = useMemo(() => {
+		const handlesMap: Record<string, boolean> = {};
+		const products: BasicProduct[] = [];
+
+		flattenedCollectionEdges.forEach((collection) =>
+			collection.products.edges.forEach(({ node }) => {
+				if (
+					[
+						'schlump-loops-bundle',
+						'drums-out-the-sp404-bundle',
+						'schlump-shots-bundle',
+						'the-classic-era-bundle'
+					].includes(node.handle) &&
+					!handlesMap[node.handle]
+				) {
+					products.push(node);
+					handlesMap[node.handle] = true;
+				}
+			})
+		);
+		return products;
+	}, [flattenedCollectionEdges]);
+
 	return (
 		<section className="sm:p-main-p-3">
 			<div className="flex flex-col gap-16 bg-bg-primary-100 py-main-p-2 px-main-p-4 dark:bg-bg-primary-900 sm:rounded-xl">
-				<FilteredProducts products={products} />
+				<FilteredProducts
+					products={products}
+					collectionsBasic={collectionsBasic}
+				/>
 				<article className="flex flex-col gap-4 px-4">
 					<header>
 						<h2 className="text-h1 leading-h2 font-semibold px-8">Bundles</h2>
 					</header>
 					<div className="flex flex-col gap-8">
 						<CardsSlider
-							products={products}
+							collections={bundlesCollections}
 							CardElem={ProductCard}
 							nextSlideButtonClassName="-translate-y-[200%] lg:-translate-y-[200%]"
 							previousSlideButtonClassName="-translate-y-[200%] lg:-translate-y-[200%]"
 						/>
-						{/* <ProductsSlider
-							swiperProps={{
-								slidesPerView: 1,
-								breakpoints: {
-									384: { slidesPerView: 1 },
-									768: { slidesPerView: 2 },
-									1024: { slidesPerView: 4 },
-									1280: { slidesPerView: 5 }
-								}
-							}}
-							CardElem={ProductBundleCard}
-						/> */}
 						<div
-							// style={{
-							// 	display: 'grid',
-							// 	gridTemplateColumns: 'repeat(auto-fill, minmax(20%, 1fr))',
-							// 	gap: '1rem'
-							// }}
 							className={cx(
 								'grid gap-8 px-8',
 								'sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4'
 							)}
 						>
-							{products
-								.filter(
-									(product) =>
-										product.title.toLowerCase().search('bundle') !== -1
-								)
-								.slice(0, 4)
+							{selectedBundlesCollections
+								// .filter(
+								// 	(product) =>
+								// 		product.title.toLowerCase().search('bundle') !== -1
+								// )
+								// .slice(0, 4)
 								.map((item) => (
 									<ProductBundleCard
 										key={item.id}

@@ -9,7 +9,7 @@ const SignOutButton = () => {
 	);
 
 	const signOutMutation = useSignOutMutation({
-		onError: (err) => console.log('err', err)
+		onError: (err) => console.error('err', err)
 	});
 
 	if (customerSessionStatus !== 'authenticated') return <></>;

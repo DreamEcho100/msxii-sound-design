@@ -4,12 +4,21 @@ import HomeLatestBlogsSection from './sections/LatestBlogs';
 import AboutMSXIISoundDesign from './sections/AboutMSXIISoundDesign';
 import HomeIOSAppsSection from './sections/IOSApps';
 import { ShopifyProduct } from '~/utils/types';
+import { RouterOutputs } from '~/utils/api';
 
-const HomeScreen = ({ products }: { products: ShopifyProduct[] }) => {
+export interface HomeScreenProps {
+	collectionsBasic: RouterOutputs['shopify']['collections']['getAllBasic'];
+	products: ShopifyProduct[];
+}
+
+const HomeScreen = ({ products, collectionsBasic }: HomeScreenProps) => {
 	return (
 		<>
 			<HeroHomeSection />
-			<HomeShowcaseSection products={products} />
+			<HomeShowcaseSection
+				products={products}
+				collectionsBasic={collectionsBasic}
+			/>
 			<HomeIOSAppsSection />
 			<HomeLatestBlogsSection />
 			<AboutMSXIISoundDesign />

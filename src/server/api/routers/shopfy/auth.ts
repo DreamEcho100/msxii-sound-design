@@ -24,11 +24,9 @@ export const shopifyAuthRouter = createTRPCRouter({
 			})
 		)
 		.mutation(async ({ ctx, input }) => {
-			console.log('input', input);
 			const data = await ctx.shopify.gqlClient.auth.customer.mutations
 				.create(input)
 				.then((result) => {
-					console.log('result', JSON.stringify(result, null, 4));
 					handleShopifyErrors(result.customerCreate.customerUserErrors, {
 						code: 'BAD_REQUEST',
 						errorCodeMessageMap: {

@@ -109,7 +109,7 @@ const LoginDialogContent = () => {
 
 	const loginMutation = useLoginMutation({
 		onError: (err) => {
-			console.log('err', err);
+			console.error('err', err);
 		},
 		onSuccess: () => {
 			toggleAuthDialogOpen();
@@ -195,7 +195,7 @@ const RegisterDialogContent = () => {
 
 	const registerMutation = useRegisterMutation({
 		onError: (err) => {
-			console.log('err', err);
+			console.error('err', err);
 		},
 		onSuccess: () => {
 			toggleAuthDialogOpen();

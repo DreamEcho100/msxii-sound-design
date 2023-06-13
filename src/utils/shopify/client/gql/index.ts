@@ -1,9 +1,11 @@
 import auth from './auth';
-import collections from './products';
+import collections from './collections';
+import products from './products';
 
 const shopifyGQLClient = {
 	auth,
-	collections
+	collections,
+	products
 };
 
 export default shopifyGQLClient;

@@ -1,151 +1,182 @@
 import { gql } from 'graphql-request';
 import { z } from 'zod';
-import { type Collection, ShopifyError } from '../../types';
-import { graphQLClient, customerGQLFields } from '../utils';
+import { Edges, type Product } from '../../types';
+import { graphQLClient } from '../utils';
 // import type { Customer, ShopifyError } from '../../../types';
 
-const collectionSchemaText = `edges {
-	node {
-		description
-		descriptionHtml
-		handle
-		id
-		onlineStoreUrl
-		title
-		updatedAt
-		collections(first: 250) {
-			edges {
-				node {
-					id
-					title
-					availableForSale
-					descriptionHtml
-					vendor
-					publishedAt
-					onlineStoreUrl
-					productType
-					handle
-					images(first: 250) {
-						edges {
-							node {
-								id
-								src
-								altText
-								width
-								height
-							}
-						}
-					}
-				}
+export const gqlProductSchemaText = `id
+title
+availableForSale
+description
+vendor
+publishedAt
+onlineStoreUrl
+productType
+handle
+createdAt
+updatedAt
+priceRange {
+	maxVariantPrice {
+		amount
+		currencyCode
+	}
+	minVariantPrice {
+		amount
+		currencyCode
+	}
+}
+compareAtPriceRange {
+	maxVariantPrice {
+		amount
+		currencyCode
+	}
+	minVariantPrice {
+		amount
+		currencyCode
+	}
+}
+featuredImage {
+	id
+	src
+	altText
+	width
+	height
+}
+images(first: 250) {
+	edges {
+		node {
+			id
+			src
+			altText
+			width
+			height
+		}
+	}
+}
+variants(first: 200) {
+	edges {
+		node {
+			id
+			title
+			image {
+				id
+				src
+				altText
+				width
+				height
+			}
+			price {
+				amount
+				currencyCode
+			}
+			compareAtPrice {
+				amount
+				currencyCode
+			}
+		}
+	}
+}`;
+export const gqlProductBasicSchemaText = `id
+title
+availableForSale
+vendor
+publishedAt
+productType
+handle
+createdAt
+updatedAt
+priceRange {
+	maxVariantPrice {
+		amount
+		currencyCode
+	}
+	minVariantPrice {
+		amount
+		currencyCode
+	}
+}
+compareAtPriceRange {
+	maxVariantPrice {
+		amount
+		currencyCode
+	}
+	minVariantPrice {
+		amount
+		currencyCode
+	}
+}
+featuredImage {
+	id
+	src
+	altText
+	width
+	height
+}
+variants(first: 200) {
+	edges {
+		node {
+			id
+			title
+			image {
+				id
+				src
+				altText
+				width
+				height
+			}
+			price {
+				amount
+				currencyCode
+			}
+			compareAtPrice {
+				amount
+				currencyCode
 			}
 		}
 	}
 }`;
 
-const allCollectionsHandlesQuery = async () =>
+export const allProductsQuerySchema = z.object({
+	first: z.number().min(0).max(250),
+	query: z.object({
+		title: z.string().optional(),
+		available_for_sale: z.boolean().optional()
+	})
+});
+
+const allProductsQuery = async (
+	input: z.infer<typeof allProductsQuerySchema>
+) =>
 	// input: z.infer<typeof customerAccessTokenInputSchema>
 	{
-		// https://shopify.dev/docs/api/storefront/2023-04/queries/collections
+		// https://shopify.dev/docs/api/storefront/2023-04/queries/products
 		const template = gql`
-			query {
-				collections(first: 250) {
+			query getProducts($first: Int, $query: String) {
+				products(first: $first, query: $query) {
 					edges {
+						cursor
 						node {
-							handle
+							${gqlProductSchemaText}
 						}
 					}
 				}
 			}
 		`;
 
-		return (
-			(await graphQLClient.request(template)) as {
-				collections: {
-					edges: {
-						node: {
-							handle: string;
-						};
-					}[];
-				};
-			}
-		).collections.edges.map((edge) => edge.node.handle);
-	};
+		const query = input.query;
 
-const allCollectionsQuery = async () =>
-	// input: z.infer<typeof customerAccessTokenInputSchema>
-	{
-		// https://shopify.dev/docs/api/storefront/2023-04/queries/collections
-		const template = gql`
-				query {
-					collections(first: 250) {
-						${collectionSchemaText}
-					}
-				}
-			`;
-
-		return (await graphQLClient.request(template)) as {
-			collections: Collection[];
+		return (await graphQLClient.request(template, {
+			first: input.first,
+			query: Object.keys(query)
+				.map((key) => `${key}:${query[key as keyof typeof query]}`)
+				.join(' AND ')
+		})) as {
+			products: Edges<Product>;
 		};
 	};
 
-const collections = {
-	queries: { all: allCollectionsQuery, allHandles: allCollectionsHandlesQuery }
+const products = {
+	queries: { all: allProductsQuery }
 };
 
-export default collections;
-
-/*
-	
-							image
-							metafield
-							seo
-*/
-/*
-										compareAtPriceRange
-										featuredImage
-										metafield
-										options
-										priceRange
-										seo
-										tags
-										variantBySelectedOptions
-	*/
-// https://shopify.dev/docs/api/storefront/2023-04/objects/Customer
-const template = gql`
-	query {
-		collections(first: 250) {
-			edges {
-				node {
-					description
-					descriptionHtml
-					handle
-					id
-					onlineStoreUrl
-					title
-					updatedAt
-					collections(first: 250) {
-						edges {
-							node {
-								availableForSale
-								createdAt
-								description
-								descriptionHtml
-								handle
-								id
-								isGiftCard
-								onlineStoreUrl
-								productType
-								publishedAt
-								requiresSellingPlan
-								title
-								totalInventory
-								updatedAt
-								vendor
-							}
-						}
-					}
-				}
-			}
-		}
-	}
-`;
+export default products;

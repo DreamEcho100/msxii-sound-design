@@ -2,15 +2,19 @@ import { create } from 'zustand';
 import { Customer } from '~/utils/shopify/types';
 
 import { ShopifyProduct } from '~/utils/types';
+import { ShopifyProductVariant } from '~/utils/shopify/types';
 
 interface GlobalStore {
 	cart: {
-		items: (ShopifyProduct & { quantity: number })[];
+		items: (
+			| (ShopifyProduct & { quantity: number })
+			| (ShopifyProductVariant & { quantity: number })
+		)[];
 
 		isCartDropdownOpen: boolean;
 		toggleCartDropdown(): void;
 		addToCart(
-			product: ShopifyProduct,
+			product: ShopifyProduct | ShopifyProductVariant,
 			quantity: number | ((value: number) => number)
 		): void;
 	};

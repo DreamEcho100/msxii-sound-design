@@ -12,7 +12,7 @@ const gqlCollectionSchemaText = `edges {
 		onlineStoreUrl
 		title
 		updatedAt
-		products(first: 150, filters: { available: true }) {
+		products(first: 100, filters: { available: true }) {
 			edges {
 				node {
 					${gqlProductSchemaText}
@@ -44,7 +44,7 @@ const allCollectionsHandlesQuery = async () =>
 		// https://shopify.dev/docs/api/storefront/2023-04/queries/collections
 		const template = gql`
 			query {
-				collections(first: 150) {
+				collections(first: 100) {
 					edges {
 						node {
 							handle
@@ -71,7 +71,7 @@ const allCollectionsQuery = async () => {
 	// https://shopify.dev/docs/api/storefront/2023-04/queries/collections
 	const template = gql`
 						query {
-							collections(first: 150) {
+							collections(first: 100) {
 								${gqlCollectionSchemaText}
 							}
 						}
@@ -85,7 +85,7 @@ const allCollectionsBasicQuery = async () => {
 	// https://shopify.dev/docs/api/storefront/2023-04/queries/collections
 	const template = gql`
 						query {
-							collections(first: 150) {
+							collections(first: 100) {
 								${gqlCollectionBasicSchemaText}
 							}
 						}

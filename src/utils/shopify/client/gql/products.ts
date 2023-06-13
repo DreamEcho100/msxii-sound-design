@@ -42,7 +42,7 @@ featuredImage {
 	width
 	height
 }
-images(first: 150) {
+images(first: 100) {
 	edges {
 		node {
 			id
@@ -53,7 +53,7 @@ images(first: 150) {
 		}
 	}
 }
-variants(first: 150) {
+variants(first: 100) {
 	edges {
 		node {
 			id
@@ -112,7 +112,7 @@ featuredImage {
 	width
 	height
 }
-variants(first: 150) {
+variants(first: 100) {
 	edges {
 		node {
 			id

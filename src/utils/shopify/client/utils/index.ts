@@ -55,7 +55,7 @@ defaultAddress {
 	province
 	phone
 }
-addresses(first:150) {
+addresses(first: 100) {
 	 edges{
 		 node{
 			 id
@@ -72,7 +72,7 @@ addresses(first:150) {
 		 }
 	 }
 }
-orders(first:150) {
+orders(first: 100) {
 	edges {
 		node{
 			id
@@ -102,7 +102,7 @@ orders(first:150) {
 				amount
 				currencyCode
 			}
-			lineItems(first:150){
+			lineItems(first: 100){
 					edges{
 						node{
 							currentQuantity
@@ -132,7 +132,7 @@ orders(first:150) {
 									totalInventory
 									availableForSale
 									description
-									images(first:150){
+									images(first: 100){
 										edges { 
 											node {
 													id

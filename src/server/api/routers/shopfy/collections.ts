@@ -11,6 +11,7 @@ export const shopifyCollectionsRouter = createTRPCRouter({
 	getAll: publicProcedure.query(
 		async ({ ctx }) => await ctx.shopify.gqlClient.collections.queries.all()
 	),
+	test: publicProcedure.query(async () => 'test'),
 	getAllBasic: publicProcedure.query(
 		async ({ ctx }) =>
 			await ctx.shopify.gqlClient.collections.queries.allBasic()

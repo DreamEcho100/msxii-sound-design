@@ -7,7 +7,7 @@ export const shopifyProductsRouter = createTRPCRouter({
 		.query(
 			async ({ ctx, input }) =>
 				await ctx.shopify.gqlClient.products.queries.all({
-					first: 250,
+					first: 150,
 					query: {
 						available_for_sale: true,
 						// title: input.query.title ? `${input.query.title}*` : undefined,

@@ -47,6 +47,7 @@
     "zustand": "^4.3.8"
   },
   "devDependencies": {
+    "@microsoft/eslint-formatter-sarif": "^3.0.0",
     "@tailwindcss/typography": "^0.5.9",
     "@types/eslint": "^8.40.2",
     "@types/node": "^20.3.1",

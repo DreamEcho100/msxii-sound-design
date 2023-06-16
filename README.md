@@ -1,35 +1,42 @@
-# Create T3 App
+# Shopify integration
 
-This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3-app`.
+## TODO
 
-## What's next? How do I make an app with this?
+- [] Fetch a specific collection.
+- [] Fetch the products.
+- [] Fetch a specific product.
 
-We try to keep this project as simple as possible, so you can start with just the scaffolding we set up for you, and add additional things later when they become necessary.
+- [] Integrate the `/` _(home page)_ page with Shopify.
+  - [] Fetch the IOS Apps and the latest two blogs from Shopify.
 
-If you are not familiar with the different technologies used in this project, please refer to the respective docs. If you still are in the wind, please join our [Discord](https://t3.gg/discord) and ask for help.
+- [] Integrate the `/merch/[handle]` page with Shopify.
+- [] Integrate the `/ios-apps` page with Shopify.
+- [] Integrate the `/ios-apps/[handle]` page with Shopify.
+- [] Integrate the cart functionality:
+  - [] Create.
+  - [] Update.
+  - [] Delete.
+  - [] Get all the data even if the user reloaded the page again
+- [] Integrate the `/blog` page with Shopify.
+  - [] Integrate the pagination functionality with Shopify.
+- [] Integrate the `/blog/[handle]` page with Shopify.
+- [] Integrate the `/blue-label` page with Shopify.
 
-- [Next.js](https://nextjs.org)
-- [NextAuth.js](https://next-auth.js.org)
-- [Prisma](https://prisma.io)
-- [Tailwind CSS](https://tailwindcss.com)
-- [tRPC](https://trpc.io)
+## In Progress
 
-## Learn More
+- [] Integrate the `/products/[handle]` page with Shopify.
+- [] Integrate the `/merch` page with Shopify.
 
-To learn more about the [T3 Stack](https://create.t3.gg/), take a look at the following resources:
+## Done
 
-- [Documentation](https://create.t3.gg/)
-- [Learn the T3 Stack](https://create.t3.gg/en/faq#what-learning-resources-are-currently-available) — Check out these awesome tutorials
+- [x] Login functionality.
+- [x] Loading the user data after login even if the page is reloaded or reopened.
+- [x] Sign out functionality.
+- [x] Registering a new user functionality.
 
-You can check out the [create-t3-app GitHub repository](https://github.com/t3-oss/create-t3-app) — your feedback and contributions are welcome!
+- [x] Fetch the products collection.
+- [x] Fetch the collection types (handles).
 
-## How do I deploy this?
-
-Follow our deployment guides for [Vercel](https://create.t3.gg/en/deployment/vercel), [Netlify](https://create.t3.gg/en/deployment/netlify) and [Docker](https://create.t3.gg/en/deployment/docker) for more information.
-
-##
-
-<https://www.figma.com/file/8qpI4blCNb8OlboHpMrIGO/https%3A%2F%2Fwww.surrealmachines.com%2F?node-id=108%3A2&t=H4NgMEw4oEofUzpp-0>
-<https://chat.openai.com/chat/6e53e674-72b8-441b-9bd9-097144a746cb>
-<https://codesandbox.io/s/d8llw?file=/src/App.js:1883-1892>
-<https://codesandbox.io/s/q558p?file=/src/App.js>
+- [x] Integrate the `/collections` page with Shopify.
+  - [x] The filtering by handles.
+  - [x] The filtering the collections products by the title through the search bar.

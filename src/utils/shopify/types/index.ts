@@ -50,6 +50,7 @@ export interface Customer {
 export type ShopifyImage = {
 	id: string;
 	src: string;
+	url: string;
 	altText?: string;
 	width: number;
 	height: number;

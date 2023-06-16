@@ -4,6 +4,10 @@ import { Edges, type Product } from '../../types';
 import { graphQLClient } from '../utils';
 // import type { Customer, ShopifyError } from '../../../types';
 
+const gqlImageText = `{ id src url altText width height }`;
+
+const gqlPriceText = `{ amount currencyCode }`;
+
 export const gqlProductSchemaText = `id
 title
 availableForSale
@@ -16,41 +20,17 @@ handle
 createdAt
 updatedAt
 priceRange {
-	maxVariantPrice {
-		amount
-		currencyCode
-	}
-	minVariantPrice {
-		amount
-		currencyCode
-	}
+	maxVariantPrice ${gqlPriceText}
+	minVariantPrice ${gqlPriceText}
 }
 compareAtPriceRange {
-	maxVariantPrice {
-		amount
-		currencyCode
-	}
-	minVariantPrice {
-		amount
-		currencyCode
-	}
+	maxVariantPrice ${gqlPriceText}
+	minVariantPrice ${gqlPriceText}
 }
-featuredImage {
-	id
-	src
-	altText
-	width
-	height
-}
+featuredImage ${gqlImageText}
 images(first: 100) {
 	edges {
-		node {
-			id
-			src
-			altText
-			width
-			height
-		}
+		node ${gqlImageText}
 	}
 }
 variants(first: 100) {
@@ -58,21 +38,9 @@ variants(first: 100) {
 		node {
 			id
 			title
-			image {
-				id
-				src
-				altText
-				width
-				height
-			}
-			price {
-				amount
-				currencyCode
-			}
-			compareAtPrice {
-				amount
-				currencyCode
-			}
+			image ${gqlImageText}
+			price ${gqlPriceText}
+			compareAtPrice ${gqlPriceText}
 		}
 	}
 }`;
@@ -86,52 +54,22 @@ handle
 createdAt
 updatedAt
 priceRange {
-	maxVariantPrice {
-		amount
-		currencyCode
-	}
-	minVariantPrice {
-		amount
-		currencyCode
-	}
+	maxVariantPrice ${gqlPriceText}
+	minVariantPrice ${gqlPriceText}
 }
 compareAtPriceRange {
-	maxVariantPrice {
-		amount
-		currencyCode
-	}
-	minVariantPrice {
-		amount
-		currencyCode
-	}
+	maxVariantPrice ${gqlPriceText}
+	minVariantPrice ${gqlPriceText}
 }
-featuredImage {
-	id
-	src
-	altText
-	width
-	height
-}
+featuredImage ${gqlImageText}
 variants(first: 100) {
 	edges {
 		node {
 			id
 			title
-			image {
-				id
-				src
-				altText
-				width
-				height
-			}
-			price {
-				amount
-				currencyCode
-			}
-			compareAtPrice {
-				amount
-				currencyCode
-			}
+			image ${gqlImageText}
+			price ${gqlPriceText}
+			compareAtPrice ${gqlPriceText}
 		}
 	}
 }`;

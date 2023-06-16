@@ -2,7 +2,7 @@ import Clickable from '~/components/shared/core/Clickable';
 import { cx } from 'class-variance-authority';
 import {
 	useBasicCollectionsHandleFilterManager,
-	useGetFlattenedDataEdge
+	useGetEdgeNodes
 } from '~/utils/hooks';
 import { useEffect, useMemo } from 'react';
 import { HomeScreenProps } from '..';
@@ -21,11 +21,11 @@ const FilteredProducts = ({
 	const {
 		categories,
 		collectionsByHandle,
-		selectedCategories,
-		setSelectedCategories,
+		selectedHandles: selectedCategories,
+		setSelectedHandles: setSelectedCategories,
 		flattenedCollectionsEdges
 	} = useBasicCollectionsHandleFilterManager({
-		collectionsEdges: collectionsBasic.collections
+		collectionsEdges: collectionsBasic
 	});
 
 	const selectedCategory = selectedCategories[0];
@@ -89,9 +89,7 @@ const HomeShowcaseSection = ({
 }: {
 	collectionsBasic: NonNullable<HomeScreenProps['collectionsBasic']>;
 }) => {
-	const flattenedCollectionEdges = useGetFlattenedDataEdge(
-		collectionsBasic.collections
-	);
+	const flattenedCollectionEdges = useGetEdgeNodes(collectionsBasic);
 	const bundlesCollections = useMemo(
 		() => flattenedCollectionEdges.filter((item) => item.handle === 'bundles'),
 		[flattenedCollectionEdges]

@@ -162,7 +162,7 @@ const CustomProductScreen = ({
 				<CTAButton
 					text="Explore more high quality packs"
 					isA="next-js"
-					href="/products"
+					href="/collections"
 					{...ctaButtonProps}
 					className="mt-4 mb-16"
 				/>

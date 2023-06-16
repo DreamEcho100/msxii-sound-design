@@ -2,6 +2,7 @@ import { gql } from 'graphql-request';
 import { type Collection, Edges, BasicCollection } from '../../types';
 import { graphQLClient } from '../utils';
 import { gqlProductBasicSchemaText, gqlProductSchemaText } from './products';
+import { z } from 'zod';
 // import type { Customer, ShopifyError } from '../../../types';
 
 const gqlCollectionSchemaText = `edges {
@@ -22,13 +23,32 @@ const gqlCollectionSchemaText = `edges {
 	}
 }`;
 
-const gqlCollectionBasicSchemaText = `edges {
+export const getQQLCollectionBasicTextSchema = z
+	.object({
+		productsFirst: z.number().min(5).max(100).optional()
+	})
+	.optional();
+
+const getQQLCollectionBasicText = (
+	input?: z.infer<typeof getQQLCollectionBasicTextSchema>
+) => {
+	// const query = !input?.query;
+	// const queryText = !query
+	// 	? ''
+	// 	: Object.keys(query)
+	// 			.map((key) => `"${key}:${query[key as keyof typeof query]}"`)
+	// 			.join(' AND ');
+
+	// ${!queryText ? '' : `query: ${queryText}, `}
+	const first = input?.productsFirst || 10;
+
+	return `edges {
 	node {
 		handle
 		id
 		title
 		updatedAt
-		products(first: 10, filters: { available: true }) {
+		products(first: ${first}, filters: { available: true }) {
 			edges {
 				node {
 					${gqlProductBasicSchemaText}
@@ -37,6 +57,7 @@ const gqlCollectionBasicSchemaText = `edges {
 		}
 	}
 }`;
+};
 
 const allCollectionsHandlesQuery = async () =>
 	// input: z.infer<typeof customerAccessTokenInputSchema>
@@ -81,12 +102,14 @@ const allCollectionsQuery = async () => {
 		collections: Edges<Collection>[];
 	};
 };
-const allCollectionsBasicQuery = async () => {
+const allCollectionsBasicQuery = async (
+	input?: z.infer<typeof getQQLCollectionBasicTextSchema>
+) => {
 	// https://shopify.dev/docs/api/storefront/2023-04/queries/collections
 	const template = gql`
 						query {
 							collections(first: 100) {
-								${gqlCollectionBasicSchemaText}
+								${getQQLCollectionBasicText(input)}
 							}
 						}
 					`;

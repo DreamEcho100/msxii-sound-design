@@ -35,31 +35,31 @@ const MainLayoutFooter = () => {
 				{
 					text: 'New Releases',
 					isA: 'next-js',
-					href: `/products/?tags=New Releases`,
+					href: `/collections/?handles=New Releases`,
 					icon: null
 				},
 				{
 					text: 'Loops',
 					isA: 'next-js',
-					href: `/products/?tags=Loops`,
+					href: `/collections/?handles=Loops`,
 					icon: null
 				},
 				{
 					text: 'One shot drums',
 					isA: 'next-js',
-					href: `/products/?tags=One Shot Drums`,
+					href: `/collections/?handles=One Shot Drums`,
 					icon: null
 				},
 				{
 					text: 'Sample Packs',
 					isA: 'next-js',
-					href: `/products/?tags=Samples`,
+					href: `/collections/?handles=Samples`,
 					icon: null
 				},
 				{
 					text: 'Drum Kits',
 					isA: 'next-js',
-					href: `/products/?tags=Drum Kits`,
+					href: `/collections/?handles=Drum Kits`,
 					icon: null
 				},
 				{ text: 'Construction Kits', isA: 'next-js', href: `/`, icon: null },
@@ -67,7 +67,7 @@ const MainLayoutFooter = () => {
 				{
 					text: 'Bundles',
 					isA: 'next-js',
-					href: '/products/?tags=Bundles',
+					href: '/collections/?handles=Bundles',
 					icon: null
 				}
 			]

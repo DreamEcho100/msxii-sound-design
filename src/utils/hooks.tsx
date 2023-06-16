@@ -3,18 +3,39 @@ import { ShopifyProduct } from './types';
 import { HomeScreenProps } from '~/components/screens/Home';
 import { BasicCollection, Collection, Edges } from './shopify/types';
 
-export const useGetFlattenedDataEdge = <Data,>(item: Edges<Data>) =>
+export const useGetEdgeNodes = <Data,>(item: Edges<Data>) =>
 	item.edges.map(({ node }) => node);
 
+const filterBasicCollectionProductsByTitle = (
+	collection: BasicCollection,
+	productTitleQuery: string
+) => {
+	return {
+		...collection,
+		products: {
+			edges: collection.products.edges.filter(
+				(node) =>
+					node.node.title
+						.toLowerCase()
+						.search(productTitleQuery.toLowerCase()) !== -1
+			)
+		}
+	};
+};
 export const useBasicCollectionsHandleFilterManager = ({
-	collectionsEdges
+	collectionsEdges,
+	handleToCollectionToIgnoreMap
 }: {
-	collectionsEdges: NonNullable<
-		HomeScreenProps['collectionsBasic']
-	>['collections'];
+	collectionsEdges: NonNullable<HomeScreenProps['collectionsBasic']>;
+	handleToCollectionToIgnoreMap?: Record<string, true>;
 }) => {
+	const [selectedHandles, setSelectedHandles] = useState<string[]>([]);
+	const [productTitleQuery, setProductTitleQuery] = useState<
+		string | undefined
+	>(undefined);
+
 	const flattenedCollectionsEdges =
-		useGetFlattenedDataEdge<BasicCollection>(collectionsEdges);
+		useGetEdgeNodes<BasicCollection>(collectionsEdges);
 	const { collectionsByHandle, categories } = useMemo(() => {
 		const collectionsHandleMap: Record<
 			string,
@@ -22,13 +43,20 @@ export const useBasicCollectionsHandleFilterManager = ({
 		> = {};
 
 		flattenedCollectionsEdges.forEach((collection) => {
+			if (handleToCollectionToIgnoreMap?.[collection.handle]) return;
+			const _collection = productTitleQuery
+				? filterBasicCollectionProductsByTitle(collection, productTitleQuery)
+				: collection;
+
+			if (_collection.products.edges.length === 0) return;
+
 			if (
 				collectionsHandleMap[collection.handle] &&
 				Array.isArray(collectionsHandleMap[collection.handle])
 			) {
-				collectionsHandleMap[collection.handle]?.push(collection);
+				collectionsHandleMap[collection.handle]?.push(_collection);
 			} else {
-				collectionsHandleMap[collection.handle] = [collection];
+				collectionsHandleMap[collection.handle] = [_collection];
 			}
 		});
 
@@ -40,16 +68,20 @@ export const useBasicCollectionsHandleFilterManager = ({
 			collectionsByHandle,
 			categories
 		};
-	}, [flattenedCollectionsEdges]);
-
-	const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+	}, [
+		flattenedCollectionsEdges,
+		handleToCollectionToIgnoreMap,
+		productTitleQuery
+	]);
 
 	return {
 		collectionsByHandle,
 		categories,
-		selectedCategories,
-		setSelectedCategories,
-		flattenedCollectionsEdges
+		selectedHandles,
+		setSelectedHandles,
+		flattenedCollectionsEdges,
+		productTitleQuery,
+		setProductTitleQuery
 	};
 };
 

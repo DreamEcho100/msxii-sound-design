@@ -80,7 +80,7 @@ export const BasicProductCard = (props: {
 	isPlayButtonActive?: boolean;
 	routeBase?: string;
 }) => {
-	const routeBase = props.routeBase ?? '/products';
+	const routeBase = props.routeBase ?? '/products'; // collections
 
 	return (
 		<article

@@ -1,4 +1,4 @@
-# Shopify integration
+# Shopify Integration Tasks
 
 ## TODO
 

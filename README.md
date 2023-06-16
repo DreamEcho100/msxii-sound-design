@@ -1,8 +1,10 @@
-# Shopify Integration Tasks
+# msxii-sound-design
+
+## Shopify Integration Tasks
 
 25
 
-## TODO
+### TODO
 
 15/25
 
@@ -26,14 +28,14 @@
 - [] Integrate the `/blog/[handle]` page with Shopify.
 - [] Integrate the `/blue-label` page with Shopify.
 
-## In Progress
+### In Progress
 
 2/25
 
 - [-] Integrate the `/products/[handle]` page with Shopify.
 - [-] Integrate the `/merch` page with Shopify.
 
-## Done
+### Done
 
 8/25
 

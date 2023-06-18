@@ -9,7 +9,12 @@ import 'swiper/css/navigation';
 import { cx } from 'class-variance-authority';
 
 import CustomNextImage from '~/components/shared/CustomNextImage';
-import { Collection, Product, BasicCollection } from '~/utils/shopify/types';
+import type {
+	Collection,
+	Product,
+	BasicCollection,
+	BasicProduct
+} from '~/utils/shopify/types';
 
 type SliderProps = {
 	children: ReactNode;
@@ -24,7 +29,9 @@ type SliderProps = {
 interface CardsSliderProps<CardElemProps extends Record<string, unknown>>
 	extends Omit<SliderProps, 'children'> {
 	collections: Collection[] | BasicCollection[];
-	CardElem: FunctionComponent<CardElemProps & { product: Product }>;
+	CardElem: FunctionComponent<
+		CardElemProps & { product: Product | BasicProduct }
+	>;
 	cardsSharedProps?: CardElemProps;
 }
 

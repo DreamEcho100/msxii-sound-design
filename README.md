@@ -30,14 +30,13 @@
 
 ### In Progress
 
-2/25
+21/25
 
-- [-] Integrate the `/products/[handle]` page with Shopify.
 - [-] Integrate the `/merch` page with Shopify.
 
 ### Done
 
-8/25
+9/25
 
 - [x] Login functionality.
 - [x] Loading the user data after login even if the page is reloaded or reopened.
@@ -50,3 +49,5 @@
 - Integrate the `/collections` page with Shopify.
   - [x] The filtering by handles.
   - [x] The filtering the collections products by the title through the search bar.
+
+- [-] Integrate the `/products/[handle]` page with Shopify.

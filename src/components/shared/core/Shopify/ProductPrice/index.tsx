@@ -11,7 +11,7 @@ const useIsMounted = () => {
 
 type Props = {
 	price: ShopifyProductVariant['price'];
-	compareAtPrice: ShopifyProductVariant['compareAtPrice'];
+	compareAtPrice?: ShopifyProductVariant['compareAtPrice'];
 };
 
 const formatPrice = (

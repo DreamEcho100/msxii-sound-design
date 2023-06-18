@@ -12,6 +12,7 @@ export const gqlProductSchemaText = `id
 title
 availableForSale
 description
+descriptionHtml
 vendor
 publishedAt
 onlineStoreUrl
@@ -84,37 +85,51 @@ export const allProductsQuerySchema = z.object({
 
 const allProductsQuery = async (
 	input: z.infer<typeof allProductsQuerySchema>
-) =>
-	// input: z.infer<typeof customerAccessTokenInputSchema>
-	{
-		// https://shopify.dev/docs/api/storefront/2023-04/queries/products
-		const template = gql`
-			query getProducts($first: Int, $query: String) {
-				products(first: $first, query: $query) {
-					edges {
-						cursor
-						node {
-							${gqlProductSchemaText}
+) => {
+	// https://shopify.dev/docs/api/storefront/2023-04/queries/products
+	const template = gql`
+				query getProducts($first: Int, $query: String) {
+					products(first: $first, query: $query) {
+						edges {
+							cursor
+							node {
+								${gqlProductSchemaText}
+							}
 						}
 					}
 				}
-			}
-		`;
+			`;
 
-		const query = input.query;
+	const query = input.query;
 
-		return (await graphQLClient.request(template, {
-			first: input.first,
-			query: Object.keys(query)
-				.map((key) => `${key}:${query[key as keyof typeof query]}`)
-				.join(' AND ')
-		})) as {
-			products: Edges<Product>;
-		};
+	return (await graphQLClient.request(template, {
+		first: input.first,
+		query: Object.keys(query)
+			.map((key) => `${key}:${query[key as keyof typeof query]}`)
+			.join(' AND ')
+	})) as {
+		products: Edges<Product>;
 	};
+};
+
+export const oneProductByHandleQuerySchema = z.object({ handle: z.string() });
+const oneProductByHandleQuery = async (
+	input: z.infer<typeof oneProductByHandleQuerySchema>
+) => {
+	// https://shopify.dev/docs/api/storefront/2023-04/queries/productByHandle
+	const template = gql`query ($handle: String!) {
+		productByHandle(handle: $handle) {
+			${gqlProductSchemaText}
+		}
+	}`;
+
+	return (await graphQLClient.request(template, input)) as {
+		productByHandle: Product;
+	};
+};
 
 const products = {
-	queries: { all: allProductsQuery }
+	queries: { all: allProductsQuery, getOneByHandle: oneProductByHandleQuery }
 };
 
 export default products;

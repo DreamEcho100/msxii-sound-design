@@ -66,13 +66,14 @@ export type ShopifyProductVariant = {
 	title: string;
 	image: ShopifyImage;
 	price: ShopifyMoneyV2;
-	compareAtPrice: ShopifyMoneyV2;
+	compareAtPrice?: ShopifyMoneyV2;
 };
 
 export type Product = {
 	id: string;
 	title: string;
 	availableForSale: boolean;
+	description: string;
 	descriptionHtml: string;
 	vendor: string;
 	publishedAt: string;
@@ -95,7 +96,7 @@ export type BasicProduct = {
 	id: string;
 	title: string;
 	availableForSale: boolean;
-	descriptionHtml: string;
+	description: string;
 	vendor: string;
 	publishedAt: string;
 	onlineStoreUrl?: string;

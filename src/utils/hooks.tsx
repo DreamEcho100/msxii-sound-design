@@ -6,27 +6,34 @@ import { BasicCollection, Collection, Edges } from './shopify/types';
 export const useGetEdgeNodes = <Data,>(item: Edges<Data>) =>
 	item.edges.map(({ node }) => node);
 
-const filterBasicCollectionProductsByTitle = (
-	collection: BasicCollection,
+const filterBasicCollectionProductsByTitle = <
+	TCollection extends Collection | BasicCollection
+>(
+	collection: TCollection,
 	productTitleQuery: string
 ) => {
 	return {
 		...collection,
 		products: {
-			edges: collection.products.edges.filter(
-				(node) =>
-					node.node.title
-						.toLowerCase()
-						.search(productTitleQuery.toLowerCase()) !== -1
+			edges: (
+				collection.products.edges as {
+					node: { title: string };
+				}[]
+			).filter(
+				({ node }) =>
+					node.title.toLowerCase().search(productTitleQuery.toLowerCase()) !==
+					-1
 			)
 		}
 	};
 };
-export const useBasicCollectionsHandleFilterManager = ({
+export const useBasicCollectionsHandleFilterManager = <
+	TCollection extends Collection | BasicCollection
+>({
 	collectionsEdges,
 	handleToCollectionToIgnoreMap
 }: {
-	collectionsEdges: NonNullable<HomeScreenProps['collectionsBasic']>;
+	collectionsEdges: Edges<TCollection>; // NonNullable<HomeScreenProps['collectionsBasic']>;
 	handleToCollectionToIgnoreMap?: Record<string, true>;
 }) => {
 	const [selectedHandles, setSelectedHandles] = useState<string[]>([]);
@@ -35,12 +42,9 @@ export const useBasicCollectionsHandleFilterManager = ({
 	>(undefined);
 
 	const flattenedCollectionsEdges =
-		useGetEdgeNodes<BasicCollection>(collectionsEdges);
+		useGetEdgeNodes<TCollection>(collectionsEdges);
 	const { collectionsByHandle, categories } = useMemo(() => {
-		const collectionsHandleMap: Record<
-			string,
-			Collection[] | BasicCollection[]
-		> = {};
+		const collectionsHandleMap: Record<string, TCollection[]> = {};
 
 		flattenedCollectionsEdges.forEach((collection) => {
 			if (handleToCollectionToIgnoreMap?.[collection.handle]) return;

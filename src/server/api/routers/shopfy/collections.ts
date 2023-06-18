@@ -1,5 +1,8 @@
 import { createTRPCRouter, publicProcedure } from '~/server/api/trpc';
-import { getQQLCollectionBasicTextSchema } from '~/utils/shopify/client/gql/collections';
+import {
+	getQQLCollectionBasicTextSchema,
+	oneCollectionByHandleQuerySchema
+} from '~/utils/shopify/client/gql/collections';
 
 export const shopifyCollectionsHandlesRouter = createTRPCRouter({
 	getAll: publicProcedure.query(
@@ -19,5 +22,12 @@ export const shopifyCollectionsRouter = createTRPCRouter({
 				(await ctx.shopify.gqlClient.collections.queries.allBasic(input))
 					.collections
 		),
-	handles: shopifyCollectionsHandlesRouter
+	handles: shopifyCollectionsHandlesRouter,
+	getOneByHandle: publicProcedure
+		.input(oneCollectionByHandleQuerySchema)
+		.query(
+			async ({ ctx, input }) =>
+				(await ctx.shopify.gqlClient.collections.queries.getOneByHandle(input))
+					.collectionByHandle
+		)
 });

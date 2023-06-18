@@ -5,9 +5,7 @@ import { gqlProductBasicSchemaText, gqlProductSchemaText } from './products';
 import { z } from 'zod';
 // import type { Customer, ShopifyError } from '../../../types';
 
-const gqlCollectionSchemaText = `edges {
-	node {
-		description
+const gqlCollectionSchemaText = `description
 		handle
 		id
 		onlineStoreUrl
@@ -19,9 +17,7 @@ const gqlCollectionSchemaText = `edges {
 					${gqlProductSchemaText}
 				}
 			}
-		}
-	}
-}`;
+		}`;
 
 export const getQQLCollectionBasicTextSchema = z
 	.object({
@@ -42,21 +38,17 @@ const getQQLCollectionBasicText = (
 	// ${!queryText ? '' : `query: ${queryText}, `}
 	const first = input?.productsFirst || 10;
 
-	return `edges {
-	node {
-		handle
-		id
-		title
-		updatedAt
-		products(first: ${first}, filters: { available: true }) {
-			edges {
-				node {
-					${gqlProductBasicSchemaText}
-				}
+	return `handle
+	id
+	title
+	updatedAt
+	products(first: ${first}, filters: { available: true }) {
+		edges {
+			node {
+				${gqlProductBasicSchemaText}
 			}
 		}
-	}
-}`;
+	}`;
 };
 
 const allCollectionsHandlesQuery = async () =>
@@ -93,7 +85,11 @@ const allCollectionsQuery = async () => {
 	const template = gql`
 						query {
 							collections(first: 100) {
-								${gqlCollectionSchemaText}
+								edges {
+									node {
+										${gqlCollectionSchemaText}
+									}
+								}
 							}
 						}
 					`;
@@ -109,7 +105,11 @@ const allCollectionsBasicQuery = async (
 	const template = gql`
 						query {
 							collections(first: 100) {
-								${getQQLCollectionBasicText(input)}
+								edges {
+									node {
+										${getQQLCollectionBasicText(input)}
+									}
+								}
 							}
 						}
 					`;
@@ -119,11 +119,30 @@ const allCollectionsBasicQuery = async (
 	};
 };
 
+export const oneCollectionByHandleQuerySchema = z.object({
+	handle: z.string()
+});
+const oneCollectionByHandleQuery = async (
+	input: z.infer<typeof oneCollectionByHandleQuerySchema>
+) => {
+	// https://shopify.dev/docs/api/storefront/2023-04/queries/collectionByHandle
+	const template = gql`query ($handle: String!) {
+		collectionByHandle(handle: $handle) {
+			${gqlCollectionSchemaText}
+		}
+	}`;
+
+	return (await graphQLClient.request(template, input)) as {
+		collectionByHandle: Collection;
+	};
+};
+
 const collections = {
 	queries: {
 		all: allCollectionsQuery,
 		allBasic: allCollectionsBasicQuery,
-		allHandles: allCollectionsHandlesQuery
+		allHandles: allCollectionsHandlesQuery,
+		getOneByHandle: oneCollectionByHandleQuery
 	}
 };
 

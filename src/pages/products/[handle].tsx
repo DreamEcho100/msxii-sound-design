@@ -39,7 +39,6 @@ const ProductPage = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
 		<>
 			<Head>
 				<title>{productData.title}</title>
-				{/* <title>{productData.title}</title> */}
 				<meta name="description" content={productData.description} />
 			</Head>
 			<section className="px-main-p-4 sm:px-main-p-2 py-main-p-1 flex flex-wrap justify-center md:flex-nowrap gap-8">

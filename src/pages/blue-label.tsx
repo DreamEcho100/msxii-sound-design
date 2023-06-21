@@ -1,87 +1,101 @@
 import { type InferGetStaticPropsType, type GetStaticProps } from 'next';
 import CustomPageBuilder from '~/components/shared/core/CustomPageBuilder';
-import { api } from '~/utils/api';
+import { type RouterInputs, api } from '~/utils/api';
 import superjson from 'superjson';
 import { createServerSideHelpers } from '@trpc/react-query/server';
 import { appRouter } from '~/server/api/root';
 import { createInnerTRPCContext } from '~/server/api/trpc';
-import { ProductsTags } from '~/utils/appData';
-import { ProductCard } from '~/components/shared/core/Cards/Card';
-
-// import CustomNextImage from '~/components/shared/CustomNextImage';
-
-function duplicateArrayItemsUntilLength<T>(array: T[], length: number): T[] {
-	const arrayLength = array.length;
-	const quotient = Math.floor(length / arrayLength);
-	const remainder = length % arrayLength;
-	const duplicatedArray = Array(quotient)
-		.fill(null)
-		.flatMap(() => array);
-	return duplicatedArray.concat(array.slice(0, remainder));
-}
+import { ProductCard } from '~/components/shared/core/Shopify/Cards/Card';
+import Head from 'next/head';
 
 const CreativeSpacePage = (
 	props: InferGetStaticPropsType<typeof getStaticProps>
 ) => {
+	const collectionQuery = api.shopify.collections.getOneByHandle.useQuery(
+		props.input
+	);
 	const customPageStructureQuery = api.customPages.getOne.useQuery({
 		mainTag: 'blue-label-page'
 	});
-	const productsQuery = api.products.getManyByTags.useQuery({
-		tags: props.tags
-	});
 
-	if (productsQuery.isLoading || customPageStructureQuery.isLoading)
+	if (collectionQuery.isLoading || customPageStructureQuery.isLoading)
 		return <>Loading...</>;
 
-	if (productsQuery.isError || customPageStructureQuery.isError)
+	if (collectionQuery.isError || customPageStructureQuery.isError)
 		return (
 			<>
-				{productsQuery.error?.message ||
+				{collectionQuery.error?.message ||
 					customPageStructureQuery.error?.message}
 			</>
 		);
 
 	const pageStructure = customPageStructureQuery.data;
-	const productData = duplicateArrayItemsUntilLength(productsQuery.data, 24);
-
-	// return (
-	// 	<div className="border border-solid border-black p-2 m-2 flex w-fit">
-	// 		{'_'
-	// 			.repeat(7)
-	// 			.split('_')
-	// 			.map((_, index) =>
-	// 				index === 4 ? (
-	// 					<></>
-	// 				) : (
-	// 					<CustomNextImage
-	// 						key={index + 1}
-	// 						src={`/images/custom-page/credibility/${index + 1}.png`}
-	// 						width={192}
-	// 						height={192}
-	// 						className="object-contain"
-	// 					/>
-	// 				)
-	// 			)}
-	// 	</div>
-	// );
+	const collectionData = collectionQuery.data;
 
 	return (
-		<CustomPageBuilder customPage={pageStructure}>
-			<div
-				className="grid gap-x-8 gap-y-12 justify-items-center"
-				style={{
-					gridTemplateColumns: 'repeat(auto-fill, minmax(15rem, 1fr))'
-				}}
+		<>
+			<Head>
+				<title>{collectionData.title}</title>
+				<meta name="description" content={collectionData.description} />
+			</Head>
+			<CustomPageBuilder
+				customPage={
+					pageStructure
+					/*
+					{
+					stylesVariants: {
+						px: '12',
+						py: '16',
+						'gap-x': '16',
+						'gap-y': '16'
+					},
+					slug: 'blue-label',
+					mainTag: 'blue-label-page',
+					pageStructure: [
+						{
+							stylesVariants: { 'gap-y': '16' },
+							___type: 'standard-section',
+							title: 'Blue Label',
+							body: [
+								{
+									stylesVariants: {
+										w: 'full',
+										rounded: '3xl',
+										'max-w': '100ch',
+										mx: 'auto'
+									},
+									___type: 'image-only',
+									src: '/images/blue-label.png'
+								},
+								{
+									___type: 'md',
+									content:
+										collectionData.description ||
+										`Welcome to the MSXII Blue Label.  The MSXII Blue Label is a brand new segment of periodic releases that are completely royalty-free for use. No such follow up or clearance is required. While we have a very clear, concise license use case policy with our compositional based products such as Lofi Melodics, Synthesized Soul, 70's Soul Aesthetics etc, we understand that all end use cases are different. Here's a line & label that requires no questions asked. Use however, whenever, wherever you'd like & generate as much income in your endeavors as possible w/o having to contact our support. Each product will be marked with a "Blue Label" banner in the top left corner of it's product as well as include a .pdf inside its packaging. Most MSXII Blue Label compositional packs will include stems options at checkout or as included in the product. Trap Melodics Vol. 1 kicks this off!`
+								}
+							]
+						}
+					]
+				}
+			*/
+				}
 			>
-				{productData.map((item) => (
-					<ProductCard
-						key={item.handle}
-						product={item as any}
-						containerVariants={{ w: '72' }}
-					/>
-				))}
-			</div>
-		</CustomPageBuilder>
+				<div
+					className="grid gap-x-8 gap-y-12 justify-items-center"
+					style={{
+						gridTemplateColumns: 'repeat(auto-fill, minmax(15rem, 1fr))'
+					}}
+				>
+					{collectionData.products.edges.map(({ node }) => (
+						<ProductCard
+							key={node.handle}
+							product={node}
+							containerVariants={{ w: '72' }}
+						/>
+					))}
+				</div>
+			</CustomPageBuilder>
+		</>
 	);
 };
 
@@ -91,20 +105,26 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
 		ctx: await createInnerTRPCContext({ session: null }),
 		transformer: superjson // optional - adds superjson serialization
 	});
+
+	const input: RouterInputs['shopify']['collections']['getOneByHandle'] = {
+		handle: 'blue-label'
+	};
 	/*
 	 * Prefetching the `customPages.getOneBySlug` query here.
 	 * `prefetchQuery` does not return the result - if you need that, use `fetchQuery` instead.
 	 */
-	const tags = [ProductsTags.FreeLabel];
+	// const tags = [ProductsTags.FreeLabel];
 	await Promise.all([
-		ssg.products.getManyByTags.prefetch({ tags }),
+		// ssg.products.getManyByTags.prefetch({ tags }),
+		ssg.shopify.collections.getOneByHandle.prefetch(input),
 		ssg.customPages.getOne.prefetch({ mainTag: 'blue-label-page' })
 	]);
 	// Make sure to return { props: { trpcState: ssg.dehydrate() } }
 	return {
 		props: {
 			trpcState: ssg.dehydrate(),
-			tags
+			// tags,
+			input
 		},
 		revalidate: 10
 	};

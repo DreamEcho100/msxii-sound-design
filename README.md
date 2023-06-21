@@ -22,16 +22,15 @@
 
 ### In Progress
 
-4/25
+3/25
 
-- [|] Integrate the `/blue-label` page with Shopify.
-- [|] Integrate the `/blog` page with Shopify.
-  - [|] Integrate the pagination functionality with Shopify.
-- [|] Integrate the `/blog/[handle]` page with Shopify.
+- [-] Integrate the `/blog` page with Shopify.
+  - [-] Integrate the pagination functionality with Shopify.
+- [-] Integrate the `/blog/[handle]` page with Shopify.
 
 ### Done
 
-12/25
+13/25
 
 - [x] Fetch a specific collection.
 - [x] Fetch a specific product.
@@ -51,10 +50,12 @@
 - [x] Integrate the `/products/[handle]` page with Shopify.
 - [x] Integrate the `/merch` page with Shopify.
 
+- [x] Integrate the `/blue-label` page with Shopify.
+
 ### Can't be done
 
 2/25
 
 - (The IOS apps data is not stored as a product data on Shopify, needs more research and debugging)
-  - [-] Integrate the `/ios-apps` page with Shopify.
-  - [-] Integrate the `/ios-apps/[handle]` page with Shopify.
+  - [|] Integrate the `/ios-apps` page with Shopify.
+  - [|] Integrate the `/ios-apps/[handle]` page with Shopify.

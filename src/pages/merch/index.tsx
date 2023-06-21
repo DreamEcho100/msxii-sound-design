@@ -5,7 +5,7 @@ import { type InferGetStaticPropsType, type NextPage } from 'next';
 import superjson from 'superjson';
 
 import { appRouter } from '~/server/api/root';
-import { RouterInputs, api } from '~/utils/api';
+import { type RouterInputs, api } from '~/utils/api';
 import { createInnerTRPCContext } from '~/server/api/trpc';
 import { ProductCard } from '~/components/shared/core/Shopify/Cards/Card';
 import CustomPageBuilder from '~/components/shared/core/CustomPageBuilder';
@@ -14,31 +14,32 @@ import Head from 'next/head';
 const MerchesPage: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = (
 	props
 ) => {
-	const merchQuery = api.shopify.collections.getOneByHandle.useQuery(
+	const collectionQuery = api.shopify.collections.getOneByHandle.useQuery(
 		props.input
 	);
 	const customPageStructureQuery = api.customPages.getOne.useQuery({
 		mainTag: 'merch-page'
 	});
 
-	if (merchQuery.isLoading || customPageStructureQuery.isLoading)
+	if (collectionQuery.isLoading || customPageStructureQuery.isLoading)
 		return <>Loading...</>;
 
-	if (merchQuery.isError || customPageStructureQuery.isError)
+	if (collectionQuery.isError || customPageStructureQuery.isError)
 		return (
 			<>
-				{customPageStructureQuery.error?.message || merchQuery.error?.message}
+				{customPageStructureQuery.error?.message ||
+					collectionQuery.error?.message}
 			</>
 		);
 
-	const merchData = merchQuery.data!;
+	const collectionData = collectionQuery.data!;
 	const merchPageStructure = customPageStructureQuery.data;
 
 	return (
 		<>
 			<Head>
-				<title>{merchData.title}</title>
-				<meta name="description" content={merchData.description} />
+				<title>{collectionData.title}</title>
+				<meta name="description" content={collectionData.description} />
 			</Head>
 			<CustomPageBuilder customPage={merchPageStructure}>
 				<div
@@ -47,7 +48,7 @@ const MerchesPage: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = (
 						gridTemplateColumns: 'repeat(auto-fill, minmax(15rem, 1fr))'
 					}}
 				>
-					{merchData.products.edges.map(({ node }) => (
+					{collectionData.products.edges.map(({ node }) => (
 						<ProductCard
 							key={node.handle}
 							product={node}

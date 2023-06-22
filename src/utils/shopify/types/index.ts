@@ -3,6 +3,13 @@ import { SHOPIFY_ERRORS_CODES_MAP } from '../errors';
 export type TSHOPIFY_ERRORS_CODES = keyof typeof SHOPIFY_ERRORS_CODES_MAP;
 
 export type Edges<Node> = { edges: { node: Node }[] };
+export type EdgesWithPagination<Node> = {
+	edges: { cursor: string; node: Node }[];
+	pageInfo: {
+		hasNextPage: boolean;
+		hasPreviousPage: boolean;
+	};
+};
 
 export type ShopifyError = {
 	// https://shopify.dev/docs/api/storefront/2023-04/enums/CustomerErrorCode
@@ -148,4 +155,71 @@ export type BasicCollection = {
 	title: string;
 	updatedAt: string;
 	products: Edges<BasicProduct>;
+};
+
+export type BasicArticle = {
+	handle: string;
+	id: string;
+	onlineStoreUrl: string;
+	excerpt: string;
+	excerptHtml: string;
+	title: string;
+	publishedAt: string;
+	tags: string[];
+	image: {
+		id: string;
+		src: string;
+		url: string;
+		altText: null;
+		width: number;
+		height: number;
+	};
+	authorV2: {
+		bio: string;
+		email: string;
+		firstName: string;
+		lastName: string;
+		name: string;
+	};
+	blog: {
+		id: string;
+		handle: string;
+		title: string;
+	};
+};
+export type Article = {
+	handle: string;
+	id: string;
+	onlineStoreUrl: string;
+	content: string;
+	contentHtml: string;
+	excerpt: string;
+	excerptHtml: string;
+	title: string;
+	publishedAt: string;
+	tags: string[];
+	image: {
+		id: string;
+		src: string;
+		url: string;
+		altText: null;
+		width: number;
+		height: number;
+	};
+	seo: {
+		title: string | null;
+		description: string | null;
+	};
+	authorV2: {
+		bio: string;
+		email: string;
+		firstName: string;
+		lastName: string;
+		name: string;
+	};
+	blog: {
+		id: string;
+		handle: string;
+		title: string;
+	};
 };

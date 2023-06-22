@@ -25,7 +25,7 @@
 3/25
 
 - [-] Integrate the `/blog` page with Shopify.
-  - [-] Integrate the pagination functionality with Shopify.
+  - [-] Integrate the pagination functionality with Shopify _(backend endpoints is being tested)_.
 - [-] Integrate the `/blog/[handle]` page with Shopify.
 
 ### Done

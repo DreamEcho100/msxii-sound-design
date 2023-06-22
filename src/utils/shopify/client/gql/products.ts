@@ -2,11 +2,8 @@ import { gql } from 'graphql-request';
 import { z } from 'zod';
 import { Edges, type Product } from '../../types';
 import { graphQLClient } from '../utils';
+import { gqlPriceText, gqlImageText } from './utils';
 // import type { Customer, ShopifyError } from '../../../types';
-
-const gqlImageText = `{ id src url altText width height }`;
-
-const gqlPriceText = `{ amount currencyCode }`;
 
 export const gqlProductSchemaText = `id
 title
@@ -21,17 +18,17 @@ handle
 createdAt
 updatedAt
 priceRange {
-	maxVariantPrice ${gqlPriceText}
-	minVariantPrice ${gqlPriceText}
+	maxVariantPrice { ${gqlPriceText} }
+	minVariantPrice { ${gqlPriceText} }
 }
 compareAtPriceRange {
-	maxVariantPrice ${gqlPriceText}
-	minVariantPrice ${gqlPriceText}
+	maxVariantPrice { ${gqlPriceText} }
+	minVariantPrice { ${gqlPriceText} }
 }
-featuredImage ${gqlImageText}
+featuredImage { ${gqlImageText} }
 images(first: 100) {
 	edges {
-		node ${gqlImageText}
+		node { ${gqlImageText} }
 	}
 }
 variants(first: 100) {
@@ -39,9 +36,9 @@ variants(first: 100) {
 		node {
 			id
 			title
-			image ${gqlImageText}
-			price ${gqlPriceText}
-			compareAtPrice ${gqlPriceText}
+			image { ${gqlImageText} }
+			price { ${gqlPriceText} }
+			compareAtPrice { ${gqlPriceText} }
 		}
 	}
 }`;
@@ -55,22 +52,22 @@ handle
 createdAt
 updatedAt
 priceRange {
-	maxVariantPrice ${gqlPriceText}
-	minVariantPrice ${gqlPriceText}
+	maxVariantPrice { ${gqlPriceText} }
+	minVariantPrice { ${gqlPriceText} }
 }
 compareAtPriceRange {
-	maxVariantPrice ${gqlPriceText}
-	minVariantPrice ${gqlPriceText}
+	maxVariantPrice { ${gqlPriceText} }
+	minVariantPrice { ${gqlPriceText} }
 }
-featuredImage ${gqlImageText}
+featuredImage { ${gqlImageText} }
 variants(first: 100) {
 	edges {
 		node {
 			id
 			title
-			image ${gqlImageText}
-			price ${gqlPriceText}
-			compareAtPrice ${gqlPriceText}
+			image { ${gqlImageText} }
+			price { ${gqlPriceText} }
+			compareAtPrice { ${gqlPriceText} }
 		}
 	}
 }`;

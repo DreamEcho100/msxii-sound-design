@@ -1,7 +1,6 @@
 import { gql } from 'graphql-request';
 import { type Article, EdgesWithPagination } from '../../../types';
 import { graphQLClient } from '../../utils';
-import { gqlProductBasicSchemaText, gqlProductSchemaText } from '../products';
 import { z } from 'zod';
 import { buildGQLArgsString, gqlImageText, gqlSEOText } from '../utils';
 
@@ -120,11 +119,30 @@ const getManyBasicArticlesGQLQuery = async (
 		articles: EdgesWithPagination<Article>;
 	};
 };
+const geAllArticlesHandlesGQLQuery = async () => {
+	// https://shopify.dev/docs/api/storefront/2023-04/objects/Article
+	const template = gql`
+		query {
+			articles(first: 250) {
+				edges {
+					node {
+						handle
+					}
+				}
+			}
+		}
+	`;
+
+	return (await graphQLClient.request(template)) as {
+		articles: EdgesWithPagination<Pick<Article, 'handle'>>;
+	};
+};
 
 const articles = {
 	queries: {
 		many: getManyArticlesGQLQuery,
-		manyBasic: getManyBasicArticlesGQLQuery
+		manyBasic: getManyBasicArticlesGQLQuery,
+		allHandles: geAllArticlesHandlesGQLQuery
 	}
 };
 

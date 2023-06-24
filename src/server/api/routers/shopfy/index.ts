@@ -8,5 +8,5 @@ export const shopifyRouter = createTRPCRouter({
 	auth: shopifyAuthRouter,
 	collections: shopifyCollectionsRouter,
 	products: shopifyProductsRouter,
-	blogs: shopifyBlogsRouter
+	blog: shopifyBlogsRouter
 });

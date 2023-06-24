@@ -14,45 +14,49 @@ import Clickable from '~/components/shared/core/Clickable';
 import CustomNextImage from '~/components/shared/CustomNextImage';
 
 const BlogPage = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
-	const [currentPageIndex, setCurrentPageIndex] = useState(
-		props.blogGetManyInput.cursor ?? 0
+	const [currentPageIndex, setCurrentPageIndex] = useState(0);
+	const articlesQuery = api.shopify.blog.articles.getManyBasic.useInfiniteQuery(
+		props.blogGetManyInput,
+		{
+			getNextPageParam: (lastPage) => lastPage.nextCursor,
+			keepPreviousData: true
+		}
 	);
-	const blogQuery = api.blog.getMany.useInfiniteQuery(props.blogGetManyInput, {
-		getNextPageParam: (lastPage) => lastPage.nextCursor
-	});
-	const blogAllSizeQuery = api.blog.getAllSize.useQuery();
 
-	if (blogQuery.isLoading) return <>Loading...</>;
+	if (articlesQuery.isLoading) return <>Loading...</>;
 
-	if (blogQuery.isError) return <>Error</>;
+	if (articlesQuery.isError) return <>Error</>;
 
-	const pages = blogQuery.data.pages;
+	const pages = articlesQuery.data.pages;
+	const pagesLength = pages.length;
+	const isOnLastPage = currentPageIndex === pagesLength - 1;
 
-	const currentPageItems = pages[currentPageIndex]!;
-	const pagesSize = blogAllSizeQuery.data!;
+	if (!pages[currentPageIndex]) return <>No articles found</>;
 
+	const currentPageItems = pages[currentPageIndex]!.items;
+
+	// currentPageIndex === pagesSize - 1 &&
 	const disableNextPageButton =
-		blogQuery.isFetching ||
-		(currentPageIndex === pagesSize - 1 && !blogQuery.hasNextPage);
+		articlesQuery.isFetching || (isOnLastPage && !articlesQuery.hasNextPage); //  || !articlesQuery.hasNextPage;
 	const disablePreviousPageButton =
-		blogQuery.isFetching || currentPageIndex === 0;
+		articlesQuery.isFetching || currentPageIndex === 0;
 
-	const canGoTohNextPage = async () => {
-		if (disableNextPageButton) return false;
-		if (pages.length !== pagesSize)
-			if (blogQuery.hasNextPage) {
-				await blogQuery.fetchNextPage();
-				return true;
-			} else return false;
+	const goToNextPage = async () => {
+		if (isOnLastPage) {
+			if (!articlesQuery.hasNextPage) return;
 
-		return true;
+			await articlesQuery.fetchNextPage();
+		}
+
+		setCurrentPageIndex((prev) => prev + 1);
 	};
-	const canGoTohPreviousPage = () => {
-		if (disablePreviousPageButton) return false;
-		return currentPageIndex !== 0;
+	const goToPreviousPage = async () => {
+		if (currentPageIndex === 0) return;
+
+		setCurrentPageIndex((prev) => prev - 1);
 	};
 
-	// return <blogScreen blog={blogQuery.data || []} />;
+	// return <blogScreen blog={articlesQuery.data || []} />;
 	return (
 		<div className="px-main-p-3 sm:px-main-p-1 py-main-p-1 flex flex-col gap-12">
 			<header>
@@ -68,29 +72,31 @@ const BlogPage = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
 						gridTemplateColumns: 'repeat(auto-fill, minmax(15rem, 1fr))'
 					}}
 				>
-					{currentPageItems.items.map((item) => (
+					{currentPageItems.map(({ node }) => (
 						<article
-							key={item.id}
+							key={node.id}
 							className="text-center w-56 flex flex-col gap-4"
 						>
-							<div className="rounded-lg aspect-square overflow-hidden">
+							<Clickable
+								variants={{ btn: null, px: null, py: null }}
+								// className="mx-auto capitalize"
+								isA="next-js"
+								href={`/blog/${node.handle}`}
+								className="rounded-lg aspect-square overflow-hidden"
+							>
 								<CustomNextImage
-									src={item.image.src}
-									width={300}
-									height={300}
+									src={node.image.url}
+									alt={node.image.altText || ''}
+									width={node.image.width || 300}
+									height={node.image.height || 300}
 									className="object-cover w-full h-full duration-300 ease-in hover:scale-110"
 									priority
 								/>
-							</div>
-							<h3 className="text-[1rem] leading-snug font-light flex-grow">
-								<small>{item.title}</small>
-							</h3>
-							<Clickable
-								variants={{ py: 'extra-sm', px: '3xl' }}
-								className="mx-auto capitalize"
-							>
-								read more
 							</Clickable>
+							<h3 className="text-[1rem] leading-snug font-light flex-grow">
+								<small>{node.title}</small>
+							</h3>
+							<p>read more</p>
 						</article>
 					))}
 				</div>
@@ -100,10 +106,7 @@ const BlogPage = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
 							variants={null}
 							className="flex items-center disabled:text-text-primary-200 disabled:cursor-not-allowed"
 							disabled={disablePreviousPageButton}
-							onClick={() => {
-								if (canGoTohPreviousPage())
-									setCurrentPageIndex((prev) => prev - 1);
-							}}
+							onClick={goToPreviousPage}
 						>
 							{!disablePreviousPageButton && (
 								<>
@@ -111,19 +114,15 @@ const BlogPage = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
 									&nbsp;
 								</>
 							)}
-							Newer
+							Older
 						</Clickable>
 						<Clickable
 							variants={null}
 							className="flex items-center disabled:text-text-primary-200 disabled:cursor-not-allowed"
 							disabled={disableNextPageButton}
-							onClick={async () => {
-								if (await canGoTohNextPage()) {
-									setCurrentPageIndex((prev) => prev + 1);
-								}
-							}}
+							onClick={goToNextPage}
 						>
-							Older
+							Newer
 							{!disableNextPageButton && (
 								<>
 									&nbsp;
@@ -146,16 +145,16 @@ export async function getStaticProps() {
 		transformer: superjson // optional - adds superjson serialization
 	});
 	/*
-	 * Prefetching the `blog.getMany` query here.
+	 * Prefetching the `blog.articles.getManyBasic` query here.
 	 * `prefetchQuery` does not return the result - if you need that, use `fetchQuery` instead.
 	 */
-	const blogGetManyInput: inferRouterInputs<AppRouter>['blog']['getMany'] = {
-		cursor: 0
-	};
-	await Promise.all([
-		ssg.blog.getMany.prefetchInfinite(blogGetManyInput),
-		ssg.blog.getAllSize.prefetch()
-	]);
+	const blogGetManyInput: inferRouterInputs<AppRouter>['shopify']['blog']['articles']['getManyBasic'] =
+		{
+			limit: 24
+		};
+	await ssg.shopify.blog.articles.getManyBasic.prefetchInfinite(
+		blogGetManyInput
+	);
 
 	// Make sure to return { props: { trpcState: ssg.dehydrate() } }
 	return {

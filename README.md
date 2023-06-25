@@ -6,7 +6,7 @@
 
 ### TODO
 
-7/25
+3/25
 
 - [] Fetch the products.
 
@@ -14,23 +14,20 @@
   - [] Fetch the IOS Apps and the latest two blogs from Shopify.
 
 - [] Integrate the `/merch/[handle]` page with Shopify.
+
+### In Progress
+
+4/25
+
 - Integrate the cart functionality:
   - [] Create.
   - [] Update.
   - [] Delete.
   - [] Get all the data even if the user reloaded the page again
 
-### In Progress
-
-3/25
-
-- [-] Integrate the `/blog` page with Shopify.
-  - [-] Integrate the pagination functionality with Shopify _(backend endpoints is being tested)_.
-- [-] Integrate the `/blog/[handle]` page with Shopify.
-
 ### Done
 
-13/25
+16/25
 
 - [x] Fetch a specific collection.
 - [x] Fetch a specific product.
@@ -51,6 +48,10 @@
 - [x] Integrate the `/merch` page with Shopify.
 
 - [x] Integrate the `/blue-label` page with Shopify.
+
+- [x] Integrate the `/blog` page with Shopify.
+  - [x] Integrate the pagination functionality with Shopify _(backend endpoints is being tested)_.
+- [x] Integrate the `/blog/[handle]` page with Shopify.
 
 ### Can't be done
 

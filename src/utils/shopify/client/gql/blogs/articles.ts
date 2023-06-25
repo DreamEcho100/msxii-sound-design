@@ -1,5 +1,9 @@
 import { gql } from 'graphql-request';
-import { type Article, EdgesWithPagination } from '../../../types';
+import {
+	type Article,
+	type EdgesWithPagination,
+	type Edges
+} from '../../../types';
 import { graphQLClient } from '../../utils';
 import { z } from 'zod';
 import { buildGQLArgsString, gqlImageText, gqlSEOText } from '../utils';
@@ -119,14 +123,14 @@ const getManyBasicArticlesGQLQuery = async (
 		articles: EdgesWithPagination<Article>;
 	};
 };
-const geAllArticlesHandlesGQLQuery = async () => {
+const geAllArticlesIdsGQLQuery = async () => {
 	// https://shopify.dev/docs/api/storefront/2023-04/objects/Article
 	const template = gql`
 		query {
 			articles(first: 250) {
 				edges {
 					node {
-						handle
+						id
 					}
 				}
 			}
@@ -134,7 +138,25 @@ const geAllArticlesHandlesGQLQuery = async () => {
 	`;
 
 	return (await graphQLClient.request(template)) as {
-		articles: EdgesWithPagination<Pick<Article, 'handle'>>;
+		articles: Edges<Pick<Article, 'id'>>;
+	};
+};
+
+export const getOneArticleByIdGQLQueryInputSchema = z.string().min(1);
+const getOneArticleByIdGQLQuery = async (
+	input: z.infer<typeof getOneArticleByIdGQLQueryInputSchema>
+) => {
+	// https://shopify.dev/docs/api/storefront/2023-04/objects/Article
+	const template = gql`
+		query {
+			article(id: "${input}") {
+				${gqlArticleSchemaText}
+			}
+		}
+	`;
+
+	return (await graphQLClient.request(template)) as {
+		article: Article;
 	};
 };
 
@@ -142,7 +164,8 @@ const articles = {
 	queries: {
 		many: getManyArticlesGQLQuery,
 		manyBasic: getManyBasicArticlesGQLQuery,
-		allHandles: geAllArticlesHandlesGQLQuery
+		allIds: geAllArticlesIdsGQLQuery,
+		oneArticleById: getOneArticleByIdGQLQuery
 	}
 };
 

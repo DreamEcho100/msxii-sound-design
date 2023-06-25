@@ -81,7 +81,7 @@ const BlogPage = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
 								variants={{ btn: null, px: null, py: null }}
 								// className="mx-auto capitalize"
 								isA="next-js"
-								href={`/blog/${node.handle}`}
+								href={`/blog/${node.id.replace('gid://shopify/Article/', '')}`}
 								className="rounded-lg aspect-square overflow-hidden"
 							>
 								<CustomNextImage

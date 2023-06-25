@@ -203,6 +203,11 @@ h6 {
 	color-scheme: light;
 }
 
+img,
+iframe {
+	max-width: 100%;
+}
+
 @layer utilities {
 	.no-content {
 		content: '';
@@ -282,5 +287,22 @@ h6 {
 		list-style: initial;
 		list-style-position: inside;
 	}
+
+	/*  */
+
+	.blog-article {
+		width: fit-content;
+		margin: 0 auto;
+	}
+	.blog-article iframe,
+	.blog-article img {
+		margin: 1rem auto 0 auto;
+		/* width: 100%;
+		object-fit: cover; */
+	}
+	.blog-article p {
+		width: fit-content;
+	}
+
 	/*  */
 }

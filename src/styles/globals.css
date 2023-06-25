@@ -293,6 +293,7 @@ iframe {
 	.blog-article {
 		width: fit-content;
 		margin: 0 auto;
+		font-size: 80%;
 	}
 	.blog-article iframe,
 	.blog-article img {

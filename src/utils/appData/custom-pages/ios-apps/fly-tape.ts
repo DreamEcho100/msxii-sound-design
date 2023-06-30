@@ -148,8 +148,9 @@ Fly Tape's Midi CC values are listed below:
 				title: 'User Manual',
 				data: {
 					stylesVariants: { 'gap-x': '8', 'gap-y': '8' },
-					___type: BOXES_TYPES_map['two-columns'],
-					columns: [
+					___type: BOXES_TYPES_map['grid'],
+					gridTemplateColumns: `repeat(auto-fit, minmax(20rem, 1fr))`,
+					items: [
 						{
 							customPageClassesKeys: ['center-on-ls-md-screens'],
 							stylesVariants: { 'gap-y': '2', px: '4' },
@@ -168,7 +169,7 @@ You can check out the reference guide below
 								'center-on-ls-md-screens',
 								'object-contain'
 							],
-							stylesVariants: { w: '96' },
+							// stylesVariants: { w: '96' },
 							___type: BOXES_TYPES_map['image-only'],
 							src: 'https://cdn.shopify.com/s/files/1/0345/7209/t/28/assets/pf-f7f4b998--FlyTapeManualImage.png?v=1589395846'
 						}

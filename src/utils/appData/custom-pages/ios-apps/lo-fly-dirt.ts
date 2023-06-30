@@ -94,8 +94,9 @@ Also built off the things we love about the classic 8 bit sound, but with a twis
 				title: 'User Manual',
 				data: {
 					stylesVariants: { 'gap-x': '8', 'gap-y': '8' },
-					___type: BOXES_TYPES_map['two-columns'],
-					columns: [
+					___type: BOXES_TYPES_map['grid'],
+					gridTemplateColumns: `repeat(auto-fit, minmax(20rem, 1fr))`,
+					items: [
 						{
 							customPageClassesKeys: ['center-on-ls-md-screens'],
 							stylesVariants: { 'gap-y': '2', px: '4' },
@@ -115,7 +116,7 @@ You can check out the reference guide below:
 								'center-on-ls-md-screens',
 								'object-contain'
 							],
-							stylesVariants: { w: '96' },
+							// stylesVariants: { w: '96' },
 							___type: BOXES_TYPES_map['image-only'],
 							src: '/images/ios-apps/Lo-fly@2x (1).jpg'
 						}
@@ -147,7 +148,7 @@ You can check out the reference guide below:
 	const gridBox2: GridBox = {
 		___type: BOXES_TYPES_map['grid'],
 		stylesVariants: { 'gap-x': '10', 'gap-y': '8' },
-		_gridTemplateColumns: { min1: '15rem', min2: '1fr' },
+		gridTemplateColumns: `repeat(auto-fill, minmax(15rem, 1fr))`,
 		items: [
 			{
 				// 06/06/2020

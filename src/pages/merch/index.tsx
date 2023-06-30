@@ -45,7 +45,7 @@ const MerchesPage: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = (
 				<div
 					className="grid gap-8 justify-items-center"
 					style={{
-						_gridTemplateColumns: 'repeat(auto-fill, minmax(15rem, 1fr))'
+						gridTemplateColumns: 'repeat(auto-fill, minmax(15rem, 1fr))'
 					}}
 				>
 					{collectionData.products.edges.map(({ node }) => (

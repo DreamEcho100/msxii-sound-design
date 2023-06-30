@@ -72,8 +72,9 @@ Sample data can be edited and one or more effects added and adjusted in quick an
 				title: 'User Manual',
 				data: {
 					stylesVariants: { 'gap-x': '8', 'gap-y': '8' },
-					___type: BOXES_TYPES_map['two-columns'],
-					columns: [
+					___type: BOXES_TYPES_map['grid'],
+					gridTemplateColumns: `repeat(auto-fit, minmax(20rem, 1fr))`,
+					items: [
 						{
 							customPageClassesKeys: ['center-on-ls-md-screens'],
 							stylesVariants: { 'gap-y': '2', px: '4' },
@@ -96,7 +97,7 @@ You can check out the reference guide/manual below. Download and save to your iP
 								'center-on-ls-md-screens',
 								'object-contain'
 							],
-							stylesVariants: { w: '96' },
+							// stylesVariants: { w: '96' },
 							___type: BOXES_TYPES_map['image-only'],
 							src: 'https://cdn.shopify.com/s/files/1/0345/7209/t/28/assets/pf-edf62089--Screen-Shot-20210621-at-123253-PM.png?v=1624482138'
 						}
@@ -133,7 +134,7 @@ You can check out the reference guide/manual below. Download and save to your iP
 	const gridBox2: GridBox = {
 		___type: BOXES_TYPES_map['grid'],
 		stylesVariants: { 'gap-x': '10', 'gap-y': '8' },
-		_gridTemplateColumns: { min1: '15rem', min2: '1fr' },
+		gridTemplateColumns: `repeat(auto-fill, minmax(15rem, 1fr))`,
 		items: [
 			{
 				// 01/21/2021

@@ -323,11 +323,7 @@ const SectionBodyBox = ({
 			<div
 				className={customPageClassName}
 				style={{
-					gridTemplateColumns: box._gridTemplateColumns
-						? `repeat(auto-fill, minmax(${box._gridTemplateColumns.min1}, ${
-								box._gridTemplateColumns.min2 || '1fr'
-						  }))`
-						: box.gridTemplateColumns
+					gridTemplateColumns: box.gridTemplateColumns
 				}}
 			>
 				{box.items.map((item, index) => (

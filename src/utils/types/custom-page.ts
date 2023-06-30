@@ -96,10 +96,10 @@ export type GridBox = {
 	stylesVariants?: BoxVariants;
 	customPageClassesKeys?: string[];
 	// rows: Exclude<Box, RowsOnlyBox>[];
-	_gridTemplateColumns?: {
-		min1: string;
-		min2?: string;
-	};
+	// _gridTemplateColumns?: {
+	// 	min1: string;
+	// 	min2?: string;
+	// };
 	gridTemplateColumns?: string;
 	items: (ImageOnly | MDBox | IframeBox | QuoteBox)[];
 };

@@ -7,20 +7,22 @@ import {
 	TabsBox,
 	SliderBox,
 	RowsOnlyBox,
-	CustomPage
+	CustomPage,
+	GridBox
 } from '~/utils/types/custom-page';
 import { createStandardSection } from '../utils';
 
 export const FlyTapeIOSApp: StandardSection[] = (() => {
 	const appLink = 'https://apps.apple.com/us/app/fly-tape/id1343651192';
 
-	const twoColumnsBox: TwoColumnsBox = {
+	const gridBox: GridBox = {
 		stylesVariants: { 'gap-x': '8' },
-		___type: BOXES_TYPES_map['two-columns'],
-		columns: [
+		___type: BOXES_TYPES_map['grid'],
+		gridTemplateColumns: `repeat(auto-fit, minmax(20rem, 1fr))`,
+		items: [
 			{
 				customPageClassesKeys: ['center-on-ls-md-screens', 'objects-contain'],
-				stylesVariants: { w: '96', h: '96', 'aspect-ratio': 'square' },
+				stylesVariants: { 'aspect-ratio': 'square' }, // w: '96', h: '96',
 				___type: BOXES_TYPES_map['image-only'],
 				src: 'https://cdn.shopify.com/s/files/1/0345/7209/t/28/assets/pf-f357e20c--Flytapeappdisplay.png?v=1589053729'
 			},
@@ -239,7 +241,7 @@ You can check out the reference guide below
 	};
 
 	return [
-		createStandardSection({ body: [twoColumnsBox] }),
+		createStandardSection({ body: [gridBox] }),
 		createStandardSection({ body: [tabsBox] }),
 		createStandardSection({ body: [iframeBox] }),
 		createStandardSection({

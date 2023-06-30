@@ -2,7 +2,6 @@
 
 import {
 	StandardSection,
-	TwoColumnsBox,
 	BOXES_TYPES_map,
 	IframeBox,
 	SUB_BOXES_TYPES_map,
@@ -18,13 +17,14 @@ const LoflyDirtIOSApp: StandardSection[] = (() => {
 	const appLink =
 		'https://apps.apple.com/us/app/lo-fly-dirt/id1292776927?ign-mpt=uo%3D4';
 
-	const twoColumnsBox: TwoColumnsBox = {
+	const gridBox: GridBox = {
 		stylesVariants: { 'gap-x': '8' },
-		___type: BOXES_TYPES_map['two-columns'],
-		columns: [
+		___type: BOXES_TYPES_map['grid'],
+		gridTemplateColumns: `repeat(auto-fit, minmax(20rem, 1fr))`,
+		items: [
 			{
 				customPageClassesKeys: ['center-on-ls-md-screens', 'objects-contain'],
-				stylesVariants: { w: '96', h: '96', 'aspect-ratio': 'square' },
+				stylesVariants: { 'aspect-ratio': 'square' }, // w: '96', h: '96',
 				___type: BOXES_TYPES_map['image-only'],
 				src: 'https://cdn.shopify.com/s/files/1/0345/7209/t/28/assets/pf-50b7d524--Screen-Shot-20200327-at-12507-AM.png?v=1585290536'
 			},
@@ -144,10 +144,10 @@ You can check out the reference guide below:
 			}
 		]
 	};
-	const gridBox: GridBox = {
+	const gridBox2: GridBox = {
 		___type: BOXES_TYPES_map['grid'],
 		stylesVariants: { 'gap-x': '10', 'gap-y': '8' },
-		gridTemplateColumns: { min1: '15rem', min2: '1fr' },
+		_gridTemplateColumns: { min1: '15rem', min2: '1fr' },
 		items: [
 			{
 				// 06/06/2020
@@ -210,7 +210,7 @@ I love how this app makes my samples sound. Plus its so much easier to treat a t
 	};
 
 	return [
-		createStandardSection({ body: [twoColumnsBox] }),
+		createStandardSection({ body: [gridBox] }),
 		createStandardSection({ body: [tabsBox] }),
 		createStandardSection({ body: [iframeBox] }),
 		createStandardSection({
@@ -219,7 +219,7 @@ I love how this app makes my samples sound. Plus its so much easier to treat a t
 			stylesVariants: { 'gap-y': '4' }
 		}),
 		createStandardSection({
-			body: [gridBox],
+			body: [gridBox2],
 			// title: 'LO-FLY Dirt Around The Web',
 			stylesVariants: { 'gap-y': '8' }
 			// customPageClassesKeys: ['section-container-v1']

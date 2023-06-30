@@ -2,65 +2,320 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-    provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["jsonProtocol"]
 }
 
 datasource db {
-    provider = "sqlite"
-    // NOTE: When using postgresql, mysql or sqlserver, uncomment the @db.Text annotations in model Account below
-    // Further reading:
-    // https://next-auth.js.org/adapters/prisma#create-the-prisma-schema
-    // https://www.prisma.io/docs/reference/api-reference/prisma-schema-reference#string
-    url      = env("DATABASE_URL")
+  provider = "postgresql"
+  // NOTE: When using postgresql, mysql or sqlserver, uncomment the @db.Text annotations in model Account below
+  // Further reading:
+  // https://next-auth.js.org/adapters/prisma#create-the-prisma-schema
+  // https://www.prisma.io/docs/reference/api-reference/prisma-schema-reference#string
+  url      = env("DATABASE_URL")
 }
 
 model Example {
-    id        String   @id @default(cuid())
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 // Necessary for Next auth
 model Account {
-    id                String  @id @default(cuid())
-    userId            String
-    type              String
-    provider          String
-    providerAccountId String
-    refresh_token     String? // @db.Text
-    access_token      String? // @db.Text
-    expires_at        Int?
-    token_type        String?
-    scope             String?
-    id_token          String? // @db.Text
-    session_state     String?
-    user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? // @db.Text
+  access_token      String? // @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? // @db.Text
+  session_state     String?
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-    @@unique([provider, providerAccountId])
+  @@unique([provider, providerAccountId])
 }
 
 model Session {
-    id           String   @id @default(cuid())
-    sessionToken String   @unique
-    userId       String
-    expires      DateTime
-    user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model User {
-    id            String    @id @default(cuid())
-    name          String?
-    email         String?   @unique
-    emailVerified DateTime?
-    image         String?
-    accounts      Account[]
-    sessions      Session[]
+  id            String    @id @default(cuid())
+  name          String?
+  email         String?   @unique
+  emailVerified DateTime?
+  image         String?
+  accounts      Account[]
+  sessions      Session[]
 }
 
 model VerificationToken {
-    identifier String
-    token      String   @unique
-    expires    DateTime
+  identifier String
+  token      String   @unique
+  expires    DateTime
 
-    @@unique([identifier, token])
+  @@unique([identifier, token])
 }
+
+// //
+
+// model ClassName {
+//   id        String    @id @default(cuid())
+//   createdAt DateTime  @default(now())
+//   updatedAt DateTime? @updatedAt
+
+//   twVariants Json     @default("{}")
+//   custom     String[]
+
+//   boxes                  Box[]
+//   sections               Section[]
+//   pages                  Page[]
+//   mdsBoxes               MDBox[]
+//   imagesBoxes            ImageBox[]
+//   IframesBoxes           IframeBox[]
+//   quotesBoxes            QuoteBox[]
+//   HeadersBoxes           HeaderBox[]
+//   tabsContainersBoxes    TabsContainerBox[]
+//   slidersContainersBoxes SlidersContainerBox[]
+// }
+
+// model MDBox {
+//   id        String    @id @default(cuid())
+//   createdAt DateTime  @default(now())
+//   updatedAt DateTime? @updatedAt
+
+//   className   ClassName @relation(fields: [classNameId], references: [id])
+//   classNameId String
+
+//   box     Box      @relation(fields: [boxId, boxType], references: [id, type])
+//   boxId   String
+//   boxType BoxTypes @default(MD)
+
+//   content String
+
+//   @@unique([boxId, boxType])
+// }
+
+// model ImageBox {
+//   id        String    @id @default(cuid())
+//   createdAt DateTime  @default(now())
+//   updatedAt DateTime? @updatedAt
+
+//   className   ClassName @relation(fields: [classNameId], references: [id])
+//   classNameId String
+
+//   box     Box      @relation(fields: [boxId, boxType], references: [id, type])
+//   boxId   String
+//   boxType BoxTypes @default(IMAGE)
+
+//   src String
+
+//   @@unique([boxId, boxType])
+// }
+
+// enum IframeBoxTypes {
+//   YOUTUBE
+//   INSTAGRAM
+//   SOUNDCLOUD
+// }
+
+// model IframeBox {
+//   id        String    @id @default(cuid())
+//   createdAt DateTime  @default(now())
+//   updatedAt DateTime? @updatedAt
+
+//   className   ClassName @relation(fields: [classNameId], references: [id])
+//   classNameId String
+
+//   box     Box      @relation(fields: [boxId, boxType], references: [id, type])
+//   boxId   String
+//   boxType BoxTypes @default(IFRAME)
+
+//   type IframeBoxTypes
+//   src  String
+
+//   @@unique([boxId, boxType])
+// }
+
+// model QuoteBox {
+//   id        String    @id @default(cuid())
+//   createdAt DateTime  @default(now())
+//   updatedAt DateTime? @updatedAt
+
+//   className   ClassName @relation(fields: [classNameId], references: [id])
+//   classNameId String
+
+//   box     Box      @relation(fields: [boxId, boxType], references: [id, type])
+//   boxId   String
+//   boxType BoxTypes @default(QUOTE)
+
+//   cite    String
+//   content String
+
+//   @@unique([boxId, boxType])
+// }
+
+// model HeaderBox {
+//   id        String    @id @default(cuid())
+//   createdAt DateTime  @default(now())
+//   updatedAt DateTime? @updatedAt
+
+//   className   ClassName @relation(fields: [classNameId], references: [id])
+//   classNameId String
+
+//   box     Box      @relation(fields: [boxId, boxType], references: [id, type])
+//   boxId   String
+//   boxType BoxTypes @default(HEADER)
+
+//   title       String
+//   description String?
+
+//   @@unique([boxId, boxType])
+// }
+
+// model TabsContainerBox {
+//   id        String    @id @default(cuid())
+//   createdAt DateTime  @default(now())
+//   updatedAt DateTime? @updatedAt
+
+//   className   ClassName @relation(fields: [classNameId], references: [id])
+//   classNameId String
+
+//   box     Box      @relation(fields: [boxId, boxType], references: [id, type])
+//   boxId   String
+//   boxType BoxTypes @default(TABS_CONTAINER)
+
+//   tabItems TabItemOnTabsContainerBox[]
+
+//   @@unique([boxId, boxType])
+// }
+
+// model TabItemOnTabsContainerBox {
+//   id        String    @unique @default(cuid())
+//   createdAt DateTime  @default(now())
+//   updatedAt DateTime? @updatedAt
+
+//   TabsContainerBox   TabsContainerBox @relation(fields: [tabsContainerBoxId], references: [id])
+//   tabsContainerBoxId String
+
+//   tabItem   Box    @relation(fields: [tabItemId], references: [id])
+//   tabItemId String
+
+//   title String
+
+//   @@id([tabsContainerBoxId, tabItemId])
+// }
+
+// enum SlidersContainerSlidePerViewType {
+//   DEFAULT
+//   ONE_SLIDE
+//   LARGE_SLIDES
+// }
+
+// model SlidersContainerBox {
+//   id        String    @id @default(cuid())
+//   createdAt DateTime  @default(now())
+//   updatedAt DateTime? @updatedAt
+
+//   className   ClassName @relation(fields: [classNameId], references: [id])
+//   classNameId String
+
+//   box     Box      @relation(fields: [boxId, boxType], references: [id, type])
+//   boxId   String
+//   boxType BoxTypes @default(TABS_CONTAINER)
+
+//   slidesPerViewType SlidersContainerSlidePerViewType @default(DEFAULT)
+
+//   slides SliderItemOnSlidersContainerBox[]
+
+//   @@unique([boxId, boxType])
+// }
+
+// model SliderItemOnSlidersContainerBox {
+//   id        String    @unique @default(cuid())
+//   createdAt DateTime  @default(now())
+//   updatedAt DateTime? @updatedAt
+
+//   SlidersContainerBox   SlidersContainerBox @relation(fields: [slidersContainerBoxId], references: [id])
+//   slidersContainerBoxId String
+
+//   slide   Box    @relation(fields: [slideId], references: [id])
+//   slideId String
+
+//   title String
+
+//   @@id([slidersContainerBoxId, slideId])
+// }
+
+// enum BoxTypes {
+//   MD
+//   IMAGE
+//   IFRAME
+//   QUOTE
+//   HEADER
+//   TABS_CONTAINER
+//   TAB
+// }
+
+// model Box {
+//   id        String   @unique @default(cuid())
+//   type      BoxTypes
+//   createdAt DateTime @default(now())
+
+//   className   ClassName @relation(fields: [classNameId], references: [id])
+//   classNameId String
+
+//   section   Section @relation(fields: [sectionId], references: [id])
+//   sectionId String
+
+//   mdBox               MDBox?
+//   imageBox            ImageBox?
+//   IframeBox           IframeBox?
+//   quoteBox            QuoteBox?
+//   headerBox           HeaderBox?
+//   tabsContainerBox    TabsContainerBox?
+//   slidersContainerBox SlidersContainerBox?
+
+//   tabsContainerBoxParents    TabItemOnTabsContainerBox[]
+//   slidersContainerBoxParents SliderItemOnSlidersContainerBox[]
+
+//   @@id([id, type])
+// }
+
+// model Section {
+//   id        String   @id @default(cuid())
+//   createdAt DateTime @default(now())
+
+//   className   ClassName @relation(fields: [classNameId], references: [id])
+//   classNameId String
+
+//   body Box[]
+
+//   // ___type       String?
+
+//   page   Page   @relation(fields: [pageId], references: [id])
+//   pageId String
+// }
+
+// model Page {
+//   id        String    @id @default(cuid())
+//   createdAt DateTime  @default(now())
+//   updatedAt DateTime? @updatedAt
+
+//   className   ClassName @relation(fields: [classNameId], references: [id])
+//   classNameId String
+
+//   slug    String
+//   mainTag String
+
+//   sections Section[]
+// }

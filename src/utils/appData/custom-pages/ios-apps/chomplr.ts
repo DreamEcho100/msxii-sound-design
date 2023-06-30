@@ -1,6 +1,5 @@
 import {
 	StandardSection,
-	TwoColumnsBox,
 	BOXES_TYPES_map,
 	IframeBox,
 	SUB_BOXES_TYPES_map,
@@ -15,13 +14,14 @@ import { createStandardSection } from '../utils';
 export const ChomplrOSApp: StandardSection[] = (() => {
 	const appLink = 'https://apps.apple.com/us/app/chomplr/id1470553213';
 
-	const twoColumnsBox: TwoColumnsBox = {
+	const gridBox: GridBox = {
 		stylesVariants: { 'gap-x': '8' },
-		___type: BOXES_TYPES_map['two-columns'],
-		columns: [
+		___type: BOXES_TYPES_map['grid'],
+		gridTemplateColumns: `repeat(auto-fit, minmax(20rem, 1fr))`,
+		items: [
 			{
 				customPageClassesKeys: ['center-on-ls-md-screens', 'objects-contain'],
-				stylesVariants: { w: '96', h: '96', 'aspect-ratio': 'square' },
+				stylesVariants: { 'aspect-ratio': 'square' }, // w: '96', h: '96',
 				___type: BOXES_TYPES_map['image-only'],
 				src: 'https://cdn.shopify.com/s/files/1/0345/7209/t/28/assets/pf-8930ec95--Chomplrappdisplay-Edited.jpg?v=1617338387'
 			},
@@ -130,10 +130,10 @@ You can check out the reference guide/manual below. Download and save to your iP
 			}
 		]
 	};
-	const gridBox: GridBox = {
+	const gridBox2: GridBox = {
 		___type: BOXES_TYPES_map['grid'],
 		stylesVariants: { 'gap-x': '10', 'gap-y': '8' },
-		gridTemplateColumns: { min1: '15rem', min2: '1fr' },
+		_gridTemplateColumns: { min1: '15rem', min2: '1fr' },
 		items: [
 			{
 				// 01/21/2021
@@ -341,7 +341,7 @@ MSXII Sound really took iOS music production/beat making to	another level with t
 	};
 
 	return [
-		createStandardSection({ body: [twoColumnsBox] }),
+		createStandardSection({ body: [gridBox] }),
 		createStandardSection({ body: [tabsBox] }),
 		createStandardSection({ body: [iframeBox] }),
 		createStandardSection({
@@ -350,7 +350,7 @@ MSXII Sound really took iOS music production/beat making to	another level with t
 			stylesVariants: { 'gap-y': '4' }
 		}),
 		createStandardSection({
-			body: [gridBox],
+			body: [gridBox2],
 			// title: 'Chomplr Around The World',
 			stylesVariants: { 'gap-y': '8' }
 			// customPageClassesKeys: ['section-container-v1']

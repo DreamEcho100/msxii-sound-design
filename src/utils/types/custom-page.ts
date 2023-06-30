@@ -34,18 +34,21 @@ export const SUB_BOXES_TYPES_map = Object.fromEntries(
 	[Key in SUB_BOXES_TYPE]: Key;
 };
 
+// Prisma model done
 export type ImageOnly = {
 	stylesVariants?: BoxVariants;
 	customPageClassesKeys?: string[];
 	___type: (typeof BOXES_TYPES_map)['image-only'];
 	src: string;
 };
+// Prisma model done
 export type MDBox = {
 	stylesVariants?: BoxVariants;
 	customPageClassesKeys?: string[];
 	___type: (typeof BOXES_TYPES_map)['md'];
 	content: string;
 };
+// Prisma model done
 export type IframeBox = {
 	stylesVariants?: BoxVariants;
 	customPageClassesKeys?: string[];
@@ -53,6 +56,17 @@ export type IframeBox = {
 	___subType: SUB_BOXES_TYPE;
 	src: string;
 };
+// Prisma model done
+export type QuoteBox = {
+	stylesVariants?: BoxVariants;
+	customPageClassesKeys?: string[];
+	___type: (typeof BOXES_TYPES_map)['quote'];
+	cite: string;
+	content: string;
+};
+
+/**  **/
+// Prisma model done
 export type TabsBox = {
 	stylesVariants?: BoxVariants;
 	customPageClassesKeys?: string[];
@@ -62,13 +76,7 @@ export type TabsBox = {
 		data: Box;
 	}[];
 };
-export type QuoteBox = {
-	stylesVariants?: BoxVariants;
-	customPageClassesKeys?: string[];
-	___type: (typeof BOXES_TYPES_map)['quote'];
-	cite: string;
-	content: string;
-};
+// Prisma model done
 export type SliderBox = {
 	stylesVariants?: BoxVariants;
 	customPageClassesKeys?: string[];
@@ -76,24 +84,24 @@ export type SliderBox = {
 	slides: (IframeBox | QuoteBox)[];
 	slidesPerViewType?: 'default' | 'one-slide' | 'large-slides'; // ! move to there own enums
 };
+export type TwoColumnsBox = {
+	stylesVariants?: BoxVariants;
+	customPageClassesKeys?: string[];
+	___type: (typeof BOXES_TYPES_map)['two-columns'];
+	columns: (ImageOnly | MDBox)[];
+};
 export type GridBox = {
 	___type: (typeof BOXES_TYPES_map)['grid'];
 
 	stylesVariants?: BoxVariants;
 	customPageClassesKeys?: string[];
 	// rows: Exclude<Box, RowsOnlyBox>[];
-	gridTemplateColumns: {
+	_gridTemplateColumns?: {
 		min1: string;
 		min2?: string;
 	};
-	items: (IframeBox | QuoteBox)[];
-};
-
-export type TwoColumnsBox = {
-	stylesVariants?: BoxVariants;
-	customPageClassesKeys?: string[];
-	___type: (typeof BOXES_TYPES_map)['two-columns'];
-	columns: (ImageOnly | MDBox)[];
+	gridTemplateColumns?: string;
+	items: (ImageOnly | MDBox | IframeBox | QuoteBox)[];
 };
 export type RowsOnlyBox = {
 	___type: (typeof BOXES_TYPES_map)['rows-only'];
@@ -107,11 +115,13 @@ export type Box =
 	| ImageOnly
 	| MDBox
 	| IframeBox
+	| QuoteBox
+	//
+	| RowsOnlyBox
+	//
 	| TabsBox
 	| SliderBox
-	| QuoteBox
 	| TwoColumnsBox
-	| RowsOnlyBox
 	| GridBox;
 
 export type StandardSection = {

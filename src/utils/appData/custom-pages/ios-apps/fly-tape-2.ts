@@ -14,13 +14,14 @@ import { createStandardSection } from '../utils';
 const FlyTape2IOSApp: StandardSection[] = (() => {
 	const appLink = 'https://apps.apple.com/us/app/fly-tape-2/id1552463664';
 
-	const twoColumnsBox: TwoColumnsBox = {
+	const gridBox: GridBox = {
 		stylesVariants: { 'gap-x': '8' },
-		___type: BOXES_TYPES_map['two-columns'],
-		columns: [
+		___type: BOXES_TYPES_map['grid'],
+		gridTemplateColumns: `repeat(auto-fit, minmax(20rem, 1fr))`,
+		items: [
 			{
 				customPageClassesKeys: ['center-on-ls-md-screens', 'objects-contain'],
-				stylesVariants: { w: '96', h: '96', 'aspect-ratio': 'square' },
+				stylesVariants: { 'aspect-ratio': 'square' }, // w: '96', h: '96',
 				___type: BOXES_TYPES_map['image-only'],
 				src: 'https://cdn.shopify.com/s/files/1/0345/7209/t/28/assets/pf-baa9b738--Screen-Shot-20210324-at-35800-PM.png?v=1616619654'
 			},
@@ -112,7 +113,7 @@ You can check out the reference guide/manual below. Download and save to your iP
 	const gridrBox: GridBox = {
 		___type: BOXES_TYPES_map['grid'],
 		stylesVariants: { 'gap-x': '10', 'gap-y': '8' },
-		gridTemplateColumns: { min1: '15rem', min2: '1fr' },
+		_gridTemplateColumns: { min1: '15rem', min2: '1fr' },
 		items: [
 			{
 				// 10/10/2022
@@ -170,7 +171,7 @@ The original Fly Tape was like seasoning to my production but part 2 is now a ma
 	};
 
 	return [
-		createStandardSection({ body: [twoColumnsBox] }),
+		createStandardSection({ body: [gridBox] }),
 		createStandardSection({ body: [tabsBox] }),
 		createStandardSection({ body: [iframeBox] }),
 		createStandardSection({

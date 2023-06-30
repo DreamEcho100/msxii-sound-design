@@ -7,7 +7,6 @@ import {
 
 import * as Tabs from '@radix-ui/react-tabs';
 import { cx } from 'class-variance-authority';
-import ReactMarkdown from 'react-markdown';
 import { SwiperSlide } from 'swiper/react';
 import { handleBoxVariants } from '~/utils/appData';
 import {
@@ -28,7 +27,6 @@ import {
 import customPageClasses from '~/styles/custom-page.module.css';
 import Slider from '~/components/shared/core/Cards/Slider';
 import CustomNextImage from '~/components/shared/CustomNextImage';
-import remarkGfm from 'remark-gfm';
 import ReactMarkdownFormatter from './ReactMarkdownFormatter';
 
 type Props = {
@@ -325,9 +323,11 @@ const SectionBodyBox = ({
 			<div
 				className={customPageClassName}
 				style={{
-					gridTemplateColumns: `repeat(auto-fill, minmax(${
-						box.gridTemplateColumns.min1
-					}, ${box.gridTemplateColumns.min2 || '1fr'}))`
+					gridTemplateColumns: box._gridTemplateColumns
+						? `repeat(auto-fill, minmax(${box._gridTemplateColumns.min1}, ${
+								box._gridTemplateColumns.min2 || '1fr'
+						  }))`
+						: box.gridTemplateColumns
 				}}
 			>
 				{box.items.map((item, index) => (

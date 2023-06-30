@@ -83,7 +83,7 @@ const CreativeSpacePage = (
 				<div
 					className="grid gap-x-8 gap-y-12 justify-items-center"
 					style={{
-						gridTemplateColumns: 'repeat(auto-fill, minmax(15rem, 1fr))'
+						_gridTemplateColumns: 'repeat(auto-fill, minmax(15rem, 1fr))'
 					}}
 				>
 					{collectionData.products.edges.map(({ node }) => (

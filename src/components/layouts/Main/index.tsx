@@ -1,11 +1,83 @@
-import type { ReactNode } from 'react';
+import { useState, type ReactNode, useEffect } from 'react';
 
 import MainLayoutHeader from './Header';
 import MainLayoutFooter from './Footer';
-// import {  } from 'react-icons/fa'
+import { api } from '~/utils/api';
+import { getCookie } from 'cookies-next';
+import { CHECKOUT_ID_COOKIE_KEY } from '~/utils/shopify';
+import { globalStore, useGlobalStore } from '../../../store/index';
 
 type Props = {
 	children: ReactNode;
+};
+
+const GettingCheckout = () => {
+	const [checkoutIdFromCookies, setCheckoutIdFromCookies] = useState('');
+	const checkoutId = useGlobalStore((state) => state.cart.id);
+	const checkoutStatus = useGlobalStore((state) => state.cart.status);
+
+	const [isDone, setIsDone] = useState(false);
+
+	const createOneCheckouts = api.shopify.checkouts.createOne.useMutation({
+		onError: () =>
+			globalStore.getState().cart.setId({ type: 'failed-creating-checkout' }),
+		onMutate: () =>
+			globalStore.getState().cart.setId({ type: 'creating-checkout' }),
+		onSuccess: (result) => {
+			// !!!
+			// Can be merged into a one call that updates the store
+			globalStore
+				.getState()
+				.cart.setId({ type: 'checkout-created', payload: result.id });
+			globalStore.getState().cart.setCartLineItems(result.lineItems);
+		}
+	});
+
+	api.shopify.checkouts.getOne.useQuery(checkoutIdFromCookies, {
+		enabled:
+			!isDone &&
+			!!checkoutIdFromCookies &&
+			checkoutStatus === 'checkout-found-in-cookies',
+		onSuccess: (result) => {
+			globalStore
+				.getState()
+				.cart.setId({ type: 'line-items-fetched', payload: result.id });
+			globalStore.getState().cart.setCartLineItems(result.lineItems);
+		}
+	});
+
+	useEffect(() => {
+		if (typeof window === 'undefined' && !checkoutId) return;
+
+		const checkoutIdFromCookies = getCookie(CHECKOUT_ID_COOKIE_KEY);
+
+		if (
+			typeof checkoutIdFromCookies === 'string' &&
+			checkoutIdFromCookies.length > 0
+		) {
+			globalStore.getState().cart.setId({
+				type: 'checkout-found-in-cookies',
+				payload: checkoutIdFromCookies
+			});
+			return setCheckoutIdFromCookies(checkoutIdFromCookies);
+		}
+
+		globalStore.getState().cart.setId({ type: 'not-found-in-cookies' });
+
+		if (!createOneCheckouts.isLoading && !createOneCheckouts.isSuccess)
+			createOneCheckouts.mutate();
+	}, [checkoutId, createOneCheckouts]);
+
+	useEffect(() => {
+		if (
+			checkoutStatus === 'checkout-created' ||
+			checkoutStatus === 'line-items-fetched'
+		) {
+			setIsDone(true);
+		}
+	}, [checkoutStatus]);
+
+	return <></>;
 };
 
 const MainLayout = (props: Props) => {
@@ -17,6 +89,7 @@ const MainLayout = (props: Props) => {
 				{props.children}
 			</main>
 			<MainLayoutFooter />
+			<GettingCheckout />
 		</>
 	);
 };

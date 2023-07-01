@@ -106,6 +106,7 @@ export const useMutateCart = () => {
 	const setCartLineItems = useGlobalStore(
 		(store) => store.cart.setCartLineItems
 	);
+	const checkoutId = useGlobalStore((store) => store.cart.id);
 	const lineItems = useGlobalStore((store) => store.cart.lineItems);
 
 	const addManyLineItemCheckouts =
@@ -124,9 +125,12 @@ export const useMutateCart = () => {
 
 	const addToCartAsync = useCallback(
 		async (
-			input: RouterInputs['shopify']['checkouts']['lineItems']['addMany']
+			input: Omit<
+				RouterInputs['shopify']['checkouts']['lineItems']['addMany'],
+				'checkoutId'
+			>
 		) => {
-			if (input.lineItems.length < 0) return;
+			if (!checkoutId || input.lineItems.length < 0) return;
 
 			const originalLineItemsIfMap = Object.fromEntries(
 				lineItems.reduce((acc, curr) => {
@@ -143,7 +147,7 @@ export const useMutateCart = () => {
 
 			input.lineItems.forEach((lineItem) => {
 				if (originalLineItemsIfMap[lineItem.variantId])
-					lineItemsToUpdate.push({
+					return lineItemsToUpdate.push({
 						...lineItem,
 						id: originalLineItemsIfMap[lineItem.variantId]!
 					});
@@ -151,12 +155,12 @@ export const useMutateCart = () => {
 				lineItemsToAdd.push(lineItem);
 			});
 
-			let lineItemsResult: CheckoutLineItem[] = [];
+			let lineItemsResult: CheckoutLineItem[] | null = null;
 
 			if (lineItemsToAdd.length > 0)
 				await addManyLineItemCheckouts
 					.mutateAsync({
-						checkoutId: input.checkoutId,
+						checkoutId,
 						lineItems: lineItemsToAdd
 					})
 					.then((result) => {
@@ -166,16 +170,17 @@ export const useMutateCart = () => {
 			if (lineItemsToUpdate.length > 0)
 				await updateManyLineItemCheckouts
 					.mutateAsync({
-						checkoutId: input.checkoutId,
+						checkoutId,
 						lineItems: lineItemsToUpdate
 					})
 					.then((result) => {
 						lineItemsResult = result.lineItems;
 					});
 
-			if (lineItemsResult.length > 0) setCartLineItems(lineItemsResult);
+			if (lineItemsResult) setCartLineItems(lineItemsResult);
 		},
 		[
+			checkoutId,
 			addManyLineItemCheckouts,
 			lineItems,
 			setCartLineItems,
@@ -185,24 +190,29 @@ export const useMutateCart = () => {
 
 	const updateCartAsync = useCallback(
 		async (
-			input: RouterInputs['shopify']['checkouts']['lineItems']['updateMany']
+			input: Omit<
+				RouterInputs['shopify']['checkouts']['lineItems']['updateMany'],
+				'checkoutId'
+			>
 		) => {
+			if (!checkoutId) return;
 			const lineItemsToUpdate: typeof input.lineItems = [];
 
 			const lineItemIdsToRemove: string[] = [];
 
 			input.lineItems.forEach((lineItem) => {
-				if (lineItem.quantity === 0) lineItemIdsToRemove.push(lineItem.id);
+				if (lineItem.quantity <= 0)
+					return lineItemIdsToRemove.push(lineItem.id);
 
 				lineItemsToUpdate.push(lineItem);
 			});
 
-			let lineItemsResult: CheckoutLineItem[] = [];
+			let lineItemsResult: CheckoutLineItem[] | null = null;
 
 			if (lineItemsToUpdate.length > 0)
 				await updateManyLineItemCheckouts
 					.mutateAsync({
-						checkoutId: input.checkoutId,
+						checkoutId,
 						lineItems: lineItemsToUpdate
 					})
 					.then((result) => {
@@ -212,31 +222,37 @@ export const useMutateCart = () => {
 			if (lineItemIdsToRemove.length > 0)
 				await removeManyLineItemCheckouts
 					.mutateAsync({
-						checkoutId: input.checkoutId,
+						checkoutId,
 						lineItemIds: lineItemIdsToRemove
 					})
 					.then((result) => {
 						lineItemsResult = result.lineItems;
 					});
 
-			if (lineItemsResult.length > 0) setCartLineItems(lineItemsResult);
+			if (lineItemsResult) setCartLineItems(lineItemsResult);
 		},
-		[removeManyLineItemCheckouts, setCartLineItems, updateManyLineItemCheckouts]
+		[
+			checkoutId,
+			removeManyLineItemCheckouts,
+			setCartLineItems,
+			updateManyLineItemCheckouts
+		]
 	);
 
 	const removeToCartAsync = useCallback(
 		async (
 			input: RouterInputs['shopify']['checkouts']['lineItems']['removeMany']
 		) => {
-			if (input.lineItemIds.length > 0)
-				await removeManyLineItemCheckouts
-					.mutateAsync({
-						checkoutId: input.checkoutId,
-						lineItemIds: input.lineItemIds
-					})
-					.then((result) => setCartLineItems(result.lineItems));
+			if (!checkoutId || input.lineItemIds.length === 0) return;
+
+			await removeManyLineItemCheckouts
+				.mutateAsync({
+					checkoutId,
+					lineItemIds: input.lineItemIds
+				})
+				.then((result) => setCartLineItems(result.lineItems));
 		},
-		[removeManyLineItemCheckouts, setCartLineItems]
+		[checkoutId, removeManyLineItemCheckouts, setCartLineItems]
 	);
 
 	return {

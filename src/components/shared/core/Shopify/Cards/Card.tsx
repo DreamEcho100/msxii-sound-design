@@ -169,7 +169,6 @@ export const ProductExtraDetails = ({
 				onClick={async () => {
 					// addToCart(productVariant, 1)
 					addToCart.mutateAsync({
-						checkoutId: '',
 						lineItems: [{ quantity: 1, variantId: productVariant.id }]
 					});
 				}}

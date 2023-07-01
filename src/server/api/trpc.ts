@@ -74,7 +74,7 @@ import superjson from 'superjson';
 import shopify from '../../utils/shopify/client/index';
 import { getCookieManger } from '~/utils/cookies';
 import { NextApiRequest, NextApiResponse } from 'next';
-import { ACCESS_TOKEN_KEY } from '~/utils/shopify/client/_utils';
+import { ACCESS_TOKEN_COOKIE_KEY } from '~/utils/shopify';
 
 const t = initTRPC.context<typeof createTRPCContext>().create({
 	transformer: superjson,
@@ -110,7 +110,7 @@ export const publicProcedure = t.procedure;
 const enforceUserIsAuthed = t.middleware(({ ctx, next }) => {
 	if (!ctx.cookieManger) throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR' });
 
-	const accessToken = ctx.cookieManger.getOne(ACCESS_TOKEN_KEY);
+	const accessToken = ctx.cookieManger.getOne(ACCESS_TOKEN_COOKIE_KEY);
 
 	if (typeof accessToken === 'string' && accessToken.length < 3)
 		throw new TRPCError({ code: 'UNAUTHORIZED' });

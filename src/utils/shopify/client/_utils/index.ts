@@ -5,8 +5,6 @@ import { env } from '~/env.mjs';
 import { ShopifyErrorShape } from '../../types';
 import Client from 'shopify-buy';
 
-export const ACCESS_TOKEN_KEY = 'customerAccessToken';
-
 export const graphQLClient = new GraphQLClient(env.SHOPIFY_STORE_URL, {
 	headers: {
 		'X-Shopify-Storefront-Access-Token': env.SHOPIFY_STORE_FRONT_ACCESS_TOKEN

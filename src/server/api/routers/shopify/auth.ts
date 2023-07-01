@@ -6,10 +6,8 @@ import {
 	publicProcedure
 } from '~/server/api/trpc';
 import { customerAccessTokenCreateInputSchema } from '~/utils/shopify/client/auth';
-import {
-	ACCESS_TOKEN_KEY,
-	handleShopifyErrors
-} from '~/utils/shopify/client/_utils';
+import { handleShopifyErrors } from '~/utils/shopify/client/_utils';
+import { ACCESS_TOKEN_COOKIE_KEY } from '~/utils/shopify';
 
 export const shopifyAuthRouter = createTRPCRouter({
 	register: protectedProcedure
@@ -52,13 +50,17 @@ export const shopifyAuthRouter = createTRPCRouter({
 					return result.customerAccessTokenCreate.customerAccessToken;
 				});
 
-			ctx.cookieManger.setOne(ACCESS_TOKEN_KEY, accessTokenInfo.accessToken, {
-				maxAge:
-					(new Date(accessTokenInfo.expiresAt).getTime() - Date.now()) / 1000,
-				httpOnly: true,
-				secure: true,
-				sameSite: 'strict'
-			});
+			ctx.cookieManger.setOne(
+				ACCESS_TOKEN_COOKIE_KEY,
+				accessTokenInfo.accessToken,
+				{
+					maxAge:
+						(new Date(accessTokenInfo.expiresAt).getTime() - Date.now()) / 1000,
+					httpOnly: true,
+					secure: true,
+					sameSite: 'strict'
+				}
+			);
 
 			return {
 				customer: data.customerCreate.customer,
@@ -90,13 +92,17 @@ export const shopifyAuthRouter = createTRPCRouter({
 				customerAccessToken: accessTokenInfo.accessToken
 			});
 
-			ctx.cookieManger.setOne(ACCESS_TOKEN_KEY, accessTokenInfo.accessToken, {
-				maxAge:
-					(new Date(accessTokenInfo.expiresAt).getTime() - Date.now()) / 1000,
-				httpOnly: true,
-				secure: true,
-				sameSite: 'strict'
-			});
+			ctx.cookieManger.setOne(
+				ACCESS_TOKEN_COOKIE_KEY,
+				accessTokenInfo.accessToken,
+				{
+					maxAge:
+						(new Date(accessTokenInfo.expiresAt).getTime() - Date.now()) / 1000,
+					httpOnly: true,
+					secure: true,
+					sameSite: 'strict'
+				}
+			);
 
 			return {
 				customer: data.customer,
@@ -108,7 +114,9 @@ export const shopifyAuthRouter = createTRPCRouter({
 		if (!ctx.cookieManger)
 			throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR' });
 
-		const customerAccessToken = ctx.cookieManger.getOne(ACCESS_TOKEN_KEY);
+		const customerAccessToken = ctx.cookieManger.getOne(
+			ACCESS_TOKEN_COOKIE_KEY
+		);
 
 		if (
 			typeof customerAccessToken !== 'string' ||
@@ -137,7 +145,7 @@ export const shopifyAuthRouter = createTRPCRouter({
 			};
 		};
 
-		ctx.cookieManger.deleteOne(ACCESS_TOKEN_KEY);
+		ctx.cookieManger.deleteOne(ACCESS_TOKEN_COOKIE_KEY);
 
 		return data;
 	})

@@ -2,11 +2,11 @@
 
 ## Shopify Integration Tasks
 
-25
+26
 
 ### TODO
 
-3/25
+3/26
 
 - [] Fetch the products.
 
@@ -17,17 +17,14 @@
 
 ### In Progress
 
-4/25
+1/26
 
 - Integrate the cart functionality:
-  - [] Create.
-  - [] Update.
-  - [] Delete.
-  - [] Get all the data even if the user reloaded the page again
+  - [] the ability to proceed to checkout & to not open the cart on the first page load bug fix.
 
 ### Done
 
-16/25
+20/26
 
 - [x] Fetch a specific collection.
 - [x] Fetch a specific product.
@@ -53,9 +50,15 @@
   - [x] Integrate the pagination functionality with Shopify _(backend endpoints is being tested)_.
 - [x] Integrate the `/blog/[handle]` page with Shopify.
 
+- Integrate the cart functionality:
+  - [x] Create.
+  - [x] Update.
+  - [x] Delete.
+  - [x] Get all the data even if the user reloaded the page again
+
 ### Can't be done
 
-2/25
+2/26
 
 - (The IOS apps data is not stored as a product data on Shopify, needs more research and debugging)
   - [|] Integrate the `/ios-apps` page with Shopify.

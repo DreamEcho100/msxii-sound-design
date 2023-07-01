@@ -1,11 +1,11 @@
-import { create } from 'zustand';
+import { createStore, useStore } from 'zustand';
 import { Customer } from '~/utils/shopify/types';
 
 import { CheckoutLineItem } from 'shopify-buy';
 
 interface GlobalStore {
 	cart: {
-		id?: string;
+		// id?: string;
 		lineItems: CheckoutLineItem[];
 
 		isCartDropdownOpen: boolean;
@@ -15,7 +15,48 @@ interface GlobalStore {
 			quantity: number | ((value: number) => number)
 		): void;
 		setCartLineItems(lineItems: CheckoutLineItem[]): void;
-	};
+
+		setId: (
+			params:
+				| {
+						type: 'init' | 'checking-stored' | 'creating-checkout';
+						payload?: null;
+				  }
+				| {
+						type: 'not-found-in-cookies' | 'failed-creating-checkout';
+						payload?: null;
+				  }
+				| {
+						type:
+							| 'checkout-created'
+							| 'checkout-found-in-cookies'
+							| 'line-items-fetched';
+						payload: string;
+				  }
+		) => void;
+	} & (
+		| {
+				isLoading: true;
+				isSuccess: false;
+				status: 'checking-stored' | 'creating-checkout';
+				id: null;
+		  }
+		| {
+				isLoading: false;
+				isSuccess: false;
+				status: 'not-found-in-cookies' | 'failed-creating-checkout';
+				id: null;
+		  }
+		| {
+				isLoading: false;
+				isSuccess: true;
+				status:
+					| 'checkout-created'
+					| 'checkout-found-in-cookies'
+					| 'line-items-fetched';
+				id: string;
+		  }
+	);
 	menus: {
 		closeAllMenus(): void;
 
@@ -78,7 +119,7 @@ interface GlobalStore {
 const generateOppositeTheme = (theme?: 'dark' | 'light') =>
 	theme === 'light' ? 'dark' : 'light';
 
-export const useGlobalStore = create<GlobalStore>((set, get) => ({
+export const globalStore = createStore<GlobalStore>((set, get) => ({
 	customerSession: {
 		isLoading: true,
 		attemptCounter: 0,
@@ -126,8 +167,14 @@ export const useGlobalStore = create<GlobalStore>((set, get) => ({
 		}
 	},
 	cart: {
+		id: null,
+		isLoading: true,
+		isSuccess: false,
+		status: 'checking-stored',
+
 		lineItems: [],
 		isCartDropdownOpen: false,
+
 		toggleCartDropdown: () =>
 			set(({ cart }) => ({
 				cart: {
@@ -197,7 +244,61 @@ export const useGlobalStore = create<GlobalStore>((set, get) => ({
 						isCartDropdownOpen: true
 					}
 				};
-			})
+			}),
+
+		setId: ({ type, payload }) => {
+			if (process.env.NODE_ENV === 'development') {
+				console.log(
+					'%cCart Status: "' + type.replace(/-/g, ' ') + '"',
+					'font-weight: bold;'
+				);
+			}
+
+			switch (type) {
+				case 'checking-stored':
+				case 'creating-checkout':
+					type;
+					return set((prev) => ({
+						...prev,
+						cart: {
+							...prev.cart,
+							id: null,
+							isLoading: true,
+							isSuccess: false,
+							status: type
+						}
+					}));
+
+				case 'not-found-in-cookies':
+				case 'failed-creating-checkout':
+					type;
+					return set((prev) => ({
+						...prev,
+						cart: {
+							...prev.cart,
+							id: null,
+							isLoading: false,
+							isSuccess: false,
+							status: type
+						}
+					}));
+
+				case 'checkout-created':
+				case 'line-items-fetched':
+				case 'checkout-found-in-cookies':
+					type;
+					return set((prev) => ({
+						...prev,
+						cart: {
+							...prev.cart,
+							id: payload,
+							isLoading: false,
+							isSuccess: true,
+							status: type
+						}
+					}));
+			}
+		}
 	},
 	menus: {
 		isDropdownMenuOnLessThanLGOpen: false,
@@ -278,3 +379,9 @@ export const useGlobalStore = create<GlobalStore>((set, get) => ({
 		}
 	}
 }));
+
+export const useGlobalStore = <U>(
+	cb: (
+		state: typeof globalStore extends { getState: () => infer T } ? T : never
+	) => U
+) => useStore(globalStore, cb);

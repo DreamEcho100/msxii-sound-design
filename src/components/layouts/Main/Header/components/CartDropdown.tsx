@@ -14,7 +14,6 @@ const CartDropdown = () => {
 		(store) => store.cart.isCartDropdownOpen
 	);
 	const cartLineItems = useGlobalStore((store) => store.cart.lineItems);
-	const checkoutId = useGlobalStore((store) => store.cart.id);
 
 	return (
 		<AnimatePresence>
@@ -40,7 +39,7 @@ const CartDropdown = () => {
 							cartLineItems.length >= 3 ? 'min-h-[5rem]' : ''
 						)}
 					>
-						{cartLineItems.length === 0 || typeof checkoutId !== 'string' ? (
+						{cartLineItems.length === 0 ? (
 							<article className="bg-bg-primary-600/50 dark:bg-bg-primary-700 p-8 text-center">
 								<p>
 									<strong className="font-bold">Empty</strong>
@@ -48,7 +47,7 @@ const CartDropdown = () => {
 							</article>
 						) : (
 							cartLineItems.map((item) => (
-								<CartItem key={item.id} item={item} checkoutId={checkoutId} />
+								<CartItem key={item.id} item={item} />
 							))
 						)}
 					</div>
@@ -90,13 +89,7 @@ const CartDetails = () => {
 	);
 };
 
-const CartItem = ({
-	item,
-	checkoutId
-}: {
-	item: CheckoutLineItem;
-	checkoutId: string;
-}) => {
+const CartItem = ({ item }: { item: CheckoutLineItem }) => {
 	const { updateCart } = useMutateCart();
 	// const addToCart = useGlobalStore((store) => store.cart.addToCart);
 
@@ -134,7 +127,6 @@ const CartItem = ({
 					<ProductQuantityControllers
 						handleIncreaseByOne={async () => {
 							await updateCart.mutateAsync({
-								checkoutId,
 								lineItems: [
 									{
 										id: item.id,
@@ -146,7 +138,6 @@ const CartItem = ({
 						}}
 						handleDecreaseByOne={async () => {
 							await updateCart.mutateAsync({
-								checkoutId,
 								lineItems: [
 									{
 										id: item.id,
@@ -158,7 +149,6 @@ const CartItem = ({
 						}}
 						handleSetSelectedQuantity={async (value) => {
 							await updateCart.mutateAsync({
-								checkoutId,
 								lineItems: [
 									{
 										id: item.id,

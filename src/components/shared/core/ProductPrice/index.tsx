@@ -8,9 +8,9 @@ type Props = {
 
 const ProductPrice = (props: Props) => {
 	const { price, compare_at_price } = useMemo(() => {
-		const price = (props.price / 100).toFixed(2);
+		const price = Number(props.price).toFixed(2);
 		const compare_at_price = props.compare_at_price
-			? (props.compare_at_price / 100).toFixed(2)
+			? Number(props.compare_at_price).toFixed(2)
 			: null;
 
 		return { price, compare_at_price };

@@ -1,4 +1,6 @@
+import { TRPCError } from '@trpc/server';
 import { createTRPCRouter, publicProcedure } from '~/server/api/trpc';
+import { CHECKOUT_ID_COOKIE_KEY } from '~/utils/shopify';
 import { getShopifyClient } from '~/utils/shopify/client/_utils';
 import {
 	addManyCheckoutLineItemsSchema,
@@ -11,9 +13,23 @@ import {
 export const shopifyCheckoutsRouter = createTRPCRouter({
 	createOne: publicProcedure
 		.input(createOneCheckoutSchema)
-		.mutation(
-			async ({ ctx, input }) => await getShopifyClient().checkout.create(input)
-		),
+		.mutation(async ({ ctx, input }) => {
+			const checkout = await getShopifyClient().checkout.create(input);
+
+			if (!ctx.cookieManger)
+				throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR' });
+
+			ctx.cookieManger.setOne(CHECKOUT_ID_COOKIE_KEY, checkout.id, {
+				// maxAge:
+				// 	(new Date(accessTokenInfo.expiresAt).getTime() - Date.now()) / 1000,
+				maxAge: 60 * 60 * 24 * 30,
+				// httpOnly: true,
+				secure: true,
+				sameSite: 'strict'
+			});
+
+			return checkout;
+		}),
 	getOne: publicProcedure
 		.input(getOneCheckoutSchema)
 		.query(

@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
-import { ShopifyProductVariant } from '~/utils/shopify/types';
+import { type MoneyV2 } from 'shopify-buy';
 
 const useIsMounted = () => {
 	const [isMounted, setIsMounted] = useState(false);
@@ -10,8 +10,8 @@ const useIsMounted = () => {
 };
 
 type Props = {
-	price: ShopifyProductVariant['price'];
-	compareAtPrice?: ShopifyProductVariant['compareAtPrice'];
+	price: MoneyV2;
+	compareAtPrice?: MoneyV2;
 };
 
 const formatPrice = (

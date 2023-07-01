@@ -1,6 +1,6 @@
 import CustomNextImage from '~/components/shared/CustomNextImage';
 
-import CTAButton from '~/components/shared/core/Cards/CTAButton';
+import CTAButton from '~/components/shared/core/Shopify/Cards/CTAButton';
 import Clickable from '~/components/shared/core/Clickable';
 import {
 	loFlyDirtBasicData,

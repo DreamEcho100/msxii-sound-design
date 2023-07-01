@@ -49,8 +49,16 @@ const ProductPage = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
 							<div className="w-fit flex flex-wrap gap-8 mx-auto sm:mx-0">
 								<p className="whitespace-nowrap text-text-primary-500/60">
 									<ProductPrice
-										price={mainVariant.price}
-										compareAtPrice={mainVariant.compareAtPrice}
+										price={{
+											amount: Number(mainVariant.price.amount),
+											currencyCode: mainVariant.price.currencyCode
+										}}
+										compareAtPrice={
+											mainVariant.compareAtPrice && {
+												amount: Number(mainVariant.compareAtPrice.amount),
+												currencyCode: mainVariant.compareAtPrice.currencyCode
+											}
+										}
 									/>
 								</p>
 								<div className="flex rounded-xl overflow-hidden">

@@ -1,22 +1,20 @@
 import { create } from 'zustand';
 import { Customer } from '~/utils/shopify/types';
 
-import { ShopifyProduct } from '~/utils/types';
-import { ShopifyProductVariant } from '~/utils/shopify/types';
+import { CheckoutLineItem } from 'shopify-buy';
 
 interface GlobalStore {
 	cart: {
-		items: (
-			| (ShopifyProduct & { quantity: number })
-			| (ShopifyProductVariant & { quantity: number })
-		)[];
+		id?: string;
+		lineItems: CheckoutLineItem[];
 
 		isCartDropdownOpen: boolean;
 		toggleCartDropdown(): void;
 		addToCart(
-			product: ShopifyProduct | ShopifyProductVariant,
+			product: CheckoutLineItem, // | ShopifyProduct | ShopifyProductVariant,
 			quantity: number | ((value: number) => number)
 		): void;
+		setCartLineItems(lineItems: CheckoutLineItem[]): void;
 	};
 	menus: {
 		closeAllMenus(): void;
@@ -128,7 +126,7 @@ export const useGlobalStore = create<GlobalStore>((set, get) => ({
 		}
 	},
 	cart: {
-		items: [],
+		lineItems: [],
 		isCartDropdownOpen: false,
 		toggleCartDropdown: () =>
 			set(({ cart }) => ({
@@ -137,14 +135,27 @@ export const useGlobalStore = create<GlobalStore>((set, get) => ({
 					isCartDropdownOpen: !cart.isCartDropdownOpen
 				}
 			})),
+		setCartLineItems(lineItems) {
+			// get().menus.closeAllMenus();
+			set(({ cart, menus }) => {
+				menus.closeAllMenus();
+				return {
+					cart: {
+						...cart,
+						lineItems,
+						isCartDropdownOpen: true
+					}
+				};
+			});
+		},
 		addToCart: (product, quantity) =>
 			set(({ cart }) => {
 				get().menus.closeAllMenus();
-				const cartItemIndex = cart.items.findIndex(
+				const cartItemIndex = cart.lineItems.findIndex(
 					(item) => item.id === product.id
 				);
 
-				let cartItems: typeof cart.items = [];
+				let cartItems: typeof cart.lineItems = [];
 
 				if (cartItemIndex === -1) {
 					cartItems = [
@@ -152,14 +163,14 @@ export const useGlobalStore = create<GlobalStore>((set, get) => ({
 							...product,
 							quantity: typeof quantity === 'function' ? quantity(0) : quantity
 						},
-						...cart.items
+						...cart.lineItems
 					];
 				} else {
-					let cartItem: (typeof cart.items)[number];
+					let cartItem: (typeof cart.lineItems)[number];
 					let cartItemQuantity: number;
 
-					for (let i = 0; i < cart.items.length; i++) {
-						cartItem = cart.items[i]!;
+					for (let i = 0; i < cart.lineItems.length; i++) {
+						cartItem = cart.lineItems[i]!;
 
 						if (i === cartItemIndex) {
 							cartItemQuantity =
@@ -182,7 +193,7 @@ export const useGlobalStore = create<GlobalStore>((set, get) => ({
 				return {
 					cart: {
 						...cart,
-						items: cartItems,
+						lineItems: cartItems,
 						isCartDropdownOpen: true
 					}
 				};

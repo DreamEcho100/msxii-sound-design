@@ -6,14 +6,15 @@ import ProductPrice from '~/components/shared/core/ProductPrice';
 import ShopifyProductPrice from '~/components/shared/core/Shopify/ProductPrice';
 import ProductQuantityControllers from '~/components/shared/core/ProductQuantityControllers';
 import { useGlobalStore } from '~/store';
-import { ShopifyProductVariant } from '~/utils/shopify/types';
-import { ShopifyProduct } from '~/utils/types';
+import { type CheckoutLineItem } from 'shopify-buy';
+import { useMutateCart } from '~/utils/shopify/hooks';
 
 const CartDropdown = () => {
 	const isCartDropdownOpen = useGlobalStore(
 		(store) => store.cart.isCartDropdownOpen
 	);
-	const cartItems = useGlobalStore((store) => store.cart.items);
+	const cartLineItems = useGlobalStore((store) => store.cart.lineItems);
+	const checkoutId = useGlobalStore((store) => store.cart.id);
 
 	return (
 		<AnimatePresence>
@@ -36,17 +37,19 @@ const CartDropdown = () => {
 					<div
 						className={cx(
 							'flex flex-col gap-y-4 flex-grow overflow-y-auto overflow-x-hidden',
-							cartItems.length >= 3 ? 'min-h-[5rem]' : ''
+							cartLineItems.length >= 3 ? 'min-h-[5rem]' : ''
 						)}
 					>
-						{cartItems.length === 0 ? (
+						{cartLineItems.length === 0 || typeof checkoutId !== 'string' ? (
 							<article className="bg-bg-primary-600/50 dark:bg-bg-primary-700 p-8 text-center">
 								<p>
 									<strong className="font-bold">Empty</strong>
 								</p>
 							</article>
 						) : (
-							cartItems.map((item) => <CartItem key={item.id} item={item} />)
+							cartLineItems.map((item) => (
+								<CartItem key={item.id} item={item} checkoutId={checkoutId} />
+							))
 						)}
 					</div>
 					<CartDetails />
@@ -58,9 +61,10 @@ const CartDropdown = () => {
 
 const CartDetails = () => {
 	const { quantity, totalPrice } = useGlobalStore((store) =>
-		store.cart.items.reduce(
+		store.cart.lineItems.reduce(
 			(acc, item) => {
-				acc.totalPrice += Number(item.price) * item.quantity;
+				acc.totalPrice +=
+					Number(item.variant?.price.amount ?? 0) * item.quantity;
 				acc.quantity += item.quantity;
 				return acc;
 			},
@@ -87,77 +91,85 @@ const CartDetails = () => {
 };
 
 const CartItem = ({
-	item
+	item,
+	checkoutId
 }: {
-	item:
-		| (ShopifyProduct & { quantity: number })
-		| (ShopifyProductVariant & { quantity: number });
+	item: CheckoutLineItem;
+	checkoutId: string;
 }) => {
-	const addToCart = useGlobalStore((store) => store.cart.addToCart);
+	const { updateCart } = useMutateCart();
+	// const addToCart = useGlobalStore((store) => store.cart.addToCart);
 
-	if ('image' in item)
-		return (
-			<article key={item.id} className="flex">
-				<div className="rounded-sm aspect-square w-24 h-24">
+	// const updateManyLineItemCheckouts =
+	// 	api.shopify.checkouts.lineItems.updateMany.useMutation();
+
+	const variant = item.variant;
+
+	return (
+		<article key={item.id} className="flex">
+			<div className="rounded-sm aspect-square w-24 h-24">
+				{variant && (
 					<div className="overflow-hidden">
 						<CustomNextImage
-							src={item.image.src}
-							alt={item.image.altText || ''}
+							src={variant.image.src}
+							alt={variant.image.altText || ''}
 							width={100}
 							height={100}
 							className="hover:scale-110 duration-300 transition-all w-full h-full object-cover"
 						/>
 					</div>
-				</div>
-				<div className="px-4 flex flex-col gap-2 overflow-hidden flex-grow">
-					<h4 className="text-base max-w-[90%] ellipse-text" title={item.title}>
-						{item.title}
-					</h4>
-					<div className="flex flex-wrap gap-2 justify-between">
-						<ShopifyProductPrice
-							price={item.price}
-							compareAtPrice={item.compareAtPrice}
-						/>
-						<ProductQuantityControllers
-							handleIncreaseByOne={() => addToCart(item, 1)}
-							handleDecreaseByOne={() => addToCart(item, -1)}
-							handleSetSelectedQuantity={(value) =>
-								addToCart(item, () => value)
-							}
-							quantity={item.quantity}
-						/>
-					</div>
-				</div>
-			</article>
-		);
-
-	return (
-		<article key={item.id} className="flex">
-			<div className="rounded-sm aspect-square w-24 h-24">
-				<div className="overflow-hidden">
-					<CustomNextImage
-						src={item.featured_image}
-						alt={item.title}
-						width={100}
-						height={100}
-						className="hover:scale-110 duration-300 transition-all w-full h-full object-cover"
-					/>
-				</div>
+				)}
 			</div>
 			<div className="px-4 flex flex-col gap-2 overflow-hidden flex-grow">
 				<h4 className="text-base max-w-[90%] ellipse-text" title={item.title}>
 					{item.title}
 				</h4>
 				<div className="flex flex-wrap gap-2 justify-between">
-					<ProductPrice
-						price={item.price}
-						compare_at_price={item.compare_at_price}
-					/>
+					{variant && (
+						<ShopifyProductPrice
+							price={variant.price}
+							compareAtPrice={variant.compareAtPrice}
+						/>
+					)}
 					<ProductQuantityControllers
-						handleIncreaseByOne={() => addToCart(item, 1)}
-						handleDecreaseByOne={() => addToCart(item, -1)}
-						handleSetSelectedQuantity={(value) => addToCart(item, () => value)}
+						handleIncreaseByOne={async () => {
+							await updateCart.mutateAsync({
+								checkoutId,
+								lineItems: [
+									{
+										id: item.id,
+										quantity: item.quantity + 1,
+										variantId: item.variant?.id
+									}
+								]
+							});
+						}}
+						handleDecreaseByOne={async () => {
+							await updateCart.mutateAsync({
+								checkoutId,
+								lineItems: [
+									{
+										id: item.id,
+										quantity: item.quantity - 1,
+										variantId: item.variant?.id
+									}
+								]
+							});
+						}}
+						handleSetSelectedQuantity={async (value) => {
+							await updateCart.mutateAsync({
+								checkoutId,
+								lineItems: [
+									{
+										id: item.id,
+										quantity: value,
+										variantId: item.variant?.id
+									}
+								]
+							});
+						}}
 						quantity={item.quantity}
+						isLoading={updateCart.isLoading}
 					/>
 				</div>
 			</div>

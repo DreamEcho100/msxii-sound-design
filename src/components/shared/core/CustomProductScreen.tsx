@@ -10,24 +10,19 @@ import Clickable from './Clickable';
 import ProductPrice from './ProductPrice';
 import ProductQuantityControllers from './ProductQuantityControllers';
 
-import CTAButton from './Cards/CTAButton';
-import { ProductCard } from './Cards/Card';
-import Slider, { CardsSlider } from './Cards/Slider';
 import { ShopifyProduct } from '~/utils/types';
 import { NextJsLinkProps } from '../Clickable';
 import ImageMagnifier from '../ImageMagnifier';
+import { Product } from '~/utils/shopify/types';
+import CTAButton from './Shopify/Cards/CTAButton';
+import { ProductCard } from './Shopify/Cards/Card';
+import Slider, { CardsSlider } from './Shopify/Cards/Slider';
 
 // Credit to: <https://dev.to/anxiny/create-an-image-magnifier-with-react-3fd7>
-const ProductImageShowcase = ({
-	productData
-}: {
-	productData: ShopifyProduct;
-}) => {
-	const hasImagesVariations = productData.images.length > 1;
+const ProductImageShowcase = ({ productData }: { productData: Product }) => {
+	const hasImagesVariations = productData.images.edges.length > 1;
 
-	const [selectedImage, setSelectedImage] = useState(
-		productData.featured_image
-	);
+	const [selectedImage, setSelectedImage] = useState(productData.featuredImage);
 
 	return (
 		<div
@@ -37,9 +32,10 @@ const ProductImageShowcase = ({
 			)}
 		>
 			<ImageMagnifier
-				src={selectedImage}
-				width={800}
-				height={800}
+				src={selectedImage.src}
+				// alt={selectedImage.altText ?? ''}
+				width={selectedImage.width || 800}
+				height={selectedImage.height || 800}
 				className="w-full h-full object-cover rounded-xl"
 				containerProps={{ className: 'aspect-square w-full' }}
 				priority
@@ -63,26 +59,26 @@ const ProductImageShowcase = ({
 						className: 'h-fit'
 					}}
 				>
-					{productData.images.map((image) => (
+					{productData.images.edges.map(({ node }) => (
 						<SwiperSlide
-							key={image}
+							key={node.id}
 							className="aspect-square items-center justify-center"
 							style={{ display: 'flex' }}
 						>
 							<button
 								className={cx(
 									'block w-full transition-all duration-300',
-									selectedImage === image ? 'p-2' : ''
+									selectedImage === node ? 'p-2' : ''
 								)}
-								onClick={() => setSelectedImage(image)}
+								onClick={() => setSelectedImage(node)}
 							>
 								<CustomNextImage
-									src={image}
+									src={node}
 									width={112}
 									height={112}
 									className={cx(
 										'aspect-square w-full h-full object-cover transition-all duration-300',
-										selectedImage === image
+										selectedImage === node
 											? 'ring-4 ring-special-primary-500 rounded-lg'
 											: 'rounded-md'
 									)}
@@ -104,8 +100,8 @@ const CustomProductScreen = ({
 	ctaButtonProps = {}
 }: {
 	children?: ReactNode;
-	productData: ShopifyProduct;
-	products: ShopifyProduct[];
+	productData: Product;
+	products: Product[];
 	cardsSliderProps?: Partial<Parameters<typeof CardsSlider>[0]>;
 	ctaButtonProps?: Partial<NextJsLinkProps>;
 }) => {
@@ -122,10 +118,10 @@ const CustomProductScreen = ({
 							</h1>
 							<div className="w-fit flex flex-wrap gap-8 mx-auto sm:mx-0">
 								<p className="whitespace-nowrap text-text-primary-500/60">
-									<ProductPrice
+									{/* <ProductPrice
 										price={productData.price}
 										compare_at_price={productData.compare_at_price}
-									/>
+									/> */}
 								</p>
 								<ProductQuantityControllers
 									handleIncreaseByOne={() =>
@@ -171,13 +167,13 @@ const CustomProductScreen = ({
 						Related products
 					</h2>
 				</header>
-				<CardsSlider
+				{/* <CardsSlider
 					products={products}
 					CardElem={ProductCard}
 					nextSlideButtonClassName="-translate-y-[200%] lg:-translate-y-[225%]"
 					previousSlideButtonClassName="-translate-y-[200%] lg:-translate-y-[225%]"
 					{...cardsSliderProps}
-				/>
+				/> */}
 			</article>
 		</div>
 	);

@@ -6,12 +6,14 @@ const ProductQuantityControllers = ({
 	handleIncreaseByOne,
 	handleDecreaseByOne,
 	handleSetSelectedQuantity,
-	quantity
+	quantity,
+	isLoading
 }: {
 	handleIncreaseByOne(): void;
 	handleDecreaseByOne(): void;
 	handleSetSelectedQuantity(value: number): void;
 	quantity: number;
+	isLoading?: boolean;
 }) => {
 	return (
 		<div className="flex rounded-xl overflow-hidden">
@@ -19,7 +21,7 @@ const ProductQuantityControllers = ({
 				variants={{ btn: null, px: null, py: null, rounded: null }}
 				className="bg-bg-primary-600 px-2 flex items-center justify-center"
 				onClick={handleDecreaseByOne}
-				disabled={quantity === 0}
+				disabled={quantity === 0 || isLoading}
 			>
 				<FaMinus className="text-[60%]" />
 			</Clickable>
@@ -40,11 +42,13 @@ const ProductQuantityControllers = ({
 						handleSetSelectedQuantity(valueAsNumberSchema.data);
 				}}
 				name="quantity"
+				readOnly={isLoading}
 			/>
 			<Clickable
 				variants={{ btn: null, px: null, py: null, rounded: null }}
 				className="bg-bg-primary-600 px-2 flex items-center justify-center"
 				onClick={handleIncreaseByOne}
+				disabled={isLoading}
 			>
 				<FaPlus className="text-[60%]" />
 			</Clickable>

@@ -7,7 +7,7 @@ const CartDropdownButton = () => {
 		(store) => store.cart.toggleCartDropdown
 	);
 	const cartItemsSize = useGlobalStore((store) =>
-		store.cart.items.reduce((acc, item) => acc + item.quantity, 0)
+		store.cart.lineItems.reduce((acc, item) => acc + item.quantity, 0)
 	);
 
 	return (

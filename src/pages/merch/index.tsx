@@ -52,7 +52,7 @@ const MerchesPage: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = (
 						<ProductCard
 							key={node.handle}
 							product={node}
-							routeBase="/merch"
+							// routeBase="/merch"
 							containerVariants={{ w: null }}
 							imageVariants={{ 'object-fit': 'contain' }}
 						/>

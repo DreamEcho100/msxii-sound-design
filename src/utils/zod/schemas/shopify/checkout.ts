@@ -37,7 +37,7 @@ export const updateManyCheckoutLineItemsSchema = z.object({
 				// customAttributes?: AttributeInput[];
 				id: z.string().min(1),
 				quantity: z.number().min(1),
-				variantId: z.string()
+				variantId: z.string().optional()
 			})
 		)
 		.min(1)

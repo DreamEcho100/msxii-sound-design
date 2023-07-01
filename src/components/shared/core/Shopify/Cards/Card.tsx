@@ -7,6 +7,7 @@ import { BiPlay } from 'react-icons/bi';
 import Link from 'next/link';
 import ProductPrice from '../ProductPrice';
 import { useGlobalStore } from '~/store';
+import { useMutateCart } from '~/utils/shopify/hooks';
 
 const handleBasicProductCardContainerVariants = cva(
 	'max-w-full card flex flex-col px-1 group duration-300 delay-75 transition-all',
@@ -134,7 +135,8 @@ export const ProductExtraDetails = ({
 	product: Product | BasicProduct;
 	buttonProps?: Partial<Parameters<typeof Clickable>[0]>;
 }) => {
-	const addToCart = useGlobalStore((store) => store.cart.addToCart);
+	// const addToCart = useGlobalStore((store) => store.cart.addToCart);
+	const { addToCart } = useMutateCart();
 
 	const productVariant = useMemo(
 		() => product.variants.edges[0]!.node,
@@ -145,8 +147,16 @@ export const ProductExtraDetails = ({
 		<>
 			<p className="-translate-y-[20%] text-[90%] whitespace-nowrap font-normal text-text-primary-500/60">
 				<ProductPrice
-					price={productVariant.price}
-					compareAtPrice={productVariant.compareAtPrice}
+					price={{
+						amount: Number(productVariant.price.amount),
+						currencyCode: productVariant.price.currencyCode
+					}}
+					compareAtPrice={
+						productVariant.compareAtPrice && {
+							amount: Number(productVariant.compareAtPrice.amount),
+							currencyCode: productVariant.compareAtPrice.currencyCode
+						}
+					}
 				/>
 			</p>
 			<Clickable
@@ -156,7 +166,13 @@ export const ProductExtraDetails = ({
 					px: 'lg'
 				}}
 				className="lg:whitespace-nowrap text-sm uppercase"
-				onClick={() => addToCart(productVariant, 1)}
+				onClick={async () => {
+					// addToCart(productVariant, 1)
+					addToCart.mutateAsync({
+						checkoutId: '',
+						lineItems: [{ quantity: 1, variantId: productVariant.id }]
+					});
+				}}
 				{...(buttonProps as any)}
 			>
 				Add To Cart

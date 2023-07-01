@@ -25,7 +25,7 @@ import {
 	YouTubeIFrame
 } from '~/components/shared/Iframes';
 import customPageClasses from '~/styles/custom-page.module.css';
-import Slider from '~/components/shared/core/Cards/Slider';
+import Slider from '~/components/shared/core/Shopify/Cards/Slider';
 import CustomNextImage from '~/components/shared/CustomNextImage';
 import ReactMarkdownFormatter from './ReactMarkdownFormatter';
 

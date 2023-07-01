@@ -2597,7 +2597,7 @@ export const CustomPages: CustomPage[] = [
 	flyTapePageData,
 	chomplrPageData,
 	{
-		stylesVariants: {
+		twClassNameVariants: {
 			'max-w': '100ch',
 			mx: 'auto',
 			px: '12',
@@ -2609,7 +2609,7 @@ export const CustomPages: CustomPage[] = [
 		mainTag: 'about-page',
 		pageStructure: [
 			{
-				stylesVariants: { 'gap-y': '16' },
+				twClassNameVariants: { 'gap-y': '16' },
 				___type: 'standard-section',
 				title: 'About MSX Audio',
 				body: [
@@ -2639,7 +2639,7 @@ With any questions regarding our kits, breaks, or sample packs, contact us at ms
 		]
 	},
 	{
-		stylesVariants: {
+		twClassNameVariants: {
 			'max-w': '100ch',
 			mx: 'auto',
 			px: '12',
@@ -2651,7 +2651,7 @@ With any questions regarding our kits, breaks, or sample packs, contact us at ms
 		mainTag: 'support-page',
 		pageStructure: [
 			{
-				stylesVariants: { 'gap-y': '16' },
+				twClassNameVariants: { 'gap-y': '16' },
 				___type: 'standard-section',
 				title: 'Support',
 				body: [
@@ -2694,7 +2694,7 @@ For all other questions and inquiries, feel free to email our support at support
 		]
 	},
 	{
-		stylesVariants: {
+		twClassNameVariants: {
 			'max-w': '100ch',
 			mx: 'auto',
 			px: '12',
@@ -2706,7 +2706,7 @@ For all other questions and inquiries, feel free to email our support at support
 		mainTag: 'license-agreement-page',
 		pageStructure: [
 			{
-				stylesVariants: { 'gap-y': '16' },
+				twClassNameVariants: { 'gap-y': '16' },
 				___type: 'standard-section',
 				title: 'License Agreement',
 				description: `By purchasing any MSXII Sound Design product you accept the following product license agreement:`,
@@ -2753,7 +2753,7 @@ All bundle and discounted purchases and prices apply only to the product line at
 		]
 	},
 	{
-		stylesVariants: {
+		twClassNameVariants: {
 			px: '12',
 			py: '16',
 			'gap-x': '16',
@@ -2763,12 +2763,12 @@ All bundle and discounted purchases and prices apply only to the product line at
 		mainTag: 'blue-label-page',
 		pageStructure: [
 			{
-				stylesVariants: { 'gap-y': '16' },
+				twClassNameVariants: { 'gap-y': '16' },
 				___type: 'standard-section',
 				title: 'Blue Label',
 				body: [
 					{
-						stylesVariants: {
+						twClassNameVariants: {
 							w: 'full',
 							rounded: '3xl',
 							'max-w': '100ch',
@@ -2786,7 +2786,7 @@ All bundle and discounted purchases and prices apply only to the product line at
 		]
 	},
 	{
-		stylesVariants: {
+		twClassNameVariants: {
 			px: '12',
 			py: '16',
 			'gap-x': '16',
@@ -2796,7 +2796,7 @@ All bundle and discounted purchases and prices apply only to the product line at
 		mainTag: 'merch-page',
 		pageStructure: [
 			{
-				stylesVariants: { 'gap-y': '16' },
+				twClassNameVariants: { 'gap-y': '16' },
 				___type: 'standard-section',
 				title: 'Merch',
 				description: 'Explore our merch products',
@@ -2805,7 +2805,7 @@ All bundle and discounted purchases and prices apply only to the product line at
 		]
 	},
 	{
-		stylesVariants: {
+		twClassNameVariants: {
 			'gap-x': '16',
 			'gap-y': '16'
 		},
@@ -2813,11 +2813,11 @@ All bundle and discounted purchases and prices apply only to the product line at
 		mainTag: 'merch-page',
 		pageStructure: [
 			{
-				stylesVariants: { 'gap-y': '16' },
+				twClassNameVariants: { 'gap-y': '16' },
 				___type: 'standard-section',
 				body: [
 					{
-						stylesVariants: { 'max-w': '125ch', mx: 'auto' },
+						twClassNameVariants: { 'max-w': '125ch', mx: 'auto' },
 						customPageClassesKeys: ['blog-post'],
 						___type: 'md',
 						content: `## Details

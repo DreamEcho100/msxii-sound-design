@@ -1,7 +1,15 @@
-import shopifyGQLClient from './gql';
+import auth from './auth';
+import collections from './collections';
+import products from './products';
+import blogs from './blogs';
+import checkout from './checkouts';
 
-export const shopify = {
-	gqlClient: shopifyGQLClient
+const shopify = {
+	auth,
+	collections,
+	products,
+	blogs,
+	checkout
 };
 
 export default shopify;

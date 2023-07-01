@@ -7,7 +7,6 @@ import {
 	SUB_BOXES_TYPES_map,
 	TabsBox,
 	SliderBox,
-	RowsOnlyBox,
 	CustomPage,
 	GridBox
 } from '~/utils/types/custom-page';
@@ -18,19 +17,19 @@ const LoflyDirtIOSApp: StandardSection[] = (() => {
 		'https://apps.apple.com/us/app/lo-fly-dirt/id1292776927?ign-mpt=uo%3D4';
 
 	const gridBox: GridBox = {
-		stylesVariants: { 'gap-x': '8' },
+		twClassNameVariants: { 'gap-x': '8' },
 		___type: BOXES_TYPES_map['grid'],
 		gridTemplateColumns: `repeat(auto-fit, minmax(20rem, 1fr))`,
 		items: [
 			{
 				customPageClassesKeys: ['center-on-ls-md-screens', 'objects-contain'],
-				stylesVariants: { 'aspect-ratio': 'square' }, // w: '96', h: '96',
+				twClassNameVariants: { 'aspect-ratio': 'square' }, // w: '96', h: '96',
 				___type: BOXES_TYPES_map['image-only'],
 				src: 'https://cdn.shopify.com/s/files/1/0345/7209/t/28/assets/pf-50b7d524--Screen-Shot-20200327-at-12507-AM.png?v=1585290536'
 			},
 			{
 				customPageClassesKeys: ['center-on-ls-md-screens'],
-				stylesVariants: { 'gap-y': '2', px: '4' },
+				twClassNameVariants: { 'gap-y': '2', px: '4' },
 				___type: BOXES_TYPES_map['md'],
 				content: `# LO-FLY DIRT
 	
@@ -53,7 +52,7 @@ An audio coloration utility plugin featuring individual modes for classic emulat
 			{
 				title: 'Description',
 				data: {
-					stylesVariants: { 'gap-y': '2', px: '4' },
+					twClassNameVariants: { 'gap-y': '2', px: '4' },
 					___type: BOXES_TYPES_map['md'],
 					content: `An audio coloration utility plugin featuring individual modes for classic emulation of some iconic music production tools. This tool is meant to bring character, or "dirt" to your incoming audio signals.
 					
@@ -63,7 +62,7 @@ Lo-Fly Dirt installs as an Audio Unit effect for hosts that support the format s
 			{
 				title: 'Specs',
 				data: {
-					stylesVariants: { 'gap-y': '2', px: '4' },
+					twClassNameVariants: { 'gap-y': '2', px: '4' },
 					___type: BOXES_TYPES_map['md'],
 					content: `### Default Mode:
 	
@@ -93,13 +92,13 @@ Also built off the things we love about the classic 8 bit sound, but with a twis
 			{
 				title: 'User Manual',
 				data: {
-					stylesVariants: { 'gap-x': '8', 'gap-y': '8' },
+					twClassNameVariants: { 'gap-x': '8', 'gap-y': '8' },
 					___type: BOXES_TYPES_map['grid'],
 					gridTemplateColumns: `repeat(auto-fit, minmax(20rem, 1fr))`,
 					items: [
 						{
 							customPageClassesKeys: ['center-on-ls-md-screens'],
-							stylesVariants: { 'gap-y': '2', px: '4' },
+							twClassNameVariants: { 'gap-y': '2', px: '4' },
 							___type: BOXES_TYPES_map['md'],
 							content: `### Whats New:
 	
@@ -116,7 +115,7 @@ You can check out the reference guide below:
 								'center-on-ls-md-screens',
 								'object-contain'
 							],
-							// stylesVariants: { w: '96' },
+							// twClassNameVariants: { w: '96' },
 							___type: BOXES_TYPES_map['image-only'],
 							src: '/images/ios-apps/Lo-fly@2x (1).jpg'
 						}
@@ -147,7 +146,7 @@ You can check out the reference guide below:
 	};
 	const gridBox2: GridBox = {
 		___type: BOXES_TYPES_map['grid'],
-		stylesVariants: { 'gap-x': '10', 'gap-y': '8' },
+		twClassNameVariants: { 'gap-x': '10', 'gap-y': '8' },
 		gridTemplateColumns: `repeat(auto-fill, minmax(15rem, 1fr))`,
 		items: [
 			{
@@ -193,13 +192,14 @@ I love how this app makes my samples sound. Plus its so much easier to treat a t
 			// }
 		]
 	};
-	const rowsOnlyBox: RowsOnlyBox = {
-		___type: 'rows-only',
-		stylesVariants: { 'gap-y': '3' },
+	const gridBox3: GridBox = {
+		___type: BOXES_TYPES_map['grid'],
+		twClassNameVariants: { 'gap-y': '3' },
+		gridTemplateColumns: `1fr`,
 		customPageClassesKeys: ['center-content'],
-		rows: [
+		items: [
 			{
-				stylesVariants: { rounded: '5xl', w: '40', h: '40' },
+				twClassNameVariants: { rounded: '5xl', w: '40', h: '40' },
 				___type: 'image-only',
 				src: 'https://cdn.shopify.com/s/files/1/0345/7209/t/28/assets/pf-d22a5c09--MSXIIAUDIOLOFIDIRTAPPICON3x-Edited.jpg?v=1582621861'
 			},
@@ -217,20 +217,20 @@ I love how this app makes my samples sound. Plus its so much easier to treat a t
 		createStandardSection({
 			body: [sliderBox],
 			title: 'Tutorial',
-			stylesVariants: { 'gap-y': '4' }
+			twClassNameVariants: { 'gap-y': '4' }
 		}),
 		createStandardSection({
 			body: [gridBox2],
 			// title: 'LO-FLY Dirt Around The Web',
-			stylesVariants: { 'gap-y': '8' }
+			twClassNameVariants: { 'gap-y': '8' }
 			// customPageClassesKeys: ['section-container-v1']
 		}),
-		createStandardSection({ body: [rowsOnlyBox] })
+		createStandardSection({ body: [gridBox3] })
 	];
 })();
 
 const loFlyDirtPageData: CustomPage = {
-	stylesVariants: {
+	twClassNameVariants: {
 		'max-w': '100ch',
 		mx: 'auto',
 		px: '8',

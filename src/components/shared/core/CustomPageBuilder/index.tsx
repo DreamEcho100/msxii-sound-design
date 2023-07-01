@@ -38,7 +38,7 @@ const CustomPageBuilder = (props: Props) => {
 	return (
 		<div
 			className={handleBoxVariants({
-				...props.customPage.stylesVariants,
+				...props.customPage.twClassNameVariants,
 				className: 'text-h6 flex flex-col text-text-primary-400'
 			})}
 		>
@@ -158,7 +158,7 @@ const SectionBody = ({
 		<section
 			className={cx(
 				'flex flex-col',
-				handleBoxVariants(section.stylesVariants),
+				handleBoxVariants(section.twClassNameVariants),
 				...(section.customPageClassesKeys
 					? section.customPageClassesKeys.map((key) => customPageClasses[key])
 					: [])
@@ -198,7 +198,7 @@ const SectionBodyBox = ({
 }) => {
 	const customPageClassName = cx(
 		createBoxTypeClass(box.___type),
-		handleBoxVariants(box.stylesVariants),
+		handleBoxVariants(box.twClassNameVariants),
 		...(box.customPageClassesKeys
 			? box.customPageClassesKeys?.map((key) => customPageClasses[key])
 			: [])

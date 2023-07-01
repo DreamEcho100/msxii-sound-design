@@ -11,11 +11,11 @@ export const createStandardSection = (
 		| 'title'
 		| 'description'
 		| 'customPageClassesKeys'
-		| 'stylesVariants'
+		| 'twClassNameVariants'
 	>
 ): StandardSection => ({
 	___type: SECTIONS_TYPES_map['standard-section'],
-	stylesVariants: { 'gap-x': '2', 'gap-y': '2' },
+	twClassNameVariants: { 'gap-x': '2', 'gap-y': '2' },
 	...params
 });
 
@@ -273,6 +273,12 @@ export const boxVariants = {
 	'object-fit': {
 		cover: 'object-cover',
 		contain: 'object-contain'
+	},
+	'text-align': {
+		center: 'text-center',
+		justify: 'text-justify',
+		left: 'text-left',
+		right: 'text-right'
 	}
 } as const;
 

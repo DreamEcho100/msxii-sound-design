@@ -1,6 +1,13 @@
-import { SHOPIFY_ERRORS_CODES_MAP } from '../errors';
+import {
+	SHOPIFY_CHECKOUT_ERRORS_CODES_MAP,
+	SHOPIFY_CUSTOMER_ERRORS_CODES_MAP
+} from '../errors';
 
-export type TSHOPIFY_ERRORS_CODES = keyof typeof SHOPIFY_ERRORS_CODES_MAP;
+export type SHOPIFY_CUSTOMER_ERRORS_CODES =
+	keyof typeof SHOPIFY_CUSTOMER_ERRORS_CODES_MAP;
+
+export type SHOPIFY_CHECKOUT_ERRORS_CODES =
+	keyof typeof SHOPIFY_CHECKOUT_ERRORS_CODES_MAP;
 
 export type Edges<Node> = { edges: { node: Node }[] };
 export type EdgesWithPagination<Node> = {
@@ -11,9 +18,9 @@ export type EdgesWithPagination<Node> = {
 	};
 };
 
-export type ShopifyError = {
+export type ShopifyErrorShape<ErrorCodes> = {
 	// https://shopify.dev/docs/api/storefront/2023-04/enums/CustomerErrorCode
-	code: TSHOPIFY_ERRORS_CODES;
+	code: ErrorCodes;
 	field: string[];
 	message: string;
 };
@@ -61,6 +68,10 @@ export type ShopifyImage = {
 	altText?: string;
 	width: number;
 	height: number;
+};
+export type ShopifySEO = {
+	title: string | null;
+	description: string | null;
 };
 // https://shopify.dev/docs/api/storefront/2023-04/objects/MoneyV2
 export type ShopifyMoneyV2 = {
@@ -166,14 +177,7 @@ export type BasicArticle = {
 	title: string;
 	publishedAt: string;
 	tags: string[];
-	image: {
-		id: string;
-		src: string;
-		url: string;
-		altText: null;
-		width: number;
-		height: number;
-	};
+	image: ShopifyImage;
 	authorV2: {
 		bio: string;
 		email: string;
@@ -198,18 +202,8 @@ export type Article = {
 	title: string;
 	publishedAt: string;
 	tags: string[];
-	image: {
-		id: string;
-		src: string;
-		url: string;
-		altText: null;
-		width: number;
-		height: number;
-	};
-	seo: {
-		title: string | null;
-		description: string | null;
-	};
+	image: ShopifyImage;
+	seo: ShopifySEO;
 	authorV2: {
 		bio: string;
 		email: string;
@@ -222,4 +216,9 @@ export type Article = {
 		handle: string;
 		title: string;
 	};
+};
+
+export type Checkout = {
+	//
+	id: string;
 };

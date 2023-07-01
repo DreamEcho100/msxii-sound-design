@@ -5,11 +5,11 @@ import {
 	protectedProcedure,
 	publicProcedure
 } from '~/server/api/trpc';
-import { customerAccessTokenCreateInputSchema } from '~/utils/shopify/client/gql/auth';
+import { customerAccessTokenCreateInputSchema } from '~/utils/shopify/client/auth';
 import {
 	ACCESS_TOKEN_KEY,
 	handleShopifyErrors
-} from '~/utils/shopify/client/utils';
+} from '~/utils/shopify/client/_utils';
 
 export const shopifyAuthRouter = createTRPCRouter({
 	register: protectedProcedure
@@ -24,7 +24,7 @@ export const shopifyAuthRouter = createTRPCRouter({
 			})
 		)
 		.mutation(async ({ ctx, input }) => {
-			const data = await ctx.shopify.gqlClient.auth.customer.mutations
+			const data = await ctx.shopify.auth.customer.mutations
 				.create(input)
 				.then((result) => {
 					handleShopifyErrors(result.customerCreate.customerUserErrors, {
@@ -38,20 +38,19 @@ export const shopifyAuthRouter = createTRPCRouter({
 					return result;
 				});
 
-			const accessTokenInfo =
-				await ctx.shopify.gqlClient.auth.customer.mutations
-					.accessTokenCreate({ email: input.email, password: input.password })
-					.then((result) => {
-						handleShopifyErrors(
-							result.customerAccessTokenCreate.customerUserErrors,
-							{
-								code: 'BAD_REQUEST',
-								customMessage: 'please check your email and password'
-							}
-						);
+			const accessTokenInfo = await ctx.shopify.auth.customer.mutations
+				.accessTokenCreate({ email: input.email, password: input.password })
+				.then((result) => {
+					handleShopifyErrors(
+						result.customerAccessTokenCreate.customerUserErrors,
+						{
+							code: 'BAD_REQUEST',
+							customMessage: 'please check your email and password'
+						}
+					);
 
-						return result.customerAccessTokenCreate.customerAccessToken;
-					});
+					return result.customerAccessTokenCreate.customerAccessToken;
+				});
 
 			ctx.cookieManger.setOne(ACCESS_TOKEN_KEY, accessTokenInfo.accessToken, {
 				maxAge:
@@ -73,25 +72,23 @@ export const shopifyAuthRouter = createTRPCRouter({
 			if (!ctx.cookieManger)
 				throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR' });
 
-			const accessTokenInfo =
-				await ctx.shopify.gqlClient.auth.customer.mutations
-					.accessTokenCreate(input)
-					.then((result) => {
-						handleShopifyErrors(
-							result.customerAccessTokenCreate.customerUserErrors,
-							{
-								code: 'BAD_REQUEST',
-								customMessage: 'please check your email and password'
-							}
-						);
+			const accessTokenInfo = await ctx.shopify.auth.customer.mutations
+				.accessTokenCreate(input)
+				.then((result) => {
+					handleShopifyErrors(
+						result.customerAccessTokenCreate.customerUserErrors,
+						{
+							code: 'BAD_REQUEST',
+							customMessage: 'please check your email and password'
+						}
+					);
 
-						return result.customerAccessTokenCreate.customerAccessToken;
-					});
-
-			const data =
-				await ctx.shopify.gqlClient.auth.customer.queries.dataByAccessToken({
-					customerAccessToken: accessTokenInfo.accessToken
+					return result.customerAccessTokenCreate.customerAccessToken;
 				});
+
+			const data = await ctx.shopify.auth.customer.queries.dataByAccessToken({
+				customerAccessToken: accessTokenInfo.accessToken
+			});
 
 			ctx.cookieManger.setOne(ACCESS_TOKEN_KEY, accessTokenInfo.accessToken, {
 				maxAge:
@@ -119,10 +116,9 @@ export const shopifyAuthRouter = createTRPCRouter({
 		)
 			throw new TRPCError({ code: 'FORBIDDEN' });
 
-		const data =
-			await ctx.shopify.gqlClient.auth.customer.queries.dataByAccessToken({
-				customerAccessToken
-			});
+		const data = await ctx.shopify.auth.customer.queries.dataByAccessToken({
+			customerAccessToken
+		});
 
 		return {
 			customer: data.customer,
@@ -131,16 +127,15 @@ export const shopifyAuthRouter = createTRPCRouter({
 	}),
 
 	signOut: protectedProcedure.mutation(async ({ ctx }) => {
-		const data =
-			(await ctx.shopify.gqlClient.auth.customer.mutations.accessTokenDelete({
-				customerAccessToken: ctx.accessToken
-			})) as {
-				customerAccessTokenDelete: {
-					deletedAccessToken: string;
-					deletedCustomerAccessTokenId: string;
-					userErrors: [];
-				};
+		const data = (await ctx.shopify.auth.customer.mutations.accessTokenDelete({
+			customerAccessToken: ctx.accessToken
+		})) as {
+			customerAccessTokenDelete: {
+				deletedAccessToken: string;
+				deletedCustomerAccessTokenId: string;
+				userErrors: [];
 			};
+		};
 
 		ctx.cookieManger.deleteOne(ACCESS_TOKEN_KEY);
 

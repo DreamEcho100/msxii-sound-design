@@ -1,6 +1,6 @@
 import { gql } from 'graphql-request';
-import { type Collection, Edges, BasicCollection } from '../../../types';
-import { graphQLClient } from '../../utils';
+import { type Collection, Edges, BasicCollection } from '../../types';
+import { graphQLClient } from '../_utils';
 import { gqlProductBasicSchemaText, gqlProductSchemaText } from '../products';
 import { z } from 'zod';
 import articles from './articles';

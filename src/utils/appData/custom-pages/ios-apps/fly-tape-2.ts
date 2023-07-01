@@ -1,11 +1,9 @@
 import {
 	StandardSection,
-	TwoColumnsBox,
 	BOXES_TYPES_map,
 	IframeBox,
 	SUB_BOXES_TYPES_map,
 	TabsBox,
-	RowsOnlyBox,
 	CustomPage,
 	GridBox
 } from '~/utils/types/custom-page';
@@ -15,18 +13,18 @@ const FlyTape2IOSApp: StandardSection[] = (() => {
 	const appLink = 'https://apps.apple.com/us/app/fly-tape-2/id1552463664';
 
 	const gridBox: GridBox = {
-		stylesVariants: { 'gap-x': '8' },
+		twClassNameVariants: { 'gap-x': '8' },
 		___type: BOXES_TYPES_map['grid'],
 		gridTemplateColumns: `repeat(auto-fit, minmax(20rem, 1fr))`,
 		items: [
 			{
 				customPageClassesKeys: ['center-on-ls-md-screens', 'objects-contain'],
-				stylesVariants: { 'aspect-ratio': 'square' }, // w: '96', h: '96',
+				twClassNameVariants: { 'aspect-ratio': 'square' }, // w: '96', h: '96',
 				___type: BOXES_TYPES_map['image-only'],
 				src: 'https://cdn.shopify.com/s/files/1/0345/7209/t/28/assets/pf-baa9b738--Screen-Shot-20210324-at-35800-PM.png?v=1616619654'
 			},
 			{
-				stylesVariants: { 'gap-y': '2', px: '4' },
+				twClassNameVariants: { 'gap-y': '2', px: '4' },
 				___type: BOXES_TYPES_map['md'],
 				customPageClassesKeys: ['center-on-ls-md-screens'],
 				content: `# Fly Tape 2
@@ -51,7 +49,7 @@ FlyTape 2 installs as an iOS AUv3 plugin effect, designed for use within host ap
 			{
 				title: 'Description',
 				data: {
-					stylesVariants: { 'gap-y': '2', px: '4' },
+					twClassNameVariants: { 'gap-y': '2', px: '4' },
 					___type: BOXES_TYPES_map['md'],
 					content: `FlyTape 2 builds on the principles of the original FlyTape. A love of vintage sounds and character is our thing and FlyTape 2 fits this ethos as a unique take on the features of classic tape. Named for it's style, performance and user improvisation control, it's FX can be added to incoming audio signals in many ways "on the fly".
 
@@ -66,7 +64,7 @@ FlyTape 2 installs as an iOS AUv3 plugin effect, designed for use within host ap
 			{
 				title: 'Specs',
 				data: {
-					stylesVariants: { 'gap-y': '2', px: '4' },
+					twClassNameVariants: { 'gap-y': '2', px: '4' },
 					___type: BOXES_TYPES_map['md'],
 					content: `![](https://cdn.shopify.com/s/files/1/0345/7209/t/28/assets/pf-70d1e1f6--Screen-Shot-20210331-at-35150-PM-Edited.jpg?v=1617224012)`
 				}
@@ -74,13 +72,13 @@ FlyTape 2 installs as an iOS AUv3 plugin effect, designed for use within host ap
 			{
 				title: 'User Manual',
 				data: {
-					stylesVariants: { 'gap-x': '8', 'gap-y': '8' },
+					twClassNameVariants: { 'gap-x': '8', 'gap-y': '8' },
 					___type: BOXES_TYPES_map['grid'],
 					gridTemplateColumns: `repeat(auto-fit, minmax(20rem, 1fr))`,
 					items: [
 						{
 							customPageClassesKeys: ['center-on-ls-md-screens'],
-							stylesVariants: { 'gap-y': '2', px: '4' },
+							twClassNameVariants: { 'gap-y': '2', px: '4' },
 							___type: BOXES_TYPES_map['md'],
 							content: `### Whats New:
 	
@@ -97,7 +95,7 @@ You can check out the reference guide/manual below. Download and save to your iP
 								'center-on-ls-md-screens',
 								'object-contain'
 							],
-							// stylesVariants: { w: '96' },
+							// twClassNameVariants: { w: '96' },
 							___type: BOXES_TYPES_map['image-only'],
 							src: 'https://cdn.shopify.com/s/files/1/0345/7209/t/28/assets/pf-6ed32248--Screen-Shot-20210324-at-13333-PM.png?v=1616610936'
 						}
@@ -113,7 +111,7 @@ You can check out the reference guide/manual below. Download and save to your iP
 	};
 	const gridBox2: GridBox = {
 		___type: BOXES_TYPES_map['grid'],
-		stylesVariants: { 'gap-x': '10', 'gap-y': '8' },
+		twClassNameVariants: { 'gap-x': '10', 'gap-y': '8' },
 		gridTemplateColumns: `repeat(auto-fill, minmax(15rem, 1fr))`,
 		items: [
 			{
@@ -154,13 +152,14 @@ The original Fly Tape was like seasoning to my production but part 2 is now a ma
 			// }
 		]
 	};
-	const rowsOnlyBox: RowsOnlyBox = {
-		___type: 'rows-only',
-		stylesVariants: { 'gap-y': '3' },
+	const gridBox3: GridBox = {
+		___type: BOXES_TYPES_map['grid'],
+		twClassNameVariants: { 'gap-y': '3' },
+		gridTemplateColumns: `1fr`,
 		customPageClassesKeys: ['center-content'],
-		rows: [
+		items: [
 			{
-				stylesVariants: { rounded: '5xl', w: '40', h: '40' },
+				twClassNameVariants: { rounded: '5xl', w: '40', h: '40' },
 				___type: 'image-only',
 				src: 'https://cdn.shopify.com/s/files/1/0345/7209/t/28/assets/pf-2248baa9--tape-2-crop.jpg?v=1616617146'
 			},
@@ -178,20 +177,20 @@ The original Fly Tape was like seasoning to my production but part 2 is now a ma
 		createStandardSection({
 			body: [iframeBox2],
 			title: 'Tutorial',
-			stylesVariants: { 'gap-y': '4' }
+			twClassNameVariants: { 'gap-y': '4' }
 		}),
 		createStandardSection({
 			body: [gridBox2],
 			// title: 'Fly Tape 2 Around The Web',
-			stylesVariants: { 'gap-y': '8' }
+			twClassNameVariants: { 'gap-y': '8' }
 			// customPageClassesKeys: ['section-container-v1']
 		}),
-		createStandardSection({ body: [rowsOnlyBox] })
+		createStandardSection({ body: [gridBox3] })
 	];
 })();
 
 const flyTape2PageData: CustomPage = {
-	stylesVariants: {
+	twClassNameVariants: {
 		'max-w': '100ch',
 		mx: 'auto',
 		px: '8',

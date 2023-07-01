@@ -1,12 +1,10 @@
 import {
 	StandardSection,
-	TwoColumnsBox,
 	BOXES_TYPES_map,
 	IframeBox,
 	SUB_BOXES_TYPES_map,
 	TabsBox,
 	SliderBox,
-	RowsOnlyBox,
 	CustomPage,
 	GridBox
 } from '~/utils/types/custom-page';
@@ -16,19 +14,19 @@ export const FlyTapeIOSApp: StandardSection[] = (() => {
 	const appLink = 'https://apps.apple.com/us/app/fly-tape/id1343651192';
 
 	const gridBox: GridBox = {
-		stylesVariants: { 'gap-x': '8' },
+		twClassNameVariants: { 'gap-x': '8' },
 		___type: BOXES_TYPES_map['grid'],
 		gridTemplateColumns: `repeat(auto-fit, minmax(20rem, 1fr))`,
 		items: [
 			{
 				customPageClassesKeys: ['center-on-ls-md-screens', 'objects-contain'],
-				stylesVariants: { 'aspect-ratio': 'square' }, // w: '96', h: '96',
+				twClassNameVariants: { 'aspect-ratio': 'square' }, // w: '96', h: '96',
 				___type: BOXES_TYPES_map['image-only'],
 				src: 'https://cdn.shopify.com/s/files/1/0345/7209/t/28/assets/pf-f357e20c--Flytapeappdisplay.png?v=1589053729'
 			},
 			{
 				customPageClassesKeys: ['center-on-ls-md-screens'],
-				stylesVariants: { 'gap-y': '2', px: '4' },
+				twClassNameVariants: { 'gap-y': '2', px: '4' },
 				___type: BOXES_TYPES_map['md'],
 				content: `# Fly Tape
 ## IOS-APP
@@ -52,7 +50,7 @@ Fly Tape installs as an iOS AUv3 FX plugin, designed for use within host apps su
 			{
 				title: 'Description',
 				data: {
-					stylesVariants: { 'gap-y': '2', px: '4' },
+					twClassNameVariants: { 'gap-y': '2', px: '4' },
 					___type: BOXES_TYPES_map['md'],
 					content: `Named for it's performance style of use, users can adding FX to their incoming audio signals in many ways "on the Fly." Sliders for textured nuances such as hiss & pitch will allow you to dial in tasteful settings that can become reminiscent of cassette tapes. These also can be automated via midi cc for additional modulation.`
 				}
@@ -60,7 +58,7 @@ Fly Tape installs as an iOS AUv3 FX plugin, designed for use within host apps su
 			{
 				title: 'Specs',
 				data: {
-					stylesVariants: { 'gap-y': '2', px: '4' },
+					twClassNameVariants: { 'gap-y': '2', px: '4' },
 					___type: BOXES_TYPES_map['md'],
 					content: `### Fly Tape FX:
 
@@ -147,13 +145,13 @@ Fly Tape's Midi CC values are listed below:
 			{
 				title: 'User Manual',
 				data: {
-					stylesVariants: { 'gap-x': '8', 'gap-y': '8' },
+					twClassNameVariants: { 'gap-x': '8', 'gap-y': '8' },
 					___type: BOXES_TYPES_map['grid'],
 					gridTemplateColumns: `repeat(auto-fit, minmax(20rem, 1fr))`,
 					items: [
 						{
 							customPageClassesKeys: ['center-on-ls-md-screens'],
-							stylesVariants: { 'gap-y': '2', px: '4' },
+							twClassNameVariants: { 'gap-y': '2', px: '4' },
 							___type: BOXES_TYPES_map['md'],
 							content: `### Whats New:
 	
@@ -169,7 +167,7 @@ You can check out the reference guide below
 								'center-on-ls-md-screens',
 								'object-contain'
 							],
-							// stylesVariants: { w: '96' },
+							// twClassNameVariants: { w: '96' },
 							___type: BOXES_TYPES_map['image-only'],
 							src: 'https://cdn.shopify.com/s/files/1/0345/7209/t/28/assets/pf-f7f4b998--FlyTapeManualImage.png?v=1589395846'
 						}
@@ -224,13 +222,14 @@ You can check out the reference guide below
 			}
 		]
 	};
-	const rowsOnlyBox: RowsOnlyBox = {
-		___type: 'rows-only',
-		stylesVariants: { 'gap-y': '3' },
+	const gridBox2: GridBox = {
+		___type: BOXES_TYPES_map['grid'],
+		twClassNameVariants: { 'gap-y': '3' },
+		gridTemplateColumns: `1fr`,
 		customPageClassesKeys: ['center-content'],
-		rows: [
+		items: [
 			{
-				stylesVariants: { rounded: '5xl', w: '40', h: '40' },
+				twClassNameVariants: { rounded: '5xl', w: '40', h: '40' },
 				___type: 'image-only',
 				src: '/images/custom-page/FlyTapeappicon1.png'
 			},
@@ -248,19 +247,19 @@ You can check out the reference guide below
 		createStandardSection({
 			body: [sliderBox],
 			title: 'Tutorial',
-			stylesVariants: { 'gap-y': '4' }
+			twClassNameVariants: { 'gap-y': '4' }
 		}),
 		createStandardSection({
 			body: [sliderBox2],
 			title: 'Fly Tape Around The Web',
 			customPageClassesKeys: ['section-container-v1']
 		}),
-		createStandardSection({ body: [rowsOnlyBox] })
+		createStandardSection({ body: [gridBox2] })
 	];
 })();
 
 const flyTapePageData: CustomPage = {
-	stylesVariants: {
+	twClassNameVariants: {
 		'max-w': '100ch',
 		mx: 'auto',
 		px: '8',

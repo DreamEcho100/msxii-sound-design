@@ -1,8 +1,11 @@
 import { gql } from 'graphql-request';
 import { z } from 'zod';
-import { type Customer, ShopifyError } from '../../types';
-import { graphQLClient, customerGQLFields } from '../utils';
-// import type { Customer, ShopifyError } from '../../../types';
+import {
+	type Customer,
+	ShopifyErrorShape,
+	type SHOPIFY_CUSTOMER_ERRORS_CODES
+} from '../types';
+import { graphQLClient, customerGQLFields } from './_utils';
 
 export const customerAccessTokenCreateInputSchema = z.object({
 	email: z.string().email(),
@@ -42,7 +45,7 @@ const customerAccessTokenCreateMutation = async (
 				accessToken: string;
 				expiresAt: string;
 			};
-			customerUserErrors: ShopifyError[];
+			customerUserErrors: ShopifyErrorShape<SHOPIFY_CUSTOMER_ERRORS_CODES>[];
 		};
 	};
 };
@@ -127,7 +130,7 @@ const customerCreateMutation = async (
 	return (await graphQLClient.request(template, { input })) as {
 		customerCreate: {
 			customer: Customer;
-			customerUserErrors: ShopifyError[];
+			customerUserErrors: ShopifyErrorShape<SHOPIFY_CUSTOMER_ERRORS_CODES>[];
 		};
 	};
 };

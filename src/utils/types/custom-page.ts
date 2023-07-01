@@ -36,21 +36,21 @@ export const SUB_BOXES_TYPES_map = Object.fromEntries(
 
 // Prisma model done
 export type ImageOnly = {
-	stylesVariants?: BoxVariants;
+	twClassNameVariants?: BoxVariants;
 	customPageClassesKeys?: string[];
 	___type: (typeof BOXES_TYPES_map)['image-only'];
 	src: string;
 };
 // Prisma model done
 export type MDBox = {
-	stylesVariants?: BoxVariants;
+	twClassNameVariants?: BoxVariants;
 	customPageClassesKeys?: string[];
 	___type: (typeof BOXES_TYPES_map)['md'];
 	content: string;
 };
 // Prisma model done
 export type IframeBox = {
-	stylesVariants?: BoxVariants;
+	twClassNameVariants?: BoxVariants;
 	customPageClassesKeys?: string[];
 	___type: (typeof BOXES_TYPES_map)['iframe'];
 	___subType: SUB_BOXES_TYPE;
@@ -58,7 +58,7 @@ export type IframeBox = {
 };
 // Prisma model done
 export type QuoteBox = {
-	stylesVariants?: BoxVariants;
+	twClassNameVariants?: BoxVariants;
 	customPageClassesKeys?: string[];
 	___type: (typeof BOXES_TYPES_map)['quote'];
 	cite: string;
@@ -68,7 +68,7 @@ export type QuoteBox = {
 /**  **/
 // Prisma model done
 export type TabsBox = {
-	stylesVariants?: BoxVariants;
+	twClassNameVariants?: BoxVariants;
 	customPageClassesKeys?: string[];
 	___type: (typeof BOXES_TYPES_map)['tabs'];
 	tabs: {
@@ -78,35 +78,33 @@ export type TabsBox = {
 };
 // Prisma model done
 export type SliderBox = {
-	stylesVariants?: BoxVariants;
+	twClassNameVariants?: BoxVariants;
 	customPageClassesKeys?: string[];
 	___type: (typeof BOXES_TYPES_map)['slider'];
 	slides: (IframeBox | QuoteBox)[];
 	slidesPerViewType?: 'default' | 'one-slide' | 'large-slides'; // ! move to there own enums
 };
+// Prisma model done
+export type GridBox = {
+	___type: (typeof BOXES_TYPES_map)['grid'];
+
+	twClassNameVariants?: BoxVariants;
+	customPageClassesKeys?: string[];
+	gridTemplateColumns?: string;
+	items: (ImageOnly | MDBox | IframeBox | QuoteBox)[];
+};
+// x
 export type TwoColumnsBox = {
-	stylesVariants?: BoxVariants;
+	twClassNameVariants?: BoxVariants;
 	customPageClassesKeys?: string[];
 	___type: (typeof BOXES_TYPES_map)['two-columns'];
 	columns: (ImageOnly | MDBox)[];
 };
-export type GridBox = {
-	___type: (typeof BOXES_TYPES_map)['grid'];
-
-	stylesVariants?: BoxVariants;
-	customPageClassesKeys?: string[];
-	// rows: Exclude<Box, RowsOnlyBox>[];
-	// _gridTemplateColumns?: {
-	// 	min1: string;
-	// 	min2?: string;
-	// };
-	gridTemplateColumns?: string;
-	items: (ImageOnly | MDBox | IframeBox | QuoteBox)[];
-};
+// x
 export type RowsOnlyBox = {
 	___type: (typeof BOXES_TYPES_map)['rows-only'];
 
-	stylesVariants?: BoxVariants;
+	twClassNameVariants?: BoxVariants;
 	customPageClassesKeys?: string[];
 	rows: Exclude<Box, RowsOnlyBox>[];
 };
@@ -117,15 +115,15 @@ export type Box =
 	| IframeBox
 	| QuoteBox
 	//
-	| RowsOnlyBox
-	//
 	| TabsBox
 	| SliderBox
-	| TwoColumnsBox
-	| GridBox;
+	| GridBox
+	// x
+	| RowsOnlyBox
+	| TwoColumnsBox;
 
 export type StandardSection = {
-	stylesVariants?: BoxVariants;
+	twClassNameVariants?: BoxVariants;
 	customPageClassesKeys?: string[];
 	___type: (typeof SECTIONS_TYPES_map)['standard-section'];
 	title?: string;
@@ -134,7 +132,7 @@ export type StandardSection = {
 };
 
 export type CustomPage = {
-	stylesVariants?: BoxVariants;
+	twClassNameVariants?: BoxVariants;
 	customPageClassesKeys?: string[];
 	slug: string;
 	mainTag?: string | undefined;

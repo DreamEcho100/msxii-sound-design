@@ -3,26 +3,22 @@ import {
 	getOneArticleByIdGQLQueryInputSchema,
 	getQQLManyArticlesInputSchema,
 	getQQLManyBasicArticlesInputSchema
-} from '~/utils/shopify/client/gql/blogs/articles';
+} from '~/utils/shopify/client/blogs/articles';
 // gid://shopify/Article/11589513
 export const shopifyBlogsRouter = createTRPCRouter({
 	// getAll: publicProcedure.query(
-	// 	async ({ ctx, input }) => await ctx.shopify.gqlClient.blogs.queries.all()
+	// 	async ({ ctx, input }) => await ctx.shopify.blogs.queries.all()
 	// ),
 	articles: createTRPCRouter({
 		getOneById: publicProcedure
 			.input(getOneArticleByIdGQLQueryInputSchema)
 			.query(async ({ ctx, input }) => {
-				return await ctx.shopify.gqlClient.blogs.articles.queries.oneArticleById(
-					input
-				);
+				return await ctx.shopify.blogs.articles.queries.oneArticleById(input);
 			}),
 		getMany: publicProcedure
 			.input(getQQLManyArticlesInputSchema)
 			.query(async ({ ctx, input }) => {
-				const data = await ctx.shopify.gqlClient.blogs.articles.queries.many(
-					input
-				);
+				const data = await ctx.shopify.blogs.articles.queries.many(input);
 
 				let nextCursor: typeof input.cursor | undefined = undefined;
 				if (data.articles.pageInfo.hasNextPage) {
@@ -38,8 +34,7 @@ export const shopifyBlogsRouter = createTRPCRouter({
 		getManyBasic: publicProcedure
 			.input(getQQLManyBasicArticlesInputSchema)
 			.query(async ({ ctx, input }) => {
-				const data =
-					await ctx.shopify.gqlClient.blogs.articles.queries.manyBasic(input);
+				const data = await ctx.shopify.blogs.articles.queries.manyBasic(input);
 
 				let nextCursor: typeof input.cursor | undefined = undefined;
 				if (data.articles.pageInfo.hasNextPage) {

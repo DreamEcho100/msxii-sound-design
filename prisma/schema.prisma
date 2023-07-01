@@ -66,256 +66,293 @@ model VerificationToken {
   @@unique([identifier, token])
 }
 
-// //
-
-// model ClassName {
-//   id        String    @id @default(cuid())
-//   createdAt DateTime  @default(now())
-//   updatedAt DateTime? @updatedAt
+//
+
+model ClassName {
+  id        String    @id @default(cuid())
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt
+
+  twVariants Json     @default("{}")
+  custom     String[]
+
+  boxes                  Box[]
+  sections               Section[]
+  pages                  Page[]
+  mdsBoxes               MDBox[]
+  imagesBoxes            ImageBox[]
+  IframesBoxes           IframeBox[]
+  quotesBoxes            QuoteBox[]
+  HeadersBoxes           HeaderBox[]
+  tabsContainersBoxes    TabsContainerBox[]
+  slidersContainersBoxes SlidersContainerBox[]
+  gridsBoxes             GridBox[]
+}
 
-//   twVariants Json     @default("{}")
-//   custom     String[]
-
-//   boxes                  Box[]
-//   sections               Section[]
-//   pages                  Page[]
-//   mdsBoxes               MDBox[]
-//   imagesBoxes            ImageBox[]
-//   IframesBoxes           IframeBox[]
-//   quotesBoxes            QuoteBox[]
-//   HeadersBoxes           HeaderBox[]
-//   tabsContainersBoxes    TabsContainerBox[]
-//   slidersContainersBoxes SlidersContainerBox[]
-// }
+model MDBox {
+  id        String    @id @default(cuid())
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt
 
-// model MDBox {
-//   id        String    @id @default(cuid())
-//   createdAt DateTime  @default(now())
-//   updatedAt DateTime? @updatedAt
+  className   ClassName @relation(fields: [classNameId], references: [id])
+  classNameId String
 
-//   className   ClassName @relation(fields: [classNameId], references: [id])
-//   classNameId String
+  box     Box      @relation(fields: [boxId, boxType], references: [id, type])
+  boxId   String
+  boxType BoxTypes @default(MD)
 
-//   box     Box      @relation(fields: [boxId, boxType], references: [id, type])
-//   boxId   String
-//   boxType BoxTypes @default(MD)
+  content String
 
-//   content String
+  @@unique([boxId, boxType])
+}
 
-//   @@unique([boxId, boxType])
-// }
+model ImageBox {
+  id        String    @id @default(cuid())
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt
 
-// model ImageBox {
-//   id        String    @id @default(cuid())
-//   createdAt DateTime  @default(now())
-//   updatedAt DateTime? @updatedAt
+  className   ClassName @relation(fields: [classNameId], references: [id])
+  classNameId String
 
-//   className   ClassName @relation(fields: [classNameId], references: [id])
-//   classNameId String
+  box     Box      @relation(fields: [boxId, boxType], references: [id, type])
+  boxId   String
+  boxType BoxTypes @default(IMAGE)
 
-//   box     Box      @relation(fields: [boxId, boxType], references: [id, type])
-//   boxId   String
-//   boxType BoxTypes @default(IMAGE)
+  src String
 
-//   src String
+  @@unique([boxId, boxType])
+}
 
-//   @@unique([boxId, boxType])
-// }
+enum IframeBoxTypes {
+  YOUTUBE
+  INSTAGRAM
+  SOUND_CLOUD
+}
 
-// enum IframeBoxTypes {
-//   YOUTUBE
-//   INSTAGRAM
-//   SOUNDCLOUD
-// }
+model IframeBox {
+  id        String    @id @default(cuid())
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt
 
-// model IframeBox {
-//   id        String    @id @default(cuid())
-//   createdAt DateTime  @default(now())
-//   updatedAt DateTime? @updatedAt
+  className   ClassName @relation(fields: [classNameId], references: [id])
+  classNameId String
 
-//   className   ClassName @relation(fields: [classNameId], references: [id])
-//   classNameId String
+  box     Box      @relation(fields: [boxId, boxType], references: [id, type])
+  boxId   String
+  boxType BoxTypes @default(IFRAME)
 
-//   box     Box      @relation(fields: [boxId, boxType], references: [id, type])
-//   boxId   String
-//   boxType BoxTypes @default(IFRAME)
+  type IframeBoxTypes
+  src  String
 
-//   type IframeBoxTypes
-//   src  String
+  @@unique([boxId, boxType])
+}
 
-//   @@unique([boxId, boxType])
-// }
+model QuoteBox {
+  id        String    @id @default(cuid())
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt
 
-// model QuoteBox {
-//   id        String    @id @default(cuid())
-//   createdAt DateTime  @default(now())
-//   updatedAt DateTime? @updatedAt
+  className   ClassName @relation(fields: [classNameId], references: [id])
+  classNameId String
 
-//   className   ClassName @relation(fields: [classNameId], references: [id])
-//   classNameId String
+  box     Box      @relation(fields: [boxId, boxType], references: [id, type])
+  boxId   String
+  boxType BoxTypes @default(QUOTE)
 
-//   box     Box      @relation(fields: [boxId, boxType], references: [id, type])
-//   boxId   String
-//   boxType BoxTypes @default(QUOTE)
+  cite    String
+  content String
 
-//   cite    String
-//   content String
+  @@unique([boxId, boxType])
+}
 
-//   @@unique([boxId, boxType])
-// }
+model HeaderBox {
+  id        String    @id @default(cuid())
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt
 
-// model HeaderBox {
-//   id        String    @id @default(cuid())
-//   createdAt DateTime  @default(now())
-//   updatedAt DateTime? @updatedAt
+  className   ClassName @relation(fields: [classNameId], references: [id])
+  classNameId String
 
-//   className   ClassName @relation(fields: [classNameId], references: [id])
-//   classNameId String
+  box     Box      @relation(fields: [boxId, boxType], references: [id, type])
+  boxId   String
+  boxType BoxTypes @default(HEADER)
 
-//   box     Box      @relation(fields: [boxId, boxType], references: [id, type])
-//   boxId   String
-//   boxType BoxTypes @default(HEADER)
+  title       String
+  description String?
 
-//   title       String
-//   description String?
+  @@unique([boxId, boxType])
+}
 
-//   @@unique([boxId, boxType])
-// }
+model TabsContainerBox {
+  id        String    @id @default(cuid())
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt
 
-// model TabsContainerBox {
-//   id        String    @id @default(cuid())
-//   createdAt DateTime  @default(now())
-//   updatedAt DateTime? @updatedAt
+  className   ClassName @relation(fields: [classNameId], references: [id])
+  classNameId String
 
-//   className   ClassName @relation(fields: [classNameId], references: [id])
-//   classNameId String
+  box     Box      @relation(fields: [boxId, boxType], references: [id, type])
+  boxId   String
+  boxType BoxTypes @default(TABS_CONTAINER)
 
-//   box     Box      @relation(fields: [boxId, boxType], references: [id, type])
-//   boxId   String
-//   boxType BoxTypes @default(TABS_CONTAINER)
+  tabItems TabItemOnTabsContainerBox[]
 
-//   tabItems TabItemOnTabsContainerBox[]
+  @@unique([boxId, boxType])
+}
 
-//   @@unique([boxId, boxType])
-// }
+model TabItemOnTabsContainerBox {
+  id        String    @unique @default(cuid())
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt
 
-// model TabItemOnTabsContainerBox {
-//   id        String    @unique @default(cuid())
-//   createdAt DateTime  @default(now())
-//   updatedAt DateTime? @updatedAt
+  tabsContainerBox   TabsContainerBox @relation(fields: [tabsContainerBoxId], references: [id])
+  tabsContainerBoxId String
 
-//   TabsContainerBox   TabsContainerBox @relation(fields: [tabsContainerBoxId], references: [id])
-//   tabsContainerBoxId String
+  tabItem   Box    @relation(fields: [tabItemId], references: [id])
+  tabItemId String
 
-//   tabItem   Box    @relation(fields: [tabItemId], references: [id])
-//   tabItemId String
+  title String
 
-//   title String
+  @@id([tabsContainerBoxId, tabItemId])
+}
 
-//   @@id([tabsContainerBoxId, tabItemId])
-// }
+enum SlidersContainerSlidePerViewType {
+  DEFAULT
+  ONE_SLIDE
+  LARGE_SLIDES
+}
 
-// enum SlidersContainerSlidePerViewType {
-//   DEFAULT
-//   ONE_SLIDE
-//   LARGE_SLIDES
-// }
+model SlidersContainerBox {
+  id        String    @id @default(cuid())
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt
 
-// model SlidersContainerBox {
-//   id        String    @id @default(cuid())
-//   createdAt DateTime  @default(now())
-//   updatedAt DateTime? @updatedAt
+  className   ClassName @relation(fields: [classNameId], references: [id])
+  classNameId String
 
-//   className   ClassName @relation(fields: [classNameId], references: [id])
-//   classNameId String
+  box     Box      @relation(fields: [boxId, boxType], references: [id, type])
+  boxId   String
+  boxType BoxTypes @default(TABS_CONTAINER)
 
-//   box     Box      @relation(fields: [boxId, boxType], references: [id, type])
-//   boxId   String
-//   boxType BoxTypes @default(TABS_CONTAINER)
+  slidesPerViewType SlidersContainerSlidePerViewType @default(DEFAULT)
 
-//   slidesPerViewType SlidersContainerSlidePerViewType @default(DEFAULT)
+  slides SliderItemOnSlidersContainerBox[]
 
-//   slides SliderItemOnSlidersContainerBox[]
+  @@unique([boxId, boxType])
+}
 
-//   @@unique([boxId, boxType])
-// }
+model SliderItemOnSlidersContainerBox {
+  id        String    @unique @default(cuid())
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt
 
-// model SliderItemOnSlidersContainerBox {
-//   id        String    @unique @default(cuid())
-//   createdAt DateTime  @default(now())
-//   updatedAt DateTime? @updatedAt
+  slidersContainerBox   SlidersContainerBox @relation(fields: [slidersContainerBoxId], references: [id])
+  slidersContainerBoxId String
 
-//   SlidersContainerBox   SlidersContainerBox @relation(fields: [slidersContainerBoxId], references: [id])
-//   slidersContainerBoxId String
+  slide   Box    @relation(fields: [slideId], references: [id])
+  slideId String
 
-//   slide   Box    @relation(fields: [slideId], references: [id])
-//   slideId String
+  title String
 
-//   title String
+  @@id([slidersContainerBoxId, slideId])
+}
 
-//   @@id([slidersContainerBoxId, slideId])
-// }
+model GridBox {
+  id        String    @id @default(cuid())
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt
 
-// enum BoxTypes {
-//   MD
-//   IMAGE
-//   IFRAME
-//   QUOTE
-//   HEADER
-//   TABS_CONTAINER
-//   TAB
-// }
+  className   ClassName @relation(fields: [classNameId], references: [id])
+  classNameId String
 
-// model Box {
-//   id        String   @unique @default(cuid())
-//   type      BoxTypes
-//   createdAt DateTime @default(now())
+  box     Box      @relation(fields: [boxId, boxType], references: [id, type])
+  boxId   String
+  boxType BoxTypes @default(GRID)
 
-//   className   ClassName @relation(fields: [classNameId], references: [id])
-//   classNameId String
+  items GridItemOnGridBox[]
 
-//   section   Section @relation(fields: [sectionId], references: [id])
-//   sectionId String
+  @@unique([boxId, boxType])
+}
 
-//   mdBox               MDBox?
-//   imageBox            ImageBox?
-//   IframeBox           IframeBox?
-//   quoteBox            QuoteBox?
-//   headerBox           HeaderBox?
-//   tabsContainerBox    TabsContainerBox?
-//   slidersContainerBox SlidersContainerBox?
+model GridItemOnGridBox {
+  id        String    @unique @default(cuid())
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt
 
-//   tabsContainerBoxParents    TabItemOnTabsContainerBox[]
-//   slidersContainerBoxParents SliderItemOnSlidersContainerBox[]
+  GridBox            GridBox @relation(fields: [tabsContainerBoxId], references: [id])
+  tabsContainerBoxId String
 
-//   @@id([id, type])
-// }
+  grid   Box    @relation(fields: [gridId], references: [id])
+  gridId String
 
-// model Section {
-//   id        String   @id @default(cuid())
-//   createdAt DateTime @default(now())
+  title String
 
-//   className   ClassName @relation(fields: [classNameId], references: [id])
-//   classNameId String
+  @@id([tabsContainerBoxId, gridId])
+}
 
-//   body Box[]
+enum BoxTypes {
+  MD
+  IMAGE
+  IFRAME
+  QUOTE
+  HEADER
+  TABS_CONTAINER
+  TAB
+  GRID
+}
 
-//   // ___type       String?
+model Box {
+  id        String   @unique @default(cuid())
+  type      BoxTypes
+  createdAt DateTime @default(now())
 
-//   page   Page   @relation(fields: [pageId], references: [id])
-//   pageId String
-// }
+  className   ClassName @relation(fields: [classNameId], references: [id])
+  classNameId String
 
-// model Page {
-//   id        String    @id @default(cuid())
-//   createdAt DateTime  @default(now())
-//   updatedAt DateTime? @updatedAt
+  section   Section @relation(fields: [sectionId], references: [id])
+  sectionId String
 
-//   className   ClassName @relation(fields: [classNameId], references: [id])
-//   classNameId String
+  mdBox               MDBox?
+  imageBox            ImageBox?
+  IframeBox           IframeBox?
+  quoteBox            QuoteBox?
+  headerBox           HeaderBox?
+  tabsContainerBox    TabsContainerBox?
+  slidersContainerBox SlidersContainerBox?
+  gridBox             GridBox?
 
-//   slug    String
-//   mainTag String
+  tabsContainerBoxParents    TabItemOnTabsContainerBox[]
+  slidersContainerBoxParents SliderItemOnSlidersContainerBox[]
+  gridBoxParents             GridItemOnGridBox[]
 
-//   sections Section[]
-// }
+  @@id([id, type])
+}
+
+model Section {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+
+  className   ClassName @relation(fields: [classNameId], references: [id])
+  classNameId String
+
+  body Box[]
+
+  // ___type       String?
+
+  page   Page   @relation(fields: [pageId], references: [id])
+  pageId String
+}
+
+model Page {
+  id        String    @id @default(cuid())
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt
+
+  className   ClassName @relation(fields: [classNameId], references: [id])
+  classNameId String
+
+  slug    String
+  mainTag String
+
+  sections Section[]
+}

@@ -43,7 +43,7 @@ const CreativeSpacePage = (
 					pageStructure
 					/*
 					{
-					stylesVariants: {
+					twClassNameVariants: {
 						px: '12',
 						py: '16',
 						'gap-x': '16',
@@ -53,12 +53,12 @@ const CreativeSpacePage = (
 					mainTag: 'blue-label-page',
 					pageStructure: [
 						{
-							stylesVariants: { 'gap-y': '16' },
+							twClassNameVariants: { 'gap-y': '16' },
 							___type: 'standard-section',
 							title: 'Blue Label',
 							body: [
 								{
-									stylesVariants: {
+									twClassNameVariants: {
 										w: 'full',
 										rounded: '3xl',
 										'max-w': '100ch',

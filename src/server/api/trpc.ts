@@ -74,7 +74,7 @@ import superjson from 'superjson';
 import shopify from '../../utils/shopify/client/index';
 import { getCookieManger } from '~/utils/cookies';
 import { NextApiRequest, NextApiResponse } from 'next';
-import { ACCESS_TOKEN_KEY } from '~/utils/shopify/client/utils';
+import { ACCESS_TOKEN_KEY } from '~/utils/shopify/client/_utils';
 
 const t = initTRPC.context<typeof createTRPCContext>().create({
 	transformer: superjson,

@@ -10,7 +10,7 @@ import { appRouter } from '~/server/api/root';
 import { createInnerTRPCContext } from '~/server/api/trpc';
 import { RouterInputs, api } from '~/utils/api';
 import Head from 'next/head';
-import shopifyGQLClient from '~/utils/shopify/client/gql';
+import shopifyGQLClient from '~/utils/shopify/client';
 import CustomNextImage from '~/components/shared/CustomNextImage';
 import { useEffect, useState } from 'react';
 

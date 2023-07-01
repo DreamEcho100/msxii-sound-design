@@ -1,9 +1,8 @@
 import { gql } from 'graphql-request';
 import { z } from 'zod';
-import { Edges, type Product } from '../../types';
-import { graphQLClient } from '../utils';
+import { Edges, type Product } from '../types';
+import { graphQLClient } from './_utils';
 import { gqlPriceText, gqlImageText } from './utils';
-// import type { Customer, ShopifyError } from '../../../types';
 
 export const gqlProductSchemaText = `id
 title

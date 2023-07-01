@@ -3,8 +3,8 @@ import {
 	type Article,
 	type EdgesWithPagination,
 	type Edges
-} from '../../../types';
-import { graphQLClient } from '../../utils';
+} from '../../types';
+import { graphQLClient } from '../_utils';
 import { z } from 'zod';
 import { buildGQLArgsString, gqlImageText, gqlSEOText } from '../utils';
 

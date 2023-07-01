@@ -5,7 +5,6 @@ import {
 	SUB_BOXES_TYPES_map,
 	TabsBox,
 	SliderBox,
-	RowsOnlyBox,
 	CustomPage,
 	GridBox
 } from '~/utils/types/custom-page';
@@ -15,19 +14,19 @@ export const ChomplrOSApp: StandardSection[] = (() => {
 	const appLink = 'https://apps.apple.com/us/app/chomplr/id1470553213';
 
 	const gridBox: GridBox = {
-		stylesVariants: { 'gap-x': '8' },
+		twClassNameVariants: { 'gap-x': '8' },
 		___type: BOXES_TYPES_map['grid'],
 		gridTemplateColumns: `repeat(auto-fit, minmax(20rem, 1fr))`,
 		items: [
 			{
 				customPageClassesKeys: ['center-on-ls-md-screens', 'objects-contain'],
-				stylesVariants: { 'aspect-ratio': 'square' }, // w: '96', h: '96',
+				twClassNameVariants: { 'aspect-ratio': 'square' }, // w: '96', h: '96',
 				___type: BOXES_TYPES_map['image-only'],
 				src: 'https://cdn.shopify.com/s/files/1/0345/7209/t/28/assets/pf-8930ec95--Chomplrappdisplay-Edited.jpg?v=1617338387'
 			},
 			{
 				customPageClassesKeys: ['center-on-ls-md-screens'],
-				stylesVariants: { 'gap-y': '2', px: '4' },
+				twClassNameVariants: { 'gap-y': '2', px: '4' },
 				___type: BOXES_TYPES_map['md'],
 				content: `# Chomplr
 ## IOS-APP
@@ -51,7 +50,7 @@ As a standalone module or AUv3 plugin, Chomplr offers quick access to it's robus
 			{
 				title: 'Description',
 				data: {
-					stylesVariants: { 'gap-y': '2', px: '4' },
+					twClassNameVariants: { 'gap-y': '2', px: '4' },
 					___type: BOXES_TYPES_map['md'],
 					content: `The Chomplr name is taken from sample "Chopping Rompler", inspired by the timeless workflow of creating music using samples. Chomplr brings a new iOS approach to creative sample manipulation. As a standalone module or AUv3 plugin, Chomplr offers quick access to it's robust sample library and an online store is built in. All samples in Chomplr are royalty free for use within the app.
 
@@ -63,7 +62,7 @@ Sample data can be edited and one or more effects added and adjusted in quick an
 			{
 				title: 'Specs',
 				data: {
-					stylesVariants: { 'gap-y': '2', px: '4' },
+					twClassNameVariants: { 'gap-y': '2', px: '4' },
 					___type: BOXES_TYPES_map['md'],
 					content: `![](https://cdn.shopify.com/s/files/1/0345/7209/t/28/assets/pf-87726dce--Screen-Shot-20210401-at-114212-PM.png?v=1617338611)`
 				}
@@ -71,13 +70,13 @@ Sample data can be edited and one or more effects added and adjusted in quick an
 			{
 				title: 'User Manual',
 				data: {
-					stylesVariants: { 'gap-x': '8', 'gap-y': '8' },
+					twClassNameVariants: { 'gap-x': '8', 'gap-y': '8' },
 					___type: BOXES_TYPES_map['grid'],
 					gridTemplateColumns: `repeat(auto-fit, minmax(20rem, 1fr))`,
 					items: [
 						{
 							customPageClassesKeys: ['center-on-ls-md-screens'],
-							stylesVariants: { 'gap-y': '2', px: '4' },
+							twClassNameVariants: { 'gap-y': '2', px: '4' },
 							___type: BOXES_TYPES_map['md'],
 							content: `### What's New:
 Chomplr 1.2.0; 
@@ -97,7 +96,7 @@ You can check out the reference guide/manual below. Download and save to your iP
 								'center-on-ls-md-screens',
 								'object-contain'
 							],
-							// stylesVariants: { w: '96' },
+							// twClassNameVariants: { w: '96' },
 							___type: BOXES_TYPES_map['image-only'],
 							src: 'https://cdn.shopify.com/s/files/1/0345/7209/t/28/assets/pf-edf62089--Screen-Shot-20210621-at-123253-PM.png?v=1624482138'
 						}
@@ -133,7 +132,7 @@ You can check out the reference guide/manual below. Download and save to your iP
 	};
 	const gridBox2: GridBox = {
 		___type: BOXES_TYPES_map['grid'],
-		stylesVariants: { 'gap-x': '10', 'gap-y': '8' },
+		twClassNameVariants: { 'gap-x': '10', 'gap-y': '8' },
 		gridTemplateColumns: `repeat(auto-fill, minmax(15rem, 1fr))`,
 		items: [
 			{
@@ -324,13 +323,14 @@ MSXII Sound really took iOS music production/beat making to	another level with t
 		// 	}
 		// ]
 	};
-	const rowsOnlyBox: RowsOnlyBox = {
-		___type: 'rows-only',
-		stylesVariants: { 'gap-y': '3' },
+	const gridBox3: GridBox = {
+		___type: BOXES_TYPES_map['grid'],
+		twClassNameVariants: { 'gap-y': '3' },
+		gridTemplateColumns: `1fr`,
 		customPageClassesKeys: ['center-content'],
-		rows: [
+		items: [
 			{
-				stylesVariants: { rounded: '5xl', w: '40', h: '40' },
+				twClassNameVariants: { rounded: '5xl', w: '40', h: '40' },
 				___type: 'image-only',
 				src: 'https://cdn.shopify.com/s/files/1/0345/7209/t/28/assets/pf-ce3c55b2--ChomplrAppstoreicon188x182.png?v=1589530651'
 			},
@@ -348,20 +348,20 @@ MSXII Sound really took iOS music production/beat making to	another level with t
 		createStandardSection({
 			body: [sliderBox],
 			title: 'Tutorial',
-			stylesVariants: { 'gap-y': '4' }
+			twClassNameVariants: { 'gap-y': '4' }
 		}),
 		createStandardSection({
 			body: [gridBox2],
 			// title: 'Chomplr Around The World',
-			stylesVariants: { 'gap-y': '8' }
+			twClassNameVariants: { 'gap-y': '8' }
 			// customPageClassesKeys: ['section-container-v1']
 		}),
-		createStandardSection({ body: [rowsOnlyBox] })
+		createStandardSection({ body: [gridBox3] })
 	];
 })();
 
 const chomplrPageData: CustomPage = {
-	stylesVariants: {
+	twClassNameVariants: {
 		'max-w': '100ch',
 		mx: 'auto',
 		px: '8',

@@ -34,6 +34,7 @@
 	justify-content: center;
 	text-align: center;
 	flex-direction: column;
+	justify-items: center;
 }
 .center-content > * {
 	display: flex;

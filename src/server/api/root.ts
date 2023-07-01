@@ -3,7 +3,7 @@ import { customPagesRouter } from './routers/custom-pages';
 import { merchRouter } from './routers/merch';
 import { createTRPCRouter } from '~/server/api/trpc';
 import { productsRouter } from '~/server/api/routers/products';
-import { shopifyRouter } from './routers/shopfy';
+import { shopifyRouter } from './routers/shopify';
 
 /**
  * This is the primary router for your server.

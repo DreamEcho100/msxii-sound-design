@@ -1,7 +1,7 @@
 import type { FunctionComponent, HTMLAttributes, ReactNode } from 'react';
 
 import { useRef } from 'react';
-import { A11y, Autoplay } from 'swiper';
+import { A11y, Autoplay, Navigation } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
 import 'swiper/css';
@@ -63,9 +63,8 @@ const Slider = ({
 	isNavButtonsOutside,
 	containerProps
 }: SliderProps) => {
-	const SwiperInstanceRef = useRef<
-		Parameters<NonNullable<Parameters<typeof Swiper>[0]['onSwiper']>>[0] | null
-	>(null);
+	const navigationPrevRef = useRef<HTMLButtonElement>(null);
+	const navigationNextRef = useRef<HTMLButtonElement>(null);
 
 	return (
 		<div
@@ -92,7 +91,8 @@ const Slider = ({
 			>
 				<button
 					title="Previous slide."
-					onClick={() => SwiperInstanceRef.current?.slidePrev()}
+					// onClick={() => SwiperInstanceRef.current?.slidePrev()}
+					ref={navigationPrevRef}
 					className={cx(
 						'hover:scale-[1.25] focus:scale-[1.25] transition-all duration-150 w-4 h-8 aspect-[1.91/1] rtl:rotate-180',
 						verticalOnLG
@@ -111,12 +111,12 @@ const Slider = ({
 			</div>
 
 			<Swiper
-				className="cards-container flex-grow"
-				onSwiper={(swiperInstance) =>
-					(SwiperInstanceRef.current = swiperInstance)
-				}
-				modules={[A11y, Autoplay]}
-				// navigation
+				className="cards-container"
+				navigation={{
+					prevEl: navigationPrevRef.current,
+					nextEl: navigationNextRef.current
+				}}
+				modules={[A11y, Autoplay, Navigation]}
 				autoplay={{ delay: 7500 }}
 				slidesPerView={1}
 				spaceBetween={20}
@@ -148,7 +148,8 @@ const Slider = ({
 			>
 				<button
 					title="Next slide."
-					onClick={() => SwiperInstanceRef.current?.slideNext()}
+					// onClick={() => SwiperInstanceRef.current?.slideNext()}
+					ref={navigationNextRef}
 					className={cx(
 						'hover:scale-[1.25] focus:scale-[1.25] transition-all duration-150 w-4 h-8 aspect-[1.91/1]',
 						verticalOnLG

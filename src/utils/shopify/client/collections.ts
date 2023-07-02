@@ -4,13 +4,14 @@ import { graphQLClient } from './_utils';
 import { gqlProductBasicSchemaText, gqlProductSchemaText } from './products';
 import { z } from 'zod';
 
+// , filters: { available: true }
 const gqlCollectionSchemaText = `description
 		handle
 		id
 		onlineStoreUrl
 		title
 		updatedAt
-		products(first: 100, filters: { available: true }) {
+		products(first: 100) {
 			edges {
 				node {
 					${gqlProductSchemaText}

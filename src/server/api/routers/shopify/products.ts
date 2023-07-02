@@ -12,7 +12,7 @@ export const shopifyProductsRouter = createTRPCRouter({
 				await ctx.shopify.products.queries.all({
 					first: 100,
 					query: {
-						available_for_sale: true,
+						// available_for_sale: true,
 						// title: input.query.title ? `${input.query.title}*` : undefined,
 						title: 'dru*'
 					}

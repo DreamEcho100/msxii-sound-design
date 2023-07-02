@@ -1,17 +1,16 @@
 import { createServerSideHelpers } from '@trpc/react-query/server';
 import { cx } from 'class-variance-authority';
-import { GetStaticProps } from 'next';
+import { GetStaticProps, type InferGetStaticPropsType } from 'next';
 import superjson from 'superjson';
 import { ProductCard } from '~/components/shared/core/Shopify/Cards/Card';
 import { appRouter } from '~/server/api/root';
 import { createInnerTRPCContext } from '~/server/api/trpc';
-import { api } from '~/utils/api';
-import { ProductsTags } from '~/utils/appData';
+import { type RouterInputs, api } from '~/utils/api';
 
-const IOSAppsPage = () => {
-	const productsQuery = api.products.getManyByTags.useQuery({
-		tags: [ProductsTags['Vinyl']]
-	});
+const IOSAppsPage = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
+	const productsQuery = api.shopify.collections.getOneByHandle.useQuery(
+		props.input
+	);
 
 	if (productsQuery.isLoading) return <>Loading...</>;
 
@@ -30,11 +29,10 @@ const IOSAppsPage = () => {
 				<h1 className="text-h3 font-semibold">Vinyl</h1>
 			</header>
 			<div className="grid grid-cols-[repeat(auto-fill,_minmax(12rem,_1fr))] gap-8 lg:justify-between lg:flex-nowrap">
-				{productsData.map((item) => (
+				{productsData.products.edges.map(({ node }) => (
 					<ProductCard
-						key={item.handle}
-						product={item as any}
-						routeBase="/merch"
+						key={node.handle}
+						product={node}
 						containerVariants={{ w: null }}
 					/>
 				))}
@@ -49,15 +47,21 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
 		ctx: await createInnerTRPCContext({ session: null }),
 		transformer: superjson // optional - adds superjson serialization
 	});
+
+	const input: RouterInputs['shopify']['collections']['getOneByHandle'] = {
+		handle: 'vinyl'
+	};
+
 	/*
 	 * Prefetching the `customPages.getOneBySlug` query here.
 	 * `prefetchQuery` does not return the result - if you need that, use `fetchQuery` instead.
 	 */
-	await ssg.products.getManyByTags.prefetch({ tags: [ProductsTags['Vinyl']] });
+	await ssg.shopify.collections.getOneByHandle.prefetch(input);
 	// Make sure to return { props: { trpcState: ssg.dehydrate() } }
 	return {
 		props: {
-			trpcState: ssg.dehydrate()
+			trpcState: ssg.dehydrate(),
+			input
 		},
 		revalidate: 10
 	};

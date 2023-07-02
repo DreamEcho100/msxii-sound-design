@@ -82,7 +82,7 @@ const CartDetails = () => {
 			</div>
 			{quantity !== 0 && (
 				<Clickable variants={{ w: 'full', rounded: 'md' }} className="mt-2">
-					Proceed To Checkout
+					proceed to checkout
 				</Clickable>
 			)}
 		</div>

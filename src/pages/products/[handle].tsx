@@ -32,9 +32,6 @@ const ProductPage = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
 
 	if (!mainVariant) return <>Product is not found</>;
 
-	console.log('productData', productData);
-	console.log('mainVariant', mainVariant);
-
 	return (
 		<>
 			<Head>

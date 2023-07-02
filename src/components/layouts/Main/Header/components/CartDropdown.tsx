@@ -2,7 +2,7 @@ import { cx } from 'class-variance-authority';
 import { AnimatePresence, motion } from 'framer-motion';
 import CustomNextImage from '~/components/shared/CustomNextImage';
 import Clickable from '~/components/shared/core/Clickable';
-import ProductPrice from '~/components/shared/core/ProductPrice';
+import ProductPrice from '~/components/shared/core/Shopify/ProductPrice';
 import ShopifyProductPrice from '~/components/shared/core/Shopify/ProductPrice';
 import ProductQuantityControllers from '~/components/shared/core/ProductQuantityControllers';
 import { useGlobalStore } from '~/store';
@@ -63,11 +63,13 @@ const CartDetails = () => {
 		store.cart.lineItems.reduce(
 			(acc, item) => {
 				acc.totalPrice +=
-					Number(item.variant?.price.amount ?? 0) * item.quantity;
+					Number(item.unitPrice?.amount || item.variant?.price.amount || 0) *
+					item.quantity;
 				acc.quantity += item.quantity;
+				acc.currencyCode = item.unitPrice?.currencyCode || acc.currencyCode;
 				return acc;
 			},
-			{ totalPrice: 0, quantity: 0 }
+			{ totalPrice: 0, quantity: 0, currencyCode: 'USD' }
 		)
 	);
 
@@ -76,7 +78,12 @@ const CartDetails = () => {
 			<div className="bg-bg-primary-600/50 dark:bg-bg-primary-700 p-4 flex flex-wrap gap-4 justify-between">
 				<p>
 					Total Price:&nbsp;
-					<ProductPrice price={totalPrice} compare_at_price={null} />
+					<ProductPrice
+						price={{
+							amount: totalPrice,
+							currencyCode: 'USD'
+						}}
+					/>
 				</p>
 				<p>Quantity: {quantity}</p>
 			</div>

@@ -16,6 +16,7 @@ import Clickable from '~/components/shared/core/Clickable';
 import { useState } from 'react';
 import { FaMinus, FaPlus } from 'react-icons/fa';
 import Head from 'next/head';
+import CustomProductScreen from '~/components/shared/core/CustomProductScreen';
 
 const ProductPage = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
 	const [selectedQuantity, setSelectedQuantity] = useState(1);
@@ -38,95 +39,7 @@ const ProductPage = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
 				<title>{productData.title}</title>
 				<meta name="description" content={productData.description} />
 			</Head>
-			<section className="px-main-p-4 sm:px-main-p-2 py-main-p-1 flex flex-wrap justify-center md:flex-nowrap gap-8">
-				<header className="flex flex-col-reverse items-center sm:items-start sm:flex-row-reverse md:flex-col-reverse gap-4 justify-center p-4">
-					<div className="text-center sm:text-align-initial flex-grow flex flex-col items-center sm:items-start gap-4 p-4">
-						<div className="flex flex-col gap-3">
-							<h1 className="text-h3">{productData.title}</h1>
-							<div className="w-fit flex flex-wrap gap-8 mx-auto sm:mx-0">
-								<p className="whitespace-nowrap text-text-primary-500/60">
-									<ProductPrice
-										price={{
-											amount: Number(mainVariant.price.amount),
-											currencyCode: mainVariant.price.currencyCode
-										}}
-										compareAtPrice={
-											mainVariant.compareAtPrice && {
-												amount: Number(mainVariant.compareAtPrice.amount),
-												currencyCode: mainVariant.compareAtPrice.currencyCode
-											}
-										}
-									/>
-								</p>
-								<div className="flex rounded-xl overflow-hidden">
-									<Clickable
-										variants={{ btn: null, px: null, py: null, rounded: null }}
-										className="bg-bg-primary-600 px-2 flex items-center justify-center"
-										onClick={() =>
-											setSelectedQuantity((prev) =>
-												prev === 0 ? prev : prev - 1
-											)
-										}
-										disabled={selectedQuantity === 0}
-									>
-										<FaMinus className="text-[60%]" />
-									</Clickable>
-									<input
-										className="w-fit px-2"
-										style={{
-											width: `${selectedQuantity.toString().length + 2}ch`
-										}}
-										value={selectedQuantity}
-										onChange={(event) =>
-											setSelectedQuantity((prev) => {
-												const valueAsNumberSchema = z
-													.number()
-													.min(0)
-													.finite()
-													.safeParse(Number(event.target.value));
-												return valueAsNumberSchema.success
-													? valueAsNumberSchema.data
-													: prev;
-												// isNaN(valueAsNumber) ||
-												// 	!isFinite(valueAsNumber) ||
-												// 	valueAsNumber < 0
-												// 	? prev
-												// 	: valueAsNumber;
-											})
-										}
-										name="selectedQuantity"
-									/>
-									<Clickable
-										variants={{ btn: null, px: null, py: null, rounded: null }}
-										className="bg-bg-primary-600 px-2 flex items-center justify-center"
-										onClick={() => setSelectedQuantity((prev) => prev + 1)}
-									>
-										<FaPlus className="text-[60%]" />
-									</Clickable>
-								</div>
-							</div>
-						</div>
-						<Clickable className="uppercase" disabled={selectedQuantity === 0}>
-							Add To Cart
-						</Clickable>
-					</div>
-					<div className="aspect-square max-w-full w-60 lg:w-96 rounded-lg overflow-hidden">
-						<CustomNextImage
-							src={productData.featuredImage.url}
-							alt={productData.featuredImage.altText}
-							width={800}
-							height={800}
-							className="w-full h-full object-cover"
-						/>
-					</div>
-				</header>
-				<div
-					className="custom-prose p-4"
-					dangerouslySetInnerHTML={{
-						__html: productData.descriptionHtml || productData.description
-					}}
-				></div>
-			</section>
+			<CustomProductScreen productData={productData} products={[]} />
 		</>
 	);
 };

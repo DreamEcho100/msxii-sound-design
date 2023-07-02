@@ -6,8 +6,7 @@ import { Product, BasicProduct } from '~/utils/shopify/types';
 import { BiPlay } from 'react-icons/bi';
 import Link from 'next/link';
 import ProductPrice from '../ProductPrice';
-import { useGlobalStore } from '~/store';
-import { useMutateCart } from '~/utils/shopify/hooks';
+import AddToCartButton from '../Buttons/AddToCart';
 
 const handleBasicProductCardContainerVariants = cva(
 	'max-w-full card flex flex-col px-1 group duration-300 delay-75 transition-all',
@@ -136,8 +135,6 @@ export const ProductExtraDetails = ({
 	buttonProps?: Partial<Parameters<typeof Clickable>[0]>;
 }) => {
 	// const addToCart = useGlobalStore((store) => store.cart.addToCart);
-	const { addToCart } = useMutateCart();
-
 	const productVariant = useMemo(
 		() => product.variants.edges[0]!.node,
 		[product.variants.edges]
@@ -159,23 +156,10 @@ export const ProductExtraDetails = ({
 					}
 				/>
 			</p>
-			<Clickable
-				variants={{
-					btn: 'secondary',
-					py: 'sm',
-					px: 'lg'
-				}}
-				className="lg:whitespace-nowrap text-sm uppercase"
-				onClick={async () => {
-					// addToCart(productVariant, 1)
-					addToCart.mutateAsync({
-						lineItems: [{ quantity: 1, variantId: productVariant.id }]
-					});
-				}}
+			<AddToCartButton
 				{...(buttonProps as any)}
-			>
-				Add To Cart
-			</Clickable>
+				productVariant={productVariant}
+			/>
 		</>
 	);
 };

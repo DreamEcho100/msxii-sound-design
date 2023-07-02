@@ -1,22 +1,20 @@
 import { cx } from 'class-variance-authority';
 
-import { HTMLAttributes, ReactNode, useState } from 'react';
+import { ReactNode, useState } from 'react';
 
 import { SwiperSlide } from 'swiper/react';
 
 import CustomNextImage from '../CustomNextImage';
 
-import Clickable from './Clickable';
-import ProductPrice from './ProductPrice';
 import ProductQuantityControllers from './ProductQuantityControllers';
 
-import { ShopifyProduct } from '~/utils/types';
 import { NextJsLinkProps } from '../Clickable';
 import ImageMagnifier from '../ImageMagnifier';
 import { Product } from '~/utils/shopify/types';
 import CTAButton from './Shopify/Cards/CTAButton';
-import { ProductCard } from './Shopify/Cards/Card';
 import Slider, { CardsSlider } from './Shopify/Cards/Slider';
+import ProductPrice from './Shopify/ProductPrice';
+import AddToCartButton from './Shopify/Buttons/AddToCart';
 
 // Credit to: <https://dev.to/anxiny/create-an-image-magnifier-with-react-3fd7>
 const ProductImageShowcase = ({ productData }: { productData: Product }) => {
@@ -95,8 +93,6 @@ const ProductImageShowcase = ({ productData }: { productData: Product }) => {
 const CustomProductScreen = ({
 	productData,
 	children,
-	products,
-	cardsSliderProps = {},
 	ctaButtonProps = {}
 }: {
 	children?: ReactNode;
@@ -106,6 +102,75 @@ const CustomProductScreen = ({
 	ctaButtonProps?: Partial<NextJsLinkProps>;
 }) => {
 	const [selectedQuantity, setSelectedQuantity] = useState(1);
+	const mainVariant = productData.variants.edges[0]?.node;
+
+	if (!children) {
+		return (
+			<section className="px-main-p-4 sm:px-main-p-2 py-main-p-1 flex flex-wrap justify-center md:flex-nowrap gap-8">
+				<header className="flex flex-col-reverse items-center sm:items-start sm:flex-row-reverse md:flex-col-reverse gap-4 justify-center p-4">
+					<div className="text-center sm:text-align-initial flex-grow flex flex-col items-center sm:items-start gap-4 p-4">
+						<div className="flex flex-col gap-3">
+							<h1 className="text-h3">{productData.title}</h1>
+							<div className="w-fit flex flex-wrap gap-8 mx-auto sm:mx-0">
+								{mainVariant && (
+									<p className="whitespace-nowrap text-text-primary-500/60">
+										<ProductPrice
+											price={{
+												amount: Number(mainVariant.price.amount),
+												currencyCode: mainVariant.price.currencyCode
+											}}
+											compareAtPrice={
+												mainVariant.compareAtPrice && {
+													amount: Number(mainVariant.compareAtPrice.amount),
+													currencyCode: mainVariant.compareAtPrice.currencyCode
+												}
+											}
+										/>
+									</p>
+								)}
+								<ProductQuantityControllers
+									handleIncreaseByOne={() =>
+										setSelectedQuantity((prev) => prev + 1)
+									}
+									handleDecreaseByOne={() =>
+										setSelectedQuantity((prev) => prev - 1)
+									}
+									handleSetSelectedQuantity={setSelectedQuantity}
+									quantity={selectedQuantity}
+									// range={{
+									// 	min: productData.?.minVariant,
+									// 	max: productData.?.maxVariant,
+									// }}
+								/>
+							</div>
+						</div>
+						<AddToCartButton
+							productVariant={mainVariant}
+							selectedQuantity={selectedQuantity}
+							className="uppercase"
+							disabled={selectedQuantity === 0}
+							variants={{ btn: 'primary' }}
+						/>
+					</div>
+					<div className="aspect-square max-w-full w-60 lg:w-96 rounded-lg overflow-hidden">
+						<CustomNextImage
+							src={productData.featuredImage.url}
+							alt={productData.featuredImage.altText}
+							width={800}
+							height={800}
+							className="w-full h-full object-cover"
+						/>
+					</div>
+				</header>
+				<div
+					className="custom-prose p-4"
+					dangerouslySetInnerHTML={{
+						__html: productData.descriptionHtml || productData.description
+					}}
+				/>
+			</section>
+		);
+	}
 
 	return (
 		<div className="text-h6 leading-primary-3 p-16 text-text-primary-300 flex flex-col gap-12">
@@ -117,12 +182,22 @@ const CustomProductScreen = ({
 								{productData.title}
 							</h1>
 							<div className="w-fit flex flex-wrap gap-8 mx-auto sm:mx-0">
-								<p className="whitespace-nowrap text-text-primary-500/60">
-									{/* <ProductPrice
-										price={productData.price}
-										compare_at_price={productData.compare_at_price}
-									/> */}
-								</p>
+								{mainVariant && (
+									<p className="whitespace-nowrap text-text-primary-500/60">
+										<ProductPrice
+											price={{
+												amount: Number(mainVariant.price.amount),
+												currencyCode: mainVariant.price.currencyCode
+											}}
+											compareAtPrice={
+												mainVariant.compareAtPrice && {
+													amount: Number(mainVariant.compareAtPrice.amount),
+													currencyCode: mainVariant.compareAtPrice.currencyCode
+												}
+											}
+										/>
+									</p>
+								)}
 								<ProductQuantityControllers
 									handleIncreaseByOne={() =>
 										setSelectedQuantity((prev) => prev + 1)
@@ -135,20 +210,15 @@ const CustomProductScreen = ({
 								/>
 							</div>
 						</div>
-						<Clickable
-							className="uppercase mt-4 text-[85%]"
-							variants={{ py: 'extra-sm', px: 'xl', 'font-weight': 'medium' }}
+						{/* className="uppercase mt-4 text-[85%]" */}
+						<AddToCartButton
+							productVariant={mainVariant}
+							selectedQuantity={selectedQuantity}
+							className="uppercase"
 							disabled={selectedQuantity === 0}
-						>
-							Add To Cart
-						</Clickable>
-						<p className="max-w-[52ch]">
-							The worldwide conglomerate @MSXIISOUND continues to keep music
-							producers worldwide inspired with the Loops Go Crazy Vol. 5 sample
-							pack! Back with the vibes, fans of our Billboard #1, multiple
-							Grammy Nominated Lofi Melodics series will find this goldmine game
-							changing!
-						</p>
+							variants={{ btn: 'primary' }}
+						/>
+						<p className="max-w-[52ch]">{productData.description}</p>
 					</div>
 				</div>
 				<ProductImageShowcase productData={productData} />

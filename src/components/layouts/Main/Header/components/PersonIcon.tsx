@@ -1,14 +1,18 @@
 import { cx } from 'class-variance-authority';
 import { BsPersonFill } from 'react-icons/bs';
+import { useStore } from 'zustand';
 import Clickable, { ClickableProps } from '~/components/shared/Clickable';
-import { useGlobalStore } from '~/store';
+import { globalStore } from '~/store';
 
 const PersonIcon = () => {
-	const toggleAuthDialogOpen = useGlobalStore(
+	const toggleAuthDialogOpen = useStore(
+		globalStore,
 		(store) => store.dialogs.auth.toggleOpen
 	);
-	const customerSession = useGlobalStore((store) => store.customerSession);
-
+	const customerSession = useStore(
+		globalStore,
+		(store) => store.customerSession
+	);
 
 	const clickableProps: ClickableProps =
 		customerSession.status === 'authenticated'

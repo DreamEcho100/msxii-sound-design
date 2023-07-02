@@ -1,6 +1,7 @@
 import { useCallback } from 'react';
 import { type CheckoutLineItem } from 'shopify-buy';
-import { useGlobalStore } from '~/store';
+import { useStore } from 'zustand';
+import { globalStore } from '~/store';
 import { RouterInputs, api } from '~/utils/api';
 
 export const useRegisterMutation = ({
@@ -10,7 +11,8 @@ export const useRegisterMutation = ({
 	onSuccess: () => void;
 	onError: (err: { message: string }) => void;
 }) => {
-	const setCustomerSession = useGlobalStore(
+	const setCustomerSession = useStore(
+		globalStore,
 		(store) => store.customerSession.utils.set
 	);
 
@@ -36,7 +38,8 @@ export const useLoginMutation = ({
 	onSuccess: () => void;
 	onError: (err: { message: string }) => void;
 }) => {
-	const setCustomerSession = useGlobalStore(
+	const setCustomerSession = useStore(
+		globalStore,
 		(store) => store.customerSession.utils.set
 	);
 
@@ -62,7 +65,8 @@ export const useCheckAccessToken = ({
 	onSuccess?: () => void;
 	onError?: (err: { message: string }) => void;
 } = {}) => {
-	const setCustomerSession = useGlobalStore(
+	const setCustomerSession = useStore(
+		globalStore,
 		(store) => store.customerSession.utils.set
 	);
 
@@ -103,11 +107,12 @@ export const useSignOutMutation = ({
 };
 
 export const useMutateCart = () => {
-	const setCartLineItems = useGlobalStore(
+	const setCartLineItems = useStore(
+		globalStore,
 		(store) => store.cart.setCartLineItems
 	);
-	const checkoutId = useGlobalStore((store) => store.cart.id);
-	const lineItems = useGlobalStore((store) => store.cart.lineItems);
+	const checkoutId = useStore(globalStore, (store) => store.cart.data?.id);
+	const lineItems = useStore(globalStore, (store) => store.cart.lineItems);
 
 	const addManyLineItemCheckouts =
 		api.shopify.checkouts.lineItems.addMany.useMutation();
@@ -128,7 +133,8 @@ export const useMutateCart = () => {
 			input: Omit<
 				RouterInputs['shopify']['checkouts']['lineItems']['addMany'],
 				'checkoutId'
-			>
+			>,
+			toOpenCart = true
 		) => {
 			if (!checkoutId || input.lineItems.length < 0) return;
 
@@ -177,7 +183,7 @@ export const useMutateCart = () => {
 						lineItemsResult = result.lineItems;
 					});
 
-			if (lineItemsResult) setCartLineItems(lineItemsResult);
+			if (lineItemsResult) setCartLineItems(lineItemsResult, toOpenCart);
 		},
 		[
 			checkoutId,
@@ -193,7 +199,8 @@ export const useMutateCart = () => {
 			input: Omit<
 				RouterInputs['shopify']['checkouts']['lineItems']['updateMany'],
 				'checkoutId'
-			>
+			>,
+			toOpenCart = true
 		) => {
 			if (!checkoutId) return;
 			const lineItemsToUpdate: typeof input.lineItems = [];
@@ -229,7 +236,7 @@ export const useMutateCart = () => {
 						lineItemsResult = result.lineItems;
 					});
 
-			if (lineItemsResult) setCartLineItems(lineItemsResult);
+			if (lineItemsResult) setCartLineItems(lineItemsResult, toOpenCart);
 		},
 		[
 			checkoutId,
@@ -241,7 +248,8 @@ export const useMutateCart = () => {
 
 	const removeToCartAsync = useCallback(
 		async (
-			input: RouterInputs['shopify']['checkouts']['lineItems']['removeMany']
+			input: RouterInputs['shopify']['checkouts']['lineItems']['removeMany'],
+			toOpenCart = true
 		) => {
 			if (!checkoutId || input.lineItemIds.length === 0) return;
 
@@ -250,7 +258,7 @@ export const useMutateCart = () => {
 					checkoutId,
 					lineItemIds: input.lineItemIds
 				})
-				.then((result) => setCartLineItems(result.lineItems));
+				.then((result) => setCartLineItems(result.lineItems, toOpenCart));
 		},
 		[checkoutId, removeManyLineItemCheckouts, setCartLineItems]
 	);

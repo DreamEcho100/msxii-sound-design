@@ -5,15 +5,17 @@ import Clickable from '~/components/shared/core/Clickable';
 import ProductPrice from '~/components/shared/core/Shopify/ProductPrice';
 import ShopifyProductPrice from '~/components/shared/core/Shopify/ProductPrice';
 import ProductQuantityControllers from '~/components/shared/core/ProductQuantityControllers';
-import { useGlobalStore } from '~/store';
 import { type CheckoutLineItem } from 'shopify-buy';
 import { useMutateCart } from '~/utils/shopify/hooks';
+import { useStore } from 'zustand';
+import { globalStore } from '~/store';
 
 const CartDropdown = () => {
-	const isCartDropdownOpen = useGlobalStore(
+	const isCartDropdownOpen = useStore(
+		globalStore,
 		(store) => store.cart.isCartDropdownOpen
 	);
-	const cartLineItems = useGlobalStore((store) => store.cart.lineItems);
+	const cartLineItems = useStore(globalStore, (store) => store.cart.lineItems);
 
 	return (
 		<AnimatePresence>
@@ -59,7 +61,16 @@ const CartDropdown = () => {
 };
 
 const CartDetails = () => {
-	const { quantity, totalPrice } = useGlobalStore((store) =>
+	const cartTotalPrice = useStore(
+		globalStore,
+		(store) => store.cart.data?.totalPrice
+	);
+	const cartCurrencyCode = useStore(
+		globalStore,
+		(store) => store.cart.data?.currencyCode
+	);
+	const webUrl = useStore(globalStore, (store) => store.cart.data?.webUrl);
+	const { quantity, totalPrice } = useStore(globalStore, (store) =>
 		store.cart.lineItems.reduce(
 			(acc, item) => {
 				acc.totalPrice +=
@@ -80,15 +91,25 @@ const CartDetails = () => {
 					Total Price:&nbsp;
 					<ProductPrice
 						price={{
-							amount: totalPrice,
-							currencyCode: 'USD'
+							amount: cartTotalPrice?.amount || totalPrice,
+							currencyCode: cartCurrencyCode || 'USD'
 						}}
 					/>
 				</p>
 				<p>Quantity: {quantity}</p>
 			</div>
-			{quantity !== 0 && (
-				<Clickable variants={{ w: 'full', rounded: 'md' }} className="mt-2">
+			{quantity !== 0 && webUrl && (
+				<Clickable
+					href={webUrl}
+					variants={{
+						w: 'full',
+						rounded: 'md',
+						btn: 'primary',
+						px: '2xl',
+						py: 'md'
+					}}
+					className="mt-2 flex justify-center capitalize"
+				>
 					proceed to checkout
 				</Clickable>
 			)}
@@ -98,10 +119,6 @@ const CartDetails = () => {
 
 const CartItem = ({ item }: { item: CheckoutLineItem }) => {
 	const { updateCart } = useMutateCart();
-	// const addToCart = useGlobalStore((store) => store.cart.addToCart);
-
-	// const updateManyLineItemCheckouts =
-	// 	api.shopify.checkouts.lineItems.updateMany.useMutation();
 
 	const variant = item.variant;
 

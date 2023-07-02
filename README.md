@@ -17,10 +17,7 @@
 
 ### In Progress
 
-1/26
-
-- Integrate the cart functionality:
-  - [] the ability to proceed to checkout & to not open the cart on the first page load bug fix.
+0/26
 
 ### Done
 
@@ -54,7 +51,8 @@
   - [x] Create.
   - [x] Update.
   - [x] Delete.
-  - [x] Get all the data even if the user reloaded the page again
+  - [x] Get all the data even if the user reloaded the page again.
+  - [x] the ability to proceed to checkout & to not open the cart on the first page load bug fix.
 
 ### Can't be done
 

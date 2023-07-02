@@ -2,15 +2,17 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { useRouter } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 import { BiSearchAlt2, BiX } from 'react-icons/bi';
+import { useStore } from 'zustand';
 import Clickable from '~/components/shared/core/Clickable';
-import { useGlobalStore } from '~/store';
+import { globalStore } from '~/store';
 
 const SearchMenuDropdown = () => {
 	const productTitleQueryInputRef = useRef<HTMLInputElement>(null);
 	const [formValues, setFormValues] = useState({
 		productTitleQuery: ''
 	});
-	const isSearchMenuDropdownOpen = useGlobalStore(
+	const isSearchMenuDropdownOpen = useStore(
+		globalStore,
 		(store) => store.menus.isSearchMenuDropdownOpen
 	);
 

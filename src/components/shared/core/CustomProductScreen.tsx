@@ -148,7 +148,7 @@ const CustomProductScreen = ({
 							productVariant={mainVariant}
 							selectedQuantity={selectedQuantity}
 							className="uppercase"
-							disabled={selectedQuantity === 0}
+							disabled={!productData.availableForSale || selectedQuantity === 0}
 							variants={{ btn: 'primary' }}
 						/>
 					</div>
@@ -215,7 +215,7 @@ const CustomProductScreen = ({
 							productVariant={mainVariant}
 							selectedQuantity={selectedQuantity}
 							className="uppercase"
-							disabled={selectedQuantity === 0}
+							disabled={productData.availableForSale || selectedQuantity === 0}
 							variants={{ btn: 'primary' }}
 						/>
 						<p className="max-w-[52ch]">{productData.description}</p>

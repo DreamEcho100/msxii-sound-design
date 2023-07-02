@@ -7,19 +7,21 @@ import { api } from '~/utils/api';
 import '~/styles/globals.css';
 import '~/styles/swiper.css';
 import MainLayout from '~/components/layouts/Main';
-import { useGlobalStore } from '~/store';
 import { useEffect } from 'react';
 import { getCurrentThemeFromLocalStorage } from '~/store/utils';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { useCheckAccessToken } from '~/utils/shopify/hooks';
+import { useStore } from 'zustand';
+import { globalStore } from '~/store';
 
 const MyApp: AppType<{ session: Session | null }> = ({
 	Component,
 	pageProps: { session, ...pageProps }
 }) => {
-	const changeCurrentTheme = useGlobalStore(
+	const changeCurrentTheme = useStore(
+		globalStore,
 		(store) => store.themeConfig.changeCurrentTheme
 	);
 

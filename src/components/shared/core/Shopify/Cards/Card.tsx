@@ -134,7 +134,6 @@ export const ProductExtraDetails = ({
 	product: Product | BasicProduct;
 	buttonProps?: Partial<Parameters<typeof Clickable>[0]>;
 }) => {
-	// const addToCart = useGlobalStore((store) => store.cart.addToCart);
 	const productVariant = useMemo(
 		() => product.variants.edges[0]!.node,
 		[product.variants.edges]
@@ -159,6 +158,7 @@ export const ProductExtraDetails = ({
 			<AddToCartButton
 				{...(buttonProps as any)}
 				productVariant={productVariant}
+				disabled={!product.availableForSale}
 			/>
 		</>
 	);

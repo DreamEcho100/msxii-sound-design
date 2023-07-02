@@ -2,7 +2,10 @@ import { createServerSideHelpers } from '@trpc/react-query/server';
 import { cx } from 'class-variance-authority';
 import { GetStaticProps, type InferGetStaticPropsType } from 'next';
 import superjson from 'superjson';
-import { ProductCard } from '~/components/shared/core/Shopify/Cards/Card';
+import {
+	BasicProductCard,
+	ProductCard
+} from '~/components/shared/core/Shopify/Cards/Card';
 import { appRouter } from '~/server/api/root';
 import { createInnerTRPCContext } from '~/server/api/trpc';
 import { type RouterInputs, api } from '~/utils/api';
@@ -30,7 +33,7 @@ const IOSAppsPage = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
 			</header>
 			<div className="grid grid-cols-[repeat(auto-fill,_minmax(12rem,_1fr))] gap-8 lg:justify-between lg:flex-nowrap">
 				{productsData.products.edges.map(({ node }) => (
-					<ProductCard
+					<BasicProductCard
 						key={node.handle}
 						product={node}
 						containerVariants={{ w: null }}

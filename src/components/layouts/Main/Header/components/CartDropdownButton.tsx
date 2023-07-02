@@ -1,12 +1,14 @@
 import { BsCart3 } from 'react-icons/bs';
+import { useStore } from 'zustand';
 import Clickable from '~/components/shared/core/Clickable';
-import { useGlobalStore } from '~/store';
+import { globalStore } from '~/store';
 
 const CartDropdownButton = () => {
-	const toggleCartDropdown = useGlobalStore(
+	const toggleCartDropdown = useStore(
+		globalStore,
 		(store) => store.cart.toggleCartDropdown
 	);
-	const cartItemsSize = useGlobalStore((store) =>
+	const cartItemsSize = useStore(globalStore, (store) =>
 		store.cart.lineItems.reduce((acc, item) => acc + item.quantity, 0)
 	);
 

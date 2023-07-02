@@ -1,7 +1,7 @@
 import { createStore, useStore } from 'zustand';
 import { Customer } from '~/utils/shopify/types';
 
-import { CheckoutLineItem } from 'shopify-buy';
+import { Checkout, CheckoutLineItem } from 'shopify-buy';
 
 interface GlobalStore {
 	cart: {
@@ -14,12 +14,16 @@ interface GlobalStore {
 			product: CheckoutLineItem, // | ShopifyProduct | ShopifyProductVariant,
 			quantity: number | ((value: number) => number)
 		): void;
-		setCartLineItems(lineItems: CheckoutLineItem[]): void;
+		setCartLineItems(lineItems: CheckoutLineItem[], toOpenCart?: boolean): void;
 
 		setId: (
 			params:
 				| {
-						type: 'init' | 'checking-stored' | 'creating-checkout';
+						type:
+							| 'init'
+							| 'checking-stored'
+							| 'creating-checkout'
+							| 'checkout-found-in-cookies';
 						payload?: null;
 				  }
 				| {
@@ -27,34 +31,31 @@ interface GlobalStore {
 						payload?: null;
 				  }
 				| {
-						type:
-							| 'checkout-created'
-							| 'checkout-found-in-cookies'
-							| 'line-items-fetched';
-						payload: string;
+						type: 'checkout-created' | 'line-items-fetched';
+						payload: Checkout;
 				  }
 		) => void;
 	} & (
 		| {
 				isLoading: true;
 				isSuccess: false;
-				status: 'checking-stored' | 'creating-checkout';
-				id: null;
+				status:
+					| 'checking-stored'
+					| 'creating-checkout'
+					| 'checkout-found-in-cookies';
+				data: null;
 		  }
 		| {
 				isLoading: false;
 				isSuccess: false;
 				status: 'not-found-in-cookies' | 'failed-creating-checkout';
-				id: null;
+				data: null;
 		  }
 		| {
 				isLoading: false;
 				isSuccess: true;
-				status:
-					| 'checkout-created'
-					| 'checkout-found-in-cookies'
-					| 'line-items-fetched';
-				id: string;
+				status: 'checkout-created' | 'line-items-fetched';
+				data: Checkout;
 		  }
 	);
 	menus: {
@@ -167,7 +168,7 @@ export const globalStore = createStore<GlobalStore>((set, get) => ({
 		}
 	},
 	cart: {
-		id: null,
+		data: null,
 		isLoading: true,
 		isSuccess: false,
 		status: 'checking-stored',
@@ -182,15 +183,16 @@ export const globalStore = createStore<GlobalStore>((set, get) => ({
 					isCartDropdownOpen: !cart.isCartDropdownOpen
 				}
 			})),
-		setCartLineItems(lineItems) {
+		setCartLineItems(lineItems, toOpenCart = false) {
 			// get().menus.closeAllMenus();
 			set(({ cart, menus }) => {
-				menus.closeAllMenus();
+				if (toOpenCart) menus.closeAllMenus();
+
 				return {
 					cart: {
 						...cart,
 						lineItems,
-						isCartDropdownOpen: true
+						isCartDropdownOpen: toOpenCart
 					}
 				};
 			});
@@ -254,15 +256,18 @@ export const globalStore = createStore<GlobalStore>((set, get) => ({
 				);
 			}
 
+			if (type === get().cart.status) return;
+
 			switch (type) {
 				case 'checking-stored':
 				case 'creating-checkout':
+				case 'checkout-found-in-cookies':
 					type;
 					return set((prev) => ({
 						...prev,
 						cart: {
 							...prev.cart,
-							id: null,
+							data: null,
 							isLoading: true,
 							isSuccess: false,
 							status: type
@@ -276,7 +281,7 @@ export const globalStore = createStore<GlobalStore>((set, get) => ({
 						...prev,
 						cart: {
 							...prev.cart,
-							id: null,
+							data: null,
 							isLoading: false,
 							isSuccess: false,
 							status: type
@@ -285,13 +290,12 @@ export const globalStore = createStore<GlobalStore>((set, get) => ({
 
 				case 'checkout-created':
 				case 'line-items-fetched':
-				case 'checkout-found-in-cookies':
 					type;
 					return set((prev) => ({
 						...prev,
 						cart: {
 							...prev.cart,
-							id: payload,
+							data: payload,
 							isLoading: false,
 							isSuccess: true,
 							status: type
@@ -380,8 +384,8 @@ export const globalStore = createStore<GlobalStore>((set, get) => ({
 	}
 }));
 
-export const useGlobalStore = <U>(
-	cb: (
-		state: typeof globalStore extends { getState: () => infer T } ? T : never
-	) => U
-) => useStore(globalStore, cb);
+// export const useGlobalStore = <U>(
+// 	cb: (
+// 		state: typeof globalStore extends { getState: () => infer T } ? T : never
+// 	) => U
+// ) => useStore(globalStore, cb);

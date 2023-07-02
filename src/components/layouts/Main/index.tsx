@@ -5,7 +5,8 @@ import MainLayoutFooter from './Footer';
 import { api } from '~/utils/api';
 import { getCookie } from 'cookies-next';
 import { CHECKOUT_ID_COOKIE_KEY } from '~/utils/shopify';
-import { globalStore, useGlobalStore } from '../../../store/index';
+import { globalStore } from '~/store';
+import { useStore } from 'zustand';
 
 type Props = {
 	children: ReactNode;
@@ -13,8 +14,8 @@ type Props = {
 
 const GettingCheckout = () => {
 	const [checkoutIdFromCookies, setCheckoutIdFromCookies] = useState('');
-	const checkoutId = useGlobalStore((state) => state.cart.id);
-	const checkoutStatus = useGlobalStore((state) => state.cart.status);
+	const checkoutId = useStore(globalStore, (state) => state.cart.data?.id);
+	const checkoutStatus = useStore(globalStore, (state) => state.cart.status);
 
 	const [isDone, setIsDone] = useState(false);
 
@@ -28,7 +29,7 @@ const GettingCheckout = () => {
 			// Can be merged into a one call that updates the store
 			globalStore
 				.getState()
-				.cart.setId({ type: 'checkout-created', payload: result.id });
+				.cart.setId({ type: 'checkout-created', payload: result });
 			globalStore.getState().cart.setCartLineItems(result.lineItems);
 		}
 	});
@@ -41,13 +42,18 @@ const GettingCheckout = () => {
 		onSuccess: (result) => {
 			globalStore
 				.getState()
-				.cart.setId({ type: 'line-items-fetched', payload: result.id });
+				.cart.setId({ type: 'line-items-fetched', payload: result });
 			globalStore.getState().cart.setCartLineItems(result.lineItems);
 		}
 	});
 
 	useEffect(() => {
-		if (typeof window === 'undefined' && !checkoutId) return;
+		if (
+			typeof window === 'undefined' ||
+			checkoutId ||
+			checkoutStatus !== 'checking-stored'
+		)
+			return;
 
 		const checkoutIdFromCookies = getCookie(CHECKOUT_ID_COOKIE_KEY);
 
@@ -56,8 +62,7 @@ const GettingCheckout = () => {
 			checkoutIdFromCookies.length > 0
 		) {
 			globalStore.getState().cart.setId({
-				type: 'checkout-found-in-cookies',
-				payload: checkoutIdFromCookies
+				type: 'checkout-found-in-cookies'
 			});
 			return setCheckoutIdFromCookies(checkoutIdFromCookies);
 		}
@@ -66,7 +71,7 @@ const GettingCheckout = () => {
 
 		if (!createOneCheckouts.isLoading && !createOneCheckouts.isSuccess)
 			createOneCheckouts.mutate();
-	}, [checkoutId, createOneCheckouts]);
+	}, [checkoutId, checkoutStatus, createOneCheckouts]);
 
 	useEffect(() => {
 		if (

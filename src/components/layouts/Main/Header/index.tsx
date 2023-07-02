@@ -1,6 +1,5 @@
 import CustomNextImage from '~/components/shared/CustomNextImage';
 import Clickable from '~/components/shared/core/Clickable';
-import { BsPersonFill } from 'react-icons/bs';
 import { IoMdArrowDropdown } from 'react-icons/io';
 import { BiSearchAlt2 } from 'react-icons/bi';
 import { GiHamburgerMenu } from 'react-icons/gi';
@@ -11,7 +10,6 @@ import Dropdown, {
 } from '~/components/shared/core/Dropdown';
 import { AnimatePresence, motion } from 'framer-motion';
 import { cx } from 'class-variance-authority';
-import { useGlobalStore } from '~/store';
 import { useRouter } from 'next/router';
 import SearchMenuDropdown from './components/SearchMenuDropdown';
 import dynamic from 'next/dynamic';
@@ -20,6 +18,8 @@ import CartDropdownButton from './components/CartDropdownButton';
 import Overlay from './components/Overlay';
 import PersonIcon from './components/PersonIcon';
 import SignOutButton from './components/SignOutButton';
+import { useStore } from 'zustand';
+import { globalStore } from '~/store';
 
 const DynamicAuthDialog = dynamic(() => import('./components/AuthDialog'), {
 	ssr: false
@@ -71,20 +71,25 @@ const headersLinks = [
 const MainLayoutHeader = () => {
 	const router = useRouter();
 
-	const toggleDropdownMenuOnLessThanLG = useGlobalStore(
+	const toggleDropdownMenuOnLessThanLG = useStore(
+		globalStore,
 		(store) => store.menus.toggleDropdownMenuOnLessThanLG
 	);
-	const toggleSearchMenuDropdown = useGlobalStore(
+	const toggleSearchMenuDropdown = useStore(
+		globalStore,
 		(store) => store.menus.toggleSearchMenuDropdown
 	);
 
-	const isDropdownMenuOnLessThanLGOpen = useGlobalStore(
+	const isDropdownMenuOnLessThanLGOpen = useStore(
+		globalStore,
 		(store) => store.menus.isDropdownMenuOnLessThanLGOpen
 	);
-	const isSearchMenuDropdownOpen = useGlobalStore(
+	const isSearchMenuDropdownOpen = useStore(
+		globalStore,
 		(store) => store.menus.isSearchMenuDropdownOpen
 	);
-	const isCartDropdownOpen = useGlobalStore(
+	const isCartDropdownOpen = useStore(
+		globalStore,
 		(store) => store.cart.isCartDropdownOpen
 	);
 
@@ -136,10 +141,7 @@ const MainLayoutHeader = () => {
 									</Clickable>
 								) : (
 									<Dropdown key={item.title}>
-										<DropdownButton
-											title="Settings and other options."
-											className="hover:text-special-primary-700 duration-150"
-										>
+										<DropdownButton className="hover:text-special-primary-700 duration-150">
 											<IoMdArrowDropdown className="text-xl" /> {item.title}
 											<span className="pl-1" />
 										</DropdownButton>

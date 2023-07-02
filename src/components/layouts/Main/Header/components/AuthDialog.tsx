@@ -13,17 +13,25 @@ import { BiX } from 'react-icons/bi';
 
 import { cx } from 'class-variance-authority';
 
-import { useGlobalStore } from '~/store';
 import Clickable from '~/components/shared/core/Clickable';
 import { useLoginMutation, useRegisterMutation } from '~/utils/shopify/hooks';
 import { RouterInputs } from '~/utils/api';
+import { useStore } from 'zustand';
+import { globalStore } from '~/store';
 
 const AuthDialog = () => {
-	const isAuthDialogOpen = useGlobalStore((store) => store.dialogs.auth.isOpen);
-	const toggleAuthDialogOpen = useGlobalStore(
+	const isAuthDialogOpen = useStore(
+		globalStore,
+		(store) => store.dialogs.auth.isOpen
+	);
+	const toggleAuthDialogOpen = useStore(
+		globalStore,
 		(store) => store.dialogs.auth.toggleOpen
 	);
-	const authDialogType = useGlobalStore((store) => store.dialogs.auth.type);
+	const authDialogType = useStore(
+		globalStore,
+		(store) => store.dialogs.auth.type
+	);
 
 	return (
 		<Dialog.Root open={isAuthDialogOpen}>
@@ -63,7 +71,8 @@ const DialogContentHeader = ({
 	titleProps: Parameters<typeof Dialog.Title>[0];
 	descriptionProps?: Parameters<typeof Dialog.Description>[0];
 }) => {
-	const toggleAuthDialogOpen = useGlobalStore(
+	const toggleAuthDialogOpen = useStore(
+		globalStore,
 		(store) => store.dialogs.auth.toggleOpen
 	);
 
@@ -96,10 +105,12 @@ const DialogContentHeader = ({
 };
 
 const LoginDialogContent = () => {
-	const setAuthDialogState = useGlobalStore(
+	const setAuthDialogState = useStore(
+		globalStore,
 		(store) => store.dialogs.auth.setDialogType
 	);
-	const toggleAuthDialogOpen = useGlobalStore(
+	const toggleAuthDialogOpen = useStore(
+		globalStore,
 		(store) => store.dialogs.auth.toggleOpen
 	);
 	const [formValues, setFormValues] = useState({
@@ -176,10 +187,12 @@ const LoginDialogContent = () => {
 };
 
 const RegisterDialogContent = () => {
-	const setAuthDialogState = useGlobalStore(
+	const setAuthDialogState = useStore(
+		globalStore,
 		(store) => store.dialogs.auth.setDialogType
 	);
-	const toggleAuthDialogOpen = useGlobalStore(
+	const toggleAuthDialogOpen = useStore(
+		globalStore,
 		(store) => store.dialogs.auth.toggleOpen
 	);
 	const [formValues, setFormValues] = useState<

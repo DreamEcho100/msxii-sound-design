@@ -4,19 +4,23 @@ import { FaFacebookF, FaInstagram, FaTwitter, FaYoutube } from 'react-icons/fa';
 import Clickable from '~/components/shared/core/Clickable';
 import { motion } from 'framer-motion';
 import { cx } from 'class-variance-authority';
-import { useGlobalStore } from '~/store';
 import { MdEmail } from 'react-icons/md';
 import Link from 'next/link';
+import { useStore } from 'zustand';
+import { globalStore } from '~/store';
 
 const MainLayoutFooter = () => {
 	const mainFooterRef = useRef<HTMLElement>(null);
-	const currentTheme = useGlobalStore(
+	const currentTheme = useStore(
+		globalStore,
 		(store) => store.themeConfig.currentTheme
 	);
-	const changeCurrentTheme = useGlobalStore(
+	const changeCurrentTheme = useStore(
+		globalStore,
 		(store) => store.themeConfig.changeCurrentTheme
 	);
-	const toggleSearchMenuDropdown = useGlobalStore(
+	const toggleSearchMenuDropdown = useStore(
+		globalStore,
 		(store) => store.menus.toggleSearchMenuDropdown
 	);
 	const isDarkTheme = currentTheme === 'dark';

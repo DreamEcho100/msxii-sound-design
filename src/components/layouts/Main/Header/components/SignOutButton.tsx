@@ -1,10 +1,12 @@
 import { GoSignOut } from 'react-icons/go';
+import { useStore } from 'zustand';
 import Clickable from '~/components/shared/Clickable';
-import { useGlobalStore } from '~/store';
+import { globalStore } from '~/store';
 import { useSignOutMutation } from '~/utils/shopify/hooks';
 
 const SignOutButton = () => {
-	const customerSessionStatus = useGlobalStore(
+	const customerSessionStatus = useStore(
+		globalStore,
 		(store) => store.customerSession.status
 	);
 

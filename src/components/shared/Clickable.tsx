@@ -77,6 +77,7 @@ const Clickable = ({ isA, className, ...props }: ClickableProps) => {
 		return (
 			<a
 				rel="noopener noreferrer"
+				target="_blank"
 				{...props}
 				className={handleClassName({ className, clickableType: 'basic-link' })}
 			/>

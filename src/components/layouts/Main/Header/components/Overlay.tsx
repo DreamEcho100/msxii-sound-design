@@ -1,16 +1,23 @@
 import { cx } from 'class-variance-authority';
-import { useGlobalStore } from '~/store';
+import { useStore } from 'zustand';
+import { globalStore } from '~/store';
 
 const Overlay = () => {
-	const closeAllMenus = useGlobalStore((store) => store.menus.closeAllMenus);
+	const closeAllMenus = useStore(
+		globalStore,
+		(store) => store.menus.closeAllMenus
+	);
 
-	const isDropdownMenuOnLessThanLGOpen = useGlobalStore(
+	const isDropdownMenuOnLessThanLGOpen = useStore(
+		globalStore,
 		(store) => store.menus.isDropdownMenuOnLessThanLGOpen
 	);
-	const isSearchMenuDropdownOpen = useGlobalStore(
+	const isSearchMenuDropdownOpen = useStore(
+		globalStore,
 		(store) => store.menus.isSearchMenuDropdownOpen
 	);
-	const isCartDropdownOpen = useGlobalStore(
+	const isCartDropdownOpen = useStore(
+		globalStore,
 		(store) => store.cart.isCartDropdownOpen
 	);
 

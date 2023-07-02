@@ -23,11 +23,17 @@ const AddToCartButton = ({
 			className="lg:whitespace-nowrap text-sm uppercase"
 			onClick={async () => {
 				productVariant &&
-					addToCart.mutateAsync({
-						lineItems: [
-							{ quantity: selectedQuantity || 1, variantId: productVariant.id }
-						]
-					});
+					addToCart.mutateAsync(
+						{
+							lineItems: [
+								{
+									quantity: selectedQuantity || 1,
+									variantId: productVariant.id
+								}
+							]
+						},
+						true
+					);
 			}}
 			{...props}
 			disabled={!productVariant || addToCart.isLoading || props.disabled}

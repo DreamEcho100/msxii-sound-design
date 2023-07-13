@@ -2,7 +2,7 @@ import { blogRouter } from './routers/blog';
 import { customPagesRouter } from './routers/custom-pages';
 import { merchRouter } from './routers/merch';
 import { createTRPCRouter } from '~/server/api/trpc';
-import { productsRouter } from '~/server/api/routers/products';
+import { testsRouter } from '~/server/api/routers/tests';
 import { shopifyRouter } from './routers/shopify';
 
 /**
@@ -11,11 +11,11 @@ import { shopifyRouter } from './routers/shopify';
  * All routers added in /api/routers should be manually added here.
  */
 export const appRouter = createTRPCRouter({
-	products: productsRouter,
+	tests: testsRouter,
 	customPages: customPagesRouter,
 	blog: blogRouter,
 	merch: merchRouter,
-	shopify: shopifyRouter
+	shopify: shopifyRouter,
 });
 
 // export type definition of API

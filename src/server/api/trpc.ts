@@ -40,8 +40,9 @@ export const createInnerTRPCContext = (opts: CreateContextOptions) => {
 	return {
 		session: opts.session,
 		// prisma,
+		drizzleQueryClient,
 		shopify,
-		cookieManger: opts.req && opts.res && getCookieManger(opts.req, opts.res)
+		cookieManger: opts.req && opts.res && getCookieManger(opts.req, opts.res),
 	};
 };
 
@@ -60,7 +61,7 @@ export const createTRPCContext = async (opts: CreateNextContextOptions) => {
 	return createInnerTRPCContext({
 		session,
 		req,
-		res
+		res,
 	});
 };
 
@@ -75,12 +76,13 @@ import shopify from '../../utils/shopify/client/index';
 import { getCookieManger } from '~/utils/cookies';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { ACCESS_TOKEN_COOKIE_KEY } from '~/utils/shopify';
+import drizzleQueryClient from '../utils/drizzle/db/queryClient';
 
 const t = initTRPC.context<typeof createTRPCContext>().create({
 	transformer: superjson,
 	errorFormatter({ shape }) {
 		return shape;
-	}
+	},
 });
 
 /**
@@ -118,10 +120,10 @@ const enforceUserIsAuthed = t.middleware(({ ctx, next }) => {
 	return next({
 		ctx: {
 			accessToken: accessToken as string,
-			cookieManger: ctx.cookieManger
+			cookieManger: ctx.cookieManger,
 			// infers the `session` as non-nullable
 			// session: { ...ctx.session, user: ctx.session.user }
-		}
+		},
 	});
 });
 const printInputs = t.middleware(
@@ -132,7 +134,7 @@ const printInputs = t.middleware(
 		console.log('meta', meta);
 
 		return next({ ctx });
-	}
+	},
 );
 
 /**

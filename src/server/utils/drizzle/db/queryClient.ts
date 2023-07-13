@@ -1,4 +1,4 @@
-import { drizzle } from 'drizzle-orm/neon-serverless';
+import { drizzle } from 'drizzle-orm/postgres-js';
 import postgres from 'postgres';
 import { env } from 'process';
 import drizzleSchemaWithRelations from './SchemaWithRelations';
@@ -12,30 +12,3 @@ const drizzleQueryClient = drizzle(pool, {
 });
 
 export default drizzleQueryClient;
-
-const test = await drizzleQueryClient.query.customPage.findMany({
-	with: {
-		css: true,
-		sections: {
-			with: {
-				css: true,
-				body: {
-					with: {
-						headerBox: true,
-						mdBox: true,
-						imageBox: true,
-						iframeBox: true,
-						quoteBox: true,
-						//
-
-						tabsContainerBox: true,
-						sliderBox: true,
-						gridBox: true,
-					},
-				},
-			},
-		},
-	},
-});
-
-console.log('test', test);

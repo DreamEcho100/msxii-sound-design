@@ -2,19 +2,19 @@ import Clickable from '~/components/shared/core/Clickable';
 import { cx } from 'class-variance-authority';
 import {
 	useBasicCollectionsHandleFilterManager,
-	useGetEdgeNodes
+	useGetEdgeNodes,
 } from '~/utils/hooks';
 import { useEffect, useMemo } from 'react';
 import { HomeScreenProps } from '..';
 import { CardsSlider } from '~/components/shared/core/Shopify/Cards/Slider';
 import {
 	ProductBundleCard,
-	ProductCard
+	ProductCard,
 } from '~/components/shared/core/Shopify/Cards/Card';
 import { BasicProduct } from '~/utils/shopify/types';
 
 const FilteredProducts = ({
-	collectionsBasic
+	collectionsBasic,
 }: {
 	collectionsBasic: NonNullable<HomeScreenProps['collectionsBasic']>;
 }) => {
@@ -23,9 +23,9 @@ const FilteredProducts = ({
 		collectionsByHandle,
 		selectedHandles: selectedCategories,
 		setSelectedHandles: setSelectedCategories,
-		flattenedCollectionsEdges
+		flattenedCollectionsEdges,
 	} = useBasicCollectionsHandleFilterManager({
-		collectionsEdges: collectionsBasic
+		collectionsEdges: collectionsBasic,
 	});
 
 	const selectedCategory = selectedCategories[0];
@@ -33,9 +33,9 @@ const FilteredProducts = ({
 	const filteredCollections = useMemo(
 		() =>
 			collectionsByHandle.filter(
-				(item) => item[0] === selectedCategory
+				(item) => item[0] === selectedCategory,
 			)?.[0]?.[1],
-		[collectionsByHandle, selectedCategory]
+		[collectionsByHandle, selectedCategory],
 	);
 	const firstCategory = categories[0];
 
@@ -58,7 +58,7 @@ const FilteredProducts = ({
 								'relative capitalize',
 								selectedCategory === item
 									? 'text-text-primary-400/90 font-bold'
-									: 'text-text-primary-400/70 duration-100 hover:text-text-primary-500 focus:text-text-primary-500 outline-none font-medium'
+									: 'text-text-primary-400/70 duration-100 hover:text-text-primary-500 focus:text-text-primary-500 outline-none font-medium',
 							)}
 						>
 							{item.replaceAll('-', ' ')}
@@ -66,7 +66,7 @@ const FilteredProducts = ({
 								<div
 									className={cx(
 										'h-1 translate-y-full bg-special-primary-500',
-										selectedCategory === item ? 'w-11/12' : 'w-0'
+										selectedCategory === item ? 'w-11/12' : 'w-0',
 									)}
 								/>
 							</div>
@@ -85,14 +85,14 @@ const FilteredProducts = ({
 };
 
 const HomeShowcaseSection = ({
-	collectionsBasic
+	collectionsBasic,
 }: {
 	collectionsBasic: NonNullable<HomeScreenProps['collectionsBasic']>;
 }) => {
 	const flattenedCollectionEdges = useGetEdgeNodes(collectionsBasic);
 	const bundlesCollections = useMemo(
 		() => flattenedCollectionEdges.filter((item) => item.handle === 'bundles'),
-		[flattenedCollectionEdges]
+		[flattenedCollectionEdges],
 	);
 	const selectedBundlesCollections = useMemo(() => {
 		const handlesMap: Record<string, boolean> = {};
@@ -105,14 +105,14 @@ const HomeShowcaseSection = ({
 						'schlump-loops-bundle',
 						'drums-out-the-sp404-bundle',
 						'schlump-shots-bundle',
-						'the-classic-era-bundle'
+						'the-classic-era-bundle',
 					].includes(node.handle) &&
 					!handlesMap[node.handle]
 				) {
 					products.push(node);
 					handlesMap[node.handle] = true;
 				}
-			})
+			}),
 		);
 		return products;
 	}, [flattenedCollectionEdges]);
@@ -135,7 +135,7 @@ const HomeShowcaseSection = ({
 						<div
 							className={cx(
 								'grid gap-8 px-8',
-								'sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4'
+								'sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4',
 							)}
 						>
 							{selectedBundlesCollections.map((item) => (
@@ -153,7 +153,7 @@ const HomeShowcaseSection = ({
 	);
 };
 
-const HomeShowcaseSectionContainer = (props: HomeScreenProps) => {
+const HomeShowcaseSectionHolder = (props: HomeScreenProps) => {
 	if (props.isSuccess)
 		return <HomeShowcaseSection collectionsBasic={props.collectionsBasic} />;
 
@@ -162,4 +162,4 @@ const HomeShowcaseSectionContainer = (props: HomeScreenProps) => {
 	return <>Loading...</>;
 };
 
-export default HomeShowcaseSectionContainer;
+export default HomeShowcaseSectionHolder;

@@ -5,7 +5,7 @@ import type {
 	TextareaHTMLAttributes,
 	Dispatch,
 	SetStateAction,
-	SelectHTMLAttributes
+	SelectHTMLAttributes,
 } from 'react';
 import type { VariantProps } from 'class-variance-authority';
 import type { TFormFieldInput } from './Input';
@@ -25,7 +25,7 @@ export interface ISharedFieldProps<T> {
 	// name?: keyof T;
 	labelText?: string;
 	labelProps?: LabelHTMLAttributes<HTMLLabelElement>;
-	labelChildrenContainer?: HTMLAttributes<HTMLSpanElement>;
+	labelChildrenHolder?: HTMLAttributes<HTMLSpanElement>;
 	separatorProps?: HTMLAttributes<HTMLSpanElement>;
 }
 
@@ -34,11 +34,9 @@ type TFormFieldComboBox<T> = SelectHTMLAttributes<HTMLSelectElement> &
 		options?: OptionHTMLAttributes<HTMLOptionElement>[];
 		isATextarea?: false;
 		isAComboBox: true;
-		selectContainerVariants?: VariantProps<
-			typeof handleSelectContainerVariants
-		>;
+		selectHolderVariants?: VariantProps<typeof handleSelectHolderVariants>;
 		selectArrowVariants?: VariantProps<typeof handleSelectArrowVariants>;
-		selectContainerProps?: HTMLAttributes<HTMLDivElement>;
+		selectHolderProps?: HTMLAttributes<HTMLDivElement>;
 		selectArrowProps?: HTMLAttributes<HTMLSpanElement>;
 	};
 
@@ -58,17 +56,17 @@ const TextareaField = <T,>({
 const ComboBoxField = <T,>({
 	isAComboBox,
 	children,
-	selectContainerVariants,
+	selectHolderVariants,
 	selectArrowVariants,
-	selectContainerProps = {},
+	selectHolderProps = {},
 	selectArrowProps = {},
 	options,
 	...props
 }: TFormFieldComboBox<T>) => {
 	return (
 		<div
-			{...selectContainerProps}
-			className={handleSelectContainerVariants(selectContainerVariants)}
+			{...selectHolderProps}
+			className={handleSelectHolderVariants(selectHolderVariants)}
 		>
 			<select {...props}>
 				{options
@@ -92,36 +90,36 @@ const handleLabelVariants = cva(
 			display: {
 				dynamicOnSmScreens: 'flex-col sm:flex-row',
 				col: 'flex-col',
-				row: 'flex-row'
-			}
+				row: 'flex-row',
+			},
 		},
 		defaultVariants: {
-			display: 'dynamicOnSmScreens'
-		}
-	}
+			display: 'dynamicOnSmScreens',
+		},
+	},
 );
 const handleLabelTextVariants = cva('font-semibold flex cursor-pointer', {
 	variants: {
 		items: {
 			center: 'flex items-center justify-center',
 			centerX: 'flex justify-center',
-			centerY: 'flex items-center'
+			centerY: 'flex items-center',
 		},
 		w: {
 			fit: 'w-fit',
 			'20%max-8rem': 'w-[20%] max-w-[8rem]',
 			'20%max-6rem': 'w-[20%] max-w-[6rem]',
-			'20%max-4rem': 'w-[20%] max-w-[4rem]'
+			'20%max-4rem': 'w-[20%] max-w-[4rem]',
 		},
 		case: {
 			capitalize: 'capitalize',
-			'keep-case': 'keep-case'
-		}
+			'keep-case': 'keep-case',
+		},
 	},
 	defaultVariants: {
 		w: 'fit',
-		case: 'capitalize'
-	}
+		case: 'capitalize',
+	},
 });
 const handleSelectVariants = cva(
 	'w-full outline-none border-0 cursor-pointer appearance-none font-medium overflow-hidden',
@@ -132,29 +130,29 @@ const handleSelectVariants = cva(
 					'ring-1 ring-inset ring-gray-400 rounded-md',
 					'transition-all duration-150',
 					'hover:ring-2 dover:ring-gray-100 hover:duration-300',
-					'focus-within:rounded-none focus-within:ring-1 ring-inset focus-within:duration-500'
-				]
+					'focus-within:rounded-none focus-within:ring-1 ring-inset focus-within:duration-500',
+				],
 			},
 			p: {
-				sm: 'py-2 pr-8 pl-3 rtl:pl-8 rtl:pr-3'
-			}
+				sm: 'py-2 pr-8 pl-3 rtl:pl-8 rtl:pr-3',
+			},
 		},
 		defaultVariants: {
 			theme: 'default',
-			p: 'sm'
-		}
-	}
+			p: 'sm',
+		},
+	},
 );
-const handleSelectContainerVariants = cva('flex-grow relative');
+const handleSelectHolderVariants = cva('flex-grow relative');
 const handleSelectArrowVariants = cva('flex justify-center absolute top-0 ', {
 	variants: {
 		forSelectP: {
-			sm: 'w-8 h-8 translate-y-[20%] right-0 rtl:left-0'
-		}
+			sm: 'w-8 h-8 translate-y-[20%] right-0 rtl:left-0',
+		},
 	},
 	defaultVariants: {
-		forSelectP: 'sm'
-	}
+		forSelectP: 'sm',
+	},
 });
 
 const handleTextareaVariants = cva(
@@ -166,18 +164,18 @@ const handleTextareaVariants = cva(
 					'ring-1 ring-inset ring-gray-400 rounded-md',
 					'transition-all duration-150',
 					'hover:ring-2 dover:ring-gray-100 hover:duration-300',
-					'focus:rounded-none focus:ring-1 ring-inset focus:duration-500'
-				]
+					'focus:rounded-none focus:ring-1 ring-inset focus:duration-500',
+				],
 			},
 			p: {
-				sm: 'px-3 py-2'
-			}
+				sm: 'px-3 py-2',
+			},
 		},
 		defaultVariants: {
 			theme: 'default',
-			p: 'sm'
-		}
-	}
+			p: 'sm',
+		},
+	},
 );
 
 const FormField = <T,>({
@@ -188,7 +186,7 @@ const FormField = <T,>({
 	//
 	labelProps: { children: labelChildren, ...labelProps } = {},
 	labelText,
-	labelChildrenContainer,
+	labelChildrenHolder,
 	separatorProps,
 	setValues,
 	values,
@@ -208,7 +206,7 @@ const FormField = <T,>({
 
 					return {
 						...prev,
-						[name]: event.target.value
+						[name]: event.target.value,
 					};
 				});
 			};
@@ -236,7 +234,7 @@ const FormField = <T,>({
 		return value;
 	}, [props.name, values]);
 
-	const doesLabelExist = labelText || labelChildren || labelChildrenContainer;
+	const doesLabelExist = labelText || labelChildren || labelChildrenHolder;
 
 	return (
 		<label
@@ -246,13 +244,13 @@ const FormField = <T,>({
 		>
 			{doesLabelExist && (
 				<span
-					{...labelChildrenContainer}
+					{...labelChildrenHolder}
 					className={handleLabelTextVariants(labelTextVariants)}
 				>
 					{labelText || labelChildren}
 				</span>
 			)}
-			{doesLabelExist && <span {...separatorProps} className='p-1' />}
+			{doesLabelExist && <span {...separatorProps} className="p-1" />}
 			{props.isATextarea ? (
 				<TextareaField
 					id={id}
@@ -271,7 +269,7 @@ const FormField = <T,>({
 				/>
 			) : (
 				<Input
-					type='text'
+					type="text"
 					id={id}
 					{...props}
 					onChange={onChange as typeof props.onChange}

@@ -1,11 +1,11 @@
 import { relations } from 'drizzle-orm';
-import { boxToGridBox, boxToSliderBox, boxToTabsContainerBox } from './schema';
+import { boxToGrid, boxToSlider, boxToTabsHolder } from './schema';
 import {
 	mdBox,
 	imageBox,
 	iframeBox,
 	quoteBox,
-	tabsContainerBox,
+	tabsHolder,
 	sliderBox,
 	gridBox,
 } from './schema';
@@ -13,7 +13,7 @@ import {
 	user,
 	account,
 	session,
-	customPage,
+	page,
 	section,
 	css,
 	box,
@@ -44,22 +44,22 @@ export const accountRelations = relations(account, ({ one }) => ({
 }));
 
 export const cssRelations = relations(css, ({ many }) => ({
-	customPages: many(customPage),
+	pages: many(page),
 	sections: many(section),
 }));
 
-export const customPageRelations = relations(customPage, ({ many, one }) => ({
+export const pageRelations = relations(page, ({ many, one }) => ({
 	sections: many(section),
 	css: one(css, {
-		fields: [customPage.cssId],
+		fields: [page.cssId],
 		references: [css.id],
 	}),
 }));
 export const sectionRelations = relations(section, ({ many, one }) => ({
 	body: many(box),
-	customPage: one(customPage, {
-		fields: [section.customPageId],
-		references: [customPage.id],
+	page: one(page, {
+		fields: [section.pageId],
+		references: [page.id],
 	}),
 	css: one(css, {
 		fields: [section.cssId],
@@ -99,9 +99,9 @@ export const boxRelations = relations(box, ({ many, one }) => ({
 	}),
 	//
 
-	tabsContainerBox: one(tabsContainerBox, {
+	tabsHolder: one(tabsHolder, {
 		fields: [box.id],
-		references: [tabsContainerBox.boxId],
+		references: [tabsHolder.boxId],
 	}),
 	sliderBox: one(sliderBox, {
 		fields: [box.id],
@@ -113,58 +113,55 @@ export const boxRelations = relations(box, ({ many, one }) => ({
 	}),
 
 	//
-	boxesToTabsContainerBoxes: many(boxToTabsContainerBox),
-	boxesToSliderBoxes: many(sliderBox),
-	boxesToGridBoxes: many(boxToGridBox),
+	boxesToTabsHolders: many(boxToTabsHolder),
+	boxesToSliders: many(sliderBox),
+	boxesToGrids: many(boxToGrid),
 }));
 
-export const boxToGridBoxRelations = relations(boxToGridBox, ({ one }) => ({
+export const boxToGridRelations = relations(boxToGrid, ({ one }) => ({
 	box: one(box, {
-		fields: [boxToGridBox.boxId],
+		fields: [boxToGrid.boxId],
 		references: [box.id],
 	}),
 	gridBox: one(gridBox, {
-		fields: [boxToGridBox.gridBoxId],
+		fields: [boxToGrid.gridBoxId],
 		references: [gridBox.id],
 	}),
 }));
 export const gridBoxRelations = relations(gridBox, ({ many }) => ({
-	boxesToGridBoxes: many(boxToGridBox),
+	boxesToGrids: many(boxToGrid),
 }));
 
-export const boxToSliderBoxRelations = relations(boxToSliderBox, ({ one }) => ({
+export const boxToSliderRelations = relations(boxToSlider, ({ one }) => ({
 	box: one(box, {
-		fields: [boxToSliderBox.boxId],
+		fields: [boxToSlider.boxId],
 		references: [box.id],
 	}),
 	sliderBox: one(sliderBox, {
-		fields: [boxToSliderBox.sliderBoxId],
+		fields: [boxToSlider.sliderBoxId],
 		references: [sliderBox.id],
 	}),
 }));
 export const sliderBoxRelations = relations(sliderBox, ({ many }) => ({
-	boxesToSliderBoxes: many(boxToSliderBox),
+	boxesToSliders: many(boxToSlider),
 }));
 
-export const boxToTabsContainerBoxRelations = relations(
-	boxToTabsContainerBox,
+export const boxToTabsHolderRelations = relations(
+	boxToTabsHolder,
 	({ one }) => ({
 		box: one(box, {
-			fields: [boxToTabsContainerBox.boxId],
+			fields: [boxToTabsHolder.boxId],
 			references: [box.id],
 		}),
-		tabsContainerBox: one(tabsContainerBox, {
-			fields: [boxToTabsContainerBox.tabsContainerBoxId],
-			references: [tabsContainerBox.id],
+		tabsHolder: one(tabsHolder, {
+			fields: [boxToTabsHolder.tabsHolderId],
+			references: [tabsHolder.id],
 		}),
 	}),
 );
-export const tabsContainerBoxRelations = relations(
-	tabsContainerBox,
-	({ many }) => ({
-		boxesToTabsContainerBoxes: many(boxToTabsContainerBox),
-	}),
-);
+export const tabsHolderRelations = relations(tabsHolder, ({ many }) => ({
+	boxesToTabsHolders: many(boxToTabsHolder),
+}));
 
 /*
 export const creativeWorkToTagRelations = relations(
@@ -197,13 +194,13 @@ export const headerBoxRelations = relations(headerBox, ({ one }) => ({
 	// IframeBox IframeBox?
 	// quoteBox  QuoteBox?
 
-	// tabsContainerBox    TabsContainerBox?
+	// tabsHolder    TabsHolder?
 	// sliderBox SliderBox?
 	// gridBox             GridBox?
 
-	// boxesToTabsContainerBoxes    BoxToTabsContainerBox[]
-	// boxesToSliderBoxes BoxToSliderBox[]
-	// boxToGridBox             boxToGridBox[]
+	// boxesToTabsHolders    BoxToTabsHolder[]
+	// boxesToSliders BoxToSlider[]
+	// boxToGrid             boxToGrid[]
 }));
 */
 

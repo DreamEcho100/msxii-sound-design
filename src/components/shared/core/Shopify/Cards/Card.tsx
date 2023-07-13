@@ -8,26 +8,26 @@ import Link from 'next/link';
 import ProductPrice from '../ProductPrice';
 import AddToCartButton from '../Buttons/AddToCart';
 
-const handleBasicProductCardContainerVariants = cva(
+const handleBasicProductCardHolderVariants = cva(
 	'max-w-full card flex flex-col px-1 group duration-300 delay-75 transition-all',
 	{
 		variants: {
 			'aspect-ratio': { video: 'aspect-video' },
 			flex: { grow: 'flex-grow' },
-			w: { '64': 'w-64', '72': 'w-72' }
+			w: { '64': 'w-64', '72': 'w-72' },
 		},
-		defaultVariants: { w: '64' }
-	}
+		defaultVariants: { w: '64' },
+	},
 );
-const handleBasicProductCardImageContainerVariants = cva(
+const handleBasicProductCardImageHolderVariants = cva(
 	'aspect-square rounded-lg relative overflow-hidden max-w-full',
 	{
 		variants: {
 			'aspect-ratio': { video: 'aspect-video', square: 'aspect-square' },
-			'object-fit': { contain: 'object-contain', cover: 'object-cover' }
+			'object-fit': { contain: 'object-contain', cover: 'object-cover' },
 		},
-		defaultVariants: { 'aspect-ratio': 'square', 'object-fit': 'contain' }
-	}
+		defaultVariants: { 'aspect-ratio': 'square', 'object-fit': 'contain' },
+	},
 );
 const handleBasicProductCardImageVariants = cva(
 	'w-full h-full duration-150 transition-all',
@@ -35,20 +35,20 @@ const handleBasicProductCardImageVariants = cva(
 		variants: {
 			animation: {
 				'zoom-1': 'card-img-zoom-animation-1',
-				'zoom-1-1': 'card-img-zoom-animation-1-1'
+				'zoom-1-1': 'card-img-zoom-animation-1-1',
 			},
 			'animation-duration': { '300ms': 'duration-300 ease-in' },
 			'object-fit': {
 				cover: 'object-cover',
-				contain: 'object-contain'
-			}
+				contain: 'object-contain',
+			},
 		},
 		defaultVariants: {
 			animation: 'zoom-1-1',
 			'animation-duration': '300ms',
-			'object-fit': 'cover'
-		}
-	}
+			'object-fit': 'cover',
+		},
+	},
 );
 const handleBasicProductCardTitleVariants = cva(
 	'font-medium leading-4 ellipse-text',
@@ -58,22 +58,20 @@ const handleBasicProductCardTitleVariants = cva(
 			'text-size': {
 				sm: 'text-[0.0.875rem]',
 				md: 'text-[1rem] leading-primary-5',
-				lg: 'text-[1.125rem]'
-			}
+				lg: 'text-[1.125rem]',
+			},
 		},
-		defaultVariants: { 'text-size': 'md' }
-	}
+		defaultVariants: { 'text-size': 'md' },
+	},
 );
 
 export const BasicProductCard = (props: {
 	product: Product | BasicProduct;
 	extraDetailsElem?: ReactNode;
-	containerVariants?: VariantProps<
-		typeof handleBasicProductCardContainerVariants
-	>;
+	containerVariants?: VariantProps<typeof handleBasicProductCardHolderVariants>;
 	containerClassName?: string;
-	imageContainerVariants?: VariantProps<
-		typeof handleBasicProductCardImageContainerVariants
+	imageHolderVariants?: VariantProps<
+		typeof handleBasicProductCardImageHolderVariants
 	>;
 	imageVariants?: VariantProps<typeof handleBasicProductCardImageVariants>;
 	titleVariants?: VariantProps<typeof handleBasicProductCardTitleVariants>;
@@ -84,14 +82,14 @@ export const BasicProductCard = (props: {
 
 	return (
 		<article
-			className={handleBasicProductCardContainerVariants({
+			className={handleBasicProductCardHolderVariants({
 				...(props.containerVariants || {}),
-				className: props.containerClassName
+				className: props.containerClassName,
 			})}
 		>
 			<div
-				className={handleBasicProductCardImageContainerVariants(
-					props.imageContainerVariants
+				className={handleBasicProductCardImageHolderVariants(
+					props.imageHolderVariants,
 				)}
 			>
 				<Link href={`${routeBase}/${props.product.handle}`}>
@@ -129,14 +127,14 @@ export const BasicProductCard = (props: {
 
 export const ProductExtraDetails = ({
 	product,
-	buttonProps = {}
+	buttonProps = {},
 }: {
 	product: Product | BasicProduct;
 	buttonProps?: Partial<Parameters<typeof Clickable>[0]>;
 }) => {
 	const productVariant = useMemo(
 		() => product.variants.edges[0]!.node,
-		[product.variants.edges]
+		[product.variants.edges],
 	);
 
 	return (
@@ -145,12 +143,12 @@ export const ProductExtraDetails = ({
 				<ProductPrice
 					price={{
 						amount: Number(productVariant.price.amount),
-						currencyCode: productVariant.price.currencyCode
+						currencyCode: productVariant.price.currencyCode,
 					}}
 					compareAtPrice={
 						productVariant.compareAtPrice && {
 							amount: Number(productVariant.compareAtPrice.amount),
-							currencyCode: productVariant.compareAtPrice.currencyCode
+							currencyCode: productVariant.compareAtPrice.currencyCode,
 						}
 					}
 				/>
@@ -192,7 +190,7 @@ export const ProductBundleCard = ({
 		<BasicProductCard
 			product={product}
 			containerVariants={{ 'aspect-ratio': 'video' }}
-			imageContainerVariants={{ 'object-fit': 'cover' }}
+			imageHolderVariants={{ 'object-fit': 'cover' }}
 			titleVariants={{ 'text-align': 'center', 'text-size': 'md' }}
 			{...props}
 		/>

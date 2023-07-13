@@ -2,10 +2,10 @@ import {
 	BoxTypes,
 	IframeBoxTypes,
 	PrismaClient,
-	SlidersContainerSlidePerViewType,
+	SlidersHolderSlidePerViewType,
 	Box as BoxModel,
 } from '@prisma/client';
-// import customPage from './data/lo-fly-dirt';
+// import page from './data/lo-fly-dirt';
 import {
 	Box,
 	CustomPage,
@@ -39,32 +39,32 @@ if (process.env.NODE_ENV !== 'production') {
 	global.prisma = prisma;
 }
 
-const seedPage = async (customPage: CustomPage) => {
-	const createdCustomPage = await prisma.customPage.create({
+const seedPage = async (page: CustomPage) => {
+	const createdCustomPage = await prisma.page.create({
 		data: {
-			category: customPage.category,
-			slug: customPage.slug,
+			category: page.category,
+			slug: page.slug,
 			updatedAt: null,
 			css: {
 				create: {
-					twVariants: customPage.twClassNameVariants,
-					custom: customPage.customPageClassesKeys,
+					twVariants: page.twClassNameVariants,
+					custom: page.customPageClassesKeys,
 				},
 			},
-			// sections: customPage.pageStructure.map(section => ({}))
+			// sections: page.pageStructure.map(section => ({}))
 		},
 	});
 
 	const sectionToOrderMap = Object.fromEntries(
-		customPage.pageStructure.map((section) => [section.order, section]),
+		page.pageStructure.map((section) => [section.order, section]),
 	);
 
 	const createSections = async () =>
 		await prisma.$transaction(
-			customPage.pageStructure.map((section) =>
+			page.pageStructure.map((section) =>
 				prisma.section.create({
 					data: {
-						customPage: { connect: { id: createdCustomPage.id } },
+						page: { connect: { id: createdCustomPage.id } },
 						css: {
 							create: {
 								twVariants: section.twClassNameVariants,
@@ -200,7 +200,7 @@ const seedPage = async (customPage: CustomPage) => {
 							type: BoxTypes.GRID,
 							gridBox: {
 								create: {
-									boxesToGridBoxes: {
+									boxesToGrids: {
 										createMany: { data: itemsData },
 									},
 								},
@@ -224,9 +224,9 @@ const seedPage = async (customPage: CustomPage) => {
 
 						return {
 							type: BoxTypes.TABS_CONTAINER,
-							tabsContainerBox: {
+							tabsHolder: {
 								create: {
-									boxesToTabsContainerBoxes: {
+									boxesToTabsHolders: {
 										createMany: { data: itemsData },
 									},
 								},
@@ -256,11 +256,11 @@ const seedPage = async (customPage: CustomPage) => {
 								create: {
 									slidesPerViewType:
 										box.slidesPerViewType === 'one-slide'
-											? SlidersContainerSlidePerViewType.ONE_SLIDE
+											? SlidersHolderSlidePerViewType.ONE_SLIDE
 											: box.slidesPerViewType === 'large-slides'
-											? SlidersContainerSlidePerViewType.LARGE_SLIDES
-											: SlidersContainerSlidePerViewType.DEFAULT,
-									boxesToSliderBoxes: {
+											? SlidersHolderSlidePerViewType.LARGE_SLIDES
+											: SlidersHolderSlidePerViewType.DEFAULT,
+									boxesToSliders: {
 										createMany: { data: slidesData },
 									},
 								},
@@ -322,20 +322,69 @@ const seedPage = async (customPage: CustomPage) => {
 };
 
 const seedPages = async () => {
-	const customPages = [
+	const pages = [
 		loFlyDirtPageData,
 		flyTapePageData,
 		flyTape2PageData,
 		chomplrPageData,
 	];
 
-	for await (const customPage of customPages) {
-		await seedPage(customPage);
+	for await (const page of pages) {
+		await seedPage(page);
+	}
+};
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const changeConstraintsNames = async () => {
+	{
+		await prisma.$queryRaw`ALTER TABLE "BoxToTabsHolder"
+	RENAME CONSTRAINT "BoxToTabsHolder_tabsHolderId_fkey" TO "_BTCB_tabsHolderId_fkey"`.catch(
+			(error) => console.error(error),
+		);
+		await prisma.$queryRaw`ALTER TABLE "BoxToTabsHolder"
+	RENAME CONSTRAINT "BoxToTabsHolder_boxId_fkey" TO "_BTCB_boxId_fkey"`.catch(
+			(error) => console.error(error),
+		);
+		await prisma.$queryRaw`ALTER TABLE "BoxToTabsHolder"
+	RENAME CONSTRAINT "BoxToTabsHolder_pkey" TO "_BTCB_pkey"`.catch((error) =>
+			console.error(error),
+		);
+	}
+
+	{
+		await prisma.$queryRaw`ALTER TABLE "BoxToSlider"
+	RENAME CONSTRAINT "BoxToSlider_boxId_fkey" TO "_BTSB_boxId_fkey"`.catch(
+			(error) => console.error(error),
+		);
+		await prisma.$queryRaw`ALTER TABLE "BoxToSlider"
+	RENAME CONSTRAINT "BoxToSlider_pkey" TO "_BTSB_pkey"`.catch((error) =>
+			console.error(error),
+		);
+		await prisma.$queryRaw`ALTER TABLE "BoxToSlider"
+	RENAME CONSTRAINT "BoxToSlider_sliderBoxId_fkey" TO "_BTSB_sliderBoxId_fkey"`.catch(
+			(error) => console.error(error),
+		);
+	}
+
+	{
+		await prisma.$queryRaw`ALTER TABLE "BoxToGrid"
+	RENAME CONSTRAINT "BoxToGrid_boxId_fkey" TO "_BTGB_boxId_fkey"`.catch((error) =>
+			console.error(error),
+		);
+		await prisma.$queryRaw`ALTER TABLE "BoxToGrid"
+	RENAME CONSTRAINT "BoxToGrid_pkey" TO "_BTGB_pkey"`.catch((error) =>
+			console.error(error),
+		);
+		await prisma.$queryRaw`ALTER TABLE "BoxToGrid"
+	RENAME CONSTRAINT "BoxToGrid_gridBoxId_fkey" TO "_BTGB_gridBoxId_fkey"`.catch(
+			(error) => console.error(error),
+		);
 	}
 };
 
 const seedAll = async () => {
 	await seedPages();
+	// await changeConstraintsNames();
 };
 
 await seedAll();

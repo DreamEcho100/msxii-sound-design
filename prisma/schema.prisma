@@ -1,17 +1,9 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
-  provider        = "prisma-client-js"
-  previewFeatures = ["jsonProtocol"]
+  provider = "prisma-client-js"
 }
 
 datasource db {
   provider = "postgresql"
-  // NOTE: When using postgresql, mysql or sqlserver, uncomment the @db.Text annotations in model Account below
-  // Further reading:
-  // https://next-auth.js.org/adapters/prisma#create-the-prisma-schema
-  // https://www.prisma.io/docs/reference/api-reference/prisma-schema-reference#string
   url      = env("DATABASE_URL")
 }
 
@@ -21,23 +13,23 @@ model Example {
   updatedAt DateTime @updatedAt
 }
 
-// Necessary for Next auth
 model Account {
   id                String  @id @default(cuid())
   userId            String
   type              String
   provider          String
   providerAccountId String
-  refresh_token     String? // @db.Text
-  access_token      String? // @db.Text
+  refresh_token     String?
+  access_token      String?
   expires_at        Int?
   token_type        String?
   scope             String?
-  id_token          String? // @db.Text
+  id_token          String?
   session_state     String?
   user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
+  @@index([userId])
 }
 
 model Session {
@@ -46,6 +38,8 @@ model Session {
   userId       String
   expires      DateTime
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
 }
 
 model User {
@@ -66,42 +60,25 @@ model VerificationToken {
   @@unique([identifier, token])
 }
 
-//
-
 model css {
-  id        String    @id @default(cuid())
-  createdAt DateTime  @default(now())
-  updatedAt DateTime? @updatedAt
-
-  twVariants Json     @default("{}")
+  id         String    @id @default(cuid())
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime? @updatedAt
+  twVariants Json      @default("{}")
   custom     String[]
-
-  boxes       Box[]
-  sections    Section[]
-  customPages CustomPage[]
-  // mdsBoxes     MDBox[]
-  // imagesBoxes  ImageBox[]
-  // IframesBoxes IframeBox[]
-  // quotesBoxes  QuoteBox[]
-  // HeadersBoxes HeaderBox[]
-  // tabsContainersBoxes    TabsContainerBox[]
-  // slidersContainersBoxes SliderBox[]
-  // gridsBoxes             GridBox[]
+  boxes      Box[]
+  pages      Page[]
+  sections   Section[]
 }
 
 model MDBox {
   id        String    @id @default(cuid())
   createdAt DateTime  @default(now())
   updatedAt DateTime? @updatedAt
-
-  // css   css @relation(fields: [cssId], references: [id])
-  // cssId String
-
-  box     Box      @relation(fields: [boxId, boxType], references: [id, type])
-  boxId   String
-  boxType BoxTypes @default(MD)
-
-  content String
+  boxId     String
+  boxType   BoxTypes  @default(MD)
+  content   String
+  box       Box       @relation(fields: [boxId, boxType], references: [id, type], onDelete: Cascade)
 
   @@unique([boxId, boxType])
 }
@@ -110,43 +87,27 @@ model ImageBox {
   id        String    @id @default(cuid())
   createdAt DateTime  @default(now())
   updatedAt DateTime? @updatedAt
-
-  // css   css @relation(fields: [cssId], references: [id])
-  // cssId String
-
-  box     Box      @relation(fields: [boxId, boxType], references: [id, type])
-  boxId   String
-  boxType BoxTypes @default(IMAGE)
-
-  src     String
-  altText String?
-  width   Int?
-  height  Int?
+  boxId     String
+  boxType   BoxTypes  @default(IMAGE)
+  src       String
+  altText   String?
+  width     Int?
+  height    Int?
+  box       Box       @relation(fields: [boxId, boxType], references: [id, type], onDelete: Cascade)
 
   @@unique([boxId, boxType])
 }
 
-enum IframeBoxTypes {
-  YOUTUBE
-  INSTAGRAM
-  SOUND_CLOUD
-}
-
 model IframeBox {
-  id        String    @id @default(cuid())
-  createdAt DateTime  @default(now())
-  updatedAt DateTime? @updatedAt
-
-  // css   css @relation(fields: [cssId], references: [id])
-  // cssId String
-
-  box     Box      @relation(fields: [boxId, boxType], references: [id, type])
-  boxId   String
-  boxType BoxTypes @default(IFRAME)
-
-  type  IframeBoxTypes
-  src   String
-  title String?
+  id        String         @id @default(cuid())
+  createdAt DateTime       @default(now())
+  updatedAt DateTime?      @updatedAt
+  boxId     String
+  boxType   BoxTypes       @default(IFRAME)
+  type      IframeBoxTypes
+  src       String
+  title     String?
+  box       Box            @relation(fields: [boxId, boxType], references: [id, type], onDelete: Cascade)
 
   @@unique([boxId, boxType])
 }
@@ -155,144 +116,176 @@ model QuoteBox {
   id        String    @id @default(cuid())
   createdAt DateTime  @default(now())
   updatedAt DateTime? @updatedAt
-
-  // css   css @relation(fields: [cssId], references: [id])
-  // cssId String
-
-  box     Box      @relation(fields: [boxId, boxType], references: [id, type])
-  boxId   String
-  boxType BoxTypes @default(QUOTE)
-
-  cite    String
-  content String
+  boxId     String
+  boxType   BoxTypes  @default(QUOTE)
+  cite      String
+  content   String
+  box       Box       @relation(fields: [boxId, boxType], references: [id, type], onDelete: Cascade)
 
   @@unique([boxId, boxType])
 }
 
 model HeaderBox {
-  id        String    @id @default(cuid())
-  createdAt DateTime  @default(now())
-  updatedAt DateTime? @updatedAt
-
-  // css   css @relation(fields: [cssId], references: [id])
-  // cssId String
-
-  box     Box      @relation(fields: [boxId, boxType], references: [id, type])
-  boxId   String
-  boxType BoxTypes @default(HEADER)
-
+  id          String    @id @default(cuid())
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime? @updatedAt
+  boxId       String
+  boxType     BoxTypes  @default(HEADER)
   title       String
   description String?
+  box         Box       @relation(fields: [boxId, boxType], references: [id, type], onDelete: Cascade)
 
   @@unique([boxId, boxType])
 }
 
-model TabsContainerBox {
-  id        String    @id @default(cuid())
-  createdAt DateTime  @default(now())
-  updatedAt DateTime? @updatedAt
-
-  // css   css @relation(fields: [cssId], references: [id])
-  // cssId String
-
-  box     Box      @relation(fields: [boxId, boxType], references: [id, type])
-  boxId   String
-  boxType BoxTypes @default(TABS_CONTAINER)
-
-  boxesToTabsContainerBoxes BoxToTabsContainerBox[]
+model TabsHolder {
+  id                 String            @id @default(cuid())
+  createdAt          DateTime          @default(now())
+  updatedAt          DateTime?         @updatedAt
+  boxId              String
+  boxType            BoxTypes          @default(TABS_CONTAINER)
+  boxesToTabsHolders BoxToTabsHolder[]
+  box                Box               @relation(fields: [boxId, boxType], references: [id, type], onDelete: Cascade)
 
   @@unique([boxId, boxType])
 }
 
-model BoxToTabsContainerBox {
-  id        String    @unique @default(cuid())
-  createdAt DateTime  @default(now())
-  updatedAt DateTime? @updatedAt
+model BoxToTabsHolder {
+  id           String     @unique @default(cuid())
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime?  @updatedAt
+  tabsHolderId String
+  boxId        String
+  title        String
+  box          Box        @relation(fields: [boxId], references: [id], onDelete: Cascade, map: "_BTCB_boxId_fkey")
+  tabsHolder   TabsHolder @relation(fields: [tabsHolderId], references: [id], onDelete: Cascade, map: "_BTCB_tabsHolderId_fkey")
 
-  tabsContainerBox   TabsContainerBox @relation(fields: [tabsContainerBoxId], references: [id])
-  tabsContainerBoxId String
-
-  box   Box    @relation(fields: [boxId], references: [id])
-  boxId String
-
-  title String
-
-  @@id([tabsContainerBoxId, boxId])
-}
-
-enum SlidersContainerSlidePerViewType {
-  DEFAULT
-  ONE_SLIDE
-  LARGE_SLIDES
+  @@id([tabsHolderId, boxId], map: "_BTCB_pkey")
+  @@index([tabsHolderId])
+  @@index([boxId])
 }
 
 model SliderBox {
-  id        String    @id @default(cuid())
-  createdAt DateTime  @default(now())
-  updatedAt DateTime? @updatedAt
-
-  // css   css @relation(fields: [cssId], references: [id])
-  // cssId String
-
-  box     Box      @relation(fields: [boxId, boxType], references: [id, type])
-  boxId   String
-  boxType BoxTypes @default(SLIDER)
-
-  slidesPerViewType SlidersContainerSlidePerViewType @default(DEFAULT)
-
-  boxesToSliderBoxes BoxToSliderBox[]
+  id                String                        @id @default(cuid())
+  createdAt         DateTime                      @default(now())
+  updatedAt         DateTime?                     @updatedAt
+  boxId             String
+  boxType           BoxTypes                      @default(SLIDER)
+  slidesPerViewType SlidersHolderSlidePerViewType @default(DEFAULT)
+  boxesToSliders    BoxToSlider[]
+  box               Box                           @relation(fields: [boxId, boxType], references: [id, type], onDelete: Cascade)
 
   @@unique([boxId, boxType])
 }
 
-model BoxToSliderBox {
-  id        String    @unique @default(cuid())
-  createdAt DateTime  @default(now())
-  updatedAt DateTime? @updatedAt
-
-  sliderBox   SliderBox @relation(fields: [sliderBoxId], references: [id])
+model BoxToSlider {
+  id          String    @unique @default(cuid())
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime? @updatedAt
   sliderBoxId String
+  boxId       String
+  title       String?
+  box         Box       @relation(fields: [boxId], references: [id], onDelete: Cascade, map: "_BTSB_boxId_fkey")
+  sliderBox   SliderBox @relation(fields: [sliderBoxId], references: [id], onDelete: Cascade, map: "_BTSB_sliderBoxId_fkey")
 
-  box   Box    @relation(fields: [boxId], references: [id])
-  boxId String
-
-  title String?
-
-  @@id([sliderBoxId, boxId])
+  @@id([sliderBoxId, boxId], map: "_BTSB_pkey")
+  @@index([sliderBoxId])
+  @@index([boxId])
 }
 
 model GridBox {
-  id        String    @id @default(cuid())
-  createdAt DateTime  @default(now())
-  updatedAt DateTime? @updatedAt
-
-  // css   css @relation(fields: [cssId], references: [id])
-  // cssId String
-
-  box     Box      @relation(fields: [boxId, boxType], references: [id, type])
-  boxId   String
-  boxType BoxTypes @default(GRID)
-
-  boxesToGridBoxes BoxToGridBox[]
+  id           String      @id @default(cuid())
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime?   @updatedAt
+  boxId        String
+  boxType      BoxTypes    @default(GRID)
+  boxesToGrids BoxToGrid[]
+  box          Box         @relation(fields: [boxId, boxType], references: [id, type], onDelete: Cascade)
 
   @@unique([boxId, boxType])
 }
 
-model BoxToGridBox {
+model BoxToGrid {
   id        String    @unique @default(cuid())
   createdAt DateTime  @default(now())
   updatedAt DateTime? @updatedAt
-
-  gridBox   GridBox @relation(fields: [gridBoxId], references: [id])
   gridBoxId String
+  boxId     String
+  order     Int       @default(autoincrement())
+  box       Box       @relation(fields: [boxId], references: [id], onDelete: Cascade, map: "_BTGB_boxId_fkey")
+  gridBox   GridBox   @relation(fields: [gridBoxId], references: [id], onDelete: Cascade, map: "_BTGB_gridBoxId_fkey")
 
-  box   Box    @relation(fields: [boxId], references: [id])
-  boxId String
+  @@id([gridBoxId, boxId], map: "_BTGB_pkey")
+  @@index([order])
+  @@index([boxId])
+  @@index([gridBoxId])
+}
 
-  // title String
-  order Int @default(autoincrement())
+model Box {
+  id                 String            @unique @default(cuid())
+  type               BoxTypes
+  createdAt          DateTime          @default(now())
+  order              Int               @default(autoincrement())
+  cssId              String
+  sectionId          String?
+  css                css               @relation(fields: [cssId], references: [id], onDelete: Cascade)
+  section            Section?          @relation(fields: [sectionId], references: [id], onDelete: Cascade)
+  boxesToGrids       BoxToGrid[]
+  boxesToSliders     BoxToSlider[]
+  boxesToTabsHolders BoxToTabsHolder[]
+  gridBox            GridBox?
+  headerBox          HeaderBox?
+  iframeBox          IframeBox?
+  imageBox           ImageBox?
+  mdBox              MDBox?
+  quoteBox           QuoteBox?
+  sliderBox          SliderBox?
+  tabsHolder         TabsHolder?
 
-  @@id([gridBoxId, boxId])
+  @@id([id, type])
+  @@index([order])
+  @@index([cssId])
+  @@index([sectionId])
+}
+
+model Section {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  order     Int      @default(autoincrement())
+  pageId    String
+  cssId     String
+  body      Box[]
+  css       css      @relation(fields: [cssId], references: [id], onDelete: Cascade)
+  page      Page     @relation(fields: [pageId], references: [id], onDelete: Cascade)
+
+  @@index([order])
+  @@index([pageId])
+  @@index([cssId])
+}
+
+model Page {
+  id        String    @id @default(cuid())
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt
+  cssId     String
+  slug      String
+  category  String?
+  css       css       @relation(fields: [cssId], references: [id], onDelete: Cascade)
+  sections  Section[]
+
+  @@index([cssId])
+}
+
+enum IframeBoxTypes {
+  YOUTUBE
+  INSTAGRAM
+  SOUND_CLOUD
+}
+
+enum SlidersHolderSlidePerViewType {
+  DEFAULT
+  ONE_SLIDE
+  LARGE_SLIDES
 }
 
 enum BoxTypes {
@@ -304,63 +297,4 @@ enum BoxTypes {
   TABS_CONTAINER
   GRID
   SLIDER
-}
-
-model Box {
-  id        String   @unique @default(cuid())
-  type      BoxTypes
-  createdAt DateTime @default(now())
-
-  order Int @default(autoincrement())
-
-  css   css    @relation(fields: [cssId], references: [id])
-  cssId String
-
-  section   Section? @relation(fields: [sectionId], references: [id])
-  sectionId String?
-
-  headerBox HeaderBox?
-  mdBox     MDBox?
-  imageBox  ImageBox?
-  iframeBox IframeBox?
-  quoteBox  QuoteBox?
-
-  tabsContainerBox TabsContainerBox?
-  sliderBox        SliderBox?
-  gridBox          GridBox?
-
-  boxesToTabsContainerBoxes BoxToTabsContainerBox[]
-  boxesToSliderBoxes        BoxToSliderBox[]
-  boxesToGridBoxes          BoxToGridBox[]
-
-  @@id([id, type])
-}
-
-model Section {
-  id        String   @id @default(cuid())
-  createdAt DateTime @default(now())
-
-  order Int @default(autoincrement())
-
-  customPage   CustomPage @relation(fields: [customPageId], references: [id])
-  customPageId String
-
-  css   css    @relation(fields: [cssId], references: [id])
-  cssId String
-
-  body Box[]
-}
-
-model CustomPage {
-  id        String    @id @default(cuid())
-  createdAt DateTime  @default(now())
-  updatedAt DateTime? @updatedAt
-
-  css   css    @relation(fields: [cssId], references: [id])
-  cssId String
-
-  slug     String
-  category String?
-
-  sections Section[]
 }

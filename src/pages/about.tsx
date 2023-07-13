@@ -8,7 +8,7 @@ import { createServerSideHelpers } from '@trpc/react-query/server';
 
 const AboutPage = () => {
 	const customPageStructureQuery = api.customPages.getOne.useQuery({
-		mainTag: 'about-page'
+		category: 'about-page'
 	});
 
 	if (customPageStructureQuery.isLoading) return <>Loading...</>;
@@ -31,7 +31,7 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
 	 * Prefetching the `customPages.getOneBySlug` query here.
 	 * `prefetchQuery` does not return the result - if you need that, use `fetchQuery` instead.
 	 */
-	await ssg.customPages.getOne.prefetch({ mainTag: 'about-page' });
+	await ssg.customPages.getOne.prefetch({ category: 'about-page' });
 	// Make sure to return { props: { trpcState: ssg.dehydrate() } }
 	return {
 		props: {

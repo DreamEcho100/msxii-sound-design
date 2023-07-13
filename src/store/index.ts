@@ -1,5 +1,5 @@
 import { createStore, useStore } from 'zustand';
-import { Customer } from '~/utils/shopify/types';
+import { ShopifyCustomer } from '~/utils/shopify/types';
 
 import { Checkout, CheckoutLineItem } from 'shopify-buy';
 
@@ -88,7 +88,7 @@ interface GlobalStore {
 					| {
 							type: 'AUTHENTICATED';
 							payload: {
-								customer: Customer;
+								customer: ShopifyCustomer;
 								accessToken: string;
 							};
 					  }
@@ -110,7 +110,7 @@ interface GlobalStore {
 				isLoading: false;
 				status: 'authenticated';
 				data: {
-					customer: Customer;
+					customer: ShopifyCustomer;
 					accessToken: string;
 				};
 		  }

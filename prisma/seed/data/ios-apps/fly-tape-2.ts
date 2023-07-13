@@ -6,8 +6,8 @@ import {
 	TabsBox,
 	CustomPage,
 	GridBox,
-} from '~/utils/types/custom-page';
-import { createStandardSection } from '../utils';
+} from '../../../../src/utils/types/custom-page';
+import { createStandardSection } from '../../utils';
 
 const FlyTape2IOSApp: StandardSection[] = (() => {
 	const appLink = 'https://apps.apple.com/us/app/fly-tape-2/id1552463664';

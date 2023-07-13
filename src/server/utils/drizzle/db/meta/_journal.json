@@ -1,0 +1,13 @@
+{
+  "version": "5",
+  "dialect": "pg",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "5",
+      "when": 1689252943618,
+      "tag": "0000_crazy_sheva_callister",
+      "breakpoints": true
+    }
+  ]
+}

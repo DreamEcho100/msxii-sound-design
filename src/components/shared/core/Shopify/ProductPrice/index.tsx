@@ -1,30 +1,12 @@
 import { useEffect, useMemo, useState } from 'react';
 import { type MoneyV2 } from 'shopify-buy';
-
-const useIsMounted = () => {
-	const [isMounted, setIsMounted] = useState(false);
-
-	useEffect(() => setIsMounted(true), []);
-
-	return isMounted;
-};
+import { useIsMounted } from '~/utils/hooks';
+import { formatPrice } from '~/utils/shopify';
 
 type Props = {
 	price: MoneyV2;
 	compareAtPrice?: MoneyV2;
 };
-
-const formatPrice = (
-	price: number | bigint,
-	currency: string,
-	isMounted = true
-) =>
-	new Intl.NumberFormat(
-		!isMounted || typeof navigator === 'undefined'
-			? 'en-US' // 'en-GB'
-			: navigator.language,
-		{ style: 'currency', currency }
-	).format(price);
 
 const ProductPrice = (props: Props) => {
 	const isMounted = useIsMounted();

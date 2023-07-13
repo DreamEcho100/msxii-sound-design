@@ -3,7 +3,7 @@
 import {
 	GetStaticPaths,
 	GetStaticPropsContext,
-	InferGetStaticPropsType
+	InferGetStaticPropsType,
 } from 'next';
 import { z } from 'zod';
 import { CustomPages } from '~/utils/appData';
@@ -16,7 +16,7 @@ import { createInnerTRPCContext } from '~/server/api/trpc';
 
 const IOSAppPage = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
 	const customPageStructureQuery = api.customPages.getOne.useQuery({
-		slug: props.slug
+		slug: props.slug,
 	});
 
 	if (customPageStructureQuery.isLoading) return <>Loading...</>;
@@ -31,16 +31,16 @@ const IOSAppPage = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
 
 export const getStaticPaths: GetStaticPaths = () => {
 	return {
-		paths: CustomPages.filter(
-			(item) => item.mainTag === 'ios-app-sub-page'
-		).map((item) => ({
-			params: { slug: item.slug }
-		})),
-		fallback: true
+		paths: CustomPages.filter((item) => item.category === 'ios-app-page').map(
+			(item) => ({
+				params: { slug: item.slug },
+			}),
+		),
+		fallback: true,
 	};
 };
 export const getStaticProps = async (
-	context: GetStaticPropsContext<{ slug: string }>
+	context: GetStaticPropsContext<{ slug: string }>,
 ) => {
 	const { slug } = z
 		.object({ slug: z.string().trim().min(1) })
@@ -49,7 +49,7 @@ export const getStaticProps = async (
 	const ssg = createServerSideHelpers({
 		router: appRouter,
 		ctx: await createInnerTRPCContext({ session: null }),
-		transformer: superjson // optional - adds superjson serialization
+		transformer: superjson, // optional - adds superjson serialization
 	});
 	/*
 	 * Prefetching the `customPages.getOneBySlug` query here.
@@ -60,9 +60,9 @@ export const getStaticProps = async (
 	return {
 		props: {
 			trpcState: ssg.dehydrate(),
-			slug
+			slug,
 		},
-		revalidate: 10
+		revalidate: 10,
 	};
 };
 

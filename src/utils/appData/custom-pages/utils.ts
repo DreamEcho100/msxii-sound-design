@@ -1,22 +1,23 @@
 import { type VariantProps, cva } from 'class-variance-authority';
 import {
 	SECTIONS_TYPES_map,
-	type StandardSection
+	type StandardSection,
 } from '~/utils/types/custom-page';
 
 export const createStandardSection = (
 	params: Pick<
 		StandardSection,
+		| 'order'
 		| 'body'
 		| 'title'
 		| 'description'
 		| 'customPageClassesKeys'
 		| 'twClassNameVariants'
-	>
+	>,
 ): StandardSection => ({
 	___type: SECTIONS_TYPES_map['standard-section'],
 	twClassNameVariants: { 'gap-x': '2', 'gap-y': '2' },
-	...params
+	...params,
 });
 
 export enum ProductsTags {
@@ -29,7 +30,7 @@ export enum ProductsTags {
 	'One Shot Drums' = 'One Shot Drums',
 	'Instrument Kits' = 'Instrument Kits',
 	'Presets' = 'Presets',
-	FreeLabel = 'Free Label'
+	FreeLabel = 'Free Label',
 }
 
 export const boxVariants = {
@@ -49,7 +50,7 @@ export const boxVariants = {
 		'screen-sm': 'max-w-screen-sm',
 		'screen-md': 'max-w-screen-md',
 		'screen-xl': 'max-w-screen-xl',
-		'screen-2xl': 'max-w-screen-2xl'
+		'screen-2xl': 'max-w-screen-2xl',
 	},
 	w: {
 		'4': 'w-4',
@@ -105,7 +106,7 @@ export const boxVariants = {
 		'10/12': 'w-10/12',
 		'11/12': 'w-11/12',
 		full: 'w-full',
-		auto: 'w-auto'
+		auto: 'w-auto',
 	},
 	h: {
 		'4': 'h-4',
@@ -161,7 +162,7 @@ export const boxVariants = {
 		'10/12': 'h-10/12',
 		'11/12': 'h-11/12',
 		full: 'h-full',
-		auto: 'h-auto'
+		auto: 'h-auto',
 	},
 	'gap-x': {
 		'1': 'gap-x-1',
@@ -179,7 +180,7 @@ export const boxVariants = {
 		'14': 'gap-x-14',
 		'16': 'gap-x-16',
 		'18': 'gap-x-18',
-		'20': 'gap-x-20'
+		'20': 'gap-x-20',
 	},
 	'gap-y': {
 		'1': 'gap-y-1',
@@ -197,10 +198,10 @@ export const boxVariants = {
 		'14': 'gap-y-14',
 		'16': 'gap-y-16',
 		'18': 'gap-y-18',
-		'20': 'gap-y-20'
+		'20': 'gap-y-20',
 	},
 	mx: {
-		auto: 'mx-auto'
+		auto: 'mx-auto',
 	},
 	px: {
 		'1': 'px-1',
@@ -218,7 +219,7 @@ export const boxVariants = {
 		'14': 'px-14',
 		'16': 'px-16',
 		'18': 'px-18',
-		'20': 'px-20'
+		'20': 'px-20',
 	},
 	py: {
 		'1': 'py-1',
@@ -236,7 +237,7 @@ export const boxVariants = {
 		'14': 'py-14',
 		'16': 'py-16',
 		'18': 'py-18',
-		'20': 'py-20'
+		'20': 'py-20',
 	},
 	leading: {
 		3: 'leading-3',
@@ -252,7 +253,7 @@ export const boxVariants = {
 		snug: 'leading-snug',
 		normal: 'leading-normal',
 		relaxed: 'leading-relaxed',
-		loose: 'leading-loose'
+		loose: 'leading-loose',
 	},
 	rounded: {
 		sm: 'rounded-sm',
@@ -264,26 +265,26 @@ export const boxVariants = {
 		'3xl': 'rounded-3xl',
 		'4xl': 'rounded-[2rem]',
 		'5xl': 'rounded-[2.5rem]',
-		full: 'rounded-full'
+		full: 'rounded-full',
 	},
 	'aspect-ratio': {
 		square: 'aspect-square',
-		video: 'aspect-video'
+		video: 'aspect-video',
 	},
 	'object-fit': {
 		cover: 'object-cover',
-		contain: 'object-contain'
+		contain: 'object-contain',
 	},
 	'text-align': {
 		center: 'text-center',
 		justify: 'text-justify',
 		left: 'text-left',
-		right: 'text-right'
-	}
+		right: 'text-right',
+	},
 } as const;
 
 export const handleBoxVariants = cva('', {
-	variants: boxVariants
+	variants: boxVariants,
 });
 
 export type BoxVariants = VariantProps<typeof handleBoxVariants>;

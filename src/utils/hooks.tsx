@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import {
 	type BasicCollection,
 	type Collection,
@@ -89,4 +89,12 @@ export const useBasicCollectionsHandleFilterManager = <
 		productTitleQuery,
 		setProductTitleQuery
 	};
+};
+
+export const useIsMounted = () => {
+	const [isMounted, setIsMounted] = useState(false);
+
+	useEffect(() => setIsMounted(true), []);
+
+	return isMounted;
 };

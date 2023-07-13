@@ -68,7 +68,7 @@ model VerificationToken {
 
 //
 
-model ClassName {
+model css {
   id        String    @id @default(cuid())
   createdAt DateTime  @default(now())
   updatedAt DateTime? @updatedAt
@@ -76,17 +76,17 @@ model ClassName {
   twVariants Json     @default("{}")
   custom     String[]
 
-  boxes                  Box[]
-  sections               Section[]
-  pages                  Page[]
-  mdsBoxes               MDBox[]
-  imagesBoxes            ImageBox[]
-  IframesBoxes           IframeBox[]
-  quotesBoxes            QuoteBox[]
-  HeadersBoxes           HeaderBox[]
-  tabsContainersBoxes    TabsContainerBox[]
-  slidersContainersBoxes SlidersContainerBox[]
-  gridsBoxes             GridBox[]
+  boxes       Box[]
+  sections    Section[]
+  customPages CustomPage[]
+  // mdsBoxes     MDBox[]
+  // imagesBoxes  ImageBox[]
+  // IframesBoxes IframeBox[]
+  // quotesBoxes  QuoteBox[]
+  // HeadersBoxes HeaderBox[]
+  // tabsContainersBoxes    TabsContainerBox[]
+  // slidersContainersBoxes SlidersContainerBox[]
+  // gridsBoxes             GridBox[]
 }
 
 model MDBox {
@@ -94,8 +94,8 @@ model MDBox {
   createdAt DateTime  @default(now())
   updatedAt DateTime? @updatedAt
 
-  className   ClassName @relation(fields: [classNameId], references: [id])
-  classNameId String
+  // css   css @relation(fields: [cssId], references: [id])
+  // cssId String
 
   box     Box      @relation(fields: [boxId, boxType], references: [id, type])
   boxId   String
@@ -111,14 +111,17 @@ model ImageBox {
   createdAt DateTime  @default(now())
   updatedAt DateTime? @updatedAt
 
-  className   ClassName @relation(fields: [classNameId], references: [id])
-  classNameId String
+  // css   css @relation(fields: [cssId], references: [id])
+  // cssId String
 
   box     Box      @relation(fields: [boxId, boxType], references: [id, type])
   boxId   String
   boxType BoxTypes @default(IMAGE)
 
-  src String
+  src     String
+  altText String?
+  width   Int?
+  height  Int?
 
   @@unique([boxId, boxType])
 }
@@ -134,15 +137,16 @@ model IframeBox {
   createdAt DateTime  @default(now())
   updatedAt DateTime? @updatedAt
 
-  className   ClassName @relation(fields: [classNameId], references: [id])
-  classNameId String
+  // css   css @relation(fields: [cssId], references: [id])
+  // cssId String
 
   box     Box      @relation(fields: [boxId, boxType], references: [id, type])
   boxId   String
   boxType BoxTypes @default(IFRAME)
 
-  type IframeBoxTypes
-  src  String
+  type  IframeBoxTypes
+  src   String
+  title String?
 
   @@unique([boxId, boxType])
 }
@@ -152,8 +156,8 @@ model QuoteBox {
   createdAt DateTime  @default(now())
   updatedAt DateTime? @updatedAt
 
-  className   ClassName @relation(fields: [classNameId], references: [id])
-  classNameId String
+  // css   css @relation(fields: [cssId], references: [id])
+  // cssId String
 
   box     Box      @relation(fields: [boxId, boxType], references: [id, type])
   boxId   String
@@ -170,8 +174,8 @@ model HeaderBox {
   createdAt DateTime  @default(now())
   updatedAt DateTime? @updatedAt
 
-  className   ClassName @relation(fields: [classNameId], references: [id])
-  classNameId String
+  // css   css @relation(fields: [cssId], references: [id])
+  // cssId String
 
   box     Box      @relation(fields: [boxId, boxType], references: [id, type])
   boxId   String
@@ -188,8 +192,8 @@ model TabsContainerBox {
   createdAt DateTime  @default(now())
   updatedAt DateTime? @updatedAt
 
-  className   ClassName @relation(fields: [classNameId], references: [id])
-  classNameId String
+  // css   css @relation(fields: [cssId], references: [id])
+  // cssId String
 
   box     Box      @relation(fields: [boxId, boxType], references: [id, type])
   boxId   String
@@ -227,12 +231,12 @@ model SlidersContainerBox {
   createdAt DateTime  @default(now())
   updatedAt DateTime? @updatedAt
 
-  className   ClassName @relation(fields: [classNameId], references: [id])
-  classNameId String
+  // css   css @relation(fields: [cssId], references: [id])
+  // cssId String
 
   box     Box      @relation(fields: [boxId, boxType], references: [id, type])
   boxId   String
-  boxType BoxTypes @default(TABS_CONTAINER)
+  boxType BoxTypes @default(SLIDER)
 
   slidesPerViewType SlidersContainerSlidePerViewType @default(DEFAULT)
 
@@ -252,7 +256,7 @@ model SliderItemOnSlidersContainerBox {
   slide   Box    @relation(fields: [slideId], references: [id])
   slideId String
 
-  title String
+  title String?
 
   @@id([slidersContainerBoxId, slideId])
 }
@@ -262,8 +266,8 @@ model GridBox {
   createdAt DateTime  @default(now())
   updatedAt DateTime? @updatedAt
 
-  className   ClassName @relation(fields: [classNameId], references: [id])
-  classNameId String
+  // css   css @relation(fields: [cssId], references: [id])
+  // cssId String
 
   box     Box      @relation(fields: [boxId, boxType], references: [id, type])
   boxId   String
@@ -279,15 +283,16 @@ model GridItemOnGridBox {
   createdAt DateTime  @default(now())
   updatedAt DateTime? @updatedAt
 
-  GridBox            GridBox @relation(fields: [tabsContainerBoxId], references: [id])
-  tabsContainerBoxId String
+  GridBoxParent   GridBox @relation(fields: [GridBoxParentId], references: [id])
+  GridBoxParentId String
 
-  grid   Box    @relation(fields: [gridId], references: [id])
-  gridId String
+  item   Box    @relation(fields: [itemId], references: [id])
+  itemId String
 
-  title String
+  // title String
+  order Int @default(autoincrement())
 
-  @@id([tabsContainerBoxId, gridId])
+  @@id([GridBoxParentId, itemId])
 }
 
 enum BoxTypes {
@@ -297,8 +302,8 @@ enum BoxTypes {
   QUOTE
   HEADER
   TABS_CONTAINER
-  TAB
   GRID
+  SLIDER
 }
 
 model Box {
@@ -306,17 +311,20 @@ model Box {
   type      BoxTypes
   createdAt DateTime @default(now())
 
-  className   ClassName @relation(fields: [classNameId], references: [id])
-  classNameId String
+  order Int @default(autoincrement())
 
-  section   Section @relation(fields: [sectionId], references: [id])
-  sectionId String
+  css   css    @relation(fields: [cssId], references: [id])
+  cssId String
 
-  mdBox               MDBox?
-  imageBox            ImageBox?
-  IframeBox           IframeBox?
-  quoteBox            QuoteBox?
-  headerBox           HeaderBox?
+  section   Section? @relation(fields: [sectionId], references: [id])
+  sectionId String?
+
+  headerBox HeaderBox?
+  mdBox     MDBox?
+  imageBox  ImageBox?
+  iframeBox IframeBox?
+  quoteBox  QuoteBox?
+
   tabsContainerBox    TabsContainerBox?
   slidersContainerBox SlidersContainerBox?
   gridBox             GridBox?
@@ -332,27 +340,27 @@ model Section {
   id        String   @id @default(cuid())
   createdAt DateTime @default(now())
 
-  className   ClassName @relation(fields: [classNameId], references: [id])
-  classNameId String
+  order Int @default(autoincrement())
+
+  customPage   CustomPage @relation(fields: [customPageId], references: [id])
+  customPageId String
+
+  css   css    @relation(fields: [cssId], references: [id])
+  cssId String
 
   body Box[]
-
-  // ___type       String?
-
-  page   Page   @relation(fields: [pageId], references: [id])
-  pageId String
 }
 
-model Page {
+model CustomPage {
   id        String    @id @default(cuid())
   createdAt DateTime  @default(now())
   updatedAt DateTime? @updatedAt
 
-  className   ClassName @relation(fields: [classNameId], references: [id])
-  classNameId String
+  css   css    @relation(fields: [cssId], references: [id])
+  cssId String
 
-  slug    String
-  mainTag String
+  slug     String
+  category String?
 
   sections Section[]
 }

@@ -11,17 +11,17 @@ export const customPagesRouter = createTRPCRouter({
 	}),
 	getOne: publicProcedure
 		.input(
-			z.object({ slug: z.string().optional(), mainTag: z.string().optional() })
+			z.object({ slug: z.string().optional(), category: z.string().optional() })
 		)
 		.query(({ input }) => {
-			if (!input.slug && !input.mainTag)
+			if (!input.slug && !input.category)
 				throw new TRPCError({ code: 'BAD_REQUEST' });
 
 			const product = CustomPages.find(
 				(item) =>
 					(typeof input.slug === 'undefined' || item.slug === input.slug) &&
-					(typeof input.mainTag === 'undefined' ||
-						item.mainTag === input.mainTag)
+					(typeof input.category === 'undefined' ||
+						item.category === input.category)
 			);
 
 			if (!product) throw new TRPCError({ code: 'NOT_FOUND' });

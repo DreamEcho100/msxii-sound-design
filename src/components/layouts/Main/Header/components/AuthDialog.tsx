@@ -1,5 +1,3 @@
-import * as Dialog from '@radix-ui/react-dialog';
-
 import {
 	Dispatch,
 	InputHTMLAttributes,
@@ -9,8 +7,6 @@ import {
 	useState
 } from 'react';
 
-import { BiX } from 'react-icons/bi';
-
 import { cx } from 'class-variance-authority';
 
 import Clickable from '~/components/shared/core/Clickable';
@@ -18,6 +14,7 @@ import { useLoginMutation, useRegisterMutation } from '~/utils/shopify/hooks';
 import { RouterInputs } from '~/utils/api';
 import { useStore } from 'zustand';
 import { globalStore } from '~/store';
+import CustomDialog, { DialogContentHeader } from '~/components/shared/Dialog';
 
 const AuthDialog = () => {
 	const isAuthDialogOpen = useStore(
@@ -34,75 +31,17 @@ const AuthDialog = () => {
 	);
 
 	return (
-		<Dialog.Root open={isAuthDialogOpen}>
-			<Dialog.Portal>
-				<Dialog.Overlay
-					className={cx(
-						'bg-black/50 fixed inset-0 z-20',
-						'duration-300 transition-all scale-0',
-						'data-[state=open]:scale-100'
-					)}
-					onClick={toggleAuthDialogOpen}
-				/>
-				<Dialog.Content
-					className={cx(
-						'z-20 fixed top-1/2 left-1/2 max-h-[85vh] w-[90vw] max-w-screen-xl-sm -translate-x-1/2 -translate-y-1/2 rounded-md bg-bg-primary-100 dark:bg-bg-primary-500 text-text-primary-400 p-[25px] shadow-[hsl(206_22%_7%_/_35%)_0px_10px_38px_-10px,_hsl(206_22%_7%_/_20%)_0px_10px_20px_-15px] focus:outline-none',
-						'duration-300 transition-all scale-0',
-						'data-[state=open]:scale-100'
-					)}
-				>
-					{authDialogType === 'login' ? (
-						<LoginDialogContent />
-					) : (
-						<RegisterDialogContent />
-					)}
-				</Dialog.Content>
-			</Dialog.Portal>
-		</Dialog.Root>
+		<CustomDialog setIsOpen={toggleAuthDialogOpen} isOpen={isAuthDialogOpen}>
+			{authDialogType === 'login' ? (
+				<LoginDialogContent />
+			) : (
+				<RegisterDialogContent />
+			)}
+		</CustomDialog>
 	);
 };
 
 export default AuthDialog;
-
-const DialogContentHeader = ({
-	titleProps = {},
-	descriptionProps = {}
-}: {
-	titleProps: Parameters<typeof Dialog.Title>[0];
-	descriptionProps?: Parameters<typeof Dialog.Description>[0];
-}) => {
-	const toggleAuthDialogOpen = useStore(
-		globalStore,
-		(store) => store.dialogs.auth.toggleOpen
-	);
-
-	return (
-		<header className="flex flex-col gap-3">
-			<Dialog.Close onClick={toggleAuthDialogOpen} asChild>
-				<button
-					type="button"
-					className={cx(
-						'absolute top-3 right-3 inline-flex h-6 w-6 appearance-none items-center justify-center rounded-full text-2xl',
-						'text-special-primary-700 hover:text-special-primary-700/75',
-						'dark:text-special-primary-500 dark:hover:text-special-primary-500/90',
-						'focus:shadow-special-primary-500 focus:shadow-[0_0_0_0.125rem] focus:outline-none'
-					)}
-					aria-label="Close"
-				>
-					<BiX />
-				</button>
-			</Dialog.Close>
-			<Dialog.Title
-				className="text-text-primary-500 m-0 text-h3 font-medium"
-				{...titleProps}
-			/>
-			<Dialog.Description
-				className="text-text-primary-400 text-sm leading-normal"
-				{...descriptionProps}
-			/>
-		</header>
-	);
-};
 
 const LoginDialogContent = () => {
 	const setAuthDialogState = useStore(

@@ -15,7 +15,7 @@ const CreativeSpacePage = (
 		props.input
 	);
 	const customPageStructureQuery = api.customPages.getOne.useQuery({
-		mainTag: 'blue-label-page'
+		category: 'blue-label-page'
 	});
 
 	if (collectionQuery.isLoading || customPageStructureQuery.isLoading)
@@ -50,7 +50,7 @@ const CreativeSpacePage = (
 						'gap-y': '16'
 					},
 					slug: 'blue-label',
-					mainTag: 'blue-label-page',
+					category: 'blue-label-page',
 					pageStructure: [
 						{
 							twClassNameVariants: { 'gap-y': '16' },
@@ -117,7 +117,7 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
 	await Promise.all([
 		// ssg.products.getManyByTags.prefetch({ tags }),
 		ssg.shopify.collections.getOneByHandle.prefetch(input),
-		ssg.customPages.getOne.prefetch({ mainTag: 'blue-label-page' })
+		ssg.customPages.getOne.prefetch({ category: 'blue-label-page' })
 	]);
 	// Make sure to return { props: { trpcState: ssg.dehydrate() } }
 	return {

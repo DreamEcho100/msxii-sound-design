@@ -9,8 +9,8 @@ import {
 	SliderBox,
 	CustomPage,
 	GridBox,
-} from '../../../../utils/types/custom-page';
-import { createStandardSection } from '../utils';
+} from '../../../../src/utils/types/custom-page';
+import { createStandardSection } from '../../utils';
 
 const LoflyDirtIOSApp: StandardSection[] = (() => {
 	const appLink =
@@ -241,7 +241,7 @@ const loFlyDirtPageData: CustomPage = {
 		'gap-y': '16',
 	},
 	// title: 'Lo-Fly Dirt',
-	slug: '/ios-apps/lo-fly-dirt',
+	slug: 'lo-fly-dirt',
 	category: 'ios-app-page',
 	pageStructure: LoflyDirtIOSApp,
 };

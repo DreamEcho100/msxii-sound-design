@@ -3,7 +3,7 @@ import { BoxVariants } from '../appData';
 export const SECTIONS_TYPES = ['standard-section'] as const;
 export type SECTIONS_TYPE = (typeof SECTIONS_TYPES)[number];
 export const SECTIONS_TYPES_map = Object.fromEntries(
-	SECTIONS_TYPES.map((item) => [item, item])
+	SECTIONS_TYPES.map((item) => [item, item]),
 ) as {
 	[Key in SECTIONS_TYPE]: Key;
 };
@@ -17,11 +17,12 @@ export const BOXES_TYPES = [
 	'tabs',
 	'slider',
 	'quote',
-	'grid'
+	'grid',
+	'header',
 ] as const;
 export type BOXES_TYPE = (typeof BOXES_TYPES)[number];
 export const BOXES_TYPES_map = Object.fromEntries(
-	BOXES_TYPES.map((item) => [item, item])
+	BOXES_TYPES.map((item) => [item, item]),
 ) as {
 	[Key in BOXES_TYPE]: Key;
 };
@@ -29,7 +30,7 @@ export const BOXES_TYPES_map = Object.fromEntries(
 export const SUB_BOXES_TYPES = ['youtube', 'instagram', 'soundcloud'] as const;
 export type SUB_BOXES_TYPE = (typeof SUB_BOXES_TYPES)[number];
 export const SUB_BOXES_TYPES_map = Object.fromEntries(
-	SUB_BOXES_TYPES.map((item) => [item, item])
+	SUB_BOXES_TYPES.map((item) => [item, item]),
 ) as {
 	[Key in SUB_BOXES_TYPE]: Key;
 };
@@ -40,6 +41,9 @@ export type ImageOnly = {
 	customPageClassesKeys?: string[];
 	___type: (typeof BOXES_TYPES_map)['image-only'];
 	src: string;
+	altText?: string;
+	width?: number;
+	height?: number;
 };
 // Prisma model done
 export type MDBox = {
@@ -55,6 +59,7 @@ export type IframeBox = {
 	___type: (typeof BOXES_TYPES_map)['iframe'];
 	___subType: SUB_BOXES_TYPE;
 	src: string;
+	title?: string;
 };
 // Prisma model done
 export type QuoteBox = {
@@ -73,7 +78,7 @@ export type TabsBox = {
 	___type: (typeof BOXES_TYPES_map)['tabs'];
 	tabs: {
 		title: string;
-		data: Box;
+		data: Exclude<Box, RowsOnlyBox | TwoColumnsBox>;
 	}[];
 };
 // Prisma model done
@@ -81,7 +86,7 @@ export type SliderBox = {
 	twClassNameVariants?: BoxVariants;
 	customPageClassesKeys?: string[];
 	___type: (typeof BOXES_TYPES_map)['slider'];
-	slides: (IframeBox | QuoteBox)[];
+	slides: Exclude<Box, RowsOnlyBox | TwoColumnsBox>[];
 	slidesPerViewType?: 'default' | 'one-slide' | 'large-slides'; // ! move to there own enums
 };
 // Prisma model done
@@ -91,7 +96,7 @@ export type GridBox = {
 	twClassNameVariants?: BoxVariants;
 	customPageClassesKeys?: string[];
 	gridTemplateColumns?: string;
-	items: (ImageOnly | MDBox | IframeBox | QuoteBox)[];
+	items: Exclude<Box, RowsOnlyBox | TwoColumnsBox>[]; //(ImageOnly | MDBox | IframeBox | QuoteBox)[];
 };
 // x
 export type TwoColumnsBox = {
@@ -109,7 +114,15 @@ export type RowsOnlyBox = {
 	rows: Exclude<Box, RowsOnlyBox>[];
 };
 
+// { order: number } &
 export type Box =
+	| {
+			twClassNameVariants?: BoxVariants;
+			customPageClassesKeys?: string[];
+			___type: (typeof BOXES_TYPES_map)['header'];
+			title: string;
+			description?: string;
+	  }
 	| ImageOnly
 	| MDBox
 	| IframeBox
@@ -129,12 +142,13 @@ export type StandardSection = {
 	title?: string;
 	description?: string;
 	body: Box[];
+	order: number;
 };
 
 export type CustomPage = {
 	twClassNameVariants?: BoxVariants;
 	customPageClassesKeys?: string[];
 	slug: string;
-	mainTag?: string | undefined;
+	category?: string | undefined;
 	pageStructure: StandardSection[];
 };

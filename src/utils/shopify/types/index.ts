@@ -1,3 +1,4 @@
+import { Order, OrderLineItem } from 'shopify-buy';
 import {
 	SHOPIFY_CHECKOUT_ERRORS_CODES_MAP,
 	SHOPIFY_CUSTOMER_ERRORS_CODES_MAP
@@ -25,7 +26,7 @@ export type ShopifyErrorShape<ErrorCodes> = {
 	message: string;
 };
 
-export interface Customer {
+export interface ShopifyCustomer {
 	id: string;
 	firstName: string;
 	lastName: string;
@@ -58,7 +59,9 @@ export interface Customer {
 		zip: string | null;
 		phone: string | null;
 	}>;
-	orders: Edges<any>;
+	orders: Edges<
+		Omit<Order, 'OrderLineItem'> & { lineItems: Edges<OrderLineItem> }
+	>;
 }
 
 export type ShopifyImage = {

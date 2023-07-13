@@ -1,7 +1,7 @@
 import { gql } from 'graphql-request';
 import { z } from 'zod';
 import {
-	type Customer,
+	type ShopifyCustomer,
 	ShopifyErrorShape,
 	type SHOPIFY_CUSTOMER_ERRORS_CODES
 } from '../types';
@@ -65,7 +65,9 @@ const customerDataByAccessTokenQuery = async (
 }
  `;
 
-	return (await graphQLClient.request(template)) as { customer: Customer };
+	return (await graphQLClient.request(template)) as {
+		customer: ShopifyCustomer;
+	};
 };
 
 const customerAccessTokenDeleteSchema = z.object({
@@ -129,7 +131,7 @@ const customerCreateMutation = async (
 
 	return (await graphQLClient.request(template, { input })) as {
 		customerCreate: {
-			customer: Customer;
+			customer: ShopifyCustomer;
 			customerUserErrors: ShopifyErrorShape<SHOPIFY_CUSTOMER_ERRORS_CODES>[];
 		};
 	};

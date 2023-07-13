@@ -7,8 +7,8 @@ import {
 	SliderBox,
 	CustomPage,
 	GridBox,
-} from '~/utils/types/custom-page';
-import { createStandardSection } from '../utils';
+} from '../../../../src/utils/types/custom-page';
+import { createStandardSection } from '../../utils';
 
 export const ChomplrOSApp: StandardSection[] = (() => {
 	const appLink = 'https://apps.apple.com/us/app/chomplr/id1470553213';

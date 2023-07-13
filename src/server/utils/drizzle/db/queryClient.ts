@@ -13,7 +13,7 @@ const drizzleQueryClient = drizzle(pool, {
 
 export default drizzleQueryClient;
 
-drizzleQueryClient.query.customPage.findMany({
+const test = await drizzleQueryClient.query.customPage.findMany({
 	with: {
 		css: true,
 		sections: {
@@ -27,8 +27,9 @@ drizzleQueryClient.query.customPage.findMany({
 						iframeBox: true,
 						quoteBox: true,
 						//
+
 						tabsContainerBox: true,
-						slidersContainerBox: true,
+						sliderBox: true,
 						gridBox: true,
 					},
 				},
@@ -36,3 +37,5 @@ drizzleQueryClient.query.customPage.findMany({
 		},
 	},
 });
+
+console.log('test', test);

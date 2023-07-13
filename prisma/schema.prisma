@@ -85,7 +85,7 @@ model css {
   // quotesBoxes  QuoteBox[]
   // HeadersBoxes HeaderBox[]
   // tabsContainersBoxes    TabsContainerBox[]
-  // slidersContainersBoxes SlidersContainerBox[]
+  // slidersContainersBoxes SliderBox[]
   // gridsBoxes             GridBox[]
 }
 
@@ -199,12 +199,12 @@ model TabsContainerBox {
   boxId   String
   boxType BoxTypes @default(TABS_CONTAINER)
 
-  tabItems TabItemOnTabsContainerBox[]
+  boxesToTabsContainerBoxes BoxToTabsContainerBox[]
 
   @@unique([boxId, boxType])
 }
 
-model TabItemOnTabsContainerBox {
+model BoxToTabsContainerBox {
   id        String    @unique @default(cuid())
   createdAt DateTime  @default(now())
   updatedAt DateTime? @updatedAt
@@ -212,12 +212,12 @@ model TabItemOnTabsContainerBox {
   tabsContainerBox   TabsContainerBox @relation(fields: [tabsContainerBoxId], references: [id])
   tabsContainerBoxId String
 
-  tabItem   Box    @relation(fields: [tabItemId], references: [id])
-  tabItemId String
+  box   Box    @relation(fields: [boxId], references: [id])
+  boxId String
 
   title String
 
-  @@id([tabsContainerBoxId, tabItemId])
+  @@id([tabsContainerBoxId, boxId])
 }
 
 enum SlidersContainerSlidePerViewType {
@@ -226,7 +226,7 @@ enum SlidersContainerSlidePerViewType {
   LARGE_SLIDES
 }
 
-model SlidersContainerBox {
+model SliderBox {
   id        String    @id @default(cuid())
   createdAt DateTime  @default(now())
   updatedAt DateTime? @updatedAt
@@ -240,25 +240,25 @@ model SlidersContainerBox {
 
   slidesPerViewType SlidersContainerSlidePerViewType @default(DEFAULT)
 
-  slides SliderItemOnSlidersContainerBox[]
+  boxesToSliderBoxes BoxToSliderBox[]
 
   @@unique([boxId, boxType])
 }
 
-model SliderItemOnSlidersContainerBox {
+model BoxToSliderBox {
   id        String    @unique @default(cuid())
   createdAt DateTime  @default(now())
   updatedAt DateTime? @updatedAt
 
-  slidersContainerBox   SlidersContainerBox @relation(fields: [slidersContainerBoxId], references: [id])
-  slidersContainerBoxId String
+  sliderBox   SliderBox @relation(fields: [sliderBoxId], references: [id])
+  sliderBoxId String
 
-  slide   Box    @relation(fields: [slideId], references: [id])
-  slideId String
+  box   Box    @relation(fields: [boxId], references: [id])
+  boxId String
 
   title String?
 
-  @@id([slidersContainerBoxId, slideId])
+  @@id([sliderBoxId, boxId])
 }
 
 model GridBox {
@@ -273,26 +273,26 @@ model GridBox {
   boxId   String
   boxType BoxTypes @default(GRID)
 
-  items GridItemOnGridBox[]
+  boxesToGridBoxes BoxToGridBox[]
 
   @@unique([boxId, boxType])
 }
 
-model GridItemOnGridBox {
+model BoxToGridBox {
   id        String    @unique @default(cuid())
   createdAt DateTime  @default(now())
   updatedAt DateTime? @updatedAt
 
-  GridBoxParent   GridBox @relation(fields: [GridBoxParentId], references: [id])
-  GridBoxParentId String
+  gridBox   GridBox @relation(fields: [gridBoxId], references: [id])
+  gridBoxId String
 
-  item   Box    @relation(fields: [itemId], references: [id])
-  itemId String
+  box   Box    @relation(fields: [boxId], references: [id])
+  boxId String
 
   // title String
   order Int @default(autoincrement())
 
-  @@id([GridBoxParentId, itemId])
+  @@id([gridBoxId, boxId])
 }
 
 enum BoxTypes {
@@ -325,13 +325,13 @@ model Box {
   iframeBox IframeBox?
   quoteBox  QuoteBox?
 
-  tabsContainerBox    TabsContainerBox?
-  slidersContainerBox SlidersContainerBox?
-  gridBox             GridBox?
+  tabsContainerBox TabsContainerBox?
+  sliderBox        SliderBox?
+  gridBox          GridBox?
 
-  tabsContainerBoxParents    TabItemOnTabsContainerBox[]
-  slidersContainerBoxParents SliderItemOnSlidersContainerBox[]
-  gridBoxParents             GridItemOnGridBox[]
+  boxesToTabsContainerBoxes BoxToTabsContainerBox[]
+  boxesToSliderBoxes        BoxToSliderBox[]
+  boxesToGridBoxes          BoxToGridBox[]
 
   @@id([id, type])
 }

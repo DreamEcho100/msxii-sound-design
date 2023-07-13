@@ -1,11 +1,12 @@
 import { relations } from 'drizzle-orm';
+import { boxToGridBox, boxToSliderBox, boxToTabsContainerBox } from './schema';
 import {
 	mdBox,
 	imageBox,
 	iframeBox,
 	quoteBox,
 	tabsContainerBox,
-	slidersContainerBox,
+	sliderBox,
 	gridBox,
 } from './schema';
 import {
@@ -66,7 +67,7 @@ export const sectionRelations = relations(section, ({ many, one }) => ({
 	}),
 }));
 
-export const boxRelations = relations(box, ({ one }) => ({
+export const boxRelations = relations(box, ({ many, one }) => ({
 	css: one(css, {
 		fields: [box.cssId],
 		references: [css.id],
@@ -102,20 +103,68 @@ export const boxRelations = relations(box, ({ one }) => ({
 		fields: [box.id],
 		references: [tabsContainerBox.boxId],
 	}),
-	slidersContainerBox: one(slidersContainerBox, {
+	sliderBox: one(sliderBox, {
 		fields: [box.id],
-		references: [slidersContainerBox.boxId],
+		references: [sliderBox.boxId],
 	}),
 	gridBox: one(gridBox, {
 		fields: [box.id],
 		references: [gridBox.boxId],
 	}),
-	//
 
-	// tabsContainerBoxParents    TabItemOnTabsContainerBox[]
-	// slidersContainerBoxParents SliderItemOnSlidersContainerBox[]
-	// gridBoxParents             GridItemOnGridBox[]
+	//
+	boxesToTabsContainerBoxes: many(boxToTabsContainerBox),
+	boxesToSliderBoxes: many(sliderBox),
+	boxesToGridBoxes: many(boxToGridBox),
 }));
+
+export const boxToGridBoxRelations = relations(boxToGridBox, ({ one }) => ({
+	box: one(box, {
+		fields: [boxToGridBox.boxId],
+		references: [box.id],
+	}),
+	gridBox: one(gridBox, {
+		fields: [boxToGridBox.gridBoxId],
+		references: [gridBox.id],
+	}),
+}));
+export const gridBoxRelations = relations(gridBox, ({ many }) => ({
+	boxesToGridBoxes: many(boxToGridBox),
+}));
+
+export const boxToSliderBoxRelations = relations(boxToSliderBox, ({ one }) => ({
+	box: one(box, {
+		fields: [boxToSliderBox.boxId],
+		references: [box.id],
+	}),
+	sliderBox: one(sliderBox, {
+		fields: [boxToSliderBox.sliderBoxId],
+		references: [sliderBox.id],
+	}),
+}));
+export const sliderBoxRelations = relations(sliderBox, ({ many }) => ({
+	boxesToSliderBoxes: many(boxToSliderBox),
+}));
+
+export const boxToTabsContainerBoxRelations = relations(
+	boxToTabsContainerBox,
+	({ one }) => ({
+		box: one(box, {
+			fields: [boxToTabsContainerBox.boxId],
+			references: [box.id],
+		}),
+		tabsContainerBox: one(tabsContainerBox, {
+			fields: [boxToTabsContainerBox.tabsContainerBoxId],
+			references: [tabsContainerBox.id],
+		}),
+	}),
+);
+export const tabsContainerBoxRelations = relations(
+	tabsContainerBox,
+	({ many }) => ({
+		boxesToTabsContainerBoxes: many(boxToTabsContainerBox),
+	}),
+);
 
 /*
 export const creativeWorkToTagRelations = relations(
@@ -149,12 +198,12 @@ export const headerBoxRelations = relations(headerBox, ({ one }) => ({
 	// quoteBox  QuoteBox?
 
 	// tabsContainerBox    TabsContainerBox?
-	// slidersContainerBox SlidersContainerBox?
+	// sliderBox SliderBox?
 	// gridBox             GridBox?
 
-	// tabsContainerBoxParents    TabItemOnTabsContainerBox[]
-	// slidersContainerBoxParents SliderItemOnSlidersContainerBox[]
-	// gridBoxParents             GridItemOnGridBox[]
+	// boxesToTabsContainerBoxes    BoxToTabsContainerBox[]
+	// boxesToSliderBoxes BoxToSliderBox[]
+	// boxToGridBox             boxToGridBox[]
 }));
 */
 

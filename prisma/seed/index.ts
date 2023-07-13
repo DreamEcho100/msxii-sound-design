@@ -192,7 +192,7 @@ const seedPage = async (customPage: CustomPage) => {
 								order: itemIndex,
 							})),
 							{},
-						).then((boxes) => boxes.map((box) => ({ itemId: box.id })));
+						).then((boxes) => boxes.map((box) => ({ boxId: box.id })));
 
 						console.log('itemsData', itemsData);
 
@@ -200,7 +200,7 @@ const seedPage = async (customPage: CustomPage) => {
 							type: BoxTypes.GRID,
 							gridBox: {
 								create: {
-									items: {
+									boxesToGridBoxes: {
 										createMany: { data: itemsData },
 									},
 								},
@@ -209,7 +209,7 @@ const seedPage = async (customPage: CustomPage) => {
 					}
 
 					case 'tabs': {
-						const tabItemsData = await createBoxes(
+						const itemsData = await createBoxes(
 							box.tabs.map((item, itemIndex) => ({
 								...item.data,
 								order: itemIndex,
@@ -217,7 +217,7 @@ const seedPage = async (customPage: CustomPage) => {
 							{},
 						).then((boxes) =>
 							boxes.map((_box, _boxIndex) => ({
-								tabItemId: _box.id,
+								boxId: _box.id,
 								title: box.tabs[_boxIndex]?.title || '',
 							})),
 						);
@@ -226,7 +226,9 @@ const seedPage = async (customPage: CustomPage) => {
 							type: BoxTypes.TABS_CONTAINER,
 							tabsContainerBox: {
 								create: {
-									tabItems: { createMany: { data: tabItemsData } },
+									boxesToTabsContainerBoxes: {
+										createMany: { data: itemsData },
+									},
 								},
 							},
 						};
@@ -241,7 +243,7 @@ const seedPage = async (customPage: CustomPage) => {
 							{},
 						).then((boxes) =>
 							boxes.map((_box, _boxIndex) => ({
-								slideId: _box.id,
+								boxId: _box.id,
 								// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 								// @ts-ignore
 								title: box.slides[_boxIndex]?.title,
@@ -250,7 +252,7 @@ const seedPage = async (customPage: CustomPage) => {
 
 						return {
 							type: BoxTypes.SLIDER,
-							slidersContainerBox: {
+							sliderBox: {
 								create: {
 									slidesPerViewType:
 										box.slidesPerViewType === 'one-slide'
@@ -258,7 +260,9 @@ const seedPage = async (customPage: CustomPage) => {
 											: box.slidesPerViewType === 'large-slides'
 											? SlidersContainerSlidePerViewType.LARGE_SLIDES
 											: SlidersContainerSlidePerViewType.DEFAULT,
-									slides: { createMany: { data: slidesData } },
+									boxesToSliderBoxes: {
+										createMany: { data: slidesData },
+									},
 								},
 							},
 						};

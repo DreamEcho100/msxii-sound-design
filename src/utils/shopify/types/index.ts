@@ -1,7 +1,6 @@
-import { Order, OrderLineItem } from 'shopify-buy';
 import {
 	SHOPIFY_CHECKOUT_ERRORS_CODES_MAP,
-	SHOPIFY_CUSTOMER_ERRORS_CODES_MAP
+	SHOPIFY_CUSTOMER_ERRORS_CODES_MAP,
 } from '../errors';
 
 export type SHOPIFY_CUSTOMER_ERRORS_CODES =
@@ -25,6 +24,53 @@ export type ShopifyErrorShape<ErrorCodes> = {
 	field: string[];
 	message: string;
 };
+
+export interface ShopifyLineItemVariant {
+	id: string;
+	image: ShopifyImage;
+	price: ShopifyMoneyV2;
+	product: {
+		id: string;
+		handle: string;
+		title: string;
+		totalInventory: number;
+		availableForSale: boolean;
+		description: string;
+		images: Edges<ShopifyImage>;
+		updatedAt: string;
+		createdAt: string;
+	};
+	quantityAvailable: number;
+	title: string;
+}
+
+export interface ShopifyLineItem {
+	currentQuantity: number;
+	quantity: number;
+	title: string;
+	originalTotalPrice: ShopifyMoneyV2;
+	variant: ShopifyLineItemVariant;
+}
+
+export interface ShopifyOrder {
+	id: string;
+	orderNumber: number;
+	email: string;
+	name: string;
+	phone?: string;
+	cancelReason?: string;
+	canceledAt?: string;
+	edited: boolean;
+	financialStatus: string;
+	fulfillmentStatus: string;
+	statusUrl: string;
+	totalPrice: ShopifyMoneyV2;
+	totalShippingPrice: ShopifyMoneyV2;
+	totalTax: ShopifyMoneyV2;
+	totalRefunded: ShopifyMoneyV2;
+	lineItems: Edges<ShopifyLineItem>;
+	processedAt: string;
+}
 
 export interface ShopifyCustomer {
 	id: string;
@@ -59,9 +105,7 @@ export interface ShopifyCustomer {
 		zip: string | null;
 		phone: string | null;
 	}>;
-	orders: Edges<
-		Omit<Order, 'OrderLineItem'> & { lineItems: Edges<OrderLineItem> }
-	>;
+	orders: Edges<ShopifyOrder>;
 }
 
 export type ShopifyImage = {

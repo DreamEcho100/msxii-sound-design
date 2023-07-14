@@ -5,18 +5,22 @@ import {
 	useGetEdgeNodes,
 } from '~/utils/hooks';
 import { useEffect, useMemo } from 'react';
-import { HomeScreenProps } from '..';
 import { CardsSlider } from '~/components/shared/core/Shopify/Cards/Slider';
 import {
 	ProductBundleCard,
 	ProductCard,
 } from '~/components/shared/core/Shopify/Cards/Card';
 import { BasicProduct } from '~/utils/shopify/types';
+import { RouterOutputs, api } from '~/utils/api';
+import SectionPrimaryLoader from '~/components/shared/Loaders/SectionPrimary';
+import SectionLoaderContainer from '~/components/shared/LoadersContainers/Section';
+
+type CollectionsBasic = RouterOutputs['shopify']['collections']['getAllBasic'];
 
 const FilteredProducts = ({
 	collectionsBasic,
 }: {
-	collectionsBasic: NonNullable<HomeScreenProps['collectionsBasic']>;
+	collectionsBasic: CollectionsBasic;
 }) => {
 	const {
 		categories,
@@ -87,7 +91,7 @@ const FilteredProducts = ({
 const HomeShowcaseSection = ({
 	collectionsBasic,
 }: {
-	collectionsBasic: NonNullable<HomeScreenProps['collectionsBasic']>;
+	collectionsBasic: CollectionsBasic;
 }) => {
 	const flattenedCollectionEdges = useGetEdgeNodes(collectionsBasic);
 	const bundlesCollections = useMemo(
@@ -153,13 +157,25 @@ const HomeShowcaseSection = ({
 	);
 };
 
-const HomeShowcaseSectionHolder = (props: HomeScreenProps) => {
-	if (props.isSuccess)
-		return <HomeShowcaseSection collectionsBasic={props.collectionsBasic} />;
+const HomeShowcaseSectionHolder = () => {
+	const getAllBasicCollectionsShopify =
+		api.shopify.collections.getAllBasic.useQuery();
 
-	if (props.isError) return <>{props.error.message}</>;
+	if (getAllBasicCollectionsShopify.isSuccess)
+		return (
+			<HomeShowcaseSection
+				collectionsBasic={getAllBasicCollectionsShopify.data}
+			/>
+		);
 
-	return <>Loading...</>;
+	if (getAllBasicCollectionsShopify.isError)
+		return <>{getAllBasicCollectionsShopify.error.message}</>;
+
+	return (
+		<SectionLoaderContainer>
+			<SectionPrimaryLoader />
+		</SectionLoaderContainer>
+	);
 };
 
 export default HomeShowcaseSectionHolder;

@@ -2,28 +2,36 @@ import CustomNextImage from '~/components/shared/CustomNextImage';
 
 import CTAButton from '~/components/shared/core/Shopify/Cards/CTAButton';
 import Clickable from '~/components/shared/core/Clickable';
-import {
-	loFlyDirtBasicData,
-	flyTape2BasicData,
-	chomplrBasicData
-} from '~/utils/appData';
+
+const loFlyDirtBasicData = {
+	slug: 'lo-fly-dirt',
+	title: 'lo-fly dirt',
+};
+const flyTape2BasicData = {
+	slug: 'fly-tape2',
+	title: 'fly tape2',
+};
+const chomplrBasicData = {
+	slug: 'chomplr',
+	title: 'chomplr',
+};
 
 const products = [
 	{
 		id: '1',
 		...flyTape2BasicData,
-		image: { src: '/images/Rectangle 9.png', alt: '' }
+		image: { src: '/images/Rectangle 9.png', alt: '' },
 	},
 	{
 		id: '2',
 		...chomplrBasicData,
-		image: { src: '/images/Mask group.png', alt: '' }
+		image: { src: '/images/Mask group.png', alt: '' },
 	},
 	{
 		id: '3',
 		...loFlyDirtBasicData,
-		image: { src: '/images/Mask group-1.png', alt: '' }
-	}
+		image: { src: '/images/Mask group-1.png', alt: '' },
+	},
 ];
 
 const HomeIOSAppsSection = () => {
@@ -55,7 +63,7 @@ const HomeIOSAppsSection = () => {
 								/>
 							</Clickable>
 							<div className="group flex flex-col gap-2">
-								<h3 className="font-normal leading-4">
+								<h3 className="capitalize font-normal leading-4">
 									<Clickable href={`/ios-apps/${item.slug}`} isA="next-js">
 										{item.title}
 									</Clickable>

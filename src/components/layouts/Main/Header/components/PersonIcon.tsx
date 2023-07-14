@@ -7,36 +7,33 @@ import { globalStore } from '~/store';
 const PersonIcon = () => {
 	const toggleAuthDialogOpen = useStore(
 		globalStore,
-		(store) => store.dialogs.auth.toggleOpen
+		(store) => store.dialogs.auth.toggleOpen,
 	);
 	const customerSession = useStore(
 		globalStore,
-		(store) => store.customerSession
+		(store) => store.customerSession,
 	);
 
 	const clickableProps: ClickableProps =
 		customerSession.status === 'authenticated'
 			? {
-					href: `/profile/${customerSession.data.customer.id.replace(
-						'gid://shopify/Customer/',
-						''
-					)}`,
+					href: `/customer-profile`,
 					isA: 'next-js',
 					title: 'profile',
 					className: cx(
 						'text-xl text-special-primary-500',
 						'hover:text-special-primary-900 focus:text-special-primary-900',
-						'hover:text-special-primary-600 focus:text-special-primary-600'
-					)
+						'hover:text-special-primary-600 focus:text-special-primary-600',
+					),
 			  }
 			: {
 					title: 'profile',
 					className: cx(
 						'text-xl text-special-primary-500',
 						'hover:text-special-primary-900 focus:text-special-primary-900',
-						'hover:text-special-primary-600 focus:text-special-primary-600'
+						'hover:text-special-primary-600 focus:text-special-primary-600',
 					),
-					onClick: toggleAuthDialogOpen
+					onClick: toggleAuthDialogOpen,
 			  };
 
 	return (

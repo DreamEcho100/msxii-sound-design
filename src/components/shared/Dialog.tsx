@@ -1,8 +1,8 @@
 import type { Dispatch, ReactNode, SetStateAction } from 'react';
 
-import { Transition } from '@headlessui/react';
+// import { Transition } from '@headlessui/react';
 import * as DialogPrimitive from '@radix-ui/react-dialog';
-import { IoMdClose } from 'react-icons/io';
+// import { IoMdClose } from 'react-icons/io';
 // import cx from 'classnames'
 import { Fragment } from 'react';
 import { cx } from 'class-variance-authority';
@@ -28,7 +28,7 @@ const CustomDialog = ({ isOpen, setIsOpen, children }: Props) => {
 					className={cx(
 						'bg-black/50 fixed inset-0 z-20',
 						'duration-300 transition-all scale-0',
-						'data-[state=open]:scale-100'
+						'data-[state=open]:scale-100',
 					)}
 					onClick={() => setIsOpen(false)}
 				/>
@@ -36,21 +36,21 @@ const CustomDialog = ({ isOpen, setIsOpen, children }: Props) => {
 					className={cx(
 						'z-20 fixed top-1/2 left-1/2 max-h-[85vh] w-[90vw] max-w-screen-xl-sm -translate-x-1/2 -translate-y-1/2 rounded-md bg-bg-primary-100 dark:bg-bg-primary-500 text-text-primary-400 p-[25px] shadow-[hsl(206_22%_7%_/_35%)_0px_10px_38px_-10px,_hsl(206_22%_7%_/_20%)_0px_10px_20px_-15px] focus:outline-none',
 						'duration-300 transition-all scale-0',
-						'data-[state=open]:scale-100'
+						'data-[state=open]:scale-100',
 					)}
 				>
 					{children}
 				</DialogPrimitive.Content>
 			</DialogPrimitive.Portal>
 		</DialogPrimitive.Root>,
-		document.body
+		document.body,
 	);
 };
 
 export default CustomDialog;
 export const DialogContentHeader = ({
 	titleProps = {},
-	descriptionProps = {}
+	descriptionProps = {},
 }: {
 	titleProps: Parameters<typeof DialogPrimitive.Title>[0];
 	descriptionProps?: Parameters<typeof DialogPrimitive.Description>[0];
@@ -67,7 +67,7 @@ export const DialogContentHeader = ({
 						'absolute top-3 right-3 inline-flex h-6 w-6 appearance-none items-center justify-center rounded-full text-2xl',
 						'text-special-primary-700 hover:text-special-primary-700/75',
 						'dark:text-special-primary-500 dark:hover:text-special-primary-500/90',
-						'focus:shadow-special-primary-500 focus:shadow-[0_0_0_0.125rem] focus:outline-none'
+						'focus:shadow-special-primary-500 focus:shadow-[0_0_0_0.125rem] focus:outline-none',
 					)}
 					aria-label="Close"
 				>

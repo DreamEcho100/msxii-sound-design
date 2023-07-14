@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import { type MoneyV2 } from 'shopify-buy';
 import { useIsMounted } from '~/utils/hooks';
 import { formatPrice } from '~/utils/shopify';
@@ -14,13 +14,13 @@ const ProductPrice = (props: Props) => {
 		const price = formatPrice(
 			Number(props.price.amount),
 			props.price.currencyCode,
-			isMounted
+			isMounted,
 		);
 		const compareAtPrice = props.compareAtPrice?.amount
 			? formatPrice(
 					Number(props.compareAtPrice.amount),
 					props.compareAtPrice.currencyCode,
-					isMounted
+					isMounted,
 			  )
 			: null;
 

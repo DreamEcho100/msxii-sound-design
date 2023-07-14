@@ -7,7 +7,7 @@ import {
 	createOneCheckoutSchema,
 	getOneCheckoutSchema,
 	removeManyCheckoutLineItemsSchema,
-	updateManyCheckoutLineItemsSchema
+	updateManyCheckoutLineItemsSchema,
 } from '~/utils/zod/schemas/shopify/checkout';
 
 export const shopifyCheckoutsRouter = createTRPCRouter({
@@ -25,43 +25,41 @@ export const shopifyCheckoutsRouter = createTRPCRouter({
 				maxAge: 60 * 60 * 24 * 30,
 				// httpOnly: true,
 				secure: true,
-				sameSite: 'strict'
+				sameSite: 'strict',
 			});
 
 			return checkout;
 		}),
 	getOne: publicProcedure
 		.input(getOneCheckoutSchema)
-		.query(
-			async ({ ctx, input }) => await getShopifyClient().checkout.fetch(input)
-		),
+		.query(async ({ input }) => await getShopifyClient().checkout.fetch(input)),
 	lineItems: createTRPCRouter({
 		addMany: publicProcedure
 			.input(addManyCheckoutLineItemsSchema)
 			.mutation(
-				async ({ ctx, input }) =>
+				async ({ input }) =>
 					await getShopifyClient().checkout.addLineItems(
 						input.checkoutId,
-						input.lineItems
-					)
+						input.lineItems,
+					),
 			),
 		updateMany: publicProcedure
 			.input(updateManyCheckoutLineItemsSchema)
 			.mutation(
-				async ({ ctx, input }) =>
+				async ({ input }) =>
 					await getShopifyClient().checkout.updateLineItems(
 						input.checkoutId,
-						input.lineItems
-					)
+						input.lineItems,
+					),
 			),
 		removeMany: publicProcedure
 			.input(removeManyCheckoutLineItemsSchema)
 			.mutation(
-				async ({ ctx, input }) =>
+				async ({ input }) =>
 					await getShopifyClient().checkout.removeLineItems(
 						input.checkoutId,
-						input.lineItemIds
-					)
-			)
-	})
+						input.lineItemIds,
+					),
+			),
+	}),
 });

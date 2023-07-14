@@ -3,16 +3,16 @@ import { z } from 'zod';
 import {
 	type ShopifyCustomer,
 	ShopifyErrorShape,
-	type SHOPIFY_CUSTOMER_ERRORS_CODES
+	type SHOPIFY_CUSTOMER_ERRORS_CODES,
 } from '../types';
 import { graphQLClient, customerGQLFields } from './_utils';
 
 export const customerAccessTokenCreateInputSchema = z.object({
 	email: z.string().email(),
-	password: z.string().min(5)
+	password: z.string().min(5),
 });
 const customerAccessTokenCreateMutation = async (
-	input: z.infer<typeof customerAccessTokenCreateInputSchema>
+	input: z.infer<typeof customerAccessTokenCreateInputSchema>,
 ) => {
 	/**
 	 * @description [customerAccessTokenCreate](https://shopify.dev/docs/api/storefront/2023-04/mutations/customeraccesstokencreate)
@@ -51,10 +51,10 @@ const customerAccessTokenCreateMutation = async (
 };
 
 const customerAccessTokenInputSchema = z.object({
-	customerAccessToken: z.string()
+	customerAccessToken: z.string(),
 });
 const customerDataByAccessTokenQuery = async (
-	input: z.infer<typeof customerAccessTokenInputSchema>
+	input: z.infer<typeof customerAccessTokenInputSchema>,
 ) => {
 	// https://shopify.dev/docs/api/storefront/2023-04/objects/Customer
 	const template = gql`
@@ -71,10 +71,10 @@ const customerDataByAccessTokenQuery = async (
 };
 
 const customerAccessTokenDeleteSchema = z.object({
-	customerAccessToken: z.string()
+	customerAccessToken: z.string(),
 });
 const customerAccessTokenDeleteMutation = async (
-	input: z.infer<typeof customerAccessTokenDeleteSchema>
+	input: z.infer<typeof customerAccessTokenDeleteSchema>,
 ) => {
 	const template = gql`
 		mutation customerAccessTokenDelete($customerAccessToken: String!) {
@@ -111,10 +111,10 @@ const customerCreateSchema = z.object({
 	phone: z.string().optional(),
 	password: z.string().min(8),
 	firstName: z.string().min(2),
-	lastName: z.string().min(2)
+	lastName: z.string().min(2),
 });
 const customerCreateMutation = async (
-	input: z.infer<typeof customerCreateSchema>
+	input: z.infer<typeof customerCreateSchema>,
 ) => {
 	const template = gql`
 		mutation customerCreate($input: CustomerCreateInput!) {
@@ -142,10 +142,10 @@ const auth = {
 		mutations: {
 			accessTokenCreate: customerAccessTokenCreateMutation,
 			accessTokenDelete: customerAccessTokenDeleteMutation,
-			create: customerCreateMutation
+			create: customerCreateMutation,
 		},
-		queries: { dataByAccessToken: customerDataByAccessTokenQuery }
-	}
+		queries: { dataByAccessToken: customerDataByAccessTokenQuery },
+	},
 };
 
 export default auth;

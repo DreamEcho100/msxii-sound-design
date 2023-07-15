@@ -11,7 +11,7 @@ import {
 	Fragment,
 	SetStateAction,
 	useMemo,
-	useState
+	useState,
 } from 'react';
 
 import { useMutation, useQueryClient } from '@tanstack/react-query';
@@ -19,7 +19,7 @@ import Link from 'next/link';
 import CustomDialog, { DialogContentHeader } from '~/components/shared/Dialog';
 import {
 	type ShopifyCustomer,
-	type ShopifyErrorShape
+	type ShopifyErrorShape,
 } from '~/utils/shopify/types';
 import { useStore } from 'zustand';
 import { globalStore } from '~/store';
@@ -35,7 +35,7 @@ import { useSignOutMutation } from '~/utils/shopify/hooks';
 const TitleValue = ({
 	title,
 	value,
-	isSmall
+	isSmall,
 }: {
 	title: string;
 	value: string | number;
@@ -60,7 +60,7 @@ const ProductsOnOrder = ({
 	lineItems,
 	buttonText,
 	statusUrl,
-	financialStatus
+	financialStatus,
 }: {
 	lineItems: ShopifyCustomer['orders']['edges'][0]['node']['lineItems']['edges'];
 	buttonText: string;
@@ -90,10 +90,10 @@ const ProductsOnOrder = ({
 										</a>
 									</small>
 								</>
-							) : undefined
+							) : undefined,
 					}}
 					descriptionProps={{
-						children: <></>
+						children: <></>,
 					}}
 				/>
 				<div className="flex flex-col gap-4">
@@ -120,9 +120,9 @@ const ProductsOnOrder = ({
 										<p>
 											Total Price{' '}
 											{formatPrice(
-												item.originalTotalPrice.amount,
+												Number(item.originalTotalPrice.amount),
 												item.originalTotalPrice.currencyCode,
-												isMounted
+												isMounted,
 											)}
 										</p>
 									</div>
@@ -138,7 +138,7 @@ const ProductsOnOrder = ({
 
 const UpdateUserBasicDetails = ({
 	isOpen,
-	setIsOpen
+	setIsOpen,
 }: {
 	isOpen: boolean;
 	setIsOpen: Dispatch<SetStateAction<boolean>>;
@@ -148,20 +148,16 @@ const UpdateUserBasicDetails = ({
 	// const accessTokenFrom = getGetAccessTokenFromCookie();
 	const customerSession = useStore(
 		globalStore,
-		(state) => state.customerSession
+		(state) => state.customerSession,
 	);
 
 	const initFromValues = () => ({
-		email: customerSession.data ? customerSession.data.customer.email : '',
-		firstName: customerSession.data
-			? customerSession.data.customer.firstName
-			: '',
-		lastName: customerSession.data
-			? customerSession.data.customer.lastName
-			: '',
+		email: customerSession.data ? customerSession.data.email : '',
+		firstName: customerSession.data ? customerSession.data.firstName : '',
+		lastName: customerSession.data ? customerSession.data.lastName : '',
 		acceptsMarketing: customerSession.data
-			? customerSession.data.customer.acceptsMarketing
-			: false
+			? customerSession.data.acceptsMarketing
+			: false,
 	});
 
 	const [formValues, setFormValues] = useState(initFromValues());
@@ -170,14 +166,11 @@ const UpdateUserBasicDetails = ({
 		if (
 			!customerSession.data ||
 			(customerSession.data &&
-				customerSession.data.customer.email.trim() ===
-					formValues.email?.trim() &&
-				customerSession.data.customer.firstName.trim() ===
+				customerSession.data.email.trim() === formValues.email?.trim() &&
+				customerSession.data.firstName.trim() ===
 					formValues?.firstName?.trim() &&
-				customerSession.data.customer.lastName.trim() ===
-					formValues?.lastName?.trim() &&
-				customerSession.data.customer.acceptsMarketing ===
-					formValues.acceptsMarketing)
+				customerSession.data.lastName.trim() === formValues?.lastName?.trim() &&
+				customerSession.data.acceptsMarketing === formValues.acceptsMarketing)
 		)
 			return false;
 
@@ -187,7 +180,7 @@ const UpdateUserBasicDetails = ({
 		formValues.email,
 		formValues.firstName,
 		formValues.lastName,
-		customerSession.data
+		customerSession.data,
 	]);
 
 	const updateMutation = useMutation<
@@ -206,30 +199,28 @@ const UpdateUserBasicDetails = ({
 				{
 					method: 'PUT',
 					headers: {
-						'Content-type': 'application/json'
+						'Content-type': 'application/json',
 					},
 					body: JSON.stringify({
 						email:
-							customerSession.data.customer.email.trim() !== formValues.email
+							customerSession.data.email.trim() !== formValues.email
 								? formValues.email
 								: undefined,
 						firstName:
-							customerSession.data.customer.firstName.trim() !==
-							formValues.firstName
+							customerSession.data.firstName.trim() !== formValues.firstName
 								? formValues.firstName
 								: undefined,
 						lastName:
-							customerSession.data.customer.lastName.trim() !==
-							formValues.lastName
+							customerSession.data.lastName.trim() !== formValues.lastName
 								? formValues.lastName
 								: undefined,
 						acceptsMarketing:
-							customerSession.data.customer.acceptsMarketing !==
+							customerSession.data.acceptsMarketing !==
 							formValues.acceptsMarketing
 								? formValues.acceptsMarketing
-								: undefined
-					})
-				}
+								: undefined,
+					}),
+				},
 			)
 				.then((response) => response.json())
 				.then((result) => {
@@ -239,7 +230,7 @@ const UpdateUserBasicDetails = ({
 					return result;
 				});
 		},
-		onSuccess: async (result) => {
+		onSuccess: async () => {
 			// console.log('result', result)
 			// await user.refetch();
 			queryClient.setQueryData<ShopifyCustomer>(['check-token'], (prev) => {
@@ -247,11 +238,11 @@ const UpdateUserBasicDetails = ({
 
 				return {
 					...prev,
-					...formValues
+					...formValues,
 				};
 			});
 			setIsOpen(false);
-		}
+		},
 	});
 
 	return (
@@ -259,7 +250,7 @@ const UpdateUserBasicDetails = ({
 			<DialogContentHeader
 				titleProps={{ children: 'Update Your Basic Details' }}
 				descriptionProps={{
-					children: <></>
+					children: <></>,
 				}}
 			/>
 			<form
@@ -305,7 +296,7 @@ const UpdateUserBasicDetails = ({
 								onChange={() =>
 									setFormValues((prev) => ({
 										...prev,
-										acceptsMarketing: !prev.acceptsMarketing
+										acceptsMarketing: !prev.acceptsMarketing,
 									}))
 								}
 							/>
@@ -338,10 +329,10 @@ const CustomerProfileScreen = () => {
 	// const { user } = useGetUserDataFromStore();
 	const customerSession = useStore(
 		globalStore,
-		(state) => state.customerSession
+		(state) => state.customerSession,
 	);
 	const signOutMutation = useSignOutMutation({
-		onError: (err) => console.error('err', err)
+		onError: (err) => console.error('err', err),
 	});
 	const isMounted = useIsMounted();
 
@@ -357,16 +348,14 @@ const CustomerProfileScreen = () => {
 		let aNum: number;
 		let bNum: number;
 
-		return customerSession?.data?.customer.orders?.edges
-			?.slice()
-			.sort(function (a, b) {
-				aNum = Date.parse(a.node.processedAt);
-				bNum = Date.parse(b.node.processedAt);
-				if (aNum === bNum) return 0;
+		return customerSession?.data?.orders?.edges?.slice().sort(function (a, b) {
+			aNum = Date.parse(a.node.processedAt);
+			bNum = Date.parse(b.node.processedAt);
+			if (aNum === bNum) return 0;
 
-				return aNum > bNum ? -1 : 1;
-			});
-	}, [customerSession?.data?.customer.orders?.edges]);
+			return aNum > bNum ? -1 : 1;
+		});
+	}, [customerSession?.data?.orders?.edges]);
 
 	let pageTitle = `Loading... | ${defaultSiteName}`;
 
@@ -377,7 +366,7 @@ const CustomerProfileScreen = () => {
 				<CustomNextSeo
 					pageTitle={pageTitle}
 					additionalMetaTags={[
-						{ name: 'robots', content: 'noindex, nofollow' }
+						{ name: 'robots', content: 'noindex, nofollow' },
 					]}
 				/>
 				<section className="bg-primary-1 section-p-v1 h-[75vh] max-h-[45rem] min-h-fit">
@@ -398,7 +387,7 @@ const CustomerProfileScreen = () => {
 				<CustomNextSeo
 					pageTitle={pageTitle}
 					additionalMetaTags={[
-						{ name: 'robots', content: 'noindex, nofollow' }
+						{ name: 'robots', content: 'noindex, nofollow' },
 					]}
 				/>
 				<section className="bg-primary-1 section-p-v1 h-[75vh] max-h-[45rem] min-h-fit">
@@ -414,7 +403,7 @@ const CustomerProfileScreen = () => {
 		);
 	}
 
-	pageTitle = `${customerSession.data.customer.firstName} ${customerSession.data.customer.lastName} | ShopifyCustomer Profile | ${defaultSiteName}`;
+	pageTitle = `${customerSession.data.firstName} ${customerSession.data.lastName} | ShopifyCustomer Profile | ${defaultSiteName}`;
 
 	return (
 		<>
@@ -429,7 +418,7 @@ const CustomerProfileScreen = () => {
 						<p>
 							Logged in as{' '}
 							<span className="text-bg-secondary-1">
-								{customerSession.data.customer.email}
+								{customerSession.data.email}
 							</span>{' '}
 							(
 							<Clickable
@@ -445,15 +434,12 @@ const CustomerProfileScreen = () => {
 					</header>
 					<div className="flex flex-col gap-1">
 						<p className="capitalize text-primary-1">
-							{customerSession.data.customer.firstName}{' '}
-							{customerSession.data.customer.lastName}
+							{customerSession.data.firstName} {customerSession.data.lastName}
 						</p>
-						<p>{customerSession.data.customer.email}</p>
+						<p>{customerSession.data.email}</p>
 						<TitleValue
 							title="Account Created:"
-							value={new Date(
-								customerSession.data.customer.createdAt
-							).toLocaleString()}
+							value={new Date(customerSession.data.createdAt).toLocaleString()}
 							isSmall
 						/>
 
@@ -514,8 +500,8 @@ const CustomerProfileScreen = () => {
 														{new Date(itemNode.processedAt).toLocaleDateString(
 															undefined,
 															{
-																dateStyle: 'medium'
-															}
+																dateStyle: 'medium',
+															},
 														)}
 													</span>
 												</td>
@@ -530,9 +516,9 @@ const CustomerProfileScreen = () => {
 														Total:&nbsp;
 													</span>
 													{formatPrice(
-														itemNode.totalPrice.amount,
+														Number(itemNode.totalPrice.amount),
 														itemNode.totalPrice.currencyCode,
-														isMounted
+														isMounted,
 													)}
 												</td>
 											</tr>

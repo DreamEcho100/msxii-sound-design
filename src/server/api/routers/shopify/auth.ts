@@ -3,11 +3,15 @@ import { z } from 'zod';
 import {
 	createTRPCRouter,
 	protectedProcedure,
-	publicProcedure
+	publicProcedure,
 } from '~/server/api/trpc';
 import { customerAccessTokenCreateInputSchema } from '~/utils/shopify/client/auth';
 import { handleShopifyErrors } from '~/utils/shopify/client/_utils';
 import { ACCESS_TOKEN_COOKIE_KEY } from '~/utils/shopify';
+import {
+	encryptedShopifyUserData,
+	getDecryptedShopifyUserDataFromAccessToKen,
+} from '~/server/utils/shopify';
 
 export const shopifyAuthRouter = createTRPCRouter({
 	register: protectedProcedure
@@ -18,8 +22,8 @@ export const shopifyAuthRouter = createTRPCRouter({
 				email: z.string().email(),
 				password: z.string().min(8),
 				phone: z.string().optional(),
-				acceptsMarketing: z.boolean()
-			})
+				acceptsMarketing: z.boolean(),
+			}),
 		)
 		.mutation(async ({ ctx, input }) => {
 			const data = await ctx.shopify.auth.customer.mutations
@@ -29,8 +33,8 @@ export const shopifyAuthRouter = createTRPCRouter({
 						code: 'BAD_REQUEST',
 						errorCodeMessageMap: {
 							TAKEN:
-								'Email has already been taken, check your email for confirmation'
-						}
+								'Email has already been taken, check your email for confirmation',
+						},
 					});
 
 					return result;
@@ -43,29 +47,29 @@ export const shopifyAuthRouter = createTRPCRouter({
 						result.customerAccessTokenCreate.customerUserErrors,
 						{
 							code: 'BAD_REQUEST',
-							customMessage: 'please check your email and password'
-						}
+							customMessage: 'please check your email and password',
+						},
 					);
 
 					return result.customerAccessTokenCreate.customerAccessToken;
 				});
 
-			ctx.cookieManger.setOne(
-				ACCESS_TOKEN_COOKIE_KEY,
-				accessTokenInfo.accessToken,
-				{
-					maxAge:
-						(new Date(accessTokenInfo.expiresAt).getTime() - Date.now()) / 1000,
-					httpOnly: true,
-					secure: true,
-					sameSite: 'strict'
-				}
-			);
+			const expiresAtInMS = new Date(accessTokenInfo.expiresAt).getTime();
 
-			return {
-				customer: data.customerCreate.customer,
-				accessToken: accessTokenInfo.accessToken
-			};
+			const encryptedAccessToken = encryptedShopifyUserData({
+				expiresAtInSec: Math.floor(expiresAtInMS / 1000),
+				shopifyAccessToken: accessTokenInfo.accessToken,
+				shopifyUserId: data.customerCreate.customer.id,
+			});
+
+			ctx.cookieManger.setOne(ACCESS_TOKEN_COOKIE_KEY, encryptedAccessToken, {
+				maxAge: (expiresAtInMS - Date.now()) / 1000,
+				httpOnly: true,
+				secure: true,
+				sameSite: 'strict',
+			});
+
+			return data.customerCreate.customer;
 		}),
 
 	login: publicProcedure
@@ -81,62 +85,63 @@ export const shopifyAuthRouter = createTRPCRouter({
 						result.customerAccessTokenCreate.customerUserErrors,
 						{
 							code: 'BAD_REQUEST',
-							customMessage: 'please check your email and password'
-						}
+							customMessage: 'please check your email and password',
+						},
 					);
 
 					return result.customerAccessTokenCreate.customerAccessToken;
 				});
 
 			const data = await ctx.shopify.auth.customer.queries.dataByAccessToken({
-				customerAccessToken: accessTokenInfo.accessToken
+				customerAccessToken: accessTokenInfo.accessToken,
 			});
 
-			ctx.cookieManger.setOne(
-				ACCESS_TOKEN_COOKIE_KEY,
-				accessTokenInfo.accessToken,
-				{
-					maxAge:
-						(new Date(accessTokenInfo.expiresAt).getTime() - Date.now()) / 1000,
-					httpOnly: true,
-					secure: true,
-					sameSite: 'strict'
-				}
-			);
+			const expiresAtInMS = new Date(accessTokenInfo.expiresAt).getTime();
 
-			return {
-				customer: data.customer,
-				accessToken: accessTokenInfo.accessToken
-			};
+			const encryptedAccessToken = encryptedShopifyUserData({
+				expiresAtInSec: Math.floor(expiresAtInMS / 1000),
+				shopifyAccessToken: accessTokenInfo.accessToken,
+				shopifyUserId: data.customer.id,
+			});
+
+			ctx.cookieManger.setOne(ACCESS_TOKEN_COOKIE_KEY, encryptedAccessToken, {
+				maxAge: (expiresAtInMS - Date.now()) / 1000,
+				httpOnly: true,
+				secure: true,
+				sameSite: 'strict',
+			});
+
+			return data.customer;
 		}),
 
 	checkAccessToken: publicProcedure.query(async ({ ctx }) => {
 		if (!ctx.cookieManger)
 			throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR' });
 
-		const customerAccessToken = ctx.cookieManger.getOne(
-			ACCESS_TOKEN_COOKIE_KEY
-		);
+		let shopifyAccessToken: string;
 
-		if (
-			typeof customerAccessToken !== 'string' ||
-			customerAccessToken.length < 3
-		)
-			throw new TRPCError({ code: 'FORBIDDEN' });
+		try {
+			shopifyAccessToken = getDecryptedShopifyUserDataFromAccessToKen(
+				ctx.cookieManger.getOne(ACCESS_TOKEN_COOKIE_KEY),
+			).payload.shopifyAccessToken;
+		} catch (error) {
+			throw new TRPCError({
+				code: 'FORBIDDEN',
+				message: 'Access token not found',
+			});
+		}
 
 		const data = await ctx.shopify.auth.customer.queries.dataByAccessToken({
-			customerAccessToken
+			customerAccessToken: shopifyAccessToken,
 		});
 
-		return {
-			customer: data.customer,
-			accessToken: customerAccessToken
-		};
+		return data.customer;
 	}),
 
 	signOut: protectedProcedure.mutation(async ({ ctx }) => {
 		const data = (await ctx.shopify.auth.customer.mutations.accessTokenDelete({
-			customerAccessToken: ctx.accessToken
+			customerAccessToken:
+				ctx.shopifyUserDecryptedData.payload.shopifyAccessToken,
 		})) as {
 			customerAccessTokenDelete: {
 				deletedAccessToken: string;
@@ -148,5 +153,5 @@ export const shopifyAuthRouter = createTRPCRouter({
 		ctx.cookieManger.deleteOne(ACCESS_TOKEN_COOKIE_KEY);
 
 		return data;
-	})
+	}),
 });

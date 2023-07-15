@@ -6,14 +6,14 @@ import { RouterInputs, api } from '~/utils/api';
 
 export const useRegisterMutation = ({
 	onError,
-	onSuccess
+	onSuccess,
 }: {
 	onSuccess: () => void;
 	onError: (err: { message: string }) => void;
 }) => {
 	const setCustomerSession = useStore(
 		globalStore,
-		(store) => store.customerSession.utils.set
+		(store) => store.customerSession.utils.set,
 	);
 
 	const registerMutation = api.shopify.auth.register.useMutation({
@@ -25,7 +25,7 @@ export const useRegisterMutation = ({
 		onError: (err) => {
 			setCustomerSession({ type: 'UNAUTHENTICATED' });
 			onError({ message: err.message });
-		}
+		},
 	});
 
 	return registerMutation;
@@ -33,14 +33,14 @@ export const useRegisterMutation = ({
 
 export const useLoginMutation = ({
 	onError,
-	onSuccess
+	onSuccess,
 }: {
 	onSuccess: () => void;
 	onError: (err: { message: string }) => void;
 }) => {
 	const setCustomerSession = useStore(
 		globalStore,
-		(store) => store.customerSession.utils.set
+		(store) => store.customerSession.utils.set,
 	);
 
 	const loginMutation = api.shopify.auth.login.useMutation({
@@ -52,7 +52,7 @@ export const useLoginMutation = ({
 		onError: (err) => {
 			setCustomerSession({ type: 'UNAUTHENTICATED' });
 			onError({ message: err.message });
-		}
+		},
 	});
 
 	return loginMutation;
@@ -60,14 +60,14 @@ export const useLoginMutation = ({
 
 export const useCheckAccessToken = ({
 	onError,
-	onSuccess
+	onSuccess,
 }: {
 	onSuccess?: () => void;
 	onError?: (err: { message: string }) => void;
 } = {}) => {
 	const setCustomerSession = useStore(
 		globalStore,
-		(store) => store.customerSession.utils.set
+		(store) => store.customerSession.utils.set,
 	);
 
 	const checkAccessTokenQuery = api.shopify.auth.checkAccessToken.useQuery(
@@ -83,8 +83,8 @@ export const useCheckAccessToken = ({
 			},
 			refetchOnWindowFocus: true,
 			refetchOnReconnect: true,
-			retry: 7
-		}
+			retry: 3,
+		},
 	);
 
 	// useEffect(() => {
@@ -96,20 +96,24 @@ export const useCheckAccessToken = ({
 
 export const useSignOutMutation = ({
 	onError,
-	onSuccess
+	onSuccess,
 }: {
 	onSuccess?: () => void;
 	onError?: (err: { message: string }) => void;
 }) => {
 	return api.shopify.auth.signOut.useMutation({
-		onSuccess: () => window.location.reload()
+		onSuccess: () => {
+			onSuccess?.();
+			window.location.reload();
+		},
+		onError,
 	});
 };
 
 export const useMutateCart = () => {
 	const setCartLineItems = useStore(
 		globalStore,
-		(store) => store.cart.setCartLineItems
+		(store) => store.cart.setCartLineItems,
 	);
 	const checkoutId = useStore(globalStore, (store) => store.cart.data?.id);
 	const lineItems = useStore(globalStore, (store) => store.cart.lineItems);
@@ -134,16 +138,19 @@ export const useMutateCart = () => {
 				RouterInputs['shopify']['checkouts']['lineItems']['addMany'],
 				'checkoutId'
 			>,
-			toOpenCart = true
+			toOpenCart = true,
 		) => {
 			if (!checkoutId || input.lineItems.length < 0) return;
 
 			const originalLineItemsIfMap = Object.fromEntries(
-				lineItems.reduce((acc, curr) => {
-					if (curr.variant?.id) acc.push([curr.variant.id, curr.id]);
+				lineItems.reduce(
+					(acc, curr) => {
+						if (curr.variant?.id) acc.push([curr.variant.id, curr.id]);
 
-					return acc;
-				}, [] as [string, string][])
+						return acc;
+					},
+					[] as [string, string][],
+				),
 			);
 
 			const lineItemsToAdd: RouterInputs['shopify']['checkouts']['lineItems']['addMany']['lineItems'] =
@@ -155,7 +162,7 @@ export const useMutateCart = () => {
 				if (originalLineItemsIfMap[lineItem.variantId])
 					return lineItemsToUpdate.push({
 						...lineItem,
-						id: originalLineItemsIfMap[lineItem.variantId]!
+						id: originalLineItemsIfMap[lineItem.variantId]!,
 					});
 
 				lineItemsToAdd.push(lineItem);
@@ -167,7 +174,7 @@ export const useMutateCart = () => {
 				await addManyLineItemCheckouts
 					.mutateAsync({
 						checkoutId,
-						lineItems: lineItemsToAdd
+						lineItems: lineItemsToAdd,
 					})
 					.then((result) => {
 						lineItemsResult = result.lineItems;
@@ -177,7 +184,7 @@ export const useMutateCart = () => {
 				await updateManyLineItemCheckouts
 					.mutateAsync({
 						checkoutId,
-						lineItems: lineItemsToUpdate
+						lineItems: lineItemsToUpdate,
 					})
 					.then((result) => {
 						lineItemsResult = result.lineItems;
@@ -190,8 +197,8 @@ export const useMutateCart = () => {
 			addManyLineItemCheckouts,
 			lineItems,
 			setCartLineItems,
-			updateManyLineItemCheckouts
-		]
+			updateManyLineItemCheckouts,
+		],
 	);
 
 	const updateCartAsync = useCallback(
@@ -200,7 +207,7 @@ export const useMutateCart = () => {
 				RouterInputs['shopify']['checkouts']['lineItems']['updateMany'],
 				'checkoutId'
 			>,
-			toOpenCart = true
+			toOpenCart = true,
 		) => {
 			if (!checkoutId) return;
 			const lineItemsToUpdate: typeof input.lineItems = [];
@@ -220,7 +227,7 @@ export const useMutateCart = () => {
 				await updateManyLineItemCheckouts
 					.mutateAsync({
 						checkoutId,
-						lineItems: lineItemsToUpdate
+						lineItems: lineItemsToUpdate,
 					})
 					.then((result) => {
 						lineItemsResult = result.lineItems;
@@ -230,7 +237,7 @@ export const useMutateCart = () => {
 				await removeManyLineItemCheckouts
 					.mutateAsync({
 						checkoutId,
-						lineItemIds: lineItemIdsToRemove
+						lineItemIds: lineItemIdsToRemove,
 					})
 					.then((result) => {
 						lineItemsResult = result.lineItems;
@@ -242,39 +249,39 @@ export const useMutateCart = () => {
 			checkoutId,
 			removeManyLineItemCheckouts,
 			setCartLineItems,
-			updateManyLineItemCheckouts
-		]
+			updateManyLineItemCheckouts,
+		],
 	);
 
 	const removeToCartAsync = useCallback(
 		async (
 			input: RouterInputs['shopify']['checkouts']['lineItems']['removeMany'],
-			toOpenCart = true
+			toOpenCart = true,
 		) => {
 			if (!checkoutId || input.lineItemIds.length === 0) return;
 
 			await removeManyLineItemCheckouts
 				.mutateAsync({
 					checkoutId,
-					lineItemIds: input.lineItemIds
+					lineItemIds: input.lineItemIds,
 				})
 				.then((result) => setCartLineItems(result.lineItems, toOpenCart));
 		},
-		[checkoutId, removeManyLineItemCheckouts, setCartLineItems]
+		[checkoutId, removeManyLineItemCheckouts, setCartLineItems],
 	);
 
 	return {
 		addToCart: {
 			mutateAsync: addToCartAsync,
-			isLoading: isAddToCartLoading
+			isLoading: isAddToCartLoading,
 		},
 		updateCart: {
 			mutateAsync: updateCartAsync,
-			isLoading: isUpdateCartLoading
+			isLoading: isUpdateCartLoading,
 		},
 		removeToCart: {
 			mutateAsync: removeToCartAsync,
-			isLoading: isRemoveToCartLoading
-		}
+			isLoading: isRemoveToCartLoading,
+		},
 	};
 };

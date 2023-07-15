@@ -13,7 +13,7 @@ import { globalStore } from '~/store';
 const CartDropdown = () => {
 	const isCartDropdownOpen = useStore(
 		globalStore,
-		(store) => store.cart.isCartDropdownOpen
+		(store) => store.cart.isCartDropdownOpen,
 	);
 	const cartLineItems = useStore(globalStore, (store) => store.cart.lineItems);
 
@@ -29,22 +29,22 @@ const CartDropdown = () => {
 						'absolute bottom-0 right-0 rounded-bl-md origin-top p-4 -z-10',
 						'bg-bg-primary-200 dark:bg-bg-primary-500',
 						'w-full max-w-screen-xl-2-sm max-h-[75vh] overflow-x-hidden',
-						'flex flex-col gap-8'
+						'flex flex-col gap-8',
 					)}
 				>
 					<header>
-						<h3 className="text-h3 font-medium">Cart</h3>
+						<h3 className="text-h3 font-medium capitalize">cart</h3>
 					</header>
 					<div
 						className={cx(
 							'flex flex-col gap-y-4 flex-grow overflow-y-auto overflow-x-hidden',
-							cartLineItems.length >= 3 ? 'min-h-[5rem]' : ''
+							cartLineItems.length >= 3 ? 'min-h-[5rem]' : '',
 						)}
 					>
 						{cartLineItems.length === 0 ? (
 							<article className="bg-bg-primary-600/50 dark:bg-bg-primary-700 p-8 text-center">
 								<p>
-									<strong className="font-bold">Empty</strong>
+									<strong className="font-bold capitalize">empty</strong>
 								</p>
 							</article>
 						) : (
@@ -63,11 +63,11 @@ const CartDropdown = () => {
 const CartDetails = () => {
 	const cartTotalPrice = useStore(
 		globalStore,
-		(store) => store.cart.data?.totalPrice
+		(store) => store.cart.data?.totalPrice,
 	);
 	const cartCurrencyCode = useStore(
 		globalStore,
-		(store) => store.cart.data?.currencyCode
+		(store) => store.cart.data?.currencyCode,
 	);
 	const webUrl = useStore(globalStore, (store) => store.cart.data?.webUrl);
 	const { quantity, totalPrice } = useStore(globalStore, (store) =>
@@ -80,23 +80,23 @@ const CartDetails = () => {
 				acc.currencyCode = item.unitPrice?.currencyCode || acc.currencyCode;
 				return acc;
 			},
-			{ totalPrice: 0, quantity: 0, currencyCode: 'USD' }
-		)
+			{ totalPrice: 0, quantity: 0, currencyCode: 'USD' },
+		),
 	);
 
 	return (
 		<div className="flex flex-col gap-2">
 			<div className="bg-bg-primary-600/50 dark:bg-bg-primary-700 p-4 flex flex-wrap gap-4 justify-between">
-				<p>
-					Total Price:&nbsp;
+				<p className="capitalize">
+					total price:&nbsp;
 					<ProductPrice
 						price={{
 							amount: cartTotalPrice?.amount || totalPrice,
-							currencyCode: cartCurrencyCode || 'USD'
+							currencyCode: cartCurrencyCode || 'USD',
 						}}
 					/>
 				</p>
-				<p>Quantity: {quantity}</p>
+				<p className="capitalize">quantity: {quantity}</p>
 			</div>
 			{quantity !== 0 && webUrl && (
 				<Clickable
@@ -106,7 +106,7 @@ const CartDetails = () => {
 						rounded: 'md',
 						btn: 'primary',
 						px: '2xl',
-						py: 'md'
+						py: 'md',
 					}}
 					className="mt-2 flex justify-center capitalize"
 				>
@@ -155,9 +155,9 @@ const CartItem = ({ item }: { item: CheckoutLineItem }) => {
 									{
 										id: item.id,
 										quantity: item.quantity + 1,
-										variantId: item.variant?.id
-									}
-								]
+										variantId: item.variant?.id,
+									},
+								],
 							});
 						}}
 						handleDecreaseByOne={async () => {
@@ -166,9 +166,9 @@ const CartItem = ({ item }: { item: CheckoutLineItem }) => {
 									{
 										id: item.id,
 										quantity: item.quantity - 1,
-										variantId: item.variant?.id
-									}
-								]
+										variantId: item.variant?.id,
+									},
+								],
 							});
 						}}
 						handleSetSelectedQuantity={async (value) => {
@@ -177,9 +177,9 @@ const CartItem = ({ item }: { item: CheckoutLineItem }) => {
 									{
 										id: item.id,
 										quantity: value,
-										variantId: item.variant?.id
-									}
-								]
+										variantId: item.variant?.id,
+									},
+								],
 							});
 						}}
 						quantity={item.quantity}

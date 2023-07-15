@@ -77,6 +77,7 @@ import { getCookieManger } from '~/utils/cookies';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { ACCESS_TOKEN_COOKIE_KEY } from '~/utils/shopify';
 import drizzleQueryClient from '../utils/drizzle/db/queryClient';
+import { getDecryptedShopifyUserDataFromAccessToKen } from '../utils/shopify';
 
 const t = initTRPC.context<typeof createTRPCContext>().create({
 	transformer: superjson,
@@ -112,14 +113,26 @@ export const publicProcedure = t.procedure;
 const enforceUserIsAuthed = t.middleware(({ ctx, next }) => {
 	if (!ctx.cookieManger) throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR' });
 
-	const accessToken = ctx.cookieManger.getOne(ACCESS_TOKEN_COOKIE_KEY);
+	// const accessToken = ctx.cookieManger.getOne(ACCESS_TOKEN_COOKIE_KEY);
 
-	if (typeof accessToken === 'string' && accessToken.length < 3)
-		throw new TRPCError({ code: 'UNAUTHORIZED' });
+	let shopifyUserDecryptedData: ReturnType<
+		typeof getDecryptedShopifyUserDataFromAccessToKen
+	>;
+
+	try {
+		shopifyUserDecryptedData = getDecryptedShopifyUserDataFromAccessToKen(
+			ctx.cookieManger.getOne(ACCESS_TOKEN_COOKIE_KEY),
+		);
+	} catch (error) {
+		throw new TRPCError({
+			code: 'UNAUTHORIZED',
+			message: 'Access token not found',
+		});
+	}
 
 	return next({
 		ctx: {
-			accessToken: accessToken as string,
+			shopifyUserDecryptedData,
 			cookieManger: ctx.cookieManger,
 			// infers the `session` as non-nullable
 			// session: { ...ctx.session, user: ctx.session.user }

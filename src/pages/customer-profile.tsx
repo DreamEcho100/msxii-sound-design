@@ -100,102 +100,89 @@ const ProductsOnOrder = ({
 	);
 };
 
-const CustomerProfileScreen = (props: {
-	customerData: {
-		customer: ShopifyCustomer;
-		accessToken: string;
-	};
-}) => {
+const CustomerProfileScreen = (props: { customerData: ShopifyCustomer }) => {
 	const isMounted = useIsMounted();
 	const orders = useMemo(() => {
 		let aNum: number;
 		let bNum: number;
 
-		return props.customerData.customer.orders?.edges
-			?.slice()
-			.sort(function (a, b) {
-				aNum = Date.parse(a.node.processedAt);
-				bNum = Date.parse(b.node.processedAt);
-				if (aNum === bNum) return 0;
+		return props.customerData.orders?.edges?.slice().sort(function (a, b) {
+			aNum = Date.parse(a.node.processedAt);
+			bNum = Date.parse(b.node.processedAt);
+			if (aNum === bNum) return 0;
 
-				return aNum > bNum ? -1 : 1;
-			});
-	}, [props.customerData.customer.orders?.edges]);
+			return aNum > bNum ? -1 : 1;
+		});
+	}, [props.customerData.orders?.edges]);
 
 	return (
 		<>
 			<section className="p-8">
 				<h1 className="text-h1">Customer Profile</h1>
 				{/* <p>
-					<TitleValue title="ID" value={props.customerData.customer.id} />
+					<TitleValue title="ID" value={props.customerData.id} />
 				</p> */}
 				<p>
-					<TitleValue title="email" value={props.customerData.customer.email} />
+					<TitleValue title="email" value={props.customerData.email} />
 				</p>
 				<p>
-					<TitleValue
-						title="first name"
-						value={props.customerData.customer.firstName}
-					/>
+					<TitleValue title="first name" value={props.customerData.firstName} />
 				</p>
 				<p>
-					<TitleValue
-						title="last name"
-						value={props.customerData.customer.lastName}
-					/>
+					<TitleValue title="last name" value={props.customerData.lastName} />
 				</p>
 				<p>
-					<TitleValue title="phone" value={props.customerData.customer.phone} />
+					<TitleValue title="phone" value={props.customerData.phone} />
 				</p>
-				{props.customerData.customer.defaultAddress && (
+				{props.customerData.defaultAddress && (
 					<address>
 						<p>
 							<TitleValue
 								title="address 1"
-								value={props.customerData.customer.defaultAddress.address1}
+								value={props.customerData.defaultAddress.address1}
 							/>
 						</p>
 						<p>
 							<TitleValue
 								title="address 2"
-								value={props.customerData.customer.defaultAddress.address2}
+								value={props.customerData.defaultAddress.address2}
 							/>
 						</p>
 						<p>
 							<TitleValue
 								title="country"
-								value={props.customerData.customer.defaultAddress.country}
+								value={props.customerData.defaultAddress.country}
 							/>
 						</p>
 						<p>
 							<TitleValue
 								title="province"
-								value={props.customerData.customer.defaultAddress.province}
+								value={props.customerData.defaultAddress.province}
 							/>
 						</p>
 						<p>
 							<TitleValue
 								title="city"
-								value={props.customerData.customer.defaultAddress.city}
+								value={props.customerData.defaultAddress.city}
 							/>
 						</p>
 						<p>
 							<TitleValue
 								title="phone"
-								value={props.customerData.customer.defaultAddress.phone}
+								value={props.customerData.defaultAddress.phone}
 							/>
 						</p>
 						<p>
 							<TitleValue
 								title="zip"
-								value={props.customerData.customer.defaultAddress.zip}
+								value={props.customerData.defaultAddress.zip}
 							/>
 						</p>
 					</address>
 				)}
-				{/* <p>Created At: {props.customerData.customer.createdAt}</p> */}
-				{/* <p>Updated At: {props.customerData.customer.updatedAt}</p> */}
-				{/* <p>Accepts Marketing: {props.customerData.customer.acceptsMarketing}</p> */}
+				{/* <p>Created At: {props.customerData.createdAt}</p> */}
+				{/* <p>Updated At: {props.customerData.updatedAt}</p> */}
+				{/* <p>Accepts Marketing: {props.customerData.acceptsMarketing}</p> */}
 			</section>
 
 			<section className="p-8">

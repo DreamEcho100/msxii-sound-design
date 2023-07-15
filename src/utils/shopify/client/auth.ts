@@ -144,7 +144,9 @@ const auth = {
 			accessTokenDelete: customerAccessTokenDeleteMutation,
 			create: customerCreateMutation,
 		},
-		queries: { dataByAccessToken: customerDataByAccessTokenQuery },
+		queries: {
+			dataByAccessToken: customerDataByAccessTokenQuery,
+		},
 	},
 };
 

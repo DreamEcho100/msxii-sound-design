@@ -1,4 +1,4 @@
-import { createStore, useStore } from 'zustand';
+import { createStore } from 'zustand';
 import { ShopifyCustomer } from '~/utils/shopify/types';
 
 import { Checkout, CheckoutLineItem } from 'shopify-buy';
@@ -12,7 +12,7 @@ interface GlobalStore {
 		toggleCartDropdown(): void;
 		addToCart(
 			product: CheckoutLineItem, // | ShopifyProduct | ShopifyProductVariant,
-			quantity: number | ((value: number) => number)
+			quantity: number | ((value: number) => number),
 		): void;
 		setCartLineItems(lineItems: CheckoutLineItem[], toOpenCart?: boolean): void;
 
@@ -33,7 +33,7 @@ interface GlobalStore {
 				| {
 						type: 'checkout-created' | 'line-items-fetched';
 						payload: Checkout;
-				  }
+				  },
 		) => void;
 	} & (
 		| {
@@ -87,11 +87,8 @@ interface GlobalStore {
 					| { type: 'UNAUTHENTICATED'; payload?: null }
 					| {
 							type: 'AUTHENTICATED';
-							payload: {
-								customer: ShopifyCustomer;
-								accessToken: string;
-							};
-					  }
+							payload: ShopifyCustomer;
+					  },
 			) => void;
 		};
 		attemptCounter: number;
@@ -109,10 +106,7 @@ interface GlobalStore {
 		| {
 				isLoading: false;
 				status: 'authenticated';
-				data: {
-					customer: ShopifyCustomer;
-					accessToken: string;
-				};
+				data: ShopifyCustomer;
 		  }
 	);
 }
@@ -136,8 +130,8 @@ export const globalStore = createStore<GlobalStore>((set, get) => ({
 								...prev.customerSession,
 								data: null,
 								isLoading: true,
-								status: 'loading'
-							}
+								status: 'loading',
+							},
 						}));
 
 					case 'UNAUTHENTICATED':
@@ -148,8 +142,8 @@ export const globalStore = createStore<GlobalStore>((set, get) => ({
 								data: null,
 								isLoading: false,
 								status: 'unauthenticated',
-								attemptCounter: prev.customerSession.attemptCounter + 1
-							}
+								attemptCounter: prev.customerSession.attemptCounter + 1,
+							},
 						}));
 
 					case 'AUTHENTICATED':
@@ -160,12 +154,12 @@ export const globalStore = createStore<GlobalStore>((set, get) => ({
 								data: payload,
 								isLoading: false,
 								status: 'authenticated',
-								attemptCounter: prev.customerSession.attemptCounter + 1
-							}
+								attemptCounter: prev.customerSession.attemptCounter + 1,
+							},
 						}));
 				}
-			}
-		}
+			},
+		},
 	},
 	cart: {
 		data: null,
@@ -180,8 +174,8 @@ export const globalStore = createStore<GlobalStore>((set, get) => ({
 			set(({ cart }) => ({
 				cart: {
 					...cart,
-					isCartDropdownOpen: !cart.isCartDropdownOpen
-				}
+					isCartDropdownOpen: !cart.isCartDropdownOpen,
+				},
 			})),
 		setCartLineItems(lineItems, toOpenCart = false) {
 			// get().menus.closeAllMenus();
@@ -192,8 +186,8 @@ export const globalStore = createStore<GlobalStore>((set, get) => ({
 					cart: {
 						...cart,
 						lineItems,
-						isCartDropdownOpen: toOpenCart
-					}
+						isCartDropdownOpen: toOpenCart,
+					},
 				};
 			});
 		},
@@ -201,7 +195,7 @@ export const globalStore = createStore<GlobalStore>((set, get) => ({
 			set(({ cart }) => {
 				get().menus.closeAllMenus();
 				const cartItemIndex = cart.lineItems.findIndex(
-					(item) => item.id === product.id
+					(item) => item.id === product.id,
 				);
 
 				let cartItems: typeof cart.lineItems = [];
@@ -210,9 +204,9 @@ export const globalStore = createStore<GlobalStore>((set, get) => ({
 					cartItems = [
 						{
 							...product,
-							quantity: typeof quantity === 'function' ? quantity(0) : quantity
+							quantity: typeof quantity === 'function' ? quantity(0) : quantity,
 						},
-						...cart.lineItems
+						...cart.lineItems,
 					];
 				} else {
 					let cartItem: (typeof cart.lineItems)[number];
@@ -230,7 +224,7 @@ export const globalStore = createStore<GlobalStore>((set, get) => ({
 							if (cartItemQuantity <= 0) continue;
 							cartItems.push({
 								...cartItem,
-								quantity: cartItemQuantity
+								quantity: cartItemQuantity,
 							});
 							continue;
 						}
@@ -243,8 +237,8 @@ export const globalStore = createStore<GlobalStore>((set, get) => ({
 					cart: {
 						...cart,
 						lineItems: cartItems,
-						isCartDropdownOpen: true
-					}
+						isCartDropdownOpen: true,
+					},
 				};
 			}),
 
@@ -252,7 +246,7 @@ export const globalStore = createStore<GlobalStore>((set, get) => ({
 			if (process.env.NODE_ENV === 'development') {
 				console.log(
 					'%cCart Status: "' + type.replace(/-/g, ' ') + '"',
-					'font-weight: bold;'
+					'font-weight: bold;',
 				);
 			}
 
@@ -270,8 +264,8 @@ export const globalStore = createStore<GlobalStore>((set, get) => ({
 							data: null,
 							isLoading: true,
 							isSuccess: false,
-							status: type
-						}
+							status: type,
+						},
 					}));
 
 				case 'not-found-in-cookies':
@@ -284,8 +278,8 @@ export const globalStore = createStore<GlobalStore>((set, get) => ({
 							data: null,
 							isLoading: false,
 							isSuccess: false,
-							status: type
-						}
+							status: type,
+						},
 					}));
 
 				case 'checkout-created':
@@ -298,11 +292,11 @@ export const globalStore = createStore<GlobalStore>((set, get) => ({
 							data: payload,
 							isLoading: false,
 							isSuccess: true,
-							status: type
-						}
+							status: type,
+						},
 					}));
 			}
-		}
+		},
 	},
 	menus: {
 		isDropdownMenuOnLessThanLGOpen: false,
@@ -310,12 +304,12 @@ export const globalStore = createStore<GlobalStore>((set, get) => ({
 			set(({ menus, cart }) => ({
 				menus: {
 					...menus,
-					isDropdownMenuOnLessThanLGOpen: !menus.isDropdownMenuOnLessThanLGOpen
+					isDropdownMenuOnLessThanLGOpen: !menus.isDropdownMenuOnLessThanLGOpen,
 				},
 				cart: {
 					...cart,
-					isCartDropdownOpen: false
-				}
+					isCartDropdownOpen: false,
+				},
 			})),
 
 		isSearchMenuDropdownOpen: false,
@@ -323,12 +317,12 @@ export const globalStore = createStore<GlobalStore>((set, get) => ({
 			set(({ menus, cart }) => ({
 				menus: {
 					...menus,
-					isSearchMenuDropdownOpen: !menus.isSearchMenuDropdownOpen
+					isSearchMenuDropdownOpen: !menus.isSearchMenuDropdownOpen,
 				},
 				cart: {
 					...cart,
-					isCartDropdownOpen: false
-				}
+					isCartDropdownOpen: false,
+				},
 			})),
 
 		closeAllMenus: () =>
@@ -336,13 +330,13 @@ export const globalStore = createStore<GlobalStore>((set, get) => ({
 				menus: {
 					...menus,
 					isSearchMenuDropdownOpen: false,
-					isDropdownMenuOnLessThanLGOpen: false
+					isDropdownMenuOnLessThanLGOpen: false,
 				},
 				cart: {
 					...cart,
-					isCartDropdownOpen: false
-				}
-			}))
+					isCartDropdownOpen: false,
+				},
+			})),
 	},
 	dialogs: {
 		auth: {
@@ -351,18 +345,18 @@ export const globalStore = createStore<GlobalStore>((set, get) => ({
 				set(({ dialogs }) => ({
 					dialogs: {
 						...dialogs,
-						auth: { ...dialogs.auth, isOpen: !dialogs.auth.isOpen }
-					}
+						auth: { ...dialogs.auth, isOpen: !dialogs.auth.isOpen },
+					},
 				})),
 			type: 'login',
 			setDialogType: (type) =>
 				set(({ dialogs }) => ({
 					dialogs: {
 						...dialogs,
-						auth: { ...dialogs.auth, type }
-					}
-				}))
-		}
+						auth: { ...dialogs.auth, type },
+					},
+				})),
+		},
 	},
 	themeConfig: {
 		currentTheme: 'light',
@@ -380,8 +374,8 @@ export const globalStore = createStore<GlobalStore>((set, get) => ({
 
 				return { themeConfig: { ...themeConfig, currentTheme: newTheme } };
 			});
-		}
-	}
+		},
+	},
 }));
 
 // export const useGlobalStore = <U>(

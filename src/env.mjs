@@ -16,14 +16,15 @@ const server = z.object({
 		// Since NextAuth.js automatically uses the VERCEL_URL if present.
 		(str) => process.env.VERCEL_URL ?? str,
 		// VERCEL_URL doesn't include `https` so it cant be validated as a URL
-		process.env.VERCEL ? z.string().min(1) : z.string().url()
+		process.env.VERCEL ? z.string().min(1) : z.string().url(),
 	),
 	// Add `.min(1) on ID and SECRET if you want to make sure they're not empty
 	SHOPIFY_STORE_FRONT_ACCESS_TOKEN: z.string(),
 	SHOPIFY_STORE_URL: z.string(),
 	SHOPIFY_STORE_DOMAIN: z.string(),
 	SHOPIFY_API_KEY: z.string(),
-	SHOPIFY_API_SECRET: z.string()
+	SHOPIFY_API_SECRET: z.string(),
+	JWT_TOKEN_KEY: z.string().nonempty(),
 });
 
 /**
@@ -31,7 +32,7 @@ const server = z.object({
  * built with invalid env vars. To expose them to the client, prefix them with `NEXT_PUBLIC_`.
  */
 const client = z.object({
-	NEXT_PUBLIC_APP_DOMAINE: z.string().min(1)
+	NEXT_PUBLIC_APP_DOMAINE: z.string().min(1),
 });
 
 /**
@@ -52,7 +53,8 @@ const processEnv = {
 	SHOPIFY_STORE_URL: process.env.SHOPIFY_STORE_URL,
 	SHOPIFY_STORE_DOMAIN: process.env.SHOPIFY_STORE_DOMAIN,
 	SHOPIFY_API_KEY: process.env.SHOPIFY_API_KEY,
-	SHOPIFY_API_SECRET: process.env.SHOPIFY_API_SECRET
+	SHOPIFY_API_SECRET: process.env.SHOPIFY_API_SECRET,
+	JWT_TOKEN_KEY: process.env.JWT_TOKEN_KEY,
 };
 
 // Don't touch the part below
@@ -78,7 +80,7 @@ if (!!process.env.SKIP_ENV_VALIDATION == false) {
 	if (parsed.success === false) {
 		console.error(
 			'❌ Invalid environment variables:',
-			parsed.error.flatten().fieldErrors
+			parsed.error.flatten().fieldErrors,
 		);
 		throw new Error('Invalid environment variables');
 	}
@@ -92,10 +94,10 @@ if (!!process.env.SKIP_ENV_VALIDATION == false) {
 				throw new Error(
 					process.env.NODE_ENV === 'production'
 						? '❌ Attempted to access a server-side environment variable on the client'
-						: `❌ Attempted to access server-side environment variable '${prop}' on the client`
+						: `❌ Attempted to access server-side environment variable '${prop}' on the client`,
 				);
 			return target[/** @type {keyof typeof target} */ (prop)];
-		}
+		},
 	});
 }
 

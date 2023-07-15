@@ -194,8 +194,6 @@ const seedPage = async (page: CustomPage) => {
 							{},
 						).then((boxes) => boxes.map((box) => ({ boxId: box.id })));
 
-						console.log('itemsData', itemsData);
-
 						return {
 							type: BoxTypes.GRID,
 							gridBox: {

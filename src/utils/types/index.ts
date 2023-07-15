@@ -2,7 +2,9 @@ export interface Variant {
 	id: number;
 	title: string;
 	option1: string;
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	option2: any | null;
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	option3: any | null;
 	sku: string;
 	requires_shipping: boolean;
@@ -46,10 +48,12 @@ export interface Variant {
 	weight: number;
 	compare_at_price: number | null;
 	inventory_quantity: number;
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	inventory_management: any | null;
 	inventory_policy: string;
 	barcode: string | null;
 	requires_selling_plan: boolean;
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	selling_plan_allocations: any[];
 }
 
@@ -61,6 +65,7 @@ export interface PreviewImage {
 }
 
 export interface Media {
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	alt: any | null;
 	id: number;
 	position: number;
@@ -107,5 +112,6 @@ export interface ShopifyProduct {
 	url: string;
 	media: Media[];
 	requires_selling_plan: boolean;
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	selling_plan_groups: any[];
 }

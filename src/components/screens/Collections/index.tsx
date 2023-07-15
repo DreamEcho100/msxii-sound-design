@@ -5,7 +5,7 @@ import {
 	useEffect,
 	useMemo,
 	useRef,
-	useState
+	useState,
 } from 'react';
 import { CardsSlider } from '~/components/shared/core/Shopify/Cards/Slider';
 import Clickable from '~/components/shared/core/Clickable';
@@ -36,7 +36,7 @@ const CheckboxField = ({
 const CategoriesMenu = ({
 	categories,
 	setSelectedCategories,
-	selectedCategories
+	selectedCategories,
 }: {
 	categories: string[];
 	setSelectedCategories: Dispatch<SetStateAction<string[]>>;
@@ -53,7 +53,7 @@ const CategoriesMenu = ({
 						setSelectedCategories((prev) =>
 							event.target.checked
 								? [...prev, event.target.value]
-								: prev.filter((category) => category !== event.target.value)
+								: prev.filter((category) => category !== event.target.value),
 						)
 					}
 				>
@@ -65,7 +65,7 @@ const CategoriesMenu = ({
 };
 
 const ProductsScreen = ({
-	collectionsBasic
+	collectionsBasic,
 }: {
 	collectionsBasic: RouterOutputs['shopify']['collections']['getAllBasic'];
 }) => {
@@ -79,13 +79,12 @@ const ProductsScreen = ({
 		selectedHandles,
 		setSelectedHandles,
 		setProductTitleQuery,
-		flattenedCollectionsEdges
 	} = useBasicCollectionsHandleFilterManager({
 		collectionsEdges: collectionsBasic,
 		handleToCollectionToIgnoreMap: {
 			'all-products': true,
-			merch: true
-		}
+			merch: true,
+		},
 	});
 
 	useEffect(() => {
@@ -222,8 +221,8 @@ const ProductsScreen = ({
 												384: { slidesPerView: 1 },
 												768: { slidesPerView: 3 },
 												1024: { slidesPerView: 4 },
-												1280: { slidesPerView: 5 }
-											}
+												1280: { slidesPerView: 5 },
+											},
 										}}
 										cardsSharedProps={{
 											isPlayButtonActive: true,
@@ -232,10 +231,11 @@ const ProductsScreen = ({
 													variants: {
 														btn: 'light:primary_dark:secondary',
 														py: 'sm',
-														px: 'lg'
-													} as any
-												}
-											}
+														px: 'lg',
+														// eslint-disable-next-line @typescript-eslint/no-explicit-any
+													} as any,
+												},
+											},
 										}}
 									/>
 								</div>

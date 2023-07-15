@@ -154,6 +154,7 @@ export const ProductExtraDetails = ({
 				/>
 			</p>
 			<AddToCartButton
+				// eslint-disable-next-line @typescript-eslint/no-explicit-any
 				{...(buttonProps as any)}
 				productVariant={productVariant}
 				disabled={!product.availableForSale}

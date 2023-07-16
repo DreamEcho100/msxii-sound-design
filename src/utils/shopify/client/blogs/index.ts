@@ -1,37 +1,11 @@
 import { gql } from 'graphql-request';
-import { type Collection, Edges, BasicCollection } from '../../types';
+import { Edges } from '../../types';
 import { graphQLClient } from '../_utils';
-import { gqlProductBasicSchemaText, gqlProductSchemaText } from '../products';
-import { z } from 'zod';
 import articles from './articles';
 
 type Blog = {
 	//
 };
-
-/*
-authors
-handle
-id
-metafield
-metafields
-onlineStoreUrl
-seo
-title
-*/
-
-/*
-authorV2
-blog
-excerpt
-excerptHtml
-image
-metafield
-metafields
-publishedAt
-seo
-tags
-*/
 
 const gqlArticleSchemaText = `handle
 id
@@ -40,19 +14,19 @@ content
 contentHtml
 title`;
 
-const gqlBlogSchemaText = `title
-articles(first: 100) {
-	edges {
-		cursor
-		node {
-			${gqlArticleSchemaText}
-		}
-	}
-	pageInfo {
-		hasNextPage
-		hasPreviousPage
-	}
-}`;
+// const gqlBlogSchemaText = `title
+// articles(first: 100) {
+// 	edges {
+// 		cursor
+// 		node {
+// 			${gqlArticleSchemaText}
+// 		}
+// 	}
+// 	pageInfo {
+// 		hasNextPage
+// 		hasPreviousPage
+// 	}
+// }`;
 
 const allBlogsQuery = async () => {
 	// https://shopify.dev/docs/api/storefront/2023-04/objects/Blog
@@ -80,9 +54,9 @@ const allBlogsQuery = async () => {
 
 const blogs = {
 	queries: {
-		all: allBlogsQuery
+		all: allBlogsQuery,
 	},
-	articles
+	articles,
 };
 
 export default blogs;

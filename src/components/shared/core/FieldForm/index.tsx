@@ -47,6 +47,7 @@ type TFormFieldTextarea<T> = TextareaHTMLAttributes<HTMLTextAreaElement> &
 	};
 
 const TextareaField = <T,>({
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	isATextarea,
 	...props
 }: TFormFieldTextarea<T>) => {
@@ -54,6 +55,7 @@ const TextareaField = <T,>({
 };
 
 const ComboBoxField = <T,>({
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	isAComboBox,
 	children,
 	selectHolderVariants,

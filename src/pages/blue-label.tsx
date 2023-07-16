@@ -9,13 +9,13 @@ import { ProductCard } from '~/components/shared/core/Shopify/Cards/Card';
 import Head from 'next/head';
 
 const CreativeSpacePage = (
-	props: InferGetStaticPropsType<typeof getStaticProps>
+	props: InferGetStaticPropsType<typeof getStaticProps>,
 ) => {
 	const collectionQuery = api.shopify.collections.getOneByHandle.useQuery(
-		props.input
+		props.input,
 	);
 	const customPageStructureQuery = api.customPages.getOne.useQuery({
-		category: 'blue-label-page'
+		category: 'blue-label-page',
 	});
 
 	if (collectionQuery.isLoading || customPageStructureQuery.isLoading)
@@ -83,7 +83,7 @@ const CreativeSpacePage = (
 				<div
 					className="grid gap-x-8 gap-y-12 justify-items-center"
 					style={{
-						gridTemplateColumns: 'repeat(auto-fill, minmax(15rem, 1fr))'
+						gridTemplateColumns: 'repeat(auto-fill, minmax(15rem, 1fr))',
 					}}
 				>
 					{collectionData.products.edges.map(({ node }) => (
@@ -99,15 +99,15 @@ const CreativeSpacePage = (
 	);
 };
 
-export const getStaticProps: GetStaticProps = async (ctx) => {
+export const getStaticProps: GetStaticProps = async () => {
 	const ssg = createServerSideHelpers({
 		router: appRouter,
 		ctx: await createInnerTRPCContext({ session: null }),
-		transformer: superjson // optional - adds superjson serialization
+		transformer: superjson, // optional - adds superjson serialization
 	});
 
 	const input: RouterInputs['shopify']['collections']['getOneByHandle'] = {
-		handle: 'blue-label'
+		handle: 'blue-label',
 	};
 	/*
 	 * Prefetching the `customPages.getOneBySlug` query here.
@@ -117,16 +117,16 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
 	await Promise.all([
 		// ssg.products.getManyByTags.prefetch({ tags }),
 		ssg.shopify.collections.getOneByHandle.prefetch(input),
-		ssg.customPages.getOne.prefetch({ category: 'blue-label-page' })
+		ssg.customPages.getOne.prefetch({ category: 'blue-label-page' }),
 	]);
 	// Make sure to return { props: { trpcState: ssg.dehydrate() } }
 	return {
 		props: {
 			trpcState: ssg.dehydrate(),
 			// tags,
-			input
+			input,
 		},
-		revalidate: 10
+		revalidate: 10,
 	};
 };
 

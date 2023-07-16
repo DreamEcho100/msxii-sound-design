@@ -2,10 +2,8 @@ import { TRPCError } from '@trpc/server';
 
 import { z } from 'zod';
 
-import { ShopifyProduct } from '~/utils/types';
 import { createTRPCRouter, publicProcedure } from '~/server/api/trpc';
 import { merchesData } from '~/utils/appData/merch';
-
 
 export const merchRouter = createTRPCRouter({
 	getAll: publicProcedure.query(() => {
@@ -17,5 +15,5 @@ export const merchRouter = createTRPCRouter({
 		if (!product) throw new TRPCError({ code: 'NOT_FOUND' });
 
 		return product;
-	})
+	}),
 });

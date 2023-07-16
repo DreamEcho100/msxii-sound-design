@@ -2,17 +2,14 @@ import { createServerSideHelpers } from '@trpc/react-query/server';
 import { cx } from 'class-variance-authority';
 import { GetStaticProps, type InferGetStaticPropsType } from 'next';
 import superjson from 'superjson';
-import {
-	BasicProductCard,
-	ProductCard
-} from '~/components/shared/core/Shopify/Cards/Card';
+import { BasicProductCard } from '~/components/shared/core/Shopify/Cards/Card';
 import { appRouter } from '~/server/api/root';
 import { createInnerTRPCContext } from '~/server/api/trpc';
 import { type RouterInputs, api } from '~/utils/api';
 
 const IOSAppsPage = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
 	const productsQuery = api.shopify.collections.getOneByHandle.useQuery(
-		props.input
+		props.input,
 	);
 
 	if (productsQuery.isLoading) return <>Loading...</>;
@@ -25,7 +22,7 @@ const IOSAppsPage = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
 		<section
 			className={cx(
 				'px-main-p-4 sm:px-main-p-2 py-main-p-1',
-				'flex flex-col gap-10'
+				'flex flex-col gap-10',
 			)}
 		>
 			<header className="flex flex-col gap-6 text-center lg:text-align-initial">
@@ -44,15 +41,15 @@ const IOSAppsPage = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
 	);
 };
 
-export const getStaticProps: GetStaticProps = async (ctx) => {
+export const getStaticProps: GetStaticProps = async () => {
 	const ssg = createServerSideHelpers({
 		router: appRouter,
 		ctx: await createInnerTRPCContext({ session: null }),
-		transformer: superjson // optional - adds superjson serialization
+		transformer: superjson, // optional - adds superjson serialization
 	});
 
 	const input: RouterInputs['shopify']['collections']['getOneByHandle'] = {
-		handle: 'vinyl'
+		handle: 'vinyl',
 	};
 
 	/*
@@ -64,9 +61,9 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
 	return {
 		props: {
 			trpcState: ssg.dehydrate(),
-			input
+			input,
 		},
-		revalidate: 10
+		revalidate: 10,
 	};
 };
 

@@ -3,25 +3,19 @@ import superjson from 'superjson';
 import {
 	GetStaticPaths,
 	GetStaticPropsContext,
-	InferGetStaticPropsType
+	InferGetStaticPropsType,
 } from 'next';
 import { z } from 'zod';
 import { appRouter } from '~/server/api/root';
 import { createInnerTRPCContext } from '~/server/api/trpc';
-import { shopifyFakeProductsData } from '~/utils/appData';
+// import { shopifyFakeProductsData } from '~/utils/appData';
 import { RouterInputs, api } from '~/utils/api';
-import CustomNextImage from '~/components/shared/CustomNextImage';
-import ProductPrice from '~/components/shared/core/Shopify/ProductPrice';
-import Clickable from '~/components/shared/core/Clickable';
-import { useState } from 'react';
-import { FaMinus, FaPlus } from 'react-icons/fa';
 import Head from 'next/head';
 import CustomProductScreen from '~/components/shared/core/CustomProductScreen';
 
 const ProductPage = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
-	const [selectedQuantity, setSelectedQuantity] = useState(1);
 	const productQuery = api.shopify.products.getOneByHandle.useQuery(
-		props.input
+		props.input,
 	);
 
 	if (productQuery.isLoading) return <>Loading...</>;
@@ -46,14 +40,14 @@ const ProductPage = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
 
 export const getStaticPaths: GetStaticPaths = () => {
 	return {
-		paths: shopifyFakeProductsData.map((item) => ({
-			params: { handle: item.handle }
+		paths: ([] as { handle: string }[]).map((item) => ({
+			params: { handle: item.handle },
 		})),
-		fallback: true
+		fallback: true,
 	};
 };
 export const getStaticProps = async (
-	context: GetStaticPropsContext<{ handle: string }>
+	context: GetStaticPropsContext<{ handle: string }>,
 ) => {
 	const { handle } = z
 		.object({ handle: z.string().trim().min(1) })
@@ -62,11 +56,11 @@ export const getStaticProps = async (
 	const ssg = createServerSideHelpers({
 		router: appRouter,
 		ctx: await createInnerTRPCContext({ session: null }),
-		transformer: superjson // optional - adds superjson serialization
+		transformer: superjson, // optional - adds superjson serialization
 	});
 
 	const input: RouterInputs['shopify']['products']['getOneByHandle'] = {
-		handle
+		handle,
 	};
 	/*
 	 * Prefetching the `s.shopify.products.getOneByHandle` query here.
@@ -77,9 +71,9 @@ export const getStaticProps = async (
 	return {
 		props: {
 			trpcState: ssg.dehydrate(),
-			input
+			input,
 		},
-		revalidate: 10
+		revalidate: 10,
 	};
 };
 

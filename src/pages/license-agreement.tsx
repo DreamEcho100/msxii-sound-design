@@ -8,7 +8,7 @@ import { createInnerTRPCContext } from '~/server/api/trpc';
 
 const LicenseAgreementPage = () => {
 	const customPageStructureQuery = api.customPages.getOne.useQuery({
-		category: 'license-agreement-page'
+		category: 'license-agreement-page',
 	});
 
 	if (customPageStructureQuery.isLoading) return <>Loading...</>;
@@ -21,11 +21,11 @@ const LicenseAgreementPage = () => {
 	return <CustomPageBuilder customPage={pageStructure} />;
 };
 
-export const getStaticProps: GetStaticProps = async (ctx) => {
+export const getStaticProps: GetStaticProps = async () => {
 	const ssg = createServerSideHelpers({
 		router: appRouter,
 		ctx: await createInnerTRPCContext({ session: null }),
-		transformer: superjson // optional - adds superjson serialization
+		transformer: superjson, // optional - adds superjson serialization
 	});
 	/*
 	 * Prefetching the `customPages.getOneBySlug` query here.
@@ -35,9 +35,9 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
 	// Make sure to return { props: { trpcState: ssg.dehydrate() } }
 	return {
 		props: {
-			trpcState: ssg.dehydrate()
+			trpcState: ssg.dehydrate(),
 		},
-		revalidate: 10
+		revalidate: 10,
 	};
 };
 

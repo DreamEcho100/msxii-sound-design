@@ -9,8 +9,8 @@ export const blogRouter = createTRPCRouter({
 		.input(
 			z.object({
 				cursor: z.number().nullish(),
-				limit: z.number().max(100).optional().nullish()
-			})
+				limit: z.number().max(100).optional().nullish(),
+			}),
 		)
 		.query(({ input }) => {
 			const cursor = input.cursor ?? 0;
@@ -20,22 +20,23 @@ export const blogRouter = createTRPCRouter({
 
 			let nextCursor: typeof cursor | undefined = undefined;
 			if (items.length > limit) {
-				const nextItem = items.pop();
+				// const nextItem =
+				items.pop();
 				// nextCursor = nextItem!.myCursor;
 				nextCursor = cursor + limit;
 			}
 			return {
 				items,
-				nextCursor
+				nextCursor,
 			};
 		}),
 	getAllSize: publicProcedure
 		.input(
 			z
 				.object({
-					limit: z.number().max(100).optional().nullish()
+					limit: z.number().max(100).optional().nullish(),
 				})
-				.optional()
+				.optional(),
 		)
 		.query(({ input }) => {
 			const limit = input?.limit ?? 12;
@@ -47,7 +48,7 @@ export const blogRouter = createTRPCRouter({
 		if (!product) throw new TRPCError({ code: 'NOT_FOUND' });
 
 		return product;
-	})
+	}),
 });
 
 const _fakeBlogPostsData = [
@@ -56,43 +57,44 @@ const _fakeBlogPostsData = [
 		image: {
 			src: '/images/blog/1.png',
 		},
-		title: 'TAPE SERIES VOL. 1 FROM MSXIISOUND AND AKAI PRO'
+		title: 'TAPE SERIES VOL. 1 FROM MSXIISOUND AND AKAI PRO',
 	},
 	{
 		id: '2',
 		image: {
 			src: '/images/blog/2.png',
 		},
-		title: 'HOLIDAY JAMS BY THE WVGRD'
+		title: 'HOLIDAY JAMS BY THE WVGRD',
 	},
 	{
 		id: '3',
 		image: {
 			src: '/images/blog/3.png',
 		},
-		title: 'THE SOUND BUSINESS PRO - INTERVIEW WITH ALTRUWEST'
+		title: 'THE SOUND BUSINESS PRO - INTERVIEW WITH ALTRUWEST',
 	},
 	{
 		id: '4',
 		image: {
 			src: '/images/blog/4.png',
 		},
-		title: '@MALO_BEATS ON THE MPC USING MSXII DRUMS AND SAMPLES'
+		title: '@MALO_BEATS ON THE MPC USING MSXII DRUMS AND SAMPLES',
 	},
 	{
 		id: '5',
 		image: {
 			src: '/images/blog/5.png',
 		},
-		title: 'INTRODUCING THE FREE FORM EXPANSION FROM MSXII & NATIVE INSTRUMENTS'
+		title:
+			'INTRODUCING THE FREE FORM EXPANSION FROM MSXII & NATIVE INSTRUMENTS',
 	},
 	{
 		id: '6',
 		image: {
 			src: '/images/blog/6.png',
 		},
-		title: 'MSIMP DROPS NEW "VIOOOOOBES" BEAT-TAPE'
-	}
+		title: 'MSIMP DROPS NEW "VIOOOOOBES" BEAT-TAPE',
+	},
 ];
 
 const fakeBlogPostsData = '_'
@@ -104,7 +106,7 @@ const fakeBlogPostsData = '_'
 			: _fakeBlogPostsData.slice().reverse()
 		).map((item) => ({
 			...item,
-			id: Math.random().toString(16)
-		}))
+			id: Math.random().toString(16),
+		})),
 	)
 	.flat(1);

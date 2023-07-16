@@ -2,19 +2,11 @@ import CustomNextImage from '~/components/shared/CustomNextImage';
 
 import CTAButton from '~/components/shared/core/Shopify/Cards/CTAButton';
 import Clickable from '~/components/shared/core/Clickable';
-
-const loFlyDirtBasicData = {
-	slug: 'lo-fly-dirt',
-	title: 'lo-fly dirt',
-};
-const flyTape2BasicData = {
-	slug: 'fly-tape2',
-	title: 'fly tape2',
-};
-const chomplrBasicData = {
-	slug: 'chomplr',
-	title: 'chomplr',
-};
+import {
+	flyTape2BasicData,
+	chomplrBasicData,
+	loFlyDirtBasicData,
+} from '~/utils/appData';
 
 const products = [
 	{

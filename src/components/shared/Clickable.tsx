@@ -31,19 +31,22 @@ export type ClickableTypes = 'button' | 'next-js' | 'basic-link';
 // 	!!('href' in props);
 
 const isANextJSAnchorProps = (
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	props: Record<string, any>,
-	isA?: string
+	isA?: string,
 ): props is Parameters<typeof Link>[0] => isA === 'next-js'; // typeof props.href === 'string' &&
 
 const isABasicAnchorProps = (
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	props: Record<string, any>,
-	isA?: string
+	isA?: string,
 ): props is AnchorHTMLAttributes<HTMLAnchorElement> =>
 	isA === 'basic-link' ||
 	!!(typeof props.href === 'string' && !props.href.startsWith('/'));
 const isAButtonProps = (
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	props: Record<string, any>,
-	isA?: string
+	isA?: string,
 ): props is ButtonHTMLAttributes<HTMLButtonElement> =>
 	!props.href || isA === 'button';
 

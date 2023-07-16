@@ -8,7 +8,7 @@ const IOSAppsPage = () => {
 		<section
 			className={cx(
 				'px-main-p-4 sm:px-main-p-2 py-main-p-1 text-h6',
-				'flex flex-col gap-10'
+				'flex flex-col gap-10',
 			)}
 		>
 			<header className="flex flex-col gap-6 text-center lg:text-align-initial">

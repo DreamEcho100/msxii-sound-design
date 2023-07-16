@@ -1,6 +1,7 @@
 import Image from 'next/image';
-import { ImageProps } from 'next/dist/client/image.d';
 import { useEffect, useState } from 'react';
+
+type ImageProps = Parameters<typeof Image>[0];
 
 export const websiteBasePath = `https://${process.env.NEXT_PUBLIC_APP_DOMAINE}`;
 
@@ -25,7 +26,7 @@ const CustomNextImage = ({
 	...props
 }: ICustomNextImageProps) => {
 	const [isWeservNlOptimized, setIsWeservNlOptimized] = useState(
-		process.env.NODE_ENV === 'production' ? weservNlOptimized : false
+		process.env.NODE_ENV === 'production' ? weservNlOptimized : false,
 	);
 	const [_src, setSrc] = useState(src);
 	const [isLoaded, setIsLoaded] = useState(false);
@@ -49,13 +50,13 @@ const CustomNextImage = ({
 				setIsLoaded(true);
 				setSrc(
 					// '/images/image-error.png'
-					'/svg/bbblurry.svg'
+					'/svg/bbblurry.svg',
 				);
 			},
 			src:
 				isWeservNlOptimized && typeof _src === 'string'
 					? `//images.weserv.nl/?url=${encodeURIComponent(
-							_src.startsWith('/') ? `${websiteBasePath}${_src}` : _src
+							_src.startsWith('/') ? `${websiteBasePath}${_src}` : _src,
 					  )}&w=${props.width}${props.height ? `&h=${props.height}` : ''}${
 							isAnimated ? '&n=-1' : ''
 					  }`
@@ -63,11 +64,11 @@ const CustomNextImage = ({
 			unoptimized,
 			placeholder,
 			className: `${className} ${isLoaded ? '' : 'no-content'}`,
-			alt: '',
-			onLoadingComplete: (img) => {
+			alt,
+			onLoadingComplete: () => {
 				setIsLoaded(true);
 			},
-			...props
+			...props,
 		};
 
 		if (placeholder !== 'empty') {

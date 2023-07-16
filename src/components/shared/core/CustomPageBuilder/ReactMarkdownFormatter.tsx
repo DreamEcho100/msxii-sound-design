@@ -6,6 +6,7 @@ const ReactMarkdownFormatter = ({ content }: { content: string }) => {
 	return (
 		<ReactMarkdown
 			components={{
+				// eslint-disable-next-line @typescript-eslint/no-unused-vars
 				img: ({ node, src, ...props }) => {
 					if (!src) return <></>;
 
@@ -35,7 +36,7 @@ const ReactMarkdownFormatter = ({ content }: { content: string }) => {
 							// }}
 						/>
 					);
-				}
+				},
 			}}
 			remarkPlugins={[remarkGfm]}
 		>

@@ -2,6 +2,30 @@ export * from './custom-pages/utils';
 
 import { CustomPage } from '../types/custom-page';
 
+export const loFlyDirtBasicData = {
+	title: 'Lo-Fly Dirt',
+	slug: 'lo-fly-dirt',
+};
+export const flyTape2BasicData = {
+	title: 'Fly Tape 2',
+	slug: 'fly-tape-2',
+};
+export const flyTapeBasicData = {
+	title: 'Fly Tape',
+	slug: 'fly-tape',
+};
+export const chomplrBasicData = {
+	title: 'Chomplr',
+	slug: 'chomplr',
+};
+
+export const IOSProductsBasicData = [
+	loFlyDirtBasicData,
+	flyTape2BasicData,
+	flyTapeBasicData,
+	chomplrBasicData,
+];
+
 export const CustomPages: CustomPage[] = [
 	{
 		twClassNameVariants: {

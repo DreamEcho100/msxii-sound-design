@@ -12,18 +12,20 @@ const handleYouTubeIconVariants = cva(
 			fontSize: {
 				medium: 'text-[clamp(5.5rem,calc(1rem+9vw),6.5rem)]',
 				small:
-					'text-[clamp(4.5rem,calc(1rem+7vw),5.5rem)] scale-y-[90%] scale-x-[95%]'
-			}
+					'text-[clamp(4.5rem,calc(1rem+7vw),5.5rem)] scale-y-[90%] scale-x-[95%]',
+			},
 		},
 		defaultVariants: {
-			fontSize: 'medium'
-		}
-	}
+			fontSize: 'medium',
+		},
+	},
 );
 
 export const YouTubeIFrame = ({
 	containerProps = {},
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	overlayImageProps,
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	youTubeIconVariants,
 	...props
 }: IframeHTMLAttributes<HTMLIFrameElement> & {
@@ -50,7 +52,7 @@ export const YouTubeIFrame = ({
 export const InstagramIframe = ({
 	text = 'A post shared by MSXII Sound Design (@msxiisound)',
 	src,
-	className
+	className,
 }: {
 	text?: string;
 	src: string;
@@ -70,7 +72,7 @@ export const InstagramIframe = ({
 					margin: '1px',
 					maxWidth: '658px',
 					padding: 0,
-					width: 'calc(100% - 2px)'
+					width: 'calc(100% - 2px)',
 				}}
 			>
 				<div style={{ padding: '16px' }}>
@@ -83,7 +85,7 @@ export const InstagramIframe = ({
 							padding: '0 0',
 							textAlign: 'center',
 							textDecoration: 'none',
-							width: '100%'
+							width: '100%',
 						}}
 						target="_blank"
 					>
@@ -92,7 +94,7 @@ export const InstagramIframe = ({
 							style={{
 								display: 'flex',
 								flexDirection: 'row',
-								alignItems: 'center'
+								alignItems: 'center',
 							}}
 						>
 							{' '}
@@ -103,7 +105,7 @@ export const InstagramIframe = ({
 									flexGrow: 0,
 									height: '40px',
 									marginRight: '14px',
-									width: '40px'
+									width: '40px',
 								}}
 							/>{' '}
 							<div
@@ -111,7 +113,7 @@ export const InstagramIframe = ({
 									display: 'flex',
 									flexDirection: 'column',
 									flexGrow: 1,
-									justifyContent: 'center'
+									justifyContent: 'center',
 								}}
 							>
 								{' '}
@@ -122,7 +124,7 @@ export const InstagramIframe = ({
 										flexGrow: 0,
 										height: '14px',
 										marginBottom: '6px',
-										width: '100px'
+										width: '100px',
 									}}
 								/>{' '}
 								<div
@@ -131,7 +133,7 @@ export const InstagramIframe = ({
 										borderRadius: '4px',
 										flexGrow: 0,
 										height: '14px',
-										width: '60px'
+										width: '60px',
 									}}
 								/>
 							</div>
@@ -142,7 +144,7 @@ export const InstagramIframe = ({
 								display: 'block',
 								height: '50px',
 								margin: '0 auto 12px',
-								width: '50px'
+								width: '50px',
 							}}
 						>
 							<svg
@@ -174,7 +176,7 @@ export const InstagramIframe = ({
 									fontSize: '14px',
 									fontStyle: 'normal',
 									fontWeight: 550,
-									lineHeight: '18px'
+									lineHeight: '18px',
 								}}
 							>
 								View this post on Instagram
@@ -186,7 +188,7 @@ export const InstagramIframe = ({
 								display: 'flex',
 								flexDirection: 'row',
 								marginBottom: '14px',
-								alignItems: 'center'
+								alignItems: 'center',
 							}}
 						>
 							<div>
@@ -197,7 +199,7 @@ export const InstagramIframe = ({
 										borderRadius: '50%',
 										height: '12.5px',
 										width: '12.5px',
-										transform: 'translateX(0px) translateY(7px)'
+										transform: 'translateX(0px) translateY(7px)',
 									}}
 								/>{' '}
 								<div
@@ -208,7 +210,7 @@ export const InstagramIframe = ({
 										width: '12.5px',
 										flexGrow: 0,
 										marginRight: '14px',
-										marginLeft: '2px'
+										marginLeft: '2px',
 									}}
 								/>{' '}
 								<div
@@ -217,7 +219,7 @@ export const InstagramIframe = ({
 										borderRadius: '50%',
 										height: '12.5px',
 										width: '12.5px',
-										transform: 'translateX(9px) translateY(-18px)'
+										transform: 'translateX(9px) translateY(-18px)',
 									}}
 								/>
 							</div>
@@ -229,7 +231,7 @@ export const InstagramIframe = ({
 										borderRadius: '50%',
 										flexGrow: 0,
 										height: '20px',
-										width: '20px'
+										width: '20px',
 									}}
 								/>{' '}
 								<div
@@ -239,7 +241,8 @@ export const InstagramIframe = ({
 										borderTop: '2px solid transparent',
 										borderLeft: '6px solid #f4f4f4',
 										borderBottom: '2px solid transparent',
-										transform: 'translateX(16px) translateY(-4px) rotate(30deg)'
+										transform:
+											'translateX(16px) translateY(-4px) rotate(30deg)',
 									}}
 								/>
 							</div>
@@ -250,7 +253,7 @@ export const InstagramIframe = ({
 										width: '0px',
 										borderTop: '8px solid #F4F4F4',
 										borderRight: '8px solid transparent',
-										transform: 'translateY(16px)'
+										transform: 'translateY(16px)',
 									}}
 								/>{' '}
 								<div
@@ -259,7 +262,7 @@ export const InstagramIframe = ({
 										flexGrow: 0,
 										height: '12px',
 										width: '16px',
-										transform: 'translateY(-4px)'
+										transform: 'translateY(-4px)',
 									}}
 								/>{' '}
 								<div
@@ -268,7 +271,7 @@ export const InstagramIframe = ({
 										height: 0,
 										borderTop: '8px solid #F4F4F4',
 										borderLeft: '8px solid transparent',
-										transform: 'translateY(-4px) translateX(8px)'
+										transform: 'translateY(-4px) translateX(8px)',
 									}}
 								/>
 							</div>
@@ -279,7 +282,7 @@ export const InstagramIframe = ({
 								flexDirection: 'column',
 								flexGrow: 1,
 								justifyContent: 'center',
-								marginBottom: '24px'
+								marginBottom: '24px',
 							}}
 						>
 							{' '}
@@ -290,7 +293,7 @@ export const InstagramIframe = ({
 									flexGrow: 0,
 									height: '14px',
 									marginBottom: '6px',
-									width: '224px'
+									width: '224px',
 								}}
 							/>{' '}
 							<div
@@ -299,7 +302,7 @@ export const InstagramIframe = ({
 									borderRadius: '4px',
 									flexGrow: 0,
 									height: '14px',
-									width: '144px'
+									width: '144px',
 								}}
 							/>
 						</div>
@@ -317,7 +320,7 @@ export const InstagramIframe = ({
 								padding: '8px 0 7px',
 								textAlign: 'center',
 								textOverflow: 'ellipsis',
-								whiteSpace: 'nowrap'
+								whiteSpace: 'nowrap',
 							}}
 						>
 							<a
@@ -329,7 +332,7 @@ export const InstagramIframe = ({
 									fontStyle: 'normal',
 									fontWeight: 'normal',
 									lineHeight: '17px',
-									textDecoration: 'none'
+									textDecoration: 'none',
 								}}
 								target="_blank"
 							>
@@ -350,7 +353,7 @@ export const InstagramIframe = ({
 
 export const SoundcloudIframe = ({
 	src,
-	className
+	className,
 }: {
 	src: string;
 	className?: string;
@@ -368,7 +371,7 @@ export const SoundcloudIframe = ({
 					width: '100%',
 					height: '100%',
 					position: 'absolute',
-					border: 0
+					border: 0,
 				}}
 				allowFullScreen
 			></iframe>

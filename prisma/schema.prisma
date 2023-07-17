@@ -258,14 +258,16 @@ model Box {
   boxesToGrids       BoxToGrid[]
   boxesToSliders     BoxToSlider[]
   boxesToTabsHolders BoxToTabsHolder[]
-  gridBox            GridBox?
-  headerBox          HeaderBox?
-  iframeBox          IframeBox?
-  imageBox           ImageBox?
-  mdBox              MDBox?
-  quoteBox           QuoteBox?
-  sliderBox          SliderBox?
-  tabsHolder         TabsHolder?
+
+  headerBox HeaderBox?
+  iframeBox IframeBox?
+  imageBox  ImageBox?
+  mdBox     MDBox?
+  quoteBox  QuoteBox?
+
+  gridBox    GridBox?
+  sliderBox  SliderBox?
+  tabsHolder TabsHolder?
 
   @@id([id, type])
   @@index([order])

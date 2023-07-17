@@ -60,6 +60,7 @@ export const shopifyAuthRouter = createTRPCRouter({
 				expiresAtInSec: Math.floor(expiresAtInMS / 1000),
 				shopifyAccessToken: accessTokenInfo.accessToken,
 				shopifyUserId: data.customerCreate.customer.id,
+				shopifyUserEmail: data.customerCreate.customer.email,
 			});
 
 			ctx.cookieManger.setOne(ACCESS_TOKEN_COOKIE_KEY, encryptedAccessToken, {
@@ -102,6 +103,7 @@ export const shopifyAuthRouter = createTRPCRouter({
 				expiresAtInSec: Math.floor(expiresAtInMS / 1000),
 				shopifyAccessToken: accessTokenInfo.accessToken,
 				shopifyUserId: data.customer.id,
+				shopifyUserEmail: data.customer.email,
 			});
 
 			ctx.cookieManger.setOne(ACCESS_TOKEN_COOKIE_KEY, encryptedAccessToken, {

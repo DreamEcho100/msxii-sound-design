@@ -3,8 +3,11 @@ import jwt from 'jsonwebtoken';
 import { z } from 'zod';
 
 export type EncryptedUserAccessToKen = {
-	shopifyAccessToken: string;
-	shopifyUserId: string;
+	payload: {
+		shopifyAccessToken: string;
+		shopifyUserId: string;
+		shopifyUserEmail: string;
+	};
 	iat: number;
 	exp: number;
 };
@@ -13,6 +16,7 @@ export const encryptedShopifyUserData = (params: {
 	expiresAtInSec: number;
 	shopifyAccessToken: string;
 	shopifyUserId: string;
+	shopifyUserEmail: string;
 }) => {
 	const expiresInMS = new Date(params.expiresAtInSec).getTime();
 
@@ -39,6 +43,7 @@ export const getDecryptedShopifyUserDataFromAccessToKen = (token: unknown) => {
 			payload: z.object({
 				shopifyAccessToken: z.string().nonempty(),
 				shopifyUserId: z.string().nonempty(),
+				shopifyUserEmail: z.string().email(),
 			}),
 			iat: z.number(),
 			exp: z.number(),

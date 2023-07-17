@@ -50,11 +50,11 @@ export const YouTubeIFrame = ({
 // "https://www.instagram.com/p/B-PxUFQDDJv/?utm_source=ig_embed&utm_campaign=loading"
 
 export const InstagramIframe = ({
-	text = 'A post shared by MSXII Sound Design (@msxiisound)',
+	title = 'A post shared by MSXII Sound Design (@msxiisound)',
 	src,
 	className,
 }: {
-	text?: string;
+	title?: string | null;
 	src: string;
 	className?: string;
 }) => {
@@ -307,7 +307,7 @@ export const InstagramIframe = ({
 							/>
 						</div>
 					</a>
-					{text && (
+					{title && (
 						<p
 							style={{
 								color: '#c9c8cd',
@@ -336,7 +336,7 @@ export const InstagramIframe = ({
 								}}
 								target="_blank"
 							>
-								{text}
+								{title}
 							</a>
 						</p>
 					)}
@@ -353,9 +353,11 @@ export const InstagramIframe = ({
 
 export const SoundcloudIframe = ({
 	src,
+	title,
 	className,
 }: {
 	src: string;
+	title?: string | null;
 	className?: string;
 }) => {
 	return (
@@ -373,6 +375,7 @@ export const SoundcloudIframe = ({
 					position: 'absolute',
 					border: 0,
 				}}
+				title={title || undefined}
 				allowFullScreen
 			></iframe>
 		</div>

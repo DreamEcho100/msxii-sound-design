@@ -8,25 +8,25 @@ import {
 import { z } from 'zod';
 import { CustomPages } from '~/utils/appData';
 import { api } from '~/utils/api';
-import CustomPageBuilder from '~/components/shared/core/CustomPageBuilder';
+import { CustomPageBuilder_ } from '~/components/shared/core/CustomPageBuilder';
 import { createServerSideHelpers } from '@trpc/react-query/server';
 import { appRouter } from '~/server/api/root';
 import superjson from 'superjson';
 import { createInnerTRPCContext } from '~/server/api/trpc';
 
 const IOSAppPage = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
-	const customPageStructureQuery = api.customPages.getOne.useQuery({
-		slug: props.slug,
-	});
+	const customPageStructureQuery = api.customPages._getOne.useQuery(
+		props.input,
+	);
 
 	if (customPageStructureQuery.isLoading) return <>Loading...</>;
 
 	if (customPageStructureQuery.isError)
 		return <>{customPageStructureQuery.error.message}</>;
 
-	const customPage = customPageStructureQuery.data;
+	const page = customPageStructureQuery.data;
 
-	return <CustomPageBuilder customPage={customPage} />;
+	return <CustomPageBuilder_ page={page} />;
 };
 
 export const getStaticPaths: GetStaticPaths = () => {
@@ -51,16 +51,20 @@ export const getStaticProps = async (
 		ctx: await createInnerTRPCContext({ session: null }),
 		transformer: superjson, // optional - adds superjson serialization
 	});
+
+	const input = {
+		slug: `/ios-apps/${slug}`,
+	};
 	/*
 	 * Prefetching the `customPages.getOneBySlug` query here.
 	 * `prefetchQuery` does not return the result - if you need that, use `fetchQuery` instead.
 	 */
-	await ssg.customPages.getOne.prefetch({ slug });
+	await ssg.customPages._getOne.prefetch(input);
 	// Make sure to return { props: { trpcState: ssg.dehydrate() } }
 	return {
 		props: {
 			trpcState: ssg.dehydrate(),
-			slug,
+			input,
 		},
 		revalidate: 10,
 	};

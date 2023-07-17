@@ -119,10 +119,13 @@ const seedPage = async (page: CustomPage) => {
 				box: SectionBoxes[number],
 			): Promise<
 				| false
-				| Omit<
+				| (Omit<
 						Parameters<PrismaClient['box']['create']>[0]['data'],
 						'id' | 'section' | 'css' | 'sectionId' | 'cssId' | 'order'
-				  >
+				  > &
+						Partial<
+							Pick<Parameters<PrismaClient['box']['create']>[0]['data'], 'css'>
+						>)
 			> => {
 				switch (box.___type) {
 					case 'header':
@@ -203,6 +206,15 @@ const seedPage = async (page: CustomPage) => {
 									},
 								},
 							},
+							css: {
+								create: {
+									twVariants: box.twClassNameVariants,
+									custom: box.customPageClassesKeys,
+									inlineStyles: {
+										gridTemplateColumns: box.gridTemplateColumns,
+									},
+								},
+							},
 						};
 					}
 
@@ -221,7 +233,7 @@ const seedPage = async (page: CustomPage) => {
 						);
 
 						return {
-							type: BoxTypes.TABS_CONTAINER,
+							type: BoxTypes.TABS_HOLDER,
 							tabsHolder: {
 								create: {
 									boxesToTabsHolders: {

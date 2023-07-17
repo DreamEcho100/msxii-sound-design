@@ -1,3 +1,4 @@
+export { default as CustomPageBuilder_ } from './_'
 import {
 	useState,
 	type CSSProperties,

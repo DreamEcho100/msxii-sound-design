@@ -7,7 +7,7 @@ import {
 } from 'next';
 import { z } from 'zod';
 import { CustomPages } from '~/utils/appData';
-import { api } from '~/utils/api';
+import { type RouterInputs, api } from '~/utils/api';
 import { CustomPageBuilder_ } from '~/components/shared/core/CustomPageBuilder';
 import { createServerSideHelpers } from '@trpc/react-query/server';
 import { appRouter } from '~/server/api/root';
@@ -52,8 +52,9 @@ export const getStaticProps = async (
 		transformer: superjson, // optional - adds superjson serialization
 	});
 
-	const input = {
-		slug: `/ios-apps/${slug}`,
+	const input: RouterInputs['customPages']['_getOne'] = {
+		slug,
+		categoryName: 'ios-apps-pages'
 	};
 	/*
 	 * Prefetching the `customPages.getOneBySlug` query here.

@@ -25,6 +25,7 @@ export const encryptedShopifyUserData = (params: {
 			payload: {
 				shopifyAccessToken: params.shopifyAccessToken,
 				shopifyUserId: params.shopifyUserId,
+				shopifyUserEmail: params.shopifyUserEmail,
 			},
 		},
 		env.JWT_TOKEN_KEY,

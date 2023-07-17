@@ -285,7 +285,7 @@ model Page {
   cssId        String
   slug         String?
   categoryName String
-  category     Category  @relation(fields: [categoryName], references: [name], onDelete: Cascade)
+  category     Category  @relation(fields: [categoryName], references: [name], onDelete: Cascade, onUpdate: Cascade)
   css          css       @relation(fields: [cssId], references: [id], onDelete: Cascade)
   sections     Section[]
 

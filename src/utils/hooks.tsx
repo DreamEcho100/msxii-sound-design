@@ -2,17 +2,20 @@ import { useEffect, useMemo, useState } from 'react';
 import {
 	type BasicCollection,
 	type Collection,
-	type Edges
+	type Edges,
 } from './shopify/types';
+import { useStore } from 'zustand';
+import { globalStore } from '~/store';
+import { allowedAdminEmails } from '.';
 
 export const useGetEdgeNodes = <Data,>(item: Edges<Data>) =>
 	item.edges.map(({ node }) => node);
 
 const filterBasicCollectionProductsByTitle = <
-	TCollection extends Collection | BasicCollection
+	TCollection extends Collection | BasicCollection,
 >(
 	collection: TCollection,
-	productTitleQuery: string
+	productTitleQuery: string,
 ) => {
 	return {
 		...collection,
@@ -24,16 +27,16 @@ const filterBasicCollectionProductsByTitle = <
 			).filter(
 				({ node }) =>
 					node.title.toLowerCase().search(productTitleQuery.toLowerCase()) !==
-					-1
-			)
-		}
+					-1,
+			),
+		},
 	};
 };
 export const useBasicCollectionsHandleFilterManager = <
-	TCollection extends Collection | BasicCollection
+	TCollection extends Collection | BasicCollection,
 >({
 	collectionsEdges,
-	handleToCollectionToIgnoreMap
+	handleToCollectionToIgnoreMap,
 }: {
 	collectionsEdges: Edges<TCollection>; // NonNullable<HomeScreenProps['collectionsBasic']>;
 	handleToCollectionToIgnoreMap?: Record<string, true>;
@@ -72,12 +75,12 @@ export const useBasicCollectionsHandleFilterManager = <
 			.sort((a, b) => (a < b ? -1 : 1));
 		return {
 			collectionsByHandle,
-			categories
+			categories,
 		};
 	}, [
 		flattenedCollectionsEdges,
 		handleToCollectionToIgnoreMap,
-		productTitleQuery
+		productTitleQuery,
 	]);
 
 	return {
@@ -87,7 +90,7 @@ export const useBasicCollectionsHandleFilterManager = <
 		setSelectedHandles,
 		flattenedCollectionsEdges,
 		productTitleQuery,
-		setProductTitleQuery
+		setProductTitleQuery,
 	};
 };
 
@@ -97,4 +100,25 @@ export const useIsMounted = () => {
 	useEffect(() => setIsMounted(true), []);
 
 	return isMounted;
+};
+
+export const useCheckIsAdmin = () => {
+	const customerStatus = useStore(
+		globalStore,
+		(state) => state.customerSession.status,
+	);
+	const customerEmail = useStore(
+		globalStore,
+		(state) => state.customerSession.data?.email,
+	);
+
+	const isAdmin =
+		customerStatus === 'authenticated' &&
+		customerEmail &&
+		allowedAdminEmails.includes(customerEmail);
+
+	return {
+		customerStatus,
+		isAdmin,
+	};
 };

@@ -6,7 +6,7 @@ import { GiHamburgerMenu } from 'react-icons/gi';
 import Dropdown, {
 	DropdownButton,
 	DropdownItem,
-	DropdownItems
+	DropdownItems,
 } from '~/components/shared/core/Dropdown';
 import { AnimatePresence, motion } from 'framer-motion';
 import { cx } from 'class-variance-authority';
@@ -20,23 +20,25 @@ import PersonIcon from './components/PersonIcon';
 import SignOutButton from './components/SignOutButton';
 import { useStore } from 'zustand';
 import { globalStore } from '~/store';
+import { useCheckIsAdmin } from '~/utils/hooks';
+import { MdDashboard } from 'react-icons/md';
 
 const DynamicAuthDialog = dynamic(() => import('./components/AuthDialog'), {
-	ssr: false
+	ssr: false,
 });
 
 const headersLinks = [
 	{
 		title: 'New Releases',
-		href: 'collections/?handles=New Releases'
+		href: 'collections/?handles=New Releases',
 	},
 	{
 		title: 'iOS Apps',
-		href: '/ios-apps'
+		href: '/ios-apps',
 	},
 	{
 		title: 'Blue Label',
-		href: '/blue-label'
+		href: '/blue-label',
 	},
 	{
 		title: 'Samples',
@@ -45,52 +47,54 @@ const headersLinks = [
 			{
 				title: 'Ableton Racks',
 				href: 'https://racksforlive.com/',
-				isA: 'normal-link'
+				isA: 'normal-link',
 			},
-			{ title: 'Vinyl', href: '/vinyl' }
+			{ title: 'Vinyl', href: '/vinyl' },
 		] as {
 			readonly title: 'Ableton Racks';
 			readonly href: 'https://racksforlive.com/';
 			readonly isA?: 'normal-link';
-		}[]
+		}[],
 	},
 	{
 		title: 'Bundles',
-		href: 'collections/?handles=Bundles'
+		href: 'collections/?handles=Bundles',
 	},
 	{
 		title: 'Blog',
-		href: '/blog'
+		href: '/blog',
 	},
 	{
 		title: 'Merch',
-		href: '/merch'
-	}
+		href: '/merch',
+	},
 ] as const;
 
 const MainLayoutHeader = () => {
 	const router = useRouter();
 
+	const { isAdmin } = useCheckIsAdmin();
+
 	const toggleDropdownMenuOnLessThanLG = useStore(
 		globalStore,
-		(store) => store.menus.toggleDropdownMenuOnLessThanLG
+		(store) => store.menus.toggleDropdownMenuOnLessThanLG,
 	);
 	const toggleSearchMenuDropdown = useStore(
 		globalStore,
-		(store) => store.menus.toggleSearchMenuDropdown
+		(store) => store.menus.toggleSearchMenuDropdown,
 	);
 
 	const isDropdownMenuOnLessThanLGOpen = useStore(
 		globalStore,
-		(store) => store.menus.isDropdownMenuOnLessThanLGOpen
+		(store) => store.menus.isDropdownMenuOnLessThanLGOpen,
 	);
 	const isSearchMenuDropdownOpen = useStore(
 		globalStore,
-		(store) => store.menus.isSearchMenuDropdownOpen
+		(store) => store.menus.isSearchMenuDropdownOpen,
 	);
 	const isCartDropdownOpen = useStore(
 		globalStore,
-		(store) => store.cart.isCartDropdownOpen
+		(store) => store.cart.isCartDropdownOpen,
 	);
 
 	const isAnyMenuOpen =
@@ -102,7 +106,7 @@ const MainLayoutHeader = () => {
 		<>
 			<header
 				className={cx(
-					'fixed top-0 left-0 right-0 z-10 flex flex-col transition-all duration-300 isolate'
+					'fixed top-0 left-0 right-0 z-10 flex flex-col transition-all duration-300 isolate',
 				)}
 			>
 				<div className="mx-auto w-full max-w-main flex flex-col">
@@ -112,7 +116,7 @@ const MainLayoutHeader = () => {
 							'relative z-[2] isolate',
 							isAnyMenuOpen
 								? 'bg-bg-primary-500'
-								: 'bg-bg-primary-500/80 dark:bg-bg-primary-500/90 backdrop-blur-sm'
+								: 'bg-bg-primary-500/80 dark:bg-bg-primary-500/90 backdrop-blur-sm',
 						)}
 					>
 						<Clickable
@@ -128,7 +132,7 @@ const MainLayoutHeader = () => {
 								priority
 							/>
 						</Clickable>
-						<nav className="relative hidden max-w-screen-md flex-grow items-center justify-between gap-2 uppercase lg:flex">
+						<nav className="relative hidden max-w-screen-md flex-grow items-center justify-between uppercase lg:flex">
 							{headersLinks.map((item) =>
 								'href' in item ? (
 									<Clickable
@@ -165,11 +169,31 @@ const MainLayoutHeader = () => {
 											))}
 										</DropdownItems>
 									</Dropdown>
-								)
+								),
 							)}
 						</nav>
-						<div className="flex items-center gap-2 py-2">
+						<div
+							className={cx(
+								'flex items-center py-2',
+								isAdmin ? 'gap-2' : 'gap-3',
+							)}
+						>
 							<SignOutButton />
+							{isAdmin && (
+								<Clickable
+									title="dashboard"
+									variants={null}
+									href="/dashboard"
+									isA="next-js"
+									className={cx(
+										'text-xl text-special-primary-500',
+										'hover:text-special-primary-900 focus:text-special-primary-900',
+										'hover:text-special-primary-600 focus:text-special-primary-600',
+									)}
+								>
+									<MdDashboard className="text-xl" />
+								</Clickable>
+							)}
 							<Clickable
 								title={`${
 									isSearchMenuDropdownOpen ? 'Close' : 'Open'
@@ -210,7 +234,7 @@ const MainLayoutHeader = () => {
 										<li
 											key={item.title}
 											className={cx(
-												'flex flex-wrap border-b-[0.0625rem] border-solid border-b-special-primary-500 px-main-p-3 sm:px-main-p-2'
+												'flex flex-wrap border-b-[0.0625rem] border-solid border-b-special-primary-500 px-main-p-3 sm:px-main-p-2',
 											)}
 										>
 											{'href' in item ? (
@@ -221,11 +245,11 @@ const MainLayoutHeader = () => {
 														'mx-auto w-full max-w-main whitespace-nowrap bg-clip-text p-1',
 														'bg-text-primary-500',
 														'hover:bg-gradient-to-br hover:from-text-primary-200 hover:to-special-primary-700 hover:text-special-secondary-100 hover:transition-all hover:duration-150',
-														'focus:bg-gradient-to-br focus:from-text-primary-300 focus:to-special-primary-500 focus:text-special-secondary-100 focus:transition-all focus:duration-150'
+														'focus:bg-gradient-to-br focus:from-text-primary-300 focus:to-special-primary-500 focus:text-special-secondary-100 focus:transition-all focus:duration-150',
 													)}
 													variants={null}
 													style={{
-														WebkitTextFillColor: 'transparent'
+														WebkitTextFillColor: 'transparent',
 													}}
 													onClick={toggleDropdownMenuOnLessThanLG}
 												>

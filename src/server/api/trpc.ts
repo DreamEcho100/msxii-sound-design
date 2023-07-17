@@ -78,6 +78,7 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import { ACCESS_TOKEN_COOKIE_KEY } from '~/utils/shopify';
 import drizzleQueryClient from '../utils/drizzle/db/queryClient';
 import { getDecryptedShopifyUserDataFromAccessToKen } from '../utils/shopify';
+import { allowedAdminEmails } from '~/utils';
 
 const t = initTRPC.context<typeof createTRPCContext>().create({
 	transformer: superjson,
@@ -154,7 +155,7 @@ const enforceAdminAuthed = t.middleware(({ ctx, next }) => {
 		);
 
 		if (
-			!['maze6572198@gmail.com'].includes(
+			!allowedAdminEmails.includes(
 				shopifyUserDecryptedData.payload.shopifyUserEmail,
 			)
 		)

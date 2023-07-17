@@ -1,4 +1,5 @@
-const { fontFamily } = require('tailwindcss/defaultTheme')
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const { fontFamily } = require('tailwindcss/defaultTheme');
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
@@ -24,7 +25,7 @@ module.exports = {
 
 				xl: '1280px',
 				// => @media (min-width: 1280px) { ... }
-				'2xl': '1536px'
+				'2xl': '1536px',
 				// => @media (min-width: 1536px) { ... }
 			},
 			colors: {
@@ -40,7 +41,7 @@ module.exports = {
 						700: 'rgba(var(--color-initial-primary-700) / <alpha-value>)',
 						800: 'rgba(var(--color-initial-primary-800) / <alpha-value>)',
 						900: 'rgba(var(--color-initial-primary-900) / <alpha-value>)',
-						1000: 'rgba(var(--color-initial-primary-1000) / <alpha-value>)'
+						1000: 'rgba(var(--color-initial-primary-1000) / <alpha-value>)',
 					},
 					secondary: {
 						0: 'rgba(var(--color-initial-primary-0) / <alpha-value>)',
@@ -53,7 +54,7 @@ module.exports = {
 						700: 'rgba(var(--color-initial-primary-700) / <alpha-value>)',
 						800: 'rgba(var(--color-initial-primary-800) / <alpha-value>)',
 						900: 'rgba(var(--color-initial-primary-900) / <alpha-value>)',
-						1000: 'rgba(var(--color-initial-primary-1000) / <alpha-value>)'
+						1000: 'rgba(var(--color-initial-primary-1000) / <alpha-value>)',
 					},
 					ternary: {
 						0: 'rgba(var(--color-initial-ternary-0) / <alpha-value>)',
@@ -66,8 +67,8 @@ module.exports = {
 						700: 'rgba(var(--color-initial-ternary-700) / <alpha-value>)',
 						800: 'rgba(var(--color-initial-ternary-800) / <alpha-value>)',
 						900: 'rgba(var(--color-initial-ternary-900) / <alpha-value>)',
-						1000: 'rgba(var(--color-initial-ternary-1000) / <alpha-value>)'
-					}
+						1000: 'rgba(var(--color-initial-ternary-1000) / <alpha-value>)',
+					},
 				},
 
 				text: {
@@ -82,8 +83,8 @@ module.exports = {
 						700: 'rgba(var(--color-text-primary-700) / <alpha-value>)',
 						800: 'rgba(var(--color-text-primary-800) / <alpha-value>)',
 						900: 'rgba(var(--color-text-primary-900) / <alpha-value>)',
-						1000: 'rgba(var(--color-text-primary-1000) / <alpha-value>)'
-					}
+						1000: 'rgba(var(--color-text-primary-1000) / <alpha-value>)',
+					},
 				},
 				bg: {
 					primary: {
@@ -97,8 +98,8 @@ module.exports = {
 						700: 'rgba(var(--color-bg-primary-700) / <alpha-value>)',
 						800: 'rgba(var(--color-bg-primary-800) / <alpha-value>)',
 						900: 'rgba(var(--color-bg-primary-900) / <alpha-value>)',
-						1000: 'rgba(var(--color-bg-primary-1000) / <alpha-value>)'
-					}
+						1000: 'rgba(var(--color-bg-primary-1000) / <alpha-value>)',
+					},
 				},
 				special: {
 					primary: {
@@ -110,7 +111,7 @@ module.exports = {
 						600: 'rgba(var(--color-special-primary-600) / <alpha-value>)',
 						700: 'rgba(var(--color-special-primary-700) / <alpha-value>)',
 						800: 'rgba(var(--color-special-primary-800) / <alpha-value>)',
-						900: 'rgba(var(--color-special-primary-900) / <alpha-value>)'
+						900: 'rgba(var(--color-special-primary-900) / <alpha-value>)',
 					},
 					secondary: {
 						100: 'rgba(var(--color-special-secondary-100) / <alpha-value>)',
@@ -121,20 +122,20 @@ module.exports = {
 						600: 'rgba(var(--color-special-secondary-600) / <alpha-value>)',
 						700: 'rgba(var(--color-special-secondary-700) / <alpha-value>)',
 						800: 'rgba(var(--color-special-secondary-800) / <alpha-value>)',
-						900: 'rgba(var(--color-special-secondary-900) / <alpha-value>)'
-					}
-				}
+						900: 'rgba(var(--color-special-secondary-900) / <alpha-value>)',
+					},
+				},
 			},
 			fontFamily: {
-        sans: ['var(--font-raleway)', ...fontFamily.sans],
-      },
+				sans: ['var(--font-raleway)', ...fontFamily.sans],
+			},
 			fontSize: {
 				h1: 'var(--size-h1)',
 				h2: 'var(--size-h2)',
 				h3: 'var(--size-h3)',
 				h4: 'var(--size-h4)',
 				h5: 'var(--size-h5)',
-				h6: 'var(--size-h6)'
+				h6: 'var(--size-h6)',
 			},
 			spacing: {
 				'main-header-h': 'var(--main-header-h)',
@@ -147,13 +148,13 @@ module.exports = {
 				'main-p-1': 'var(--main-p-1)',
 				'main-p-2': 'var(--main-p-2)',
 				'main-p-3': 'var(--main-p-3)',
-				'main-p-4': 'var(--main-p-4)'
+				'main-p-4': 'var(--main-p-4)',
 			},
 			minHeight: {
-				'main-content': 'var(--main-content-min-h)'
+				'main-content': 'var(--main-content-min-h)',
 			},
 			maxWidth: {
-				main: 'var(--main-max-w)'
+				main: 'var(--main-max-w)',
 			},
 			lineHeight: {
 				h1: 'var(--leading-h1)',
@@ -162,9 +163,9 @@ module.exports = {
 				'primary-2': 'var(--leading-primary-2)',
 				'primary-3': 'var(--leading-primary-3)',
 				'primary-4': 'var(--leading-primary-4)',
-				'primary-5': 'var(--leading-primary-5)'
-			}
-		}
+				'primary-5': 'var(--leading-primary-5)',
+			},
+		},
 	},
-	plugins: [require('@tailwindcss/typography')]
+	plugins: [require('@tailwindcss/typography')],
 };

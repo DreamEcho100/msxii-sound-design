@@ -1,5 +1,6 @@
 export const iosAppPagesCategory = {
-	name: 'ios-app-pages' as const,
+	id: 'clk7bjujl0000vszstm7uug56',
+	name: 'ios-apps-pages' as const,
 	// NOTICE: The counter is set manually.
 	counter: 4,
 };

@@ -7,29 +7,38 @@ import { api } from '~/utils/api';
 import '~/styles/globals.css';
 import '~/styles/swiper.css';
 import MainLayout from '~/components/layouts/Main';
-import { useEffect } from 'react';
+import { type ReactNode, useEffect } from 'react';
 import { getCurrentThemeFromLocalStorage } from '~/store/utils';
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { useCheckAccessToken } from '~/utils/shopify/hooks';
 import { useStore } from 'zustand';
 import { globalStore } from '~/store';
+import DashboardLayout from '../components/layouts/Dashboard';
+import { usePathname } from 'next/navigation';
+
+const LayoutsManager = ({ children }: { children: ReactNode }) => {
+	const pathname = usePathname();
+
+	if (pathname?.startsWith('/dashboard'))
+		return <DashboardLayout>{children}</DashboardLayout>;
+
+	return <MainLayout>{children}</MainLayout>;
+};
 
 const MyApp: AppType<{ session: Session | null }> = ({
 	Component,
-	pageProps: { session, ...pageProps }
+	pageProps: { session, ...pageProps },
 }) => {
 	const changeCurrentTheme = useStore(
 		globalStore,
-		(store) => store.themeConfig.changeCurrentTheme
+		(store) => store.themeConfig.changeCurrentTheme,
 	);
 
 	useCheckAccessToken();
 
 	useEffect(
 		() => changeCurrentTheme(getCurrentThemeFromLocalStorage()),
-		[changeCurrentTheme]
+		[changeCurrentTheme],
 	);
 
 	useEffect(() => {
@@ -39,15 +48,15 @@ const MyApp: AppType<{ session: Session | null }> = ({
 				(
 					document.querySelectorAll('button a')[0] as HTMLElement | null
 				)?.focus(),
-			100
+			100,
 		);
 	}, []);
 
 	return (
 		<SessionProvider session={session}>
-			<MainLayout>
+			<LayoutsManager>
 				<Component {...pageProps} />
-			</MainLayout>
+			</LayoutsManager>
 			<ReactQueryDevtools initialIsOpen={false} />
 		</SessionProvider>
 	);

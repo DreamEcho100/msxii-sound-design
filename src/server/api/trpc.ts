@@ -139,6 +139,42 @@ const enforceUserIsAuthed = t.middleware(({ ctx, next }) => {
 		},
 	});
 });
+const enforceAdminAuthed = t.middleware(({ ctx, next }) => {
+	if (!ctx.cookieManger) throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR' });
+
+	// const accessToken = ctx.cookieManger.getOne(ACCESS_TOKEN_COOKIE_KEY);
+
+	let shopifyUserDecryptedData: ReturnType<
+		typeof getDecryptedShopifyUserDataFromAccessToKen
+	>;
+
+	try {
+		shopifyUserDecryptedData = getDecryptedShopifyUserDataFromAccessToKen(
+			ctx.cookieManger.getOne(ACCESS_TOKEN_COOKIE_KEY),
+		);
+
+		if (
+			!['maze6572198@gmail.com'].includes(
+				shopifyUserDecryptedData.payload.shopifyUserEmail,
+			)
+		)
+			throw new Error('not authorized');
+	} catch (error) {
+		throw new TRPCError({
+			code: 'UNAUTHORIZED',
+			message: 'Access token not found',
+		});
+	}
+
+	return next({
+		ctx: {
+			shopifyUserDecryptedData,
+			cookieManger: ctx.cookieManger,
+			// infers the `session` as non-nullable
+			// session: { ...ctx.session, user: ctx.session.user }
+		},
+	});
+});
 const printInputs = t.middleware(
 	({ input, rawInput, path, meta, ctx, next }) => {
 		console.log('input', input);
@@ -158,5 +194,6 @@ const printInputs = t.middleware(
  *
  * @see https://trpc.io/docs/procedures
  */
-export const protectedProcedure = t.procedure.use(enforceUserIsAuthed);
+export const customerProtectedProcedure = t.procedure.use(enforceUserIsAuthed);
+export const adminProtectedProcedure = t.procedure.use(enforceAdminAuthed);
 export const printInputsProcedure = t.procedure.use(printInputs);

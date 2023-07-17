@@ -44,20 +44,22 @@ const CategoriesMenu = ({
 }) => {
 	return (
 		<div className="flex flex-col gap-1">
-			{categories.map((category) => (
+			{categories.map((categoryName) => (
 				<CheckboxField
-					key={category}
-					checked={selectedCategories.includes(category)}
-					value={category}
+					key={categoryName}
+					checked={selectedCategories.includes(categoryName)}
+					value={categoryName}
 					onChange={(event) =>
 						setSelectedCategories((prev) =>
 							event.target.checked
 								? [...prev, event.target.value]
-								: prev.filter((category) => category !== event.target.value),
+								: prev.filter(
+										(categoryName) => categoryName !== event.target.value,
+								  ),
 						)
 					}
 				>
-					{category.replaceAll('-', ' ')}
+					{categoryName.replaceAll('-', ' ')}
 				</CheckboxField>
 			))}
 		</div>

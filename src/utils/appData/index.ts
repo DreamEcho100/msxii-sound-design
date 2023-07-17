@@ -37,7 +37,7 @@ export const CustomPages: CustomPage[] = [
 			'gap-y': '16',
 		},
 		slug: 'about',
-		category: 'about-page',
+		categoryName: 'about-page',
 		pageStructure: [
 			{
 				order: 0,
@@ -80,7 +80,7 @@ With any questions regarding our kits, breaks, or sample packs, contact us at ms
 			'gap-y': '16',
 		},
 		slug: 'support',
-		category: 'support-page',
+		categoryName: 'support-page',
 		pageStructure: [
 			{
 				order: 0,
@@ -136,7 +136,7 @@ For all other questions and inquiries, feel free to email our support at support
 			'gap-y': '16',
 		},
 		slug: 'license-agreement',
-		category: 'license-agreement-page',
+		categoryName: 'license-agreement-page',
 		pageStructure: [
 			{
 				order: 0,
@@ -194,7 +194,7 @@ All bundle and discounted purchases and prices apply only to the product line at
 			'gap-y': '16',
 		},
 		slug: 'blue-label',
-		category: 'blue-label-page',
+		categoryName: 'blue-label-page',
 		pageStructure: [
 			{
 				order: 0,
@@ -228,7 +228,7 @@ All bundle and discounted purchases and prices apply only to the product line at
 			'gap-y': '16',
 		},
 		slug: 'merch',
-		category: 'merch-page',
+		categoryName: 'merch-page',
 		pageStructure: [
 			{
 				order: 0,
@@ -246,7 +246,7 @@ All bundle and discounted purchases and prices apply only to the product line at
 			'gap-y': '16',
 		},
 		slug: 'champion-hoodie',
-		category: 'merch-page',
+		categoryName: 'merch-page',
 		pageStructure: [
 			{
 				order: 0,

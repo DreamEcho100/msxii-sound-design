@@ -269,9 +269,9 @@ const flyTapePageData: CustomPage = {
 		'gap-x': '16',
 		'gap-y': '16',
 	},
-	slug: '/ios-apps/fly-tape',
+	slug: 'fly-tape',
 	// title: 'Fly Tape',
-	category: 'ios-app-page',
+	categoryName: 'ios-app-pages',
 	pageStructure: FlyTapeIOSApp,
 };
 

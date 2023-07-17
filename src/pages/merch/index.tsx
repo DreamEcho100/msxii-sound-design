@@ -12,13 +12,13 @@ import CustomPageBuilder from '~/components/shared/core/CustomPageBuilder';
 import Head from 'next/head';
 
 const MerchesPage: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = (
-	props
+	props,
 ) => {
 	const collectionQuery = api.shopify.collections.getOneByHandle.useQuery(
-		props.input
+		props.input,
 	);
 	const customPageStructureQuery = api.customPages.getOne.useQuery({
-		category: 'merch-page'
+		categoryName: 'merch-page',
 	});
 
 	if (collectionQuery.isLoading || customPageStructureQuery.isLoading)
@@ -45,7 +45,7 @@ const MerchesPage: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = (
 				<div
 					className="grid gap-8 justify-items-center"
 					style={{
-						gridTemplateColumns: 'repeat(auto-fill, minmax(15rem, 1fr))'
+						gridTemplateColumns: 'repeat(auto-fill, minmax(15rem, 1fr))',
 					}}
 				>
 					{collectionData.products.edges.map(({ node }) => (
@@ -68,11 +68,11 @@ export async function getStaticProps() {
 	const ssg = createServerSideHelpers({
 		router: appRouter,
 		ctx: await createInnerTRPCContext({ session: null }),
-		transformer: superjson // optional - adds superjson serialization
+		transformer: superjson, // optional - adds superjson serialization
 	});
 
 	const input: RouterInputs['shopify']['collections']['getOneByHandle'] = {
-		handle: 'merch'
+		handle: 'merch',
 	};
 	/*
 	 * Prefetching the `shopify.collections.getOneByHandle` query here.
@@ -80,15 +80,15 @@ export async function getStaticProps() {
 	 */
 	await Promise.all([
 		ssg.shopify.collections.getOneByHandle.prefetch(input),
-		ssg.customPages.getOne.prefetch({ category: 'merch-page' })
+		ssg.customPages.getOne.prefetch({ categoryName: 'merch-page' }),
 	]);
 	// Make sure to return { props: { trpcState: ssg.dehydrate() } }
 	return {
 		props: {
 			trpcState: ssg.dehydrate(),
-			input
+			input,
 		},
-		revalidate: 10
+		revalidate: 10,
 	};
 }
 

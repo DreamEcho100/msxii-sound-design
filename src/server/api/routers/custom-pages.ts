@@ -13,18 +13,18 @@ export const customPagesRouter = createTRPCRouter({
 		.input(
 			z.object({
 				slug: z.string().optional(),
-				category: z.string().optional(),
+				categoryName: z.string().optional(),
 			}),
 		)
 		.query(({ input }) => {
-			if (!input.slug && !input.category)
+			if (!input.slug && !input.categoryName)
 				throw new TRPCError({ code: 'BAD_REQUEST' });
 
 			const product = CustomPages.find(
 				(item) =>
 					(typeof input.slug === 'undefined' || item.slug === input.slug) &&
-					(typeof input.category === 'undefined' ||
-						item.category === input.category),
+					(typeof input.categoryName === 'undefined' ||
+						item.categoryName === input.categoryName),
 			);
 
 			if (!product) throw new TRPCError({ code: 'NOT_FOUND' });
@@ -35,7 +35,7 @@ export const customPagesRouter = createTRPCRouter({
 		.input(
 			z.object({
 				slug: z.string().optional(),
-				category: z.string().optional(),
+				categoryName: z.string().nonempty(),
 			}),
 		)
 		.query(async ({ ctx, input }) => {
@@ -129,9 +129,7 @@ export const customPagesRouter = createTRPCRouter({
 				where(fields, operators) {
 					return operators.and(
 						input.slug ? operators.eq(fields.slug, input.slug) : undefined,
-						input.category
-							? operators.eq(fields.category, input.category)
-							: undefined,
+						operators.eq(fields.categoryName, input.categoryName),
 					);
 				},
 			});

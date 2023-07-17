@@ -9,6 +9,7 @@ import {
 	GridBox,
 } from '../../../../src/utils/types/custom-page';
 import { createStandardSection } from '../../utils';
+import { iosAppPagesCategory } from '../categories';
 
 export const FlyTapeIOSApp: StandardSection[] = (() => {
 	const appLink = 'https://apps.apple.com/us/app/fly-tape/id1343651192';
@@ -269,9 +270,9 @@ const flyTapePageData: CustomPage = {
 		'gap-x': '16',
 		'gap-y': '16',
 	},
-	slug: '/ios-apps/fly-tape',
+	slug: 'fly-tape',
 	// title: 'Fly Tape',
-	category: 'ios-app-page',
+	categoryName: iosAppPagesCategory.name,
 	pageStructure: FlyTapeIOSApp,
 };
 

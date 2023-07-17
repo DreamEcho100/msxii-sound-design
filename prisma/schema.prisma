@@ -61,17 +61,15 @@ model VerificationToken {
 }
 
 model css {
-  id        String    @id @default(cuid())
-  createdAt DateTime  @default(now())
-  updatedAt DateTime? @updatedAt
-
-  twVariants   Json     @default("{}")
-  inlineStyles Json     @default("{}")
+  id           String    @id @default(cuid())
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime? @updatedAt
+  twVariants   Json      @default("{}")
+  inlineStyles Json      @default("{}")
   custom       String[]
-
-  boxes    Box[]
-  pages    Page[]
-  sections Section[]
+  boxes        Box[]
+  pages        Page[]
+  sections     Section[]
 }
 
 model MDBox {
@@ -129,17 +127,15 @@ model QuoteBox {
 }
 
 model HeaderBox {
-  id        String    @id @default(cuid())
-  createdAt DateTime  @default(now())
-  updatedAt DateTime? @updatedAt
-
+  id              String    @id @default(cuid())
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime? @updatedAt
   title           String
   description     String?
-  isMainPageTitle Boolean @default(false)
-
-  box     Box      @relation(fields: [boxId, boxType], references: [id, type], onDelete: Cascade)
-  boxId   String
-  boxType BoxTypes @default(HEADER)
+  isMainPageTitle Boolean   @default(false)
+  boxId           String
+  boxType         BoxTypes  @default(HEADER)
+  box             Box       @relation(fields: [boxId, boxType], references: [id, type], onDelete: Cascade)
 
   @@unique([boxId, boxType])
 }
@@ -157,19 +153,15 @@ model TabsHolder {
 }
 
 model BoxToTabsHolder {
-  id        String    @unique @default(cuid())
-  createdAt DateTime  @default(now())
-  updatedAt DateTime? @updatedAt
-
-  title String
-
-  order Int @default(autoincrement())
-
-  box   Box    @relation(fields: [boxId], references: [id], onDelete: Cascade, map: "_BTCB_boxId_fkey")
-  boxId String
-
-  tabsHolder   TabsHolder @relation(fields: [tabsHolderId], references: [id], onDelete: Cascade, map: "_BTCB_tabsHolderId_fkey")
+  id           String     @unique @default(cuid())
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime?  @updatedAt
+  title        String
+  order        Int        @default(autoincrement())
+  boxId        String
   tabsHolderId String
+  box          Box        @relation(fields: [boxId], references: [id], onDelete: Cascade, map: "_BTCB_boxId_fkey")
+  tabsHolder   TabsHolder @relation(fields: [tabsHolderId], references: [id], onDelete: Cascade, map: "_BTCB_tabsHolderId_fkey")
 
   @@id([tabsHolderId, boxId], map: "_BTCB_pkey")
   @@index([order])
@@ -191,19 +183,15 @@ model SliderBox {
 }
 
 model BoxToSlider {
-  id        String    @unique @default(cuid())
-  createdAt DateTime  @default(now())
-  updatedAt DateTime? @updatedAt
-
-  title String?
-
-  order Int @default(autoincrement())
-
-  box   Box    @relation(fields: [boxId], references: [id], onDelete: Cascade, map: "_BTSB_boxId_fkey")
-  boxId String
-
-  sliderBox   SliderBox @relation(fields: [sliderBoxId], references: [id], onDelete: Cascade, map: "_BTSB_sliderBoxId_fkey")
+  id          String    @unique @default(cuid())
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime? @updatedAt
+  title       String?
+  order       Int       @default(autoincrement())
+  boxId       String
   sliderBoxId String
+  box         Box       @relation(fields: [boxId], references: [id], onDelete: Cascade, map: "_BTSB_boxId_fkey")
+  sliderBox   SliderBox @relation(fields: [sliderBoxId], references: [id], onDelete: Cascade, map: "_BTSB_sliderBoxId_fkey")
 
   @@id([sliderBoxId, boxId], map: "_BTSB_pkey")
   @@index([order])
@@ -227,14 +215,11 @@ model BoxToGrid {
   id        String    @unique @default(cuid())
   createdAt DateTime  @default(now())
   updatedAt DateTime? @updatedAt
-
-  order Int @default(autoincrement())
-
-  box   Box    @relation(fields: [boxId], references: [id], onDelete: Cascade, map: "_BTGB_boxId_fkey")
-  boxId String
-
-  gridBox   GridBox @relation(fields: [gridBoxId], references: [id], onDelete: Cascade, map: "_BTGB_gridBoxId_fkey")
+  order     Int       @default(autoincrement())
+  boxId     String
   gridBoxId String
+  box       Box       @relation(fields: [boxId], references: [id], onDelete: Cascade, map: "_BTGB_boxId_fkey")
+  gridBox   GridBox   @relation(fields: [gridBoxId], references: [id], onDelete: Cascade, map: "_BTGB_gridBoxId_fkey")
 
   @@id([gridBoxId, boxId], map: "_BTGB_pkey")
   @@index([order])
@@ -243,31 +228,25 @@ model BoxToGrid {
 }
 
 model Box {
-  id        String   @unique @default(cuid())
-  type      BoxTypes
-  createdAt DateTime @default(now())
-
-  order Int @default(autoincrement())
-
-  css   css    @relation(fields: [cssId], references: [id], onDelete: Cascade)
-  cssId String
-
-  section   Section? @relation(fields: [sectionId], references: [id], onDelete: Cascade)
-  sectionId String?
-
+  id                 String            @unique @default(cuid())
+  type               BoxTypes
+  createdAt          DateTime          @default(now())
+  order              Int               @default(autoincrement())
+  cssId              String
+  sectionId          String?
+  css                css               @relation(fields: [cssId], references: [id], onDelete: Cascade)
+  section            Section?          @relation(fields: [sectionId], references: [id], onDelete: Cascade)
   boxesToGrids       BoxToGrid[]
   boxesToSliders     BoxToSlider[]
   boxesToTabsHolders BoxToTabsHolder[]
-
-  headerBox HeaderBox?
-  iframeBox IframeBox?
-  imageBox  ImageBox?
-  mdBox     MDBox?
-  quoteBox  QuoteBox?
-
-  gridBox    GridBox?
-  sliderBox  SliderBox?
-  tabsHolder TabsHolder?
+  gridBox            GridBox?
+  headerBox          HeaderBox?
+  iframeBox          IframeBox?
+  imageBox           ImageBox?
+  mdBox              MDBox?
+  quoteBox           QuoteBox?
+  sliderBox          SliderBox?
+  tabsHolder         TabsHolder?
 
   @@id([id, type])
   @@index([order])
@@ -278,32 +257,39 @@ model Box {
 model Section {
   id        String   @id @default(cuid())
   createdAt DateTime @default(now())
-
-  order Int @default(autoincrement())
-
-  page   Page   @relation(fields: [pageId], references: [id], onDelete: Cascade)
-  pageId String
-
-  css   css    @relation(fields: [cssId], references: [id], onDelete: Cascade)
-  cssId String
-
-  body Box[]
+  order     Int      @default(autoincrement())
+  pageId    String
+  cssId     String
+  body      Box[]
+  css       css      @relation(fields: [cssId], references: [id], onDelete: Cascade)
+  page      Page     @relation(fields: [pageId], references: [id], onDelete: Cascade)
 
   @@index([order])
   @@index([pageId])
   @@index([cssId])
 }
 
-model Page {
+model Category {
   id        String    @id @default(cuid())
   createdAt DateTime  @default(now())
   updatedAt DateTime? @updatedAt
-  cssId     String
-  slug      String
-  category  String?
-  css       css       @relation(fields: [cssId], references: [id], onDelete: Cascade)
-  sections  Section[]
+  name      String    @unique
+  counter   Int       @default(0)
+  pages     Page[]
+}
 
+model Page {
+  id           String    @id @default(cuid())
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime? @updatedAt
+  cssId        String
+  slug         String?
+  categoryName String
+  category     Category  @relation(fields: [categoryName], references: [name], onDelete: Cascade)
+  css          css       @relation(fields: [cssId], references: [id], onDelete: Cascade)
+  sections     Section[]
+
+  @@unique([categoryName, slug])
   @@index([cssId])
 }
 
@@ -329,19 +315,3 @@ enum BoxTypes {
   GRID
   SLIDER
 }
-
-// DROP TABLE "Page" Cascade;
-// DROP TABLE "Section" Cascade;
-// DROP TABLE "Box" Cascade;
-// DROP TABLE "css" Cascade;
-// DROP TABLE "TabsHolder" Cascade;
-// DROP TABLE "SliderBox" Cascade;
-// DROP TABLE "GridBox" Cascade;
-// DROP TABLE "MDBox" Cascade;
-// DROP TABLE "ImageBox" Cascade;
-// DROP TABLE "IframeBox" Cascade;
-// DROP TABLE "QuoteBox" Cascade;
-// DROP TABLE "HeaderBox" Cascade;
-// DROP TABLE "BoxToTabsHolder" Cascade;
-// DROP TABLE "BoxToSlider" Cascade;
-// DROP TABLE "BoxToGrid" Cascade;

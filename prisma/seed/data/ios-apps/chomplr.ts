@@ -9,6 +9,7 @@ import {
 	GridBox,
 } from '../../../../src/utils/types/custom-page';
 import { createStandardSection } from '../../utils';
+import { iosAppPagesCategory } from '../categories';
 
 export const ChomplrOSApp: StandardSection[] = (() => {
 	const appLink = 'https://apps.apple.com/us/app/chomplr/id1470553213';
@@ -371,9 +372,9 @@ const chomplrPageData: CustomPage = {
 		'gap-x': '16',
 		'gap-y': '16',
 	},
-	slug: '/ios-apps/chomplr',
+	slug: 'chomplr',
 	// title: 'Chomplr',
-	category: 'ios-app-page',
+	categoryName: iosAppPagesCategory.name,
 	pageStructure: ChomplrOSApp,
 };
 

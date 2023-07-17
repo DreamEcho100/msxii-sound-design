@@ -241,8 +241,8 @@ const loFlyDirtPageData: CustomPage = {
 		'gap-y': '16',
 	},
 	// title: 'Lo-Fly Dirt',
-	slug: '/ios-apps/lo-fly-dirt',
-	category: 'ios-app-page',
+	slug: 'lo-fly-dirt',
+	categoryName: 'ios-app-pages',
 	pageStructure: LoflyDirtIOSApp,
 };
 

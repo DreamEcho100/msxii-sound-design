@@ -18,6 +18,7 @@ import {
 	flyTapePageData,
 	loFlyDirtPageData,
 } from './data/ios-apps';
+import categories from './data/categories';
 // import loFlyDirtPageData from './data/lo-fly-dirt';
 
 declare global {
@@ -39,10 +40,15 @@ if (process.env.NODE_ENV !== 'production') {
 	global.prisma = prisma;
 }
 
+const seeCategories = async () => {
+	await prisma.category.createMany({
+		data: categories,
+	});
+};
+
 const seedPage = async (page: CustomPage) => {
 	const createdCustomPage = await prisma.page.create({
 		data: {
-			category: page.category,
 			slug: page.slug,
 			updatedAt: null,
 			css: {
@@ -51,6 +57,7 @@ const seedPage = async (page: CustomPage) => {
 					custom: page.customPageClassesKeys,
 				},
 			},
+			category: { connect: { name: page.categoryName } },
 			// sections: page.pageStructure.map(section => ({}))
 		},
 	});
@@ -393,8 +400,13 @@ const changeConstraintsNames = async () => {
 };
 
 const seedAll = async () => {
-	await seedPages();
+	/**
+	 * @description NOTE: Uses only for the first time after initializing the tables/models followed by `prisma db pull`
+	 */
 	// await changeConstraintsNames();
+
+	await seeCategories();
+	await seedPages();
 };
 
 await seedAll();

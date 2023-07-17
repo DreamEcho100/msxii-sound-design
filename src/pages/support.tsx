@@ -8,7 +8,7 @@ import { createInnerTRPCContext } from '~/server/api/trpc';
 
 const SupportPage = () => {
 	const customPageStructureQuery = api.customPages.getOne.useQuery({
-		category: 'support-page',
+		categoryName: 'support-page',
 	});
 
 	if (customPageStructureQuery.isLoading) return <>Loading...</>;
@@ -31,7 +31,7 @@ export const getStaticProps: GetStaticProps = async () => {
 	 * Prefetching the `customPages.getOneBySlug` query here.
 	 * `prefetchQuery` does not return the result - if you need that, use `fetchQuery` instead.
 	 */
-	await ssg.customPages.getOne.prefetch({ category: 'support-page' });
+	await ssg.customPages.getOne.prefetch({ categoryName: 'support-page' });
 	// Make sure to return { props: { trpcState: ssg.dehydrate() } }
 	return {
 		props: {

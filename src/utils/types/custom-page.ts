@@ -149,6 +149,6 @@ export type CustomPage = {
 	twClassNameVariants?: BoxVariants;
 	customPageClassesKeys?: string[];
 	slug: string;
-	category?: string | undefined;
+	categoryName: string;
 	pageStructure: StandardSection[];
 };

@@ -371,9 +371,9 @@ const chomplrPageData: CustomPage = {
 		'gap-x': '16',
 		'gap-y': '16',
 	},
-	slug: '/ios-apps/chomplr',
+	slug: 'chomplr',
 	// title: 'Chomplr',
-	category: 'ios-app-page',
+	categoryName: 'ios-app-pages',
 	pageStructure: ChomplrOSApp,
 };
 

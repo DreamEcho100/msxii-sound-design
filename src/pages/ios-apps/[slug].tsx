@@ -31,11 +31,11 @@ const IOSAppPage = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
 
 export const getStaticPaths: GetStaticPaths = () => {
 	return {
-		paths: CustomPages.filter((item) => item.category === 'ios-app-page').map(
-			(item) => ({
-				params: { slug: item.slug },
-			}),
-		),
+		paths: CustomPages.filter(
+			(item) => item.categoryName === 'ios-app-page',
+		).map((item) => ({
+			params: { slug: item.slug },
+		})),
 		fallback: true,
 	};
 };

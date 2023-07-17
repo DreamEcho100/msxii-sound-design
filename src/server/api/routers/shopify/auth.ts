@@ -2,7 +2,7 @@ import { TRPCError } from '@trpc/server';
 import { z } from 'zod';
 import {
 	createTRPCRouter,
-	protectedProcedure,
+	customerProtectedProcedure,
 	publicProcedure,
 } from '~/server/api/trpc';
 import { customerAccessTokenCreateInputSchema } from '~/utils/shopify/client/auth';
@@ -14,7 +14,7 @@ import {
 } from '~/server/utils/shopify';
 
 export const shopifyAuthRouter = createTRPCRouter({
-	register: protectedProcedure
+	register: customerProtectedProcedure
 		.input(
 			z.object({
 				firstName: z.string().min(2),
@@ -140,7 +140,7 @@ export const shopifyAuthRouter = createTRPCRouter({
 		return data.customer;
 	}),
 
-	signOut: protectedProcedure.mutation(async ({ ctx }) => {
+	signOut: customerProtectedProcedure.mutation(async ({ ctx }) => {
 		const data = (await ctx.shopify.auth.customer.mutations.accessTokenDelete({
 			customerAccessToken:
 				ctx.shopifyUserDecryptedData.payload.shopifyAccessToken,

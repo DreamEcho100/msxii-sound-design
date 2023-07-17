@@ -11,6 +11,7 @@ import {
 	GridBox,
 } from '../../../../src/utils/types/custom-page';
 import { createStandardSection } from '../../utils';
+import { iosAppPagesCategory } from '../categories';
 
 const LoflyDirtIOSApp: StandardSection[] = (() => {
 	const appLink =
@@ -242,7 +243,7 @@ const loFlyDirtPageData: CustomPage = {
 	},
 	// title: 'Lo-Fly Dirt',
 	slug: 'lo-fly-dirt',
-	category: 'ios-app-page',
+	categoryName: iosAppPagesCategory.name,
 	pageStructure: LoflyDirtIOSApp,
 };
 

@@ -66,8 +66,13 @@ const MainLayoutFooter = () => {
 					href: `/collections/?handles=drum-kits`,
 					icon: null,
 				},
-				{ text: 'Construction Kits', isA: 'next-js', href: `/`, icon: null },
-				{ text: 'Presets', isA: 'next-js', href: `/`, icon: null },
+				// { text: 'Construction Kits', isA: 'next-js', href: `/`, icon: null },
+				{
+					text: 'Presets',
+					isA: 'next-js',
+					href: `/collections/?handles=presets`,
+					icon: null,
+				},
 				{
 					text: 'Bundles',
 					isA: 'next-js',

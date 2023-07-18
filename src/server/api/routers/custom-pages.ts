@@ -42,6 +42,8 @@ export const customPagesRouter = createTRPCRouter({
 			const page = await ctx.drizzleQueryClient.query.page.findFirst({
 				with: {
 					css: true,
+					category: true,
+					image: true,
 					sections: {
 						with: {
 							css: true,
@@ -128,8 +130,8 @@ export const customPagesRouter = createTRPCRouter({
 				},
 				where(fields, operators) {
 					return operators.and(
-						input.slug ? operators.eq(fields.slug, input.slug) : undefined,
 						operators.eq(fields.categoryName, input.categoryName),
+						input.slug ? operators.eq(fields.slug, input.slug) : undefined,
 					);
 				},
 			});

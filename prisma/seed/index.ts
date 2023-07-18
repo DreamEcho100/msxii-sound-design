@@ -40,13 +40,24 @@ if (process.env.NODE_ENV !== 'production') {
 	global.prisma = prisma;
 }
 
-const seeCategories = async () => {
+const seedCategories = async () => {
+	console.log('Starting seeding categories');
+
 	await prisma.category.createMany({
 		data: categories,
 	});
+
+	console.log('Ending seeding categories');
+	console.log('\n\n');
 };
 
 const seedPage = async (page: CustomPage) => {
+	console.log(
+		`Starting seeding page: ${page.categoryName}${
+			page.slug ? `/${page.slug}` : ''
+		}`,
+	);
+
 	const createdCustomPage = await prisma.page.create({
 		data: {
 			slug: page.slug,
@@ -58,7 +69,12 @@ const seedPage = async (page: CustomPage) => {
 				},
 			},
 			category: { connect: { name: page.categoryName } },
-			// sections: page.pageStructure.map(section => ({}))
+			image: page.image && {
+				connectOrCreate: {
+					create: page.image,
+					where: { src: page.image.src },
+				},
+			},
 		},
 	});
 
@@ -336,9 +352,19 @@ const seedPage = async (page: CustomPage) => {
 
 		// break; // Closes iterator, triggers return
 	}
+
+	console.log(
+		`Ending seeding page: ${page.categoryName}${
+			page.slug ? `/${page.slug}` : ''
+		}`,
+	);
+	console.log('\n');
 };
 
 const seedPages = async () => {
+	console.log('Starting seeding pages');
+	console.log('\n');
+
 	const pages = [
 		loFlyDirtPageData,
 		flyTapePageData,
@@ -349,10 +375,16 @@ const seedPages = async () => {
 	for await (const page of pages) {
 		await seedPage(page);
 	}
+
+	console.log('\n');
+	console.log('Ending seeding pages');
+	console.log('\n\n');
 };
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const changeConstraintsNames = async () => {
+	console.log('Starting to change constraints names');
+
 	{
 		await prisma.$queryRaw`ALTER TABLE "BoxToTabsHolder"
 	RENAME CONSTRAINT "BoxToTabsHolder_tabsHolderId_fkey" TO "_BTCB_tabsHolderId_fkey"`.catch(
@@ -397,6 +429,9 @@ const changeConstraintsNames = async () => {
 			(error) => console.error(error),
 		);
 	}
+
+	console.log('Ending the change constraints names');
+	console.log('\n\n');
 };
 
 const seedAll = async () => {
@@ -405,10 +440,10 @@ const seedAll = async () => {
 	 */
 	// await changeConstraintsNames();
 
-	await seeCategories();
+	await seedCategories();
 	await seedPages();
 };
 
 await seedAll();
 
-export type TPrisma = typeof prisma;
+// export type TPrisma = typeof prisma;

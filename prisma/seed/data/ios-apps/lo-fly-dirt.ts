@@ -241,6 +241,9 @@ const loFlyDirtPageData: CustomPage = {
 		'gap-x': '16',
 		'gap-y': '16',
 	},
+	image: {
+		src: 'https://www.msxaudio.com/cdn/shop/t/28/assets/pf-14628b40-cf9b-4aa0-bb27-4a9d4df56e9c--LoFly-Dirt-App-Banner.jpg?v=1580772023',
+	},
 	// title: 'Lo-Fly Dirt',
 	slug: 'lo-fly-dirt',
 	categoryName: iosAppPagesCategory.name,

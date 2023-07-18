@@ -242,7 +242,7 @@ const loFlyDirtPageData: CustomPage = {
 	},
 	// title: 'Lo-Fly Dirt',
 	slug: 'lo-fly-dirt',
-	categoryName: 'ios-app-pages',
+	categoryName: 'ios-apps-pages',
 	pageStructure: LoflyDirtIOSApp,
 };
 

@@ -32,7 +32,7 @@ const IOSAppPage = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
 export const getStaticPaths: GetStaticPaths = () => {
 	return {
 		paths: CustomPages.filter(
-			(item) => item.categoryName === 'ios-app-page',
+			(item) => item.categoryName === 'ios-apps-page',
 		).map((item) => ({
 			params: { slug: item.slug },
 		})),
@@ -54,7 +54,7 @@ export const getStaticProps = async (
 
 	const input: RouterInputs['customPages']['_getOne'] = {
 		slug,
-		categoryName: 'ios-apps-pages'
+		categoryName: 'ios-apps-pages',
 	};
 	/*
 	 * Prefetching the `customPages.getOneBySlug` query here.

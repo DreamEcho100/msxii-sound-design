@@ -234,7 +234,7 @@ model Box {
   order              Int               @default(autoincrement())
   cssId              String
   sectionId          String?
-  css                css               @relation(fields: [cssId], references: [id], onDelete: Cascade)
+  css                css               @relation(fields: [cssId], references: [id])
   section            Section?          @relation(fields: [sectionId], references: [id], onDelete: Cascade)
   boxesToGrids       BoxToGrid[]
   boxesToSliders     BoxToSlider[]
@@ -261,7 +261,7 @@ model Section {
   pageId    String
   cssId     String
   body      Box[]
-  css       css      @relation(fields: [cssId], references: [id], onDelete: Cascade)
+  css       css      @relation(fields: [cssId], references: [id])
   page      Page     @relation(fields: [pageId], references: [id], onDelete: Cascade)
 
   @@index([order])
@@ -278,6 +278,19 @@ model Category {
   pages     Page[]
 }
 
+model Image {
+  id        String    @id @default(cuid())
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt
+
+  src     String  @unique
+  altText String?
+  width   Int?
+  height  Int?
+
+  pages Page[]
+}
+
 model Page {
   id           String    @id @default(cuid())
   createdAt    DateTime  @default(now())
@@ -285,8 +298,10 @@ model Page {
   cssId        String
   slug         String?
   categoryName String
-  category     Category  @relation(fields: [categoryName], references: [name], onDelete: Cascade, onUpdate: Cascade)
-  css          css       @relation(fields: [cssId], references: [id], onDelete: Cascade)
+  category     Category  @relation(fields: [categoryName], references: [name], onUpdate: Cascade)
+  imageId      String?
+  image        Image?    @relation(fields: [imageId], references: [id])
+  css          css       @relation(fields: [cssId], references: [id])
   sections     Section[]
 
   @@unique([categoryName, slug])

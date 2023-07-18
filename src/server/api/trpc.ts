@@ -41,6 +41,7 @@ export const createInnerTRPCContext = (opts: CreateContextOptions) => {
 		session: opts.session,
 		// prisma,
 		drizzleQueryClient,
+		drizzleSchema,
 		shopify,
 		cookieManger: opts.req && opts.res && getCookieManger(opts.req, opts.res),
 	};
@@ -79,6 +80,7 @@ import { ACCESS_TOKEN_COOKIE_KEY } from '~/utils/shopify';
 import drizzleQueryClient from '../utils/drizzle/db/queryClient';
 import { getDecryptedShopifyUserDataFromAccessToKen } from '../utils/shopify';
 import { allowedAdminEmails } from '~/utils';
+import { drizzleSchema } from '../utils/drizzle/db/SchemaWithRelations';
 
 const t = initTRPC.context<typeof createTRPCContext>().create({
 	transformer: superjson,

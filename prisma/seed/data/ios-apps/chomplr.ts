@@ -373,6 +373,9 @@ const chomplrPageData: CustomPage = {
 		'gap-y': '16',
 	},
 	slug: 'chomplr',
+	image: {
+		src: 'https://www.msxaudio.com/cdn/shop/t/28/assets/pf-20a78d33--2Chomplr-Banner-1920800.png?v=1591588728',
+	},
 	// title: 'Chomplr',
 	categoryName: iosAppPagesCategory.name,
 	pageStructure: ChomplrOSApp,

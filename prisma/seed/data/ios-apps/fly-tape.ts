@@ -271,6 +271,9 @@ const flyTapePageData: CustomPage = {
 		'gap-y': '16',
 	},
 	slug: 'fly-tape',
+	image: {
+		src: 'https://www.msxaudio.com/cdn/shop/t/28/assets/pf-94a8ed9e-6edb-40e2-9815-b2b2afdf135f--Fly-Tape-App-Banner.jpg?v=1580841465',
+	},
 	// title: 'Fly Tape',
 	categoryName: iosAppPagesCategory.name,
 	pageStructure: FlyTapeIOSApp,

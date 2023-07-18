@@ -1,5 +1,11 @@
 import { relations } from 'drizzle-orm';
-import { boxToGrid, boxToSlider, boxToTabsHolder, category } from './schema';
+import {
+	boxToGrid,
+	boxToSlider,
+	boxToTabsHolder,
+	category,
+	image,
+} from './schema';
 import {
 	mdBox,
 	imageBox,
@@ -50,6 +56,9 @@ export const cssRelations = relations(css, ({ many }) => ({
 export const categoryRelations = relations(category, ({ many }) => ({
 	pages: many(page),
 }));
+export const imageRelations = relations(image, ({ many }) => ({
+	pages: many(page),
+}));
 
 export const pageRelations = relations(page, ({ many, one }) => ({
 	sections: many(section),
@@ -60,6 +69,10 @@ export const pageRelations = relations(page, ({ many, one }) => ({
 	category: one(category, {
 		fields: [page.categoryName],
 		references: [category.name],
+	}),
+	image: one(image, {
+		fields: [page.imageId],
+		references: [image.id],
 	}),
 }));
 export const sectionRelations = relations(section, ({ many, one }) => ({

@@ -31,7 +31,7 @@ const GettingCheckout = () => {
 				.getState()
 				.cart.setId({ type: 'checkout-created', payload: result });
 			globalStore.getState().cart.setCartLineItems(result.lineItems);
-		}
+		},
 	});
 
 	api.shopify.checkouts.getOne.useQuery(checkoutIdFromCookies, {
@@ -44,7 +44,7 @@ const GettingCheckout = () => {
 				.getState()
 				.cart.setId({ type: 'line-items-fetched', payload: result });
 			globalStore.getState().cart.setCartLineItems(result.lineItems);
-		}
+		},
 	});
 
 	useEffect(() => {
@@ -62,7 +62,7 @@ const GettingCheckout = () => {
 			checkoutIdFromCookies.length > 0
 		) {
 			globalStore.getState().cart.setId({
-				type: 'checkout-found-in-cookies'
+				type: 'checkout-found-in-cookies',
 			});
 			return setCheckoutIdFromCookies(checkoutIdFromCookies);
 		}
@@ -90,7 +90,7 @@ const MainLayout = (props: Props) => {
 		<>
 			<MainLayoutHeader />
 			{/* min-h-main-content */}
-			<main className="mx-auto mt-main-header-h max-w-main min-h-[50vh]">
+			<main className="mx-auto mt-main-header-h max-w-main flex-grow w-full">
 				{props.children}
 			</main>
 			<MainLayoutFooter />

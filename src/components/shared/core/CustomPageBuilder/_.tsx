@@ -253,7 +253,6 @@ const SectionBodyBox = ({
 					width={box.imageBox.width || 800}
 					height={box.imageBox.height || 800}
 					alt={box.imageBox.altText || ''}
-					weservNlOptimized={false}
 				/>
 			</div>
 		);

@@ -1,9 +1,9 @@
-export { default as CustomPageBuilder_ } from './_'
+export { default as CustomPageBuilder_ } from './_';
 import {
 	useState,
 	type CSSProperties,
 	type HTMLAttributes,
-	type ReactNode
+	type ReactNode,
 } from 'react';
 
 import * as Tabs from '@radix-ui/react-tabs';
@@ -18,12 +18,12 @@ import {
 	QuoteBox,
 	SUB_BOXES_TYPES_map,
 	StandardSection,
-	TabsBox
+	TabsBox,
 } from '~/utils/types/custom-page';
 import {
 	InstagramIframe,
 	SoundcloudIframe,
-	YouTubeIFrame
+	YouTubeIFrame,
 } from '~/components/shared/Iframes';
 import customPageClasses from '~/styles/custom-page.module.css';
 import Slider from '~/components/shared/core/Shopify/Cards/Slider';
@@ -40,7 +40,7 @@ const CustomPageBuilder = (props: Props) => {
 		<div
 			className={handleBoxVariants({
 				...props.customPage.twClassNameVariants,
-				className: 'text-h6 flex flex-col text-text-primary-400'
+				className: 'text-h6 flex flex-col text-text-primary-400',
 			})}
 		>
 			{props.customPage.pageStructure.map((section, index) => (
@@ -65,7 +65,7 @@ const TabsBox = ({ box, className }: { box: TabsBox; className: string }) => (
 					key={tab.title}
 					className={cx(
 						'text-h4 font-light border-[0.125rem] border-solid border-transparent',
-						'data-[state=active]:font-bold data-[state=active]:border-solid data-[state=active]:pb-1 data-[state=active]:border-b-text-primary-400 data-[state=active]:text-text-primary-600'
+						'data-[state=active]:font-bold data-[state=active]:border-solid data-[state=active]:pb-1 data-[state=active]:border-b-text-primary-400 data-[state=active]:text-text-primary-600',
 					)}
 					value={tab.title}
 				>
@@ -106,7 +106,7 @@ const Quote = ({
 						className={cx(
 							'text-text-primary-500 font-semibold text-[75%]',
 							'group-hover:text-special-primary-600 group-focus-within:text-special-primary-600',
-							'group-hover:text-special-primary-400 group-focus-within:text-special-primary-400'
+							'group-hover:text-special-primary-400 group-focus-within:text-special-primary-400',
 						)}
 					>
 						{box.cite}
@@ -132,7 +132,7 @@ const Quote = ({
 								className={cx(
 									'text-[90%] capitalize',
 									'text-special-primary-800 hover:text-special-primary-600 focus:text-special-primary-600',
-									'dark:text-special-primary-600 dark:hover:text-special-primary-400 dark:focus:text-special-primary-400'
+									'dark:text-special-primary-600 dark:hover:text-special-primary-400 dark:focus:text-special-primary-400',
 								)}
 								onClick={() => setIsFullTextActive((prev) => !prev)}
 							>
@@ -150,7 +150,7 @@ const Quote = ({
 
 const SectionBody = ({
 	section,
-	sectionIndex
+	sectionIndex,
 }: {
 	section: StandardSection;
 	sectionIndex: number;
@@ -162,7 +162,7 @@ const SectionBody = ({
 				handleBoxVariants(section.twClassNameVariants),
 				...(section.customPageClassesKeys
 					? section.customPageClassesKeys.map((key) => customPageClasses[key])
-					: [])
+					: []),
 			)}
 		>
 			{!!(section.title || section.description) && (
@@ -171,7 +171,7 @@ const SectionBody = ({
 						<h2
 							className={cx(
 								sectionIndex === 0 ? 'font-semibold' : '',
-								'text-h3 text-text-primary-500'
+								'text-h3 text-text-primary-500',
 							)}
 						>
 							{section.title}
@@ -192,7 +192,7 @@ const createBoxTypeClass = (___type: string) =>
 
 const SectionBodyBox = ({
 	box,
-	parentBox
+	parentBox,
 }: {
 	box: Box;
 	parentBox?: BOXES_TYPE;
@@ -202,7 +202,7 @@ const SectionBodyBox = ({
 		handleBoxVariants(box.twClassNameVariants),
 		...(box.customPageClassesKeys
 			? box.customPageClassesKeys?.map((key) => customPageClasses[key])
-			: [])
+			: []),
 	);
 
 	if (box.___type === BOXES_TYPES_map['two-columns'])
@@ -226,12 +226,7 @@ const SectionBodyBox = ({
 	if (box.___type === BOXES_TYPES_map['image-only'])
 		return (
 			<div className={cx(customPageClassName)}>
-				<CustomNextImage
-					src={box.src}
-					width={800}
-					height={800}
-					weservNlOptimized={false}
-				/>
+				<CustomNextImage src={box.src} width={800} height={800} />
 			</div>
 		);
 
@@ -262,12 +257,12 @@ const SectionBodyBox = ({
 					containerProps={{
 						className: cx(
 							'w-full rounded-3xl overflow-hidden relative isolate',
-							customPageClassName
-						)
+							customPageClassName,
+						),
 					}}
 					youTubeIconVariants={{
 						fontSize:
-							parentBox === BOXES_TYPES_map['slider'] ? 'small' : 'medium'
+							parentBox === BOXES_TYPES_map['slider'] ? 'small' : 'medium',
 					}}
 					width={parentBox === BOXES_TYPES_map['slider'] ? '200' : '550'}
 					height={parentBox === BOXES_TYPES_map['slider'] ? '200' : '550'}
@@ -290,14 +285,14 @@ const SectionBodyBox = ({
 						className: cx(
 							customPageClassName,
 							customPageClasses['swiper'],
-							'swiper-fluid'
+							'swiper-fluid',
 						),
 						breakpoints:
 							box.slidesPerViewType === 'large-slides'
 								? {
 										640: { slidesPerView: 2 },
 										1024: { slidesPerView: 3 },
-										1280: { slidesPerView: 4 }
+										1280: { slidesPerView: 4 },
 								  }
 								: box.slidesPerViewType === 'one-slide'
 								? { 0: { slidesPerView: 1 } }
@@ -305,8 +300,8 @@ const SectionBodyBox = ({
 										400: { slidesPerView: 2 },
 										768: { slidesPerView: 3 },
 										1024: { slidesPerView: 4 },
-										1280: { slidesPerView: 5 }
-								  }
+										1280: { slidesPerView: 5 },
+								  },
 					}}
 				>
 					{box.slides.map((slide, index) => (
@@ -324,7 +319,7 @@ const SectionBodyBox = ({
 			<div
 				className={customPageClassName}
 				style={{
-					gridTemplateColumns: box.gridTemplateColumns
+					gridTemplateColumns: box.gridTemplateColumns,
 				}}
 			>
 				{box.items.map((item, index) => (

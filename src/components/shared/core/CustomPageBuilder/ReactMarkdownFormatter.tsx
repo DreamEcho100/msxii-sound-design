@@ -1,3 +1,4 @@
+import { cx } from 'class-variance-authority';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import CustomNextImage from '~/components/shared/CustomNextImage';
@@ -25,11 +26,10 @@ const ReactMarkdownFormatter = ({ content }: { content: string }) => {
 						<CustomNextImage
 							{...props}
 							src={src}
-							className={className}
+							className={cx(className, 'object-contain')}
 							unoptimized
 							width={800}
 							height={800}
-							weservNlOptimized={false}
 							// onLoadingComplete={(img) => {
 							// 	img.width = img.naturalWidth;
 							// 	img.height = img.naturalHeight;

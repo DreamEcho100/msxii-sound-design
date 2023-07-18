@@ -36,6 +36,17 @@ const MyApp: AppType<{ session: Session | null }> = ({
 
 	useCheckAccessToken();
 
+	useEffect(() => {
+		if (typeof window === 'undefined') return;
+
+		const oldHost = 'msxii-sound-design.vercel.app';
+		const newHost = 'msxaudio.vercel.app';
+
+		if (window.location.host === oldHost) {
+			window.location.host = newHost;
+		}
+	}, []);
+
 	useEffect(
 		() => changeCurrentTheme(getCurrentThemeFromLocalStorage()),
 		[changeCurrentTheme],

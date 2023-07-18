@@ -13,15 +13,15 @@ const MainLayoutFooter = () => {
 	const mainFooterRef = useRef<HTMLElement>(null);
 	const currentTheme = useStore(
 		globalStore,
-		(store) => store.themeConfig.currentTheme
+		(store) => store.themeConfig.currentTheme,
 	);
 	const changeCurrentTheme = useStore(
 		globalStore,
-		(store) => store.themeConfig.changeCurrentTheme
+		(store) => store.themeConfig.changeCurrentTheme,
 	);
 	const toggleSearchMenuDropdown = useStore(
 		globalStore,
-		(store) => store.menus.toggleSearchMenuDropdown
+		(store) => store.menus.toggleSearchMenuDropdown,
 	);
 	const isDarkTheme = currentTheme === 'dark';
 
@@ -39,42 +39,42 @@ const MainLayoutFooter = () => {
 				{
 					text: 'New Releases',
 					isA: 'next-js',
-					href: `/collections/?handles=New Releases`,
-					icon: null
+					href: `/collections/?handles=new-releases`,
+					icon: null,
 				},
 				{
 					text: 'Loops',
 					isA: 'next-js',
-					href: `/collections/?handles=Loops`,
-					icon: null
+					href: `/collections/?handles=loops`,
+					icon: null,
 				},
 				{
 					text: 'One shot drums',
 					isA: 'next-js',
-					href: `/collections/?handles=One Shot Drums`,
-					icon: null
+					href: `/collections/?handles=one-shot-drums`,
+					icon: null,
 				},
 				{
 					text: 'Sample Packs',
 					isA: 'next-js',
-					href: `/collections/?handles=Samples`,
-					icon: null
+					href: `/collections/?handles=sample-packs`,
+					icon: null,
 				},
 				{
 					text: 'Drum Kits',
 					isA: 'next-js',
-					href: `/collections/?handles=Drum Kits`,
-					icon: null
+					href: `/collections/?handles=drum-kits`,
+					icon: null,
 				},
 				{ text: 'Construction Kits', isA: 'next-js', href: `/`, icon: null },
 				{ text: 'Presets', isA: 'next-js', href: `/`, icon: null },
 				{
 					text: 'Bundles',
 					isA: 'next-js',
-					href: '/collections/?handles=Bundles',
-					icon: null
-				}
-			]
+					href: '/collections/?handles=bundles',
+					icon: null,
+				},
+			],
 		},
 		{
 			text: 'Navigation',
@@ -84,7 +84,7 @@ const MainLayoutFooter = () => {
 					icon: null,
 					isA: 'button',
 					variants: null,
-					onClick: toggleSearchMenuDropdown
+					onClick: toggleSearchMenuDropdown,
 				},
 				{ text: 'About Us', isA: 'next-js', href: '/about', icon: null },
 				{ text: 'Support', isA: 'next-js', href: '/support', icon: null },
@@ -92,9 +92,9 @@ const MainLayoutFooter = () => {
 					text: 'License Agreement',
 					isA: 'next-js',
 					href: '/license-agreement',
-					icon: null
-				}
-			]
+					icon: null,
+				},
+			],
 		},
 		{
 			text: 'Contact Us',
@@ -102,10 +102,10 @@ const MainLayoutFooter = () => {
 				{
 					text: 'support@msxaudio.com',
 					href: 'mailto:support@msxaudio.com',
-					icon: <MdEmail />
-				}
-			]
-		}
+					icon: <MdEmail />,
+				},
+			],
+		},
 	];
 
 	useEffect(() => {
@@ -143,7 +143,7 @@ const MainLayoutFooter = () => {
 											'flex flex-wrap sm:flex-nowrap items-center gap-1 w-fit border-b-[0.125rem] border-solid border-b-transparent outline-none',
 											'duration-150 transition-all',
 											'focus:border-b-text-primary-200 focus:text-text-primary-300',
-											'hover:text-text-primary-500 hover:border-b-text-primary-500'
+											'hover:text-text-primary-500 hover:border-b-text-primary-500',
 										)}
 									>
 										{icon}
@@ -171,7 +171,7 @@ const MainLayoutFooter = () => {
 									rounded: 'md',
 									w: 'full',
 									py: 'sm',
-									'font-weight': null
+									'font-weight': null,
 								}}
 								className="text-h4 font-normal uppercase"
 							>
@@ -212,7 +212,9 @@ const MainLayoutFooter = () => {
 								variants={null}
 								className={cx(
 									'w-12 h-6 flex justify-start items-center px-1 cursor-pointer rounded-[2.5rem] bg-text-primary-300/40',
-									isDarkTheme ? 'justify-end bg-text-primary-500/40' : undefined
+									isDarkTheme
+										? 'justify-end bg-text-primary-500/40'
+										: undefined,
 								)}
 								onClick={() => changeCurrentTheme()}
 								title={`Set theme to ${isDarkTheme ? 'light' : 'dark'} mode.`}
@@ -220,13 +222,13 @@ const MainLayoutFooter = () => {
 								<motion.div
 									className={cx(
 										'w-4 h-4 bg-text-primary-0 rounded-[50%]',
-										isDarkTheme ? 'bg-text-primary-1000/50' : ''
+										isDarkTheme ? 'bg-text-primary-1000/50' : '',
 									)}
 									layout
 									transition={{
 										type: 'spring',
 										stiffness: 700,
-										damping: 30
+										damping: 30,
 									}}
 								/>
 							</Clickable>

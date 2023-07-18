@@ -3,7 +3,7 @@ import superjson from 'superjson';
 import {
 	GetStaticPaths,
 	GetStaticPropsContext,
-	InferGetStaticPropsType
+	InferGetStaticPropsType,
 } from 'next';
 import { z } from 'zod';
 import { appRouter } from '~/server/api/root';
@@ -16,15 +16,15 @@ import { useEffect, useState } from 'react';
 
 const ProductPage = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
 	const articleByIdQuery = api.shopify.blog.articles.getOneById.useQuery(
-		props.input
+		props.input,
 	);
 
 	const [publishedAt, setPublishedAt] = useState(
 		articleByIdQuery.data?.article.publishedAt
 			? Intl.DateTimeFormat('en-gd', {
-					dateStyle: 'long'
+					dateStyle: 'long',
 			  }).format(new Date(articleByIdQuery.data.article.publishedAt))
-			: ''
+			: '',
 	);
 
 	useEffect(() => {
@@ -32,14 +32,14 @@ const ProductPage = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
 			setPublishedAt(
 				articleByIdQuery.data.article.publishedAt
 					? Intl.DateTimeFormat(undefined, {
-							dateStyle: 'long'
+							dateStyle: 'long',
 					  }).format(new Date(articleByIdQuery.data.article.publishedAt))
-					: ''
+					: '',
 			);
 
 			if (typeof window === 'undefined') return;
 			const articleContentAnchors = document.querySelectorAll(
-				'#article-content a'
+				'#article-content a',
 			) as unknown as HTMLAnchorElement[];
 
 			articleContentAnchors.forEach((item) => {
@@ -73,7 +73,8 @@ const ProductPage = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
 						alt={articleByIdData.image.altText || ''}
 						width={articleByIdData.image.width || 800}
 						height={articleByIdData.image.height || 800}
-						className="object-cover w-full max-h-[50rem]"
+						className="object-contain max-w-full max-h-[50rem] mx-auto"
+						priority
 					/>
 					<div className="flex flex-col text-center p-8">
 						<p>{articleByIdData.authorV2.name}</p>
@@ -96,7 +97,7 @@ const ProductPage = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
 					id="article-content"
 					className="flex flex-col w-full max-w-[120ch] px-4 md:px-8 mx-auto prose lg:prose-xl dark:prose-invert leading-loose prose-lead:leading-loose blog-article"
 					dangerouslySetInnerHTML={{
-						__html: articleByIdData.contentHtml
+						__html: articleByIdData.contentHtml,
 					}}
 				/>
 			</section>
@@ -109,13 +110,13 @@ export const getStaticPaths: GetStaticPaths = async () => {
 		paths: (
 			await shopifyGQLClient.blogs.articles.queries.allIds()
 		).articles.edges.map((item) => ({
-			params: { id: item.node.id.replace('gid://shopify/Article/', '') }
+			params: { id: item.node.id.replace('gid://shopify/Article/', '') },
 		})),
-		fallback: true
+		fallback: true,
 	};
 };
 export const getStaticProps = async (
-	context: GetStaticPropsContext<{ id: string }>
+	context: GetStaticPropsContext<{ id: string }>,
 ) => {
 	const { id } = z
 		.object({ id: z.string().trim().min(1) })
@@ -124,7 +125,7 @@ export const getStaticProps = async (
 	const ssg = createServerSideHelpers({
 		router: appRouter,
 		ctx: await createInnerTRPCContext({ session: null }),
-		transformer: superjson // optional - adds superjson serialization
+		transformer: superjson, // optional - adds superjson serialization
 	});
 
 	const input: RouterInputs['shopify']['blog']['articles']['getOneById'] = `gid://shopify/Article/${id}`;
@@ -137,9 +138,9 @@ export const getStaticProps = async (
 	return {
 		props: {
 			trpcState: ssg.dehydrate(),
-			input
+			input,
 		},
-		revalidate: 10
+		revalidate: 10,
 	};
 };
 

@@ -22,7 +22,7 @@ const CustomNextImage = ({
 	alt = '',
 	placeholder = 'empty',
 	blurDataURL,
-	isAnimated,
+	isAnimated = true,
 	...props
 }: ICustomNextImageProps) => {
 	const [isWeservNlOptimized, setIsWeservNlOptimized] = useState(
@@ -59,7 +59,7 @@ const CustomNextImage = ({
 							_src.startsWith('/') ? `${websiteBasePath}${_src}` : _src,
 					  )}&w=${props.width}${props.height ? `&h=${props.height}` : ''}${
 							isAnimated ? '&n=-1' : ''
-					  }`
+					  }&q=${props.quality ? props.quality : 95}`
 					: _src,
 			unoptimized,
 			placeholder,

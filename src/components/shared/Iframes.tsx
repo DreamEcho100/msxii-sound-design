@@ -1,7 +1,7 @@
 import { VariantProps, cva, cx } from 'class-variance-authority';
 import CustomNextImage from '~/components/shared/CustomNextImage';
 import Script from 'next/script';
-import { HTMLAttributes, IframeHTMLAttributes } from 'react';
+import React, { HTMLAttributes, IframeHTMLAttributes, ReactNode } from 'react';
 
 type TNextImageProps = Parameters<typeof CustomNextImage>[0];
 
@@ -27,22 +27,27 @@ export const YouTubeIFrame = ({
 	overlayImageProps,
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	youTubeIconVariants,
+	childAfter,
 	...props
 }: IframeHTMLAttributes<HTMLIFrameElement> & {
 	containerProps?: HTMLAttributes<HTMLDivElement>;
 	overlayImageProps?: Omit<TNextImageProps, 'alt' | 'width' | 'height'> &
 		Partial<Pick<TNextImageProps, 'alt' | 'width' | 'height'>>;
 	youTubeIconVariants?: VariantProps<typeof handleYouTubeIconVariants>;
+	childAfter?: ReactNode;
 }) => {
 	return (
-		<div {...containerProps} className={containerProps.className}>
-			<iframe
-				allowFullScreen
-				frameBorder={0}
-				{...props}
-				className={cx(props.className, 'w-full')}
-				allow="autoplay"
-			/>
+		<div>
+			<div {...containerProps} className={containerProps.className}>
+				<iframe
+					allowFullScreen
+					frameBorder={0}
+					{...props}
+					className={cx(props.className, 'w-full')}
+					allow="autoplay"
+				/>
+			</div>
+			{childAfter}
 		</div>
 	);
 };
@@ -53,10 +58,12 @@ export const InstagramIframe = ({
 	title = 'A post shared by MSXII Sound Design (@msxiisound)',
 	src,
 	className,
+	childAfter,
 }: {
 	title?: string | null;
 	src: string;
 	className?: string;
+	childAfter?: ReactNode;
 }) => {
 	return (
 		<>
@@ -342,6 +349,7 @@ export const InstagramIframe = ({
 					)}
 				</div>
 			</blockquote>
+			{childAfter}
 			<Script
 				strategy="afterInteractive"
 				async
@@ -355,10 +363,12 @@ export const SoundcloudIframe = ({
 	src,
 	title,
 	className,
+	childAfter,
 }: {
 	src: string;
 	title?: string | null;
 	className?: string;
+	childAfter?: ReactNode;
 }) => {
 	return (
 		<div
@@ -377,7 +387,8 @@ export const SoundcloudIframe = ({
 				}}
 				title={title || undefined}
 				allowFullScreen
-			></iframe>
+			/>
+			{childAfter}
 		</div>
 	);
 };

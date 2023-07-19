@@ -1,6 +1,67 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+/* 
+.box-container > * {
+	position: relative;
+}
+.box-container > *:hover::before {
+	content: '';
+	position: absolute;
+	inset: 0;
+	border: 0.0625rem solid #000;
+	z-index: 9;
+} */
+.box-container > *:not(.box-container > * > .box-edit-overlay) {
+	position: relative;
+	/* isolation: isolate; */
+}
+.box-container > * > .box-edit-overlay {
+	content: '';
+	position: absolute;
+	inset: 0;
+	/* z-index: 9; */
+
+	display: flex;
+	pointer-events: none;
+}
+.box-container .box-container > * > .box-edit-overlay {
+	inset: 5%;
+}
+.box-container > * > .box-edit-overlay > .borders-container {
+	position: relative;
+	flex-grow: 1;
+	width: 100%;
+	height: 100%;
+	pointer-events: auto;
+}
+.box-container:hover > * > .box-edit-overlay > .borders-container .top,
+.box-container:hover > * > .box-edit-overlay > .borders-container .right,
+.box-container:hover > * > .box-edit-overlay > .borders-container .bottom,
+.box-container:hover > * > .box-edit-overlay > .borders-container .left {
+	border: 0.0625rem solid #ffffff;
+	box-shadow: 0 0 15px 2px #000;
+}
+.box-container > * > .box-edit-overlay > .borders-container .top {
+	position: absolute;
+	top: 0;
+	width: 100%;
+}
+.box-container > * > .box-edit-overlay > .borders-container .right {
+	position: absolute;
+	right: 0;
+	height: 100%;
+}
+.box-container > * > .box-edit-overlay > .borders-container .bottom {
+	position: absolute;
+	bottom: 0;
+	width: 100%;
+}
+.box-container > * > .box-edit-overlay > .borders-container .left {
+	position: absolute;
+	left: 0;
+	height: 100%;
+}
 
 body,
 #__next {

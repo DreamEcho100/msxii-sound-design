@@ -4,13 +4,13 @@ import Clickable from '~/components/shared/core/Clickable';
 import { api } from '~/utils/api';
 
 type Props = {
-	slug: string;
+	categoryName: string;
 };
 
 const DashboardCustomPageProfileScreen = (props: Props) => {
 	const getManyCategoriesItemsQuery =
 		api.dashboard.categories.getManyItems.useInfiniteQuery({
-			categoryName: props.slug,
+			categoryName: props.categoryName,
 		});
 
 	if (getManyCategoriesItemsQuery.isLoading) return <>Loading...</>;
@@ -39,7 +39,11 @@ const DashboardCustomPageProfileScreen = (props: Props) => {
 				{data.map((item) => (
 					<div key={item.id} className="flex flex-col gap-4">
 						<Clickable
-							href={`/dashboard/custom-pages/ios-apps-pages/${item.slug}`}
+							href={
+								item.slug
+									? `/dashboard/custom-pages/ios-apps-pages/${item.slug}`
+									: `/dashboard/custom-pages/ios-apps-pages`
+							}
 							isA="next-js"
 							className="w-full aspect-square overflow-hidden rounded-lg"
 						>
@@ -54,15 +58,18 @@ const DashboardCustomPageProfileScreen = (props: Props) => {
 								/>
 							)}
 						</Clickable>
-						<p>
-							<Clickable
-								isA="next-js"
-								href={`/dashboard/custom-pages/ios-apps-pages/${item.slug}`}
-								target="_blank"
-							>
-								{item.slug}
-							</Clickable>
-						</p>
+						{item.slug && (
+							<p>
+								<Clickable
+									isA="next-js"
+									href={`/dashboard/custom-pages/ios-apps-pages/${item.slug}`}
+									target="_blank"
+									className="capitalize"
+								>
+									{item.slug.replace('-', ' ')}
+								</Clickable>
+							</p>
+						)}
 					</div>
 				))}
 			</div>

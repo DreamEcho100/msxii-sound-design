@@ -69,6 +69,28 @@ export const customPagesRouter = createTRPCRouter({
 															imageBox: true,
 															iframeBox: true,
 															quoteBox: true,
+															// //
+															// gridBox: {
+															// 	with: {
+															// 		boxesToGrids: {
+															// 			with: {
+															// 				box: {
+															// 					with: {
+															// 						css: true,
+															// 						headerBox: true,
+															// 						mdBox: true,
+															// 						imageBox: true,
+															// 						iframeBox: true,
+															// 						quoteBox: true,
+															// 					},
+															// 				},
+															// 			},
+															// 			orderBy(fields, operators) {
+															// 				return operators.asc(fields.order);
+															// 			},
+															// 		},
+															// 	},
+															// },
 														},
 													},
 												},
@@ -111,6 +133,28 @@ export const customPagesRouter = createTRPCRouter({
 															imageBox: true,
 															iframeBox: true,
 															quoteBox: true,
+															// //
+															// gridBox: {
+															// 	with: {
+															// 		boxesToGrids: {
+															// 			with: {
+															// 				box: {
+															// 					with: {
+															// 						css: true,
+															// 						headerBox: true,
+															// 						mdBox: true,
+															// 						imageBox: true,
+															// 						iframeBox: true,
+															// 						quoteBox: true,
+															// 					},
+															// 				},
+															// 			},
+															// 			orderBy(fields, operators) {
+															// 				return operators.asc(fields.order);
+															// 			},
+															// 		},
+															// 	},
+															// },
 														},
 													},
 												},

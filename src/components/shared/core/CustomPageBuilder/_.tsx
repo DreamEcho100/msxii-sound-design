@@ -1,11 +1,5 @@
-import {
-	useState,
-	type CSSProperties,
-	type HTMLAttributes,
-	type ReactNode,
-} from 'react';
+import { type CSSProperties, type ReactNode } from 'react';
 
-import * as Tabs from '@radix-ui/react-tabs';
 import { cx } from 'class-variance-authority';
 import { SwiperSlide } from 'swiper/react';
 import { BoxVariants, handleBoxVariants } from '~/utils/appData';
@@ -24,15 +18,18 @@ import {
 	IframeBoxTypes,
 	SlidersHolderSlidePerViewType,
 } from '@prisma/client';
+import BoxEditOverlay from './BoxEditOverlay';
+import Quote from './Quote';
+import CustomTabs from './CustomTabs';
 
 type Page = RouterOutputs['customPages']['_getOne'];
 type Section = RouterOutputs['customPages']['_getOne']['sections'][number];
-type Box =
+export type Box =
 	RouterOutputs['customPages']['_getOne']['sections'][number]['body'][number];
-type QuoteBox = NonNullable<
+export type QuoteBox = NonNullable<
 	RouterOutputs['customPages']['_getOne']['sections'][number]['body'][number]['quoteBox']
 >;
-type TabsHolder = NonNullable<
+export type TabsHolder = NonNullable<
 	RouterOutputs['customPages']['_getOne']['sections'][number]['body'][number]['tabsHolder']
 >;
 
@@ -50,131 +47,19 @@ const CustomPageBuilder = (props: Props) => {
 			})}
 		>
 			{props.page.sections.map((section, index) => (
-				<SectionBody key={index} section={section} boxDeepLevel={0} />
+				<SectionBody key={section.id} section={section} />
 			))}
 			{props.children}
 		</div>
 	);
 };
 
-const TabsBox = ({
-	box,
-	className,
-	boxDeepLevel,
-}: {
-	box: TabsHolder;
-	className: string;
-	boxDeepLevel: number;
-}) => (
-	<Tabs.Root
-		className={cx('flex flex-col gap-5 leading-7 w-full', className)}
-		defaultValue={box.boxesToTabsHolders[0]?.title}
-	>
-		<Tabs.List
-			className="w-full flex gap-4 items-center justify-center md:justify-start md:items-start"
-			aria-label="Manage your account"
-		>
-			{box.boxesToTabsHolders.map((boxToTabsHolder) => (
-				<Tabs.Trigger
-					key={boxToTabsHolder.tabsHolderId}
-					className={cx(
-						'text-h4 font-light border-[0.125rem] border-solid border-transparent',
-						'data-[state=active]:font-bold data-[state=active]:border-solid data-[state=active]:pb-1 data-[state=active]:border-b-text-primary-400 data-[state=active]:text-text-primary-600',
-					)}
-					value={boxToTabsHolder.title}
-				>
-					{boxToTabsHolder.title}
-				</Tabs.Trigger>
-			))}
-		</Tabs.List>
-
-		{box.boxesToTabsHolders.map((boxToTabsHolder) => (
-			<Tabs.Content
-				key={boxToTabsHolder.boxId}
-				className=""
-				value={boxToTabsHolder.title}
-			>
-				<SectionBodyBox
-					box={boxToTabsHolder.box as Box}
-					boxDeepLevel={boxDeepLevel + 1}
-				/>
-			</Tabs.Content>
-		))}
-	</Tabs.Root>
-);
-
-const Quote = ({
-	box,
-	...props
-}: HTMLAttributes<HTMLDivElement> & { box: QuoteBox }) => {
-	const TEXT_MAX_LENGTH = 200;
-	const isTextLong = box.content.length > TEXT_MAX_LENGTH;
-
-	const [isFullTextActive, setIsFullTextActive] = useState(!isTextLong);
-
-	return (
-		<div {...props} className={cx(props.className, 'group')}>
-			<CustomNextImage
-				src={`https://api.dicebear.com/6.x/initials/svg?seed=${box.cite}`}
-				alt={box.cite}
-				width={150}
-				height={150}
-				className="w-16 h-16 rounded-full relative -translate-x-2/3 left-0"
-			/>
-			<div className="flex flex-col -ml-8 pt-2">
-				<cite>
-					<strong
-						className={cx(
-							'text-text-primary-500 font-semibold text-[75%]',
-							'group-hover:text-special-primary-600 group-focus-within:text-special-primary-600',
-							'group-hover:text-special-primary-400 group-focus-within:text-special-primary-400',
-						)}
-					>
-						{box.cite}
-					</strong>
-				</cite>
-				<q className="text-[70%] flex-grow font-medium">
-					<pre
-						className="whitespace-pre-wrap inline"
-						style={{ fontFamily: 'inherit' }}
-					>
-						{isFullTextActive
-							? box.content
-							: box.content.slice(0, TEXT_MAX_LENGTH)}
-					</pre>
-					{isTextLong && (
-						<>
-							{isFullTextActive ? (
-								<>&nbsp;&nbsp;&nbsp;&nbsp;</>
-							) : (
-								<>...&nbsp;</>
-							)}
-							<button
-								className={cx(
-									'text-[90%] capitalize',
-									'text-special-primary-800 hover:text-special-primary-600 focus:text-special-primary-600',
-									'dark:text-special-primary-600 dark:hover:text-special-primary-400 dark:focus:text-special-primary-400',
-								)}
-								onClick={() => setIsFullTextActive((prev) => !prev)}
-							>
-								<strong className="font-semibold">
-									<em>see {isFullTextActive ? 'less' : 'more'}</em>
-								</strong>
-							</button>
-						</>
-					)}
-				</q>
-			</div>
-		</div>
-	);
-};
-
 const SectionBody = ({
 	section,
-	boxDeepLevel,
+	boxDeepLevel = 1,
 }: {
 	section: Section;
-	boxDeepLevel: number;
+	boxDeepLevel?: number;
 }) => {
 	return (
 		<section
@@ -188,10 +73,10 @@ const SectionBody = ({
 		>
 			{section.body.map((box) => {
 				return (
-					<SectionBodyBox
+					<SectionBoxContainer
 						key={box.id}
 						box={box}
-						boxDeepLevel={boxDeepLevel + 1}
+						boxDeepLevel={boxDeepLevel}
 					/>
 				);
 			})}
@@ -200,9 +85,61 @@ const SectionBody = ({
 };
 
 const createBoxTypeClass = (type: string) =>
-	`${customPageClasses[`${type}-BOX`]} ${customPageClasses.box}`;
+	`${customPageClasses[`${type}-BOX`]} ${customPageClasses['BOX']} box ${
+		customPageClasses.box
+	}`;
 
-const SectionBodyBox = ({
+export function SectionBoxContainer(props: {
+	box: Box;
+	parentBox?: BoxTypes;
+	boxDeepLevel: number;
+}) {
+	return (
+		<>
+			<div
+				className="box-container"
+				style={
+					{
+						'--boxDeepLevel': props.boxDeepLevel,
+						zIndex: props.boxDeepLevel.toString(),
+					} as CSSProperties
+				}
+				onPointerEnter={(event) => {
+					event.currentTarget.classList.add('active');
+					console.log('___ onPointerEnter', props);
+				}}
+				onPointerDown={() => {
+					console.log('___ onPointerDown', props);
+				}}
+				onPointerLeave={(event) => {
+					event.currentTarget.classList.remove('active');
+					console.log('___ onPointerLeave', props);
+				}}
+			>
+				<SectionBox
+					box={props.box}
+					parentBox={props.parentBox}
+					boxDeepLevel={props.boxDeepLevel}
+				/>
+				{/* <div className="overlay" /> */}
+			</div>
+			{/* <style jsx>{`
+                .box-container > *:not(.overlay) {
+                    position: relative;
+                }
+                .box-container:hover > .overlay {
+                    content: '';
+                    position: absolute;
+                    inset: 0;
+                    border: 0.0625rem solid #000;
+                    z-index: 9;
+                }
+            `}</style> */}
+		</>
+	);
+}
+
+const SectionBox = ({
 	box,
 	parentBox,
 	boxDeepLevel,
@@ -211,6 +148,7 @@ const SectionBodyBox = ({
 	parentBox?: BoxTypes;
 	boxDeepLevel: number;
 }) => {
+	const newBoxDeepLevel = boxDeepLevel + 1;
 	const customPageClassName = cx(
 		createBoxTypeClass(box.type),
 		handleBoxVariants(box.css.twVariants as BoxVariants),
@@ -222,10 +160,10 @@ const SectionBodyBox = ({
 	if (box.type === BoxTypes.HEADER && box.headerBox) {
 		const HType = (() => {
 			if (boxDeepLevel >= 5) return 'h6';
-			// TODO: A way to detect if there is multiple main page titles?
+
 			if (box.headerBox.isMainPageTitle) return 'h1';
 
-			return `h${boxDeepLevel + 1}` as 'h1' | 'h2' | 'h3' | 'h4' | 'h5';
+			return `h${boxDeepLevel}` as 'h1' | 'h2' | 'h3' | 'h4' | 'h5';
 		})();
 
 		return (
@@ -241,6 +179,7 @@ const SectionBodyBox = ({
 					</HType>
 				)}
 				{box.headerBox.description && <p>{box.headerBox.description}</p>}
+				<BoxEditOverlay boxDeepLevel={boxDeepLevel} box={box} />
 			</header>
 		);
 	}
@@ -254,6 +193,7 @@ const SectionBodyBox = ({
 					height={box.imageBox.height || 800}
 					alt={box.imageBox.altText || ''}
 				/>
+				<BoxEditOverlay boxDeepLevel={boxDeepLevel} box={box} />
 			</div>
 		);
 
@@ -261,6 +201,7 @@ const SectionBodyBox = ({
 		return (
 			<div className={cx(customPageClassName)}>
 				<ReactMarkdownFormatter content={box.mdBox.content} />
+				<BoxEditOverlay boxDeepLevel={boxDeepLevel} box={box} />
 			</div>
 		);
 
@@ -270,15 +211,17 @@ const SectionBodyBox = ({
 				className={cx(customPageClassName)}
 				style={{ '--divider': 1 / 3, '--w': '3rem' } as CSSProperties}
 				box={box.quoteBox}
+				childAfter={<BoxEditOverlay boxDeepLevel={boxDeepLevel} box={box} />}
 			/>
 		);
 
 	if (box.type === BoxTypes.TABS_HOLDER && box.tabsHolder) {
 		return (
-			<TabsBox
+			<CustomTabs
 				box={box.tabsHolder}
 				className={cx(customPageClassName)}
-				boxDeepLevel={boxDeepLevel}
+				boxDeepLevel={newBoxDeepLevel}
+				childAfter={<BoxEditOverlay boxDeepLevel={boxDeepLevel} box={box} />}
 			/>
 		);
 	}
@@ -287,6 +230,7 @@ const SectionBodyBox = ({
 		if (box.iframeBox.type === IframeBoxTypes.YOUTUBE)
 			return (
 				<YouTubeIFrame
+					childAfter={<BoxEditOverlay boxDeepLevel={boxDeepLevel} box={box} />}
 					containerProps={{
 						className: cx(
 							'w-full rounded-3xl overflow-hidden relative isolate',
@@ -307,6 +251,7 @@ const SectionBodyBox = ({
 		if (box.iframeBox.type === IframeBoxTypes.INSTAGRAM)
 			return (
 				<InstagramIframe
+					childAfter={<BoxEditOverlay boxDeepLevel={boxDeepLevel} box={box} />}
 					src={box.iframeBox.src}
 					title={box.iframeBox.title}
 					className={customPageClassName}
@@ -316,6 +261,7 @@ const SectionBodyBox = ({
 		if (box.iframeBox.type === IframeBoxTypes.SOUND_CLOUD)
 			return (
 				<SoundcloudIframe
+					childAfter={<BoxEditOverlay boxDeepLevel={boxDeepLevel} box={box} />}
 					src={box.iframeBox.src}
 					title={box.iframeBox.title}
 					className={customPageClassName}
@@ -327,6 +273,7 @@ const SectionBodyBox = ({
 		return (
 			<div className={customPageClassName}>
 				<Slider
+					// childAfter={<BoxEditOverlay boxDeepLevel={boxDeepLevel} box={box}/>}
 					swiperProps={{
 						className: cx(
 							customPageClassName,
@@ -354,14 +301,15 @@ const SectionBodyBox = ({
 				>
 					{box.sliderBox.boxesToSliders.map((boxToSlider) => (
 						<SwiperSlide key={boxToSlider.boxId} className="flex flex-col">
-							<SectionBodyBox
+							<SectionBoxContainer
 								box={boxToSlider.box as Box}
 								parentBox={box.type}
-								boxDeepLevel={boxDeepLevel + 1}
+								boxDeepLevel={newBoxDeepLevel}
 							/>
 						</SwiperSlide>
 					))}
 				</Slider>
+				<BoxEditOverlay boxDeepLevel={boxDeepLevel} box={box} />
 			</div>
 		);
 	}
@@ -373,13 +321,14 @@ const SectionBodyBox = ({
 				style={box.css.inlineStyles as CSSProperties}
 			>
 				{box.gridBox.boxesToGrids.map((boxToGrid) => (
-					<SectionBodyBox
+					<SectionBoxContainer
 						key={boxToGrid.boxId}
 						box={boxToGrid.box as Box}
 						parentBox={box.type}
-						boxDeepLevel={boxDeepLevel + 1}
+						boxDeepLevel={newBoxDeepLevel}
 					/>
 				))}
+				<BoxEditOverlay boxDeepLevel={boxDeepLevel} box={box} />
 			</div>
 		);
 	}

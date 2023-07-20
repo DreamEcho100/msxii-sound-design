@@ -12,7 +12,7 @@ export function newUpdatedByPathString(path, item, value) {
 
 /**
  * Updates a nested property in an object or array using an array of keys.
- * @param {string[]} path - The path to the property to update, represented as an array of keys.
+ * @param {(string | number)[]} path - The path to the property to update, represented as an array of keys.
  * @param {unknown} item - The object or array to update.
  * @param {*} value - The new value to set for the property.
  * @returns {object | Array<unknown> | undefined} The updated object or array.
@@ -31,7 +31,7 @@ export function newUpdatedByPathArray(path, item, value) {
 	}
 
 	if (Array.isArray(item)) {
-		const index = parseInt(key);
+		const index = typeof key === 'number' ? key : parseInt(key);
 
 		if (!Number.isNaN(index)) throw new Error('Invalid path.');
 
@@ -53,4 +53,24 @@ export function newUpdatedByPathArray(path, item, value) {
 					  newUpdatedByPathArray(path, item[key], value),
 		};
 	}
+}
+
+/**
+ * @param {unknown} item - The object or array to update.
+ * @param {(string | number)[]} path - The path to the property to update, represented as an array of keys.
+ * @returns {unknown} The updated object or array.
+ * @throws {Error} If the path is invalid or the object or array is not structured as expected.
+ */
+export function getValueByPathArray(item, path) {
+	let value = item;
+
+	for (const key of path) {
+		const _key =
+			Array.isArray(value) && typeof key !== 'number' ? parseInt(key) : key;
+		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+		// @ts-ignore
+		value = value[_key];
+	}
+
+	return value;
 }

@@ -1,34 +1,31 @@
-import { Box, SectionBoxContainer, type TabsHolder } from './_';
+import { Box, PageStoreApi, SectionBoxContainer, type TabsHolder } from './_';
 
 import { type ReactNode } from 'react';
 
 import * as Tabs from '@radix-ui/react-tabs';
 import { cx } from 'class-variance-authority';
 
-export default function CustomTabs({
-	box,
-	className,
-	boxDeepLevel,
-	childAfter,
-}: {
+export default function CustomTabs(props: {
 	box: TabsHolder;
 	className: string;
 	boxDeepLevel: number;
 	childAfter?: ReactNode;
+	path: (string | number)[];
+	pageStore: PageStoreApi;
 }) {
-	const newBoxDeepLevel = boxDeepLevel + 1;
+	const newBoxDeepLevel = props.boxDeepLevel + 1;
 
 	return (
 		<div>
 			<Tabs.Root
-				className={cx('flex flex-col gap-5 leading-7 w-full', className)}
-				defaultValue={box.boxesToTabsHolders[0]?.title}
+				className={cx('flex flex-col gap-5 leading-7 w-full', props.className)}
+				defaultValue={props.box.boxesToTabsHolders[0]?.title}
 			>
 				<Tabs.List
 					className="w-full flex gap-4 items-center justify-center md:justify-start md:items-start"
 					aria-label="Manage your account"
 				>
-					{box.boxesToTabsHolders.map((boxToTabsHolder) => (
+					{props.box.boxesToTabsHolders.map((boxToTabsHolder) => (
 						<Tabs.Trigger
 							key={boxToTabsHolder.id}
 							className={cx(
@@ -42,20 +39,30 @@ export default function CustomTabs({
 					))}
 				</Tabs.List>
 
-				{box.boxesToTabsHolders.map((boxToTabsHolder) => (
-					<Tabs.Content
-						key={boxToTabsHolder.boxId}
-						className=""
-						value={boxToTabsHolder.title}
-					>
-						<SectionBoxContainer
-							box={boxToTabsHolder.box as Box}
-							boxDeepLevel={newBoxDeepLevel}
-						/>
-					</Tabs.Content>
-				))}
+				{props.box.boxesToTabsHolders.map(
+					(boxToTabsHolder, boxToTabsHolderIndex) => (
+						<Tabs.Content
+							key={boxToTabsHolder.boxId}
+							className=""
+							value={boxToTabsHolder.title}
+						>
+							<SectionBoxContainer
+								box={boxToTabsHolder.box as Box}
+								boxDeepLevel={newBoxDeepLevel}
+								path={[
+									...props.path,
+									'tabsHolder',
+									'boxesToTabsHolders',
+									boxToTabsHolderIndex,
+									'box',
+								]}
+								pageStore={props.pageStore}
+							/>
+						</Tabs.Content>
+					),
+				)}
 			</Tabs.Root>
-			{childAfter}
+			{props.childAfter}
 		</div>
 	);
 }

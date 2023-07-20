@@ -28,7 +28,7 @@ import {
 import customPageClasses from '~/styles/custom-page.module.css';
 import Slider from '~/components/shared/core/Shopify/Cards/Slider';
 import CustomNextImage from '~/components/shared/CustomNextImage';
-import ReactMarkdownFormatter from './ReactMarkdownFormatter';
+import ReactMarkdownFormatter from '~/components/shared/ReactMarkdownFormatter';
 
 type Props = {
 	customPage: CustomPage;

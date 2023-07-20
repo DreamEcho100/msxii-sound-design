@@ -11,7 +11,6 @@ import {
 import customPageClasses from '~/styles/_custom-page.module.css';
 import Slider from '~/components/shared/core/Shopify/Cards/Slider';
 import CustomNextImage from '~/components/shared/CustomNextImage';
-import ReactMarkdownFormatter from './ReactMarkdownFormatter';
 import { RouterOutputs } from '~/utils/api';
 import {
 	BoxTypes,
@@ -21,24 +20,58 @@ import {
 import BoxEditOverlay from './BoxEditOverlay';
 import Quote from './Quote';
 import CustomTabs from './CustomTabs';
+import { StoreApi, createStore } from 'zustand';
+import MdBoxComp from './MdBoxComp';
 
 type Page = RouterOutputs['customPages']['_getOne'];
 type Section = RouterOutputs['customPages']['_getOne']['sections'][number];
 export type Box =
 	RouterOutputs['customPages']['_getOne']['sections'][number]['body'][number];
+export type MdBox = NonNullable<
+	RouterOutputs['customPages']['_getOne']['sections'][number]['body'][number]['mdBox']
+>;
 export type QuoteBox = NonNullable<
 	RouterOutputs['customPages']['_getOne']['sections'][number]['body'][number]['quoteBox']
 >;
 export type TabsHolder = NonNullable<
 	RouterOutputs['customPages']['_getOne']['sections'][number]['body'][number]['tabsHolder']
 >;
+export type BoxTypeMd = Omit<Box, 'mdBox'> & { mdBox: MdBox };
 
 type Props = {
 	page: Page;
 	children?: ReactNode;
+	path?: (string | number)[];
 };
 
+type PageStore = {
+	page: Page;
+	utils: {
+		setPage: (UpdaterOrValue: Page | ((UpdaterOrValue: Page) => Page)) => void;
+	};
+};
+export type PageStoreApi = StoreApi<PageStore>;
+
 const CustomPageBuilder = (props: Props) => {
+	console.log('\n\n\n');
+	console.group('CustomPageBuilder');
+	console.log('___ page', props.page);
+	console.groupEnd();
+	console.log('\n\n\n');
+
+	const pageStore = createStore<PageStore>((set) => ({
+		page: props.page,
+		utils: {
+			setPage: (UpdaterOrValue) =>
+				set((prevState: PageStore) => ({
+					page:
+						typeof UpdaterOrValue === 'function'
+							? UpdaterOrValue(prevState.page)
+							: UpdaterOrValue,
+				})),
+		},
+	}));
+
 	return (
 		<div
 			className={handleBoxVariants({
@@ -47,36 +80,43 @@ const CustomPageBuilder = (props: Props) => {
 			})}
 		>
 			{props.page.sections.map((section, index) => (
-				<SectionBody key={section.id} section={section} />
+				<SectionBody
+					key={section.id}
+					section={section}
+					path={[...(props.path || []), 'sections', index]}
+					pageStore={pageStore}
+				/>
 			))}
 			{props.children}
 		</div>
 	);
 };
 
-const SectionBody = ({
-	section,
-	boxDeepLevel = 1,
-}: {
+const SectionBody = (props: {
 	section: Section;
 	boxDeepLevel?: number;
+	path: (string | number)[];
+	pageStore: PageStoreApi;
 }) => {
+	const boxDeepLevel = props.boxDeepLevel || 1;
 	return (
 		<section
 			className={cx(
 				'flex flex-col',
-				handleBoxVariants(section.css.twVariants as BoxVariants),
-				...(section.css.custom
-					? section.css.custom.map((key) => customPageClasses[key])
+				handleBoxVariants(props.section.css.twVariants as BoxVariants),
+				...(props.section.css.custom
+					? props.section.css.custom.map((key) => customPageClasses[key])
 					: []),
 			)}
 		>
-			{section.body.map((box) => {
+			{props.section.body.map((box, boxIndex) => {
 				return (
 					<SectionBoxContainer
 						key={box.id}
 						box={box}
 						boxDeepLevel={boxDeepLevel}
+						path={[...props.path, 'body', boxIndex]}
+						pageStore={props.pageStore}
 					/>
 				);
 			})}
@@ -93,144 +133,168 @@ export function SectionBoxContainer(props: {
 	box: Box;
 	parentBox?: BoxTypes;
 	boxDeepLevel: number;
+	path: (string | number)[];
+	pageStore: PageStoreApi;
 }) {
 	return (
-		<>
-			<div
-				className="box-container"
-				style={
-					{
-						'--boxDeepLevel': props.boxDeepLevel,
-						zIndex: props.boxDeepLevel.toString(),
-					} as CSSProperties
-				}
-				onPointerEnter={(event) => {
-					event.currentTarget.classList.add('active');
-					console.log('___ onPointerEnter', props);
-				}}
-				onPointerDown={() => {
-					console.log('___ onPointerDown', props);
-				}}
-				onPointerLeave={(event) => {
-					event.currentTarget.classList.remove('active');
-					console.log('___ onPointerLeave', props);
-				}}
-			>
-				<SectionBox
-					box={props.box}
-					parentBox={props.parentBox}
-					boxDeepLevel={props.boxDeepLevel}
-				/>
-				{/* <div className="overlay" /> */}
-			</div>
-			{/* <style jsx>{`
-                .box-container > *:not(.overlay) {
-                    position: relative;
-                }
-                .box-container:hover > .overlay {
-                    content: '';
-                    position: absolute;
-                    inset: 0;
-                    border: 0.0625rem solid #000;
-                    z-index: 9;
-                }
-            `}</style> */}
-		</>
+		<div
+			className="box-container"
+			style={
+				{
+					'--boxDeepLevel': props.boxDeepLevel,
+					zIndex: props.boxDeepLevel.toString(),
+				} as CSSProperties
+			}
+			// onPointerEnter={(event) => {
+			// 	event.currentTarget.classList.add('active');
+			// 	console.log('___ onPointerEnter', props);
+			// }}
+			// onPointerDown={() => {
+			// 	console.log('___ onPointerDown', props);
+			// }}
+			// onPointerLeave={(event) => {
+			// 	event.currentTarget.classList.remove('active');
+			// 	console.log('___ onPointerLeave', props);
+			// }}
+		>
+			<SectionBox
+				box={props.box}
+				parentBox={props.parentBox}
+				boxDeepLevel={props.boxDeepLevel}
+				path={props.path}
+				pageStore={props.pageStore}
+			/>
+		</div>
 	);
 }
 
-const SectionBox = ({
-	box,
-	parentBox,
-	boxDeepLevel,
-}: {
+const SectionBox = (props: {
 	box: Box;
 	parentBox?: BoxTypes;
 	boxDeepLevel: number;
+	path: (string | number)[];
+	pageStore: PageStoreApi;
 }) => {
-	const newBoxDeepLevel = boxDeepLevel + 1;
+	const newBoxDeepLevel = props.boxDeepLevel + 1;
 	const customPageClassName = cx(
-		createBoxTypeClass(box.type),
-		handleBoxVariants(box.css.twVariants as BoxVariants),
-		...(box.css.custom
-			? box.css.custom?.map((key) => customPageClasses[key])
+		createBoxTypeClass(props.box.type),
+		handleBoxVariants(props.box.css.twVariants as BoxVariants),
+		...(props.box.css.custom
+			? props.box.css.custom?.map((key) => customPageClasses[key])
 			: []),
 	);
 
-	if (box.type === BoxTypes.HEADER && box.headerBox) {
+	if (props.box.type === BoxTypes.HEADER && props.box.headerBox) {
 		const HType = (() => {
-			if (boxDeepLevel >= 5) return 'h6';
+			if (props.boxDeepLevel >= 5) return 'h6';
 
-			if (box.headerBox.isMainPageTitle) return 'h1';
+			if (props.box.headerBox.isMainPageTitle) return 'h1';
 
-			return `h${boxDeepLevel}` as 'h1' | 'h2' | 'h3' | 'h4' | 'h5';
+			return `h${props.boxDeepLevel}` as 'h1' | 'h2' | 'h3' | 'h4' | 'h5';
 		})();
 
 		return (
 			<header className="flex flex-col gap-8">
-				{box.headerBox.title && (
+				{props.box.headerBox.title && (
 					<HType
 						className={cx(
-							boxDeepLevel === 0 ? 'font-semibold' : '',
+							props.boxDeepLevel === 0 ? 'font-semibold' : '',
 							'text-h3 text-text-primary-500',
 						)}
 					>
-						{box.headerBox.title}
+						{props.box.headerBox.title}
 					</HType>
 				)}
-				{box.headerBox.description && <p>{box.headerBox.description}</p>}
-				<BoxEditOverlay boxDeepLevel={boxDeepLevel} box={box} />
+				{props.box.headerBox.description && (
+					<p>{props.box.headerBox.description}</p>
+				)}
+				<BoxEditOverlay
+					boxDeepLevel={props.boxDeepLevel}
+					box={props.box}
+					path={[...props.path, 'headerBox']}
+					pageStore={props.pageStore}
+				/>
 			</header>
 		);
 	}
 
-	if (box.type === BoxTypes.IMAGE && box.imageBox)
+	if (props.box.type === BoxTypes.IMAGE && props.box.imageBox)
 		return (
 			<div className={cx(customPageClassName)}>
 				<CustomNextImage
-					src={box.imageBox.src}
-					width={box.imageBox.width || 800}
-					height={box.imageBox.height || 800}
-					alt={box.imageBox.altText || ''}
+					src={props.box.imageBox.src}
+					width={props.box.imageBox.width || 800}
+					height={props.box.imageBox.height || 800}
+					alt={props.box.imageBox.altText || ''}
 				/>
-				<BoxEditOverlay boxDeepLevel={boxDeepLevel} box={box} />
+				<BoxEditOverlay
+					boxDeepLevel={props.boxDeepLevel}
+					box={props.box}
+					path={[...props.path, 'imageBox']}
+					pageStore={props.pageStore}
+				/>
 			</div>
 		);
 
-	if (box.type === BoxTypes.MD && box.mdBox)
+	if (props.box.type === BoxTypes.MD && props.box.mdBox)
 		return (
-			<div className={cx(customPageClassName)}>
-				<ReactMarkdownFormatter content={box.mdBox.content} />
-				<BoxEditOverlay boxDeepLevel={boxDeepLevel} box={box} />
-			</div>
+			<MdBoxComp
+				boxDeepLevel={props.boxDeepLevel}
+				box={props.box}
+				path={[...props.path, 'mdBox']}
+				pageStore={props.pageStore}
+			/>
 		);
 
-	if (box.type === BoxTypes.QUOTE && box.quoteBox)
+	if (props.box.type === BoxTypes.QUOTE && props.box.quoteBox)
 		return (
 			<Quote
 				className={cx(customPageClassName)}
 				style={{ '--divider': 1 / 3, '--w': '3rem' } as CSSProperties}
-				box={box.quoteBox}
-				childAfter={<BoxEditOverlay boxDeepLevel={boxDeepLevel} box={box} />}
+				box={props.box.quoteBox}
+				childAfter={
+					<BoxEditOverlay
+						boxDeepLevel={props.boxDeepLevel}
+						box={props.box}
+						path={[...props.path, 'quoteBox']}
+						pageStore={props.pageStore}
+					/>
+				}
 			/>
 		);
 
-	if (box.type === BoxTypes.TABS_HOLDER && box.tabsHolder) {
+	if (props.box.type === BoxTypes.TABS_HOLDER && props.box.tabsHolder) {
 		return (
 			<CustomTabs
-				box={box.tabsHolder}
+				box={props.box.tabsHolder}
 				className={cx(customPageClassName)}
 				boxDeepLevel={newBoxDeepLevel}
-				childAfter={<BoxEditOverlay boxDeepLevel={boxDeepLevel} box={box} />}
+				childAfter={
+					<BoxEditOverlay
+						boxDeepLevel={props.boxDeepLevel}
+						box={props.box}
+						path={[...props.path, 'tabsHolder']}
+						pageStore={props.pageStore}
+					/>
+				}
+				path={props.path}
+				pageStore={props.pageStore}
 			/>
 		);
 	}
 
-	if (box.type === BoxTypes.IFRAME) {
-		if (box.iframeBox.type === IframeBoxTypes.YOUTUBE)
+	if (props.box.type === BoxTypes.IFRAME) {
+		if (props.box.iframeBox.type === IframeBoxTypes.YOUTUBE)
 			return (
 				<YouTubeIFrame
-					childAfter={<BoxEditOverlay boxDeepLevel={boxDeepLevel} box={box} />}
+					childAfter={
+						<BoxEditOverlay
+							boxDeepLevel={props.boxDeepLevel}
+							box={props.box}
+							path={[...props.path, 'iframeBox']}
+							pageStore={props.pageStore}
+						/>
+					}
 					containerProps={{
 						className: cx(
 							'w-full rounded-3xl overflow-hidden relative isolate',
@@ -238,42 +302,55 @@ const SectionBox = ({
 						),
 					}}
 					youTubeIconVariants={{
-						fontSize: parentBox === BoxTypes.SLIDER ? 'small' : 'medium',
+						fontSize: props.parentBox === BoxTypes.SLIDER ? 'small' : 'medium',
 					}}
-					width={parentBox === BoxTypes.SLIDER ? '200' : '550'}
-					height={parentBox === BoxTypes.SLIDER ? '200' : '550'}
-					src={box.iframeBox.src}
-					title={box.iframeBox.title || 'YouTube video player'}
+					width={props.parentBox === BoxTypes.SLIDER ? '200' : '550'}
+					height={props.parentBox === BoxTypes.SLIDER ? '200' : '550'}
+					src={props.box.iframeBox.src}
+					title={props.box.iframeBox.title || 'YouTube video player'}
 					allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
 				/>
 			);
 
-		if (box.iframeBox.type === IframeBoxTypes.INSTAGRAM)
+		if (props.box.iframeBox.type === IframeBoxTypes.INSTAGRAM)
 			return (
 				<InstagramIframe
-					childAfter={<BoxEditOverlay boxDeepLevel={boxDeepLevel} box={box} />}
-					src={box.iframeBox.src}
-					title={box.iframeBox.title}
+					childAfter={
+						<BoxEditOverlay
+							boxDeepLevel={props.boxDeepLevel}
+							box={props.box}
+							path={[...props.path, 'iframeBox']}
+							pageStore={props.pageStore}
+						/>
+					}
+					src={props.box.iframeBox.src}
+					title={props.box.iframeBox.title}
 					className={customPageClassName}
 				/>
 			);
 
-		if (box.iframeBox.type === IframeBoxTypes.SOUND_CLOUD)
+		if (props.box.iframeBox.type === IframeBoxTypes.SOUND_CLOUD)
 			return (
 				<SoundcloudIframe
-					childAfter={<BoxEditOverlay boxDeepLevel={boxDeepLevel} box={box} />}
-					src={box.iframeBox.src}
-					title={box.iframeBox.title}
+					childAfter={
+						<BoxEditOverlay
+							boxDeepLevel={props.boxDeepLevel}
+							box={props.box}
+							path={[...props.path, 'iframeBox']}
+							pageStore={props.pageStore}
+						/>
+					}
+					src={props.box.iframeBox.src}
+					title={props.box.iframeBox.title}
 					className={customPageClassName}
 				/>
 			);
 	}
 
-	if (box.type === BoxTypes.SLIDER && box.sliderBox) {
+	if (props.box.type === BoxTypes.SLIDER && props.box.sliderBox) {
 		return (
 			<div className={customPageClassName}>
 				<Slider
-					// childAfter={<BoxEditOverlay boxDeepLevel={boxDeepLevel} box={box}/>}
 					swiperProps={{
 						className: cx(
 							customPageClassName,
@@ -281,14 +358,14 @@ const SectionBox = ({
 							'swiper-fluid',
 						),
 						breakpoints:
-							box.sliderBox.slidesPerViewType ===
+							props.box.sliderBox.slidesPerViewType ===
 							SlidersHolderSlidePerViewType.LARGE_SLIDES
 								? {
 										640: { slidesPerView: 2 },
 										1024: { slidesPerView: 3 },
 										1280: { slidesPerView: 4 },
 								  }
-								: box.sliderBox.slidesPerViewType ===
+								: props.box.sliderBox.slidesPerViewType ===
 								  SlidersHolderSlidePerViewType.ONE_SLIDE
 								? { 0: { slidesPerView: 1 } }
 								: {
@@ -299,36 +376,64 @@ const SectionBox = ({
 								  },
 					}}
 				>
-					{box.sliderBox.boxesToSliders.map((boxToSlider) => (
-						<SwiperSlide key={boxToSlider.boxId} className="flex flex-col">
-							<SectionBoxContainer
-								box={boxToSlider.box as Box}
-								parentBox={box.type}
-								boxDeepLevel={newBoxDeepLevel}
-							/>
-						</SwiperSlide>
-					))}
+					{props.box.sliderBox.boxesToSliders.map(
+						(boxToSlider, boxToSliderIndex) => (
+							<SwiperSlide key={boxToSlider.boxId} className="flex flex-col">
+								<SectionBoxContainer
+									box={boxToSlider.box as Box}
+									parentBox={props.box.type}
+									boxDeepLevel={newBoxDeepLevel}
+									path={[
+										...props.path,
+										'sliderBox',
+										'boxesToSliders',
+										boxToSliderIndex,
+										'box',
+									]}
+									pageStore={props.pageStore}
+								/>
+							</SwiperSlide>
+						),
+					)}
 				</Slider>
-				<BoxEditOverlay boxDeepLevel={boxDeepLevel} box={box} />
+				<BoxEditOverlay
+					boxDeepLevel={props.boxDeepLevel}
+					box={props.box}
+					path={[...props.path, 'sliderBox']}
+					pageStore={props.pageStore}
+				/>
 			</div>
 		);
 	}
 
-	if (box.type === BoxTypes.GRID && box.gridBox) {
+	if (props.box.type === BoxTypes.GRID && props.box.gridBox) {
 		return (
 			<div
 				className={customPageClassName}
-				style={box.css.inlineStyles as CSSProperties}
+				style={props.box.css.inlineStyles as CSSProperties}
 			>
-				{box.gridBox.boxesToGrids.map((boxToGrid) => (
+				{props.box.gridBox.boxesToGrids.map((boxToGrid, boxToGridIndex) => (
 					<SectionBoxContainer
 						key={boxToGrid.boxId}
 						box={boxToGrid.box as Box}
-						parentBox={box.type}
+						parentBox={props.box.type}
 						boxDeepLevel={newBoxDeepLevel}
+						path={[
+							...props.path,
+							'gridBox',
+							'boxesToGrids',
+							boxToGridIndex,
+							'box',
+						]}
+						pageStore={props.pageStore}
 					/>
 				))}
-				<BoxEditOverlay boxDeepLevel={boxDeepLevel} box={box} />
+				<BoxEditOverlay
+					boxDeepLevel={props.boxDeepLevel}
+					box={props.box}
+					path={[...props.path, 'gridBox']}
+					pageStore={props.pageStore}
+				/>
 			</div>
 		);
 	}

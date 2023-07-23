@@ -1,14 +1,20 @@
 import { dashboardStore } from '~/components/layouts/Dashboard/utils';
 import { PageStoreApi, type Box } from './_';
 import { useStore } from 'zustand';
-import { EditSideMenuPortal } from '~/components/layouts/Dashboard/components/Menus/Edit';
+import {
+	EditSideMenuPortal,
+	ShowcaseBoxPortal,
+} from '~/components/layouts/Dashboard/components/Menus/Edit';
 import { useEffect, useState } from 'react';
+import { type ReactNode } from 'react';
 
 export default function BoxEditOverlay(props: {
 	boxDeepLevel: number;
 	box: Box;
 	path: (string | number)[];
 	pageStore: PageStoreApi;
+	EditSideMenuChild: ReactNode;
+	ShowcaseBoxChild: ReactNode;
 }) {
 	const [isActive, setIsActive] = useState(false);
 	const isSideEditMenuOpen = useStore(
@@ -54,7 +60,10 @@ export default function BoxEditOverlay(props: {
 				</div>
 			</div>
 			{isActive && isSideEditMenuOpen && (
-				<EditSideMenuPortal>{props.path.toString()}</EditSideMenuPortal>
+				<>
+					<EditSideMenuPortal>{props.EditSideMenuChild}</EditSideMenuPortal>
+					<ShowcaseBoxPortal>{props.ShowcaseBoxChild}</ShowcaseBoxPortal>
+				</>
 			)}
 		</>
 	);

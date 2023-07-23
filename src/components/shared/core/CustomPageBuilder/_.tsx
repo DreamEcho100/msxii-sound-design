@@ -241,7 +241,9 @@ const SectionBox = (props: {
 			<MdBoxComp
 				boxDeepLevel={props.boxDeepLevel}
 				box={props.box}
-				path={[...props.path, 'mdBox']}
+				path={props.path}
+				// It's already passed inside
+				// path={[...props.path, 'mdBox']}
 				pageStore={props.pageStore}
 			/>
 		);

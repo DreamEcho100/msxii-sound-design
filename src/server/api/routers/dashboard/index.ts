@@ -1,6 +1,7 @@
-import { lte } from 'drizzle-orm';
+import { eq, lte } from 'drizzle-orm';
 import { z } from 'zod';
 import { createTRPCRouter, adminProtectedProcedure } from '~/server/api/trpc';
+import { updateMdBoxSchema } from '~/server/utils/validations-schemas/dashboard/boxes/types/md';
 
 export const dashboardRouter = createTRPCRouter({
 	categories: createTRPCRouter({
@@ -46,5 +47,35 @@ export const dashboardRouter = createTRPCRouter({
 					nextCursor,
 				};
 			}),
+	}),
+	boxes: createTRPCRouter({
+		types: createTRPCRouter({
+			md: createTRPCRouter({
+				updateOne: adminProtectedProcedure
+					.input(z.object(updateMdBoxSchema))
+					.mutation(async ({ ctx, input }) => {
+						const box = await ctx.drizzleQueryClient.query.mdBox.findFirst({
+							where(fields, operators) {
+								return operators.eq(fields.id, input.id);
+							},
+						});
+
+						if (!box) {
+							throw new Error('Box not found');
+						}
+
+						box.content = input.content;
+
+						await ctx.drizzleQueryClient
+							.update(ctx.drizzleSchema.mdBox)
+							.set({
+								content: input.content,
+							})
+							.where(eq(ctx.drizzleSchema.mdBox.id, input.id));
+
+						return box;
+					}),
+			}),
+		}),
 	}),
 });

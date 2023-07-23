@@ -15,6 +15,8 @@ import { useStore } from 'zustand';
 import { globalStore } from '~/store';
 import DashboardLayout from '../components/layouts/Dashboard';
 import { usePathname } from 'next/navigation';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const LayoutsManager = ({ children }: { children: ReactNode }) => {
 	const pathname = usePathname();
@@ -66,6 +68,16 @@ const MyApp: AppType<{ session: Session | null }> = ({
 	return (
 		<SessionProvider session={session}>
 			<LayoutsManager>
+				<ToastContainer
+					position="top-left"
+					autoClose={7500}
+					newestOnTop={true}
+					closeButton
+					closeOnClick={false}
+					pauseOnFocusLoss
+					draggable
+					pauseOnHover
+				/>
 				<Component {...pageProps} />
 			</LayoutsManager>
 			<ReactQueryDevtools initialIsOpen={false} />

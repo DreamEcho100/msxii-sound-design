@@ -1,6 +1,7 @@
 import { StoreApi, createStore } from 'zustand';
 
 export const sideEditMenuId = 'edit-side-menu';
+export const showcaseBoxId = 'showcase-box-id';
 
 type DashboardStore = {
 	menu: {

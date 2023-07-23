@@ -1,5 +1,5 @@
 import { cx } from 'class-variance-authority';
-import { dashboardStore, sideEditMenuId } from '../../utils';
+import { dashboardStore, showcaseBoxId, sideEditMenuId } from '../../utils';
 import { createPortal } from 'react-dom';
 import { PropsWithChildren } from 'react';
 import { useStore } from 'zustand';
@@ -26,14 +26,26 @@ export default function EditSideMenu() {
 				'fixed inset-0 z-50 bg-black/50 w-full h-full flex',
 				isOpen ? 'block' : 'hidden',
 			)}
-			onPointerDown={(event) => {
-				event.stopPropagation();
-
-				setMenuIsOpen('sideEdit', false);
-			}}
 		>
-			<div className="flex flex-grow w-full h-full justify-end">
-				<div id={sideEditMenuId} className="bg-slate-400 z-50" />
+			<div className="flex-grow w-full h-full relative">
+				<div
+					className="absolute inset-0 bg-black/50 w-full h-full"
+					onPointerDown={(event) => {
+						event.stopPropagation();
+
+						setMenuIsOpen('sideEdit', false);
+					}}
+				/>
+				<div className="flex-grow w-full h-full relative flex pointer-events-none">
+					<div className="m-8 flex flex-grow w-full h-full justify-end pointer-events-auto">
+						<div className="flex-grow overflow-auto pointer-events-auto select-auto" />
+						<div id={showcaseBoxId} className="flex"></div>
+					</div>
+					<div
+						className="m-8 pointer-events-auto select-auto flex"
+						id={sideEditMenuId}
+					/>
+				</div>
 			</div>
 		</div>,
 		bodyElem,
@@ -44,6 +56,16 @@ export function EditSideMenuPortal(props: PropsWithChildren) {
 	if (typeof window === 'undefined') return <></>;
 
 	const sideEditMenuElem = document.getElementById(sideEditMenuId);
+
+	if (!sideEditMenuElem) return <></>;
+
+	return createPortal(props.children, sideEditMenuElem);
+}
+
+export function ShowcaseBoxPortal(props: PropsWithChildren) {
+	if (typeof window === 'undefined') return <></>;
+
+	const sideEditMenuElem = document.getElementById(showcaseBoxId);
 
 	if (!sideEditMenuElem) return <></>;
 

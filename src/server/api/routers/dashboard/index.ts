@@ -2,6 +2,7 @@ import { eq, lte } from 'drizzle-orm';
 import { z } from 'zod';
 import { createTRPCRouter, adminProtectedProcedure } from '~/server/api/trpc';
 import { updateMdBoxSchema } from '~/server/utils/validations-schemas/dashboard/boxes/types/md';
+import { UpdateTwVariantsSchema } from '~/server/utils/validations-schemas/dashboard/css/twVariants';
 
 export const dashboardRouter = createTRPCRouter({
 	categories: createTRPCRouter({
@@ -76,6 +77,34 @@ export const dashboardRouter = createTRPCRouter({
 						return box;
 					}),
 			}),
+		}),
+	}),
+	css: createTRPCRouter({
+		twVariants: createTRPCRouter({
+			updateOne: adminProtectedProcedure
+				.input(z.object(UpdateTwVariantsSchema))
+				.mutation(async ({ ctx, input }) => {
+					const box = await ctx.drizzleQueryClient.query.css.findFirst({
+						where(fields, operators) {
+							return operators.eq(fields.id, input.cssId);
+						},
+					});
+
+					if (!box) {
+						throw new Error('CSS not found');
+					}
+
+					box.twVariants = input.twVariants;
+
+					await ctx.drizzleQueryClient
+						.update(ctx.drizzleSchema.css)
+						.set({
+							twVariants: input.twVariants,
+						})
+						.where(eq(ctx.drizzleSchema.css.id, input.cssId));
+
+					return box;
+				}),
 		}),
 	}),
 });

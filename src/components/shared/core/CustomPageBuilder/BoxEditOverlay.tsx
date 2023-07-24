@@ -43,12 +43,6 @@ export default function BoxEditOverlay(props: {
 					onPointerDown={(event) => {
 						event.stopPropagation();
 
-						console.log('\n\n\n');
-						console.group('BoxEditOverlay');
-						console.log('___ box', props.box);
-						console.log('___ path', props.path);
-						console.groupEnd();
-						console.log('\n\n\n');
 						setMenuIsOpen('sideEdit', true);
 						setIsActive(true);
 					}}

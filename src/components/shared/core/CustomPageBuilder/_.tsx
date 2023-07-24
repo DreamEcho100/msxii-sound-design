@@ -24,6 +24,7 @@ import { StoreApi, createStore } from 'zustand';
 import MdBoxComp from './MdBoxComp';
 
 type Page = RouterOutputs['customPages']['_getOne'];
+export type Css = Page['css'];
 type Section = RouterOutputs['customPages']['_getOne']['sections'][number];
 export type Box =
 	RouterOutputs['customPages']['_getOne']['sections'][number]['body'][number];
@@ -53,12 +54,6 @@ type PageStore = {
 export type PageStoreApi = StoreApi<PageStore>;
 
 const CustomPageBuilder = (props: Props) => {
-	console.log('\n\n\n');
-	console.group('CustomPageBuilder');
-	console.log('___ page', props.page);
-	console.groupEnd();
-	console.log('\n\n\n');
-
 	const pageStore = createStore<PageStore>((set) => ({
 		page: props.page,
 		utils: {

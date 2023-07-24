@@ -151,12 +151,12 @@ export const dashboardRouter = createTRPCRouter({
 					}
 
 					// NOTE: Should I allow it to be null?
-					box.custom = input.custom || [];
+					box.custom = input.customCss || [];
 
 					await ctx.drizzleQueryClient
 						.update(ctx.drizzleSchema.css)
 						.set({
-							custom: input.custom,
+							custom: input.customCss,
 						})
 						.where(eq(ctx.drizzleSchema.css.id, input.cssId));
 

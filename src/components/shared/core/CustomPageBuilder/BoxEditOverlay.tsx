@@ -1,34 +1,34 @@
-import { dashboardStore } from '~/components/layouts/Dashboard/utils';
 import { PageStoreApi, type Box } from './_';
-import { useStore } from 'zustand';
-import {
-	EditSideMenuPortal,
-	ShowcaseBoxPortal,
-} from '~/components/layouts/Dashboard/components/Menus/Edit';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { type ReactNode } from 'react';
+import EditBoxModal from '~/components/layouts/Dashboard/components/Modals/EditBox';
+import { useRouter } from 'next/router';
+
 
 export default function BoxEditOverlay(props: {
 	boxDeepLevel: number;
 	box: Box;
 	path: (string | number)[];
 	pageStore: PageStoreApi;
-	EditSideMenuChild: ReactNode;
-	ShowcaseBoxChild: ReactNode;
+	EditSideMenuChildren: ReactNode;
+	ShowcaseBoxChildren: ReactNode;
 }) {
-	const [isActive, setIsActive] = useState(false);
-	const isSideEditMenuOpen = useStore(
-		dashboardStore,
-		(state) => state.menu.sideEdit.isOpen,
-	);
-	const setMenuIsOpen = useStore(
-		dashboardStore,
-		(state) => state.utils.setMenuIsOpen,
-	);
+	const router = useRouter()
+	const [isOpen, setIsOpen] = useState(false);
+	// const isSideEditMenuOpen = useStore(
+	// 	dashboardStore,
+	// 	(state) => state.menu.sideEdit.isOpen,
+	// );
+	// const setMenuIsOpen = useStore(
+	// 	dashboardStore,
+	// 	(state) => state.utils.setMenuIsOpen,
+	// );
 
-	useEffect(() => {
-		if (!isSideEditMenuOpen) setIsActive(false);
-	}, [isSideEditMenuOpen]);
+	// useEffect(() => {
+	// 	if (!isSideEditMenuOpen) setIsOpen(false);
+	// }, [isSideEditMenuOpen]);
+
+	if (!router.pathname.startsWith('/dashboard')) return <></>
 
 	return (
 		<>
@@ -43,8 +43,8 @@ export default function BoxEditOverlay(props: {
 					onPointerDown={(event) => {
 						event.stopPropagation();
 
-						setMenuIsOpen('sideEdit', true);
-						setIsActive(true);
+						// setMenuIsOpen('sideEdit', true);
+						setIsOpen(true);
 					}}
 				>
 					<div className="top"></div>
@@ -53,11 +53,13 @@ export default function BoxEditOverlay(props: {
 					<div className="left"></div>
 				</div>
 			</div>
-			{isActive && isSideEditMenuOpen && (
-				<>
-					<EditSideMenuPortal>{props.EditSideMenuChild}</EditSideMenuPortal>
-					<ShowcaseBoxPortal>{props.ShowcaseBoxChild}</ShowcaseBoxPortal>
-				</>
+			{isOpen && (
+				<EditBoxModal
+					EditSideMenuChildren={props.EditSideMenuChildren}
+					ShowcaseBoxChildren={props.ShowcaseBoxChildren}
+					isOpen={isOpen}
+					setIsOpen={setIsOpen}
+				/>
 			)}
 		</>
 	);

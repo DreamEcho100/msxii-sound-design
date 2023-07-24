@@ -21,7 +21,8 @@ import BoxEditOverlay from './BoxEditOverlay';
 import Quote from './Quote';
 import CustomTabs from './CustomTabs';
 import { StoreApi, createStore } from 'zustand';
-import MdBoxComp from './MdBoxComp';
+import { MdBoxEditable } from './MdBox';
+import { QuoteBoxEditable } from './QuoteBox';
 
 type Page = RouterOutputs['customPages']['_getOne'];
 export type Css = Page['css'];
@@ -38,6 +39,7 @@ export type TabsHolder = NonNullable<
 	RouterOutputs['customPages']['_getOne']['sections'][number]['body'][number]['tabsHolder']
 >;
 export type BoxTypeMd = Omit<Box, 'mdBox'> & { mdBox: MdBox };
+export type BoxTypeQuote = Omit<Box, 'quoteBox'> & { quoteBox: QuoteBox };
 
 type Props = {
 	page: Page;
@@ -233,7 +235,7 @@ const SectionBox = (props: {
 
 	if (props.box.type === BoxTypes.MD && props.box.mdBox)
 		return (
-			<MdBoxComp
+			<MdBoxEditable
 				boxDeepLevel={props.boxDeepLevel}
 				box={props.box}
 				path={props.path}
@@ -245,18 +247,14 @@ const SectionBox = (props: {
 
 	if (props.box.type === BoxTypes.QUOTE && props.box.quoteBox)
 		return (
-			<Quote
-				className={cx(customPageClassName)}
+			<QuoteBoxEditable
 				style={{ '--divider': 1 / 3, '--w': '3rem' } as CSSProperties}
-				box={props.box.quoteBox}
-				childAfter={
-					<BoxEditOverlay
-						boxDeepLevel={props.boxDeepLevel}
-						box={props.box}
-						path={[...props.path, 'quoteBox']}
-						pageStore={props.pageStore}
-					/>
-				}
+				boxDeepLevel={props.boxDeepLevel}
+				box={props.box}
+				path={props.path}
+				// It's already passed inside
+				// path={[...props.path, 'quoteBox']}
+				pageStore={props.pageStore}
 			/>
 		);
 

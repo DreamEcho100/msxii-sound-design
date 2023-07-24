@@ -27,7 +27,7 @@ export const TwVariantsSchemaRefined = z
 			return false;
 		},
 		{
-			message: 'Phone numbers dont match',
+			message: 'undefined tw variant',
 		},
 	);
 

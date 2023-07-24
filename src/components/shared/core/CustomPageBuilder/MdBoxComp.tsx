@@ -328,7 +328,7 @@ const MdBoxBoxEditOverlay = (props: Props) => {
 			path={props.path}
 			pageStore={props.pageStore}
 			ShowcaseBoxChild={
-				<section className="flex-grow bg-white py-12 px-8">
+				<section className="flex-grow bg-white py-12 px-8 overflow-y-auto">
 					<MdBoxFormView
 						mdFormStore={mdFormStore}
 						twVariantsFormStore={twVariantsFormStore}
@@ -337,7 +337,7 @@ const MdBoxBoxEditOverlay = (props: Props) => {
 				</section>
 			}
 			EditSideMenuChild={
-				<section className="w-[30rem] py-12 px-8 flex-grow bg-white flex flex-col gap-8">
+				<section className="w-[30rem] py-12 px-8 flex-grow bg-white flex flex-col gap-8 overflow-y-auto">
 					<Accordion
 						disclosures={[
 							{

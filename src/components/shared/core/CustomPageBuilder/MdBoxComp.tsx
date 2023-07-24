@@ -1,7 +1,7 @@
-import { Key, type ReactNode } from 'react';
+import { type ReactNode } from 'react';
 import ReactMarkdownFormatter from '~/components/shared/ReactMarkdownFormatter';
 import BoxEditOverlay from './BoxEditOverlay';
-import { Box, BoxTypeMd, PageStoreApi } from './_';
+import { BoxTypeMd, PageStoreApi } from './_';
 import { BoxTypes } from '@prisma/client';
 import { useStore } from 'zustand';
 import { getValueByPathArray, newUpdatedByPathArray } from '~/utils/obj/update';

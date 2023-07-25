@@ -4,14 +4,14 @@ import { toast } from 'react-toastify';
 import { useStore } from 'zustand';
 import CustomCombobox from '~/components/shared/common/@de100/form-echo/Fields/Base/Combobox';
 import Form from '~/components/shared/common/@de100/form-echo/Forms';
-import { CreateCustomCssSchema } from '~/server/utils/validations-schemas/dashboard/css/customCss';
+import { CreateOneCustomCssSchema } from '~/server/utils/validations-schemas/dashboard/css/customCss';
 import { api } from '~/utils/api';
 
 import customPageClasses from '~/styles/_custom-page.module.css';
 
 export type CustomCssFormStore = FormStoreApi<
 	{ customCss: string[] },
-	typeof CreateCustomCssSchema
+	typeof CreateOneCustomCssSchema
 >;
 
 export const customClassesConfig = (() => {

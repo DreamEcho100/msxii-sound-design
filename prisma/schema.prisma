@@ -126,16 +126,26 @@ model QuoteBox {
   @@unique([boxId, boxType])
 }
 
+enum HeaderBoxHType {
+  DYNAMIC
+  H1
+  H2
+  H3
+  H4
+  H5
+  H6
+}
+
 model HeaderBox {
-  id              String    @id @default(cuid())
-  createdAt       DateTime  @default(now())
-  updatedAt       DateTime? @updatedAt
-  title           String
-  description     String?
-  isMainPageTitle Boolean   @default(false)
-  boxId           String
-  boxType         BoxTypes  @default(HEADER)
-  box             Box       @relation(fields: [boxId, boxType], references: [id, type], onDelete: Cascade)
+  id          String         @id @default(cuid())
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime?      @updatedAt
+  title       String
+  description String?
+  hType       HeaderBoxHType @default(DYNAMIC)
+  boxId       String
+  boxType     BoxTypes       @default(HEADER)
+  box         Box            @relation(fields: [boxId, boxType], references: [id, type], onDelete: Cascade)
 
   @@unique([boxId, boxType])
 }

@@ -1,9 +1,9 @@
-import { FormStoreApi } from '@de100/form-echo';
+import { FormStoreApi, useCreateFormStore } from '@de100/form-echo';
 import { toast } from 'react-toastify';
 import { useStore } from 'zustand';
 import CustomCombobox from '~/components/shared/common/@de100/form-echo/Fields/Base/Combobox';
 import Form from '~/components/shared/common/@de100/form-echo/Forms';
-import { CreateTwVariantsSchema } from '~/server/utils/validations-schemas/dashboard/css/twVariants';
+import { CreateOneTwVariantsSchema } from '~/server/utils/validations-schemas/dashboard/css/twVariants';
 import { api } from '~/utils/api';
 import { BoxVariants, boxVariants } from '~/utils/appData';
 
@@ -13,7 +13,7 @@ export type TwVariantsFormStore = FormStoreApi<
 			[Key in keyof BoxVariants]: BoxVariants[Key];
 		};
 	}, // Box['css']['twVariants']
-	typeof CreateTwVariantsSchema
+	typeof CreateOneTwVariantsSchema
 >;
 
 export const twVariantsConfig = (() => {
@@ -40,7 +40,18 @@ export const twVariantsConfig = (() => {
 	return twVariantsConfig;
 })();
 
-export const TwVariantsForm = (props: {
+export function useCreateTwVariantsFormStore(twVariants: unknown) {
+	return useCreateFormStore({
+		initValues: {
+			twVariants: twVariants as {
+				[Key in keyof BoxVariants]: BoxVariants[Key];
+			},
+		},
+		validationSchema: CreateOneTwVariantsSchema,
+	}) satisfies TwVariantsFormStore;
+}
+
+export function TwVariantsForm(props: {
 	store: TwVariantsFormStore;
 	cssId: string;
 	onSuccess: (params: {
@@ -51,7 +62,7 @@ export const TwVariantsForm = (props: {
 			};
 		};
 	}) => void;
-}) => {
+}) {
 	const setOneRequest = api.dashboard.css.twVariants.setOne.useMutation({
 		onError(error) {
 			toast(error.message, { type: 'error' });
@@ -118,7 +129,7 @@ export const TwVariantsForm = (props: {
 
 								return value;
 							}}
-							getOptionChildren={(value) => value}
+							getOptionChildren={(value) => value ?? '__'}
 							getDisplayValue={(value) => (value as string) ?? '__'}
 							getOptionKey={(value) => value}
 						/>
@@ -134,4 +145,4 @@ export const TwVariantsForm = (props: {
 			</button>
 		</Form>
 	);
-};
+}

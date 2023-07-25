@@ -1,10 +1,12 @@
 import { eq, lte } from 'drizzle-orm';
 import { z } from 'zod';
 import { createTRPCRouter, adminProtectedProcedure } from '~/server/api/trpc';
-import { updateMdBoxSchema } from '~/server/utils/validations-schemas/dashboard/boxes/types/md';
-import { updateQuoteBoxSchema } from '~/server/utils/validations-schemas/dashboard/boxes/types/quote';
-import { UpdateCustomCssSchema } from '~/server/utils/validations-schemas/dashboard/css/customCss';
-import { UpdateTwVariantsSchema } from '~/server/utils/validations-schemas/dashboard/css/twVariants';
+import { updateOneMdBoxSchema } from '~/server/utils/validations-schemas/dashboard/boxes/types/mds';
+import { updateOneQuoteBoxSchema } from '~/server/utils/validations-schemas/dashboard/boxes/types/quotes';
+import { updateOneHeaderBoxSchema } from '~/server/utils/validations-schemas/dashboard/boxes/types/headers';
+import { UpdateOneCustomCssSchema } from '~/server/utils/validations-schemas/dashboard/css/customCss';
+import { UpdateOneTwVariantsSchema } from '~/server/utils/validations-schemas/dashboard/css/twVariants';
+import { updateOneImageBoxSchema } from '~/server/utils/validations-schemas/dashboard/boxes/types/images';
 
 export const dashboardRouter = createTRPCRouter({
 	categories: createTRPCRouter({
@@ -53,9 +55,9 @@ export const dashboardRouter = createTRPCRouter({
 	}),
 	boxes: createTRPCRouter({
 		types: createTRPCRouter({
-			md: createTRPCRouter({
+			mds: createTRPCRouter({
 				updateOne: adminProtectedProcedure
-					.input(z.object(updateMdBoxSchema))
+					.input(z.object(updateOneMdBoxSchema))
 					.mutation(async ({ ctx, input }) => {
 						const box = await ctx.drizzleQueryClient.query.mdBox.findFirst({
 							where(fields, operators) {
@@ -81,7 +83,7 @@ export const dashboardRouter = createTRPCRouter({
 			}),
 			quote: createTRPCRouter({
 				updateOne: adminProtectedProcedure
-					.input(z.object(updateQuoteBoxSchema))
+					.input(z.object(updateOneQuoteBoxSchema))
 					.mutation(async ({ ctx, input }) => {
 						const box = await ctx.drizzleQueryClient.query.quoteBox.findFirst({
 							where(fields, operators) {
@@ -107,12 +109,72 @@ export const dashboardRouter = createTRPCRouter({
 						return box;
 					}),
 			}),
+			headers: createTRPCRouter({
+				updateOne: adminProtectedProcedure
+					.input(z.object(updateOneHeaderBoxSchema))
+					.mutation(async ({ ctx, input }) => {
+						const box = await ctx.drizzleQueryClient.query.headerBox.findFirst({
+							where(fields, operators) {
+								return operators.eq(fields.id, input.id);
+							},
+						});
+
+						if (!box) {
+							throw new Error('Box not found');
+						}
+
+						box.title = input.title ?? box.title;
+						box.description = input.description ?? box.description;
+
+						await ctx.drizzleQueryClient
+							.update(ctx.drizzleSchema.headerBox)
+							.set({
+								title: input.title,
+								description: input.description,
+							})
+							.where(eq(ctx.drizzleSchema.headerBox.id, input.id));
+
+						return box;
+					}),
+			}),
+			images: createTRPCRouter({
+				updateOne: adminProtectedProcedure
+					.input(z.object(updateOneImageBoxSchema))
+					.mutation(async ({ ctx, input }) => {
+						const box = await ctx.drizzleQueryClient.query.imageBox.findFirst({
+							where(fields, operators) {
+								return operators.eq(fields.id, input.id);
+							},
+						});
+
+						if (!box) {
+							throw new Error('Box not found');
+						}
+
+						box.src = input.src ?? box.src;
+						box.altText = input.altText ?? box.altText;
+						box.width = input.width ?? box.width;
+						box.height = input.height ?? box.height;
+
+						await ctx.drizzleQueryClient
+							.update(ctx.drizzleSchema.imageBox)
+							.set({
+								src: input.src,
+								altText: input.altText,
+								width: input.width,
+								height: input.height,
+							})
+							.where(eq(ctx.drizzleSchema.imageBox.id, input.id));
+
+						return box;
+					}),
+			}),
 		}),
 	}),
 	css: createTRPCRouter({
 		twVariants: createTRPCRouter({
 			setOne: adminProtectedProcedure
-				.input(z.object(UpdateTwVariantsSchema))
+				.input(z.object(UpdateOneTwVariantsSchema))
 				.mutation(async ({ ctx, input }) => {
 					const box = await ctx.drizzleQueryClient.query.css.findFirst({
 						where(fields, operators) {
@@ -138,7 +200,7 @@ export const dashboardRouter = createTRPCRouter({
 		}),
 		customCss: createTRPCRouter({
 			setOne: adminProtectedProcedure
-				.input(z.object(UpdateCustomCssSchema))
+				.input(z.object(UpdateOneCustomCssSchema))
 				.mutation(async ({ ctx, input }) => {
 					const box = await ctx.drizzleQueryClient.query.css.findFirst({
 						where(fields, operators) {

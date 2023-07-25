@@ -10,7 +10,6 @@ import {
 	foreignKey,
 	serial,
 	uniqueIndex,
-	boolean,
 	jsonb,
 	primaryKey,
 } from 'drizzle-orm/pg-core';
@@ -33,6 +32,15 @@ export const boxTypes = pgEnum('BoxTypes', [
 	'TABS_HOLDER',
 	'GRID',
 	'SLIDER',
+]);
+export const headerBoxHType = pgEnum('HeaderBoxHType', [
+	'DYNAMIC',
+	'H1',
+	'H2',
+	'H3',
+	'H4',
+	'H5',
+	'H6',
 ]);
 
 // import { sql } from 'drizzle-orm';
@@ -361,7 +369,8 @@ export const headerBox = pgTable(
 		updatedAt: timestamp('updatedAt', { precision: 3, mode: 'date' }),
 		title: text('title').notNull(),
 		description: text('description'),
-		isMainPageTitle: boolean('isMainPageTitle').notNull(),
+		hType: headerBoxHType('hType').default('DYNAMIC').notNull(),
+		// isMainPageTitle: boolean('isMainPageTitle').notNull(),
 		boxId: text('boxId').notNull(),
 		boxType: boxTypes('boxType').default('HEADER').notNull(),
 	},

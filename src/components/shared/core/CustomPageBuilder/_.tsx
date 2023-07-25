@@ -10,7 +10,6 @@ import {
 } from '~/components/shared/Iframes';
 import customPageClasses from '~/styles/_custom-page.module.css';
 import Slider from '~/components/shared/core/Shopify/Cards/Slider';
-import CustomNextImage from '~/components/shared/CustomNextImage';
 import { RouterOutputs } from '~/utils/api';
 import {
 	BoxTypes,
@@ -18,11 +17,12 @@ import {
 	SlidersHolderSlidePerViewType,
 } from '@prisma/client';
 import BoxEditOverlay from './BoxEditOverlay';
-import Quote from './Quote';
 import CustomTabs from './CustomTabs';
 import { StoreApi, createStore } from 'zustand';
 import { MdBoxEditable } from './MdBox';
 import { QuoteBoxEditable } from './QuoteBox';
+import { HeaderBoxEditable } from './HeaderBox';
+import { ImageBoxEditable } from './ImageBox';
 
 type Page = RouterOutputs['customPages']['_getOne'];
 export type Css = Page['css'];
@@ -35,11 +35,19 @@ export type MdBox = NonNullable<
 export type QuoteBox = NonNullable<
 	RouterOutputs['customPages']['_getOne']['sections'][number]['body'][number]['quoteBox']
 >;
+export type HeaderBox = NonNullable<
+	RouterOutputs['customPages']['_getOne']['sections'][number]['body'][number]['headerBox']
+>;
+export type ImageBox = NonNullable<
+	RouterOutputs['customPages']['_getOne']['sections'][number]['body'][number]['imageBox']
+>;
 export type TabsHolder = NonNullable<
 	RouterOutputs['customPages']['_getOne']['sections'][number]['body'][number]['tabsHolder']
 >;
 export type BoxTypeMd = Omit<Box, 'mdBox'> & { mdBox: MdBox };
 export type BoxTypeQuote = Omit<Box, 'quoteBox'> & { quoteBox: QuoteBox };
+export type BoxTypeHeader = Omit<Box, 'headerBox'> & { headerBox: HeaderBox };
+export type BoxTypeImage = Omit<Box, 'imageBox'> & { imageBox: ImageBox };
 
 type Props = {
 	page: Page;
@@ -181,56 +189,28 @@ const SectionBox = (props: {
 			: []),
 	);
 
-	if (props.box.type === BoxTypes.HEADER && props.box.headerBox) {
-		const HType = (() => {
-			if (props.boxDeepLevel >= 5) return 'h6';
-
-			if (props.box.headerBox.isMainPageTitle) return 'h1';
-
-			return `h${props.boxDeepLevel}` as 'h1' | 'h2' | 'h3' | 'h4' | 'h5';
-		})();
-
+	if (props.box.type === BoxTypes.HEADER && props.box.headerBox)
 		return (
-			<header className="flex flex-col gap-8">
-				{props.box.headerBox.title && (
-					<HType
-						className={cx(
-							props.boxDeepLevel === 0 ? 'font-semibold' : '',
-							'text-h3 text-text-primary-500',
-						)}
-					>
-						{props.box.headerBox.title}
-					</HType>
-				)}
-				{props.box.headerBox.description && (
-					<p>{props.box.headerBox.description}</p>
-				)}
-				<BoxEditOverlay
-					boxDeepLevel={props.boxDeepLevel}
-					box={props.box}
-					path={[...props.path, 'headerBox']}
-					pageStore={props.pageStore}
-				/>
-			</header>
+			<HeaderBoxEditable
+				boxDeepLevel={props.boxDeepLevel}
+				box={props.box}
+				path={props.path}
+				// It's already passed inside
+				// path={[...props.path, 'headerBox']}
+				pageStore={props.pageStore}
+			/>
 		);
-	}
 
 	if (props.box.type === BoxTypes.IMAGE && props.box.imageBox)
 		return (
-			<div className={cx(customPageClassName)}>
-				<CustomNextImage
-					src={props.box.imageBox.src}
-					width={props.box.imageBox.width || 800}
-					height={props.box.imageBox.height || 800}
-					alt={props.box.imageBox.altText || ''}
-				/>
-				<BoxEditOverlay
-					boxDeepLevel={props.boxDeepLevel}
-					box={props.box}
-					path={[...props.path, 'imageBox']}
-					pageStore={props.pageStore}
-				/>
-			</div>
+			<ImageBoxEditable
+				boxDeepLevel={props.boxDeepLevel}
+				box={props.box}
+				path={props.path}
+				// It's already passed inside
+				// path={[...props.path, 'imageBox']}
+				pageStore={props.pageStore}
+			/>
 		);
 
 	if (props.box.type === BoxTypes.MD && props.box.mdBox)

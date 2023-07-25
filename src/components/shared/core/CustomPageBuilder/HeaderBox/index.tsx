@@ -1,7 +1,7 @@
-import { type CSSProperties, useState, type ReactNode } from 'react';
+import { type ReactNode } from 'react';
 import BoxEditOverlay from '../BoxEditOverlay';
-import { BoxTypeQuote, PageStoreApi } from '../_';
-import { BoxTypes } from '@prisma/client';
+import { BoxTypeHeader, PageStoreApi } from '../_';
+import { BoxTypes, HeaderBoxHType } from '@prisma/client';
 import { useStore } from 'zustand';
 import { getValueByPathArray, newUpdatedByPathArray } from '~/utils/obj/update';
 import { cx } from 'class-variance-authority';
@@ -14,7 +14,7 @@ import {
 import Form from '~/components/shared/common/@de100/form-echo/Forms';
 import ContainedInputField from '~/components/shared/common/@de100/form-echo/Fields/Contained/ContainedInput';
 import Accordion from '~/components/shared/common/Accordion';
-import { createOneQuoteBoxSchema } from '~/server/utils/validations-schemas/dashboard/boxes/types/quotes';
+import { createOneHeaderBoxSchema } from '~/server/utils/validations-schemas/dashboard/boxes/types/headers';
 import { api } from '~/utils/api';
 import { toast } from 'react-toastify';
 
@@ -26,33 +26,35 @@ import {
 	TwVariantsForm,
 	useCreateTwVariantsFormStore,
 } from '../Css/TwVariants';
-import CustomNextImage from '~/components/shared/CustomNextImage';
 
-type QuoteBox = { content: string; cite: string };
-type QuoteFormStore = FormStoreApi<QuoteBox, typeof createOneQuoteBoxSchema>;
+type HeaderBox = {
+	title: string;
+	description: string | null;
+	hType: HeaderBoxHType;
+};
+type HeaderFormStore = FormStoreApi<HeaderBox, typeof createOneHeaderBoxSchema>;
 type Props = {
-	box: BoxTypeQuote;
-	parentBox?: BoxTypes;
 	boxDeepLevel: number;
+	box: BoxTypeHeader;
+	parentBox?: BoxTypes;
 	path: (string | number)[];
 	pageStore: PageStoreApi;
 	className?: string;
-	style?: CSSProperties;
 };
 
-const BOX_TYPE = BoxTypes.QUOTE;
+const BOX_TYPE = BoxTypes.HEADER;
 
-const QuoteBoxForm = (props: {
-	store: QuoteFormStore;
+const HeaderBoxForm = (props: {
+	store: HeaderFormStore;
 	id: string;
 	onSuccess: (params: {
 		validatedValues: GetPassedValidationFieldsValues<
-			typeof createOneQuoteBoxSchema
+			typeof createOneHeaderBoxSchema
 		>;
 	}) => void;
 }) => {
 	const updateOneRequest =
-		api.dashboard.boxes.types.quote.updateOne.useMutation({
+		api.dashboard.boxes.types.headers.updateOne.useMutation({
 			onError(error) {
 				toast(error.message, { type: 'error' });
 			},
@@ -76,14 +78,14 @@ const QuoteBoxForm = (props: {
 		>
 			<ContainedInputField
 				store={props.store}
-				name="cite"
-				labelProps={{ children: 'cite' }}
+				name="title"
+				labelProps={{ children: 'title' }}
 			/>
 			<ContainedInputField
 				isA="textarea"
 				store={props.store}
-				name="content"
-				labelProps={{ children: 'content' }}
+				name="description"
+				labelProps={{ children: 'description' }}
 				rows={20}
 			/>
 			<button
@@ -97,95 +99,59 @@ const QuoteBoxForm = (props: {
 	);
 };
 
-const QuoteBoxView = (
+const HeaderBoxView = (
 	props: {
 		childrenAfter?: ReactNode;
+		boxDeepLevel: number;
 		className: string;
-		style?: CSSProperties;
-	} & QuoteBox,
+	} & HeaderBox,
 ) => {
-	// return (
-	// 	<div className={props.className}>
-	// 		<ReactMarkdownFormatter content={props.content} />
-	// 		{props.childrenAfter}
-	// 	</div>
-	// );
-	const TEXT_MAX_LENGTH = 200;
-	const isTextLong = props.content.length > TEXT_MAX_LENGTH;
+	const HType = (() => {
+		if (props.hType !== HeaderBoxHType.DYNAMIC)
+			return props.hType.toLowerCase() as Lowercase<
+				Exclude<(typeof props)['hType'], (typeof HeaderBoxHType)['DYNAMIC']>
+			>;
 
-	const [isFullTextActive, setIsFullTextActive] = useState(!isTextLong);
+		if (props.boxDeepLevel >= 5) return 'h6';
+
+		return `h${props.boxDeepLevel}` as 'h1' | 'h2' | 'h3' | 'h4' | 'h5';
+	})();
 
 	return (
-		<div className={cx(props.className, 'group')} style={props.style}>
-			<CustomNextImage
-				src={`https://api.dicebear.com/6.x/initials/svg?seed=${props.cite}`}
-				alt={props.cite}
-				width={150}
-				height={150}
-				className="w-16 h-16 rounded-full relative -translate-x-2/3 left-0"
-			/>
-			<div className="flex flex-col -ml-8 pt-2">
-				<cite>
-					<strong
-						className={cx(
-							'text-text-primary-500 font-semibold text-[75%]',
-							'group-hover:text-special-primary-600 group-focus-within:text-special-primary-600',
-							'group-hover:text-special-primary-400 group-focus-within:text-special-primary-400',
-						)}
-					>
-						{props.cite}
-					</strong>
-				</cite>
-				<q className="text-[70%] flex-grow font-medium">
-					<pre
-						className="whitespace-pre-wrap inline"
-						style={{ fontFamily: 'inherit' }}
-					>
-						{isFullTextActive
-							? props.content
-							: props.content.slice(0, TEXT_MAX_LENGTH)}
-					</pre>
-					{isTextLong && (
-						<>
-							{isFullTextActive ? (
-								<>&nbsp;&nbsp;&nbsp;&nbsp;</>
-							) : (
-								<>...&nbsp;</>
-							)}
-							<button
-								className={cx(
-									'text-[90%] capitalize',
-									'text-special-primary-800 hover:text-special-primary-600 focus:text-special-primary-600',
-									'dark:text-special-primary-600 dark:hover:text-special-primary-400 dark:focus:text-special-primary-400',
-								)}
-								onClick={() => setIsFullTextActive((prev) => !prev)}
-							>
-								<strong className="font-semibold">
-									<em>see {isFullTextActive ? 'less' : 'more'}</em>
-								</strong>
-							</button>
-						</>
+		<header className={cx('flex flex-col gap-8 relative', props.className)}>
+			{props.title && (
+				<HType
+					className={cx(
+						props.boxDeepLevel === 0 ? 'font-semibold' : '',
+						'text-h3 text-text-primary-500',
 					)}
-				</q>
-			</div>
+				>
+					{props.title}
+				</HType>
+			)}
+			{props.description && <p>{props.description}</p>}
 			{props.childrenAfter}
-		</div>
+		</header>
 	);
 };
 
-const QuoteBoxFormView = (props: {
-	quoteFormStore: QuoteFormStore;
+const HeaderBoxFormView = (props: {
+	headerFormStore: HeaderFormStore;
+	boxDeepLevel: number;
 	twVariantsFormStore: TwVariantsFormStore;
 	customCssFormStore: CustomCssFormStore;
-	style?: CSSProperties;
 }) => {
-	const content = useStore(
-		props.quoteFormStore,
-		(store) => store.fields.content.value,
+	const title = useStore(
+		props.headerFormStore,
+		(store) => store.fields.title.value,
 	);
-	const cite = useStore(
-		props.quoteFormStore,
-		(store) => store.fields.cite.value,
+	const description = useStore(
+		props.headerFormStore,
+		(store) => store.fields.description.value,
+	);
+	const hType = useStore(
+		props.headerFormStore,
+		(store) => store.fields.hType.value,
 	);
 	const twVariantsStr = useStore(props.twVariantsFormStore, (store) =>
 		handleBoxVariants(store.fields.twVariants.value),
@@ -206,27 +172,35 @@ const QuoteBoxFormView = (props: {
 	);
 
 	return (
-		<QuoteBoxView
-			content={content}
-			cite={cite}
+		<HeaderBoxView
+			title={title}
+			description={description}
+			hType={hType}
 			className={className}
-			style={props.style}
+			boxDeepLevel={props.boxDeepLevel}
 		/>
 	);
 };
 
-const QuoteBoxEditOverlay = (props: Props) => {
+const HeaderBoxEditOverlay = (props: Props) => {
 	const box = useStore(
 		props.pageStore,
-		(state) => getValueByPathArray(state.page, props.path) as BoxTypeQuote, // .slice(0, -1)
+		(state) => getValueByPathArray(state.page, props.path) as BoxTypeHeader, // .slice(0, -1)
 	);
-	const quoteFormStore: QuoteFormStore = useCreateFormStore({
+	const headerFormStore: HeaderFormStore = useCreateFormStore({
 		initValues: {
-			content: box.quoteBox.content,
-			cite: box.quoteBox.cite,
+			title: box.headerBox.title,
+			description: box.headerBox.description,
+			hType: box.headerBox.hType,
 		},
-		validationSchema: createOneQuoteBoxSchema,
+		validationSchema: createOneHeaderBoxSchema,
 		validationEvents: { change: true },
+		valuesFromFieldsToStore: {
+			description: (val) => val ?? null,
+		},
+		valuesFromStoreToFields: {
+			description: (val) => val ?? '',
+		},
 	});
 	const twVariantsFormStore = useCreateTwVariantsFormStore(
 		props.box.css.twVariants,
@@ -242,11 +216,11 @@ const QuoteBoxEditOverlay = (props: Props) => {
 		<BoxEditOverlay
 			{...props}
 			ShowcaseBoxChildren={
-				<QuoteBoxFormView
-					quoteFormStore={quoteFormStore}
+				<HeaderBoxFormView
+					headerFormStore={headerFormStore}
 					twVariantsFormStore={twVariantsFormStore}
 					customCssFormStore={customCssFormStore}
-					style={props.style}
+					boxDeepLevel={props.boxDeepLevel}
 				/>
 			}
 			EditSideMenuChildren={
@@ -262,7 +236,7 @@ const QuoteBoxEditOverlay = (props: Props) => {
 											return newUpdatedByPathArray<
 												// eslint-disable-next-line @typescript-eslint/ban-types
 												Exclude<typeof page, Function>
-											>([...props.path, 'css'], page, (prev: BoxTypeQuote) => {
+											>([...props.path, 'css'], page, (prev: BoxTypeHeader) => {
 												return {
 													...prev,
 													twVariants: params.values.twVariants,
@@ -290,7 +264,7 @@ const QuoteBoxEditOverlay = (props: Props) => {
 											return newUpdatedByPathArray<
 												// eslint-disable-next-line @typescript-eslint/ban-types
 												Exclude<typeof page, Function>
-											>([...props.path, 'css'], page, (prev: BoxTypeQuote) => {
+											>([...props.path, 'css'], page, (prev: BoxTypeHeader) => {
 												return {
 													...prev,
 													custom: params.validatedValues.customCss,
@@ -308,21 +282,21 @@ const QuoteBoxEditOverlay = (props: Props) => {
 						{
 							defaultOpen: true,
 							contentChildren: (
-								<QuoteBoxForm
-									store={quoteFormStore}
-									id={box.quoteBox.id}
+								<HeaderBoxForm
+									store={headerFormStore}
+									id={box.headerBox.id}
 									onSuccess={(params) => {
 										props.pageStore.getState().utils.setPage((page) => {
 											return newUpdatedByPathArray<
 												// eslint-disable-next-line @typescript-eslint/ban-types
 												Exclude<typeof page, Function>
 											>(
-												[...props.path, 'quoteBox'],
+												[...props.path, 'headerBox'],
 												page,
-												(prev: BoxTypeQuote) => ({
+												(prev: BoxTypeHeader) => ({
 													...prev,
-													content: params.validatedValues.content,
-													cite: params.validatedValues.cite,
+													title: params.validatedValues.title,
+													description: params.validatedValues.description,
 												}),
 											);
 										});
@@ -330,9 +304,11 @@ const QuoteBoxEditOverlay = (props: Props) => {
 								/>
 							),
 							titleElem: (
-								<h3 className="text-h6 font-bold capitalize">quote box form</h3>
+								<h3 className="text-h6 font-bold capitalize">
+									header box form
+								</h3>
 							),
-							___key: 'quoteBox',
+							___key: 'headerBox',
 						},
 					]}
 				/>
@@ -341,16 +317,17 @@ const QuoteBoxEditOverlay = (props: Props) => {
 	);
 };
 
-export const QuoteBoxEditable = (props: Props) => {
+export const HeaderBoxEditable = (props: Props) => {
 	const box = useStore(
 		props.pageStore,
-		(state) => getValueByPathArray(state.page, props.path) as BoxTypeQuote,
+		(state) => getValueByPathArray(state.page, props.path) as BoxTypeHeader,
 	);
 
-	const quoteBoxViewProps = {
-		content: box.quoteBox.content,
-		cite: box.quoteBox.cite,
-		style: props.style,
+	const headerBoxViewProps = {
+		title: box.headerBox.title,
+		description: box.headerBox.description,
+		hType: box.headerBox.hType,
+		boxDeepLevel: props.boxDeepLevel,
 		className: cx(
 			customPageClasses[`${BOX_TYPE}-BOX`],
 			props.className,
@@ -362,9 +339,9 @@ export const QuoteBoxEditable = (props: Props) => {
 	};
 
 	return (
-		<QuoteBoxView
-			{...quoteBoxViewProps}
-			childrenAfter={<QuoteBoxEditOverlay {...props} />}
+		<HeaderBoxView
+			{...headerBoxViewProps}
+			childrenAfter={<HeaderBoxEditOverlay {...props} />}
 		/>
 	);
 };

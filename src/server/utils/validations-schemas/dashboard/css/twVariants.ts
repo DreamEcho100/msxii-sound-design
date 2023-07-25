@@ -31,11 +31,11 @@ export const TwVariantsSchemaRefined = z
 		},
 	);
 
-export const CreateTwVariantsSchema = {
+export const CreateOneTwVariantsSchema = {
 	twVariants: TwVariantsSchemaRefined,
 };
 
-export const UpdateTwVariantsSchema = {
+export const UpdateOneTwVariantsSchema = {
 	cssId: z.string().cuid(),
 	twVariants: TwVariantsSchemaRefined,
 };

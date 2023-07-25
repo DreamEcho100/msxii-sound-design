@@ -15,18 +15,23 @@ import {
 import Form from '~/components/shared/common/@de100/form-echo/Forms';
 import ContainedInputField from '~/components/shared/common/@de100/form-echo/Fields/Contained/ContainedInput';
 import Accordion from '~/components/shared/common/Accordion';
-import { createMdBoxSchema } from '~/server/utils/validations-schemas/dashboard/boxes/types/md';
+import { createOneMdBoxSchema } from '~/server/utils/validations-schemas/dashboard/boxes/types/mds';
 import { api } from '~/utils/api';
 import { toast } from 'react-toastify';
 
 import customPageClasses from '~/styles/_custom-page.module.css';
-import { CreateTwVariantsSchema } from '~/server/utils/validations-schemas/dashboard/css/twVariants';
-import { CreateCustomCssSchema } from '~/server/utils/validations-schemas/dashboard/css/customCss';
+import { CreateOneCustomCssSchema } from '~/server/utils/validations-schemas/dashboard/css/customCss';
 import { CustomCssFormStore, CustomCssForm } from '../Css/CustomClasses';
-import { TwVariantsFormStore, TwVariantsForm } from '../Css/TwVariants';
+import {
+	type TwVariantsFormStore,
+	TwVariantsForm,
+	useCreateTwVariantsFormStore,
+} from '../Css/TwVariants';
 
-type MdFormStore = FormStoreApi<{ content: string }, typeof createMdBoxSchema>;
-
+type MdBox = {
+	content: string;
+};
+type MdFormStore = FormStoreApi<MdBox, typeof createOneMdBoxSchema>;
 type Props = {
 	box: BoxTypeMd;
 	parentBox?: BoxTypes;
@@ -36,14 +41,18 @@ type Props = {
 	className?: string;
 };
 
+const BOX_TYPE = BoxTypes.MD;
+
 const MdBoxForm = (props: {
 	store: MdFormStore;
 	id: string;
 	onSuccess: (params: {
-		validatedValues: GetPassedValidationFieldsValues<typeof createMdBoxSchema>;
+		validatedValues: GetPassedValidationFieldsValues<
+			typeof createOneMdBoxSchema
+		>;
 	}) => void;
 }) => {
-	const updateOneRequest = api.dashboard.boxes.types.md.updateOne.useMutation({
+	const updateOneRequest = api.dashboard.boxes.types.mds.updateOne.useMutation({
 		onError(error) {
 			toast(error.message, { type: 'error' });
 		},
@@ -71,7 +80,7 @@ const MdBoxForm = (props: {
 				store={props.store}
 				name="content"
 				labelProps={{ children: 'content' }}
-				rows={30}
+				rows={20}
 			/>
 			<button
 				type="submit"
@@ -84,11 +93,12 @@ const MdBoxForm = (props: {
 	);
 };
 
-const MdBoxView = (props: {
-	childrenAfter?: ReactNode;
-	content: string;
-	className: string;
-}) => {
+const MdBoxView = (
+	props: {
+		childrenAfter?: ReactNode;
+		className: string;
+	} & MdBox,
+) => {
 	return (
 		<div className={props.className}>
 			<ReactMarkdownFormatter content={props.content} />
@@ -121,7 +131,7 @@ const MdBoxFormView = (props: {
 	const className = cx(
 		twVariantsStr,
 		customCssStr,
-		customPageClasses['MD-BOX'],
+		customPageClasses[`${BOX_TYPE}-BOX`],
 	);
 
 	return <MdBoxView content={content} className={className} />;
@@ -136,30 +146,22 @@ const MdBoxEditOverlay = (props: Props) => {
 		initValues: {
 			content: box.mdBox.content,
 		},
-		validationSchema: createMdBoxSchema,
+		validationSchema: createOneMdBoxSchema,
 		validationEvents: { change: true },
 	});
-	const twVariantsFormStore: TwVariantsFormStore = useCreateFormStore({
-		initValues: {
-			twVariants: props.box.css.twVariants as {
-				[Key in keyof BoxVariants]: BoxVariants[Key];
-			},
-		},
-		validationSchema: CreateTwVariantsSchema,
-	});
+	const twVariantsFormStore = useCreateTwVariantsFormStore(
+		props.box.css.twVariants,
+	);
 	const customCssFormStore: CustomCssFormStore = useCreateFormStore({
 		initValues: {
 			customCss: props.box.css.custom ?? [],
 		},
-		validationSchema: CreateCustomCssSchema,
+		validationSchema: CreateOneCustomCssSchema,
 	});
 
 	return (
 		<BoxEditOverlay
-			boxDeepLevel={props.boxDeepLevel}
-			box={props.box}
-			path={props.path}
-			pageStore={props.pageStore}
+			{...props}
 			ShowcaseBoxChildren={
 				<MdBoxFormView
 					mdFormStore={mdFormStore}
@@ -263,7 +265,7 @@ export const MdBoxEditable = (props: Props) => {
 	const mdBoxViewProps = {
 		content: box.mdBox.content,
 		className: cx(
-			customPageClasses['MD-BOX'],
+			customPageClasses[`${BOX_TYPE}-BOX`],
 			props.className,
 			handleBoxVariants(box.css.twVariants as BoxVariants),
 			...(box.css.custom
@@ -275,14 +277,7 @@ export const MdBoxEditable = (props: Props) => {
 	return (
 		<MdBoxView
 			{...mdBoxViewProps}
-			childrenAfter={
-				<MdBoxEditOverlay
-					boxDeepLevel={props.boxDeepLevel}
-					box={props.box}
-					path={props.path} // {[...props.path, 'mdBox']}
-					pageStore={props.pageStore}
-				/>
-			}
+			childrenAfter={<MdBoxEditOverlay {...props} />}
 		/>
 	);
 };

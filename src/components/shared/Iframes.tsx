@@ -27,14 +27,14 @@ export const YouTubeIFrame = ({
 	overlayImageProps,
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	youTubeIconVariants,
-	childAfter,
+	childrenAfter,
 	...props
 }: IframeHTMLAttributes<HTMLIFrameElement> & {
 	containerProps?: HTMLAttributes<HTMLDivElement>;
 	overlayImageProps?: Omit<TNextImageProps, 'alt' | 'width' | 'height'> &
 		Partial<Pick<TNextImageProps, 'alt' | 'width' | 'height'>>;
 	youTubeIconVariants?: VariantProps<typeof handleYouTubeIconVariants>;
-	childAfter?: ReactNode;
+	childrenAfter?: ReactNode;
 }) => {
 	return (
 		<div>
@@ -47,7 +47,7 @@ export const YouTubeIFrame = ({
 					allow="autoplay"
 				/>
 			</div>
-			{childAfter}
+			{childrenAfter}
 		</div>
 	);
 };
@@ -58,12 +58,12 @@ export const InstagramIframe = ({
 	title = 'A post shared by MSXII Sound Design (@msxiisound)',
 	src,
 	className,
-	childAfter,
+	childrenAfter,
 }: {
 	title?: string | null;
 	src: string;
 	className?: string;
-	childAfter?: ReactNode;
+	childrenAfter?: ReactNode;
 }) => {
 	return (
 		<>
@@ -349,7 +349,7 @@ export const InstagramIframe = ({
 					)}
 				</div>
 			</blockquote>
-			{childAfter}
+			{childrenAfter}
 			<Script
 				strategy="afterInteractive"
 				async
@@ -359,16 +359,16 @@ export const InstagramIframe = ({
 	);
 };
 
-export const SoundcloudIframe = ({
+export const SoundCloudIframe = ({
 	src,
 	title,
 	className,
-	childAfter,
+	childrenAfter,
 }: {
 	src: string;
 	title?: string | null;
 	className?: string;
-	childAfter?: ReactNode;
+	childrenAfter?: ReactNode;
 }) => {
 	return (
 		<div
@@ -388,7 +388,7 @@ export const SoundcloudIframe = ({
 				title={title || undefined}
 				allowFullScreen
 			/>
-			{childAfter}
+			{childrenAfter}
 		</div>
 	);
 };

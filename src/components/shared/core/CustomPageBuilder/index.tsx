@@ -22,7 +22,7 @@ import {
 } from '~/utils/types/custom-page';
 import {
 	InstagramIframe,
-	SoundcloudIframe,
+	SoundCloudIframe,
 	YouTubeIFrame,
 } from '~/components/shared/Iframes';
 import customPageClasses from '~/styles/custom-page.module.css';
@@ -274,7 +274,7 @@ const SectionBodyBox = ({
 		if (box.___subType === SUB_BOXES_TYPES_map['instagram'])
 			return <InstagramIframe src={box.src} className={customPageClassName} />;
 		if (box.___subType === SUB_BOXES_TYPES_map['soundcloud'])
-			return <SoundcloudIframe src={box.src} className={customPageClassName} />;
+			return <SoundCloudIframe src={box.src} className={customPageClassName} />;
 	}
 
 	if (box.___type === BOXES_TYPES_map['slider']) {

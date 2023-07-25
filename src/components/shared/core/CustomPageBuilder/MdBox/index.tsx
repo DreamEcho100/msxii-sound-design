@@ -32,14 +32,16 @@ type MdBox = {
 	content: string;
 };
 type MdFormStore = FormStoreApi<MdBox, typeof createOneMdBoxSchema>;
-type Props = {
-	box: BoxTypeMd;
-	parentBox?: BoxTypes;
+type SharedProps = {
 	boxDeepLevel: number;
-	path: (string | number)[];
-	pageStore: PageStoreApi;
+	parentBox?: BoxTypes;
 	className?: string;
 };
+type Props = {
+	box: BoxTypeMd;
+	path: (string | number)[];
+	pageStore: PageStoreApi;
+} & SharedProps;
 
 const BOX_TYPE = BoxTypes.MD;
 
@@ -80,7 +82,7 @@ const MdBoxForm = (props: {
 				store={props.store}
 				name="content"
 				labelProps={{ children: 'content' }}
-				rows={20}
+				rows={15}
 			/>
 			<button
 				type="submit"
@@ -96,8 +98,8 @@ const MdBoxForm = (props: {
 const MdBoxView = (
 	props: {
 		childrenAfter?: ReactNode;
-		className: string;
-	} & MdBox,
+	} & SharedProps &
+		MdBox,
 ) => {
 	return (
 		<div className={props.className}>
@@ -107,11 +109,13 @@ const MdBoxView = (
 	);
 };
 
-const MdBoxFormView = (props: {
-	mdFormStore: MdFormStore;
-	twVariantsFormStore: TwVariantsFormStore;
-	customCssFormStore: CustomCssFormStore;
-}) => {
+const MdBoxFormView = (
+	props: {
+		mdFormStore: MdFormStore;
+		twVariantsFormStore: TwVariantsFormStore;
+		customCssFormStore: CustomCssFormStore;
+	} & SharedProps,
+) => {
 	const content = useStore(
 		props.mdFormStore,
 		(store) => store.fields.content.value,
@@ -129,12 +133,21 @@ const MdBoxFormView = (props: {
 	);
 
 	const className = cx(
+		props.className,
+		customPageClasses[`${BOX_TYPE}-BOX`],
 		twVariantsStr,
 		customCssStr,
-		customPageClasses[`${BOX_TYPE}-BOX`],
 	);
 
-	return <MdBoxView content={content} className={className} />;
+	return (
+		<MdBoxView
+			boxDeepLevel={props.boxDeepLevel}
+			parentBox={props.parentBox}
+			className={className}
+			//
+			content={content}
+		/>
+	);
 };
 
 const MdBoxEditOverlay = (props: Props) => {
@@ -164,6 +177,10 @@ const MdBoxEditOverlay = (props: Props) => {
 			{...props}
 			ShowcaseBoxChildren={
 				<MdBoxFormView
+					boxDeepLevel={props.boxDeepLevel}
+					parentBox={props.parentBox}
+					className={props.className}
+					//
 					mdFormStore={mdFormStore}
 					twVariantsFormStore={twVariantsFormStore}
 					customCssFormStore={customCssFormStore}
@@ -263,7 +280,8 @@ export const MdBoxEditable = (props: Props) => {
 	);
 
 	const mdBoxViewProps = {
-		content: box.mdBox.content,
+		boxDeepLevel: props.boxDeepLevel,
+		parentBox: props.parentBox,
 		className: cx(
 			customPageClasses[`${BOX_TYPE}-BOX`],
 			props.className,
@@ -272,6 +290,8 @@ export const MdBoxEditable = (props: Props) => {
 				? box.css.custom?.map((key) => customPageClasses[key])
 				: []),
 		),
+		//
+		content: box.mdBox.content,
 	};
 
 	return (

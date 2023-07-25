@@ -125,7 +125,7 @@ const CustomCombobox = <TData, FormattedData = undefined>(
 
 	const locallySelectedState = useState<
 		GetData<TData, FormattedData>[number] | undefined
-	>(undefined);
+	>(getInitialValue ? undefined : props.value);
 	const locallySelected = externallySetSelected
 		? props.value
 		: locallySelectedState[0];
@@ -157,7 +157,7 @@ const CustomCombobox = <TData, FormattedData = undefined>(
 			comboboxProps.onChange?.(value);
 			setQuery?.(undefined);
 		},
-		[comboboxProps, setQuery],
+		[comboboxProps, setLocallySelected, setQuery],
 	);
 
 	useEffect(() => {

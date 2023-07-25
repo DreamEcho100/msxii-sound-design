@@ -3,19 +3,10 @@ import { type CSSProperties, type ReactNode } from 'react';
 import { cx } from 'class-variance-authority';
 import { SwiperSlide } from 'swiper/react';
 import { BoxVariants, handleBoxVariants } from '~/utils/appData';
-import {
-	InstagramIframe,
-	SoundcloudIframe,
-	YouTubeIFrame,
-} from '~/components/shared/Iframes';
 import customPageClasses from '~/styles/_custom-page.module.css';
 import Slider from '~/components/shared/core/Shopify/Cards/Slider';
 import { RouterOutputs } from '~/utils/api';
-import {
-	BoxTypes,
-	IframeBoxTypes,
-	SlidersHolderSlidePerViewType,
-} from '@prisma/client';
+import { BoxTypes, SlidersHolderSlidePerViewType } from '@prisma/client';
 import BoxEditOverlay from './BoxEditOverlay';
 import CustomTabs from './CustomTabs';
 import { StoreApi, createStore } from 'zustand';
@@ -23,31 +14,34 @@ import { MdBoxEditable } from './MdBox';
 import { QuoteBoxEditable } from './QuoteBox';
 import { HeaderBoxEditable } from './HeaderBox';
 import { ImageBoxEditable } from './ImageBox';
+import { IframeBoxEditable } from './IframeBox';
 
 type Page = RouterOutputs['customPages']['_getOne'];
 export type Css = Page['css'];
 type Section = RouterOutputs['customPages']['_getOne']['sections'][number];
 export type Box =
 	RouterOutputs['customPages']['_getOne']['sections'][number]['body'][number];
-export type MdBox = NonNullable<
-	RouterOutputs['customPages']['_getOne']['sections'][number]['body'][number]['mdBox']
+
+export type GetBoxNonNullableItem<Key extends keyof Box> = NonNullable<
+	Box[Key]
 >;
-export type QuoteBox = NonNullable<
-	RouterOutputs['customPages']['_getOne']['sections'][number]['body'][number]['quoteBox']
->;
-export type HeaderBox = NonNullable<
-	RouterOutputs['customPages']['_getOne']['sections'][number]['body'][number]['headerBox']
->;
-export type ImageBox = NonNullable<
-	RouterOutputs['customPages']['_getOne']['sections'][number]['body'][number]['imageBox']
->;
-export type TabsHolder = NonNullable<
-	RouterOutputs['customPages']['_getOne']['sections'][number]['body'][number]['tabsHolder']
->;
-export type BoxTypeMd = Omit<Box, 'mdBox'> & { mdBox: MdBox };
-export type BoxTypeQuote = Omit<Box, 'quoteBox'> & { quoteBox: QuoteBox };
-export type BoxTypeHeader = Omit<Box, 'headerBox'> & { headerBox: HeaderBox };
-export type BoxTypeImage = Omit<Box, 'imageBox'> & { imageBox: ImageBox };
+export type GetBoxWithNullableItem<Key extends keyof Box> = Omit<Box, Key> & {
+	[key in Key]: NonNullable<Box[Key]>;
+};
+
+export type BoxTypeMd = GetBoxWithNullableItem<'mdBox'>;
+export type BoxTypeQuote = GetBoxWithNullableItem<'quoteBox'>;
+export type BoxTypeHeader = GetBoxWithNullableItem<'headerBox'>;
+export type BoxTypeImage = GetBoxWithNullableItem<'imageBox'>;
+export type BoxTypeIframe = GetBoxWithNullableItem<'iframeBox'>;
+export type BoxTypeTabsHolder = GetBoxWithNullableItem<'tabsHolder'>;
+
+export type MdBox = BoxTypeMd['mdBox'];
+export type QuoteBox = BoxTypeQuote['quoteBox'];
+export type HeaderBox = BoxTypeHeader['headerBox'];
+export type ImageBox = BoxTypeImage['imageBox'];
+export type IframeBox = BoxTypeIframe['iframeBox'];
+export type TabsHolderBox = BoxTypeTabsHolder['tabsHolder'];
 
 type Props = {
 	page: Page;
@@ -193,11 +187,12 @@ const SectionBox = (props: {
 		return (
 			<HeaderBoxEditable
 				boxDeepLevel={props.boxDeepLevel}
+				parentBox={props.parentBox}
+				pageStore={props.pageStore}
 				box={props.box}
 				path={props.path}
 				// It's already passed inside
 				// path={[...props.path, 'headerBox']}
-				pageStore={props.pageStore}
 			/>
 		);
 
@@ -205,11 +200,12 @@ const SectionBox = (props: {
 		return (
 			<ImageBoxEditable
 				boxDeepLevel={props.boxDeepLevel}
+				parentBox={props.parentBox}
+				pageStore={props.pageStore}
 				box={props.box}
 				path={props.path}
 				// It's already passed inside
 				// path={[...props.path, 'imageBox']}
-				pageStore={props.pageStore}
 			/>
 		);
 
@@ -217,52 +213,48 @@ const SectionBox = (props: {
 		return (
 			<MdBoxEditable
 				boxDeepLevel={props.boxDeepLevel}
+				parentBox={props.parentBox}
+				pageStore={props.pageStore}
 				box={props.box}
 				path={props.path}
 				// It's already passed inside
 				// path={[...props.path, 'mdBox']}
-				pageStore={props.pageStore}
 			/>
 		);
 
 	if (props.box.type === BoxTypes.QUOTE && props.box.quoteBox)
 		return (
 			<QuoteBoxEditable
-				style={{ '--divider': 1 / 3, '--w': '3rem' } as CSSProperties}
 				boxDeepLevel={props.boxDeepLevel}
+				parentBox={props.parentBox}
+				pageStore={props.pageStore}
 				box={props.box}
 				path={props.path}
 				// It's already passed inside
 				// path={[...props.path, 'quoteBox']}
-				pageStore={props.pageStore}
+				style={{ '--divider': 1 / 3, '--w': '3rem' } as CSSProperties}
 			/>
 		);
 
-	if (props.box.type === BoxTypes.TABS_HOLDER && props.box.tabsHolder) {
+	if (props.box.type === BoxTypes.IFRAME)
 		return (
-			<CustomTabs
-				box={props.box.tabsHolder}
-				className={cx(customPageClassName)}
-				boxDeepLevel={newBoxDeepLevel}
-				childAfter={
-					<BoxEditOverlay
-						boxDeepLevel={props.boxDeepLevel}
-						box={props.box}
-						path={[...props.path, 'tabsHolder']}
-						pageStore={props.pageStore}
-					/>
-				}
-				path={props.path}
+			<IframeBoxEditable
+				boxDeepLevel={props.boxDeepLevel}
+				parentBox={props.parentBox}
 				pageStore={props.pageStore}
+				box={props.box}
+				path={props.path}
+				// It's already passed inside
+				// path={[...props.path, 'mdBox']}
 			/>
 		);
-	}
 
-	if (props.box.type === BoxTypes.IFRAME) {
+	/*
+	{
 		if (props.box.iframeBox.type === IframeBoxTypes.YOUTUBE)
 			return (
 				<YouTubeIFrame
-					childAfter={
+					childrenAfter={
 						<BoxEditOverlay
 							boxDeepLevel={props.boxDeepLevel}
 							box={props.box}
@@ -290,7 +282,7 @@ const SectionBox = (props: {
 		if (props.box.iframeBox.type === IframeBoxTypes.INSTAGRAM)
 			return (
 				<InstagramIframe
-					childAfter={
+					childrenAfter={
 						<BoxEditOverlay
 							boxDeepLevel={props.boxDeepLevel}
 							box={props.box}
@@ -306,8 +298,8 @@ const SectionBox = (props: {
 
 		if (props.box.iframeBox.type === IframeBoxTypes.SOUND_CLOUD)
 			return (
-				<SoundcloudIframe
-					childAfter={
+				<SoundCloudIframe
+					childrenAfter={
 						<BoxEditOverlay
 							boxDeepLevel={props.boxDeepLevel}
 							box={props.box}
@@ -320,6 +312,27 @@ const SectionBox = (props: {
 					className={customPageClassName}
 				/>
 			);
+	}
+	*/
+
+	if (props.box.type === BoxTypes.TABS_HOLDER && props.box.tabsHolder) {
+		return (
+			<CustomTabs
+				box={props.box.tabsHolder}
+				className={cx(customPageClassName)}
+				boxDeepLevel={newBoxDeepLevel}
+				childrenAfter={
+					<BoxEditOverlay
+						boxDeepLevel={props.boxDeepLevel}
+						box={props.box}
+						path={[...props.path, 'tabsHolder']}
+						pageStore={props.pageStore}
+					/>
+				}
+				path={props.path}
+				pageStore={props.pageStore}
+			/>
+		);
 	}
 
 	if (props.box.type === BoxTypes.SLIDER && props.box.sliderBox) {

@@ -33,14 +33,16 @@ type HeaderBox = {
 	hType: HeaderBoxHType;
 };
 type HeaderFormStore = FormStoreApi<HeaderBox, typeof createOneHeaderBoxSchema>;
-type Props = {
+type SharedProps = {
 	boxDeepLevel: number;
-	box: BoxTypeHeader;
 	parentBox?: BoxTypes;
-	path: (string | number)[];
-	pageStore: PageStoreApi;
 	className?: string;
 };
+type Props = {
+	box: BoxTypeHeader;
+	path: (string | number)[];
+	pageStore: PageStoreApi;
+} & SharedProps;
 
 const BOX_TYPE = BoxTypes.HEADER;
 
@@ -86,7 +88,7 @@ const HeaderBoxForm = (props: {
 				store={props.store}
 				name="description"
 				labelProps={{ children: 'description' }}
-				rows={20}
+				rows={15}
 			/>
 			<button
 				type="submit"
@@ -103,8 +105,8 @@ const HeaderBoxView = (
 	props: {
 		childrenAfter?: ReactNode;
 		boxDeepLevel: number;
-		className: string;
-	} & HeaderBox,
+	} & SharedProps &
+		HeaderBox,
 ) => {
 	const HType = (() => {
 		if (props.hType !== HeaderBoxHType.DYNAMIC)
@@ -135,12 +137,14 @@ const HeaderBoxView = (
 	);
 };
 
-const HeaderBoxFormView = (props: {
-	headerFormStore: HeaderFormStore;
-	boxDeepLevel: number;
-	twVariantsFormStore: TwVariantsFormStore;
-	customCssFormStore: CustomCssFormStore;
-}) => {
+const HeaderBoxFormView = (
+	props: {
+		headerFormStore: HeaderFormStore;
+		boxDeepLevel: number;
+		twVariantsFormStore: TwVariantsFormStore;
+		customCssFormStore: CustomCssFormStore;
+	} & SharedProps,
+) => {
 	const title = useStore(
 		props.headerFormStore,
 		(store) => store.fields.title.value,
@@ -166,9 +170,10 @@ const HeaderBoxFormView = (props: {
 	);
 
 	const className = cx(
+		props.className,
+		customPageClasses[`${BOX_TYPE}-BOX`],
 		twVariantsStr,
 		customCssStr,
-		customPageClasses[`${BOX_TYPE}-BOX`],
 	);
 
 	return (
@@ -196,7 +201,7 @@ const HeaderBoxEditOverlay = (props: Props) => {
 		validationSchema: createOneHeaderBoxSchema,
 		validationEvents: { change: true },
 		valuesFromFieldsToStore: {
-			description: (val) => val ?? null,
+			description: (val) => (val ? val : null),
 		},
 		valuesFromStoreToFields: {
 			description: (val) => val ?? '',
@@ -217,10 +222,13 @@ const HeaderBoxEditOverlay = (props: Props) => {
 			{...props}
 			ShowcaseBoxChildren={
 				<HeaderBoxFormView
+					boxDeepLevel={props.boxDeepLevel}
+					parentBox={props.parentBox}
+					className={props.className}
+					//
 					headerFormStore={headerFormStore}
 					twVariantsFormStore={twVariantsFormStore}
 					customCssFormStore={customCssFormStore}
-					boxDeepLevel={props.boxDeepLevel}
 				/>
 			}
 			EditSideMenuChildren={
@@ -297,6 +305,7 @@ const HeaderBoxEditOverlay = (props: Props) => {
 													...prev,
 													title: params.validatedValues.title,
 													description: params.validatedValues.description,
+													hType: params.validatedValues.hType,
 												}),
 											);
 										});
@@ -324,10 +333,8 @@ export const HeaderBoxEditable = (props: Props) => {
 	);
 
 	const headerBoxViewProps = {
-		title: box.headerBox.title,
-		description: box.headerBox.description,
-		hType: box.headerBox.hType,
 		boxDeepLevel: props.boxDeepLevel,
+		parentBox: props.parentBox,
 		className: cx(
 			customPageClasses[`${BOX_TYPE}-BOX`],
 			props.className,
@@ -336,6 +343,10 @@ export const HeaderBoxEditable = (props: Props) => {
 				? box.css.custom?.map((key) => customPageClasses[key])
 				: []),
 		),
+		//
+		title: box.headerBox.title,
+		description: box.headerBox.description,
+		hType: box.headerBox.hType,
 	};
 
 	return (

@@ -30,13 +30,15 @@ import CustomNextImage from '~/components/shared/CustomNextImage';
 
 type QuoteBox = { content: string; cite: string };
 type QuoteFormStore = FormStoreApi<QuoteBox, typeof createOneQuoteBoxSchema>;
-type Props = {
-	box: BoxTypeQuote;
-	parentBox?: BoxTypes;
+type SharedProps = {
 	boxDeepLevel: number;
+	parentBox: BoxTypes;
+	className: string;
+};
+type Props = SharedProps & {
+	box: BoxTypeQuote;
 	path: (string | number)[];
 	pageStore: PageStoreApi;
-	className?: string;
 	style?: CSSProperties;
 };
 
@@ -84,7 +86,7 @@ const QuoteBoxForm = (props: {
 				store={props.store}
 				name="content"
 				labelProps={{ children: 'content' }}
-				rows={20}
+				rows={15}
 			/>
 			<button
 				type="submit"
@@ -100,9 +102,9 @@ const QuoteBoxForm = (props: {
 const QuoteBoxView = (
 	props: {
 		childrenAfter?: ReactNode;
-		className: string;
 		style?: CSSProperties;
-	} & QuoteBox,
+	} & SharedProps &
+		QuoteBox,
 ) => {
 	// return (
 	// 	<div className={props.className}>
@@ -173,12 +175,14 @@ const QuoteBoxView = (
 	);
 };
 
-const QuoteBoxFormView = (props: {
-	quoteFormStore: QuoteFormStore;
-	twVariantsFormStore: TwVariantsFormStore;
-	customCssFormStore: CustomCssFormStore;
-	style?: CSSProperties;
-}) => {
+const QuoteBoxFormView = (
+	props: {
+		quoteFormStore: QuoteFormStore;
+		twVariantsFormStore: TwVariantsFormStore;
+		customCssFormStore: CustomCssFormStore;
+		style?: CSSProperties;
+	} & SharedProps,
+) => {
 	const content = useStore(
 		props.quoteFormStore,
 		(store) => store.fields.content.value,
@@ -200,16 +204,20 @@ const QuoteBoxFormView = (props: {
 	);
 
 	const className = cx(
+		props.className,
+		customPageClasses[`${BOX_TYPE}-BOX`],
 		twVariantsStr,
 		customCssStr,
-		customPageClasses[`${BOX_TYPE}-BOX`],
 	);
 
 	return (
 		<QuoteBoxView
+			boxDeepLevel={props.boxDeepLevel}
+			parentBox={props.parentBox}
+			className={className}
+			//
 			content={content}
 			cite={cite}
-			className={className}
 			style={props.style}
 		/>
 	);
@@ -243,9 +251,14 @@ const QuoteBoxEditOverlay = (props: Props) => {
 			{...props}
 			ShowcaseBoxChildren={
 				<QuoteBoxFormView
+					boxDeepLevel={props.boxDeepLevel}
+					parentBox={props.parentBox}
+					className={props.className}
+					//
 					quoteFormStore={quoteFormStore}
 					twVariantsFormStore={twVariantsFormStore}
 					customCssFormStore={customCssFormStore}
+					//
 					style={props.style}
 				/>
 			}
@@ -348,9 +361,8 @@ export const QuoteBoxEditable = (props: Props) => {
 	);
 
 	const quoteBoxViewProps = {
-		content: box.quoteBox.content,
-		cite: box.quoteBox.cite,
-		style: props.style,
+		boxDeepLevel: props.boxDeepLevel,
+		parentBox: props.parentBox,
 		className: cx(
 			customPageClasses[`${BOX_TYPE}-BOX`],
 			props.className,
@@ -359,6 +371,10 @@ export const QuoteBoxEditable = (props: Props) => {
 				? box.css.custom?.map((key) => customPageClasses[key])
 				: []),
 		),
+		//
+		content: box.quoteBox.content,
+		cite: box.quoteBox.cite,
+		style: props.style,
 	};
 
 	return (

@@ -1,4 +1,9 @@
-import { Box, PageStoreApi, SectionBoxContainer, type TabsHolder } from './_';
+import {
+	Box,
+	PageStoreApi,
+	SectionBoxContainer,
+	type TabsHolderBox,
+} from './_';
 
 import { type ReactNode } from 'react';
 
@@ -6,10 +11,10 @@ import * as Tabs from '@radix-ui/react-tabs';
 import { cx } from 'class-variance-authority';
 
 export default function CustomTabs(props: {
-	box: TabsHolder;
+	box: TabsHolderBox;
 	className: string;
 	boxDeepLevel: number;
-	childAfter?: ReactNode;
+	childrenAfter?: ReactNode;
 	path: (string | number)[];
 	pageStore: PageStoreApi;
 }) {
@@ -31,6 +36,7 @@ export default function CustomTabs(props: {
 							className={cx(
 								'text-h4 font-light border-[0.125rem] border-solid border-transparent',
 								'data-[state=active]:font-bold data-[state=active]:border-solid data-[state=active]:pb-1 data-[state=active]:border-b-text-primary-400 data-[state=active]:text-text-primary-600',
+								props.childrenAfter && 'relative z-[99]',
 							)}
 							value={boxToTabsHolder.title}
 						>
@@ -62,7 +68,7 @@ export default function CustomTabs(props: {
 					),
 				)}
 			</Tabs.Root>
-			{props.childAfter}
+			{props.childrenAfter}
 		</div>
 	);
 }

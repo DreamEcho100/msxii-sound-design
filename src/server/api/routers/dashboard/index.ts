@@ -7,6 +7,7 @@ import { updateOneHeaderBoxSchema } from '~/server/utils/validations-schemas/das
 import { UpdateOneCustomCssSchema } from '~/server/utils/validations-schemas/dashboard/css/customCss';
 import { UpdateOneTwVariantsSchema } from '~/server/utils/validations-schemas/dashboard/css/twVariants';
 import { updateOneImageBoxSchema } from '~/server/utils/validations-schemas/dashboard/boxes/types/images';
+import { updateOneIframeBoxSchema } from '~/server/utils/validations-schemas/dashboard/boxes/types/iframes';
 
 export const dashboardRouter = createTRPCRouter({
 	categories: createTRPCRouter({
@@ -165,6 +166,36 @@ export const dashboardRouter = createTRPCRouter({
 								height: input.height,
 							})
 							.where(eq(ctx.drizzleSchema.imageBox.id, input.id));
+
+						return box;
+					}),
+			}),
+			iframes: createTRPCRouter({
+				updateOne: adminProtectedProcedure
+					.input(z.object(updateOneIframeBoxSchema))
+					.mutation(async ({ ctx, input }) => {
+						const box = await ctx.drizzleQueryClient.query.iframeBox.findFirst({
+							where(fields, operators) {
+								return operators.eq(fields.id, input.id);
+							},
+						});
+
+						if (!box) {
+							throw new Error('Box not found');
+						}
+
+						box.src = input.src ?? box.src;
+						box.title = input.title ?? box.title;
+						box.type = input.type ?? box.type;
+
+						await ctx.drizzleQueryClient
+							.update(ctx.drizzleSchema.iframeBox)
+							.set({
+								src: input.src,
+								title: input.title,
+								type: input.type,
+							})
+							.where(eq(ctx.drizzleSchema.iframeBox.id, input.id));
 
 						return box;
 					}),

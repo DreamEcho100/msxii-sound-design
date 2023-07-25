@@ -1,7 +1,7 @@
 import { type ReactNode } from 'react';
 import BoxEditOverlay from '../BoxEditOverlay';
-import { BoxTypeImage, PageStoreApi } from '../_';
-import { BoxTypes } from '@prisma/client';
+import { BoxTypeIframe, PageStoreApi } from '../_';
+import { BoxTypes, IframeBoxTypes } from '@prisma/client';
 import { useStore } from 'zustand';
 import { getValueByPathArray, newUpdatedByPathArray } from '~/utils/obj/update';
 import { cx } from 'class-variance-authority';
@@ -14,7 +14,7 @@ import {
 import Form from '~/components/shared/common/@de100/form-echo/Forms';
 import ContainedInputField from '~/components/shared/common/@de100/form-echo/Fields/Contained/ContainedInput';
 import Accordion from '~/components/shared/common/Accordion';
-import { createOneImageBoxSchema } from '~/server/utils/validations-schemas/dashboard/boxes/types/images';
+import { createOneIframeBoxSchema } from '~/server/utils/validations-schemas/dashboard/boxes/types/iframes';
 import { api } from '~/utils/api';
 import { toast } from 'react-toastify';
 
@@ -26,40 +26,44 @@ import {
 	TwVariantsForm,
 	useCreateTwVariantsFormStore,
 } from '../Css/TwVariants';
-import CustomNextImage from '~/components/shared/CustomNextImage';
-import { BsX } from 'react-icons/bs';
+// import { BsX } from 'react-icons/bs';
+import {
+	InstagramIframe,
+	SoundCloudIframe,
+	YouTubeIFrame,
+} from '~/components/shared/Iframes';
+import ContainedDropdownField from '~/components/shared/common/@de100/form-echo/Fields/Contained/ContainedDropdown';
 
-type ImageBox = {
+type IframeBox = {
 	src: string;
-	altText: string | null;
-	width: number | null;
-	height: number | null;
+	title: string | null;
+	type: IframeBoxTypes;
 };
-type ImageFormStore = FormStoreApi<ImageBox, typeof createOneImageBoxSchema>;
+type IframeFormStore = FormStoreApi<IframeBox, typeof createOneIframeBoxSchema>;
 type SharedProps = {
 	boxDeepLevel: number;
 	parentBox?: BoxTypes;
 	className?: string;
 };
 type Props = {
-	box: BoxTypeImage;
+	box: BoxTypeIframe;
 	path: (string | number)[];
 	pageStore: PageStoreApi;
 } & SharedProps;
 
-const BOX_TYPE = BoxTypes.IMAGE;
+const BOX_TYPE = BoxTypes.IFRAME;
 
-const ImageBoxForm = (props: {
-	store: ImageFormStore;
+const IframeBoxForm = (props: {
+	store: IframeFormStore;
 	id: string;
 	onSuccess: (params: {
 		validatedValues: GetPassedValidationFieldsValues<
-			typeof createOneImageBoxSchema
+			typeof createOneIframeBoxSchema
 		>;
 	}) => void;
 }) => {
 	const updateOneRequest =
-		api.dashboard.boxes.types.images.updateOne.useMutation({
+		api.dashboard.boxes.types.iframes.updateOne.useMutation({
 			onError(error) {
 				toast(error.message, { type: 'error' });
 			},
@@ -81,6 +85,20 @@ const ImageBoxForm = (props: {
 			}}
 			store={props.store}
 		>
+			<ContainedDropdownField
+				isA="combobox"
+				data={
+					Object.values(
+						IframeBoxTypes,
+					) as unknown as (keyof typeof IframeBoxTypes)[]
+				}
+				store={props.store}
+				name="type"
+				labelProps={{ children: 'type' }}
+				getOptionChildren={(value) => value.replaceAll('_', ' ').toLowerCase()}
+				getDisplayValue={(value) => value.replaceAll('_', ' ').toLowerCase()}
+				getOptionKey={(value) => value}
+			/>
 			<ContainedInputField
 				store={props.store}
 				name="src"
@@ -88,10 +106,10 @@ const ImageBoxForm = (props: {
 			/>
 			<ContainedInputField
 				store={props.store}
-				name="altText"
-				labelProps={{ children: 'alt text' }}
+				name="title"
+				labelProps={{ children: 'title' }}
 			/>
-			<fieldset>
+			{/* <fieldset>
 				<div className="relative">
 					<ContainedInputField
 						store={props.store}
@@ -146,7 +164,7 @@ const ImageBoxForm = (props: {
 						</button>
 					</div>
 				</div>
-			</fieldset>
+			</fieldset> */}
 			<button
 				type="submit"
 				disabled={updateOneRequest.isLoading}
@@ -158,45 +176,81 @@ const ImageBoxForm = (props: {
 	);
 };
 
-const ImageBoxView = (
+const IframeBoxView = (
 	props: {
 		childrenAfter?: ReactNode;
 	} & SharedProps &
-		ImageBox,
+		IframeBox,
 ) => {
-	return (
-		<div className={props.className}>
-			<CustomNextImage
+	if (props.type === IframeBoxTypes.YOUTUBE)
+		return (
+			<YouTubeIFrame
+				containerProps={{
+					className: cx(
+						'w-full rounded-3xl overflow-hidden relative isolate',
+						props.className,
+					),
+				}}
+				childrenAfter={props.childrenAfter}
+				youTubeIconVariants={{
+					fontSize: props.parentBox === BoxTypes.SLIDER ? 'small' : 'medium',
+				}}
+				width={props.parentBox === BoxTypes.SLIDER ? '200' : '550'}
+				height={props.parentBox === BoxTypes.SLIDER ? '200' : '550'}
 				src={props.src}
-				width={props.width || 800}
-				height={props.height || 800}
-				alt={props.altText || ''}
+				title={props.title || 'YouTube video player'}
+				allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
 			/>
-			{props.childrenAfter}
-		</div>
-	);
+		);
+
+	if (props.type === IframeBoxTypes.INSTAGRAM)
+		return (
+			<InstagramIframe
+				className={props.className}
+				src={props.src}
+				title={props.title}
+				childrenAfter={props.childrenAfter}
+			/>
+		);
+
+	if (props.type === IframeBoxTypes.SOUND_CLOUD)
+		return (
+			<SoundCloudIframe
+				className={props.className}
+				src={props.src}
+				title={props.title}
+				childrenAfter={props.childrenAfter}
+			/>
+		);
 };
 
-const ImageBoxFormView = (
+const IframeBoxFormView = (
 	props: {
-		imageFormStore: ImageFormStore;
+		iframeFormStore: IframeFormStore;
 		twVariantsFormStore: TwVariantsFormStore;
 		customCssFormStore: CustomCssFormStore;
 	} & SharedProps,
 ) => {
-	const src = useStore(props.imageFormStore, (store) => store.fields.src.value);
-	const altText = useStore(
-		props.imageFormStore,
-		(store) => store.fields.altText.value,
+	const src = useStore(
+		props.iframeFormStore,
+		(store) => store.fields.src.value,
 	);
-	const width = useStore(
-		props.imageFormStore,
-		(store) => store.fields.width.value,
+	const title = useStore(
+		props.iframeFormStore,
+		(store) => store.fields.title.value,
 	);
-	const height = useStore(
-		props.imageFormStore,
-		(store) => store.fields.height.value,
+	const type = useStore(
+		props.iframeFormStore,
+		(store) => store.fields.type.value,
 	);
+	// const width = useStore(
+	// 	props.iframeFormStore,
+	// 	(store) => store.fields.width.value,
+	// );
+	// const height = useStore(
+	// 	props.iframeFormStore,
+	// 	(store) => store.fields.height.value,
+	// );
 	const twVariantsStr = useStore(props.twVariantsFormStore, (store) =>
 		handleBoxVariants(store.fields.twVariants.value),
 	);
@@ -208,6 +262,7 @@ const ImageBoxFormView = (
 				?.map((key) => customPageClasses[key])
 				.join(' ') ?? undefined,
 	);
+
 	const className = cx(
 		props.className,
 		customPageClasses[`${BOX_TYPE}-BOX`],
@@ -216,42 +271,44 @@ const ImageBoxFormView = (
 	);
 
 	return (
-		<ImageBoxView
+		<IframeBoxView
 			boxDeepLevel={props.boxDeepLevel}
 			parentBox={props.parentBox}
 			className={className}
 			//
 			src={src}
-			altText={altText}
-			width={width}
-			height={height}
+			title={title}
+			type={type}
+			// width={width}
+			// height={height}
 		/>
 	);
 };
 
-const ImageBoxEditOverlay = (props: Props) => {
+const IframeBoxEditOverlay = (props: Props) => {
 	const box = useStore(
 		props.pageStore,
-		(state) => getValueByPathArray(state.page, props.path) as BoxTypeImage, // .slice(0, -1)
+		(state) => getValueByPathArray(state.page, props.path) as BoxTypeIframe, // .slice(0, -1)
 	);
-	const imageFormStore: ImageFormStore = useCreateFormStore({
+	const iframeFormStore: IframeFormStore = useCreateFormStore({
 		initValues: {
-			src: box.imageBox.src,
-			altText: box.imageBox.altText,
-			width: box.imageBox.width,
-			height: box.imageBox.height,
+			src: box.iframeBox.src,
+			title: box.iframeBox.title,
+			type: box.iframeBox.type,
+			// width: box.iframeBox.width,
+			// height: box.iframeBox.height,
 		},
-		validationSchema: createOneImageBoxSchema,
+		validationSchema: createOneIframeBoxSchema,
 		validationEvents: { change: true },
 		valuesFromFieldsToStore: {
-			altText: (val) => (val ? val : null),
-			width: (val) => (val ? Number(val) : null),
-			height: (val) => (val ? Number(val) : null),
+			title: (val) => (val ? val : null),
+			// width: (val) => (val ? Number(val) : null),
+			// height: (val) => (val ? Number(val) : null),
 		},
 		valuesFromStoreToFields: {
-			altText: (val) => val ?? '',
-			width: (val) => (typeof val === 'number' ? val.toString() : ''),
-			height: (val) => (typeof val === 'number' ? val.toString() : ''),
+			title: (val) => val ?? '',
+			// width: (val) => (typeof val === 'number' ? val.toString() : ''),
+			// height: (val) => (typeof val === 'number' ? val.toString() : ''),
 		},
 	});
 	const twVariantsFormStore = useCreateTwVariantsFormStore(
@@ -268,12 +325,12 @@ const ImageBoxEditOverlay = (props: Props) => {
 		<BoxEditOverlay
 			{...props}
 			ShowcaseBoxChildren={
-				<ImageBoxFormView
+				<IframeBoxFormView
 					boxDeepLevel={props.boxDeepLevel}
 					parentBox={props.parentBox}
 					className={props.className}
 					//
-					imageFormStore={imageFormStore}
+					iframeFormStore={iframeFormStore}
 					twVariantsFormStore={twVariantsFormStore}
 					customCssFormStore={customCssFormStore}
 				/>
@@ -291,7 +348,7 @@ const ImageBoxEditOverlay = (props: Props) => {
 											return newUpdatedByPathArray<
 												// eslint-disable-next-line @typescript-eslint/ban-types
 												Exclude<typeof page, Function>
-											>([...props.path, 'css'], page, (prev: BoxTypeImage) => {
+											>([...props.path, 'css'], page, (prev: BoxTypeIframe) => {
 												return {
 													...prev,
 													twVariants: params.values.twVariants,
@@ -319,7 +376,7 @@ const ImageBoxEditOverlay = (props: Props) => {
 											return newUpdatedByPathArray<
 												// eslint-disable-next-line @typescript-eslint/ban-types
 												Exclude<typeof page, Function>
-											>([...props.path, 'css'], page, (prev: BoxTypeImage) => {
+											>([...props.path, 'css'], page, (prev: BoxTypeIframe) => {
 												return {
 													...prev,
 													custom: params.validatedValues.customCss,
@@ -337,23 +394,24 @@ const ImageBoxEditOverlay = (props: Props) => {
 						{
 							defaultOpen: true,
 							contentChildren: (
-								<ImageBoxForm
-									store={imageFormStore}
-									id={box.imageBox.id}
+								<IframeBoxForm
+									store={iframeFormStore}
+									id={box.iframeBox.id}
 									onSuccess={(params) => {
 										props.pageStore.getState().utils.setPage((page) => {
 											return newUpdatedByPathArray<
 												// eslint-disable-next-line @typescript-eslint/ban-types
 												Exclude<typeof page, Function>
 											>(
-												[...props.path, 'imageBox'],
+												[...props.path, 'iframeBox'],
 												page,
-												(prev: BoxTypeImage) => ({
+												(prev: BoxTypeIframe) => ({
 													...prev,
 													src: params.validatedValues.src,
-													altText: params.validatedValues.altText,
-													width: params.validatedValues.width,
-													height: params.validatedValues.height,
+													title: params.validatedValues.title,
+													type: params.validatedValues.type,
+													// width: params.validatedValues.width,
+													// height: params.validatedValues.height,
 												}),
 											);
 										});
@@ -361,9 +419,11 @@ const ImageBoxEditOverlay = (props: Props) => {
 								/>
 							),
 							titleElem: (
-								<h3 className="text-h6 font-bold capitalize">image box form</h3>
+								<h3 className="text-h6 font-bold capitalize">
+									iframe box form
+								</h3>
 							),
-							___key: 'imageBox',
+							___key: 'iframeBox',
 						},
 					]}
 				/>
@@ -372,13 +432,13 @@ const ImageBoxEditOverlay = (props: Props) => {
 	);
 };
 
-export const ImageBoxEditable = (props: Props) => {
+export const IframeBoxEditable = (props: Props) => {
 	const box = useStore(
 		props.pageStore,
-		(state) => getValueByPathArray(state.page, props.path) as BoxTypeImage,
+		(state) => getValueByPathArray(state.page, props.path) as BoxTypeIframe,
 	);
 
-	const imageBoxViewProps = {
+	const iframeBoxViewProps = {
 		boxDeepLevel: props.boxDeepLevel,
 		parentBox: props.parentBox,
 		className: cx(
@@ -390,16 +450,17 @@ export const ImageBoxEditable = (props: Props) => {
 				: []),
 		),
 		//
-		src: box.imageBox.src,
-		altText: box.imageBox.altText,
-		width: box.imageBox.width,
-		height: box.imageBox.height,
+		type: box.iframeBox.type,
+		src: box.iframeBox.src,
+		title: box.iframeBox.title,
+		// width: box.iframeBox.width,
+		// height: box.iframeBox.height,
 	};
 
 	return (
-		<ImageBoxView
-			{...imageBoxViewProps}
-			childrenAfter={<ImageBoxEditOverlay {...props} />}
+		<IframeBoxView
+			{...iframeBoxViewProps}
+			childrenAfter={<IframeBoxEditOverlay {...props} />}
 		/>
 	);
 };

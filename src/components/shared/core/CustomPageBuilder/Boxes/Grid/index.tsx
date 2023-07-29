@@ -1,23 +1,13 @@
 import { type ReactNode } from 'react';
-import ReactMarkdownFormatter from '~/components/shared/ReactMarkdownFormatter';
 import BoxEditOverlay from '../../BoxEditOverlay';
-import { BoxTypeMd, PageStoreApi } from '../../_';
+import { BoxTypeGrid, PageStoreApi } from '../../_';
 import { BoxTypes } from '@prisma/client';
 import { useStore } from 'zustand';
 import { getValueByPathArray, newUpdatedByPathArray } from '~/utils/obj/update';
 import { cx } from 'class-variance-authority';
 import { BoxVariants, handleBoxVariants } from '~/utils/appData';
-import {
-	type FormStoreApi,
-	type GetPassedValidationFieldsValues,
-	useCreateFormStore,
-} from '@de100/form-echo';
-import Form from '~/components/shared/common/@de100/form-echo/Forms';
-import ContainedInputField from '~/components/shared/common/@de100/form-echo/Fields/Contained/ContainedInput';
+import { useCreateFormStore } from '@de100/form-echo';
 import Accordion from '~/components/shared/common/Accordion';
-import { createOneMdBoxSchema } from '~/server/utils/validations-schemas/dashboard/boxes/types/mds';
-import { api } from '~/utils/api';
-import { toast } from 'react-toastify';
 
 import customPageClasses from '~/styles/_custom-page.module.css';
 import { CreateOneCustomCssSchema } from '~/server/utils/validations-schemas/dashboard/css/customCss';
@@ -28,98 +18,56 @@ import {
 	useCreateTwVariantsFormStore,
 } from '../../Css/TwVariants';
 
-type MdBox = {
-	content: string;
+type Grid = {
+	// slidesPerViewType: (typeof SlidesPerViewType)[keyof typeof SlidesPerViewType];
 };
-type MdFormStore = FormStoreApi<MdBox, typeof createOneMdBoxSchema>;
 type SharedProps = {
 	boxDeepLevel: number;
 	parentBox?: BoxTypes;
 	className?: string;
+
+	// boxesToGrids: BoxTypeGrid['grid']['boxesToGrids']
+	// path: (string | number)[];
+	// pageStore: PageStoreApi;
 };
-type Props = {
-	box: BoxTypeMd;
+type Props = SharedProps & {
+	box: BoxTypeGrid;
 	path: (string | number)[];
 	pageStore: PageStoreApi;
-} & SharedProps;
-
-const BOX_TYPE = BoxTypes.MD;
-
-const MdBoxForm = (props: {
-	store: MdFormStore;
-	id: string;
-	onSuccess: (params: {
-		validatedValues: GetPassedValidationFieldsValues<
-			typeof createOneMdBoxSchema
-		>;
-	}) => void;
-}) => {
-	const updateOneRequest = api.dashboard.boxes.types.mds.updateOne.useMutation({
-		onError(error) {
-			toast(error.message, { type: 'error' });
-		},
-		onSuccess() {
-			toast('Successful submission!', { type: 'success' });
-		},
-	});
-
-	return (
-		<Form
-			onSubmit={async (event, params) => {
-				event.preventDefault();
-				await updateOneRequest.mutateAsync({
-					id: props.id,
-					...params.validatedValues,
-				});
-
-				props.onSuccess(params);
-				// result.
-			}}
-			store={props.store}
-		>
-			<ContainedInputField
-				isA="textarea"
-				store={props.store}
-				name="content"
-				labelProps={{ children: 'content' }}
-				rows={15}
-			/>
-			<button
-				type="submit"
-				disabled={updateOneRequest.isLoading}
-				className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-			>
-				submit
-			</button>
-		</Form>
-	);
 };
 
-const MdBoxView = (
+const BOX_TYPE = BoxTypes.GRID;
+
+const GridView = (
 	props: {
 		childrenAfter?: ReactNode;
+		boxesToGrids: BoxTypeGrid['grid']['boxesToGrids'];
+		path: (string | number)[];
+		pageStore: PageStoreApi;
+		// isDisplayingSlidesOut?: boolean;
+		// forceRerender?: boolean;
 	} & SharedProps &
-		MdBox,
+		Grid,
 ) => {
-	return (
-		<div className={props.className}>
-			<ReactMarkdownFormatter content={props.content} />
-			{props.childrenAfter}
-		</div>
-	);
+	props;
+	return <></>;
 };
 
-const MdBoxFormView = (
+const GridFormView = (
 	props: {
-		mdFormStore: MdFormStore;
+		// gridFormStore: GridFormStore;
 		twVariantsFormStore: TwVariantsFormStore;
 		customCssFormStore: CustomCssFormStore;
+		//
+		boxesToGrids: BoxTypeGrid['grid']['boxesToGrids'];
+		path: (string | number)[];
+		pageStore: PageStoreApi;
 	} & SharedProps,
 ) => {
-	const content = useStore(
-		props.mdFormStore,
-		(store) => store.fields.content.value,
-	);
+	// const slidesPerViewType = useStore(
+	// 	props.gridFormStore,
+	// 	(store) => store.fields.slidesPerViewType.value,
+	// );
 	const twVariantsStr = useStore(props.twVariantsFormStore, (store) =>
 		handleBoxVariants(store.fields.twVariants.value),
 	);
@@ -140,28 +88,37 @@ const MdBoxFormView = (
 	);
 
 	return (
-		<MdBoxView
+		<GridView
 			boxDeepLevel={props.boxDeepLevel}
 			parentBox={props.parentBox}
 			className={className}
 			//
-			content={content}
+			// slidesPerViewType={slidesPerViewType}
+			boxesToGrids={props.boxesToGrids}
+			path={props.path}
+			pageStore={props.pageStore}
+			// isDisplayingSlidesOut
+			// forceRerender
 		/>
 	);
 };
 
-const MdBoxEditOverlay = (props: Props) => {
+const GridEditOverlay = (
+	props: Props & {
+		boxesToGrids: BoxTypeGrid['grid']['boxesToGrids'];
+	},
+) => {
 	const box = useStore(
 		props.pageStore,
-		(state) => getValueByPathArray(state.page, props.path) as BoxTypeMd, // .slice(0, -1)
+		(state) => getValueByPathArray(state.page, props.path) as BoxTypeGrid, // .slice(0, -1)
 	);
-	const mdFormStore: MdFormStore = useCreateFormStore({
-		initValues: {
-			content: box.mdBox.content,
-		},
-		validationSchema: createOneMdBoxSchema,
-		validationEvents: { change: true },
-	});
+	// const gridFormStore: GridFormStore = useCreateFormStore({
+	// 	initValues: {
+	// 		// slidesPerViewType: box.grid.slidesPerViewType,
+	// 	},
+	// 	validationSchema: createOneGridSchema,
+	// 	validationEvents: { change: true },
+	// });
 	const twVariantsFormStore = useCreateTwVariantsFormStore(
 		props.box.css.twVariants,
 	);
@@ -176,14 +133,18 @@ const MdBoxEditOverlay = (props: Props) => {
 		<BoxEditOverlay
 			{...props}
 			ShowcaseBoxChildren={
-				<MdBoxFormView
+				<GridFormView
 					boxDeepLevel={props.boxDeepLevel}
 					parentBox={props.parentBox}
 					className={props.className}
 					//
-					mdFormStore={mdFormStore}
+					// gridFormStore={gridFormStore}
 					twVariantsFormStore={twVariantsFormStore}
 					customCssFormStore={customCssFormStore}
+					//
+					path={props.path}
+					pageStore={props.pageStore}
+					boxesToGrids={props.boxesToGrids}
 				/>
 			}
 			EditSideMenuChildren={
@@ -199,7 +160,7 @@ const MdBoxEditOverlay = (props: Props) => {
 											return newUpdatedByPathArray<
 												// eslint-disable-next-line @typescript-eslint/ban-types
 												Exclude<typeof page, Function>
-											>([...props.path, 'css'], page, (prev: BoxTypeMd) => {
+											>([...props.path, 'css'], page, (prev: BoxTypeGrid) => {
 												return {
 													...prev,
 													twVariants: params.values.twVariants,
@@ -227,7 +188,7 @@ const MdBoxEditOverlay = (props: Props) => {
 											return newUpdatedByPathArray<
 												// eslint-disable-next-line @typescript-eslint/ban-types
 												Exclude<typeof page, Function>
-											>([...props.path, 'css'], page, (prev: BoxTypeMd) => {
+											>([...props.path, 'css'], page, (prev: BoxTypeGrid) => {
 												return {
 													...prev,
 													customClasses: params.validatedValues.customCss,
@@ -245,26 +206,30 @@ const MdBoxEditOverlay = (props: Props) => {
 						{
 							defaultOpen: true,
 							contentChildren: (
-								<MdBoxForm
-									store={mdFormStore}
-									id={box.mdBox.id}
+								<>
+									{/* <GridForm
+									// store={gridFormStore}
+									id={box.grid.id}
+									// eslint-disable-next-line @typescript-eslint/no-unused-vars
 									onSuccess={(params) => {
 										props.pageStore.getState().utils.setPage((page) => {
 											return newUpdatedByPathArray<
 												// eslint-disable-next-line @typescript-eslint/ban-types
 												Exclude<typeof page, Function>
-											>([...props.path, 'mdBox'], page, (prev: BoxTypeMd) => ({
+											>([...props.path, 'grid'], page, (prev: BoxTypeGrid) => ({
 												...prev,
-												content: params.validatedValues.content,
+												// slidesPerViewType:
+												// 	params.validatedValues.slidesPerViewType,
 											}));
 										});
 									}}
-								/>
+								/> */}
+								</>
 							),
 							titleElem: (
-								<h3 className="text-h6 font-bold capitalize">MD box form</h3>
+								<h3 className="text-h6 font-bold capitalize">grid box form</h3>
 							),
-							___key: 'mdBox',
+							___key: 'grid',
 						},
 					]}
 				/>
@@ -273,13 +238,13 @@ const MdBoxEditOverlay = (props: Props) => {
 	);
 };
 
-export const MdBoxEditable = (props: Props) => {
+export const GridEditable = (props: Props) => {
 	const box = useStore(
 		props.pageStore,
-		(state) => getValueByPathArray(state.page, props.path) as BoxTypeMd,
+		(state) => getValueByPathArray(state.page, props.path) as BoxTypeGrid,
 	);
 
-	const mdBoxViewProps = {
+	const gridViewProps = {
 		boxDeepLevel: props.boxDeepLevel,
 		parentBox: props.parentBox,
 		className: cx(
@@ -291,13 +256,18 @@ export const MdBoxEditable = (props: Props) => {
 				: []),
 		),
 		//
-		content: box.mdBox.content,
+		// slidesPerViewType: box.grid.slidesPerViewType,
+		path: props.path,
+		pageStore: props.pageStore,
+		boxesToGrids: box.grid.boxesToGrids,
 	};
 
 	return (
-		<MdBoxView
-			{...mdBoxViewProps}
-			childrenAfter={<MdBoxEditOverlay {...props} />}
+		<GridView
+			{...gridViewProps}
+			childrenAfter={
+				<GridEditOverlay {...props} boxesToGrids={box.grid.boxesToGrids} />
+			}
 		/>
 	);
 };

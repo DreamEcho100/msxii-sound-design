@@ -106,8 +106,8 @@ const SectionBody = (props: {
 			className={cx(
 				'flex flex-col',
 				handleBoxVariants(props.section.css.twVariants as BoxVariants),
-				...(props.section.css.custom
-					? props.section.css.custom.map((key) => customPageClasses[key])
+				...(props.section.css.customClasses
+					? props.section.css.customClasses.map((key) => customPageClasses[key])
 					: []),
 			)}
 		>
@@ -181,8 +181,8 @@ const SectionBox = (props: {
 	const customPageClassName = cx(
 		createBoxTypeClass(props.box.type),
 		handleBoxVariants(props.box.css.twVariants as BoxVariants),
-		...(props.box.css.custom
-			? props.box.css.custom?.map((key) => customPageClasses[key])
+		...(props.box.css.customClasses
+			? props.box.css.customClasses?.map((key) => customPageClasses[key])
 			: []),
 	);
 

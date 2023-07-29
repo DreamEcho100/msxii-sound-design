@@ -7,12 +7,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Example {
-  id        String   @id @default(cuid())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
-
 model Account {
   id                String  @id @default(cuid())
   userId            String
@@ -61,15 +55,15 @@ model VerificationToken {
 }
 
 model css {
-  id           String    @id @default(cuid())
-  createdAt    DateTime  @default(now())
-  updatedAt    DateTime? @updatedAt
-  twVariants   Json      @default("{}")
-  inlineStyles Json      @default("{}")
-  custom       String[]
-  boxes        Box[]
-  pages        Page[]
-  sections     Section[]
+  id            String    @id @default(cuid())
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime? @updatedAt
+  twVariants    Json      @default("{}")
+  inlineStyles  Json      @default("{}")
+  customClasses String[]  @default([])
+  boxes         Box[]
+  pages         Page[]
+  sections      Section[]
 }
 
 model MdBox {

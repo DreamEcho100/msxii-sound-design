@@ -272,12 +272,39 @@ export const dashboardRouter = createTRPCRouter({
 					}
 
 					// NOTE: Should I allow it to be null?
-					box.custom = input.customCss || [];
+					box.customClasses = input.customCss || [];
 
 					await ctx.drizzleQueryClient
 						.update(ctx.drizzleSchema.css)
 						.set({
-							custom: input.customCss,
+							customClasses: input.customCss,
+						})
+						.where(eq(ctx.drizzleSchema.css.id, input.cssId));
+
+					return box;
+				}),
+		}),
+		customCss: createTRPCRouter({
+			setOne: adminProtectedProcedure
+				.input(z.object(UpdateOneCustomCssSchema))
+				.mutation(async ({ ctx, input }) => {
+					const box = await ctx.drizzleQueryClient.query.css.findFirst({
+						where(fields, operators) {
+							return operators.eq(fields.id, input.cssId);
+						},
+					});
+
+					if (!box) {
+						throw new Error('CSS not found');
+					}
+
+					// NOTE: Should I allow it to be null?
+					box.customClasses = input.customCss || [];
+
+					await ctx.drizzleQueryClient
+						.update(ctx.drizzleSchema.css)
+						.set({
+							customClasses: input.customCss,
 						})
 						.where(eq(ctx.drizzleSchema.css.id, input.cssId));
 

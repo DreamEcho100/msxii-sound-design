@@ -212,7 +212,7 @@ const HeaderBoxEditOverlay = (props: Props) => {
 	);
 	const customCssFormStore: CustomCssFormStore = useCreateFormStore({
 		initValues: {
-			customCss: props.box.css.custom ?? [],
+			customCss: props.box.css.customClasses ?? [],
 		},
 		validationSchema: CreateOneCustomCssSchema,
 	});
@@ -275,7 +275,7 @@ const HeaderBoxEditOverlay = (props: Props) => {
 											>([...props.path, 'css'], page, (prev: BoxTypeHeader) => {
 												return {
 													...prev,
-													custom: params.validatedValues.customCss,
+													customClasses: params.validatedValues.customCss,
 												};
 											});
 										});
@@ -339,8 +339,8 @@ export const HeaderBoxEditable = (props: Props) => {
 			customPageClasses[`${BOX_TYPE}-BOX`],
 			props.className,
 			handleBoxVariants(box.css.twVariants as BoxVariants),
-			...(box.css.custom
-				? box.css.custom?.map((key) => customPageClasses[key])
+			...(box.css.customClasses
+				? box.css.customClasses?.map((key) => customPageClasses[key])
 				: []),
 		),
 		//

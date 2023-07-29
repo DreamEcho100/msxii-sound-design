@@ -119,7 +119,7 @@ export function TwVariantsForm(props: {
 						<CustomCombobox
 							data={twVariantsConfig.variantsToItemsKeys[variantKey]!}
 							value={twVariants[variantKey]}
-							setSelected={(value: (typeof twVariants)[typeof variantKey]) => {
+							setSelected={(value) => {
 								props.store
 									.getState()
 									.utils.handleOnInputChange('twVariants', (prev) => ({

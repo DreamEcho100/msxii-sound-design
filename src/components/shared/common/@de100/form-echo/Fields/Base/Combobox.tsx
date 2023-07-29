@@ -208,9 +208,7 @@ const CustomCombobox = <TData, FormattedData = undefined>(
 		<Combobox
 			{...comboboxProps}
 			value={locallySelected}
-			onChange={(value: GetData<TData, FormattedData>[number]) => {
-				handleSetSelected(value);
-			}}
+			onChange={(value) => handleSetSelected(value)}
 		>
 			<div className="relative">
 				<div className="relative w-full cursor-default overflow-hidden bg-transparent text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-teal-300 sm:text-sm">

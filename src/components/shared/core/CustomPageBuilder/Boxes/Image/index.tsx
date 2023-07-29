@@ -259,7 +259,7 @@ const ImageBoxEditOverlay = (props: Props) => {
 	);
 	const customCssFormStore: CustomCssFormStore = useCreateFormStore({
 		initValues: {
-			customCss: props.box.css.custom ?? [],
+			customCss: props.box.css.customClasses ?? [],
 		},
 		validationSchema: CreateOneCustomCssSchema,
 	});
@@ -322,7 +322,7 @@ const ImageBoxEditOverlay = (props: Props) => {
 											>([...props.path, 'css'], page, (prev: BoxTypeImage) => {
 												return {
 													...prev,
-													custom: params.validatedValues.customCss,
+													customClasses: params.validatedValues.customCss,
 												};
 											});
 										});
@@ -385,8 +385,8 @@ export const ImageBoxEditable = (props: Props) => {
 			customPageClasses[`${BOX_TYPE}-BOX`],
 			props.className,
 			handleBoxVariants(box.css.twVariants as BoxVariants),
-			...(box.css.custom
-				? box.css.custom?.map((key) => customPageClasses[key])
+			...(box.css.customClasses
+				? box.css.customClasses?.map((key) => customPageClasses[key])
 				: []),
 		),
 		//

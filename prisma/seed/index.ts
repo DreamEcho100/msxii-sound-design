@@ -65,7 +65,7 @@ const seedPage = async (page: CustomPage) => {
 			css: {
 				create: {
 					twVariants: page.twClassNameVariants,
-					custom: page.customPageClassesKeys,
+					customClasses: page.customPageClassesKeys,
 				},
 			},
 			category: { connect: { name: page.categoryName } },
@@ -91,7 +91,7 @@ const seedPage = async (page: CustomPage) => {
 						css: {
 							create: {
 								twVariants: section.twClassNameVariants,
-								custom: section.customPageClassesKeys,
+								customClasses: section.customPageClassesKeys,
 							},
 						},
 						order: section.order,
@@ -232,7 +232,7 @@ const seedPage = async (page: CustomPage) => {
 							css: {
 								create: {
 									twVariants: box.twClassNameVariants,
-									custom: box.customPageClassesKeys,
+									customClasses: box.customPageClassesKeys,
 									inlineStyles: {
 										gridTemplateColumns: box.gridTemplateColumns,
 									},
@@ -320,7 +320,7 @@ const seedPage = async (page: CustomPage) => {
 							css: {
 								create: {
 									twVariants: box.twClassNameVariants,
-									custom: box.customPageClassesKeys,
+									customClasses: box.customPageClassesKeys,
 								},
 							},
 							order: box.order,

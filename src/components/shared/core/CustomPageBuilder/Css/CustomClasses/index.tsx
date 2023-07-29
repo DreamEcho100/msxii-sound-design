@@ -78,9 +78,6 @@ export const CustomCssForm = (props: {
 		(store) => store.fields.customCss.value,
 	);
 
-	type SelectedValue =
-		(typeof customClassesConfig)['originalKeyToBeatifiedKeyEntries'];
-
 	return (
 		<Form
 			onSubmit={async (event, params) => {
@@ -119,7 +116,7 @@ export const CustomCssForm = (props: {
 				<CustomCombobox
 					data={customClassesConfig.originalKeyToBeatifiedKeyEntries}
 					// value={customCss[variantKey]}
-					setSelected={(value: SelectedValue) => {
+					setSelected={(value) => {
 						props.store
 							.getState()
 							.utils.handleOnInputChange('customCss', (prev) => [
@@ -159,7 +156,7 @@ export const CustomCssForm = (props: {
 						<CustomCombobox
 							data={boxVariantsData.variantsToItemsKeys[variantKey]!}
 							value={customCss[variantKey]}
-							setSelected={(value: (typeof customCss)[typeof variantKey]) => {
+							setSelected={(value) => {
 								props.store
 									.getState()
 									.utils.handleOnInputChange('customCss', (prev) => ({

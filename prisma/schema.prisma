@@ -141,13 +141,13 @@ model HeaderBox {
 }
 
 model Tabs {
-  id           String      @id @default(cuid())
-  createdAt    DateTime    @default(now())
-  updatedAt    DateTime?   @updatedAt
-  boxId        String
-  boxType      BoxTypes    @default(TABS_HOLDER)
-  boxesToTabss BoxToTabs[]
-  box          Box         @relation(fields: [boxId, boxType], references: [id, type], onDelete: Cascade, map: "TabsBx_BxId_BT_FK")
+  id          String      @id @default(cuid())
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime?   @updatedAt
+  boxId       String
+  boxType     BoxTypes    @default(TABS_HOLDER)
+  boxesToTabs BoxToTabs[]
+  box         Box         @relation(fields: [boxId, boxType], references: [id, type], onDelete: Cascade, map: "TabsBx_BxId_BT_FK")
 
   @@unique([boxId, boxType], map: "Tabs_BxId_BxT_K")
 }
@@ -238,7 +238,7 @@ model Box {
   section        Section?      @relation(fields: [sectionId], references: [id], onDelete: Cascade)
   boxesToGrids   BoxToGrid[]
   boxesToSliders BoxToSlider[]
-  boxesToTabss   BoxToTabs[]
+  boxesToTabs    BoxToTabs[]
   grid           Grid?
   headerBox      HeaderBox?
   iframeBox      IframeBox?

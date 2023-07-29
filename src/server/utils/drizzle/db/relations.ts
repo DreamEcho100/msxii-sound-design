@@ -127,7 +127,7 @@ export const boxRelations = relations(box, ({ many, one }) => ({
 	}),
 
 	//
-	boxesToTabss: many(boxToTabs),
+	boxesToTabs: many(boxToTabs),
 	boxesToSliders: many(slider),
 	boxesToGrids: many(boxToGrid),
 }));
@@ -171,7 +171,7 @@ export const boxToTabsRelations = relations(boxToTabs, ({ one }) => ({
 	}),
 }));
 export const tabsRelations = relations(tabs, ({ many }) => ({
-	boxesToTabss: many(boxToTabs),
+	boxesToTabs: many(boxToTabs),
 }));
 
 /*
@@ -209,7 +209,7 @@ export const headerBoxRelations = relations(headerBox, ({ one }) => ({
 	// slider Slider?
 	// grid             Grid?
 
-	// boxesToTabss    BoxToTabs[]
+	// boxesToTabs    BoxToTabs[]
 	// boxesToSliders BoxToSlider[]
 	// boxToGrid             boxToGrid[]
 }));

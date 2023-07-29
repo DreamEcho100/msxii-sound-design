@@ -259,7 +259,7 @@ const seedPage = async (page: CustomPage) => {
 							type: BoxTypes.TABS_HOLDER,
 							tabs: {
 								create: {
-									boxesToTabss: {
+									boxesToTabs: {
 										createMany: { data: itemsData },
 									},
 								},

@@ -59,7 +59,7 @@ export const customPagesRouter = createTRPCRouter({
 
 									tabs: {
 										with: {
-											boxesToTabss: {
+											boxesToTabs: {
 												with: {
 													box: {
 														with: {

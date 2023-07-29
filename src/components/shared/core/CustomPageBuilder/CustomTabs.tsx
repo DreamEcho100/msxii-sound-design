@@ -19,13 +19,13 @@ export default function CustomTabs(props: {
 		<div>
 			<Tabs.Root
 				className={cx('flex flex-col gap-5 leading-7 w-full', props.className)}
-				defaultValue={props.box.boxesToTabss[0]?.title}
+				defaultValue={props.box.boxesToTabs[0]?.title}
 			>
 				<Tabs.List
 					className="w-full flex gap-4 items-center justify-center md:justify-start md:items-start"
 					aria-label="Manage your account"
 				>
-					{props.box.boxesToTabss.map((boxToTabs) => (
+					{props.box.boxesToTabs.map((boxToTabs) => (
 						<Tabs.Trigger
 							key={boxToTabs.id}
 							className={cx(
@@ -40,7 +40,7 @@ export default function CustomTabs(props: {
 					))}
 				</Tabs.List>
 
-				{props.box.boxesToTabss.map((boxToTabs, boxToTabsIndex) => (
+				{props.box.boxesToTabs.map((boxToTabs, boxToTabsIndex) => (
 					<Tabs.Content
 						key={boxToTabs.boxId}
 						className=""
@@ -52,7 +52,7 @@ export default function CustomTabs(props: {
 							path={[
 								...props.path,
 								'tabs',
-								'boxesToTabss',
+								'boxesToTabs',
 								boxToTabsIndex,
 								'box',
 							]}

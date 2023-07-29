@@ -4,13 +4,13 @@ import { toast } from 'react-toastify';
 import { useStore } from 'zustand';
 import CustomCombobox from '~/components/shared/common/@de100/form-echo/Fields/Base/Combobox';
 import Form from '~/components/shared/common/@de100/form-echo/Forms';
-import { CreateOneCustomCssSchema } from '~/server/utils/validations-schemas/dashboard/css/customCss';
+import { CreateOneCustomCssSchema } from '~/server/utils/validations-schemas/dashboard/css/customClasses';
 import { api } from '~/utils/api';
 
 import customPageClasses from '~/styles/_custom-page.module.css';
 
 export type CustomCssFormStore = FormStoreApi<
-	{ customCss: string[] },
+	{ customClasses: string[] },
 	typeof CreateOneCustomCssSchema
 >;
 
@@ -60,11 +60,11 @@ export const CustomCssForm = (props: {
 	cssId: string;
 	onSuccess: (params: {
 		validatedValues: {
-			customCss: string[] | null;
+			customClasses: string[] | null;
 		};
 	}) => void;
 }) => {
-	const setOneRequest = api.dashboard.css.customCss.setOne.useMutation({
+	const setOneRequest = api.dashboard.css.customClasses.setOne.useMutation({
 		onError(error) {
 			toast(error.message, { type: 'error' });
 		},
@@ -73,9 +73,9 @@ export const CustomCssForm = (props: {
 		},
 	});
 
-	const customCss = useStore(
+	const customClasses = useStore(
 		props.store,
-		(store) => store.fields.customCss.value,
+		(store) => store.fields.customClasses.value,
 	);
 
 	return (
@@ -84,9 +84,9 @@ export const CustomCssForm = (props: {
 				event.preventDefault();
 				await setOneRequest.mutateAsync({
 					cssId: props.cssId,
-					customCss: params.validatedValues.customCss,
+					customClasses: params.validatedValues.customClasses,
 					// ??
-					// customCss: params.validatedValues.customCss,
+					// customClasses: params.validatedValues.customClasses,
 				});
 
 				props.onSuccess(params);
@@ -95,7 +95,7 @@ export const CustomCssForm = (props: {
 		>
 			<fieldset className="min-w-[unset] flex flex-col gap-2">
 				<div className="flex flex-wrap gap-2">
-					{customCss?.map((item) =>
+					{customClasses?.map((item) =>
 						!customPageClasses[item] ? (
 							<Fragment key={item} />
 						) : (
@@ -115,11 +115,11 @@ export const CustomCssForm = (props: {
 				</div>
 				<CustomCombobox
 					data={customClassesConfig.originalKeyToBeatifiedKeyEntries}
-					// value={customCss[variantKey]}
+					// value={customClasses[variantKey]}
 					setSelected={(value) => {
 						props.store
 							.getState()
-							.utils.handleOnInputChange('customCss', (prev) => [
+							.utils.handleOnInputChange('customClasses', (prev) => [
 								value,
 								...prev,
 							]);
@@ -144,7 +144,7 @@ export const CustomCssForm = (props: {
 								onClick={() =>
 									props.store
 										.getState()
-										.utils.handleOnInputChange('customCss', (prev) => ({
+										.utils.handleOnInputChange('customClasses', (prev) => ({
 											...prev,
 											[variantKey]: null,
 										}))
@@ -155,11 +155,11 @@ export const CustomCssForm = (props: {
 						</div>
 						<CustomCombobox
 							data={boxVariantsData.variantsToItemsKeys[variantKey]!}
-							value={customCss[variantKey]}
+							value={customClasses[variantKey]}
 							setSelected={(value) => {
 								props.store
 									.getState()
-									.utils.handleOnInputChange('customCss', (prev) => ({
+									.utils.handleOnInputChange('customClasses', (prev) => ({
 										...prev,
 										[variantKey]: value,
 									}));

@@ -19,7 +19,7 @@ import { api } from '~/utils/api';
 import { toast } from 'react-toastify';
 
 import customPageClasses from '~/styles/_custom-page.module.css';
-import { CreateOneCustomCssSchema } from '~/server/utils/validations-schemas/dashboard/css/customCss';
+import { CreateOneCustomCssSchema } from '~/server/utils/validations-schemas/dashboard/css/customClasses';
 import { CustomCssFormStore, CustomCssForm } from '../../Css/CustomClasses';
 import {
 	type TwVariantsFormStore,
@@ -258,7 +258,7 @@ const IframeBoxFormView = (
 	const customCssStr = useStore(
 		props.customCssFormStore,
 		(store) =>
-			store.fields.customCss.value
+			store.fields.customClasses.value
 				?.map((key) => customPageClasses[key])
 				.join(' ') ?? undefined,
 	);
@@ -316,7 +316,7 @@ const IframeBoxEditOverlay = (props: Props) => {
 	);
 	const customCssFormStore: CustomCssFormStore = useCreateFormStore({
 		initValues: {
-			customCss: props.box.css.customClasses ?? [],
+			customClasses: props.box.css.customClasses ?? [],
 		},
 		validationSchema: CreateOneCustomCssSchema,
 	});
@@ -379,7 +379,7 @@ const IframeBoxEditOverlay = (props: Props) => {
 											>([...props.path, 'css'], page, (prev: BoxTypeIframe) => {
 												return {
 													...prev,
-													customClasses: params.validatedValues.customCss,
+													customClasses: params.validatedValues.customClasses,
 												};
 											});
 										});

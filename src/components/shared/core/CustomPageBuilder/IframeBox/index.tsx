@@ -68,7 +68,7 @@ const IframeBoxForm = (props: {
 				toast(error.message, { type: 'error' });
 			},
 			onSuccess() {
-				toast(`Successful submission!`, { type: 'success' });
+				toast('Successful submission!', { type: 'success' });
 			},
 		});
 

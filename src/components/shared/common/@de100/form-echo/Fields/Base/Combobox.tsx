@@ -1,4 +1,8 @@
-import { Combobox, Transition } from '@headlessui/react';
+import {
+	Combobox,
+	Transition,
+	type ComboboxProps as TComboboxProps,
+} from '@headlessui/react';
 import {
 	Fragment,
 	type Key,
@@ -7,6 +11,7 @@ import {
 	useRef,
 	useCallback,
 	useMemo,
+	type ElementType,
 } from 'react';
 import { type VariantProps, cva, cx } from 'class-variance-authority';
 
@@ -34,14 +39,22 @@ type GetData<
 export type ComboboxProps<
 	TData = unknown,
 	FormattedData = undefined,
-> = Parameters<typeof Combobox>[0] & {
+> = TComboboxProps<
+	NonNullable<GetData<TData, FormattedData>>[number],
+	false,
+	false,
+	ElementType
+> & {
 	data?: TData;
 	formatDataToOptions?: (data: TData) => FormattedData;
 
 	classVariants?: VariantProps<typeof handleClassVariants>;
 
-	// eslint-disable-next-line @typescript-eslint/ban-types
-	setSelected?: Exclude<unknown, Function> | ((value: unknown) => unknown);
+	setSelected?: (
+		value:
+			| NonNullable<GetData<TData, FormattedData>>[number]
+			| ((value: NonNullable<GetData<TData, FormattedData>>[number]) => void),
+	) => void; // Exclude<unknown, ((...params: any) => any)> | ((value: unknown) => unknown);
 	isLoading?: boolean;
 	isSuccess?: boolean;
 	debounceTime?: number;
@@ -152,7 +165,7 @@ const CustomCombobox = <TData, FormattedData = undefined>(
 	);
 
 	const handleSetSelected = useCallback(
-		(value: GetData<TData, FormattedData>[number]) => {
+		(value: NonNullable<GetData<TData, FormattedData>>[number]) => {
 			setLocallySelected(value);
 			comboboxProps.onChange?.(value);
 			setQuery?.(undefined);

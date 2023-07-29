@@ -32,7 +32,7 @@ type QuoteBox = { content: string; cite: string };
 type QuoteFormStore = FormStoreApi<QuoteBox, typeof createOneQuoteBoxSchema>;
 type SharedProps = {
 	boxDeepLevel: number;
-	parentBox: BoxTypes;
+	parentBox?: BoxTypes;
 	className: string;
 };
 type Props = SharedProps & {
@@ -54,12 +54,12 @@ const QuoteBoxForm = (props: {
 	}) => void;
 }) => {
 	const updateOneRequest =
-		api.dashboard.boxes.types.quote.updateOne.useMutation({
+		api.dashboard.boxes.types.quotes.updateOne.useMutation({
 			onError(error) {
 				toast(error.message, { type: 'error' });
 			},
 			onSuccess() {
-				toast(`Successful submission!`, { type: 'success' });
+				toast('Successful submission!', { type: 'success' });
 			},
 		});
 

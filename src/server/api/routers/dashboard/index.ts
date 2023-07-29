@@ -8,6 +8,7 @@ import { UpdateOneCustomCssSchema } from '~/server/utils/validations-schemas/das
 import { UpdateOneTwVariantsSchema } from '~/server/utils/validations-schemas/dashboard/css/twVariants';
 import { updateOneImageBoxSchema } from '~/server/utils/validations-schemas/dashboard/boxes/types/images';
 import { updateOneIframeBoxSchema } from '~/server/utils/validations-schemas/dashboard/boxes/types/iframes';
+import { updateOneSliderBoxSchema } from '~/server/utils/validations-schemas/dashboard/boxes/types/sliders';
 
 export const dashboardRouter = createTRPCRouter({
 	categories: createTRPCRouter({
@@ -82,7 +83,7 @@ export const dashboardRouter = createTRPCRouter({
 						return box;
 					}),
 			}),
-			quote: createTRPCRouter({
+			quotes: createTRPCRouter({
 				updateOne: adminProtectedProcedure
 					.input(z.object(updateOneQuoteBoxSchema))
 					.mutation(async ({ ctx, input }) => {
@@ -196,6 +197,33 @@ export const dashboardRouter = createTRPCRouter({
 								type: input.type,
 							})
 							.where(eq(ctx.drizzleSchema.iframeBox.id, input.id));
+
+						return box;
+					}),
+			}),
+			sliders: createTRPCRouter({
+				updateOne: adminProtectedProcedure
+					.input(z.object(updateOneSliderBoxSchema))
+					.mutation(async ({ ctx, input }) => {
+						const box = await ctx.drizzleQueryClient.query.sliderBox.findFirst({
+							where(fields, operators) {
+								return operators.eq(fields.id, input.id);
+							},
+						});
+
+						if (!box) {
+							throw new Error('Box not found');
+						}
+
+						box.slidesPerViewType =
+							input.slidesPerViewType ?? box.slidesPerViewType;
+
+						await ctx.drizzleQueryClient
+							.update(ctx.drizzleSchema.sliderBox)
+							.set({
+								slidesPerViewType: input.slidesPerViewType,
+							})
+							.where(eq(ctx.drizzleSchema.sliderBox.id, input.id));
 
 						return box;
 					}),

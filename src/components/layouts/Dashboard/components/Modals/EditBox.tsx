@@ -30,18 +30,13 @@ export default function EditBoxModal(props: {
 						props.setIsOpen(false);
 					}}
 				/>
-				<div className="flex-grow w-full h-full relative flex justify-between pointer-events-none">
-					<div className="m-8 flex flex-grow w-full h-full justify-end pointer-events-auto overflow-y-auto">
-						{/* <div className="flex-grow overflow-auto pointer-events-auto select-auto" /> */}
-						<section className="flex-grow bg-white py-12 px-8">
-							{props.ShowcaseBoxChildren}
-						</section>
-					</div>
-					<div className="m-8 pointer-events-auto select-auto flex">
-						<section className="w-[30rem] py-12 px-8 flex-grow bg-white flex flex-col gap-8 overflow-y-auto">
-							{props.EditSideMenuChildren}
-						</section>
-					</div>
+				<div className="flex-grow w-full h-full relative flex justify-between gap-16 p-8 pointer-events-none">
+					<section className="bg-white py-12 px-8 overflow-y-auto flex flex-col flex-grow w-full h-full pointer-events-auto">
+						{props.ShowcaseBoxChildren}
+					</section>
+					<section className="w-[40rem] py-12 px-8 bg-white pointer-events-auto select-auto flex flex-col gap-8 overflow-y-auto">
+						{props.EditSideMenuChildren}
+					</section>
 				</div>
 			</div>
 		</div>,

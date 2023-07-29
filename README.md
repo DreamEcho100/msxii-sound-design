@@ -61,3 +61,17 @@
 - (The IOS apps data is not stored as a product data on Shopify, needs more research and debugging)
   - [|] Integrate the `/ios-apps` page with Shopify.
   - [|] Integrate the `/ios-apps/[handle]` page with Shopify.
+
+## Dashboard
+
+### `TabsHolderBox`
+
+How to update the tabs names?
+
+### `SliderBox`
+
+How to update the slides?
+
+### `GridBox`
+
+How to update the grid styles (grid-template-column, grid-template-row)?

@@ -15,6 +15,7 @@ import { QuoteBoxEditable } from './QuoteBox';
 import { HeaderBoxEditable } from './HeaderBox';
 import { ImageBoxEditable } from './ImageBox';
 import { IframeBoxEditable } from './IframeBox';
+import { SliderBoxEditable } from './SliderBox';
 
 type Page = RouterOutputs['customPages']['_getOne'];
 export type Css = Page['css'];
@@ -35,6 +36,7 @@ export type BoxTypeHeader = GetBoxWithNullableItem<'headerBox'>;
 export type BoxTypeImage = GetBoxWithNullableItem<'imageBox'>;
 export type BoxTypeIframe = GetBoxWithNullableItem<'iframeBox'>;
 export type BoxTypeTabsHolder = GetBoxWithNullableItem<'tabsHolder'>;
+export type BoxTypeSlider = GetBoxWithNullableItem<'sliderBox'>;
 
 export type MdBox = BoxTypeMd['mdBox'];
 export type QuoteBox = BoxTypeQuote['quoteBox'];
@@ -42,6 +44,7 @@ export type HeaderBox = BoxTypeHeader['headerBox'];
 export type ImageBox = BoxTypeImage['imageBox'];
 export type IframeBox = BoxTypeIframe['iframeBox'];
 export type TabsHolderBox = BoxTypeTabsHolder['tabsHolder'];
+export type SliderBox = BoxTypeSlider['sliderBox'];
 
 type Props = {
 	page: Page;
@@ -248,73 +251,7 @@ const SectionBox = (props: {
 				// path={[...props.path, 'mdBox']}
 			/>
 		);
-
-	/*
-	{
-		if (props.box.iframeBox.type === IframeBoxTypes.YOUTUBE)
-			return (
-				<YouTubeIFrame
-					childrenAfter={
-						<BoxEditOverlay
-							boxDeepLevel={props.boxDeepLevel}
-							box={props.box}
-							path={[...props.path, 'iframeBox']}
-							pageStore={props.pageStore}
-						/>
-					}
-					containerProps={{
-						className: cx(
-							'w-full rounded-3xl overflow-hidden relative isolate',
-							customPageClassName,
-						),
-					}}
-					youTubeIconVariants={{
-						fontSize: props.parentBox === BoxTypes.SLIDER ? 'small' : 'medium',
-					}}
-					width={props.parentBox === BoxTypes.SLIDER ? '200' : '550'}
-					height={props.parentBox === BoxTypes.SLIDER ? '200' : '550'}
-					src={props.box.iframeBox.src}
-					title={props.box.iframeBox.title || 'YouTube video player'}
-					allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-				/>
-			);
-
-		if (props.box.iframeBox.type === IframeBoxTypes.INSTAGRAM)
-			return (
-				<InstagramIframe
-					childrenAfter={
-						<BoxEditOverlay
-							boxDeepLevel={props.boxDeepLevel}
-							box={props.box}
-							path={[...props.path, 'iframeBox']}
-							pageStore={props.pageStore}
-						/>
-					}
-					src={props.box.iframeBox.src}
-					title={props.box.iframeBox.title}
-					className={customPageClassName}
-				/>
-			);
-
-		if (props.box.iframeBox.type === IframeBoxTypes.SOUND_CLOUD)
-			return (
-				<SoundCloudIframe
-					childrenAfter={
-						<BoxEditOverlay
-							boxDeepLevel={props.boxDeepLevel}
-							box={props.box}
-							path={[...props.path, 'iframeBox']}
-							pageStore={props.pageStore}
-						/>
-					}
-					src={props.box.iframeBox.src}
-					title={props.box.iframeBox.title}
-					className={customPageClassName}
-				/>
-			);
-	}
-	*/
-
+		
 	if (props.box.type === BoxTypes.TABS_HOLDER && props.box.tabsHolder) {
 		return (
 			<CustomTabs
@@ -336,6 +273,17 @@ const SectionBox = (props: {
 	}
 
 	if (props.box.type === BoxTypes.SLIDER && props.box.sliderBox) {
+		return (
+			<SliderBoxEditable
+				boxDeepLevel={props.boxDeepLevel}
+				parentBox={props.parentBox}
+				pageStore={props.pageStore}
+				box={props.box}
+				path={props.path}
+				// It's already passed inside
+				// path={[...props.path, 'mdBox']}
+			/>
+		);
 		return (
 			<div className={customPageClassName}>
 				<Slider

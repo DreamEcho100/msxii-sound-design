@@ -4,7 +4,6 @@ import { type ReactNode } from 'react';
 import EditBoxModal from '~/components/layouts/Dashboard/components/Modals/EditBox';
 import { useRouter } from 'next/router';
 
-
 export default function BoxEditOverlay(props: {
 	boxDeepLevel: number;
 	box: Box;
@@ -13,7 +12,7 @@ export default function BoxEditOverlay(props: {
 	EditSideMenuChildren: ReactNode;
 	ShowcaseBoxChildren: ReactNode;
 }) {
-	const router = useRouter()
+	const router = useRouter();
 	const [isOpen, setIsOpen] = useState(false);
 	// const isSideEditMenuOpen = useStore(
 	// 	dashboardStore,
@@ -28,7 +27,7 @@ export default function BoxEditOverlay(props: {
 	// 	if (!isSideEditMenuOpen) setIsOpen(false);
 	// }, [isSideEditMenuOpen]);
 
-	if (!router.pathname.startsWith('/dashboard')) return <></>
+	if (!router.pathname.startsWith('/dashboard')) return <></>;
 
 	return (
 		<>
@@ -36,6 +35,10 @@ export default function BoxEditOverlay(props: {
 				className="box-edit-overlay"
 				style={{
 					zIndex: props.boxDeepLevel.toString(),
+					top: `${(props.boxDeepLevel - 1) * 5}%`,
+					right: `${(props.boxDeepLevel - 1) * 5}%`,
+					bottom: `${(props.boxDeepLevel - 1) * 5}%`,
+					left: `${(props.boxDeepLevel - 1) * 5}%`,
 				}}
 			>
 				<div

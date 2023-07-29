@@ -7,7 +7,7 @@ import { useStore } from "zustand";
 
 const handleClassVariants = cva("flex flex-col");
 const handleLabelAndInputContainerClassVariants = cva(
-  "flex flex-col px-4 py-1 rounded-lg ring-1 text-gray-600",
+  "flex px-4 py-1 rounded-lg text-gray-600",
   {
     variants: {
       state: {
@@ -18,6 +18,20 @@ const handleLabelAndInputContainerClassVariants = cva(
         disabled:
           "ring-gray-500/75 grayscale bg-black/5 cursor-not-allowed group disabled-field select-none",
       },
+      type: {
+        checkbox: "w-fit items-center",
+        field: "ring-1",
+      },
+      "flex-dir": {
+        col: "flex-col",
+        "col-reverse": "flex-col-reverse",
+        row: "flex-row",
+        "row-reverse": "flex-row-reverse",
+      },
+    },
+    defaultVariants: {
+      "flex-dir": "col",
+      type: "field",
     },
   },
 );

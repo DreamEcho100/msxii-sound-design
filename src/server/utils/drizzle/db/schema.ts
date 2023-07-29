@@ -3,14 +3,14 @@ import {
 	pgEnum,
 	// pgSchema,
 	// AnyPgColumn,
-	uniqueIndex,
-	foreignKey,
 	text,
 	timestamp,
+	uniqueIndex,
+	foreignKey,
 	integer,
+	jsonb,
 	index,
 	serial,
-	jsonb,
 	primaryKey,
 } from 'drizzle-orm/pg-core';
 
@@ -46,6 +46,95 @@ export const boxTypes = pgEnum('BoxTypes', [
 
 // import { sql } from 'drizzle-orm';
 
+export const example = pgTable('Example', {
+	id: text('id').primaryKey().notNull(),
+	createdAt: timestamp('createdAt', { precision: 3, mode: 'date' })
+		.defaultNow()
+		.notNull(),
+	updatedAt: timestamp('updatedAt', { precision: 3, mode: 'date' }).notNull(),
+});
+
+export const slider = pgTable(
+	'Slider',
+	{
+		id: text('id').primaryKey().notNull(),
+		createdAt: timestamp('createdAt', { precision: 3, mode: 'date' })
+			.defaultNow()
+			.notNull(),
+		updatedAt: timestamp('updatedAt', { precision: 3, mode: 'date' }),
+		boxId: text('boxId').notNull(),
+		boxType: boxTypes('boxType').default('SLIDER').notNull(),
+		slidesPerViewType: slidesPerViewType('slidesPerViewType')
+			.default('DEFAULT')
+			.notNull(),
+	},
+	(table) => {
+		return {
+			xBxIdBxTK: uniqueIndex('SliderBx_BxId_BxT_K').on(
+				table.boxId,
+				table.boxType,
+			),
+			sliderBxBxIdBtFk: foreignKey({
+				columns: [table.boxId, table.boxType],
+				foreignColumns: [box.id, box.type],
+			})
+				.onUpdate('cascade')
+				.onDelete('cascade'),
+		};
+	},
+);
+
+export const tabs = pgTable(
+	'Tabs',
+	{
+		id: text('id').primaryKey().notNull(),
+		createdAt: timestamp('createdAt', { precision: 3, mode: 'date' })
+			.defaultNow()
+			.notNull(),
+		updatedAt: timestamp('updatedAt', { precision: 3, mode: 'date' }),
+		boxId: text('boxId').notNull(),
+		boxType: boxTypes('boxType').default('TABS_HOLDER').notNull(),
+	},
+	(table) => {
+		return {
+			bxIdBxTK: uniqueIndex('Tabs_BxId_BxT_K').on(table.boxId, table.boxType),
+			tabsBxBxIdBtFk: foreignKey({
+				columns: [table.boxId, table.boxType],
+				foreignColumns: [box.id, box.type],
+			})
+				.onUpdate('cascade')
+				.onDelete('cascade'),
+		};
+	},
+);
+
+export const grid = pgTable(
+	'Grid',
+	{
+		id: text('id').primaryKey().notNull(),
+		createdAt: timestamp('createdAt', { precision: 3, mode: 'date' })
+			.defaultNow()
+			.notNull(),
+		updatedAt: timestamp('updatedAt', { precision: 3, mode: 'date' }),
+		boxId: text('boxId').notNull(),
+		boxType: boxTypes('boxType').default('GRID').notNull(),
+	},
+	(table) => {
+		return {
+			xBxIdBxTK: uniqueIndex('GridBx_BxId_BxT_K').on(
+				table.boxId,
+				table.boxType,
+			),
+			gridBxBxIdBtFk: foreignKey({
+				columns: [table.boxId, table.boxType],
+				foreignColumns: [box.id, box.type],
+			})
+				.onUpdate('cascade')
+				.onDelete('cascade'),
+		};
+	},
+);
+
 export const imageBox = pgTable(
 	'ImageBox',
 	{
@@ -63,11 +152,11 @@ export const imageBox = pgTable(
 	},
 	(table) => {
 		return {
-			imgBxBxIdBxTKey: uniqueIndex('ImgBx_BxId_BxT_key').on(
+			imgBxBxIdBxTK: uniqueIndex('ImgBx_BxId_BxT_K').on(
 				table.boxId,
 				table.boxType,
 			),
-			imhBxBxIdBtFkey: foreignKey({
+			imhBxBxIdBtFk: foreignKey({
 				columns: [table.boxId, table.boxType],
 				foreignColumns: [box.id, box.type],
 			})
@@ -76,16 +165,6 @@ export const imageBox = pgTable(
 		};
 	},
 );
-
-export const category = pgTable('Category', {
-	id: text('id').primaryKey().notNull(),
-	createdAt: timestamp('createdAt', { precision: 3, mode: 'date' })
-		.defaultNow()
-		.notNull(),
-	updatedAt: timestamp('updatedAt', { precision: 3, mode: 'date' }),
-	name: text('name').notNull(),
-	counter: integer('counter').notNull(),
-});
 
 export const user = pgTable(
 	'User',
@@ -103,54 +182,60 @@ export const user = pgTable(
 	},
 );
 
-export const example = pgTable('Example', {
-	id: text('id').primaryKey().notNull(),
-	createdAt: timestamp('createdAt', { precision: 3, mode: 'date' })
-		.defaultNow()
-		.notNull(),
-	updatedAt: timestamp('updatedAt', { precision: 3, mode: 'date' }).notNull(),
-});
-
-export const section = pgTable(
-	'Section',
+export const mdBox = pgTable(
+	'MdBox',
 	{
 		id: text('id').primaryKey().notNull(),
 		createdAt: timestamp('createdAt', { precision: 3, mode: 'date' })
 			.defaultNow()
 			.notNull(),
-		order: serial('order').notNull(),
-		pageId: text('pageId')
-			.notNull()
-			.references(() => page.id, { onDelete: 'cascade', onUpdate: 'cascade' }),
-		cssId: text('cssId')
-			.notNull()
-			.references(() => css.id, { onDelete: 'restrict', onUpdate: 'cascade' }),
+		updatedAt: timestamp('updatedAt', { precision: 3, mode: 'date' }),
+		boxId: text('boxId').notNull(),
+		boxType: boxTypes('boxType').default('MD').notNull(),
+		content: text('content').notNull(),
 	},
 	(table) => {
 		return {
-			cssIdIdx: index('Section_cssId_idx').on(table.cssId),
-			orderIdx: index('Section_order_idx').on(table.order),
-			pageIdIdx: index('Section_pageId_idx').on(table.pageId),
+			mdBxBxIdBxTK: uniqueIndex('MdBx_BxId_BxT_K').on(
+				table.boxId,
+				table.boxType,
+			),
+			mdBxBxIdBtFk: foreignKey({
+				columns: [table.boxId, table.boxType],
+				foreignColumns: [box.id, box.type],
+			})
+				.onUpdate('cascade')
+				.onDelete('cascade'),
 		};
 	},
 );
 
-export const session = pgTable(
-	'Session',
+export const headerBox = pgTable(
+	'HeaderBox',
 	{
 		id: text('id').primaryKey().notNull(),
-		sessionToken: text('sessionToken').notNull(),
-		userId: text('userId')
-			.notNull()
-			.references(() => user.id, { onDelete: 'cascade', onUpdate: 'cascade' }),
-		expires: timestamp('expires', { precision: 3, mode: 'date' }).notNull(),
+		createdAt: timestamp('createdAt', { precision: 3, mode: 'date' })
+			.defaultNow()
+			.notNull(),
+		updatedAt: timestamp('updatedAt', { precision: 3, mode: 'date' }),
+		title: text('title').notNull(),
+		description: text('description'),
+		hType: headerBoxHtype('hType').default('DYNAMIC').notNull(),
+		boxId: text('boxId').notNull(),
+		boxType: boxTypes('boxType').default('HEADER').notNull(),
 	},
 	(table) => {
 		return {
-			sessionTokenKey: uniqueIndex('Session_sessionToken_key').on(
-				table.sessionToken,
+			headerBxBxIdBxTK: uniqueIndex('HeaderBx_BxId_BxT_K').on(
+				table.boxId,
+				table.boxType,
 			),
-			userIdIdx: index('Session_userId_idx').on(table.userId),
+			headerBxBxIdBtFk: foreignKey({
+				columns: [table.boxId, table.boxType],
+				foreignColumns: [box.id, box.type],
+			})
+				.onUpdate('cascade')
+				.onDelete('cascade'),
 		};
 	},
 );
@@ -172,22 +257,62 @@ export const verificationToken = pgTable(
 	},
 );
 
-export const image = pgTable(
-	'Image',
+export const css = pgTable('css', {
+	id: text('id').primaryKey().notNull(),
+	createdAt: timestamp('createdAt', { precision: 3, mode: 'date' })
+		.defaultNow()
+		.notNull(),
+	updatedAt: timestamp('updatedAt', { precision: 3, mode: 'date' }),
+	twVariants: jsonb('twVariants').default({}).notNull(),
+	inlineStyles: jsonb('inlineStyles').default({}).notNull(),
+	custom: text('custom').array(),
+});
+
+export const quoteBox = pgTable(
+	'QuoteBox',
 	{
 		id: text('id').primaryKey().notNull(),
 		createdAt: timestamp('createdAt', { precision: 3, mode: 'date' })
 			.defaultNow()
 			.notNull(),
 		updatedAt: timestamp('updatedAt', { precision: 3, mode: 'date' }),
-		src: text('src').notNull(),
-		altText: text('altText'),
-		width: integer('width'),
-		height: integer('height'),
+		boxId: text('boxId').notNull(),
+		boxType: boxTypes('boxType').default('QUOTE').notNull(),
+		cite: text('cite').notNull(),
+		content: text('content').notNull(),
 	},
 	(table) => {
 		return {
-			srcKey: uniqueIndex('Image_src_key').on(table.src),
+			quoteBxBxIdBxTK: uniqueIndex('QuoteBx_BxId_BxT_K').on(
+				table.boxId,
+				table.boxType,
+			),
+			quoteBxBxIdBtFk: foreignKey({
+				columns: [table.boxId, table.boxType],
+				foreignColumns: [box.id, box.type],
+			})
+				.onUpdate('cascade')
+				.onDelete('cascade'),
+		};
+	},
+);
+
+export const session = pgTable(
+	'Session',
+	{
+		id: text('id').primaryKey().notNull(),
+		sessionToken: text('sessionToken').notNull(),
+		userId: text('userId')
+			.notNull()
+			.references(() => user.id, { onDelete: 'cascade', onUpdate: 'cascade' }),
+		expires: timestamp('expires', { precision: 3, mode: 'date' }).notNull(),
+	},
+	(table) => {
+		return {
+			sessionTokenKey: uniqueIndex('Session_sessionToken_key').on(
+				table.sessionToken,
+			),
+			userIdIdx: index('Session_userId_idx').on(table.userId),
 		};
 	},
 );
@@ -226,8 +351,8 @@ export const page = pgTable(
 	},
 );
 
-export const grid = pgTable(
-	'Grid',
+export const iframeBox = pgTable(
+	'IframeBox',
 	{
 		id: text('id').primaryKey().notNull(),
 		createdAt: timestamp('createdAt', { precision: 3, mode: 'date' })
@@ -235,71 +360,18 @@ export const grid = pgTable(
 			.notNull(),
 		updatedAt: timestamp('updatedAt', { precision: 3, mode: 'date' }),
 		boxId: text('boxId').notNull(),
-		boxType: boxTypes('boxType').default('GRID').notNull(),
+		boxType: boxTypes('boxType').default('IFRAME').notNull(),
+		type: iframeBoxTypes('type').notNull(),
+		src: text('src').notNull(),
+		title: text('title'),
 	},
 	(table) => {
 		return {
-			xBxIdBxTKey: uniqueIndex('GridBx_BxId_BxT_key').on(
+			iframeBxBxIdBxTK: uniqueIndex('IframeBx_BxId_BxT_K').on(
 				table.boxId,
 				table.boxType,
 			),
-			gridBxBxIdBtFkey: foreignKey({
-				columns: [table.boxId, table.boxType],
-				foreignColumns: [box.id, box.type],
-			})
-				.onUpdate('cascade')
-				.onDelete('cascade'),
-		};
-	},
-);
-
-export const quoteBox = pgTable(
-	'QuoteBox',
-	{
-		id: text('id').primaryKey().notNull(),
-		createdAt: timestamp('createdAt', { precision: 3, mode: 'date' })
-			.defaultNow()
-			.notNull(),
-		updatedAt: timestamp('updatedAt', { precision: 3, mode: 'date' }),
-		boxId: text('boxId').notNull(),
-		boxType: boxTypes('boxType').default('QUOTE').notNull(),
-		cite: text('cite').notNull(),
-		content: text('content').notNull(),
-	},
-	(table) => {
-		return {
-			quoteBxBxIdBxTKey: uniqueIndex('QuoteBx_BxId_BxT_key').on(
-				table.boxId,
-				table.boxType,
-			),
-			quoteBxBxIdBtFkey: foreignKey({
-				columns: [table.boxId, table.boxType],
-				foreignColumns: [box.id, box.type],
-			})
-				.onUpdate('cascade')
-				.onDelete('cascade'),
-		};
-	},
-);
-
-export const tabs = pgTable(
-	'Tabs',
-	{
-		id: text('id').primaryKey().notNull(),
-		createdAt: timestamp('createdAt', { precision: 3, mode: 'date' })
-			.defaultNow()
-			.notNull(),
-		updatedAt: timestamp('updatedAt', { precision: 3, mode: 'date' }),
-		boxId: text('boxId').notNull(),
-		boxType: boxTypes('boxType').default('TABS_HOLDER').notNull(),
-	},
-	(table) => {
-		return {
-			bxIdBxTKey: uniqueIndex('Tabs_BxId_BxT_key').on(
-				table.boxId,
-				table.boxType,
-			),
-			tabsBxBxIdBtFkey: foreignKey({
+			iframeBxBxIdBtFk: foreignKey({
 				columns: [table.boxId, table.boxType],
 				foreignColumns: [box.id, box.type],
 			})
@@ -337,131 +409,56 @@ export const account = pgTable(
 	},
 );
 
-export const css = pgTable('css', {
+export const image = pgTable(
+	'Image',
+	{
+		id: text('id').primaryKey().notNull(),
+		createdAt: timestamp('createdAt', { precision: 3, mode: 'date' })
+			.defaultNow()
+			.notNull(),
+		updatedAt: timestamp('updatedAt', { precision: 3, mode: 'date' }),
+		src: text('src').notNull(),
+		altText: text('altText'),
+		width: integer('width'),
+		height: integer('height'),
+	},
+	(table) => {
+		return {
+			srcKey: uniqueIndex('Image_src_key').on(table.src),
+		};
+	},
+);
+
+export const category = pgTable('Category', {
 	id: text('id').primaryKey().notNull(),
 	createdAt: timestamp('createdAt', { precision: 3, mode: 'date' })
 		.defaultNow()
 		.notNull(),
 	updatedAt: timestamp('updatedAt', { precision: 3, mode: 'date' }),
-	twVariants: jsonb('twVariants').default({}).notNull(),
-	inlineStyles: jsonb('inlineStyles').default({}).notNull(),
-	custom: text('custom').array(),
+	name: text('name').notNull(),
+	counter: integer('counter').notNull(),
 });
 
-export const slider = pgTable(
-	'Slider',
+export const section = pgTable(
+	'Section',
 	{
 		id: text('id').primaryKey().notNull(),
 		createdAt: timestamp('createdAt', { precision: 3, mode: 'date' })
 			.defaultNow()
 			.notNull(),
-		updatedAt: timestamp('updatedAt', { precision: 3, mode: 'date' }),
-		boxId: text('boxId').notNull(),
-		boxType: boxTypes('boxType').default('SLIDER').notNull(),
-		slidesPerViewType: slidesPerViewType('slidesPerViewType')
-			.default('DEFAULT')
-			.notNull(),
+		order: serial('order').notNull(),
+		pageId: text('pageId')
+			.notNull()
+			.references(() => page.id, { onDelete: 'cascade', onUpdate: 'cascade' }),
+		cssId: text('cssId')
+			.notNull()
+			.references(() => css.id, { onDelete: 'restrict', onUpdate: 'cascade' }),
 	},
 	(table) => {
 		return {
-			xBxIdBxTKey: uniqueIndex('SliderBx_BxId_BxT_key').on(
-				table.boxId,
-				table.boxType,
-			),
-			sliderBxBxIdBtFkey: foreignKey({
-				columns: [table.boxId, table.boxType],
-				foreignColumns: [box.id, box.type],
-			})
-				.onUpdate('cascade')
-				.onDelete('cascade'),
-		};
-	},
-);
-
-export const mdBox = pgTable(
-	'MdBox',
-	{
-		id: text('id').primaryKey().notNull(),
-		createdAt: timestamp('createdAt', { precision: 3, mode: 'date' })
-			.defaultNow()
-			.notNull(),
-		updatedAt: timestamp('updatedAt', { precision: 3, mode: 'date' }),
-		boxId: text('boxId').notNull(),
-		boxType: boxTypes('boxType').default('MD').notNull(),
-		content: text('content').notNull(),
-	},
-	(table) => {
-		return {
-			mdBxBxIdBxTKey: uniqueIndex('MdBx_BxId_BxT_key').on(
-				table.boxId,
-				table.boxType,
-			),
-			mdBxBxIdBtFkey: foreignKey({
-				columns: [table.boxId, table.boxType],
-				foreignColumns: [box.id, box.type],
-			})
-				.onUpdate('cascade')
-				.onDelete('cascade'),
-		};
-	},
-);
-
-export const iframeBox = pgTable(
-	'IframeBox',
-	{
-		id: text('id').primaryKey().notNull(),
-		createdAt: timestamp('createdAt', { precision: 3, mode: 'date' })
-			.defaultNow()
-			.notNull(),
-		updatedAt: timestamp('updatedAt', { precision: 3, mode: 'date' }),
-		boxId: text('boxId').notNull(),
-		boxType: boxTypes('boxType').default('IFRAME').notNull(),
-		type: iframeBoxTypes('type').notNull(),
-		src: text('src').notNull(),
-		title: text('title'),
-	},
-	(table) => {
-		return {
-			iframeBxBxIdBxTKey: uniqueIndex('IframeBx_BxId_BxT_key').on(
-				table.boxId,
-				table.boxType,
-			),
-			iframeBxBxIdBtFkey: foreignKey({
-				columns: [table.boxId, table.boxType],
-				foreignColumns: [box.id, box.type],
-			})
-				.onUpdate('cascade')
-				.onDelete('cascade'),
-		};
-	},
-);
-
-export const headerBox = pgTable(
-	'HeaderBox',
-	{
-		id: text('id').primaryKey().notNull(),
-		createdAt: timestamp('createdAt', { precision: 3, mode: 'date' })
-			.defaultNow()
-			.notNull(),
-		updatedAt: timestamp('updatedAt', { precision: 3, mode: 'date' }),
-		title: text('title').notNull(),
-		description: text('description'),
-		hType: headerBoxHtype('hType').default('DYNAMIC').notNull(),
-		boxId: text('boxId').notNull(),
-		boxType: boxTypes('boxType').default('HEADER').notNull(),
-	},
-	(table) => {
-		return {
-			headerBxBxIdBxTKey: uniqueIndex('HeaderBx_BxId_BxT_key').on(
-				table.boxId,
-				table.boxType,
-			),
-			headerBxBxIdBtFkey: foreignKey({
-				columns: [table.boxId, table.boxType],
-				foreignColumns: [box.id, box.type],
-			})
-				.onUpdate('cascade')
-				.onDelete('cascade'),
+			cssIdIdx: index('Section_cssId_idx').on(table.cssId),
+			orderIdx: index('Section_order_idx').on(table.order),
+			pageIdIdx: index('Section_pageId_idx').on(table.pageId),
 		};
 	},
 );
@@ -486,9 +483,37 @@ export const boxToGrid = pgTable(
 		return {
 			btgBxIdIdx: index('BTG_BxId_idx').on(table.boxId),
 			btgGridBxIdIdx: index('BTG_gridBxId_idx').on(table.gridId),
-			btgIdKey: uniqueIndex('BTG_id_key').on(table.id),
+			btgIdK: uniqueIndex('BTG_id_K').on(table.id),
 			btgOrderIdx: index('BTG_order_idx').on(table.order),
-			btgPkey: primaryKey(table.boxId, table.gridId),
+			btgPk: primaryKey(table.boxId, table.gridId),
+		};
+	},
+);
+
+export const boxToTabs = pgTable(
+	'BoxToTabs',
+	{
+		id: text('id').notNull(),
+		createdAt: timestamp('createdAt', { precision: 3, mode: 'date' })
+			.defaultNow()
+			.notNull(),
+		updatedAt: timestamp('updatedAt', { precision: 3, mode: 'date' }),
+		title: text('title').notNull(),
+		order: serial('order').notNull(),
+		boxId: text('boxId')
+			.notNull()
+			.references(() => box.id, { onDelete: 'cascade', onUpdate: 'cascade' }),
+		tabsId: text('tabsId')
+			.notNull()
+			.references(() => tabs.id, { onDelete: 'cascade', onUpdate: 'cascade' }),
+	},
+	(table) => {
+		return {
+			btTsBxIdIdx: index('BTTs_BxId_idx').on(table.boxId),
+			btTsIdK: uniqueIndex('BTTs_id_K').on(table.id),
+			btTsOrderIdx: index('BTTs_order_idx').on(table.order),
+			btTsTabsBxIdIdx: index('BTTs_tabsBxId_idx').on(table.tabsId),
+			btTsPk: primaryKey(table.boxId, table.tabsId),
 		};
 	},
 );
@@ -520,34 +545,6 @@ export const box = pgTable(
 	},
 );
 
-export const boxToTabs = pgTable(
-	'BoxToTabs',
-	{
-		id: text('id').notNull(),
-		createdAt: timestamp('createdAt', { precision: 3, mode: 'date' })
-			.defaultNow()
-			.notNull(),
-		updatedAt: timestamp('updatedAt', { precision: 3, mode: 'date' }),
-		title: text('title').notNull(),
-		order: serial('order').notNull(),
-		boxId: text('boxId')
-			.notNull()
-			.references(() => box.id, { onDelete: 'cascade', onUpdate: 'cascade' }),
-		tabsId: text('tabsId')
-			.notNull()
-			.references(() => tabs.id, { onDelete: 'cascade', onUpdate: 'cascade' }),
-	},
-	(table) => {
-		return {
-			btTsBxIdIdx: index('BTTs_BxId_idx').on(table.boxId),
-			btTsIdKey: uniqueIndex('BTTs_id_key').on(table.id),
-			btTsOrderIdx: index('BTTs_order_idx').on(table.order),
-			btTsTabsBxIdIdx: index('BTTs_tabsBxId_idx').on(table.tabsId),
-			btTsPkey: primaryKey(table.boxId, table.tabsId),
-		};
-	},
-);
-
 export const boxToSlider = pgTable(
 	'BoxToSlider',
 	{
@@ -571,10 +568,10 @@ export const boxToSlider = pgTable(
 	(table) => {
 		return {
 			btsBxIdIdx: index('BTS_BxId_idx').on(table.boxId),
-			btsIdKey: uniqueIndex('BTS_id_key').on(table.id),
+			btsIdK: uniqueIndex('BTS_id_K').on(table.id),
 			btsOrderIdx: index('BTS_order_idx').on(table.order),
 			btsSliderBxIdIdx: index('BTS_sliderBxId_idx').on(table.sliderId),
-			btsPkey: primaryKey(table.boxId, table.sliderId),
+			btsPk: primaryKey(table.boxId, table.sliderId),
 		};
 	},
 );

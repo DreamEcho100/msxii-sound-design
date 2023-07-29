@@ -1,7 +1,6 @@
-import { type ReactNode } from 'react';
-import ReactMarkdownFormatter from '~/components/shared/ReactMarkdownFormatter';
-import BoxEditOverlay from '../BoxEditOverlay';
-import { BoxTypeMd, PageStoreApi } from '../_';
+import { type CSSProperties, useState, type ReactNode } from 'react';
+import BoxEditOverlay from '../../BoxEditOverlay';
+import { BoxTypeQuote, PageStoreApi } from '../../_';
 import { BoxTypes } from '@prisma/client';
 import { useStore } from 'zustand';
 import { getValueByPathArray, newUpdatedByPathArray } from '~/utils/obj/update';
@@ -15,53 +14,54 @@ import {
 import Form from '~/components/shared/common/@de100/form-echo/Forms';
 import ContainedInputField from '~/components/shared/common/@de100/form-echo/Fields/Contained/ContainedInput';
 import Accordion from '~/components/shared/common/Accordion';
-import { createOneMdBoxSchema } from '~/server/utils/validations-schemas/dashboard/boxes/types/mds';
+import { createOneQuoteBoxSchema } from '~/server/utils/validations-schemas/dashboard/boxes/types/quotes';
 import { api } from '~/utils/api';
 import { toast } from 'react-toastify';
 
 import customPageClasses from '~/styles/_custom-page.module.css';
 import { CreateOneCustomCssSchema } from '~/server/utils/validations-schemas/dashboard/css/customCss';
-import { CustomCssFormStore, CustomCssForm } from '../Css/CustomClasses';
+import { CustomCssFormStore, CustomCssForm } from '../../Css/CustomClasses';
 import {
 	type TwVariantsFormStore,
 	TwVariantsForm,
 	useCreateTwVariantsFormStore,
-} from '../Css/TwVariants';
+} from '../../Css/TwVariants';
+import CustomNextImage from '~/components/shared/CustomNextImage';
 
-type MdBox = {
-	content: string;
-};
-type MdFormStore = FormStoreApi<MdBox, typeof createOneMdBoxSchema>;
+type QuoteBox = { content: string; cite: string };
+type QuoteFormStore = FormStoreApi<QuoteBox, typeof createOneQuoteBoxSchema>;
 type SharedProps = {
 	boxDeepLevel: number;
 	parentBox?: BoxTypes;
 	className?: string;
 };
-type Props = {
-	box: BoxTypeMd;
+type Props = SharedProps & {
+	box: BoxTypeQuote;
 	path: (string | number)[];
 	pageStore: PageStoreApi;
-} & SharedProps;
+	style?: CSSProperties;
+};
 
-const BOX_TYPE = BoxTypes.MD;
+const BOX_TYPE = BoxTypes.QUOTE;
 
-const MdBoxForm = (props: {
-	store: MdFormStore;
+const QuoteBoxForm = (props: {
+	store: QuoteFormStore;
 	id: string;
 	onSuccess: (params: {
 		validatedValues: GetPassedValidationFieldsValues<
-			typeof createOneMdBoxSchema
+			typeof createOneQuoteBoxSchema
 		>;
 	}) => void;
 }) => {
-	const updateOneRequest = api.dashboard.boxes.types.mds.updateOne.useMutation({
-		onError(error) {
-			toast(error.message, { type: 'error' });
-		},
-		onSuccess() {
-			toast('Successful submission!', { type: 'success' });
-		},
-	});
+	const updateOneRequest =
+		api.dashboard.boxes.types.quotes.updateOne.useMutation({
+			onError(error) {
+				toast(error.message, { type: 'error' });
+			},
+			onSuccess() {
+				toast('Successful submission!', { type: 'success' });
+			},
+		});
 
 	return (
 		<Form
@@ -73,10 +73,14 @@ const MdBoxForm = (props: {
 				});
 
 				props.onSuccess(params);
-				// result.
 			}}
 			store={props.store}
 		>
+			<ContainedInputField
+				store={props.store}
+				name="cite"
+				labelProps={{ children: 'cite' }}
+			/>
 			<ContainedInputField
 				isA="textarea"
 				store={props.store}
@@ -95,30 +99,97 @@ const MdBoxForm = (props: {
 	);
 };
 
-const MdBoxView = (
+const QuoteBoxView = (
 	props: {
 		childrenAfter?: ReactNode;
+		style?: CSSProperties;
 	} & SharedProps &
-		MdBox,
+		QuoteBox,
 ) => {
+	// return (
+	// 	<div className={props.className}>
+	// 		<ReactMarkdownFormatter content={props.content} />
+	// 		{props.childrenAfter}
+	// 	</div>
+	// );
+	const TEXT_MAX_LENGTH = 200;
+	const isTextLong = props.content.length > TEXT_MAX_LENGTH;
+
+	const [isFullTextActive, setIsFullTextActive] = useState(!isTextLong);
+
 	return (
-		<div className={props.className}>
-			<ReactMarkdownFormatter content={props.content} />
+		<div className={cx(props.className, 'group')} style={props.style}>
+			<CustomNextImage
+				src={`https://api.dicebear.com/6.x/initials/svg?seed=${props.cite}`}
+				alt={props.cite}
+				width={150}
+				height={150}
+				className="w-16 h-16 rounded-full relative -translate-x-2/3 left-0"
+			/>
+			<div className="flex flex-col -ml-8 pt-2">
+				<cite>
+					<strong
+						className={cx(
+							'text-text-primary-500 font-semibold text-[75%]',
+							'group-hover:text-special-primary-600 group-focus-within:text-special-primary-600',
+							'group-hover:text-special-primary-400 group-focus-within:text-special-primary-400',
+						)}
+					>
+						{props.cite}
+					</strong>
+				</cite>
+				<q className="text-[70%] flex-grow font-medium">
+					<pre
+						className="whitespace-pre-wrap inline"
+						style={{ fontFamily: 'inherit' }}
+					>
+						{isFullTextActive
+							? props.content
+							: props.content.slice(0, TEXT_MAX_LENGTH)}
+					</pre>
+					{isTextLong && (
+						<>
+							{isFullTextActive ? (
+								<>&nbsp;&nbsp;&nbsp;&nbsp;</>
+							) : (
+								<>...&nbsp;</>
+							)}
+							<button
+								className={cx(
+									'text-[90%] capitalize',
+									'text-special-primary-800 hover:text-special-primary-600 focus:text-special-primary-600',
+									'dark:text-special-primary-600 dark:hover:text-special-primary-400 dark:focus:text-special-primary-400',
+								)}
+								onClick={() => setIsFullTextActive((prev) => !prev)}
+							>
+								<strong className="font-semibold">
+									<em>see {isFullTextActive ? 'less' : 'more'}</em>
+								</strong>
+							</button>
+						</>
+					)}
+				</q>
+			</div>
 			{props.childrenAfter}
 		</div>
 	);
 };
 
-const MdBoxFormView = (
+const QuoteBoxFormView = (
 	props: {
-		mdFormStore: MdFormStore;
+		quoteFormStore: QuoteFormStore;
 		twVariantsFormStore: TwVariantsFormStore;
 		customCssFormStore: CustomCssFormStore;
+		style?: CSSProperties;
 	} & SharedProps,
 ) => {
 	const content = useStore(
-		props.mdFormStore,
+		props.quoteFormStore,
 		(store) => store.fields.content.value,
+	);
+	const cite = useStore(
+		props.quoteFormStore,
+		(store) => store.fields.cite.value,
 	);
 	const twVariantsStr = useStore(props.twVariantsFormStore, (store) =>
 		handleBoxVariants(store.fields.twVariants.value),
@@ -140,26 +211,29 @@ const MdBoxFormView = (
 	);
 
 	return (
-		<MdBoxView
+		<QuoteBoxView
 			boxDeepLevel={props.boxDeepLevel}
 			parentBox={props.parentBox}
 			className={className}
 			//
 			content={content}
+			cite={cite}
+			style={props.style}
 		/>
 	);
 };
 
-const MdBoxEditOverlay = (props: Props) => {
+const QuoteBoxEditOverlay = (props: Props) => {
 	const box = useStore(
 		props.pageStore,
-		(state) => getValueByPathArray(state.page, props.path) as BoxTypeMd, // .slice(0, -1)
+		(state) => getValueByPathArray(state.page, props.path) as BoxTypeQuote, // .slice(0, -1)
 	);
-	const mdFormStore: MdFormStore = useCreateFormStore({
+	const quoteFormStore: QuoteFormStore = useCreateFormStore({
 		initValues: {
-			content: box.mdBox.content,
+			content: box.quoteBox.content,
+			cite: box.quoteBox.cite,
 		},
-		validationSchema: createOneMdBoxSchema,
+		validationSchema: createOneQuoteBoxSchema,
 		validationEvents: { change: true },
 	});
 	const twVariantsFormStore = useCreateTwVariantsFormStore(
@@ -176,14 +250,16 @@ const MdBoxEditOverlay = (props: Props) => {
 		<BoxEditOverlay
 			{...props}
 			ShowcaseBoxChildren={
-				<MdBoxFormView
+				<QuoteBoxFormView
 					boxDeepLevel={props.boxDeepLevel}
 					parentBox={props.parentBox}
 					className={props.className}
 					//
-					mdFormStore={mdFormStore}
+					quoteFormStore={quoteFormStore}
 					twVariantsFormStore={twVariantsFormStore}
 					customCssFormStore={customCssFormStore}
+					//
+					style={props.style}
 				/>
 			}
 			EditSideMenuChildren={
@@ -199,7 +275,7 @@ const MdBoxEditOverlay = (props: Props) => {
 											return newUpdatedByPathArray<
 												// eslint-disable-next-line @typescript-eslint/ban-types
 												Exclude<typeof page, Function>
-											>([...props.path, 'css'], page, (prev: BoxTypeMd) => {
+											>([...props.path, 'css'], page, (prev: BoxTypeQuote) => {
 												return {
 													...prev,
 													twVariants: params.values.twVariants,
@@ -227,7 +303,7 @@ const MdBoxEditOverlay = (props: Props) => {
 											return newUpdatedByPathArray<
 												// eslint-disable-next-line @typescript-eslint/ban-types
 												Exclude<typeof page, Function>
-											>([...props.path, 'css'], page, (prev: BoxTypeMd) => {
+											>([...props.path, 'css'], page, (prev: BoxTypeQuote) => {
 												return {
 													...prev,
 													custom: params.validatedValues.customCss,
@@ -245,26 +321,31 @@ const MdBoxEditOverlay = (props: Props) => {
 						{
 							defaultOpen: true,
 							contentChildren: (
-								<MdBoxForm
-									store={mdFormStore}
-									id={box.mdBox.id}
+								<QuoteBoxForm
+									store={quoteFormStore}
+									id={box.quoteBox.id}
 									onSuccess={(params) => {
 										props.pageStore.getState().utils.setPage((page) => {
 											return newUpdatedByPathArray<
 												// eslint-disable-next-line @typescript-eslint/ban-types
 												Exclude<typeof page, Function>
-											>([...props.path, 'mdBox'], page, (prev: BoxTypeMd) => ({
-												...prev,
-												content: params.validatedValues.content,
-											}));
+											>(
+												[...props.path, 'quoteBox'],
+												page,
+												(prev: BoxTypeQuote) => ({
+													...prev,
+													content: params.validatedValues.content,
+													cite: params.validatedValues.cite,
+												}),
+											);
 										});
 									}}
 								/>
 							),
 							titleElem: (
-								<h3 className="text-h6 font-bold capitalize">MD box form</h3>
+								<h3 className="text-h6 font-bold capitalize">quote box form</h3>
 							),
-							___key: 'mdBox',
+							___key: 'quoteBox',
 						},
 					]}
 				/>
@@ -273,13 +354,13 @@ const MdBoxEditOverlay = (props: Props) => {
 	);
 };
 
-export const MdBoxEditable = (props: Props) => {
+export const QuoteBoxEditable = (props: Props) => {
 	const box = useStore(
 		props.pageStore,
-		(state) => getValueByPathArray(state.page, props.path) as BoxTypeMd,
+		(state) => getValueByPathArray(state.page, props.path) as BoxTypeQuote,
 	);
 
-	const mdBoxViewProps = {
+	const quoteBoxViewProps = {
 		boxDeepLevel: props.boxDeepLevel,
 		parentBox: props.parentBox,
 		className: cx(
@@ -291,13 +372,15 @@ export const MdBoxEditable = (props: Props) => {
 				: []),
 		),
 		//
-		content: box.mdBox.content,
+		content: box.quoteBox.content,
+		cite: box.quoteBox.cite,
+		style: props.style,
 	};
 
 	return (
-		<MdBoxView
-			{...mdBoxViewProps}
-			childrenAfter={<MdBoxEditOverlay {...props} />}
+		<QuoteBoxView
+			{...quoteBoxViewProps}
+			childrenAfter={<QuoteBoxEditOverlay {...props} />}
 		/>
 	);
 };

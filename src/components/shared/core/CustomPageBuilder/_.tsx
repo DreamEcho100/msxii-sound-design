@@ -1,21 +1,19 @@
 import { type CSSProperties, type ReactNode } from 'react';
 
 import { cx } from 'class-variance-authority';
-import { SwiperSlide } from 'swiper/react';
 import { BoxVariants, handleBoxVariants } from '~/utils/appData';
 import customPageClasses from '~/styles/_custom-page.module.css';
-import Slider from '~/components/shared/core/Shopify/Cards/Slider';
 import { RouterOutputs } from '~/utils/api';
-import { BoxTypes, SlidersHolderSlidePerViewType } from '@prisma/client';
+import { BoxTypes } from '@prisma/client';
 import BoxEditOverlay from './BoxEditOverlay';
 import CustomTabs from './CustomTabs';
 import { StoreApi, createStore } from 'zustand';
-import { MdBoxEditable } from './MdBox';
-import { QuoteBoxEditable } from './QuoteBox';
-import { HeaderBoxEditable } from './HeaderBox';
-import { ImageBoxEditable } from './ImageBox';
-import { IframeBoxEditable } from './IframeBox';
-import { SliderBoxEditable } from './SliderBox';
+import { MdBoxEditable } from './Boxes/Md';
+import { QuoteBoxEditable } from './Boxes/Quote';
+import { HeaderBoxEditable } from './Boxes/Header';
+import { ImageBoxEditable } from './Boxes/Image';
+import { IframeBoxEditable } from './Boxes/Iframe';
+import { SliderEditable } from './Boxes/Slider';
 
 type Page = RouterOutputs['customPages']['_getOne'];
 export type Css = Page['css'];
@@ -35,16 +33,18 @@ export type BoxTypeQuote = GetBoxWithNullableItem<'quoteBox'>;
 export type BoxTypeHeader = GetBoxWithNullableItem<'headerBox'>;
 export type BoxTypeImage = GetBoxWithNullableItem<'imageBox'>;
 export type BoxTypeIframe = GetBoxWithNullableItem<'iframeBox'>;
-export type BoxTypeTabsHolder = GetBoxWithNullableItem<'tabsHolder'>;
-export type BoxTypeSlider = GetBoxWithNullableItem<'sliderBox'>;
+export type BoxTypeTabs = GetBoxWithNullableItem<'tabs'>;
+export type BoxTypeSlider = GetBoxWithNullableItem<'slider'>;
+export type BoxTypeGrid = GetBoxWithNullableItem<'grid'>;
 
 export type MdBox = BoxTypeMd['mdBox'];
 export type QuoteBox = BoxTypeQuote['quoteBox'];
 export type HeaderBox = BoxTypeHeader['headerBox'];
 export type ImageBox = BoxTypeImage['imageBox'];
 export type IframeBox = BoxTypeIframe['iframeBox'];
-export type TabsHolderBox = BoxTypeTabsHolder['tabsHolder'];
-export type SliderBox = BoxTypeSlider['sliderBox'];
+export type TabsBox = BoxTypeTabs['tabs'];
+export type Slider = BoxTypeSlider['slider'];
+export type Grid = BoxTypeSlider['grid'];
 
 type Props = {
 	page: Page;
@@ -251,30 +251,10 @@ const SectionBox = (props: {
 				// path={[...props.path, 'mdBox']}
 			/>
 		);
-		
-	if (props.box.type === BoxTypes.TABS_HOLDER && props.box.tabsHolder) {
-		return (
-			<CustomTabs
-				box={props.box.tabsHolder}
-				className={cx(customPageClassName)}
-				boxDeepLevel={newBoxDeepLevel}
-				childrenAfter={
-					<BoxEditOverlay
-						boxDeepLevel={props.boxDeepLevel}
-						box={props.box}
-						path={[...props.path, 'tabsHolder']}
-						pageStore={props.pageStore}
-					/>
-				}
-				path={props.path}
-				pageStore={props.pageStore}
-			/>
-		);
-	}
 
-	if (props.box.type === BoxTypes.SLIDER && props.box.sliderBox) {
+	if (props.box.type === BoxTypes.SLIDER && props.box.slider)
 		return (
-			<SliderBoxEditable
+			<SliderEditable
 				boxDeepLevel={props.boxDeepLevel}
 				parentBox={props.parentBox}
 				pageStore={props.pageStore}
@@ -284,71 +264,34 @@ const SectionBox = (props: {
 				// path={[...props.path, 'mdBox']}
 			/>
 		);
+
+	if (props.box.type === BoxTypes.TABS_HOLDER && props.box.tabs) {
 		return (
-			<div className={customPageClassName}>
-				<Slider
-					swiperProps={{
-						className: cx(
-							customPageClassName,
-							customPageClasses['swiper'],
-							'swiper-fluid',
-						),
-						breakpoints:
-							props.box.sliderBox.slidesPerViewType ===
-							SlidersHolderSlidePerViewType.LARGE_SLIDES
-								? {
-										640: { slidesPerView: 2 },
-										1024: { slidesPerView: 3 },
-										1280: { slidesPerView: 4 },
-								  }
-								: props.box.sliderBox.slidesPerViewType ===
-								  SlidersHolderSlidePerViewType.ONE_SLIDE
-								? { 0: { slidesPerView: 1 } }
-								: {
-										400: { slidesPerView: 2 },
-										768: { slidesPerView: 3 },
-										1024: { slidesPerView: 4 },
-										1280: { slidesPerView: 5 },
-								  },
-					}}
-				>
-					{props.box.sliderBox.boxesToSliders.map(
-						(boxToSlider, boxToSliderIndex) => (
-							<SwiperSlide key={boxToSlider.boxId} className="flex flex-col">
-								<SectionBoxContainer
-									box={boxToSlider.box as Box}
-									parentBox={props.box.type}
-									boxDeepLevel={newBoxDeepLevel}
-									path={[
-										...props.path,
-										'sliderBox',
-										'boxesToSliders',
-										boxToSliderIndex,
-										'box',
-									]}
-									pageStore={props.pageStore}
-								/>
-							</SwiperSlide>
-						),
-					)}
-				</Slider>
-				<BoxEditOverlay
-					boxDeepLevel={props.boxDeepLevel}
-					box={props.box}
-					path={[...props.path, 'sliderBox']}
-					pageStore={props.pageStore}
-				/>
-			</div>
+			<CustomTabs
+				box={props.box.tabs}
+				className={cx(customPageClassName)}
+				boxDeepLevel={newBoxDeepLevel}
+				childrenAfter={
+					<BoxEditOverlay
+						boxDeepLevel={props.boxDeepLevel}
+						box={props.box}
+						path={[...props.path, 'tabs']}
+						pageStore={props.pageStore}
+					/>
+				}
+				path={props.path}
+				pageStore={props.pageStore}
+			/>
 		);
 	}
 
-	if (props.box.type === BoxTypes.GRID && props.box.gridBox) {
+	if (props.box.type === BoxTypes.GRID && props.box.grid) {
 		return (
 			<div
 				className={customPageClassName}
 				style={props.box.css.inlineStyles as CSSProperties}
 			>
-				{props.box.gridBox.boxesToGrids.map((boxToGrid, boxToGridIndex) => (
+				{props.box.grid.boxesToGrids.map((boxToGrid, boxToGridIndex) => (
 					<SectionBoxContainer
 						key={boxToGrid.boxId}
 						box={boxToGrid.box as Box}
@@ -356,7 +299,7 @@ const SectionBox = (props: {
 						boxDeepLevel={newBoxDeepLevel}
 						path={[
 							...props.path,
-							'gridBox',
+							'grid',
 							'boxesToGrids',
 							boxToGridIndex,
 							'box',
@@ -367,7 +310,7 @@ const SectionBox = (props: {
 				<BoxEditOverlay
 					boxDeepLevel={props.boxDeepLevel}
 					box={props.box}
-					path={[...props.path, 'gridBox']}
+					path={[...props.path, 'grid']}
 					pageStore={props.pageStore}
 				/>
 			</div>

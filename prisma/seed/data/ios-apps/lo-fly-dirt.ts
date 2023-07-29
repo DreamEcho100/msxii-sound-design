@@ -6,9 +6,9 @@ import {
 	IframeBox,
 	SUB_BOXES_TYPES_map,
 	TabsBox,
-	SliderBox,
+	Slider,
 	CustomPage,
-	GridBox,
+	Grid,
 } from '../../../../src/utils/types/custom-page';
 import { createStandardSection } from '../../utils';
 import { iosAppPagesCategory } from '../categories';
@@ -17,7 +17,7 @@ const LoflyDirtIOSApp: StandardSection[] = (() => {
 	const appLink =
 		'https://apps.apple.com/us/app/lo-fly-dirt/id1292776927?ign-mpt=uo%3D4';
 
-	const gridBox: GridBox = {
+	const grid: Grid = {
 		twClassNameVariants: { 'gap-x': '8' },
 		___type: BOXES_TYPES_map['grid'],
 		gridTemplateColumns: `repeat(auto-fit, minmax(20rem, 1fr))`,
@@ -125,7 +125,7 @@ You can check out the reference guide below:
 			},
 		],
 	};
-	const sliderBox: SliderBox = {
+	const slider: Slider = {
 		___type: BOXES_TYPES_map['slider'],
 		slides: [
 			{
@@ -145,7 +145,7 @@ You can check out the reference guide below:
 			},
 		],
 	};
-	const gridBox2: GridBox = {
+	const grid2: Grid = {
 		___type: BOXES_TYPES_map['grid'],
 		twClassNameVariants: { 'gap-x': '10', 'gap-y': '8' },
 		gridTemplateColumns: `repeat(auto-fill, minmax(15rem, 1fr))`,
@@ -193,7 +193,7 @@ I love how this app makes my samples sound. Plus its so much easier to treat a t
 			// }
 		],
 	};
-	const gridBox3: GridBox = {
+	const grid3: Grid = {
 		___type: BOXES_TYPES_map['grid'],
 		twClassNameVariants: { 'gap-y': '3' },
 		gridTemplateColumns: `1fr`,
@@ -212,23 +212,23 @@ I love how this app makes my samples sound. Plus its so much easier to treat a t
 	};
 
 	return [
-		createStandardSection({ order: 0, body: [gridBox] }),
+		createStandardSection({ order: 0, body: [grid] }),
 		createStandardSection({ order: 1, body: [tabsBox] }),
 		createStandardSection({ order: 2, body: [iframeBox] }),
 		createStandardSection({
 			order: 3,
-			body: [sliderBox],
+			body: [slider],
 			title: 'Tutorial',
 			twClassNameVariants: { 'gap-y': '4' },
 		}),
 		createStandardSection({
 			order: 4,
-			body: [gridBox2],
+			body: [grid2],
 			// title: 'LO-FLY Dirt Around The Web',
 			twClassNameVariants: { 'gap-y': '8' },
 			// customPageClassesKeys: ['section-container-v1']
 		}),
-		createStandardSection({ order: 5, body: [gridBox3] }),
+		createStandardSection({ order: 5, body: [grid3] }),
 	];
 })();
 

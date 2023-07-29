@@ -8,7 +8,7 @@ import { UpdateOneCustomCssSchema } from '~/server/utils/validations-schemas/das
 import { UpdateOneTwVariantsSchema } from '~/server/utils/validations-schemas/dashboard/css/twVariants';
 import { updateOneImageBoxSchema } from '~/server/utils/validations-schemas/dashboard/boxes/types/images';
 import { updateOneIframeBoxSchema } from '~/server/utils/validations-schemas/dashboard/boxes/types/iframes';
-import { updateOneSliderBoxSchema } from '~/server/utils/validations-schemas/dashboard/boxes/types/sliders';
+import { updateOneSliderSchema } from '~/server/utils/validations-schemas/dashboard/boxes/types/sliders';
 
 export const dashboardRouter = createTRPCRouter({
 	categories: createTRPCRouter({
@@ -203,9 +203,9 @@ export const dashboardRouter = createTRPCRouter({
 			}),
 			sliders: createTRPCRouter({
 				updateOne: adminProtectedProcedure
-					.input(z.object(updateOneSliderBoxSchema))
+					.input(z.object(updateOneSliderSchema))
 					.mutation(async ({ ctx, input }) => {
-						const box = await ctx.drizzleQueryClient.query.sliderBox.findFirst({
+						const box = await ctx.drizzleQueryClient.query.slider.findFirst({
 							where(fields, operators) {
 								return operators.eq(fields.id, input.id);
 							},
@@ -219,11 +219,11 @@ export const dashboardRouter = createTRPCRouter({
 							input.slidesPerViewType ?? box.slidesPerViewType;
 
 						await ctx.drizzleQueryClient
-							.update(ctx.drizzleSchema.sliderBox)
+							.update(ctx.drizzleSchema.slider)
 							.set({
 								slidesPerViewType: input.slidesPerViewType,
 							})
-							.where(eq(ctx.drizzleSchema.sliderBox.id, input.id));
+							.where(eq(ctx.drizzleSchema.slider.id, input.id));
 
 						return box;
 					}),

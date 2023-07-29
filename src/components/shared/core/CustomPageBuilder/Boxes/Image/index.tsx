@@ -1,6 +1,6 @@
-import { type CSSProperties, useState, type ReactNode } from 'react';
-import BoxEditOverlay from '../BoxEditOverlay';
-import { BoxTypeQuote, PageStoreApi } from '../_';
+import { type ReactNode } from 'react';
+import BoxEditOverlay from '../../BoxEditOverlay';
+import { BoxTypeImage, PageStoreApi } from '../../_';
 import { BoxTypes } from '@prisma/client';
 import { useStore } from 'zustand';
 import { getValueByPathArray, newUpdatedByPathArray } from '~/utils/obj/update';
@@ -14,47 +14,52 @@ import {
 import Form from '~/components/shared/common/@de100/form-echo/Forms';
 import ContainedInputField from '~/components/shared/common/@de100/form-echo/Fields/Contained/ContainedInput';
 import Accordion from '~/components/shared/common/Accordion';
-import { createOneQuoteBoxSchema } from '~/server/utils/validations-schemas/dashboard/boxes/types/quotes';
+import { createOneImageBoxSchema } from '~/server/utils/validations-schemas/dashboard/boxes/types/images';
 import { api } from '~/utils/api';
 import { toast } from 'react-toastify';
 
 import customPageClasses from '~/styles/_custom-page.module.css';
 import { CreateOneCustomCssSchema } from '~/server/utils/validations-schemas/dashboard/css/customCss';
-import { CustomCssFormStore, CustomCssForm } from '../Css/CustomClasses';
+import { CustomCssFormStore, CustomCssForm } from '../../Css/CustomClasses';
 import {
 	type TwVariantsFormStore,
 	TwVariantsForm,
 	useCreateTwVariantsFormStore,
-} from '../Css/TwVariants';
+} from '../../Css/TwVariants';
 import CustomNextImage from '~/components/shared/CustomNextImage';
+import { BsX } from 'react-icons/bs';
 
-type QuoteBox = { content: string; cite: string };
-type QuoteFormStore = FormStoreApi<QuoteBox, typeof createOneQuoteBoxSchema>;
+type ImageBox = {
+	src: string;
+	altText: string | null;
+	width: number | null;
+	height: number | null;
+};
+type ImageFormStore = FormStoreApi<ImageBox, typeof createOneImageBoxSchema>;
 type SharedProps = {
 	boxDeepLevel: number;
 	parentBox?: BoxTypes;
-	className: string;
+	className?: string;
 };
-type Props = SharedProps & {
-	box: BoxTypeQuote;
+type Props = {
+	box: BoxTypeImage;
 	path: (string | number)[];
 	pageStore: PageStoreApi;
-	style?: CSSProperties;
-};
+} & SharedProps;
 
-const BOX_TYPE = BoxTypes.QUOTE;
+const BOX_TYPE = BoxTypes.IMAGE;
 
-const QuoteBoxForm = (props: {
-	store: QuoteFormStore;
+const ImageBoxForm = (props: {
+	store: ImageFormStore;
 	id: string;
 	onSuccess: (params: {
 		validatedValues: GetPassedValidationFieldsValues<
-			typeof createOneQuoteBoxSchema
+			typeof createOneImageBoxSchema
 		>;
 	}) => void;
 }) => {
 	const updateOneRequest =
-		api.dashboard.boxes.types.quotes.updateOne.useMutation({
+		api.dashboard.boxes.types.images.updateOne.useMutation({
 			onError(error) {
 				toast(error.message, { type: 'error' });
 			},
@@ -78,16 +83,70 @@ const QuoteBoxForm = (props: {
 		>
 			<ContainedInputField
 				store={props.store}
-				name="cite"
-				labelProps={{ children: 'cite' }}
+				name="src"
+				labelProps={{ children: 'src' }}
 			/>
 			<ContainedInputField
-				isA="textarea"
 				store={props.store}
-				name="content"
-				labelProps={{ children: 'content' }}
-				rows={15}
+				name="altText"
+				labelProps={{ children: 'alt text' }}
 			/>
+			<fieldset>
+				<div className="relative">
+					<ContainedInputField
+						store={props.store}
+						name="width"
+						labelProps={{
+							children: (
+								<>
+									initial width <small>while loading</small>
+								</>
+							),
+						}}
+						type="number"
+					/>
+					<div className="absolute top-0 right-1 rtl:right-auto rtl:left-1">
+						<button
+							type="button"
+							onClick={() => {
+								props.store
+									.getState()
+									// eslint-disable-next-line @typescript-eslint/no-explicit-any
+									.utils.handleOnInputChange('width', null as any);
+							}}
+						>
+							<BsX />
+						</button>
+					</div>
+				</div>
+				<div className="relative">
+					<ContainedInputField
+						store={props.store}
+						name="height"
+						labelProps={{
+							children: (
+								<>
+									initial height <small>while loading</small>
+								</>
+							),
+						}}
+						type="number"
+					/>
+					<div className="absolute top-0 right-1 rtl:right-auto rtl:left-1">
+						<button
+							type="button"
+							onClick={() => {
+								props.store
+									.getState()
+									// eslint-disable-next-line @typescript-eslint/no-explicit-any
+									.utils.handleOnInputChange('height', null as any);
+							}}
+						>
+							<BsX />
+						</button>
+					</div>
+				</div>
+			</fieldset>
 			<button
 				type="submit"
 				disabled={updateOneRequest.isLoading}
@@ -99,97 +158,44 @@ const QuoteBoxForm = (props: {
 	);
 };
 
-const QuoteBoxView = (
+const ImageBoxView = (
 	props: {
 		childrenAfter?: ReactNode;
-		style?: CSSProperties;
 	} & SharedProps &
-		QuoteBox,
+		ImageBox,
 ) => {
-	// return (
-	// 	<div className={props.className}>
-	// 		<ReactMarkdownFormatter content={props.content} />
-	// 		{props.childrenAfter}
-	// 	</div>
-	// );
-	const TEXT_MAX_LENGTH = 200;
-	const isTextLong = props.content.length > TEXT_MAX_LENGTH;
-
-	const [isFullTextActive, setIsFullTextActive] = useState(!isTextLong);
-
 	return (
-		<div className={cx(props.className, 'group')} style={props.style}>
+		<div className={props.className}>
 			<CustomNextImage
-				src={`https://api.dicebear.com/6.x/initials/svg?seed=${props.cite}`}
-				alt={props.cite}
-				width={150}
-				height={150}
-				className="w-16 h-16 rounded-full relative -translate-x-2/3 left-0"
+				src={props.src}
+				width={props.width || 800}
+				height={props.height || 800}
+				alt={props.altText || ''}
 			/>
-			<div className="flex flex-col -ml-8 pt-2">
-				<cite>
-					<strong
-						className={cx(
-							'text-text-primary-500 font-semibold text-[75%]',
-							'group-hover:text-special-primary-600 group-focus-within:text-special-primary-600',
-							'group-hover:text-special-primary-400 group-focus-within:text-special-primary-400',
-						)}
-					>
-						{props.cite}
-					</strong>
-				</cite>
-				<q className="text-[70%] flex-grow font-medium">
-					<pre
-						className="whitespace-pre-wrap inline"
-						style={{ fontFamily: 'inherit' }}
-					>
-						{isFullTextActive
-							? props.content
-							: props.content.slice(0, TEXT_MAX_LENGTH)}
-					</pre>
-					{isTextLong && (
-						<>
-							{isFullTextActive ? (
-								<>&nbsp;&nbsp;&nbsp;&nbsp;</>
-							) : (
-								<>...&nbsp;</>
-							)}
-							<button
-								className={cx(
-									'text-[90%] capitalize',
-									'text-special-primary-800 hover:text-special-primary-600 focus:text-special-primary-600',
-									'dark:text-special-primary-600 dark:hover:text-special-primary-400 dark:focus:text-special-primary-400',
-								)}
-								onClick={() => setIsFullTextActive((prev) => !prev)}
-							>
-								<strong className="font-semibold">
-									<em>see {isFullTextActive ? 'less' : 'more'}</em>
-								</strong>
-							</button>
-						</>
-					)}
-				</q>
-			</div>
 			{props.childrenAfter}
 		</div>
 	);
 };
 
-const QuoteBoxFormView = (
+const ImageBoxFormView = (
 	props: {
-		quoteFormStore: QuoteFormStore;
+		imageFormStore: ImageFormStore;
 		twVariantsFormStore: TwVariantsFormStore;
 		customCssFormStore: CustomCssFormStore;
-		style?: CSSProperties;
 	} & SharedProps,
 ) => {
-	const content = useStore(
-		props.quoteFormStore,
-		(store) => store.fields.content.value,
+	const src = useStore(props.imageFormStore, (store) => store.fields.src.value);
+	const altText = useStore(
+		props.imageFormStore,
+		(store) => store.fields.altText.value,
 	);
-	const cite = useStore(
-		props.quoteFormStore,
-		(store) => store.fields.cite.value,
+	const width = useStore(
+		props.imageFormStore,
+		(store) => store.fields.width.value,
+	);
+	const height = useStore(
+		props.imageFormStore,
+		(store) => store.fields.height.value,
 	);
 	const twVariantsStr = useStore(props.twVariantsFormStore, (store) =>
 		handleBoxVariants(store.fields.twVariants.value),
@@ -202,7 +208,6 @@ const QuoteBoxFormView = (
 				?.map((key) => customPageClasses[key])
 				.join(' ') ?? undefined,
 	);
-
 	const className = cx(
 		props.className,
 		customPageClasses[`${BOX_TYPE}-BOX`],
@@ -211,30 +216,43 @@ const QuoteBoxFormView = (
 	);
 
 	return (
-		<QuoteBoxView
+		<ImageBoxView
 			boxDeepLevel={props.boxDeepLevel}
 			parentBox={props.parentBox}
 			className={className}
 			//
-			content={content}
-			cite={cite}
-			style={props.style}
+			src={src}
+			altText={altText}
+			width={width}
+			height={height}
 		/>
 	);
 };
 
-const QuoteBoxEditOverlay = (props: Props) => {
+const ImageBoxEditOverlay = (props: Props) => {
 	const box = useStore(
 		props.pageStore,
-		(state) => getValueByPathArray(state.page, props.path) as BoxTypeQuote, // .slice(0, -1)
+		(state) => getValueByPathArray(state.page, props.path) as BoxTypeImage, // .slice(0, -1)
 	);
-	const quoteFormStore: QuoteFormStore = useCreateFormStore({
+	const imageFormStore: ImageFormStore = useCreateFormStore({
 		initValues: {
-			content: box.quoteBox.content,
-			cite: box.quoteBox.cite,
+			src: box.imageBox.src,
+			altText: box.imageBox.altText,
+			width: box.imageBox.width,
+			height: box.imageBox.height,
 		},
-		validationSchema: createOneQuoteBoxSchema,
+		validationSchema: createOneImageBoxSchema,
 		validationEvents: { change: true },
+		valuesFromFieldsToStore: {
+			altText: (val) => (val ? val : null),
+			width: (val) => (val ? Number(val) : null),
+			height: (val) => (val ? Number(val) : null),
+		},
+		valuesFromStoreToFields: {
+			altText: (val) => val ?? '',
+			width: (val) => (typeof val === 'number' ? val.toString() : ''),
+			height: (val) => (typeof val === 'number' ? val.toString() : ''),
+		},
 	});
 	const twVariantsFormStore = useCreateTwVariantsFormStore(
 		props.box.css.twVariants,
@@ -250,16 +268,14 @@ const QuoteBoxEditOverlay = (props: Props) => {
 		<BoxEditOverlay
 			{...props}
 			ShowcaseBoxChildren={
-				<QuoteBoxFormView
+				<ImageBoxFormView
 					boxDeepLevel={props.boxDeepLevel}
 					parentBox={props.parentBox}
 					className={props.className}
 					//
-					quoteFormStore={quoteFormStore}
+					imageFormStore={imageFormStore}
 					twVariantsFormStore={twVariantsFormStore}
 					customCssFormStore={customCssFormStore}
-					//
-					style={props.style}
 				/>
 			}
 			EditSideMenuChildren={
@@ -275,7 +291,7 @@ const QuoteBoxEditOverlay = (props: Props) => {
 											return newUpdatedByPathArray<
 												// eslint-disable-next-line @typescript-eslint/ban-types
 												Exclude<typeof page, Function>
-											>([...props.path, 'css'], page, (prev: BoxTypeQuote) => {
+											>([...props.path, 'css'], page, (prev: BoxTypeImage) => {
 												return {
 													...prev,
 													twVariants: params.values.twVariants,
@@ -303,7 +319,7 @@ const QuoteBoxEditOverlay = (props: Props) => {
 											return newUpdatedByPathArray<
 												// eslint-disable-next-line @typescript-eslint/ban-types
 												Exclude<typeof page, Function>
-											>([...props.path, 'css'], page, (prev: BoxTypeQuote) => {
+											>([...props.path, 'css'], page, (prev: BoxTypeImage) => {
 												return {
 													...prev,
 													custom: params.validatedValues.customCss,
@@ -321,21 +337,23 @@ const QuoteBoxEditOverlay = (props: Props) => {
 						{
 							defaultOpen: true,
 							contentChildren: (
-								<QuoteBoxForm
-									store={quoteFormStore}
-									id={box.quoteBox.id}
+								<ImageBoxForm
+									store={imageFormStore}
+									id={box.imageBox.id}
 									onSuccess={(params) => {
 										props.pageStore.getState().utils.setPage((page) => {
 											return newUpdatedByPathArray<
 												// eslint-disable-next-line @typescript-eslint/ban-types
 												Exclude<typeof page, Function>
 											>(
-												[...props.path, 'quoteBox'],
+												[...props.path, 'imageBox'],
 												page,
-												(prev: BoxTypeQuote) => ({
+												(prev: BoxTypeImage) => ({
 													...prev,
-													content: params.validatedValues.content,
-													cite: params.validatedValues.cite,
+													src: params.validatedValues.src,
+													altText: params.validatedValues.altText,
+													width: params.validatedValues.width,
+													height: params.validatedValues.height,
 												}),
 											);
 										});
@@ -343,9 +361,9 @@ const QuoteBoxEditOverlay = (props: Props) => {
 								/>
 							),
 							titleElem: (
-								<h3 className="text-h6 font-bold capitalize">quote box form</h3>
+								<h3 className="text-h6 font-bold capitalize">image box form</h3>
 							),
-							___key: 'quoteBox',
+							___key: 'imageBox',
 						},
 					]}
 				/>
@@ -354,13 +372,13 @@ const QuoteBoxEditOverlay = (props: Props) => {
 	);
 };
 
-export const QuoteBoxEditable = (props: Props) => {
+export const ImageBoxEditable = (props: Props) => {
 	const box = useStore(
 		props.pageStore,
-		(state) => getValueByPathArray(state.page, props.path) as BoxTypeQuote,
+		(state) => getValueByPathArray(state.page, props.path) as BoxTypeImage,
 	);
 
-	const quoteBoxViewProps = {
+	const imageBoxViewProps = {
 		boxDeepLevel: props.boxDeepLevel,
 		parentBox: props.parentBox,
 		className: cx(
@@ -372,15 +390,16 @@ export const QuoteBoxEditable = (props: Props) => {
 				: []),
 		),
 		//
-		content: box.quoteBox.content,
-		cite: box.quoteBox.cite,
-		style: props.style,
+		src: box.imageBox.src,
+		altText: box.imageBox.altText,
+		width: box.imageBox.width,
+		height: box.imageBox.height,
 	};
 
 	return (
-		<QuoteBoxView
-			{...quoteBoxViewProps}
-			childrenAfter={<QuoteBoxEditOverlay {...props} />}
+		<ImageBoxView
+			{...imageBoxViewProps}
+			childrenAfter={<ImageBoxEditOverlay {...props} />}
 		/>
 	);
 };

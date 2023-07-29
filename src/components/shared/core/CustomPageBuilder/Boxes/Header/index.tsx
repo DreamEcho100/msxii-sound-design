@@ -1,7 +1,7 @@
 import { type ReactNode } from 'react';
-import BoxEditOverlay from '../BoxEditOverlay';
-import { BoxTypeImage, PageStoreApi } from '../_';
-import { BoxTypes } from '@prisma/client';
+import BoxEditOverlay from '../../BoxEditOverlay';
+import { BoxTypeHeader, PageStoreApi } from '../../_';
+import { BoxTypes, HeaderBoxHType } from '@prisma/client';
 import { useStore } from 'zustand';
 import { getValueByPathArray, newUpdatedByPathArray } from '~/utils/obj/update';
 import { cx } from 'class-variance-authority';
@@ -14,52 +14,49 @@ import {
 import Form from '~/components/shared/common/@de100/form-echo/Forms';
 import ContainedInputField from '~/components/shared/common/@de100/form-echo/Fields/Contained/ContainedInput';
 import Accordion from '~/components/shared/common/Accordion';
-import { createOneImageBoxSchema } from '~/server/utils/validations-schemas/dashboard/boxes/types/images';
+import { createOneHeaderBoxSchema } from '~/server/utils/validations-schemas/dashboard/boxes/types/headers';
 import { api } from '~/utils/api';
 import { toast } from 'react-toastify';
 
 import customPageClasses from '~/styles/_custom-page.module.css';
 import { CreateOneCustomCssSchema } from '~/server/utils/validations-schemas/dashboard/css/customCss';
-import { CustomCssFormStore, CustomCssForm } from '../Css/CustomClasses';
+import { CustomCssFormStore, CustomCssForm } from '../../Css/CustomClasses';
 import {
 	type TwVariantsFormStore,
 	TwVariantsForm,
 	useCreateTwVariantsFormStore,
-} from '../Css/TwVariants';
-import CustomNextImage from '~/components/shared/CustomNextImage';
-import { BsX } from 'react-icons/bs';
+} from '../../Css/TwVariants';
 
-type ImageBox = {
-	src: string;
-	altText: string | null;
-	width: number | null;
-	height: number | null;
+type HeaderBox = {
+	title: string;
+	description: string | null;
+	hType: HeaderBoxHType;
 };
-type ImageFormStore = FormStoreApi<ImageBox, typeof createOneImageBoxSchema>;
+type HeaderFormStore = FormStoreApi<HeaderBox, typeof createOneHeaderBoxSchema>;
 type SharedProps = {
 	boxDeepLevel: number;
 	parentBox?: BoxTypes;
 	className?: string;
 };
 type Props = {
-	box: BoxTypeImage;
+	box: BoxTypeHeader;
 	path: (string | number)[];
 	pageStore: PageStoreApi;
 } & SharedProps;
 
-const BOX_TYPE = BoxTypes.IMAGE;
+const BOX_TYPE = BoxTypes.HEADER;
 
-const ImageBoxForm = (props: {
-	store: ImageFormStore;
+const HeaderBoxForm = (props: {
+	store: HeaderFormStore;
 	id: string;
 	onSuccess: (params: {
 		validatedValues: GetPassedValidationFieldsValues<
-			typeof createOneImageBoxSchema
+			typeof createOneHeaderBoxSchema
 		>;
 	}) => void;
 }) => {
 	const updateOneRequest =
-		api.dashboard.boxes.types.images.updateOne.useMutation({
+		api.dashboard.boxes.types.headers.updateOne.useMutation({
 			onError(error) {
 				toast(error.message, { type: 'error' });
 			},
@@ -83,70 +80,16 @@ const ImageBoxForm = (props: {
 		>
 			<ContainedInputField
 				store={props.store}
-				name="src"
-				labelProps={{ children: 'src' }}
+				name="title"
+				labelProps={{ children: 'title' }}
 			/>
 			<ContainedInputField
+				isA="textarea"
 				store={props.store}
-				name="altText"
-				labelProps={{ children: 'alt text' }}
+				name="description"
+				labelProps={{ children: 'description' }}
+				rows={15}
 			/>
-			<fieldset>
-				<div className="relative">
-					<ContainedInputField
-						store={props.store}
-						name="width"
-						labelProps={{
-							children: (
-								<>
-									initial width <small>while loading</small>
-								</>
-							),
-						}}
-						type="number"
-					/>
-					<div className="absolute top-0 right-1 rtl:right-auto rtl:left-1">
-						<button
-							type="button"
-							onClick={() => {
-								props.store
-									.getState()
-									// eslint-disable-next-line @typescript-eslint/no-explicit-any
-									.utils.handleOnInputChange('width', null as any);
-							}}
-						>
-							<BsX />
-						</button>
-					</div>
-				</div>
-				<div className="relative">
-					<ContainedInputField
-						store={props.store}
-						name="height"
-						labelProps={{
-							children: (
-								<>
-									initial height <small>while loading</small>
-								</>
-							),
-						}}
-						type="number"
-					/>
-					<div className="absolute top-0 right-1 rtl:right-auto rtl:left-1">
-						<button
-							type="button"
-							onClick={() => {
-								props.store
-									.getState()
-									// eslint-disable-next-line @typescript-eslint/no-explicit-any
-									.utils.handleOnInputChange('height', null as any);
-							}}
-						>
-							<BsX />
-						</button>
-					</div>
-				</div>
-			</fieldset>
 			<button
 				type="submit"
 				disabled={updateOneRequest.isLoading}
@@ -158,44 +101,61 @@ const ImageBoxForm = (props: {
 	);
 };
 
-const ImageBoxView = (
+const HeaderBoxView = (
 	props: {
 		childrenAfter?: ReactNode;
+		boxDeepLevel: number;
 	} & SharedProps &
-		ImageBox,
+		HeaderBox,
 ) => {
+	const HType = (() => {
+		if (props.hType !== HeaderBoxHType.DYNAMIC)
+			return props.hType.toLowerCase() as Lowercase<
+				Exclude<(typeof props)['hType'], (typeof HeaderBoxHType)['DYNAMIC']>
+			>;
+
+		if (props.boxDeepLevel >= 5) return 'h6';
+
+		return `h${props.boxDeepLevel}` as 'h1' | 'h2' | 'h3' | 'h4' | 'h5';
+	})();
+
 	return (
-		<div className={props.className}>
-			<CustomNextImage
-				src={props.src}
-				width={props.width || 800}
-				height={props.height || 800}
-				alt={props.altText || ''}
-			/>
+		<header className={cx('flex flex-col gap-8 relative', props.className)}>
+			{props.title && (
+				<HType
+					className={cx(
+						props.boxDeepLevel === 0 ? 'font-semibold' : '',
+						'text-h3 text-text-primary-500',
+					)}
+				>
+					{props.title}
+				</HType>
+			)}
+			{props.description && <p>{props.description}</p>}
 			{props.childrenAfter}
-		</div>
+		</header>
 	);
 };
 
-const ImageBoxFormView = (
+const HeaderBoxFormView = (
 	props: {
-		imageFormStore: ImageFormStore;
+		headerFormStore: HeaderFormStore;
+		boxDeepLevel: number;
 		twVariantsFormStore: TwVariantsFormStore;
 		customCssFormStore: CustomCssFormStore;
 	} & SharedProps,
 ) => {
-	const src = useStore(props.imageFormStore, (store) => store.fields.src.value);
-	const altText = useStore(
-		props.imageFormStore,
-		(store) => store.fields.altText.value,
+	const title = useStore(
+		props.headerFormStore,
+		(store) => store.fields.title.value,
 	);
-	const width = useStore(
-		props.imageFormStore,
-		(store) => store.fields.width.value,
+	const description = useStore(
+		props.headerFormStore,
+		(store) => store.fields.description.value,
 	);
-	const height = useStore(
-		props.imageFormStore,
-		(store) => store.fields.height.value,
+	const hType = useStore(
+		props.headerFormStore,
+		(store) => store.fields.hType.value,
 	);
 	const twVariantsStr = useStore(props.twVariantsFormStore, (store) =>
 		handleBoxVariants(store.fields.twVariants.value),
@@ -208,6 +168,7 @@ const ImageBoxFormView = (
 				?.map((key) => customPageClasses[key])
 				.join(' ') ?? undefined,
 	);
+
 	const className = cx(
 		props.className,
 		customPageClasses[`${BOX_TYPE}-BOX`],
@@ -216,42 +177,34 @@ const ImageBoxFormView = (
 	);
 
 	return (
-		<ImageBoxView
-			boxDeepLevel={props.boxDeepLevel}
-			parentBox={props.parentBox}
+		<HeaderBoxView
+			title={title}
+			description={description}
+			hType={hType}
 			className={className}
-			//
-			src={src}
-			altText={altText}
-			width={width}
-			height={height}
+			boxDeepLevel={props.boxDeepLevel}
 		/>
 	);
 };
 
-const ImageBoxEditOverlay = (props: Props) => {
+const HeaderBoxEditOverlay = (props: Props) => {
 	const box = useStore(
 		props.pageStore,
-		(state) => getValueByPathArray(state.page, props.path) as BoxTypeImage, // .slice(0, -1)
+		(state) => getValueByPathArray(state.page, props.path) as BoxTypeHeader, // .slice(0, -1)
 	);
-	const imageFormStore: ImageFormStore = useCreateFormStore({
+	const headerFormStore: HeaderFormStore = useCreateFormStore({
 		initValues: {
-			src: box.imageBox.src,
-			altText: box.imageBox.altText,
-			width: box.imageBox.width,
-			height: box.imageBox.height,
+			title: box.headerBox.title,
+			description: box.headerBox.description,
+			hType: box.headerBox.hType,
 		},
-		validationSchema: createOneImageBoxSchema,
+		validationSchema: createOneHeaderBoxSchema,
 		validationEvents: { change: true },
 		valuesFromFieldsToStore: {
-			altText: (val) => (val ? val : null),
-			width: (val) => (val ? Number(val) : null),
-			height: (val) => (val ? Number(val) : null),
+			description: (val) => (val ? val : null),
 		},
 		valuesFromStoreToFields: {
-			altText: (val) => val ?? '',
-			width: (val) => (typeof val === 'number' ? val.toString() : ''),
-			height: (val) => (typeof val === 'number' ? val.toString() : ''),
+			description: (val) => val ?? '',
 		},
 	});
 	const twVariantsFormStore = useCreateTwVariantsFormStore(
@@ -268,12 +221,12 @@ const ImageBoxEditOverlay = (props: Props) => {
 		<BoxEditOverlay
 			{...props}
 			ShowcaseBoxChildren={
-				<ImageBoxFormView
+				<HeaderBoxFormView
 					boxDeepLevel={props.boxDeepLevel}
 					parentBox={props.parentBox}
 					className={props.className}
 					//
-					imageFormStore={imageFormStore}
+					headerFormStore={headerFormStore}
 					twVariantsFormStore={twVariantsFormStore}
 					customCssFormStore={customCssFormStore}
 				/>
@@ -291,7 +244,7 @@ const ImageBoxEditOverlay = (props: Props) => {
 											return newUpdatedByPathArray<
 												// eslint-disable-next-line @typescript-eslint/ban-types
 												Exclude<typeof page, Function>
-											>([...props.path, 'css'], page, (prev: BoxTypeImage) => {
+											>([...props.path, 'css'], page, (prev: BoxTypeHeader) => {
 												return {
 													...prev,
 													twVariants: params.values.twVariants,
@@ -319,7 +272,7 @@ const ImageBoxEditOverlay = (props: Props) => {
 											return newUpdatedByPathArray<
 												// eslint-disable-next-line @typescript-eslint/ban-types
 												Exclude<typeof page, Function>
-											>([...props.path, 'css'], page, (prev: BoxTypeImage) => {
+											>([...props.path, 'css'], page, (prev: BoxTypeHeader) => {
 												return {
 													...prev,
 													custom: params.validatedValues.customCss,
@@ -337,23 +290,22 @@ const ImageBoxEditOverlay = (props: Props) => {
 						{
 							defaultOpen: true,
 							contentChildren: (
-								<ImageBoxForm
-									store={imageFormStore}
-									id={box.imageBox.id}
+								<HeaderBoxForm
+									store={headerFormStore}
+									id={box.headerBox.id}
 									onSuccess={(params) => {
 										props.pageStore.getState().utils.setPage((page) => {
 											return newUpdatedByPathArray<
 												// eslint-disable-next-line @typescript-eslint/ban-types
 												Exclude<typeof page, Function>
 											>(
-												[...props.path, 'imageBox'],
+												[...props.path, 'headerBox'],
 												page,
-												(prev: BoxTypeImage) => ({
+												(prev: BoxTypeHeader) => ({
 													...prev,
-													src: params.validatedValues.src,
-													altText: params.validatedValues.altText,
-													width: params.validatedValues.width,
-													height: params.validatedValues.height,
+													title: params.validatedValues.title,
+													description: params.validatedValues.description,
+													hType: params.validatedValues.hType,
 												}),
 											);
 										});
@@ -361,9 +313,11 @@ const ImageBoxEditOverlay = (props: Props) => {
 								/>
 							),
 							titleElem: (
-								<h3 className="text-h6 font-bold capitalize">image box form</h3>
+								<h3 className="text-h6 font-bold capitalize">
+									header box form
+								</h3>
 							),
-							___key: 'imageBox',
+							___key: 'headerBox',
 						},
 					]}
 				/>
@@ -372,13 +326,13 @@ const ImageBoxEditOverlay = (props: Props) => {
 	);
 };
 
-export const ImageBoxEditable = (props: Props) => {
+export const HeaderBoxEditable = (props: Props) => {
 	const box = useStore(
 		props.pageStore,
-		(state) => getValueByPathArray(state.page, props.path) as BoxTypeImage,
+		(state) => getValueByPathArray(state.page, props.path) as BoxTypeHeader,
 	);
 
-	const imageBoxViewProps = {
+	const headerBoxViewProps = {
 		boxDeepLevel: props.boxDeepLevel,
 		parentBox: props.parentBox,
 		className: cx(
@@ -390,16 +344,15 @@ export const ImageBoxEditable = (props: Props) => {
 				: []),
 		),
 		//
-		src: box.imageBox.src,
-		altText: box.imageBox.altText,
-		width: box.imageBox.width,
-		height: box.imageBox.height,
+		title: box.headerBox.title,
+		description: box.headerBox.description,
+		hType: box.headerBox.hType,
 	};
 
 	return (
-		<ImageBoxView
-			{...imageBoxViewProps}
-			childrenAfter={<ImageBoxEditOverlay {...props} />}
+		<HeaderBoxView
+			{...headerBoxViewProps}
+			childrenAfter={<HeaderBoxEditOverlay {...props} />}
 		/>
 	);
 };

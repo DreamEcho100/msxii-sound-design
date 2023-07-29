@@ -2,7 +2,7 @@ import {
 	BoxTypes,
 	IframeBoxTypes,
 	PrismaClient,
-	SlidersHolderSlidePerViewType,
+	SlidesPerViewType,
 	Box as BoxModel,
 } from '@prisma/client';
 // import page from './data/lo-fly-dirt';
@@ -222,7 +222,7 @@ const seedPage = async (page: CustomPage) => {
 
 						return {
 							type: BoxTypes.GRID,
-							gridBox: {
+							grid: {
 								create: {
 									boxesToGrids: {
 										createMany: { data: itemsData },
@@ -257,9 +257,9 @@ const seedPage = async (page: CustomPage) => {
 
 						return {
 							type: BoxTypes.TABS_HOLDER,
-							tabsHolder: {
+							tabs: {
 								create: {
-									boxesToTabsHolders: {
+									boxesToTabss: {
 										createMany: { data: itemsData },
 									},
 								},
@@ -285,14 +285,14 @@ const seedPage = async (page: CustomPage) => {
 
 						return {
 							type: BoxTypes.SLIDER,
-							sliderBox: {
+							slider: {
 								create: {
 									slidesPerViewType:
 										box.slidesPerViewType === 'one-slide'
-											? SlidersHolderSlidePerViewType.ONE_SLIDE
+											? SlidesPerViewType.ONE_SLIDE
 											: box.slidesPerViewType === 'large-slides'
-											? SlidersHolderSlidePerViewType.LARGE_SLIDES
-											: SlidersHolderSlidePerViewType.DEFAULT,
+											? SlidesPerViewType.LARGE_SLIDES
+											: SlidesPerViewType.DEFAULT,
 									boxesToSliders: {
 										createMany: { data: slidesData },
 									},
@@ -381,65 +381,7 @@ const seedPages = async () => {
 	console.log('\n\n');
 };
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const changeConstraintsNames = async () => {
-	console.log('Starting to change constraints names');
-
-	{
-		await prisma.$queryRaw`ALTER TABLE "BoxToTabsHolder"
-	RENAME CONSTRAINT "BoxToTabsHolder_tabsHolderId_fkey" TO "_BTCB_tabsHolderId_fkey"`.catch(
-			(error) => console.error(error),
-		);
-		await prisma.$queryRaw`ALTER TABLE "BoxToTabsHolder"
-	RENAME CONSTRAINT "BoxToTabsHolder_boxId_fkey" TO "_BTCB_boxId_fkey"`.catch(
-			(error) => console.error(error),
-		);
-		await prisma.$queryRaw`ALTER TABLE "BoxToTabsHolder"
-	RENAME CONSTRAINT "BoxToTabsHolder_pkey" TO "_BTCB_pkey"`.catch((error) =>
-			console.error(error),
-		);
-	}
-
-	{
-		await prisma.$queryRaw`ALTER TABLE "BoxToSlider"
-	RENAME CONSTRAINT "BoxToSlider_boxId_fkey" TO "_BTSB_boxId_fkey"`.catch(
-			(error) => console.error(error),
-		);
-		await prisma.$queryRaw`ALTER TABLE "BoxToSlider"
-	RENAME CONSTRAINT "BoxToSlider_pkey" TO "_BTSB_pkey"`.catch((error) =>
-			console.error(error),
-		);
-		await prisma.$queryRaw`ALTER TABLE "BoxToSlider"
-	RENAME CONSTRAINT "BoxToSlider_sliderBoxId_fkey" TO "_BTSB_sliderBoxId_fkey"`.catch(
-			(error) => console.error(error),
-		);
-	}
-
-	{
-		await prisma.$queryRaw`ALTER TABLE "BoxToGrid"
-	RENAME CONSTRAINT "BoxToGrid_boxId_fkey" TO "_BTGB_boxId_fkey"`.catch((error) =>
-			console.error(error),
-		);
-		await prisma.$queryRaw`ALTER TABLE "BoxToGrid"
-	RENAME CONSTRAINT "BoxToGrid_pkey" TO "_BTGB_pkey"`.catch((error) =>
-			console.error(error),
-		);
-		await prisma.$queryRaw`ALTER TABLE "BoxToGrid"
-	RENAME CONSTRAINT "BoxToGrid_gridBoxId_fkey" TO "_BTGB_gridBoxId_fkey"`.catch(
-			(error) => console.error(error),
-		);
-	}
-
-	console.log('Ending the change constraints names');
-	console.log('\n\n');
-};
-
 const seedAll = async () => {
-	/**
-	 * @description NOTE: Uses only for the first time after initializing the tables/models followed by `prisma db pull`
-	 */
-	// await changeConstraintsNames();
-
 	await seedCategories();
 	await seedPages();
 };

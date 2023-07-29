@@ -1,7 +1,8 @@
 import { type ReactNode } from 'react';
-import BoxEditOverlay from '../BoxEditOverlay';
-import { BoxTypeHeader, PageStoreApi } from '../_';
-import { BoxTypes, HeaderBoxHType } from '@prisma/client';
+import ReactMarkdownFormatter from '~/components/shared/ReactMarkdownFormatter';
+import BoxEditOverlay from '../../BoxEditOverlay';
+import { BoxTypeMd, PageStoreApi } from '../../_';
+import { BoxTypes } from '@prisma/client';
 import { useStore } from 'zustand';
 import { getValueByPathArray, newUpdatedByPathArray } from '~/utils/obj/update';
 import { cx } from 'class-variance-authority';
@@ -14,56 +15,53 @@ import {
 import Form from '~/components/shared/common/@de100/form-echo/Forms';
 import ContainedInputField from '~/components/shared/common/@de100/form-echo/Fields/Contained/ContainedInput';
 import Accordion from '~/components/shared/common/Accordion';
-import { createOneHeaderBoxSchema } from '~/server/utils/validations-schemas/dashboard/boxes/types/headers';
+import { createOneMdBoxSchema } from '~/server/utils/validations-schemas/dashboard/boxes/types/mds';
 import { api } from '~/utils/api';
 import { toast } from 'react-toastify';
 
 import customPageClasses from '~/styles/_custom-page.module.css';
 import { CreateOneCustomCssSchema } from '~/server/utils/validations-schemas/dashboard/css/customCss';
-import { CustomCssFormStore, CustomCssForm } from '../Css/CustomClasses';
+import { CustomCssFormStore, CustomCssForm } from '../../Css/CustomClasses';
 import {
 	type TwVariantsFormStore,
 	TwVariantsForm,
 	useCreateTwVariantsFormStore,
-} from '../Css/TwVariants';
+} from '../../Css/TwVariants';
 
-type HeaderBox = {
-	title: string;
-	description: string | null;
-	hType: HeaderBoxHType;
+type MdBox = {
+	content: string;
 };
-type HeaderFormStore = FormStoreApi<HeaderBox, typeof createOneHeaderBoxSchema>;
+type MdFormStore = FormStoreApi<MdBox, typeof createOneMdBoxSchema>;
 type SharedProps = {
 	boxDeepLevel: number;
 	parentBox?: BoxTypes;
 	className?: string;
 };
 type Props = {
-	box: BoxTypeHeader;
+	box: BoxTypeMd;
 	path: (string | number)[];
 	pageStore: PageStoreApi;
 } & SharedProps;
 
-const BOX_TYPE = BoxTypes.HEADER;
+const BOX_TYPE = BoxTypes.MD;
 
-const HeaderBoxForm = (props: {
-	store: HeaderFormStore;
+const MdBoxForm = (props: {
+	store: MdFormStore;
 	id: string;
 	onSuccess: (params: {
 		validatedValues: GetPassedValidationFieldsValues<
-			typeof createOneHeaderBoxSchema
+			typeof createOneMdBoxSchema
 		>;
 	}) => void;
 }) => {
-	const updateOneRequest =
-		api.dashboard.boxes.types.headers.updateOne.useMutation({
-			onError(error) {
-				toast(error.message, { type: 'error' });
-			},
-			onSuccess() {
-				toast('Successful submission!', { type: 'success' });
-			},
-		});
+	const updateOneRequest = api.dashboard.boxes.types.mds.updateOne.useMutation({
+		onError(error) {
+			toast(error.message, { type: 'error' });
+		},
+		onSuccess() {
+			toast('Successful submission!', { type: 'success' });
+		},
+	});
 
 	return (
 		<Form
@@ -75,19 +73,15 @@ const HeaderBoxForm = (props: {
 				});
 
 				props.onSuccess(params);
+				// result.
 			}}
 			store={props.store}
 		>
 			<ContainedInputField
-				store={props.store}
-				name="title"
-				labelProps={{ children: 'title' }}
-			/>
-			<ContainedInputField
 				isA="textarea"
 				store={props.store}
-				name="description"
-				labelProps={{ children: 'description' }}
+				name="content"
+				labelProps={{ children: 'content' }}
 				rows={15}
 			/>
 			<button
@@ -101,61 +95,30 @@ const HeaderBoxForm = (props: {
 	);
 };
 
-const HeaderBoxView = (
+const MdBoxView = (
 	props: {
 		childrenAfter?: ReactNode;
-		boxDeepLevel: number;
 	} & SharedProps &
-		HeaderBox,
+		MdBox,
 ) => {
-	const HType = (() => {
-		if (props.hType !== HeaderBoxHType.DYNAMIC)
-			return props.hType.toLowerCase() as Lowercase<
-				Exclude<(typeof props)['hType'], (typeof HeaderBoxHType)['DYNAMIC']>
-			>;
-
-		if (props.boxDeepLevel >= 5) return 'h6';
-
-		return `h${props.boxDeepLevel}` as 'h1' | 'h2' | 'h3' | 'h4' | 'h5';
-	})();
-
 	return (
-		<header className={cx('flex flex-col gap-8 relative', props.className)}>
-			{props.title && (
-				<HType
-					className={cx(
-						props.boxDeepLevel === 0 ? 'font-semibold' : '',
-						'text-h3 text-text-primary-500',
-					)}
-				>
-					{props.title}
-				</HType>
-			)}
-			{props.description && <p>{props.description}</p>}
+		<div className={props.className}>
+			<ReactMarkdownFormatter content={props.content} />
 			{props.childrenAfter}
-		</header>
+		</div>
 	);
 };
 
-const HeaderBoxFormView = (
+const MdBoxFormView = (
 	props: {
-		headerFormStore: HeaderFormStore;
-		boxDeepLevel: number;
+		mdFormStore: MdFormStore;
 		twVariantsFormStore: TwVariantsFormStore;
 		customCssFormStore: CustomCssFormStore;
 	} & SharedProps,
 ) => {
-	const title = useStore(
-		props.headerFormStore,
-		(store) => store.fields.title.value,
-	);
-	const description = useStore(
-		props.headerFormStore,
-		(store) => store.fields.description.value,
-	);
-	const hType = useStore(
-		props.headerFormStore,
-		(store) => store.fields.hType.value,
+	const content = useStore(
+		props.mdFormStore,
+		(store) => store.fields.content.value,
 	);
 	const twVariantsStr = useStore(props.twVariantsFormStore, (store) =>
 		handleBoxVariants(store.fields.twVariants.value),
@@ -177,35 +140,27 @@ const HeaderBoxFormView = (
 	);
 
 	return (
-		<HeaderBoxView
-			title={title}
-			description={description}
-			hType={hType}
-			className={className}
+		<MdBoxView
 			boxDeepLevel={props.boxDeepLevel}
+			parentBox={props.parentBox}
+			className={className}
+			//
+			content={content}
 		/>
 	);
 };
 
-const HeaderBoxEditOverlay = (props: Props) => {
+const MdBoxEditOverlay = (props: Props) => {
 	const box = useStore(
 		props.pageStore,
-		(state) => getValueByPathArray(state.page, props.path) as BoxTypeHeader, // .slice(0, -1)
+		(state) => getValueByPathArray(state.page, props.path) as BoxTypeMd, // .slice(0, -1)
 	);
-	const headerFormStore: HeaderFormStore = useCreateFormStore({
+	const mdFormStore: MdFormStore = useCreateFormStore({
 		initValues: {
-			title: box.headerBox.title,
-			description: box.headerBox.description,
-			hType: box.headerBox.hType,
+			content: box.mdBox.content,
 		},
-		validationSchema: createOneHeaderBoxSchema,
+		validationSchema: createOneMdBoxSchema,
 		validationEvents: { change: true },
-		valuesFromFieldsToStore: {
-			description: (val) => (val ? val : null),
-		},
-		valuesFromStoreToFields: {
-			description: (val) => val ?? '',
-		},
 	});
 	const twVariantsFormStore = useCreateTwVariantsFormStore(
 		props.box.css.twVariants,
@@ -221,12 +176,12 @@ const HeaderBoxEditOverlay = (props: Props) => {
 		<BoxEditOverlay
 			{...props}
 			ShowcaseBoxChildren={
-				<HeaderBoxFormView
+				<MdBoxFormView
 					boxDeepLevel={props.boxDeepLevel}
 					parentBox={props.parentBox}
 					className={props.className}
 					//
-					headerFormStore={headerFormStore}
+					mdFormStore={mdFormStore}
 					twVariantsFormStore={twVariantsFormStore}
 					customCssFormStore={customCssFormStore}
 				/>
@@ -244,7 +199,7 @@ const HeaderBoxEditOverlay = (props: Props) => {
 											return newUpdatedByPathArray<
 												// eslint-disable-next-line @typescript-eslint/ban-types
 												Exclude<typeof page, Function>
-											>([...props.path, 'css'], page, (prev: BoxTypeHeader) => {
+											>([...props.path, 'css'], page, (prev: BoxTypeMd) => {
 												return {
 													...prev,
 													twVariants: params.values.twVariants,
@@ -272,7 +227,7 @@ const HeaderBoxEditOverlay = (props: Props) => {
 											return newUpdatedByPathArray<
 												// eslint-disable-next-line @typescript-eslint/ban-types
 												Exclude<typeof page, Function>
-											>([...props.path, 'css'], page, (prev: BoxTypeHeader) => {
+											>([...props.path, 'css'], page, (prev: BoxTypeMd) => {
 												return {
 													...prev,
 													custom: params.validatedValues.customCss,
@@ -290,34 +245,26 @@ const HeaderBoxEditOverlay = (props: Props) => {
 						{
 							defaultOpen: true,
 							contentChildren: (
-								<HeaderBoxForm
-									store={headerFormStore}
-									id={box.headerBox.id}
+								<MdBoxForm
+									store={mdFormStore}
+									id={box.mdBox.id}
 									onSuccess={(params) => {
 										props.pageStore.getState().utils.setPage((page) => {
 											return newUpdatedByPathArray<
 												// eslint-disable-next-line @typescript-eslint/ban-types
 												Exclude<typeof page, Function>
-											>(
-												[...props.path, 'headerBox'],
-												page,
-												(prev: BoxTypeHeader) => ({
-													...prev,
-													title: params.validatedValues.title,
-													description: params.validatedValues.description,
-													hType: params.validatedValues.hType,
-												}),
-											);
+											>([...props.path, 'mdBox'], page, (prev: BoxTypeMd) => ({
+												...prev,
+												content: params.validatedValues.content,
+											}));
 										});
 									}}
 								/>
 							),
 							titleElem: (
-								<h3 className="text-h6 font-bold capitalize">
-									header box form
-								</h3>
+								<h3 className="text-h6 font-bold capitalize">MD box form</h3>
 							),
-							___key: 'headerBox',
+							___key: 'mdBox',
 						},
 					]}
 				/>
@@ -326,13 +273,13 @@ const HeaderBoxEditOverlay = (props: Props) => {
 	);
 };
 
-export const HeaderBoxEditable = (props: Props) => {
+export const MdBoxEditable = (props: Props) => {
 	const box = useStore(
 		props.pageStore,
-		(state) => getValueByPathArray(state.page, props.path) as BoxTypeHeader,
+		(state) => getValueByPathArray(state.page, props.path) as BoxTypeMd,
 	);
 
-	const headerBoxViewProps = {
+	const mdBoxViewProps = {
 		boxDeepLevel: props.boxDeepLevel,
 		parentBox: props.parentBox,
 		className: cx(
@@ -344,15 +291,13 @@ export const HeaderBoxEditable = (props: Props) => {
 				: []),
 		),
 		//
-		title: box.headerBox.title,
-		description: box.headerBox.description,
-		hType: box.headerBox.hType,
+		content: box.mdBox.content,
 	};
 
 	return (
-		<HeaderBoxView
-			{...headerBoxViewProps}
-			childrenAfter={<HeaderBoxEditOverlay {...props} />}
+		<MdBoxView
+			{...mdBoxViewProps}
+			childrenAfter={<MdBoxEditOverlay {...props} />}
 		/>
 	);
 };

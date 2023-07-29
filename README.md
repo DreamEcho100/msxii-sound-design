@@ -64,14 +64,14 @@
 
 ## Dashboard
 
-### `TabsHolderBox`
+### `TabsBox`
 
 How to update the tabs names?
 
-### `SliderBox`
+### `Slider`
 
 How to update the slides?
 
-### `GridBox`
+### `Grid`
 
 How to update the grid styles (grid-template-column, grid-template-row)?

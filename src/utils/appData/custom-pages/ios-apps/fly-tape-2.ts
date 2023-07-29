@@ -5,14 +5,14 @@ import {
 	SUB_BOXES_TYPES_map,
 	TabsBox,
 	CustomPage,
-	GridBox,
+	Grid,
 } from '~/utils/types/custom-page';
 import { createStandardSection } from '../utils';
 
 const FlyTape2IOSApp: StandardSection[] = (() => {
 	const appLink = 'https://apps.apple.com/us/app/fly-tape-2/id1552463664';
 
-	const gridBox: GridBox = {
+	const grid: Grid = {
 		twClassNameVariants: { 'gap-x': '8' },
 		___type: BOXES_TYPES_map['grid'],
 		gridTemplateColumns: `repeat(auto-fit, minmax(20rem, 1fr))`,
@@ -109,7 +109,7 @@ You can check out the reference guide/manual below. Download and save to your iP
 		___subType: SUB_BOXES_TYPES_map['youtube'],
 		src: 'https://www.youtube.com/embed/JkfyYC4lqwg?autoplay=0&loop=0&mute=0&controls=0&enablejsapi=1',
 	};
-	const gridBox2: GridBox = {
+	const grid2: Grid = {
 		___type: BOXES_TYPES_map['grid'],
 		twClassNameVariants: { 'gap-x': '10', 'gap-y': '8' },
 		gridTemplateColumns: `repeat(auto-fill, minmax(15rem, 1fr))`,
@@ -152,7 +152,7 @@ The original Fly Tape was like seasoning to my production but part 2 is now a ma
 			// }
 		],
 	};
-	const gridBox3: GridBox = {
+	const grid3: Grid = {
 		___type: BOXES_TYPES_map['grid'],
 		twClassNameVariants: { 'gap-y': '3' },
 		gridTemplateColumns: `1fr`,
@@ -171,7 +171,7 @@ The original Fly Tape was like seasoning to my production but part 2 is now a ma
 	};
 
 	return [
-		createStandardSection({ order: 0, body: [gridBox] }),
+		createStandardSection({ order: 0, body: [grid] }),
 		createStandardSection({ order: 1, body: [tabsBox] }),
 		createStandardSection({ order: 2, body: [iframeBox] }),
 		createStandardSection({
@@ -182,12 +182,12 @@ The original Fly Tape was like seasoning to my production but part 2 is now a ma
 		}),
 		createStandardSection({
 			order: 4,
-			body: [gridBox2],
+			body: [grid2],
 			// title: 'Fly Tape 2 Around The Web',
 			twClassNameVariants: { 'gap-y': '8' },
 			// customPageClassesKeys: ['section-container-v1']
 		}),
-		createStandardSection({ order: 5, body: [gridBox3] }),
+		createStandardSection({ order: 5, body: [grid3] }),
 	];
 })();
 

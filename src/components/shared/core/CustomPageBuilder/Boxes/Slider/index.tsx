@@ -1,7 +1,7 @@
 import { useState, type ReactNode, useEffect } from 'react';
-import BoxEditOverlay from '../BoxEditOverlay';
-import { Box, BoxTypeSlider, PageStoreApi, SectionBoxContainer } from '../_';
-import { BoxTypes, SlidersHolderSlidePerViewType } from '@prisma/client';
+import BoxEditOverlay from '../../BoxEditOverlay';
+import { Box, BoxTypeSlider, PageStoreApi, SectionBoxContainer } from '../../_';
+import { BoxTypes, SlidesPerViewType } from '@prisma/client';
 import { useStore } from 'zustand';
 import { getValueByPathArray, newUpdatedByPathArray } from '~/utils/obj/update';
 import { cx } from 'class-variance-authority';
@@ -13,32 +13,32 @@ import {
 } from '@de100/form-echo';
 import Form from '~/components/shared/common/@de100/form-echo/Forms';
 import Accordion from '~/components/shared/common/Accordion';
-import { createOneSliderBoxSchema } from '~/server/utils/validations-schemas/dashboard/boxes/types/sliders';
+import { createOneSliderSchema } from '~/server/utils/validations-schemas/dashboard/boxes/types/sliders';
 import { api } from '~/utils/api';
 import { toast } from 'react-toastify';
 
 import customPageClasses from '~/styles/_custom-page.module.css';
 import { CreateOneCustomCssSchema } from '~/server/utils/validations-schemas/dashboard/css/customCss';
-import { CustomCssFormStore, CustomCssForm } from '../Css/CustomClasses';
+import { CustomCssFormStore, CustomCssForm } from '../../Css/CustomClasses';
 import {
 	type TwVariantsFormStore,
 	TwVariantsForm,
 	useCreateTwVariantsFormStore,
-} from '../Css/TwVariants';
+} from '../../Css/TwVariants';
 import ContainedDropdownField from '~/components/shared/common/@de100/form-echo/Fields/Contained/ContainedDropdown';
-import Slider from '../../Shopify/Cards/Slider';
+import SliderComp from '../../../Shopify/Cards/Slider';
 import { SwiperSlide } from 'swiper/react';
 
-type SliderBox = {
-	slidesPerViewType: (typeof SlidersHolderSlidePerViewType)[keyof typeof SlidersHolderSlidePerViewType];
+type Slider = {
+	slidesPerViewType: (typeof SlidesPerViewType)[keyof typeof SlidesPerViewType];
 };
-type SliderFormStore = FormStoreApi<SliderBox, typeof createOneSliderBoxSchema>;
+type SliderFormStore = FormStoreApi<Slider, typeof createOneSliderSchema>;
 type SharedProps = {
 	boxDeepLevel: number;
 	parentBox?: BoxTypes;
-	className: string;
+	className?: string;
 
-	// boxesToSliders: BoxTypeSlider['sliderBox']['boxesToSliders']
+	// boxesToSliders: BoxTypeSlider['slider']['boxesToSliders']
 	// path: (string | number)[];
 	// pageStore: PageStoreApi;
 };
@@ -46,14 +46,13 @@ type Props = SharedProps & {
 	box: BoxTypeSlider;
 	path: (string | number)[];
 	pageStore: PageStoreApi;
-	boxesToSliders: BoxTypeSlider['sliderBox']['boxesToSliders'];
 };
 
 const BOX_TYPE = BoxTypes.SLIDER;
 
 const slidesPerViewTypeDropdownData = Object.values<
-	(typeof SlidersHolderSlidePerViewType)[keyof typeof SlidersHolderSlidePerViewType]
->(SlidersHolderSlidePerViewType).map((value) => ({
+	(typeof SlidesPerViewType)[keyof typeof SlidesPerViewType]
+>(SlidesPerViewType).map((value) => ({
 	value,
 	name: value
 		.split('_')
@@ -64,12 +63,12 @@ const slidesPerViewTypeDropdownData = Object.values<
 		.join(' '),
 }));
 
-const SliderBoxForm = (props: {
+const SliderForm = (props: {
 	store: SliderFormStore;
 	id: string;
 	onSuccess: (params: {
 		validatedValues: GetPassedValidationFieldsValues<
-			typeof createOneSliderBoxSchema
+			typeof createOneSliderSchema
 		>;
 	}) => void;
 }) => {
@@ -138,16 +137,16 @@ const SliderBoxForm = (props: {
 	);
 };
 
-const SliderBoxView = (
+const SliderView = (
 	props: {
 		childrenAfter?: ReactNode;
-		boxesToSliders: BoxTypeSlider['sliderBox']['boxesToSliders'];
+		boxesToSliders: BoxTypeSlider['slider']['boxesToSliders'];
 		path: (string | number)[];
 		pageStore: PageStoreApi;
 		isDisplayingSlidesOut?: boolean;
 		forceRerender?: boolean;
 	} & SharedProps &
-		SliderBox,
+		Slider,
 ) => {
 	const newBoxDeepLevel = props.boxDeepLevel + 1;
 	const [watchedStateForRerender, setWatchedStateForRerender] = useState({
@@ -177,19 +176,17 @@ const SliderBoxView = (
 		<>
 			<div className={props.className}>
 				{!forceRerender && (
-					<Slider
+					<SliderComp
 						swiperProps={{
 							className: cx(customPageClasses['swiper'], 'swiper-fluid'),
 							breakpoints:
-								props.slidesPerViewType ===
-								SlidersHolderSlidePerViewType.LARGE_SLIDES
+								props.slidesPerViewType === SlidesPerViewType.LARGE_SLIDES
 									? {
 											640: { slidesPerView: 2 },
 											1024: { slidesPerView: 3 },
 											1280: { slidesPerView: 4 },
 									  }
-									: props.slidesPerViewType ===
-									  SlidersHolderSlidePerViewType.ONE_SLIDE
+									: props.slidesPerViewType === SlidesPerViewType.ONE_SLIDE
 									? { 0: { slidesPerView: 1 } }
 									: {
 											400: { slidesPerView: 2 },
@@ -207,7 +204,7 @@ const SliderBoxView = (
 									boxDeepLevel={newBoxDeepLevel}
 									path={[
 										...props.path,
-										'sliderBox',
+										'slider',
 										'boxesToSliders',
 										boxToSliderIndex,
 										'box',
@@ -216,7 +213,7 @@ const SliderBoxView = (
 								/>
 							</SwiperSlide>
 						))}
-					</Slider>
+					</SliderComp>
 				)}
 				{props.childrenAfter}
 			</div>
@@ -240,7 +237,7 @@ const SliderBoxView = (
 									boxDeepLevel={newBoxDeepLevel}
 									path={[
 										...props.path,
-										'sliderBox',
+										'slider',
 										'boxesToSliders',
 										boxToSliderIndex,
 										'box',
@@ -256,13 +253,13 @@ const SliderBoxView = (
 	);
 };
 
-const SliderBoxFormView = (
+const SliderFormView = (
 	props: {
 		sliderFormStore: SliderFormStore;
 		twVariantsFormStore: TwVariantsFormStore;
 		customCssFormStore: CustomCssFormStore;
 		//
-		boxesToSliders: BoxTypeSlider['sliderBox']['boxesToSliders'];
+		boxesToSliders: BoxTypeSlider['slider']['boxesToSliders'];
 		path: (string | number)[];
 		pageStore: PageStoreApi;
 	} & SharedProps,
@@ -291,7 +288,7 @@ const SliderBoxFormView = (
 	);
 
 	return (
-		<SliderBoxView
+		<SliderView
 			boxDeepLevel={props.boxDeepLevel}
 			parentBox={props.parentBox}
 			className={className}
@@ -306,16 +303,20 @@ const SliderBoxFormView = (
 	);
 };
 
-const SliderBoxEditOverlay = (props: Props) => {
+const SliderEditOverlay = (
+	props: Props & {
+		boxesToSliders: BoxTypeSlider['slider']['boxesToSliders'];
+	},
+) => {
 	const box = useStore(
 		props.pageStore,
 		(state) => getValueByPathArray(state.page, props.path) as BoxTypeSlider, // .slice(0, -1)
 	);
 	const sliderFormStore: SliderFormStore = useCreateFormStore({
 		initValues: {
-			slidesPerViewType: box.sliderBox.slidesPerViewType,
+			slidesPerViewType: box.slider.slidesPerViewType,
 		},
-		validationSchema: createOneSliderBoxSchema,
+		validationSchema: createOneSliderSchema,
 		validationEvents: { change: true },
 	});
 	const twVariantsFormStore = useCreateTwVariantsFormStore(
@@ -332,7 +333,7 @@ const SliderBoxEditOverlay = (props: Props) => {
 		<BoxEditOverlay
 			{...props}
 			ShowcaseBoxChildren={
-				<SliderBoxFormView
+				<SliderFormView
 					boxDeepLevel={props.boxDeepLevel}
 					parentBox={props.parentBox}
 					className={props.className}
@@ -405,16 +406,16 @@ const SliderBoxEditOverlay = (props: Props) => {
 						{
 							defaultOpen: true,
 							contentChildren: (
-								<SliderBoxForm
+								<SliderForm
 									store={sliderFormStore}
-									id={box.sliderBox.id}
+									id={box.slider.id}
 									onSuccess={(params) => {
 										props.pageStore.getState().utils.setPage((page) => {
 											return newUpdatedByPathArray<
 												// eslint-disable-next-line @typescript-eslint/ban-types
 												Exclude<typeof page, Function>
 											>(
-												[...props.path, 'sliderBox'],
+												[...props.path, 'slider'],
 												page,
 												(prev: BoxTypeSlider) => ({
 													...prev,
@@ -431,7 +432,7 @@ const SliderBoxEditOverlay = (props: Props) => {
 									slider box form
 								</h3>
 							),
-							___key: 'sliderBox',
+							___key: 'slider',
 						},
 					]}
 				/>
@@ -440,13 +441,13 @@ const SliderBoxEditOverlay = (props: Props) => {
 	);
 };
 
-export const SliderBoxEditable = (props: Props) => {
+export const SliderEditable = (props: Props) => {
 	const box = useStore(
 		props.pageStore,
 		(state) => getValueByPathArray(state.page, props.path) as BoxTypeSlider,
 	);
 
-	const sliderBoxViewProps = {
+	const sliderViewProps = {
 		boxDeepLevel: props.boxDeepLevel,
 		parentBox: props.parentBox,
 		className: cx(
@@ -458,19 +459,19 @@ export const SliderBoxEditable = (props: Props) => {
 				: []),
 		),
 		//
-		slidesPerViewType: box.sliderBox.slidesPerViewType,
+		slidesPerViewType: box.slider.slidesPerViewType,
 		path: props.path,
 		pageStore: props.pageStore,
-		boxesToSliders: box.sliderBox.boxesToSliders,
+		boxesToSliders: box.slider.boxesToSliders,
 	};
 
 	return (
-		<SliderBoxView
-			{...sliderBoxViewProps}
+		<SliderView
+			{...sliderViewProps}
 			childrenAfter={
-				<SliderBoxEditOverlay
+				<SliderEditOverlay
 					{...props}
-					boxesToSliders={box.sliderBox.boxesToSliders}
+					boxesToSliders={box.slider.boxesToSliders}
 				/>
 			}
 		/>

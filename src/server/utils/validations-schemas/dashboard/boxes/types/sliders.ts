@@ -1,10 +1,10 @@
-import { SlidersHolderSlidePerViewType } from '@prisma/client';
+import { SlidesPerViewType } from '@prisma/client';
 import { z } from 'zod';
 
-export const createOneSliderBoxSchema = {
-	slidesPerViewType: z.nativeEnum(SlidersHolderSlidePerViewType),
+export const createOneSliderSchema = {
+	slidesPerViewType: z.nativeEnum(SlidesPerViewType),
 };
-export const updateOneSliderBoxSchema = {
+export const updateOneSliderSchema = {
 	id: z.string().cuid(),
-	slidesPerViewType: z.nativeEnum(SlidersHolderSlidePerViewType).optional(),
+	slidesPerViewType: z.nativeEnum(SlidesPerViewType).optional(),
 };

@@ -57,9 +57,9 @@ export const customPagesRouter = createTRPCRouter({
 									quoteBox: true,
 									//
 
-									tabsHolder: {
+									tabs: {
 										with: {
-											boxesToTabsHolders: {
+											boxesToTabss: {
 												with: {
 													box: {
 														with: {
@@ -69,28 +69,28 @@ export const customPagesRouter = createTRPCRouter({
 															imageBox: true,
 															iframeBox: true,
 															quoteBox: true,
-															// //
-															// gridBox: {
-															// 	with: {
-															// 		boxesToGrids: {
-															// 			with: {
-															// 				box: {
-															// 					with: {
-															// 						css: true,
-															// 						headerBox: true,
-															// 						mdBox: true,
-															// 						imageBox: true,
-															// 						iframeBox: true,
-															// 						quoteBox: true,
-															// 					},
-															// 				},
-															// 			},
-															// 			orderBy(fields, operators) {
-															// 				return operators.asc(fields.order);
-															// 			},
-															// 		},
-															// 	},
-															// },
+															//
+															grid: {
+																with: {
+																	boxesToGrids: {
+																		with: {
+																			box: {
+																				with: {
+																					css: true,
+																					headerBox: true,
+																					mdBox: true,
+																					imageBox: true,
+																					iframeBox: true,
+																					quoteBox: true,
+																				},
+																			},
+																		},
+																		orderBy(fields, operators) {
+																			return operators.asc(fields.order);
+																		},
+																	},
+																},
+															},
 														},
 													},
 												},
@@ -100,7 +100,7 @@ export const customPagesRouter = createTRPCRouter({
 											},
 										},
 									},
-									sliderBox: {
+									slider: {
 										with: {
 											boxesToSliders: {
 												with: {
@@ -121,7 +121,7 @@ export const customPagesRouter = createTRPCRouter({
 											},
 										},
 									},
-									gridBox: {
+									grid: {
 										with: {
 											boxesToGrids: {
 												with: {
@@ -133,28 +133,28 @@ export const customPagesRouter = createTRPCRouter({
 															imageBox: true,
 															iframeBox: true,
 															quoteBox: true,
-															// //
-															// gridBox: {
-															// 	with: {
-															// 		boxesToGrids: {
-															// 			with: {
-															// 				box: {
-															// 					with: {
-															// 						css: true,
-															// 						headerBox: true,
-															// 						mdBox: true,
-															// 						imageBox: true,
-															// 						iframeBox: true,
-															// 						quoteBox: true,
-															// 					},
-															// 				},
-															// 			},
-															// 			orderBy(fields, operators) {
-															// 				return operators.asc(fields.order);
-															// 			},
-															// 		},
-															// 	},
-															// },
+															//
+															grid: {
+																with: {
+																	boxesToGrids: {
+																		with: {
+																			box: {
+																				with: {
+																					css: true,
+																					headerBox: true,
+																					mdBox: true,
+																					imageBox: true,
+																					iframeBox: true,
+																					quoteBox: true,
+																				},
+																			},
+																		},
+																		orderBy(fields, operators) {
+																			return operators.asc(fields.order);
+																		},
+																	},
+																},
+															},
 														},
 													},
 												},

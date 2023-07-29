@@ -46,7 +46,7 @@ export type ImageOnly = {
 	height?: number;
 };
 // Prisma model done
-export type MDBox = {
+export type MdBox = {
 	twClassNameVariants?: BoxVariants;
 	customPageClassesKeys?: string[];
 	___type: (typeof BOXES_TYPES_map)['md'];
@@ -82,7 +82,7 @@ export type TabsBox = {
 	}[];
 };
 // Prisma model done
-export type SliderBox = {
+export type Slider = {
 	twClassNameVariants?: BoxVariants;
 	customPageClassesKeys?: string[];
 	___type: (typeof BOXES_TYPES_map)['slider'];
@@ -90,20 +90,20 @@ export type SliderBox = {
 	slidesPerViewType?: 'default' | 'one-slide' | 'large-slides'; // ! move to there own enums
 };
 // Prisma model done
-export type GridBox = {
+export type Grid = {
 	___type: (typeof BOXES_TYPES_map)['grid'];
 
 	twClassNameVariants?: BoxVariants;
 	customPageClassesKeys?: string[];
 	gridTemplateColumns?: string;
-	items: Exclude<Box, RowsOnlyBox | TwoColumnsBox>[]; //(ImageOnly | MDBox | IframeBox | QuoteBox)[];
+	items: Exclude<Box, RowsOnlyBox | TwoColumnsBox>[]; //(ImageOnly | MdBox | IframeBox | QuoteBox)[];
 };
 // x
 export type TwoColumnsBox = {
 	twClassNameVariants?: BoxVariants;
 	customPageClassesKeys?: string[];
 	___type: (typeof BOXES_TYPES_map)['two-columns'];
-	columns: (ImageOnly | MDBox)[];
+	columns: (ImageOnly | MdBox)[];
 };
 // x
 export type RowsOnlyBox = {
@@ -124,13 +124,13 @@ export type Box =
 			description?: string;
 	  }
 	| ImageOnly
-	| MDBox
+	| MdBox
 	| IframeBox
 	| QuoteBox
 	//
 	| TabsBox
-	| SliderBox
-	| GridBox
+	| Slider
+	| Grid
 	// x
 	| RowsOnlyBox
 	| TwoColumnsBox;
@@ -156,5 +156,5 @@ export type CustomPage = {
 		altText?: string;
 		width?: number;
 		height?: number;
-	}
+	};
 };

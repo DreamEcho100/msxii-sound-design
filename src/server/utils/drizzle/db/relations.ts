@@ -1,19 +1,13 @@
 import { relations } from 'drizzle-orm';
-import {
-	boxToGrid,
-	boxToSlider,
-	boxToTabsHolder,
-	category,
-	image,
-} from './schema';
+import { boxToGrid, boxToSlider, boxToTabs, category, image } from './schema';
 import {
 	mdBox,
 	imageBox,
 	iframeBox,
 	quoteBox,
-	tabsHolder,
-	sliderBox,
-	gridBox,
+	tabs,
+	slider,
+	grid,
 } from './schema';
 import {
 	user,
@@ -119,22 +113,22 @@ export const boxRelations = relations(box, ({ many, one }) => ({
 	}),
 	//
 
-	tabsHolder: one(tabsHolder, {
+	tabs: one(tabs, {
 		fields: [box.id],
-		references: [tabsHolder.boxId],
+		references: [tabs.boxId],
 	}),
-	sliderBox: one(sliderBox, {
+	slider: one(slider, {
 		fields: [box.id],
-		references: [sliderBox.boxId],
+		references: [slider.boxId],
 	}),
-	gridBox: one(gridBox, {
+	grid: one(grid, {
 		fields: [box.id],
-		references: [gridBox.boxId],
+		references: [grid.boxId],
 	}),
 
 	//
-	boxesToTabsHolders: many(boxToTabsHolder),
-	boxesToSliders: many(sliderBox),
+	boxesToTabss: many(boxToTabs),
+	boxesToSliders: many(slider),
 	boxesToGrids: many(boxToGrid),
 }));
 
@@ -143,12 +137,12 @@ export const boxToGridRelations = relations(boxToGrid, ({ one }) => ({
 		fields: [boxToGrid.boxId],
 		references: [box.id],
 	}),
-	gridBox: one(gridBox, {
-		fields: [boxToGrid.gridBoxId],
-		references: [gridBox.id],
+	grid: one(grid, {
+		fields: [boxToGrid.gridId],
+		references: [grid.id],
 	}),
 }));
-export const gridBoxRelations = relations(gridBox, ({ many }) => ({
+export const gridRelations = relations(grid, ({ many }) => ({
 	boxesToGrids: many(boxToGrid),
 }));
 
@@ -157,30 +151,27 @@ export const boxToSliderRelations = relations(boxToSlider, ({ one }) => ({
 		fields: [boxToSlider.boxId],
 		references: [box.id],
 	}),
-	sliderBox: one(sliderBox, {
-		fields: [boxToSlider.sliderBoxId],
-		references: [sliderBox.id],
+	slider: one(slider, {
+		fields: [boxToSlider.sliderId],
+		references: [slider.id],
 	}),
 }));
-export const sliderBoxRelations = relations(sliderBox, ({ many }) => ({
+export const sliderRelations = relations(slider, ({ many }) => ({
 	boxesToSliders: many(boxToSlider),
 }));
 
-export const boxToTabsHolderRelations = relations(
-	boxToTabsHolder,
-	({ one }) => ({
-		box: one(box, {
-			fields: [boxToTabsHolder.boxId],
-			references: [box.id],
-		}),
-		tabsHolder: one(tabsHolder, {
-			fields: [boxToTabsHolder.tabsHolderId],
-			references: [tabsHolder.id],
-		}),
+export const boxToTabsRelations = relations(boxToTabs, ({ one }) => ({
+	box: one(box, {
+		fields: [boxToTabs.boxId],
+		references: [box.id],
 	}),
-);
-export const tabsHolderRelations = relations(tabsHolder, ({ many }) => ({
-	boxesToTabsHolders: many(boxToTabsHolder),
+	tabs: one(tabs, {
+		fields: [boxToTabs.tabsId],
+		references: [tabs.id],
+	}),
+}));
+export const tabsRelations = relations(tabs, ({ many }) => ({
+	boxesToTabss: many(boxToTabs),
 }));
 
 /*
@@ -209,16 +200,16 @@ export const headerBoxRelations = relations(headerBox, ({ one }) => ({
 	}),
 	//
 	// headerBox HeaderBox?
-	// mdBox     MDBox?
+	// mdBox     MdBox?
 	// imageBox  ImageBox?
 	// IframeBox IframeBox?
 	// quoteBox  QuoteBox?
 
-	// tabsHolder    TabsHolder?
-	// sliderBox SliderBox?
-	// gridBox             GridBox?
+	// tabs    Tabs?
+	// slider Slider?
+	// grid             Grid?
 
-	// boxesToTabsHolders    BoxToTabsHolder[]
+	// boxesToTabss    BoxToTabs[]
 	// boxesToSliders BoxToSlider[]
 	// boxToGrid             boxToGrid[]
 }));

@@ -4,16 +4,16 @@ import {
 	IframeBox,
 	SUB_BOXES_TYPES_map,
 	TabsBox,
-	SliderBox,
+	Slider,
 	CustomPage,
-	GridBox,
+	Grid,
 } from '~/utils/types/custom-page';
 import { createStandardSection } from '../utils';
 
 export const FlyTapeIOSApp: StandardSection[] = (() => {
 	const appLink = 'https://apps.apple.com/us/app/fly-tape/id1343651192';
 
-	const gridBox: GridBox = {
+	const grid: Grid = {
 		twClassNameVariants: { 'gap-x': '8' },
 		___type: BOXES_TYPES_map['grid'],
 		gridTemplateColumns: `repeat(auto-fit, minmax(20rem, 1fr))`,
@@ -176,7 +176,7 @@ You can check out the reference guide below
 			},
 		],
 	};
-	const sliderBox: SliderBox = {
+	const slider: Slider = {
 		___type: BOXES_TYPES_map['slider'],
 		slides: [
 			{
@@ -196,7 +196,7 @@ You can check out the reference guide below
 			},
 		],
 	};
-	const sliderBox2: SliderBox = {
+	const slider2: Slider = {
 		___type: BOXES_TYPES_map['slider'],
 		slidesPerViewType: 'large-slides',
 		slides: [
@@ -222,7 +222,7 @@ You can check out the reference guide below
 			},
 		],
 	};
-	const gridBox2: GridBox = {
+	const grid2: Grid = {
 		___type: BOXES_TYPES_map['grid'],
 		twClassNameVariants: { 'gap-y': '3' },
 		gridTemplateColumns: `1fr`,
@@ -241,22 +241,22 @@ You can check out the reference guide below
 	};
 
 	return [
-		createStandardSection({ order: 0, body: [gridBox] }),
+		createStandardSection({ order: 0, body: [grid] }),
 		createStandardSection({ order: 1, body: [tabsBox] }),
 		createStandardSection({ order: 2, body: [iframeBox] }),
 		createStandardSection({
 			order: 3,
-			body: [sliderBox],
+			body: [slider],
 			title: 'Tutorial',
 			twClassNameVariants: { 'gap-y': '4' },
 		}),
 		createStandardSection({
 			order: 4,
-			body: [sliderBox2],
+			body: [slider2],
 			title: 'Fly Tape Around The Web',
 			customPageClassesKeys: ['section-container-v1'],
 		}),
-		createStandardSection({ order: 5, body: [gridBox2] }),
+		createStandardSection({ order: 5, body: [grid2] }),
 	];
 })();
 

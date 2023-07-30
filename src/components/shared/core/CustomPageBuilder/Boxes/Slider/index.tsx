@@ -25,7 +25,7 @@ import {
 	TwVariantsForm,
 	useCreateTwVariantsFormStore,
 } from '../../Css/TwVariants';
-import ContainedDropdownField from '~/components/shared/common/@de100/form-echo/Fields/Contained/ContainedDropdown';
+import ContainedDropdownField from '~/components/shared/common/@de100/form-echo/Fields/Contained/Dropdown';
 import SliderComp from '../../../Shopify/Cards/Slider';
 import { SwiperSlide } from 'swiper/react';
 

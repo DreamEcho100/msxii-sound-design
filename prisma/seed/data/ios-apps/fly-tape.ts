@@ -20,7 +20,11 @@ export const FlyTapeIOSApp: StandardSection[] = (() => {
 		gridTemplateColumns: `repeat(auto-fit, minmax(20rem, 1fr))`,
 		items: [
 			{
-				customPageClassesKeys: ['center-on-ls-md-screens', 'objects-contain'],
+				customPageClassesKeys: [
+					'center-on-ls-md-screens',
+					'objects-contain',
+					'img-w-h-full',
+				],
 				twClassNameVariants: { 'aspect-ratio': 'square' }, // w: '96', h: '96',
 				___type: BOXES_TYPES_map['image-only'],
 				src: 'https://cdn.shopify.com/s/files/1/0345/7209/t/28/assets/pf-f357e20c--Flytapeappdisplay.png?v=1589053729',

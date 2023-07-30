@@ -12,7 +12,7 @@ import {
 	useCreateFormStore,
 } from '@de100/form-echo';
 import Form from '~/components/shared/common/@de100/form-echo/Forms';
-import ContainedInputField from '~/components/shared/common/@de100/form-echo/Fields/Contained/ContainedInput';
+import ContainedInputField from '~/components/shared/common/@de100/form-echo/Fields/Contained/Input';
 import Accordion from '~/components/shared/common/Accordion';
 import { createOneImageBoxSchema } from '~/server/utils/validations-schemas/dashboard/boxes/types/images';
 import { api } from '~/utils/api';

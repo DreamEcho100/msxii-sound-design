@@ -5,6 +5,13 @@ import React from "react";
 
 const handleClassVariants = cva(
   "bg-transparent text-lg outline-none group-[.disabled-field]:pointer-events-none",
+  {
+    variants: {
+      type: {
+        checkbox: "accent-special-primary-500 w-5 h-5",
+      },
+    },
+  },
 );
 
 export type InputProps = InputHTMLAttributes<HTMLInputElement> & {
@@ -13,6 +20,8 @@ export type InputProps = InputHTMLAttributes<HTMLInputElement> & {
 
 const InputFormField = (props: InputProps) => {
   const { classVariants, ..._props } = props;
+
+  console.log("classVariants", classVariants);
 
   const inputProps = {
     ..._props,

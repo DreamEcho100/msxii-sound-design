@@ -6,15 +6,22 @@ import FieldContainer, {
 import InputField, { type InputFieldProps } from "../Input";
 
 type Props<Fields, ValidatedFields> = InputFieldProps<Fields, ValidatedFields> &
-  Omit<FieldContainerBaseProps<Fields, ValidatedFields>, "store" | "name"> & {
+  Omit<
+    FieldContainerBaseProps<Fields, ValidatedFields>,
+    "store" | "name" | "classVariants"
+  > & {
     containerProps?: HTMLAttributes<HTMLDivElement>;
+    containerClassVariants?: FieldContainerBaseProps<
+      Fields,
+      ValidatedFields
+    >["classVariants"];
   };
 
 const ContainedInputField = <Fields, ValidatedFields>(
   props: Props<Fields, ValidatedFields>,
 ) => {
   const {
-    classVariants,
+    containerClassVariants,
     labelAndFieldContainerClassVariants: labelAndInputContainerClassVariants,
     labelClassVariants,
     labelProps,
@@ -28,7 +35,7 @@ const ContainedInputField = <Fields, ValidatedFields>(
       {...containerProps}
       store={props.store}
       name={props.name}
-      classVariants={classVariants}
+      classVariants={containerClassVariants}
       labelAndFieldContainerClassVariants={labelAndInputContainerClassVariants}
       labelClassVariants={labelClassVariants}
       labelProps={labelProps}

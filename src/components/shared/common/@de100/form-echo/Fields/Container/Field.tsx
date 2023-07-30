@@ -5,9 +5,9 @@ import { type VariantProps, cx, cva } from "class-variance-authority";
 import React, { type LabelHTMLAttributes, type HTMLAttributes } from "react";
 import { useStore } from "zustand";
 
-const handleClassVariants = cva("flex flex-col");
+const handleClassVariants = cva("flex flex-col flex-grow");
 const handleLabelAndInputContainerClassVariants = cva(
-  "flex px-4 py-1 rounded-lg text-gray-600",
+  "flex rounded-lg text-gray-600",
   {
     variants: {
       state: {
@@ -19,8 +19,8 @@ const handleLabelAndInputContainerClassVariants = cva(
           "ring-gray-500/75 grayscale bg-black/5 cursor-not-allowed group disabled-field select-none",
       },
       type: {
-        checkbox: "w-fit items-center",
-        field: "ring-1",
+        checkbox: "w-fit items-center gap-2",
+        field: "ring-1 px-4 py-1",
       },
       "flex-dir": {
         col: "flex-col",

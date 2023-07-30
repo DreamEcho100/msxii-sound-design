@@ -12,7 +12,7 @@ import {
 	useCreateFormStore,
 } from '@de100/form-echo';
 import Form from '~/components/shared/common/@de100/form-echo/Forms';
-import ContainedInputField from '~/components/shared/common/@de100/form-echo/Fields/Contained/ContainedInput';
+import ContainedInputField from '~/components/shared/common/@de100/form-echo/Fields/Contained/Input';
 import Accordion from '~/components/shared/common/Accordion';
 import { createOneIframeBoxSchema } from '~/server/utils/validations-schemas/dashboard/boxes/types/iframes';
 import { api } from '~/utils/api';
@@ -32,7 +32,7 @@ import {
 	SoundCloudIframe,
 	YouTubeIFrame,
 } from '~/components/shared/Iframes';
-import ContainedDropdownField from '~/components/shared/common/@de100/form-echo/Fields/Contained/ContainedDropdown';
+import ContainedDropdownField from '~/components/shared/common/@de100/form-echo/Fields/Contained/Dropdown';
 
 type IframeBox = {
 	src: string;

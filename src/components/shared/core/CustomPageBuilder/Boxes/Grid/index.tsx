@@ -1,6 +1,12 @@
-import { type ReactNode } from 'react';
+import { CSSProperties, type ReactNode } from 'react';
 import BoxEditOverlay from '../../BoxEditOverlay';
-import { BoxTypeGrid, PageStoreApi } from '../../_';
+import {
+	Box,
+	BoxTypeGrid,
+	Css,
+	PageStoreApi,
+	SectionBoxContainer,
+} from '../../_';
 import { BoxTypes } from '@prisma/client';
 import { useStore } from 'zustand';
 import { getValueByPathArray, newUpdatedByPathArray } from '~/utils/obj/update';
@@ -25,6 +31,7 @@ type SharedProps = {
 	boxDeepLevel: number;
 	parentBox?: BoxTypes;
 	className?: string;
+	inlineStyles?: Css['inlineStyles'];
 
 	// boxesToGrids: BoxTypeGrid['grid']['boxesToGrids']
 	// path: (string | number)[];
@@ -49,8 +56,26 @@ const GridView = (
 	} & SharedProps &
 		Grid,
 ) => {
-	props;
-	return <></>;
+	const newBoxDeepLevel = props.boxDeepLevel + 1;
+
+	return (
+		<div
+			className={props.className}
+			style={props.inlineStyles as CSSProperties}
+		>
+			{props.boxesToGrids.map((boxToGrid, boxToGridIndex) => (
+				<SectionBoxContainer
+					key={boxToGrid.boxId}
+					box={boxToGrid.box as Box}
+					parentBox={props.parentBox}
+					boxDeepLevel={newBoxDeepLevel}
+					path={[...props.path, 'grid', 'boxesToGrids', boxToGridIndex, 'box']}
+					pageStore={props.pageStore}
+				/>
+			))}
+			{props.childrenAfter}
+		</div>
+	);
 };
 
 const GridFormView = (
@@ -92,6 +117,7 @@ const GridFormView = (
 			boxDeepLevel={props.boxDeepLevel}
 			parentBox={props.parentBox}
 			className={className}
+			inlineStyles={props.inlineStyles}
 			//
 			// slidesPerViewType={slidesPerViewType}
 			boxesToGrids={props.boxesToGrids}
@@ -128,6 +154,7 @@ const GridEditOverlay = (
 		},
 		validationSchema: CreateOneCustomCssSchema,
 	});
+	console.log('___ props.inlineStyles', props.inlineStyles);
 
 	return (
 		<BoxEditOverlay
@@ -137,6 +164,7 @@ const GridEditOverlay = (
 					boxDeepLevel={props.boxDeepLevel}
 					parentBox={props.parentBox}
 					className={props.className}
+					inlineStyles={props.box.css.inlineStyles}
 					//
 					// gridFormStore={gridFormStore}
 					twVariantsFormStore={twVariantsFormStore}
@@ -255,6 +283,7 @@ export const GridEditable = (props: Props) => {
 				? box.css.customClasses?.map((key) => customPageClasses[key])
 				: []),
 		),
+		inlineStyles: box.css.inlineStyles,
 		//
 		// slidesPerViewType: box.grid.slidesPerViewType,
 		path: props.path,

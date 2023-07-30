@@ -12,7 +12,7 @@ import {
 	useCreateFormStore,
 } from '@de100/form-echo';
 import Form from '~/components/shared/common/@de100/form-echo/Forms';
-import ContainedInputField from '~/components/shared/common/@de100/form-echo/Fields/Contained/ContainedInput';
+import ContainedInputField from '~/components/shared/common/@de100/form-echo/Fields/Contained/Input';
 import Accordion from '~/components/shared/common/Accordion';
 import { createOneQuoteBoxSchema } from '~/server/utils/validations-schemas/dashboard/boxes/types/quotes';
 import { api } from '~/utils/api';

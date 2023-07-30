@@ -35,10 +35,10 @@ export default function BoxEditOverlay(props: {
 				className="box-edit-overlay"
 				style={{
 					zIndex: props.boxDeepLevel.toString(),
-					top: `${(props.boxDeepLevel - 1) * 5}%`,
-					right: `${(props.boxDeepLevel - 1) * 5}%`,
-					bottom: `${(props.boxDeepLevel - 1) * 5}%`,
-					left: `${(props.boxDeepLevel - 1) * 5}%`,
+					top: `${(props.boxDeepLevel - 1) * 2}rem`,
+					right: `${(props.boxDeepLevel - 1) * 2}rem`,
+					bottom: `${(props.boxDeepLevel - 1) * 2}rem`,
+					left: `${(props.boxDeepLevel - 1) * 2}rem`,
 				}}
 			>
 				<div

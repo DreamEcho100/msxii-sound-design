@@ -14,6 +14,7 @@ import { HeaderBoxEditable } from './Boxes/Header';
 import { ImageBoxEditable } from './Boxes/Image';
 import { IframeBoxEditable } from './Boxes/Iframe';
 import { SliderEditable } from './Boxes/Slider';
+import { GridEditable } from './Boxes/Grid';
 
 type Page = RouterOutputs['customPages']['_getOne'];
 export type Css = Page['css'];
@@ -286,6 +287,17 @@ const SectionBox = (props: {
 	}
 
 	if (props.box.type === BoxTypes.GRID && props.box.grid) {
+		return (
+			<GridEditable
+				boxDeepLevel={props.boxDeepLevel}
+				parentBox={props.parentBox}
+				pageStore={props.pageStore}
+				box={props.box}
+				path={props.path}
+				// It's already passed inside
+				// path={[...props.path, 'mdBox']}
+			/>
+		);
 		return (
 			<div
 				className={customPageClassName}

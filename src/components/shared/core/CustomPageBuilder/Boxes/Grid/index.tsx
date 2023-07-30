@@ -154,7 +154,6 @@ const GridEditOverlay = (
 		},
 		validationSchema: CreateOneCustomCssSchema,
 	});
-	console.log('___ props.inlineStyles', props.inlineStyles);
 
 	return (
 		<BoxEditOverlay

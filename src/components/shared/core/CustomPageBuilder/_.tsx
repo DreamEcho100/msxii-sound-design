@@ -286,7 +286,7 @@ const SectionBox = (props: {
 		);
 	}
 
-	if (props.box.type === BoxTypes.GRID && props.box.grid) {
+	if (props.box.type === BoxTypes.GRID && props.box.grid)
 		return (
 			<GridEditable
 				boxDeepLevel={props.boxDeepLevel}
@@ -298,36 +298,6 @@ const SectionBox = (props: {
 				// path={[...props.path, 'mdBox']}
 			/>
 		);
-		return (
-			<div
-				className={customPageClassName}
-				style={props.box.css.inlineStyles as CSSProperties}
-			>
-				{props.box.grid.boxesToGrids.map((boxToGrid, boxToGridIndex) => (
-					<SectionBoxContainer
-						key={boxToGrid.boxId}
-						box={boxToGrid.box as Box}
-						parentBox={props.box.type}
-						boxDeepLevel={newBoxDeepLevel}
-						path={[
-							...props.path,
-							'grid',
-							'boxesToGrids',
-							boxToGridIndex,
-							'box',
-						]}
-						pageStore={props.pageStore}
-					/>
-				))}
-				<BoxEditOverlay
-					boxDeepLevel={props.boxDeepLevel}
-					box={props.box}
-					path={[...props.path, 'grid']}
-					pageStore={props.pageStore}
-				/>
-			</div>
-		);
-	}
 
 	return <></>;
 };

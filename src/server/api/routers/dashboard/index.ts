@@ -9,6 +9,7 @@ import { UpdateOneTwVariantsSchema } from '~/server/utils/validations-schemas/da
 import { updateOneImageBoxSchema } from '~/server/utils/validations-schemas/dashboard/boxes/types/images';
 import { updateOneIframeBoxSchema } from '~/server/utils/validations-schemas/dashboard/boxes/types/iframes';
 import { updateOneSliderSchema } from '~/server/utils/validations-schemas/dashboard/boxes/types/sliders';
+import { UpdateOneInlineStyleCssSchema } from '~/server/utils/validations-schemas/dashboard/css/inlineStyles';
 
 export const dashboardRouter = createTRPCRouter({
 	categories: createTRPCRouter({
@@ -284,32 +285,32 @@ export const dashboardRouter = createTRPCRouter({
 					return box;
 				}),
 		}),
-		// customClasses: createTRPCRouter({
-		// 	setOne: adminProtectedProcedure
-		// 		.input(z.object(UpdateOneCustomCssSchema))
-		// 		.mutation(async ({ ctx, input }) => {
-		// 			const box = await ctx.drizzleQueryClient.query.css.findFirst({
-		// 				where(fields, operators) {
-		// 					return operators.eq(fields.id, input.cssId);
-		// 				},
-		// 			});
+		inlineStyles: createTRPCRouter({
+			setOne: adminProtectedProcedure
+				.input(z.object(UpdateOneInlineStyleCssSchema))
+				.mutation(async ({ ctx, input }) => {
+					const box = await ctx.drizzleQueryClient.query.css.findFirst({
+						where(fields, operators) {
+							return operators.eq(fields.id, input.cssId);
+						},
+					});
 
-		// 			if (!box) {
-		// 				throw new Error('CSS not found');
-		// 			}
+					if (!box) {
+						throw new Error('CSS not found');
+					}
 
-		// 			// NOTE: Should I allow it to be null?
-		// 			box.customClasses = input.customClasses || [];
+					// NOTE: Should I allow it to be null?
+					box.inlineStyles = input.inlineStyles || {};
 
-		// 			await ctx.drizzleQueryClient
-		// 				.update(ctx.drizzleSchema.css)
-		// 				.set({
-		// 					customClasses: input.customClasses,
-		// 				})
-		// 				.where(eq(ctx.drizzleSchema.css.id, input.cssId));
+					await ctx.drizzleQueryClient
+						.update(ctx.drizzleSchema.css)
+						.set({
+							inlineStyles: input.inlineStyles,
+						})
+						.where(eq(ctx.drizzleSchema.css.id, input.cssId));
 
-		// 			return box;
-		// 		}),
-		// }),
+					return box;
+				}),
+		}),
 	}),
 });

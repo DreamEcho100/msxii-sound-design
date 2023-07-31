@@ -102,8 +102,12 @@ const SliderForm = (props: {
 				labelProps={{ children: 'slides per view type' }}
 				isA="combobox"
 				data={slidesPerViewTypeDropdownData}
-				getOptionChildren={(value) => value.name}
-				getDisplayValue={(value) => value.name}
+				getOptionChildren={(value) =>
+					(typeof value === 'string' ? value : value.value).toLowerCase()
+				}
+				getDisplayValue={(value) =>
+					(typeof value === 'string' ? value : value.value).toLowerCase()
+				}
 				getOptionKey={(value) =>
 					typeof value === 'string' ? value : value.value
 				}
@@ -401,7 +405,7 @@ const SliderEditOverlay = (
 							titleElem: (
 								<h3 className="text-h6 font-bold capitalize">custom classes</h3>
 							),
-							___key: 'twVariants',
+							___key: 'customClasses',
 						},
 						{
 							defaultOpen: true,

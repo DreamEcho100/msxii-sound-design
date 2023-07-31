@@ -12,6 +12,7 @@ import {
 	useCallback,
 	useMemo,
 	type ElementType,
+	type ReactNode,
 } from 'react';
 import { type VariantProps, cva, cx } from 'class-variance-authority';
 
@@ -63,7 +64,7 @@ export type ComboboxProps<
 	getOptionChildren: (
 		value: NonNullable<GetData<TData, FormattedData>[number]>,
 		index: number,
-	) => React.ReactNode;
+	) => ReactNode;
 	getDisplayValue: (
 		value: GetData<TData, FormattedData>[number],
 	) => string | null | undefined;

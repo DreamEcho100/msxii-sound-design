@@ -12,6 +12,12 @@
 	display: flex;
 	pointer-events: none;
 }
+.box-container > * > .box-edit-overlay::before {
+	position: absolute;
+	inset: 0;
+
+	pointer-events: none;
+}
 .box-container > * > .box-edit-overlay > .borders-container {
 	position: relative;
 	flex-grow: 1;
@@ -19,10 +25,10 @@
 	height: 100%;
 	pointer-events: auto;
 }
-.box-container:hover > * > .box-edit-overlay > .borders-container .top,
-.box-container:hover > * > .box-edit-overlay > .borders-container .right,
-.box-container:hover > * > .box-edit-overlay > .borders-container .bottom,
-.box-container:hover > * > .box-edit-overlay > .borders-container .left {
+.box-container > * > .box-edit-overlay > .borders-container:hover .top,
+.box-container > * > .box-edit-overlay > .borders-container:hover .right,
+.box-container > * > .box-edit-overlay > .borders-container:hover .bottom,
+.box-container > * > .box-edit-overlay > .borders-container:hover .left {
 	border: 0.0625rem solid #ffffff;
 	box-shadow: 0 0 15px 2px #000;
 }

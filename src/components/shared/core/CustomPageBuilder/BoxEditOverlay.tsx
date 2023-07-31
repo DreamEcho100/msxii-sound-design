@@ -14,18 +14,6 @@ export default function BoxEditOverlay(props: {
 }) {
 	const router = useRouter();
 	const [isOpen, setIsOpen] = useState(false);
-	// const isSideEditMenuOpen = useStore(
-	// 	dashboardStore,
-	// 	(state) => state.menu.sideEdit.isOpen,
-	// );
-	// const setMenuIsOpen = useStore(
-	// 	dashboardStore,
-	// 	(state) => state.utils.setMenuIsOpen,
-	// );
-
-	// useEffect(() => {
-	// 	if (!isSideEditMenuOpen) setIsOpen(false);
-	// }, [isSideEditMenuOpen]);
 
 	if (!router.pathname.startsWith('/dashboard')) return <></>;
 

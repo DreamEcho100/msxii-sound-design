@@ -5,7 +5,7 @@ import { BoxVariants, handleBoxVariants } from '~/utils/appData';
 import customPageClasses from '~/styles/_custom-page.module.css';
 import { RouterOutputs } from '~/utils/api';
 import { BoxTypes } from '@prisma/client';
-import BoxEditOverlay from './BoxEditOverlay';
+// import BoxEditOverlay from './BoxEditOverlay';
 import CustomTabs from './CustomTabs';
 import { StoreApi, createStore } from 'zustand';
 import { MdBoxEditable } from './Boxes/Md';
@@ -240,7 +240,7 @@ const SectionBox = (props: {
 			/>
 		);
 
-	if (props.box.type === BoxTypes.IFRAME)
+	if (props.box.type === BoxTypes.IFRAME && props.box.iframeBox)
 		return (
 			<IframeBoxEditable
 				boxDeepLevel={props.boxDeepLevel}
@@ -249,7 +249,7 @@ const SectionBox = (props: {
 				box={props.box}
 				path={props.path}
 				// It's already passed inside
-				// path={[...props.path, 'mdBox']}
+				// path={[...props.path, 'iframeBox']}
 			/>
 		);
 
@@ -262,7 +262,7 @@ const SectionBox = (props: {
 				box={props.box}
 				path={props.path}
 				// It's already passed inside
-				// path={[...props.path, 'mdBox']}
+				// path={[...props.path, 'sliderBox']}
 			/>
 		);
 
@@ -272,14 +272,14 @@ const SectionBox = (props: {
 				box={props.box.tabs}
 				className={cx(customPageClassName)}
 				boxDeepLevel={newBoxDeepLevel}
-				childrenAfter={
-					<BoxEditOverlay
-						boxDeepLevel={props.boxDeepLevel}
-						box={props.box}
-						path={[...props.path, 'tabs']}
-						pageStore={props.pageStore}
-					/>
-				}
+				// childrenAfter={
+				// 	<BoxEditOverlay
+				// 		boxDeepLevel={props.boxDeepLevel}
+				// 		box={props.box}
+				// 		path={[...props.path, 'tabs']}
+				// 		pageStore={props.pageStore}
+				// 	/>
+				// }
 				path={props.path}
 				pageStore={props.pageStore}
 			/>
@@ -295,7 +295,7 @@ const SectionBox = (props: {
 				box={props.box}
 				path={props.path}
 				// It's already passed inside
-				// path={[...props.path, 'mdBox']}
+				// path={[...props.path, 'gridBox']}
 			/>
 		);
 

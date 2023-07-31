@@ -23,6 +23,14 @@ import {
 	TwVariantsForm,
 	useCreateTwVariantsFormStore,
 } from '../../Css/TwVariants';
+import {
+	GridTemplateManager,
+	InlineStylesFormProps,
+	InlineStylesFormStore,
+	useInlineStylesFormStore,
+	useSetInlineStylesOneRequest,
+} from '../../Css/InlineStyles';
+import Form from '~/components/shared/common/@de100/form-echo/Forms';
 
 type Grid = {
 	// slidesPerViewType: (typeof SlidesPerViewType)[keyof typeof SlidesPerViewType];
@@ -78,11 +86,74 @@ const GridView = (
 	);
 };
 
+export const InlineStylesForm = (props: InlineStylesFormProps) => {
+	const setOneRequest = useSetInlineStylesOneRequest();
+
+	const gridTemplateColumns = useStore(
+		props.store,
+		(store) => store.fields.gridTemplateColumns.value,
+	);
+	const gridTemplateRows = useStore(
+		props.store,
+		(store) => store.fields.gridTemplateRows.value,
+	);
+
+	return (
+		<Form
+			onSubmit={async (event, params) => {
+				event.preventDefault();
+				await setOneRequest.mutateAsync({
+					cssId: props.cssId,
+					inlineStyles: params.validatedValues,
+				});
+
+				props.onSuccess(params);
+			}}
+			store={props.store}
+		>
+			<div className="flex flex-col gap-2">
+				<fieldset className="min-w-[unset] flex flex-col gap-2 border p-4 rounded-sm shadow-md max-w-full">
+					<legend className="capitalize">template columns</legend>
+					<GridTemplateManager
+						name="gridTemplateColumns"
+						gridTemplate={gridTemplateColumns}
+						setGridTemplate={(gridTemplate) => {
+							props.store
+								.getState()
+								.utils.setFieldValue('gridTemplateColumns', gridTemplate);
+						}}
+					/>
+				</fieldset>
+				<fieldset className="min-w-[unset] flex flex-col gap-2 border p-4 rounded-sm shadow-md max-w-full">
+					<legend className="capitalize">template rows</legend>
+					<GridTemplateManager
+						name="gridTemplateRows"
+						gridTemplate={gridTemplateRows}
+						setGridTemplate={(gridTemplate) => {
+							props.store
+								.getState()
+								.utils.setFieldValue('gridTemplateRows', gridTemplate);
+						}}
+					/>
+				</fieldset>
+			</div>
+			<button
+				type="submit"
+				disabled={setOneRequest.isLoading}
+				className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+			>
+				submit
+			</button>
+		</Form>
+	);
+};
+
 const GridFormView = (
 	props: {
 		// gridFormStore: GridFormStore;
 		twVariantsFormStore: TwVariantsFormStore;
 		customCssFormStore: CustomCssFormStore;
+		inlineStylesFormStore: InlineStylesFormStore;
 		//
 		boxesToGrids: BoxTypeGrid['grid']['boxesToGrids'];
 		path: (string | number)[];
@@ -105,6 +176,20 @@ const GridFormView = (
 				.join(' ') ?? undefined,
 	);
 
+	const styles = useStore(props.inlineStylesFormStore, (store) => {
+		const styles: Record<string, string | number> = {};
+
+		let key: keyof (typeof store)['fields'];
+		for (key in store.fields) {
+			const element = store.fields[key].value;
+
+			if (typeof element === 'string' || typeof element === 'number')
+				styles[key] = element;
+		}
+
+		return styles;
+	});
+
 	const className = cx(
 		props.className,
 		customPageClasses[`${BOX_TYPE}-BOX`],
@@ -117,7 +202,7 @@ const GridFormView = (
 			boxDeepLevel={props.boxDeepLevel}
 			parentBox={props.parentBox}
 			className={className}
-			inlineStyles={props.inlineStyles}
+			inlineStyles={styles}
 			//
 			// slidesPerViewType={slidesPerViewType}
 			boxesToGrids={props.boxesToGrids}
@@ -155,6 +240,12 @@ const GridEditOverlay = (
 		validationSchema: CreateOneCustomCssSchema,
 	});
 
+	const inlineStylesFormStore = useInlineStylesFormStore({
+		gridTemplateColumns: '',
+		gridTemplateRows: '',
+		...((props.box.css.inlineStyles as Record<string, string>) || {}),
+	});
+
 	return (
 		<BoxEditOverlay
 			{...props}
@@ -168,6 +259,7 @@ const GridEditOverlay = (
 					// gridFormStore={gridFormStore}
 					twVariantsFormStore={twVariantsFormStore}
 					customCssFormStore={customCssFormStore}
+					inlineStylesFormStore={inlineStylesFormStore}
 					//
 					path={props.path}
 					pageStore={props.pageStore}
@@ -228,15 +320,14 @@ const GridEditOverlay = (
 							titleElem: (
 								<h3 className="text-h6 font-bold capitalize">custom classes</h3>
 							),
-							___key: 'twVariants',
+							___key: 'customClasses',
 						},
 						{
 							defaultOpen: true,
 							contentChildren: (
-								<>
-									{/* <GridForm
-									// store={gridFormStore}
-									id={box.grid.id}
+								<InlineStylesForm
+									store={inlineStylesFormStore}
+									cssId={box.css.id}
 									// eslint-disable-next-line @typescript-eslint/no-unused-vars
 									onSuccess={(params) => {
 										props.pageStore.getState().utils.setPage((page) => {
@@ -250,11 +341,12 @@ const GridEditOverlay = (
 											}));
 										});
 									}}
-								/> */}
-								</>
+								/>
 							),
 							titleElem: (
-								<h3 className="text-h6 font-bold capitalize">grid box form</h3>
+								<h3 className="text-h6 font-bold capitalize">
+									grid inline styles box form
+								</h3>
 							),
 							___key: 'grid',
 						},

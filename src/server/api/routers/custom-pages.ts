@@ -4,6 +4,7 @@ import { z } from 'zod';
 
 import { CustomPages } from '~/utils/appData';
 import { createTRPCRouter, publicProcedure } from '~/server/api/trpc';
+import { lte } from 'drizzle-orm';
 
 export const customPagesRouter = createTRPCRouter({
 	getAll: publicProcedure.query(() => {
@@ -12,7 +13,7 @@ export const customPagesRouter = createTRPCRouter({
 	getOne: publicProcedure
 		.input(
 			z.object({
-				slug: z.string().optional(),
+				slug: z.string().nullable().optional(),
 				pageCategoryName: z.string().optional(),
 			}),
 		)
@@ -34,7 +35,7 @@ export const customPagesRouter = createTRPCRouter({
 	_getOne: publicProcedure
 		.input(
 			z.object({
-				slug: z.string().optional(),
+				slug: z.string().nullable().optional(),
 				pageCategoryName: z.string().nonempty(),
 			}),
 		)
@@ -184,4 +185,46 @@ export const customPagesRouter = createTRPCRouter({
 
 			return page;
 		}),
+	pagesCategories: createTRPCRouter({
+		getManyItems: publicProcedure
+			.input(
+				z.object({
+					pageCategoryName: z.string().nonempty(),
+					limit: z.number().min(1).max(100).optional().default(20),
+					cursor: z.date().nullish(), // <-- "cursor" needs to exist, but can be any type
+				}),
+			)
+			.query(async ({ ctx, input }) => {
+				const limit = input.limit + 1;
+
+				const items = await ctx.drizzleQueryClient.query.page.findMany({
+					where(fields, operators) {
+						return operators.and(
+							operators.eq(fields.pageCategoryName, input.pageCategoryName),
+							input.cursor ? lte(fields.createdAt, input.cursor) : undefined,
+						);
+					},
+					orderBy(fields, operators) {
+						return operators.desc(fields.createdAt);
+					},
+					limit,
+					with: {
+						image: true,
+						pageCategory: true,
+					},
+				});
+
+				let nextCursor: typeof input.cursor | undefined = undefined;
+
+				if (items.length > limit) {
+					const nextItem = items.pop();
+					nextCursor = nextItem!.createdAt;
+				}
+
+				return {
+					items,
+					nextCursor,
+				};
+			}),
+	}),
 });

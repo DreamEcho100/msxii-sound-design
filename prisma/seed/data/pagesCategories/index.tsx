@@ -1,46 +1,47 @@
-import { createId } from '@paralleldrive/cuid2';
+// import { createId } from '@paralleldrive/cuid2';
 
+// NOTICE: The counter is set manually.
 export const iosAppPagesPageCategory = {
-	id: createId(),
+	id: 'j9tcino1tb4i6z51tpnjho9g',
 	name: 'ios-apps' as const,
-	// NOTICE: The counter is set manually.
-	counter: 4,
+	counter: 5,
 	hasSubPages: true,
+	isAPage: false,
 };
 export const aboutPageCategory = {
-	id: createId(),
+	id: 'olr0j2np96eoydnmmt77vcxo',
 	name: 'about' as const,
-	// NOTICE: The counter is set manually.
 	counter: 1,
 	hasSubPages: false,
+	isAPage: true,
 };
 export const supportPageCategory = {
-	id: createId(),
+	id: 'r1s8ys9l2zxhukai30mnyx89',
 	name: 'support' as const,
-	// NOTICE: The counter is set manually.
 	counter: 1,
 	hasSubPages: false,
+	isAPage: true,
 };
 export const policiesPageCategory = {
-	id: createId(),
+	id: 'lnlog3gquw4s612c9ctypcq6',
 	name: 'policies' as const,
-	// NOTICE: The counter is set manually.
 	counter: 1,
 	hasSubPages: true,
+	isAPage: false,
 };
 export const merchPageCategory = {
-	id: createId(),
+	id: 'bkn7jft2ecnpt9ih8o05zpuv',
 	name: 'merch' as const,
-	// NOTICE: The counter is set manually.
 	counter: 1,
 	hasSubPages: false,
+	isAPage: true,
 };
 export const blueLabelPageCategory = {
-	id: createId(),
+	id: 'gymm72pshbbv47oezq4lm3sa',
 	name: 'blue-label' as const,
-	// NOTICE: The counter is set manually.
 	counter: 1,
 	hasSubPages: false,
+	isAPage: true,
 };
 
 const pagesCategories = [

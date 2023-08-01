@@ -1,4 +1,4 @@
-import { eq, lte } from 'drizzle-orm';
+import { eq } from 'drizzle-orm';
 import { z } from 'zod';
 import { createTRPCRouter, adminProtectedProcedure } from '~/server/api/trpc';
 import { updateOneMdBoxSchema } from '~/server/utils/validations-schemas/dashboard/boxes/types/mds';
@@ -16,44 +16,19 @@ export const dashboardRouter = createTRPCRouter({
 		getAll: adminProtectedProcedure.query(({ ctx }) => {
 			return ctx.drizzleQueryClient.query.pageCategory.findMany();
 		}),
-		getManyItems: adminProtectedProcedure
+		getOne: adminProtectedProcedure
 			.input(
 				z.object({
 					pageCategoryName: z.string().nonempty(),
-					limit: z.number().min(1).max(100).optional().default(20),
-					cursor: z.date().nullish(), // <-- "cursor" needs to exist, but can be any type
+					slug: z.string().nonempty().optional(),
 				}),
 			)
 			.query(async ({ ctx, input }) => {
-				const limit = input.limit + 1;
-
-				const items = await ctx.drizzleQueryClient.query.page.findMany({
+				return ctx.drizzleQueryClient.query.pageCategory.findFirst({
 					where(fields, operators) {
-						return operators.and(
-							operators.eq(fields.pageCategoryName, input.pageCategoryName),
-							input.cursor ? lte(fields.createdAt, input.cursor) : undefined,
-						);
-					},
-					orderBy(fields, operators) {
-						return operators.desc(fields.createdAt);
-					},
-					limit,
-					with: {
-						image: true,
+						return operators.eq(fields.name, input.pageCategoryName);
 					},
 				});
-
-				let nextCursor: typeof input.cursor | undefined = undefined;
-
-				if (items.length > limit) {
-					const nextItem = items.pop();
-					nextCursor = nextItem!.createdAt;
-				}
-
-				return {
-					items,
-					nextCursor,
-				};
 			}),
 	}),
 	boxes: createTRPCRouter({

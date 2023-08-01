@@ -151,6 +151,8 @@ export type CustomPage = {
 	slug?: string;
 	pageCategoryName: string;
 	pageStructure: StandardSection[];
+	title?: string | null;
+	description?: string | null;
 	image?: {
 		src: string;
 		altText?: string;

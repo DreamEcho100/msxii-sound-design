@@ -12,7 +12,7 @@ import {
 	RowsOnlyBox,
 	TwoColumnsBox,
 } from '../../src/utils/types/custom-page';
-import {
+import defaultIOSAppsPages, {
 	chomplrPageData,
 	flyTape2PageData,
 	flyTapePageData,
@@ -72,6 +72,15 @@ const seedPage = async (page: CustomPage) => {
 					customClasses: page.customPageClassesKeys,
 				},
 			},
+			seo: page.title
+				? {
+						create: {
+							id: createId(),
+							title: page.title,
+							description: page.description,
+						},
+				  }
+				: undefined,
 			pageCategory: { connect: { name: page.pageCategoryName } },
 			image: page.image && {
 				connectOrCreate: {
@@ -387,6 +396,7 @@ const seedPages = async () => {
 
 	const pages = [
 		...otherCustomPages,
+		defaultIOSAppsPages,
 		loFlyDirtPageData,
 		flyTapePageData,
 		flyTape2PageData,

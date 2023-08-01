@@ -18,6 +18,8 @@ const otherCustomPages: CustomPage[] = [
 		},
 		// slug: 'about',
 		pageCategoryName: aboutPageCategory.name,
+		title: 'about',
+		description: '',
 		pageStructure: [
 			{
 				order: 0,
@@ -36,13 +38,13 @@ MSXII is committed to providing the audio community with quality, well-thought o
 
 Our products and services have been used by and associated with the likes of numerous industry musicians and companies including: Dr. Dre, Ryan Leslie, Jay Electronica, MTV, VH1, E!, Snoop Dog, 9th Wonder, Eminem, Lil Brother, Centric, E!, Native Instruments, Output, Drumbroker, Novation, Intua, Akai, Ableton, and many more.
 
-![](/images/custom-page/credibility.png)
+![](/images/custom-page/credibility.png?className=w-96)
 
 ## Compatibility
 
 All MSXII kits, breaks, sample packs, and sounds are compatible with any DAW, software program, drum machine or iOS device that accepts the .wav format. This includes Native Instruments Maschine, All Akai MPC's, Logic Pro/X, Pro Tools, Ableton Live, Propellerhead Reason, Cubase, Nuendo, FL Studio, and more.
 
-![](/images/custom-page/compatibility.png)
+![](/images/custom-page/compatibility.png?className=w-96)
 
 With any questions regarding our kits, breaks, or sample packs, contact us at msxaudio@gmail.com`,
 					},
@@ -61,6 +63,8 @@ With any questions regarding our kits, breaks, or sample packs, contact us at ms
 		},
 		// slug: 'support',
 		pageCategoryName: supportPageCategory.name,
+		title: 'support',
+		description: '',
 		pageStructure: [
 			{
 				order: 0,
@@ -117,6 +121,8 @@ For all other questions and inquiries, feel free to email our support at support
 		},
 		slug: 'license-agreement',
 		pageCategoryName: policiesPageCategory.name,
+		title: 'policies',
+		description: 'policies - license agreement',
 		pageStructure: [
 			{
 				order: 0,
@@ -175,6 +181,8 @@ All bundle and discounted purchases and prices apply only to the product line at
 		},
 		// slug: 'merch',
 		pageCategoryName: 'merch',
+		title: 'merch',
+		description: '',
 		pageStructure: [
 			{
 				order: 0,
@@ -195,6 +203,8 @@ All bundle and discounted purchases and prices apply only to the product line at
 		},
 		// slug: 'blue-label',
 		pageCategoryName: blueLabelPageCategory.name,
+		title: 'blue-label',
+		description: 'Explore our merch products',
 		pageStructure: [
 			{
 				order: 0,

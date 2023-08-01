@@ -1,20 +1,7 @@
-import { useRouter } from 'next/router';
-import { z } from 'zod';
-import DashboardCustomPageProfileScreen from '~/components/screens/Dashboard/CustomPages/Profile';
+import CustomPageScreen from '~/components/shared/core/CustomPageScreen';
 
 const DashboardCustomPageProfilePage = () => {
-	const router = useRouter();
-
-	const pageCategoryName = router.isReady
-		? z.object({ pageCategoryName: z.string() }).parse(router.query)
-				.pageCategoryName
-		: null;
-
-	if (!pageCategoryName) return <>Loading...</>;
-
-	return (
-		<DashboardCustomPageProfileScreen pageCategoryName={pageCategoryName} />
-	);
+	return <CustomPageScreen />;
 };
 
 export default DashboardCustomPageProfilePage;

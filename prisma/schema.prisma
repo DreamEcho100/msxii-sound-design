@@ -72,7 +72,7 @@ model MdBox {
   updatedAt DateTime? @updatedAt
   boxId     String
   boxType   BoxTypes  @default(MD)
-  content   String
+  content   String    @db.Text
   box       Box       @relation(fields: [boxId, boxType], references: [id, type], onDelete: Cascade, map: "MdBx_BxId_BT_FK")
 
   @@unique([boxId, boxType], map: "MdBx_BxId_BxT_K")
@@ -114,7 +114,7 @@ model QuoteBox {
   boxId     String
   boxType   BoxTypes  @default(QUOTE)
   cite      String
-  content   String
+  content   String    @db.Text
   box       Box       @relation(fields: [boxId, boxType], references: [id, type], onDelete: Cascade, map: "QuoteBx_BxId_BT_FK")
 
   @@unique([boxId, boxType], map: "QuoteBx_BxId_BxT_K")
@@ -285,6 +285,19 @@ model Image {
   pages     Page[]
 }
 
+model seo {
+  id        String    @id // @default(cuid())
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt
+
+  title       String
+  description String? @db.Text
+
+  // pageId String?
+  // page   Page?   @relation(fields: [pageId], references: [id])
+  page Page?
+}
+
 model Page {
   id               String       @id // @default(cuid())
   createdAt        DateTime     @default(now())
@@ -299,6 +312,9 @@ model Page {
   sections         Section[]
 
   isActive Boolean @default(false)
+
+  seoId String? @unique
+  seo   seo?    @relation(fields: [seoId], references: [id])
 
   @@unique([pageCategoryName, slug])
   @@index([cssId])

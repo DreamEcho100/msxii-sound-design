@@ -22,8 +22,10 @@ const DashboardLayout = (props: PropsWithChildren) => {
 		<div className="flex flex-grow">
 			<MainSideMenu />
 			<div className="flex flex-col flex-grow relative">
-				<header className="px-4 sm:px-8 py-4 border-b">main header</header>
-				<main className="px-4 sm:px-8 py-8 flex-grow overflow-y-auto overflow-x-hidden flex flex-col">
+				<header className="px-4 sm:px-8 py-4 border-b mx-auto w-full max-w-main">
+					main header
+				</header>
+				<main className="mx-auto w-full max-w-main px-4 sm:px-8 py-8 flex-grow overflow-y-auto overflow-x-hidden flex flex-col">
 					{props.children}
 				</main>
 				<EditSideMenu />

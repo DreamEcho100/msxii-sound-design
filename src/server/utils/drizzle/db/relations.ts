@@ -5,6 +5,7 @@ import {
 	boxToTabs,
 	pageCategory,
 	image,
+	seo,
 } from './schema';
 import {
 	mdBox,
@@ -53,6 +54,9 @@ export const cssRelations = relations(css, ({ many }) => ({
 	pages: many(page),
 	sections: many(section),
 }));
+export const seoRelations = relations(seo, ({ one }) => ({
+	pages: one(page),
+}));
 export const pageCategoryRelations = relations(pageCategory, ({ many }) => ({
 	pages: many(page),
 }));
@@ -65,6 +69,10 @@ export const pageRelations = relations(page, ({ many, one }) => ({
 	css: one(css, {
 		fields: [page.cssId],
 		references: [css.id],
+	}),
+	seo: one(seo, {
+		fields: [page.seoId],
+		references: [seo.id],
 	}),
 	pageCategory: one(pageCategory, {
 		fields: [page.pageCategoryName],

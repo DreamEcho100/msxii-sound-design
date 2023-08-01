@@ -8,7 +8,7 @@ import { createInnerTRPCContext } from '~/server/api/trpc';
 
 const LicenseAgreementPage = () => {
 	const customPageStructureQuery = api.customPages.getOne.useQuery({
-		categoryName: 'license-agreement-page',
+		pageCategoryName: 'license-agreement-page',
 	});
 
 	if (customPageStructureQuery.isLoading) return <>Loading...</>;
@@ -32,7 +32,8 @@ export const getStaticProps: GetStaticProps = async () => {
 	 * `prefetchQuery` does not return the result - if you need that, use `fetchQuery` instead.
 	 */
 	await ssg.customPages.getOne.prefetch({
-		categoryName: 'license-agreement-page',
+		pageCategoryName: 'policies',
+		slug: 'license-agreement',
 	});
 	// Make sure to return { props: { trpcState: ssg.dehydrate() } }
 	return {

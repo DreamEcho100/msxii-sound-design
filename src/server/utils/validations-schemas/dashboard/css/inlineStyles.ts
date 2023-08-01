@@ -6,7 +6,7 @@ export const CreateOneInlineStyleCssSchema = {
 };
 
 export const UpdateOneInlineStyleCssSchema = {
-	cssId: z.string().cuid(),
+	cssId: z.string().cuid2(),
 
 	inlineStyles: z.object({
 		gridTemplateColumns: z.string().nullable().optional(),

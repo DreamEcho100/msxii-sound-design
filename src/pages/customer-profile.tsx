@@ -40,7 +40,9 @@ const ProductsOnOrder = ({
 
 	return (
 		<>
-			<button onClick={() => setIsOpen(true)}>{buttonText}</button>
+			<button type="button" onClick={() => setIsOpen(true)}>
+				{buttonText}
+			</button>
 			<CustomDialog
 				// contentVariants={{ bg: 'primary-2' }}
 				isOpen={isOpen}

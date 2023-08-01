@@ -5,6 +5,6 @@ export const CreateOneCustomCssSchema = {
 };
 
 export const UpdateOneCustomCssSchema = {
-	cssId: z.string().cuid(),
+	cssId: z.string().cuid2(),
 	customClasses: z.array(z.string()).nullable(),
 };

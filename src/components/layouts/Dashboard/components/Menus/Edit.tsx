@@ -28,13 +28,10 @@ export default function EditSideMenu() {
 			)}
 		>
 			<div className="flex-grow w-full h-full relative">
-				<div
-					className="absolute inset-0 bg-black/50 w-full h-full"
-					onPointerDown={(event) => {
-						event.stopPropagation();
-
-						setMenuIsOpen('sideEdit', false);
-					}}
+				<button
+					className="cursor-pointer absolute inset-0 bg-black/50 w-full h-full"
+					type="button"
+					onClick={() => setMenuIsOpen('sideEdit', false)}
 				/>
 				<div className="flex-grow w-full h-full relative flex pointer-events-none">
 					<div className="m-8 flex flex-grow w-full h-full justify-end pointer-events-auto">

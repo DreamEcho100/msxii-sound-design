@@ -33,33 +33,34 @@ const CheckboxField = ({
 	);
 };
 
-const CategoriesMenu = ({
-	categories,
-	setSelectedCategories,
-	selectedCategories,
+const PagesCategoriesMenu = ({
+	pagesCategories,
+	setSelectedPagesCategories,
+	selectedPagesCategories,
 }: {
-	categories: string[];
-	setSelectedCategories: Dispatch<SetStateAction<string[]>>;
-	selectedCategories: string[];
+	pagesCategories: string[];
+	setSelectedPagesCategories: Dispatch<SetStateAction<string[]>>;
+	selectedPagesCategories: string[];
 }) => {
 	return (
 		<div className="flex flex-col gap-1">
-			{categories.map((categoryName) => (
+			{pagesCategories.map((pageCategoryName) => (
 				<CheckboxField
-					key={categoryName}
-					checked={selectedCategories.includes(categoryName)}
-					value={categoryName}
+					key={pageCategoryName}
+					checked={selectedPagesCategories.includes(pageCategoryName)}
+					value={pageCategoryName}
 					onChange={(event) =>
-						setSelectedCategories((prev) =>
+						setSelectedPagesCategories((prev) =>
 							event.target.checked
 								? [...prev, event.target.value]
 								: prev.filter(
-										(categoryName) => categoryName !== event.target.value,
+										(pageCategoryName) =>
+											pageCategoryName !== event.target.value,
 								  ),
 						)
 					}
 				>
-					{categoryName.replaceAll('-', ' ')}
+					{pageCategoryName.replaceAll('-', ' ')}
 				</CheckboxField>
 			))}
 		</div>
@@ -76,7 +77,7 @@ const ProductsScreen = ({
 	const searchParams = useSearchParams();
 
 	const {
-		categories,
+		pagesCategories,
 		collectionsByHandle,
 		selectedHandles,
 		setSelectedHandles,
@@ -140,15 +141,16 @@ const ProductsScreen = ({
 									<button
 										onClick={() => setIsFiltersMenuActive((prev) => !prev)}
 										ref={filterMenuOnSMScreensCloseButtonRef}
+										type="button"
 										title={`${isFiltersMenuActive ? 'Hide' : 'Show'} filters`}
 									>
 										<GiSettingsKnobs className="text-xl font-bold scale-y-110 rotate-90" />
 									</button>
 								</header>
-								<CategoriesMenu
-									categories={categories}
-									setSelectedCategories={setSelectedHandles}
-									selectedCategories={selectedHandles}
+								<PagesCategoriesMenu
+									pagesCategories={pagesCategories}
+									setSelectedPagesCategories={setSelectedHandles}
+									selectedPagesCategories={selectedHandles}
 								/>
 							</div>
 						</motion.div>
@@ -176,10 +178,10 @@ const ProductsScreen = ({
 										<GiSettingsKnobs className="text-xl font-bold scale-y-110 rotate-90" />
 									</Clickable>
 								</header>
-								<CategoriesMenu
-									categories={categories}
-									setSelectedCategories={setSelectedHandles}
-									selectedCategories={selectedHandles}
+								<PagesCategoriesMenu
+									pagesCategories={pagesCategories}
+									setSelectedPagesCategories={setSelectedHandles}
+									selectedPagesCategories={selectedHandles}
 								/>
 							</motion.div>
 						)}
@@ -188,7 +190,7 @@ const ProductsScreen = ({
 				<div className="px-8 lg:px-12 py-12 flex flex-col gap-12 max-w-full overflow-hidden bg-bg-primary-100 dark:bg-bg-primary-900 isolate flex-grow transition-all sm:rounded-2xl">
 					<header className="flex justify-between">
 						<h1 className="text-h1 font-semibold">
-							{selectedHandles.length === categories.length ||
+							{selectedHandles.length === pagesCategories.length ||
 							selectedHandles.length === 0
 								? 'All Packs'
 								: 'Filtered Lists'}

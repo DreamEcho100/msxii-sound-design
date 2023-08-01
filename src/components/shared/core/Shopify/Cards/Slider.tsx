@@ -13,7 +13,7 @@ import type {
 	Collection,
 	Product,
 	BasicCollection,
-	BasicProduct
+	BasicProduct,
 } from '~/utils/shopify/types';
 
 type SliderProps = {
@@ -48,7 +48,7 @@ export const CardsSlider = <CardElemProps extends Record<string, unknown>>({
 					<SwiperSlide key={node.id} className="flex flex-col">
 						<CardElem key={node.id} product={node} {...cardsSharedProps} />
 					</SwiperSlide>
-				))
+				)),
 			)}
 		</Slider>
 	);
@@ -61,7 +61,7 @@ const Slider = ({
 	previousSlideButtonClassName,
 	verticalOnLG,
 	isNavButtonsOutside,
-	containerProps
+	containerProps,
 }: SliderProps) => {
 	const navigationPrevRef = useRef<HTMLButtonElement>(null);
 	const navigationNextRef = useRef<HTMLButtonElement>(null);
@@ -72,7 +72,7 @@ const Slider = ({
 			className={cx(
 				'relative flex gap-4',
 				verticalOnLG ? 'verticalOnLG lg:flex-col' : '',
-				containerProps?.className
+				containerProps?.className,
 			)}
 		>
 			<div
@@ -86,10 +86,11 @@ const Slider = ({
 
 					isNavButtonsOutside
 						? 'top-1/2 -translate-x-[150%] left-0 rtl:left-auto rtl:right-0 rtl:translate-x-[150%]'
-						: ''
+						: '',
 				)}
 			>
 				<button
+					type="button"
 					title="Previous slide."
 					// onClick={() => SwiperInstanceRef.current?.slidePrev()}
 					ref={navigationPrevRef}
@@ -98,7 +99,7 @@ const Slider = ({
 						verticalOnLG
 							? 'lg:rotate-90 rtl:lg:rotate-90 scale-75'
 							: 'rtl:rotate-180',
-						previousSlideButtonClassName
+						previousSlideButtonClassName,
 					)}
 				>
 					<CustomNextImage
@@ -114,7 +115,7 @@ const Slider = ({
 				className="cards-container"
 				navigation={{
 					prevEl: navigationPrevRef.current,
-					nextEl: navigationNextRef.current
+					nextEl: navigationNextRef.current,
 				}}
 				modules={[A11y, Autoplay, Navigation]}
 				autoplay={{ delay: 7500 }}
@@ -124,7 +125,7 @@ const Slider = ({
 					384: { slidesPerView: 2 },
 					768: { slidesPerView: 3 },
 					1024: { slidesPerView: 5 },
-					1280: { slidesPerView: 6 }
+					1280: { slidesPerView: 6 },
 				}}
 				loop
 				{...swiperProps}
@@ -143,11 +144,11 @@ const Slider = ({
 
 					isNavButtonsOutside
 						? 'top-1/2 translate-x-[150%] right-0 rtl:right-auto rtl:left-0 rtl:-translate-x-[150%]'
-						: ''
+						: '',
 				)}
 			>
 				<button
-					title="Next slide."
+					type="button"title="Next slide."
 					// onClick={() => SwiperInstanceRef.current?.slideNext()}
 					ref={navigationNextRef}
 					className={cx(
@@ -155,7 +156,7 @@ const Slider = ({
 						verticalOnLG
 							? 'lg:rotate-90 rtl:lg:rotate-90 scale-75'
 							: 'rtl:rotate-180',
-						nextSlideButtonClassName
+						nextSlideButtonClassName,
 					)}
 				>
 					<CustomNextImage

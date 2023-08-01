@@ -8,7 +8,7 @@ import {
 	Grid,
 } from '../../../../src/utils/types/custom-page';
 import { createStandardSection } from '../../utils';
-import { iosAppPagesCategory } from '../categories';
+import { iosAppPagesPageCategory } from '../pagesCategories';
 
 const FlyTape2IOSApp: StandardSection[] = (() => {
 	const appLink = 'https://apps.apple.com/us/app/fly-tape-2/id1552463664';
@@ -210,7 +210,7 @@ const flyTape2PageData: CustomPage = {
 		src: 'https://www.msxaudio.com/cdn/shop/t/28/assets/pf-6f5039ba--Fly-Tape-2-iOS-Banner.jpg?v=1617223433',
 	},
 	// title: 'Fly Tape 2',
-	categoryName: iosAppPagesCategory.name,
+	pageCategoryName: iosAppPagesPageCategory.name,
 	pageStructure: FlyTape2IOSApp,
 };
 

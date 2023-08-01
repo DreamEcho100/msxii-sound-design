@@ -266,6 +266,19 @@ const SectionBox = (props: {
 			/>
 		);
 
+	if (props.box.type === BoxTypes.GRID && props.box.grid)
+		return (
+			<GridEditable
+				boxDeepLevel={props.boxDeepLevel}
+				parentBox={props.parentBox}
+				pageStore={props.pageStore}
+				box={props.box}
+				path={props.path}
+				// It's already passed inside
+				// path={[...props.path, 'gridBox']}
+			/>
+		);
+
 	if (props.box.type === BoxTypes.TABS_HOLDER && props.box.tabs) {
 		return (
 			<CustomTabs
@@ -285,19 +298,6 @@ const SectionBox = (props: {
 			/>
 		);
 	}
-
-	if (props.box.type === BoxTypes.GRID && props.box.grid)
-		return (
-			<GridEditable
-				boxDeepLevel={props.boxDeepLevel}
-				parentBox={props.parentBox}
-				pageStore={props.pageStore}
-				box={props.box}
-				path={props.path}
-				// It's already passed inside
-				// path={[...props.path, 'gridBox']}
-			/>
-		);
 
 	return <></>;
 };

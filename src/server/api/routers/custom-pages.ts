@@ -13,18 +13,18 @@ export const customPagesRouter = createTRPCRouter({
 		.input(
 			z.object({
 				slug: z.string().optional(),
-				categoryName: z.string().optional(),
+				pageCategoryName: z.string().optional(),
 			}),
 		)
 		.query(({ input }) => {
-			if (!input.slug && !input.categoryName)
+			if (!input.slug && !input.pageCategoryName)
 				throw new TRPCError({ code: 'BAD_REQUEST' });
 
 			const product = CustomPages.find(
 				(item) =>
 					(typeof input.slug === 'undefined' || item.slug === input.slug) &&
-					(typeof input.categoryName === 'undefined' ||
-						item.categoryName === input.categoryName),
+					(typeof input.pageCategoryName === 'undefined' ||
+						item.pageCategoryName === input.pageCategoryName),
 			);
 
 			if (!product) throw new TRPCError({ code: 'NOT_FOUND' });
@@ -35,14 +35,14 @@ export const customPagesRouter = createTRPCRouter({
 		.input(
 			z.object({
 				slug: z.string().optional(),
-				categoryName: z.string().nonempty(),
+				pageCategoryName: z.string().nonempty(),
 			}),
 		)
 		.query(async ({ ctx, input }) => {
 			const page = await ctx.drizzleQueryClient.query.page.findFirst({
 				with: {
 					css: true,
-					category: true,
+					pageCategory: true,
 					image: true,
 					sections: {
 						with: {
@@ -174,7 +174,7 @@ export const customPagesRouter = createTRPCRouter({
 				},
 				where(fields, operators) {
 					return operators.and(
-						operators.eq(fields.categoryName, input.categoryName),
+						operators.eq(fields.pageCategoryName, input.pageCategoryName),
 						input.slug ? operators.eq(fields.slug, input.slug) : undefined,
 					);
 				},

@@ -109,62 +109,6 @@ const IframeBoxForm = (props: {
 				name="title"
 				labelProps={{ children: 'title' }}
 			/>
-			{/* <fieldset>
-				<div className="relative">
-					<ContainedInputField
-						store={props.store}
-						name="width"
-						labelProps={{
-							children: (
-								<>
-									initial width <small>while loading</small>
-								</>
-							),
-						}}
-						type="number"
-					/>
-					<div className="absolute top-0 right-1 rtl:right-auto rtl:left-1">
-						<button
-							type="button"
-							onClick={() => {
-								props.store
-									.getState()
-									// eslint-disable-next-line @typescript-eslint/no-explicit-any
-									.utils.handleOnInputChange('width', null as any);
-							}}
-						>
-							<BsX />
-						</button>
-					</div>
-				</div>
-				<div className="relative">
-					<ContainedInputField
-						store={props.store}
-						name="height"
-						labelProps={{
-							children: (
-								<>
-									initial height <small>while loading</small>
-								</>
-							),
-						}}
-						type="number"
-					/>
-					<div className="absolute top-0 right-1 rtl:right-auto rtl:left-1">
-						<button
-							type="button"
-							onClick={() => {
-								props.store
-									.getState()
-									// eslint-disable-next-line @typescript-eslint/no-explicit-any
-									.utils.handleOnInputChange('height', null as any);
-							}}
-						>
-							<BsX />
-						</button>
-					</div>
-				</div>
-			</fieldset> */}
 			<button
 				type="submit"
 				disabled={updateOneRequest.isLoading}

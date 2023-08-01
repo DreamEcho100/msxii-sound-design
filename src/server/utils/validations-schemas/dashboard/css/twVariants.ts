@@ -36,6 +36,6 @@ export const CreateOneTwVariantsSchema = {
 };
 
 export const UpdateOneTwVariantsSchema = {
-	cssId: z.string().cuid(),
+	cssId: z.string().cuid2(),
 	twVariants: TwVariantsSchemaRefined,
 };

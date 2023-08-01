@@ -5,6 +5,6 @@ export const createOneSliderSchema = {
 	slidesPerViewType: z.nativeEnum(SlidesPerViewType),
 };
 export const updateOneSliderSchema = {
-	id: z.string().cuid(),
+	id: z.string().cuid2(),
 	slidesPerViewType: z.nativeEnum(SlidesPerViewType).optional(),
 };

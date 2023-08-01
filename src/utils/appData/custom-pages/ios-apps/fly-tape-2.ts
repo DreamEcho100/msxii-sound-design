@@ -202,7 +202,7 @@ const flyTape2PageData: CustomPage = {
 	},
 	slug: 'fly-tape-2',
 	// title: 'Fly Tape 2',
-	categoryName: 'ios-apps-pages',
+	pageCategoryName: 'ios-apps',
 	pageStructure: FlyTape2IOSApp,
 };
 

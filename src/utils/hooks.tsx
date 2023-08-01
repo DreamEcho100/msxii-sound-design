@@ -48,7 +48,7 @@ export const useBasicCollectionsHandleFilterManager = <
 
 	const flattenedCollectionsEdges =
 		useGetEdgeNodes<TCollection>(collectionsEdges);
-	const { collectionsByHandle, categories } = useMemo(() => {
+	const { collectionsByHandle, pagesCategories } = useMemo(() => {
 		const collectionsHandleMap: Record<string, TCollection[]> = {};
 
 		flattenedCollectionsEdges.forEach((collection) => {
@@ -70,12 +70,12 @@ export const useBasicCollectionsHandleFilterManager = <
 		});
 
 		const collectionsByHandle = Object.entries(collectionsHandleMap);
-		const categories = collectionsByHandle
+		const pagesCategories = collectionsByHandle
 			.map((collectionByHandle) => collectionByHandle[0])
 			.sort((a, b) => (a < b ? -1 : 1));
 		return {
 			collectionsByHandle,
-			categories,
+			pagesCategories,
 		};
 	}, [
 		flattenedCollectionsEdges,
@@ -85,7 +85,7 @@ export const useBasicCollectionsHandleFilterManager = <
 
 	return {
 		collectionsByHandle,
-		categories,
+		pagesCategories,
 		selectedHandles,
 		setSelectedHandles,
 		flattenedCollectionsEdges,

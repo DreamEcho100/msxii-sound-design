@@ -7,7 +7,7 @@ export const createOneHeaderBoxSchema = {
 	hType: z.nativeEnum(HeaderBoxHType).optional(),
 };
 export const updateOneHeaderBoxSchema = {
-	id: z.string().cuid(),
+	id: z.string().cuid2(),
 	title: z.string().min(3).optional(),
 	description: z.string().nullable().optional(),
 	hType: z.nativeEnum(HeaderBoxHType).optional(),

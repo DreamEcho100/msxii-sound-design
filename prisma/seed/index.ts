@@ -18,7 +18,9 @@ import {
 	flyTapePageData,
 	loFlyDirtPageData,
 } from './data/ios-apps';
-import categories from './data/categories';
+import pagesCategories from './data/pagesCategories';
+import { createId } from '@paralleldrive/cuid2';
+import otherCustomPages from './data/otherCustomPages';
 // import loFlyDirtPageData from './data/lo-fly-dirt';
 
 declare global {
@@ -40,38 +42,40 @@ if (process.env.NODE_ENV !== 'production') {
 	global.prisma = prisma;
 }
 
-const seedCategories = async () => {
-	console.log('Starting seeding categories');
+const seedPagesCategories = async () => {
+	console.log('Starting seeding pagesCategories');
 
-	await prisma.category.createMany({
-		data: categories,
+	await prisma.pageCategory.createMany({
+		data: pagesCategories,
 	});
 
-	console.log('Ending seeding categories');
+	console.log('Ending seeding pagesCategories');
 	console.log('\n\n');
 };
 
 const seedPage = async (page: CustomPage) => {
 	console.log(
-		`Starting seeding page: ${page.categoryName}${
+		`Starting seeding page: ${page.pageCategoryName}${
 			page.slug ? `/${page.slug}` : ''
 		}`,
 	);
 
 	const createdCustomPage = await prisma.page.create({
 		data: {
+			id: createId(),
 			slug: page.slug,
 			updatedAt: null,
 			css: {
 				create: {
+					id: createId(),
 					twVariants: page.twClassNameVariants,
 					customClasses: page.customPageClassesKeys,
 				},
 			},
-			category: { connect: { name: page.categoryName } },
+			pageCategory: { connect: { name: page.pageCategoryName } },
 			image: page.image && {
 				connectOrCreate: {
-					create: page.image,
+					create: { id: createId(), ...page.image },
 					where: { src: page.image.src },
 				},
 			},
@@ -87,9 +91,11 @@ const seedPage = async (page: CustomPage) => {
 			page.pageStructure.map((section) =>
 				prisma.section.create({
 					data: {
+						id: createId(),
 						page: { connect: { id: createdCustomPage.id } },
 						css: {
 							create: {
+								id: createId(),
 								twVariants: section.twClassNameVariants,
 								customClasses: section.customPageClassesKeys,
 							},
@@ -156,6 +162,7 @@ const seedPage = async (page: CustomPage) => {
 							type: BoxTypes.HEADER,
 							headerBox: {
 								create: {
+									id: createId(),
 									title: box.title,
 									description: box.description,
 								},
@@ -166,7 +173,7 @@ const seedPage = async (page: CustomPage) => {
 						return {
 							type: BoxTypes.MD,
 							mdBox: {
-								create: { content: box.content },
+								create: { id: createId(), content: box.content },
 							},
 						};
 
@@ -175,6 +182,7 @@ const seedPage = async (page: CustomPage) => {
 							type: BoxTypes.IMAGE,
 							imageBox: {
 								create: {
+									id: createId(),
 									src: box.src,
 									altText: box.altText,
 									width: box.width,
@@ -188,6 +196,7 @@ const seedPage = async (page: CustomPage) => {
 							type: BoxTypes.IFRAME,
 							iframeBox: {
 								create: {
+									id: createId(),
 									src: box.src,
 									title: box.title,
 									type:
@@ -205,6 +214,7 @@ const seedPage = async (page: CustomPage) => {
 							type: BoxTypes.QUOTE,
 							quoteBox: {
 								create: {
+									id: createId(),
 									cite: box.cite,
 									content: box.content,
 								},
@@ -218,12 +228,15 @@ const seedPage = async (page: CustomPage) => {
 								order: itemIndex,
 							})),
 							{},
-						).then((boxes) => boxes.map((box) => ({ boxId: box.id })));
+						).then((boxes) =>
+							boxes.map((box) => ({ id: createId(), boxId: box.id })),
+						);
 
 						return {
 							type: BoxTypes.GRID,
 							grid: {
 								create: {
+									id: createId(),
 									boxesToGrids: {
 										createMany: { data: itemsData },
 									},
@@ -231,6 +244,7 @@ const seedPage = async (page: CustomPage) => {
 							},
 							css: {
 								create: {
+									id: createId(),
 									twVariants: box.twClassNameVariants,
 									customClasses: box.customPageClassesKeys,
 									inlineStyles: {
@@ -250,6 +264,7 @@ const seedPage = async (page: CustomPage) => {
 							{},
 						).then((boxes) =>
 							boxes.map((_box, _boxIndex) => ({
+								id: createId(),
 								boxId: _box.id,
 								title: box.tabs[_boxIndex]?.title || '',
 							})),
@@ -259,6 +274,7 @@ const seedPage = async (page: CustomPage) => {
 							type: BoxTypes.TABS_HOLDER,
 							tabs: {
 								create: {
+									id: createId(),
 									boxesToTabs: {
 										createMany: { data: itemsData },
 									},
@@ -276,6 +292,7 @@ const seedPage = async (page: CustomPage) => {
 							{},
 						).then((boxes) =>
 							boxes.map((_box, _boxIndex) => ({
+								id: createId(),
 								boxId: _box.id,
 								// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 								// @ts-ignore
@@ -287,6 +304,7 @@ const seedPage = async (page: CustomPage) => {
 							type: BoxTypes.SLIDER,
 							slider: {
 								create: {
+									id: createId(),
 									slidesPerViewType:
 										box.slidesPerViewType === 'one-slide'
 											? SlidesPerViewType.ONE_SLIDE
@@ -314,11 +332,13 @@ const seedPage = async (page: CustomPage) => {
 				boxes.push(
 					await prisma.box.create({
 						data: {
+							id: createId(),
 							section: !params.sectionId
 								? undefined
 								: { connect: { id: params.sectionId } },
 							css: {
 								create: {
+									id: createId(),
 									twVariants: box.twClassNameVariants,
 									customClasses: box.customPageClassesKeys,
 								},
@@ -354,7 +374,7 @@ const seedPage = async (page: CustomPage) => {
 	}
 
 	console.log(
-		`Ending seeding page: ${page.categoryName}${
+		`Ending seeding page: ${page.pageCategoryName}${
 			page.slug ? `/${page.slug}` : ''
 		}`,
 	);
@@ -366,6 +386,7 @@ const seedPages = async () => {
 	console.log('\n');
 
 	const pages = [
+		...otherCustomPages,
 		loFlyDirtPageData,
 		flyTapePageData,
 		flyTape2PageData,
@@ -382,7 +403,7 @@ const seedPages = async () => {
 };
 
 const seedAll = async () => {
-	await seedCategories();
+	await seedPagesCategories();
 	await seedPages();
 };
 

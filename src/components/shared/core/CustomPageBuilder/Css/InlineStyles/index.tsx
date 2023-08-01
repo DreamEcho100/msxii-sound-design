@@ -163,7 +163,6 @@ export const GridTemplateManager = (props: {
 							/>
 						</FieldContainer>
 					)}
-					gridTemplateData.type !==
 					<FieldContainer
 						labelProps={{
 							children: splitByCamelCase(gridTemplateDataTypesMap.trackList),

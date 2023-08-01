@@ -15,7 +15,6 @@
 .box-container > * > .box-edit-overlay::before {
 	position: absolute;
 	inset: 0;
-
 	pointer-events: none;
 }
 .box-container > * > .box-edit-overlay > .borders-container {

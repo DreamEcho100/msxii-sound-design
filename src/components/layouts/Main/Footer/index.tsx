@@ -96,7 +96,7 @@ const MainLayoutFooter = () => {
 				{
 					text: 'License Agreement',
 					isA: 'next-js',
-					href: '/license-agreement',
+					href: '/policies/license-agreement',
 					icon: null,
 				},
 			],

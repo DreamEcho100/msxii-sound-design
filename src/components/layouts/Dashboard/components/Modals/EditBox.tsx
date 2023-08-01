@@ -1,6 +1,7 @@
 import { cx } from 'class-variance-authority';
 import { createPortal } from 'react-dom';
 import { type ReactNode } from 'react';
+import { Dialog } from '@headlessui/react';
 
 export default function EditBoxModal(props: {
 	EditSideMenuChildren: ReactNode;
@@ -15,31 +16,30 @@ export default function EditBoxModal(props: {
 	if (!bodyElem) return <></>;
 
 	return createPortal(
-		<div
+		<Dialog
+			as="div"
+			onClose={() => props.setIsOpen(false)}
 			className={cx(
-				'fixed inset-0 z-50 bg-black/50 w-full h-full flex',
-				props.isOpen ? 'block' : 'hidden',
+				'fixed inset-0 z-10 bg-black/50 w-full h-full flex',
+				'block', // props.isOpen ? 'block' : 'hidden',
 			)}
+			open={props.isOpen}
 		>
 			<div className="flex-grow w-full h-full relative">
-				<div
-					className="absolute inset-0 bg-black/50 w-full h-full"
-					onPointerDown={(event) => {
-						event.stopPropagation();
-
-						props.setIsOpen(false);
-					}}
+				<Dialog.Overlay
+					onClick={() => props.setIsOpen(false)}
+					className="cursor-pointer absolute inset-0 bg-black/50 w-full h-full"
 				/>
-				<div className="flex-grow w-full h-full relative flex justify-between gap-16 p-8 pointer-events-none">
-					<section className="bg-white py-12 px-8 overflow-y-auto flex flex-col flex-grow w-full h-full pointer-events-auto">
+				<Dialog.Panel className="flex-grow w-full h-full relative flex justify-between gap-16 p-8 pointer-events-none">
+					<div className="bg-white py-12 px-8 overflow-y-auto flex flex-col flex-grow w-full h-full pointer-events-auto">
 						{props.ShowcaseBoxChildren}
-					</section>
-					<section className="w-[40rem] py-12 px-8 bg-white pointer-events-auto select-auto flex flex-col gap-8 overflow-y-auto">
+					</div>
+					<div className="w-[40rem] py-12 px-8 bg-white pointer-events-auto select-auto flex flex-col gap-8 overflow-y-auto">
 						{props.EditSideMenuChildren}
-					</section>
-				</div>
+					</div>
+				</Dialog.Panel>
 			</div>
-		</div>,
+		</Dialog>,
 		bodyElem,
 	);
 }

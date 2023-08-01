@@ -26,7 +26,7 @@ const IOSAppPage = () => {
 
 	if (!query) return <>Loading...</>;
 
-	return <IOSAppSection categoryName="ios-apps-pages" slug={query.slug} />;
+	return <IOSAppSection pageCategoryName="ios-apps" slug={query.slug} />;
 };
 
 export default IOSAppPage;

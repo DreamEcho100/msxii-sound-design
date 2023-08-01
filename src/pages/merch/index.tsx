@@ -18,7 +18,7 @@ const MerchesPage: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = (
 		props.input,
 	);
 	const customPageStructureQuery = api.customPages.getOne.useQuery({
-		categoryName: 'merch-page',
+		pageCategoryName: 'merch',
 	});
 
 	if (collectionQuery.isLoading || customPageStructureQuery.isLoading)
@@ -80,7 +80,7 @@ export async function getStaticProps() {
 	 */
 	await Promise.all([
 		ssg.shopify.collections.getOneByHandle.prefetch(input),
-		ssg.customPages.getOne.prefetch({ categoryName: 'merch-page' }),
+		ssg.customPages.getOne.prefetch({ pageCategoryName: 'merch' }),
 	]);
 	// Make sure to return { props: { trpcState: ssg.dehydrate() } }
 	return {

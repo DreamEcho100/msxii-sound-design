@@ -7,7 +7,7 @@ export const createOneIframeBoxSchema = {
 	type: z.nativeEnum(IframeBoxTypes).optional(),
 };
 export const updateOneIframeBoxSchema = {
-	id: z.string().cuid(),
+	id: z.string().cuid2(),
 	src: z.string().min(3).optional(),
 	title: z.string().min(3).nullable().optional(),
 	type: z.nativeEnum(IframeBoxTypes).optional(),

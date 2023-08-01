@@ -5,7 +5,7 @@ export const createOneQuoteBoxSchema = {
 	cite: z.string().min(3),
 };
 export const updateOneQuoteBoxSchema = {
-	id: z.string().cuid(),
+	id: z.string().cuid2(),
 	content: z.string().min(3).optional(),
 	cite: z.string().min(3).optional(),
 };

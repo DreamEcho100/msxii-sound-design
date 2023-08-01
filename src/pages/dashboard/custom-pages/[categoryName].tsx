@@ -5,13 +5,16 @@ import DashboardCustomPageProfileScreen from '~/components/screens/Dashboard/Cus
 const DashboardCustomPageProfilePage = () => {
 	const router = useRouter();
 
-	const categoryName = router.isReady
-		? z.object({ categoryName: z.string() }).parse(router.query).categoryName
+	const pageCategoryName = router.isReady
+		? z.object({ pageCategoryName: z.string() }).parse(router.query)
+				.pageCategoryName
 		: null;
 
-	if (!categoryName) return <>Loading...</>;
+	if (!pageCategoryName) return <>Loading...</>;
 
-	return <DashboardCustomPageProfileScreen categoryName={categoryName} />;
+	return (
+		<DashboardCustomPageProfileScreen pageCategoryName={pageCategoryName} />
+	);
 };
 
 export default DashboardCustomPageProfilePage;

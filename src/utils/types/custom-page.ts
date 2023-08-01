@@ -148,8 +148,8 @@ export type StandardSection = {
 export type CustomPage = {
 	twClassNameVariants?: BoxVariants;
 	customPageClassesKeys?: string[];
-	slug: string;
-	categoryName: string;
+	slug?: string;
+	pageCategoryName: string;
 	pageStructure: StandardSection[];
 	image?: {
 		src: string;

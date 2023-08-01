@@ -373,7 +373,7 @@ const chomplrPageData: CustomPage = {
 	},
 	slug: 'chomplr',
 	// title: 'Chomplr',
-	categoryName: 'ios-apps-pages',
+	pageCategoryName: 'ios-apps',
 	pageStructure: ChomplrOSApp,
 };
 

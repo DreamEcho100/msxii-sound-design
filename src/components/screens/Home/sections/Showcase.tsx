@@ -23,44 +23,44 @@ const FilteredProducts = ({
 	collectionsBasic: CollectionsBasic;
 }) => {
 	const {
-		categories,
+		pagesCategories,
 		collectionsByHandle,
-		selectedHandles: selectedCategories,
-		setSelectedHandles: setSelectedCategories,
+		selectedHandles: selectedPagesCategories,
+		setSelectedHandles: setSelectedPagesCategories,
 		flattenedCollectionsEdges,
 	} = useBasicCollectionsHandleFilterManager({
 		collectionsEdges: collectionsBasic,
 	});
 
-	const selectedCategory = selectedCategories[0];
+	const selectedPageCategory = selectedPagesCategories[0];
 
 	const filteredCollections = useMemo(
 		() =>
 			collectionsByHandle.filter(
-				(item) => item[0] === selectedCategory,
+				(item) => item[0] === selectedPageCategory,
 			)?.[0]?.[1],
-		[collectionsByHandle, selectedCategory],
+		[collectionsByHandle, selectedPageCategory],
 	);
-	const firstCategory = categories[0];
+	const firstPageCategory = pagesCategories[0];
 
 	useEffect(() => {
-		if (!firstCategory) return;
-		setSelectedCategories([firstCategory]);
-	}, [firstCategory, setSelectedCategories]);
+		if (!firstPageCategory) return;
+		setSelectedPagesCategories([firstPageCategory]);
+	}, [firstPageCategory, setSelectedPagesCategories]);
 
 	return (
 		<article className="px-4 flex flex-col gap-8">
 			<header className="flex flex-col gap-4 px-8">
 				<h2 className="text-h1 leading-h2 font-semibold">New Releases</h2>
 				<div className="flex flex-wrap gap-x-4 gap-y-3 text-base">
-					{categories.map((item) => (
+					{pagesCategories.map((item) => (
 						<Clickable
 							key={item}
 							variants={null}
-							onClick={() => setSelectedCategories([item])}
+							onClick={() => setSelectedPagesCategories([item])}
 							className={cx(
 								'relative capitalize',
-								selectedCategory === item
+								selectedPageCategory === item
 									? 'text-text-primary-400/90 font-bold'
 									: 'text-text-primary-400/70 duration-100 hover:text-text-primary-500 focus:text-text-primary-500 outline-none font-medium',
 							)}
@@ -70,7 +70,7 @@ const FilteredProducts = ({
 								<div
 									className={cx(
 										'h-1 translate-y-full bg-special-primary-500',
-										selectedCategory === item ? 'w-11/12' : 'w-0',
+										selectedPageCategory === item ? 'w-11/12' : 'w-0',
 									)}
 								/>
 							</div>

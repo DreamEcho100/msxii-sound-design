@@ -160,6 +160,7 @@ const QuoteBoxView = (
 									'text-special-primary-800 hover:text-special-primary-600 focus:text-special-primary-600',
 									'dark:text-special-primary-600 dark:hover:text-special-primary-400 dark:focus:text-special-primary-400',
 								)}
+								type="button"
 								onClick={() => setIsFullTextActive((prev) => !prev)}
 							>
 								<strong className="font-semibold">

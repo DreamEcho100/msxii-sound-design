@@ -12,14 +12,14 @@ import { updateOneSliderSchema } from '~/server/utils/validations-schemas/dashbo
 import { UpdateOneInlineStyleCssSchema } from '~/server/utils/validations-schemas/dashboard/css/inlineStyles';
 
 export const dashboardRouter = createTRPCRouter({
-	categories: createTRPCRouter({
+	pagesCategories: createTRPCRouter({
 		getAll: adminProtectedProcedure.query(({ ctx }) => {
-			return ctx.drizzleQueryClient.query.category.findMany();
+			return ctx.drizzleQueryClient.query.pageCategory.findMany();
 		}),
 		getManyItems: adminProtectedProcedure
 			.input(
 				z.object({
-					categoryName: z.string().nonempty(),
+					pageCategoryName: z.string().nonempty(),
 					limit: z.number().min(1).max(100).optional().default(20),
 					cursor: z.date().nullish(), // <-- "cursor" needs to exist, but can be any type
 				}),
@@ -30,7 +30,7 @@ export const dashboardRouter = createTRPCRouter({
 				const items = await ctx.drizzleQueryClient.query.page.findMany({
 					where(fields, operators) {
 						return operators.and(
-							operators.eq(fields.categoryName, input.categoryName),
+							operators.eq(fields.pageCategoryName, input.pageCategoryName),
 							input.cursor ? lte(fields.createdAt, input.cursor) : undefined,
 						);
 					},
@@ -225,6 +225,37 @@ export const dashboardRouter = createTRPCRouter({
 								slidesPerViewType: input.slidesPerViewType,
 							})
 							.where(eq(ctx.drizzleSchema.slider.id, input.id));
+
+						return box;
+					}),
+			}),
+			tabs: createTRPCRouter({
+				updateOneName: adminProtectedProcedure
+					.input(
+						z.object({
+							boxToTabsId: z.string().cuid(),
+							title: z.string().min(3),
+						}),
+					)
+					.mutation(async ({ ctx, input }) => {
+						const box = await ctx.drizzleQueryClient.query.boxToTabs.findFirst({
+							where(fields, operators) {
+								return operators.eq(fields.id, input.boxToTabsId);
+							},
+						});
+
+						if (!box) {
+							throw new Error('Box not found');
+						}
+
+						box.title = input.title ?? box.title;
+
+						await ctx.drizzleQueryClient
+							.update(ctx.drizzleSchema.boxToTabs)
+							.set({
+								title: input.title,
+							})
+							.where(eq(ctx.drizzleSchema.boxToTabs.id, input.boxToTabsId));
 
 						return box;
 					}),

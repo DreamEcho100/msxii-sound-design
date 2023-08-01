@@ -26,7 +26,7 @@ const ProductImageShowcase = ({ productData }: { productData: Product }) => {
 		<div
 			className={cx(
 				'flex flex-col gap-2 lg:flex-row max-w-full',
-				hasImagesVariations ? 'md:w-5/12 lg:w-6/12' : 'md:w-5/12'
+				hasImagesVariations ? 'md:w-5/12 lg:w-6/12' : 'md:w-5/12',
 			)}
 		>
 			<ImageMagnifier
@@ -45,16 +45,16 @@ const ProductImageShowcase = ({ productData }: { productData: Product }) => {
 						className: 'max-w-full max-h-[24rem] lg:max-w-[6rem]',
 						breakpoints: {
 							1024: {
-								direction: 'vertical'
-							}
+								direction: 'vertical',
+							},
 						},
 						slidesPerView: 4,
 						spaceBetween: 8,
-						autoplay: false
+						autoplay: false,
 					}}
 					isNavButtonsOutside
 					containerProps={{
-						className: 'h-fit'
+						className: 'h-fit',
 					}}
 				>
 					{productData.images.edges.map(({ node }) => (
@@ -66,8 +66,9 @@ const ProductImageShowcase = ({ productData }: { productData: Product }) => {
 							<button
 								className={cx(
 									'block w-full transition-all duration-300',
-									selectedImage === node ? 'p-2' : ''
+									selectedImage === node ? 'p-2' : '',
 								)}
+								type="button"
 								onClick={() => setSelectedImage(node)}
 							>
 								<CustomNextImage
@@ -78,7 +79,7 @@ const ProductImageShowcase = ({ productData }: { productData: Product }) => {
 										'aspect-square w-full h-full object-cover transition-all duration-300',
 										selectedImage === node
 											? 'ring-4 ring-special-primary-500 rounded-lg'
-											: 'rounded-md'
+											: 'rounded-md',
 									)}
 								/>
 							</button>
@@ -93,7 +94,7 @@ const ProductImageShowcase = ({ productData }: { productData: Product }) => {
 const CustomProductScreen = ({
 	productData,
 	children,
-	ctaButtonProps = {}
+	ctaButtonProps = {},
 }: {
 	children?: ReactNode;
 	productData: Product;
@@ -117,12 +118,12 @@ const CustomProductScreen = ({
 										<ProductPrice
 											price={{
 												amount: Number(mainVariant.price.amount),
-												currencyCode: mainVariant.price.currencyCode
+												currencyCode: mainVariant.price.currencyCode,
 											}}
 											compareAtPrice={
 												mainVariant.compareAtPrice && {
 													amount: Number(mainVariant.compareAtPrice.amount),
-													currencyCode: mainVariant.compareAtPrice.currencyCode
+													currencyCode: mainVariant.compareAtPrice.currencyCode,
 												}
 											}
 										/>
@@ -165,7 +166,7 @@ const CustomProductScreen = ({
 				<div
 					className="custom-prose p-4"
 					dangerouslySetInnerHTML={{
-						__html: productData.descriptionHtml || productData.description
+						__html: productData.descriptionHtml || productData.description,
 					}}
 				/>
 			</section>
@@ -187,12 +188,12 @@ const CustomProductScreen = ({
 										<ProductPrice
 											price={{
 												amount: Number(mainVariant.price.amount),
-												currencyCode: mainVariant.price.currencyCode
+												currencyCode: mainVariant.price.currencyCode,
 											}}
 											compareAtPrice={
 												mainVariant.compareAtPrice && {
 													amount: Number(mainVariant.compareAtPrice.amount),
-													currencyCode: mainVariant.compareAtPrice.currencyCode
+													currencyCode: mainVariant.compareAtPrice.currencyCode,
 												}
 											}
 										/>

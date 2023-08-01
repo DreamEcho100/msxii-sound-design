@@ -3,7 +3,7 @@ import { BiX } from 'react-icons/bi';
 import { api } from '~/utils/api';
 
 export default function MainSideMenu() {
-	const categoriesQuery = api.dashboard.categories.getAll.useQuery();
+	const pagesCategoriesQuery = api.dashboard.pagesCategories.getAll.useQuery();
 
 	return (
 		<div className="py-8 bg-initial-primary-500 text-initial-secondary-0 h-full">
@@ -11,12 +11,12 @@ export default function MainSideMenu() {
 				<ul>
 					<li className="flex flex-col capitalize">
 						<p className="px-12">custom pages</p>
-						{categoriesQuery.isLoading ? (
+						{pagesCategoriesQuery.isLoading ? (
 							<p className="px-12">
 								<span className="px-2" />
 								<span>Loading...</span>
 							</p>
-						) : categoriesQuery.isError ? (
+						) : pagesCategoriesQuery.isError ? (
 							<p className="px-12">
 								<span className="px-2" />
 								<span>
@@ -25,16 +25,16 @@ export default function MainSideMenu() {
 							</p>
 						) : (
 							<ul className="flex flex-col">
-								{categoriesQuery.data.map((category) => (
-									<li key={category.id}>
+								{pagesCategoriesQuery.data.map((pageCategory) => (
+									<li key={pageCategory.id}>
 										<Link
 											className="py-1 px-12 capitalize flex hover:bg-initial-primary-400/70"
-											href={`/dashboard/custom-pages/${category.name}`}
+											href={`/dashboard/custom-pages/${pageCategory.name}`}
 										>
 											<span className="px-2" />
 											<span>
-												{category.name.replaceAll('-', ' ')}&nbsp;(
-												{category.counter})
+												{pageCategory.name.replaceAll('-', ' ')}&nbsp;(
+												{pageCategory.counter})
 											</span>
 										</Link>
 									</li>

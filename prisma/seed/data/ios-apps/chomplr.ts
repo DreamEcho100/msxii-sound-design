@@ -9,7 +9,7 @@ import {
 	Grid,
 } from '../../../../src/utils/types/custom-page';
 import { createStandardSection } from '../../utils';
-import { iosAppPagesCategory } from '../categories';
+import { iosAppPagesPageCategory } from '../pagesCategories';
 
 export const ChomplrOSApp: StandardSection[] = (() => {
 	const appLink = 'https://apps.apple.com/us/app/chomplr/id1470553213';
@@ -381,7 +381,7 @@ const chomplrPageData: CustomPage = {
 		src: 'https://www.msxaudio.com/cdn/shop/t/28/assets/pf-20a78d33--2Chomplr-Banner-1920800.png?v=1591588728',
 	},
 	// title: 'Chomplr',
-	categoryName: iosAppPagesCategory.name,
+	pageCategoryName: iosAppPagesPageCategory.name,
 	pageStructure: ChomplrOSApp,
 };
 

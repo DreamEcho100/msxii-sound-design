@@ -33,6 +33,9 @@ export async function getStaticPaths() {
 						},
 					},
 				},
+				where(fields, operators) {
+					return not(operators.eq(fields.name, 'ios-apps'));
+				},
 			})
 			.then((result) => {
 				const paths = result
@@ -57,7 +60,6 @@ export async function getStaticPaths() {
 }
 
 export const getStaticProps = async (ctx: GetStaticPropsContext) => {
-	console.log('___ ctx.params', ctx.params);
 	const pageParams = z
 		.object({
 			pageCategoryName: z.string().nonempty(),

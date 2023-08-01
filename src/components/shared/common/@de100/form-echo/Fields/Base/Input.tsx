@@ -19,9 +19,7 @@ export type InputProps = InputHTMLAttributes<HTMLInputElement> & {
 };
 
 const InputFormField = (props: InputProps) => {
-  const { classVariants, ..._props } = props;
-
-  console.log("classVariants", classVariants);
+  const { classVariants, ..._props } = props; 
 
   const inputProps = {
     ..._props,

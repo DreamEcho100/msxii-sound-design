@@ -1,5 +1,5 @@
 import { useCallback } from 'react';
-import { type CheckoutLineItem } from 'shopify-buy';
+import { type Checkout } from 'shopify-buy';
 import { useStore } from 'zustand';
 import { globalStore } from '~/store';
 import { RouterInputs, api } from '~/utils/api';
@@ -111,12 +111,11 @@ export const useSignOutMutation = ({
 };
 
 export const useMutateCart = () => {
-	const setCartLineItems = useStore(
-		globalStore,
-		(store) => store.cart.setCartLineItems,
-	);
 	const checkoutId = useStore(globalStore, (store) => store.cart.data?.id);
-	const lineItems = useStore(globalStore, (store) => store.cart.lineItems);
+	const lineItems = useStore(
+		globalStore,
+		(store) => store.cart.data?.lineItems || [],
+	);
 
 	const addManyLineItemCheckouts =
 		api.shopify.checkouts.lineItems.addMany.useMutation();
@@ -168,7 +167,7 @@ export const useMutateCart = () => {
 				lineItemsToAdd.push(lineItem);
 			});
 
-			let lineItemsResult: CheckoutLineItem[] | null = null;
+			let checkout: Checkout | null = null;
 
 			if (lineItemsToAdd.length > 0)
 				await addManyLineItemCheckouts
@@ -177,7 +176,7 @@ export const useMutateCart = () => {
 						lineItems: lineItemsToAdd,
 					})
 					.then((result) => {
-						lineItemsResult = result.lineItems;
+						checkout = result;
 					});
 
 			if (lineItemsToUpdate.length > 0)
@@ -187,16 +186,19 @@ export const useMutateCart = () => {
 						lineItems: lineItemsToUpdate,
 					})
 					.then((result) => {
-						lineItemsResult = result.lineItems;
+						checkout = result;
 					});
 
-			if (lineItemsResult) setCartLineItems(lineItemsResult, toOpenCart);
+			if (checkout)
+				globalStore.getState().cart.setId({
+					type: 'updating-cart',
+					payload: { data: checkout, toOpenCart },
+				});
 		},
 		[
 			checkoutId,
 			addManyLineItemCheckouts,
 			lineItems,
-			setCartLineItems,
 			updateManyLineItemCheckouts,
 		],
 	);
@@ -221,7 +223,7 @@ export const useMutateCart = () => {
 				lineItemsToUpdate.push(lineItem);
 			});
 
-			let lineItemsResult: CheckoutLineItem[] | null = null;
+			let checkout: Checkout | null = null;
 
 			if (lineItemsToUpdate.length > 0)
 				await updateManyLineItemCheckouts
@@ -230,7 +232,7 @@ export const useMutateCart = () => {
 						lineItems: lineItemsToUpdate,
 					})
 					.then((result) => {
-						lineItemsResult = result.lineItems;
+						checkout = result;
 					});
 
 			if (lineItemIdsToRemove.length > 0)
@@ -240,17 +242,16 @@ export const useMutateCart = () => {
 						lineItemIds: lineItemIdsToRemove,
 					})
 					.then((result) => {
-						lineItemsResult = result.lineItems;
+						checkout = result;
 					});
 
-			if (lineItemsResult) setCartLineItems(lineItemsResult, toOpenCart);
+			if (checkout)
+				globalStore.getState().cart.setId({
+					type: 'updating-cart',
+					payload: { data: checkout, toOpenCart },
+				});
 		},
-		[
-			checkoutId,
-			removeManyLineItemCheckouts,
-			setCartLineItems,
-			updateManyLineItemCheckouts,
-		],
+		[checkoutId, removeManyLineItemCheckouts, updateManyLineItemCheckouts],
 	);
 
 	const removeToCartAsync = useCallback(
@@ -265,9 +266,14 @@ export const useMutateCart = () => {
 					checkoutId,
 					lineItemIds: input.lineItemIds,
 				})
-				.then((result) => setCartLineItems(result.lineItems, toOpenCart));
+				.then((result) =>
+					globalStore.getState().cart.setId({
+						type: 'updating-cart',
+						payload: { data: result, toOpenCart },
+					}),
+				);
 		},
-		[checkoutId, removeManyLineItemCheckouts, setCartLineItems],
+		[checkoutId, removeManyLineItemCheckouts],
 	);
 
 	return {

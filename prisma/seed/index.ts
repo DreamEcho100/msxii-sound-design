@@ -65,6 +65,7 @@ const seedPage = async (page: CustomPage) => {
 			id: createId(),
 			slug: page.slug,
 			updatedAt: null,
+			isActive: typeof page.isActive === 'boolean' ? page.isActive : true,
 			css: {
 				create: {
 					id: createId(),

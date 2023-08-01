@@ -19,6 +19,8 @@ const defaultIOSAppsPages: CustomPage = {
 	// title: 'Lo-Fly Dirt',
 	// slug: 'lo-fly-dirt',
 	pageCategoryName: iosAppPagesPageCategory.name,
+	title: 'IOS Apps',
+	description: null,
 	pageStructure: [
 		createStandardSection({
 			order: 0,

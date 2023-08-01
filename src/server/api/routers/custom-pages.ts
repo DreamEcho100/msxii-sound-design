@@ -4,7 +4,7 @@ import { z } from 'zod';
 
 import { CustomPages } from '~/utils/appData';
 import { createTRPCRouter, publicProcedure } from '~/server/api/trpc';
-import { lte } from 'drizzle-orm';
+import { isNull, lte } from 'drizzle-orm';
 
 export const customPagesRouter = createTRPCRouter({
 	getAll: publicProcedure.query(() => {
@@ -171,12 +171,17 @@ export const customPagesRouter = createTRPCRouter({
 								},
 							},
 						},
+						orderBy(fields, operators) {
+							return operators.asc(fields.order);
+						},
 					},
 				},
 				where(fields, operators) {
 					return operators.and(
 						operators.eq(fields.pageCategoryName, input.pageCategoryName),
-						input.slug ? operators.eq(fields.slug, input.slug) : undefined,
+						input.slug
+							? operators.eq(fields.slug, input.slug)
+							: isNull(fields.slug),
 					);
 				},
 			});

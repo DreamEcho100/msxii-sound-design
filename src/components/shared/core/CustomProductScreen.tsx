@@ -151,7 +151,19 @@ const CustomProductScreen = ({
 							className="uppercase"
 							disabled={!productData.availableForSale || selectedQuantity === 0}
 							variants={{ btn: 'primary' }}
+							title={
+								!productData.availableForSale
+									? 'Not available for sale'
+									: undefined
+							}
 						/>
+						{!productData.availableForSale && (
+							<small className="text-red-500 text-[80%]">
+								<em>
+									<strong>Not available for sale</strong>
+								</em>
+							</small>
+						)}
 					</div>
 					<div className="aspect-square max-w-full w-60 lg:w-96 rounded-lg overflow-hidden">
 						<CustomNextImage

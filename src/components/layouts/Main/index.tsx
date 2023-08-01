@@ -29,8 +29,7 @@ const GettingCheckout = () => {
 			// Can be merged into a one call that updates the store
 			globalStore
 				.getState()
-				.cart.setId({ type: 'checkout-created', payload: result });
-			globalStore.getState().cart.setCartLineItems(result.lineItems);
+				.cart.setId({ type: 'checkout-created', payload: { data: result } });
 		},
 	});
 
@@ -42,8 +41,7 @@ const GettingCheckout = () => {
 		onSuccess: (result) => {
 			globalStore
 				.getState()
-				.cart.setId({ type: 'line-items-fetched', payload: result });
-			globalStore.getState().cart.setCartLineItems(result.lineItems);
+				.cart.setId({ type: 'line-items-fetched', payload: { data: result } });
 		},
 	});
 

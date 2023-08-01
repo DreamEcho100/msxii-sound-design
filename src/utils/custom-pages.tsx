@@ -9,10 +9,10 @@ export type CustomPageProps = {
 		pageCategoryName: string;
 		slug?: string | null;
 	};
-	getOnePageCategoryQuery: UseTRPCQueryResult<
-		RouterOutputs['dashboard']['pagesCategories']['getOne'],
-		unknown // TRPCClientErrorLike<TProcedure>
-	>;
+	// getOnePageCategoryQuery: UseTRPCQueryResult<
+	// 	RouterOutputs['dashboard']['pagesCategories']['getOne'],
+	// 	unknown // TRPCClientErrorLike<TProcedure>
+	// >;
 	customPageStructureQuery: UseTRPCQueryResult<
 		RouterOutputs['customPages']['_getOne'],
 		unknown // TRPCClientErrorLike<TProcedure>
@@ -44,8 +44,6 @@ export const useGetCustomPageData = (props?: {
 
 	const isInAdminPage = !!router.pathname?.startsWith('/dashboard');
 
-	// console.log('___ params', params.get('pageCategoryName'), params.get('slug'));
-
 	const pageParams: {
 		pageCategoryName?: string;
 		slug?: string | null;
@@ -64,10 +62,6 @@ export const useGetCustomPageData = (props?: {
 			: {};
 	}, [props?.pageParams, router.isReady, router.query]);
 
-	console.log('___ props?.pageParams', props?.pageParams);
-	console.log('___ pageParams', pageParams);
-	console.log('___ params', router.query);
-
 	const isAShowcasePage = useMemo(
 		() =>
 			!pageParams.slug &&
@@ -75,27 +69,25 @@ export const useGetCustomPageData = (props?: {
 				!!pageParams.pageCategoryName),
 		[pageParams?.slug, pageParams.pageCategoryName, props?.isAShowcasePage],
 	);
-	console.log('____ isAShowcasePage', isAShowcasePage);
 
-	const getOnePageCategoryQuery = api.dashboard.pagesCategories.getOne.useQuery(
-		{ pageCategoryName: pageParams.pageCategoryName! },
-		{ enabled: isAShowcasePage },
-	);
+	// const getOnePageCategoryQuery = api.dashboard.pagesCategories.getOne.useQuery(
+	// 	{ pageCategoryName: pageParams.pageCategoryName! },
+	// 	{ enabled: isAShowcasePage },
+	// );
 
 	const isACustomPage = useMemo(
 		() =>
 			typeof props?.isACustomPage === 'boolean' ||
-			typeof pageParams.slug === 'string' ||
-			!!getOnePageCategoryQuery.data?.isAPage ||
-			!!(
-				pageParams.pageCategoryName &&
-				['ios-apps'].includes(pageParams.pageCategoryName)
-			),
+			typeof pageParams.pageCategoryName === 'string',
+		// !!getOnePageCategoryQuery.data?.isAPage ||
+		// !!(
+		// 	pageParams.pageCategoryName &&
+		// 	['ios-apps'].includes(pageParams.pageCategoryName)
+		// )
 		[
 			props?.isACustomPage,
-			pageParams.slug,
 			pageParams.pageCategoryName,
-			getOnePageCategoryQuery.data?.isAPage,
+			// getOnePageCategoryQuery.data?.isAPage,
 		],
 	);
 
@@ -118,7 +110,7 @@ export const useGetCustomPageData = (props?: {
 		isACustomPage,
 		isAShowcasePage,
 		isInAdminPage,
-		getOnePageCategoryQuery,
+		// getOnePageCategoryQuery,
 		customPageStructureQuery,
 		getManyPagesCategoriesItemsQuery,
 	};

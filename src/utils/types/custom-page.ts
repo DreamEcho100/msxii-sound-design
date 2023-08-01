@@ -121,7 +121,7 @@ export type Box =
 			customPageClassesKeys?: string[];
 			___type: (typeof BOXES_TYPES_map)['header'];
 			title: string;
-			description?: string;
+			description?: string | null;
 	  }
 	| ImageOnly
 	| MdBox
@@ -153,6 +153,7 @@ export type CustomPage = {
 	pageStructure: StandardSection[];
 	title?: string | null;
 	description?: string | null;
+	isActive?: boolean;
 	image?: {
 		src: string;
 		altText?: string;

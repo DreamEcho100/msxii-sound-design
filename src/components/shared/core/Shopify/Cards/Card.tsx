@@ -158,7 +158,15 @@ export const ProductExtraDetails = ({
 				{...(buttonProps as any)}
 				productVariant={productVariant}
 				disabled={!product.availableForSale}
+				title={!product.availableForSale ? 'Not available for sale' : undefined}
 			/>
+			{!product.availableForSale && (
+				<small className="text-red-500 text-[80%]">
+					<em>
+						<strong>Not available for sale</strong>
+					</em>
+				</small>
+			)}
 		</>
 	);
 };

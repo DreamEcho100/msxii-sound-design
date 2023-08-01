@@ -15,7 +15,10 @@ const CartDropdown = () => {
 		globalStore,
 		(store) => store.cart.isCartDropdownOpen,
 	);
-	const cartLineItems = useStore(globalStore, (store) => store.cart.lineItems);
+	const cartLineItems = useStore(
+		globalStore,
+		(store) => store.cart.data?.lineItems || [],
+	);
 
 	return (
 		<AnimatePresence>
@@ -60,6 +63,12 @@ const CartDropdown = () => {
 	);
 };
 
+const getInitDefaultCartDetails = () => ({
+	totalPrice: 0,
+	quantity: 0,
+	currencyCode: 'USD',
+});
+
 const CartDetails = () => {
 	const cartTotalPrice = useStore(
 		globalStore,
@@ -70,18 +79,17 @@ const CartDetails = () => {
 		(store) => store.cart.data?.currencyCode,
 	);
 	const webUrl = useStore(globalStore, (store) => store.cart.data?.webUrl);
-	const { quantity, totalPrice } = useStore(globalStore, (store) =>
-		store.cart.lineItems.reduce(
-			(acc, item) => {
+	const { quantity, totalPrice } = useStore(
+		globalStore,
+		(store) =>
+			store.cart.data?.lineItems.reduce((acc, item) => {
 				acc.totalPrice +=
 					Number(item.unitPrice?.amount || item.variant?.price.amount || 0) *
 					item.quantity;
 				acc.quantity += item.quantity;
 				acc.currencyCode = item.unitPrice?.currencyCode || acc.currencyCode;
 				return acc;
-			},
-			{ totalPrice: 0, quantity: 0, currencyCode: 'USD' },
-		),
+			}, getInitDefaultCartDetails()) || getInitDefaultCartDetails(),
 	);
 
 	return (

@@ -72,10 +72,6 @@ const EditBoxModal = (props: {
 					<div className="pointer-events-auto w-72 max-w-screen-sm bg-white p-8 rounded-md">
 						<Form
 							onSubmit={async (event, params) => {
-								console.log(
-									'___ params.validatedValues',
-									params.validatedValues,
-								);
 								event.preventDefault();
 								await updateOneRequest.mutateAsync({
 									boxToTabsId: props.boxToTabsId,
@@ -160,7 +156,11 @@ export default function CustomTabs(props: {
 									// EditSideMenuChildren={props.EditSideMenuChildren}
 									// ShowcaseBoxChildren={props.ShowcaseBoxChildren}
 									// childrenAfter={props.childrenAfter}
-									onSuccess={(params) => {
+									onSuccess={(params: {
+										validatedValues: {
+											title: string;
+										};
+									}) => {
 										props.pageStore.getState().utils.setPage((page) => {
 											return newUpdatedByPathArray<
 												// eslint-disable-next-line @typescript-eslint/ban-types

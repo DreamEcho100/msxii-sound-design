@@ -6,10 +6,15 @@ import { globalStore } from '~/store';
 const CartDropdownButton = () => {
 	const toggleCartDropdown = useStore(
 		globalStore,
-		(store) => store.cart.toggleCartDropdown
+		(store) => store.cart.toggleCartDropdown,
 	);
-	const cartItemsSize = useStore(globalStore, (store) =>
-		store.cart.lineItems.reduce((acc, item) => acc + item.quantity, 0)
+	const cartItemsSize = useStore(
+		globalStore,
+		(store) =>
+			store.cart.data?.lineItems.reduce(
+				(acc, item) => acc + item.quantity,
+				0,
+			) || 0,
 	);
 
 	return (

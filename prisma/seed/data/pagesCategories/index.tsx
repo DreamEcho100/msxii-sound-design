@@ -6,7 +6,7 @@ export const iosAppPagesPageCategory = {
 	name: 'ios-apps' as const,
 	counter: 5,
 	hasSubPages: true,
-	isAPage: false,
+	isAPage: true,
 };
 export const aboutPageCategory = {
 	id: 'olr0j2np96eoydnmmt77vcxo',
@@ -27,7 +27,7 @@ export const policiesPageCategory = {
 	name: 'policies' as const,
 	counter: 1,
 	hasSubPages: true,
-	isAPage: false,
+	isAPage: true,
 };
 export const merchPageCategory = {
 	id: 'bkn7jft2ecnpt9ih8o05zpuv',
@@ -43,14 +43,24 @@ export const blueLabelPageCategory = {
 	hasSubPages: false,
 	isAPage: true,
 };
+export const productsPageCategory = {
+	id: 'jxhw3jtc4opuu0eg4y7nb07l',
+	name: 'products' as const,
+	counter: 1,
+	hasSubPages: true,
+	isAPage: true,
+};
 
 const pagesCategories = [
-	iosAppPagesPageCategory,
-	aboutPageCategory,
-	supportPageCategory,
-	policiesPageCategory,
-	merchPageCategory,
-	blueLabelPageCategory,
+	...new Set([
+		iosAppPagesPageCategory,
+		aboutPageCategory,
+		supportPageCategory,
+		policiesPageCategory,
+		merchPageCategory,
+		blueLabelPageCategory,
+		productsPageCategory,
+	]),
 ];
 
 export default pagesCategories;

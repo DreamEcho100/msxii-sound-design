@@ -169,16 +169,8 @@ const CustomPageScreen = (props: Props) => {
 			<>{pageCategoryItemsData?.message || customPageStructureData?.message}</>
 		);
 
-	console.log('____ pageParams.pageCategoryName', pageParams.pageCategoryName);
-
 	return (
 		<section className="flex flex-col gap-10">
-			{/* <header className="flex flex-col gap-6 lg:text-align-initial">
-				<h1 className="text-h3 font-semibold">iOS Apps</h1>
-				<p className="text-text-primary-400 font-light">
-					Explore our unique and practical iOS apps.
-				</p>
-			</header> */}
 			{customPageStructureData.status === 'success' && (
 				<CustomPageBuilder_ page={customPageStructureData.data}>
 					{pageParams.pageCategoryName === 'merch' ? (

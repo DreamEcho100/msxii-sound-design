@@ -1,8 +1,10 @@
+import { createStandardSection } from '../../utils';
 import { CustomPage } from '../../../../src/utils/types/custom-page';
 import {
 	aboutPageCategory,
 	blueLabelPageCategory,
 	policiesPageCategory,
+	productsPageCategory,
 	supportPageCategory,
 } from '../pagesCategories/index';
 
@@ -18,7 +20,7 @@ const otherCustomPages: CustomPage[] = [
 		},
 		// slug: 'about',
 		pageCategoryName: aboutPageCategory.name,
-		title: 'about',
+		title: 'About',
 		description: '',
 		pageStructure: [
 			{
@@ -54,6 +56,33 @@ With any questions regarding our kits, breaks, or sample packs, contact us at ms
 	},
 	{
 		twClassNameVariants: {
+			py: '8',
+			'gap-x': '16',
+			'gap-y': '16',
+		},
+		// image: {
+		// 	src: 'https://www.msxaudio.com/cdn/shop/t/28/assets/pf-14628b40-cf9b-4aa0-bb27-4a9d4df56e9c--LoFly-Dirt-App-Banner.jpg?v=1580772023',
+		// },
+		// title: 'Lo-Fly Dirt',
+		// slug: 'lo-fly-dirt',
+		pageCategoryName: policiesPageCategory.name,
+		title: 'Policies',
+		description: null,
+		pageStructure: [
+			createStandardSection({
+				order: 0,
+				body: [
+					{
+						___type: 'header',
+						title: 'Policies',
+						description: null, // 'Explore our unique and practical iOS apps.',
+					},
+				],
+			}),
+		],
+	},
+	{
+		twClassNameVariants: {
 			'max-w': '100ch',
 			mx: 'auto',
 			px: '12',
@@ -63,7 +92,7 @@ With any questions regarding our kits, breaks, or sample packs, contact us at ms
 		},
 		// slug: 'support',
 		pageCategoryName: supportPageCategory.name,
-		title: 'support',
+		title: 'Support',
 		description: '',
 		pageStructure: [
 			{
@@ -121,7 +150,7 @@ For all other questions and inquiries, feel free to email our support at support
 		},
 		slug: 'license-agreement',
 		pageCategoryName: policiesPageCategory.name,
-		title: 'policies',
+		title: 'Policies',
 		description: 'policies - license agreement',
 		pageStructure: [
 			{
@@ -181,7 +210,7 @@ All bundle and discounted purchases and prices apply only to the product line at
 		},
 		// slug: 'merch',
 		pageCategoryName: 'merch',
-		title: 'merch',
+		title: 'Merch',
 		description: '',
 		pageStructure: [
 			{
@@ -203,7 +232,7 @@ All bundle and discounted purchases and prices apply only to the product line at
 		},
 		// slug: 'blue-label',
 		pageCategoryName: blueLabelPageCategory.name,
-		title: 'blue-label',
+		title: 'Bue Label',
 		description: 'Explore our merch products',
 		pageStructure: [
 			{
@@ -228,6 +257,33 @@ All bundle and discounted purchases and prices apply only to the product line at
 					},
 				],
 			},
+		],
+	},
+	{
+		twClassNameVariants: {
+			py: '8',
+			'gap-x': '16',
+			'gap-y': '16',
+		},
+		// image: {
+		// 	src: 'https://www.msxaudio.com/cdn/shop/t/28/assets/pf-14628b40-cf9b-4aa0-bb27-4a9d4df56e9c--LoFly-Dirt-App-Banner.jpg?v=1580772023',
+		// },
+		// title: 'Lo-Fly Dirt',
+		// slug: 'lo-fly-dirt',
+		pageCategoryName: productsPageCategory.name,
+		title: 'Products',
+		description: null,
+		pageStructure: [
+			createStandardSection({
+				order: 0,
+				body: [
+					{
+						___type: 'header',
+						title: 'Products',
+						description: null, // 'Explore our unique and practical iOS apps.',
+					},
+				],
+			}),
 		],
 	},
 	// 	{

@@ -1,20 +1,20 @@
 import { createStore } from 'zustand';
 import { ShopifyCustomer } from '~/utils/shopify/types';
 
-import { Checkout, CheckoutLineItem } from 'shopify-buy';
+import { Checkout } from 'shopify-buy';
 
 interface GlobalStore {
 	cart: {
 		// id?: string;
-		lineItems: CheckoutLineItem[];
+		// lineItems: CheckoutLineItem[];
 
 		isCartDropdownOpen: boolean;
 		toggleCartDropdown(): void;
-		addToCart(
-			product: CheckoutLineItem, // | ShopifyProduct | ShopifyProductVariant,
-			quantity: number | ((value: number) => number),
-		): void;
-		setCartLineItems(lineItems: CheckoutLineItem[], toOpenCart?: boolean): void;
+		// addToCart(
+		// 	product: CheckoutLineItem, // | ShopifyProduct | ShopifyProductVariant,
+		// 	quantity: number | ((value: number) => number),
+		// ): void;
+		// setCartLineItems(lineItems: CheckoutLineItem[], toOpenCart?: boolean): void;
 
 		setId: (
 			params:
@@ -31,8 +31,11 @@ interface GlobalStore {
 						payload?: null;
 				  }
 				| {
-						type: 'checkout-created' | 'line-items-fetched';
-						payload: Checkout;
+						type: 'checkout-created' | 'line-items-fetched' | 'updating-cart';
+						payload: {
+							data: Checkout;
+							toOpenCart?: boolean;
+						};
 				  },
 		) => void;
 	} & (
@@ -54,7 +57,7 @@ interface GlobalStore {
 		| {
 				isLoading: false;
 				isSuccess: true;
-				status: 'checkout-created' | 'line-items-fetched';
+				status: 'checkout-created' | 'line-items-fetched' | 'updating-cart';
 				data: Checkout;
 		  }
 	);
@@ -177,70 +180,70 @@ export const globalStore = createStore<GlobalStore>((set, get) => ({
 					isCartDropdownOpen: !cart.isCartDropdownOpen,
 				},
 			})),
-		setCartLineItems(lineItems, toOpenCart = false) {
-			// get().menus.closeAllMenus();
-			set(({ cart, menus }) => {
-				if (toOpenCart) menus.closeAllMenus();
+		// setCartLineItems(lineItems, toOpenCart = false) {
+		// 	// get().menus.closeAllMenus();
+		// 	set(({ cart, menus }) => {
+		// 		if (toOpenCart) menus.closeAllMenus();
 
-				return {
-					cart: {
-						...cart,
-						lineItems,
-						isCartDropdownOpen: toOpenCart,
-					},
-				};
-			});
-		},
-		addToCart: (product, quantity) =>
-			set(({ cart }) => {
-				get().menus.closeAllMenus();
-				const cartItemIndex = cart.lineItems.findIndex(
-					(item) => item.id === product.id,
-				);
+		// 		return {
+		// 			cart: {
+		// 				...cart,
+		// 				lineItems,
+		// 				isCartDropdownOpen: toOpenCart,
+		// 			},
+		// 		};
+		// 	});
+		// },
+		// addToCart: (product, quantity) =>
+		// 	set(({ cart }) => {
+		// 		get().menus.closeAllMenus();
+		// 		const cartItemIndex = cart.lineItems.findIndex(
+		// 			(item) => item.id === product.id,
+		// 		);
 
-				let cartItems: typeof cart.lineItems = [];
+		// 		let cartItems: typeof cart.lineItems = [];
 
-				if (cartItemIndex === -1) {
-					cartItems = [
-						{
-							...product,
-							quantity: typeof quantity === 'function' ? quantity(0) : quantity,
-						},
-						...cart.lineItems,
-					];
-				} else {
-					let cartItem: (typeof cart.lineItems)[number];
-					let cartItemQuantity: number;
+		// 		if (cartItemIndex === -1) {
+		// 			cartItems = [
+		// 				{
+		// 					...product,
+		// 					quantity: typeof quantity === 'function' ? quantity(0) : quantity,
+		// 				},
+		// 				...cart.lineItems,
+		// 			];
+		// 		} else {
+		// 			let cartItem: (typeof cart.lineItems)[number];
+		// 			let cartItemQuantity: number;
 
-					for (let i = 0; i < cart.lineItems.length; i++) {
-						cartItem = cart.lineItems[i]!;
+		// 			for (let i = 0; i < cart.lineItems.length; i++) {
+		// 				cartItem = cart.lineItems[i]!;
 
-						if (i === cartItemIndex) {
-							cartItemQuantity =
-								typeof quantity === 'function'
-									? quantity(cartItem.quantity)
-									: cartItem.quantity + quantity;
+		// 				if (i === cartItemIndex) {
+		// 					cartItemQuantity =
+		// 						typeof quantity === 'function'
+		// 							? quantity(cartItem.quantity)
+		// 							: cartItem.quantity + quantity;
 
-							if (cartItemQuantity <= 0) continue;
-							cartItems.push({
-								...cartItem,
-								quantity: cartItemQuantity,
-							});
-							continue;
-						}
+		// 					if (cartItemQuantity <= 0) continue;
+		// 					cartItems.push({
+		// 						...cartItem,
+		// 						quantity: cartItemQuantity,
+		// 					});
+		// 					continue;
+		// 				}
 
-						cartItems.push(cartItem);
-					}
-				}
+		// 				cartItems.push(cartItem);
+		// 			}
+		// 		}
 
-				return {
-					cart: {
-						...cart,
-						lineItems: cartItems,
-						isCartDropdownOpen: true,
-					},
-				};
-			}),
+		// 		return {
+		// 			cart: {
+		// 				...cart,
+		// 				lineItems: cartItems,
+		// 				isCartDropdownOpen: true,
+		// 			},
+		// 		};
+		// 	}),
 
 		setId: ({ type, payload }) => {
 			if (process.env.NODE_ENV === 'development') {
@@ -250,7 +253,8 @@ export const globalStore = createStore<GlobalStore>((set, get) => ({
 				);
 			}
 
-			if (type === get().cart.status) return;
+			if (!['updating-cart'].includes(type) && type === get().cart.status)
+				return;
 
 			switch (type) {
 				case 'checking-stored':
@@ -283,16 +287,19 @@ export const globalStore = createStore<GlobalStore>((set, get) => ({
 					}));
 
 				case 'checkout-created':
+				case 'updating-cart':
 				case 'line-items-fetched':
 					type;
 					return set((prev) => ({
 						...prev,
 						cart: {
 							...prev.cart,
-							data: payload,
+							data: payload.data,
 							isLoading: false,
 							isSuccess: true,
 							status: type,
+							isCartDropdownOpen:
+								payload.toOpenCart || prev.cart.isCartDropdownOpen,
 						},
 					}));
 			}

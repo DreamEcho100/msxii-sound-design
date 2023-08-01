@@ -10,14 +10,14 @@ export default function BoxEditOverlay(props: {
 	pageStore: PageStoreApi;
 	EditSideMenuChildren: ReactNode;
 	ShowcaseBoxChildren: ReactNode;
-	boundaryMultiType?: 'sm' | 'semi-md';
+	// boundaryMultiType?: 'sm' | 'semi-md';
 }) {
 	// if (!router.pathname.startsWith('/dashboard')) return <></>;
 
 	return (
 		<BordersContainer
 			boxDeepLevel={props.boxDeepLevel}
-			boundaryMultiType={props.boundaryMultiType}
+			// boundaryMultiType={props.boundaryMultiType}
 			Component={EditBoxModal}
 			EditSideMenuChildren={props.EditSideMenuChildren}
 			ShowcaseBoxChildren={props.ShowcaseBoxChildren}

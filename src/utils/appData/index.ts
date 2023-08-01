@@ -1,6 +1,6 @@
 export * from './custom-pages/utils';
 
-import { CustomPage } from '../types/custom';
+import { CustomPage } from '../types/custom-page';
 
 export const loFlyDirtBasicData = {
 	title: 'Lo-Fly Dirt',

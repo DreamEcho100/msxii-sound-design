@@ -18,13 +18,13 @@ const config = {
 	 */
 	i18n: {
 		locales: ['en'],
-		defaultLocale: 'en'
+		defaultLocale: 'en',
 	},
 	images: {
-		domains: ['cdn.shopify.com']
+		domains: ['cdn.shopify.com'],
 	},
 	typescript: {
-		ignoreBuildErrors: true
-	}
+		ignoreBuildErrors: !process.env.IS_LOCAL_ENV,
+	},
 };
 export default config;

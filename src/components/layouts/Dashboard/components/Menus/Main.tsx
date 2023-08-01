@@ -29,7 +29,7 @@ export default function MainSideMenu() {
 									<li key={pageCategory.id}>
 										<Link
 											className="py-1 px-12 capitalize flex hover:bg-initial-primary-400/70"
-											href={`/dashboard/custom-pages/${pageCategory.name}`}
+											href={`/dashboard/custom-pages/${pageCategory.name}?isAPage=${pageCategory.isAPage}`}
 										>
 											<span className="px-2" />
 											<span>

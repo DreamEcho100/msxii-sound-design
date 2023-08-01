@@ -87,6 +87,7 @@ export const pageCategory = pgTable('PageCategory', {
 	name: text('name').notNull(),
 	counter: integer('counter').notNull(),
 	hasSubPages: boolean('hasSubPages').notNull(),
+	isAPage: boolean('isAPage').notNull(),
 });
 
 export const iframeBox = pgTable(

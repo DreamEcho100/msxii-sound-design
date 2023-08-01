@@ -271,6 +271,7 @@ model PageCategory {
   counter     Int       @default(0)
   pages       Page[]
   hasSubPages Boolean   @default(false)
+  isAPage     Boolean   @default(false)
 }
 
 model Image {

@@ -32,6 +32,7 @@ const PageCategoryItems = (props: {
 	return (
 		<div
 			className={cx(
+				'pb-8 px-12',
 				'grid gap-8 lg:flex-nowrap',
 				'grid gap-8 lg:justify-between lg:flex-nowrap',
 				data.length < 4
@@ -170,7 +171,7 @@ const CustomPageScreen = (props: Props) => {
 		);
 
 	return (
-		<section className="flex flex-col gap-10">
+		<section className="flex flex-col gap-8">
 			{customPageStructureData.status === 'success' && (
 				<CustomPageBuilder_ page={customPageStructureData.data}>
 					{pageParams.pageCategoryName === 'merch' ? (

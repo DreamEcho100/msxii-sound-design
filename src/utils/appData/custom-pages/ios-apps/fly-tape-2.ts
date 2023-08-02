@@ -194,6 +194,7 @@ The original Fly Tape was like seasoning to my production but part 2 is now a ma
 const flyTape2PageData: CustomPage = {
 	twClassNameVariants: {
 		'max-w': '100ch',
+		w: 'full',
 		mx: 'auto',
 		px: '8',
 		py: '16',

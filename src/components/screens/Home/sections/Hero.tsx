@@ -2,37 +2,34 @@ import CustomNextImage from '~/components/shared/CustomNextImage';
 import { motion } from 'framer-motion';
 import Clickable from '~/components/shared/core/Clickable';
 
-const heroImagesPathNumberTransformer = (num: number) =>
-	`/images/hero-section/${num}.png`;
-
 type MotionProps = Parameters<typeof motion.div>[0];
 type CustomMotionProps = MotionProps;
 
 const heroImages: (CustomMotionProps & { path: string })[] = [
 	{
-		path: heroImagesPathNumberTransformer(6)
+		path: 'https://res.cloudinary.com/dpjuamt6q/image/upload/v1690933160/6_yz2rnw.png',
 		// animate: { scale: 0.4, x: '30%', rotateZ: '12deg' }
 	},
 	{
-		path: heroImagesPathNumberTransformer(5)
+		path: 'https://res.cloudinary.com/dpjuamt6q/image/upload/v1690933155/5_qgre7m.png',
 		// animate: { scale: 0.5, x: '0%', rotateZ: '8deg' }
 	},
 	{
-		path: heroImagesPathNumberTransformer(4)
+		path: 'https://res.cloudinary.com/dpjuamt6q/image/upload/v1690933151/4_grv8js.png',
 		// animate: { scale: 0.6, x: '30%' }
 	},
 	{
-		path: heroImagesPathNumberTransformer(3)
+		path: 'https://res.cloudinary.com/dpjuamt6q/image/upload/v1690933147/3_fdxiym.png',
 		// animate: { scale: 0.6, x: '-15%', rotateZ: '-1.5deg' }
 	},
 	{
-		path: heroImagesPathNumberTransformer(2)
+		path: 'https://res.cloudinary.com/dpjuamt6q/image/upload/v1690933139/2_jtvunh.png',
 		// animate: { scale: 0.6, x: '-5%', rotateZ: '-1.5deg' }
 	},
 	{
-		path: heroImagesPathNumberTransformer(1)
+		path: 'https://res.cloudinary.com/dpjuamt6q/image/upload/v1690933134/1_otnqyt.png',
 		// animate: { scale: 0.6, x: '5%', rotateZ: '-1.5deg' }
-	}
+	},
 	// {
 	// 	path: heroImagesPathNumberTransformer(1),
 	// 	animate: { scale: 0.6, x: '15%', rotateZ: '-1.5deg' }
@@ -80,7 +77,7 @@ sm:py-main-p-1 lg:text-align-initial flex flex-col items-center justify-center g
 								btn: 'primary',
 								py: 'semi-md',
 								px: '3xl',
-								rounded: 'md'
+								rounded: 'md',
 							}}
 							className="mt-6"
 						>
@@ -98,14 +95,14 @@ sm:py-main-p-1 lg:text-align-initial flex flex-col items-center justify-center g
 							animate={{
 								scale: 0.75,
 								x: ((index + 1) / arr.length) * 170 - 100,
-								y: ((index + 1) / arr.length) * 100 - 50
+								y: ((index + 1) / arr.length) * 100 - 50,
 							}}
 							transition={{
 								// type: 'spring',
 								damping: 10,
 								stiffness: 100,
 								delay: 0.8,
-								duration: 0.5
+								duration: 0.5,
 							}}
 							className="w-full h-full aspect-square absolute inset-0"
 						>

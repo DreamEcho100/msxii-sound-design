@@ -365,6 +365,7 @@ MSXII Sound really took iOS music production/beat making to	another level with t
 const chomplrPageData: CustomPage = {
 	twClassNameVariants: {
 		'max-w': '100ch',
+		w: 'full',
 		mx: 'auto',
 		px: '8',
 		py: '16',

@@ -370,6 +370,7 @@ MSXII Sound really took iOS music production/beat making to	another level with t
 const chomplrPageData: CustomPage = {
 	twClassNameVariants: {
 		'max-w': '100ch',
+		w: 'full',
 		mx: 'auto',
 		px: '8',
 		py: '16',
@@ -378,7 +379,7 @@ const chomplrPageData: CustomPage = {
 	},
 	slug: 'chomplr',
 	image: {
-		src: 'https://www.msxaudio.com/cdn/shop/t/28/assets/pf-20a78d33--2Chomplr-Banner-1920800.png?v=1591588728',
+		src: 'https://res.cloudinary.com/dpjuamt6q/image/upload/v1690933296/Chomplr_i937ue.png',
 	},
 	// title: 'Chomplr',
 	pageCategoryName: iosAppPagesPageCategory.name,

@@ -199,6 +199,7 @@ The original Fly Tape was like seasoning to my production but part 2 is now a ma
 const flyTape2PageData: CustomPage = {
 	twClassNameVariants: {
 		'max-w': '100ch',
+		w: 'full',
 		mx: 'auto',
 		px: '8',
 		py: '16',
@@ -207,7 +208,7 @@ const flyTape2PageData: CustomPage = {
 	},
 	slug: 'fly-tape-2',
 	image: {
-		src: 'https://www.msxaudio.com/cdn/shop/t/28/assets/pf-6f5039ba--Fly-Tape-2-iOS-Banner.jpg?v=1617223433',
+		src: 'https://res.cloudinary.com/dpjuamt6q/image/upload/v1690933304/Fly_Tape_2_uxgyol.png',
 	},
 	// title: 'Fly Tape 2',
 	pageCategoryName: iosAppPagesPageCategory.name,

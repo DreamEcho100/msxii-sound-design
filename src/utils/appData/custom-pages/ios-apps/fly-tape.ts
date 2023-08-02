@@ -231,7 +231,7 @@ You can check out the reference guide below
 			{
 				twClassNameVariants: { rounded: '5xl', w: '40', h: '40' },
 				___type: 'image-only',
-				src: '/images/custom-page/FlyTapeappicon1.png',
+				src: 'https://res.cloudinary.com/dpjuamt6q/image/upload/v1690933087/image_8_sv6jc5.png',
 			},
 			{
 				___type: 'md',
@@ -263,6 +263,7 @@ You can check out the reference guide below
 const flyTapePageData: CustomPage = {
 	twClassNameVariants: {
 		'max-w': '100ch',
+		w: 'full',
 		mx: 'auto',
 		px: '8',
 		py: '16',

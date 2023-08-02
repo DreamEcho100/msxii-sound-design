@@ -117,7 +117,7 @@ You can check out the reference guide below:
 							],
 							// twClassNameVariants: { w: '96' },
 							___type: BOXES_TYPES_map['image-only'],
-							src: '/images/ios-apps/Lo-fly@2x (1).jpg',
+							src: 'https://res.cloudinary.com/dpjuamt6q/image/upload/v1690932837/Lo-fly_2x_1_mblfhp.jpg',
 						},
 					],
 				},
@@ -234,6 +234,7 @@ I love how this app makes my samples sound. Plus its so much easier to treat a t
 const loFlyDirtPageData: CustomPage = {
 	twClassNameVariants: {
 		'max-w': '100ch',
+		w: 'full',
 		mx: 'auto',
 		px: '8',
 		py: '16',

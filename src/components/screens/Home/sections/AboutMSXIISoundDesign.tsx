@@ -6,7 +6,7 @@ import Clickable from '~/components/shared/core/Clickable';
 const anchorClasses = cx(
 	'border-b-[0.0625rem] border-solid border-b-black',
 	'duration-150 transition-all',
-	'hover:text-text-primary-200 hover:border-b-text-primary-300'
+	'hover:text-text-primary-200 hover:border-b-text-primary-300',
 );
 
 const AboutMSXIISoundDesign = () => {
@@ -123,7 +123,7 @@ gap-8 pb-main-p-2 text-center text-base font-medium lg:w-3/4 lg:max-w-screen-md 
 				</div>
 				<div className="flex items-start justify-center lg:flex-grow">
 					<CustomNextImage
-						src="/images/image 8.png"
+						src="https://res.cloudinary.com/dpjuamt6q/image/upload/v1690933087/image_8_sv6jc5.png"
 						width={600}
 						height={500}
 						className="w-3/4 md:w-1/2 lg:w-11/12"

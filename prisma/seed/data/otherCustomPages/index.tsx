@@ -12,6 +12,7 @@ const otherCustomPages: CustomPage[] = [
 	{
 		twClassNameVariants: {
 			'max-w': '100ch',
+			w: 'full',
 			mx: 'auto',
 			px: '12',
 			py: '16',
@@ -40,13 +41,13 @@ MSXII is committed to providing the audio community with quality, well-thought o
 
 Our products and services have been used by and associated with the likes of numerous industry musicians and companies including: Dr. Dre, Ryan Leslie, Jay Electronica, MTV, VH1, E!, Snoop Dog, 9th Wonder, Eminem, Lil Brother, Centric, E!, Native Instruments, Output, Drumbroker, Novation, Intua, Akai, Ableton, and many more.
 
-![](/images/custom-page/credibility.png?className=w-96)
+![](https://res.cloudinary.com/dpjuamt6q/image/upload/v1690932566/compatibility_alq5kl.png?className=w-96)
 
 ## Compatibility
 
 All MSXII kits, breaks, sample packs, and sounds are compatible with any DAW, software program, drum machine or iOS device that accepts the .wav format. This includes Native Instruments Maschine, All Akai MPC's, Logic Pro/X, Pro Tools, Ableton Live, Propellerhead Reason, Cubase, Nuendo, FL Studio, and more.
 
-![](/images/custom-page/compatibility.png?className=w-96)
+![](https://res.cloudinary.com/dpjuamt6q/image/upload/v1690932566/compatibility_alq5kl.png?className=w-96)
 
 With any questions regarding our kits, breaks, or sample packs, contact us at msxaudio@gmail.com`,
 					},
@@ -84,6 +85,7 @@ With any questions regarding our kits, breaks, or sample packs, contact us at ms
 	{
 		twClassNameVariants: {
 			'max-w': '100ch',
+			w: 'full',
 			mx: 'auto',
 			px: '12',
 			py: '16',
@@ -112,7 +114,7 @@ All drum kits and digital downloads links are sent to the e-mail address your or
 
 Some are.  Most notably our Blue Label products & those selected vibes from our app, Chomplr. You will see licensing info in each product we offer. For projects that are not royalty free such as the Soulful Stems 3, the Lofi Melodics Series, etc, you are able to sample from it and get a fair split on writers share & publishing with us. MSXII writers will be credited as writers of the works (co-production credit) which will all be worked out prior to your placement release.  All MSXII kits and sample packs are made completely from scratch and are our sole original works.  We guarantee no clearance issues. See PartyNextDoor's "Love Me Again" for an example below as our own [M.SIMPSON] is credited for writing the sample.
 
-![](/images/support.png)
+![](https://res.cloudinary.com/dpjuamt6q/image/upload/v1690933020/support_ztbdb7.png)
 
 ## Are your sounds compatible with my software/sampler?
 
@@ -142,6 +144,7 @@ For all other questions and inquiries, feel free to email our support at support
 	{
 		twClassNameVariants: {
 			'max-w': '100ch',
+			w: 'full',
 			mx: 'auto',
 			px: '12',
 			py: '16',
@@ -249,7 +252,7 @@ All bundle and discounted purchases and prices apply only to the product line at
 							mx: 'auto',
 						},
 						___type: 'image-only',
-						src: '/images/blue-label.png',
+						src: 'https://res.cloudinary.com/dpjuamt6q/image/upload/v1690932892/blue-label_vdpfrk.png',
 					},
 					{
 						___type: 'md',

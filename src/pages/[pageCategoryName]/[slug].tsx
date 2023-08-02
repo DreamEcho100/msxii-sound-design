@@ -19,42 +19,34 @@ const CustomSectionPage: NextPage<
 };
 
 export async function getStaticPaths() {
-	return {
-		paths: await drizzleQueryClient.query.pageCategory
-			.findMany({
-				columns: { name: true },
-				with: {
-					pages: {
-						columns: {
-							slug: true,
-						},
-						where(fields) {
-							return not(isNull(fields.slug));
-						},
+	const paths = await drizzleQueryClient.query.pageCategory
+		.findMany({
+			columns: { name: true },
+			with: {
+				pages: {
+					columns: {
+						slug: true,
+					},
+					where(fields) {
+						return not(isNull(fields.slug));
 					},
 				},
-				where(fields, operators) {
-					return not(operators.eq(fields.name, 'ios-apps'));
-				},
-			})
-			.then((result) => {
-				const paths = result
-					.map((category) =>
-						category.pages.map((page) => ({
-							params: { pageCategoryName: category.name, slug: page.slug },
-						})),
-					)
-					.flat();
-
-				return paths;
-				/*
-.map((item) => {
-			const paths = items.
-
-			return ({ params: { pageCategoryName: item.name } })
+			},
 		})
-			*/
-			}),
+		.then((result) => {
+			const paths = result
+				.map((category) =>
+					category.pages.map((page) => ({
+						params: { pageCategoryName: category.name, slug: page.slug },
+					})),
+				)
+				.flat();
+
+			return paths;
+		});
+
+	return {
+		paths,
 		fallback: true,
 	};
 }

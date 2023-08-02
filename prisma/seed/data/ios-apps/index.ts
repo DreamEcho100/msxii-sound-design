@@ -9,6 +9,7 @@ export { default as loFlyDirtPageData } from './lo-fly-dirt';
 
 const defaultIOSAppsPages: CustomPage = {
 	twClassNameVariants: {
+		px: '12',
 		py: '8',
 		'gap-x': '16',
 		'gap-y': '16',

@@ -148,7 +148,8 @@ const Slider = ({
 				)}
 			>
 				<button
-					type="button"title="Next slide."
+					type="button"
+					title="Next slide."
 					// onClick={() => SwiperInstanceRef.current?.slideNext()}
 					ref={navigationNextRef}
 					className={cx(

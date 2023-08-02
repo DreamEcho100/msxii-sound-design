@@ -293,7 +293,7 @@ iframe {
 	}
 
 	/*  */
-	.custom-prose {
+	.custom-prose:not(.no-custom-max-w) {
 		max-width: min(100%, 120ch);
 		margin: auto;
 	}

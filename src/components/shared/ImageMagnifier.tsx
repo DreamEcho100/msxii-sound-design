@@ -10,7 +10,7 @@ function ImageMagnifier({
 	containerProps = {},
 	magnifierHeight = 100,
 	magnifieWidth = 100,
-	zoomLevel = 1.5
+	zoomLevel = 1.5,
 }: {
 	containerProps?: HTMLAttributes<HTMLDivElement>;
 	src: string;
@@ -28,7 +28,7 @@ function ImageMagnifier({
 	return (
 		<div
 			style={{
-				position: 'relative'
+				position: 'relative',
 			}}
 			{...containerProps}
 		>
@@ -89,7 +89,7 @@ function ImageMagnifier({
 
 					//calculate position of zoomed image.
 					backgroundPositionX: `${-x * zoomLevel + magnifieWidth / 2}px`,
-					backgroundPositionY: `${-y * zoomLevel + magnifierHeight / 2}px`
+					backgroundPositionY: `${-y * zoomLevel + magnifierHeight / 2}px`,
 				}}
 			></div>
 		</div>

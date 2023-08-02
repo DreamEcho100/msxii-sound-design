@@ -11,6 +11,7 @@ import {
 } from '~/utils/custom-pages';
 import Merch from './components/Merch';
 import BlueLabel from './components/BlueLabel';
+import Products from './components/Products';
 
 type Props = GetCustomPageDataProps;
 
@@ -32,7 +33,6 @@ const PageCategoryItems = (props: {
 	return (
 		<div
 			className={cx(
-				'pb-8 px-12',
 				'grid gap-8 lg:flex-nowrap',
 				'grid gap-8 lg:justify-between lg:flex-nowrap',
 				data.length < 4
@@ -171,22 +171,22 @@ const CustomPageScreen = (props: Props) => {
 		);
 
 	return (
-		<section className="flex flex-col gap-8">
-			{customPageStructureData.status === 'success' && (
-				<CustomPageBuilder_ page={customPageStructureData.data}>
-					{pageParams.pageCategoryName === 'merch' ? (
-						<Merch />
-					) : pageParams.pageCategoryName === 'blue-label' ? (
-						<BlueLabel />
-					) : (
-						<></>
-					)}
-				</CustomPageBuilder_>
-			)}
-			{pageCategoryItemsData.status === 'success' && (
-				<PageCategoryItems data={pageCategoryItemsData.data} />
-			)}
-		</section>
+		customPageStructureData.status === 'success' && (
+			<CustomPageBuilder_ page={customPageStructureData.data}>
+				{pageParams.pageCategoryName === 'merch' && !pageParams.slug ? (
+					<Merch />
+				) : pageParams.pageCategoryName === 'products' && !pageParams.slug ? (
+					<Products />
+				) : pageParams.pageCategoryName === 'blue-label' && !pageParams.slug ? (
+					<BlueLabel />
+				) : (
+					<></>
+				)}
+				{pageCategoryItemsData.status === 'success' && (
+					<PageCategoryItems data={pageCategoryItemsData.data} />
+				)}
+			</CustomPageBuilder_>
+		)
 	);
 };
 

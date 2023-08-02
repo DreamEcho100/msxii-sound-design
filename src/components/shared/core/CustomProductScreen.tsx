@@ -17,16 +17,25 @@ import ProductPrice from './Shopify/ProductPrice';
 import AddToCartButton from './Shopify/Buttons/AddToCart';
 
 // Credit to: <https://dev.to/anxiny/create-an-image-magnifier-with-react-3fd7>
-const ProductImageShowcase = ({ productData }: { productData: Product }) => {
-	const hasImagesVariations = productData.images.edges.length > 1;
-
+const ProductImageShowcase = ({
+	productData,
+	noCustomWith,
+}: {
+	productData: Product;
+	noCustomWith?: boolean;
+}) => {
 	const [selectedImage, setSelectedImage] = useState(productData.featuredImage);
+	const hasImagesVariations = productData.images.edges.length > 1;
 
 	return (
 		<div
 			className={cx(
 				'flex flex-col gap-2 lg:flex-row max-w-full',
-				hasImagesVariations ? 'md:w-5/12 lg:w-6/12' : 'md:w-5/12',
+				noCustomWith
+					? undefined
+					: hasImagesVariations
+					? 'md:w-5/12 lg:w-6/12'
+					: 'md:w-5/12',
 			)}
 		>
 			<ImageMagnifier
@@ -104,90 +113,16 @@ const CustomProductScreen = ({
 }) => {
 	const [selectedQuantity, setSelectedQuantity] = useState(1);
 	const mainVariant = productData.variants.edges[0]?.node;
+	console.log(
+		'++++ productData.availableForSale || selectedQuantity === 0',
 
-	if (!children) {
-		return (
-			<section className="px-main-p-4 sm:px-main-p-2 py-main-p-1 flex flex-wrap justify-center md:flex-nowrap gap-8">
-				<header className="flex flex-col-reverse items-center sm:items-start sm:flex-row-reverse md:flex-col-reverse gap-4 justify-center p-4">
-					<div className="text-center sm:text-align-initial flex-grow flex flex-col items-center sm:items-start gap-4 p-4">
-						<div className="flex flex-col gap-3">
-							<h1 className="text-h3">{productData.title}</h1>
-							<div className="w-fit flex flex-wrap gap-8 mx-auto sm:mx-0">
-								{mainVariant && (
-									<p className="whitespace-nowrap text-text-primary-500/60">
-										<ProductPrice
-											price={{
-												amount: Number(mainVariant.price.amount),
-												currencyCode: mainVariant.price.currencyCode,
-											}}
-											compareAtPrice={
-												mainVariant.compareAtPrice && {
-													amount: Number(mainVariant.compareAtPrice.amount),
-													currencyCode: mainVariant.compareAtPrice.currencyCode,
-												}
-											}
-										/>
-									</p>
-								)}
-								<ProductQuantityControllers
-									handleIncreaseByOne={() =>
-										setSelectedQuantity((prev) => prev + 1)
-									}
-									handleDecreaseByOne={() =>
-										setSelectedQuantity((prev) => prev - 1)
-									}
-									handleSetSelectedQuantity={setSelectedQuantity}
-									quantity={selectedQuantity}
-									// range={{
-									// 	min: productData.?.minVariant,
-									// 	max: productData.?.maxVariant,
-									// }}
-								/>
-							</div>
-						</div>
-						<AddToCartButton
-							productVariant={mainVariant}
-							selectedQuantity={selectedQuantity}
-							className="uppercase"
-							disabled={!productData.availableForSale || selectedQuantity === 0}
-							variants={{ btn: 'primary' }}
-							title={
-								!productData.availableForSale
-									? 'Not available for sale'
-									: undefined
-							}
-						/>
-						{!productData.availableForSale && (
-							<small className="text-red-500 text-[80%]">
-								<em>
-									<strong>Not available for sale</strong>
-								</em>
-							</small>
-						)}
-					</div>
-					<div className="aspect-square max-w-full w-60 lg:w-96 rounded-lg overflow-hidden">
-						<CustomNextImage
-							src={productData.featuredImage.url}
-							alt={productData.featuredImage.altText}
-							width={800}
-							height={800}
-							className="w-full h-full object-cover"
-						/>
-					</div>
-				</header>
-				<div
-					className="custom-prose p-4"
-					dangerouslySetInnerHTML={{
-						__html: productData.descriptionHtml || productData.description,
-					}}
-				/>
-			</section>
-		);
-	}
+		productData.availableForSale,
+		selectedQuantity,
+	);
 
 	return (
-		<div className="text-h6 leading-primary-3 p-16 text-text-primary-300 flex flex-col gap-12">
-			<section className="w-full flex flex-col-reverse md:flex-row-reverse items-center gap-12 mx-auto max-w-[140ch]">
+		<div className="text-h6 leading-primary-3 p-16 text-text-primary-300 flex flex-col gap-16 max-w-[140ch] mx-auto">
+			<section className="w-full flex flex-col-reverse md:flex-row-reverse justify-between items-center gap-12">
 				<div className="flex-grow my-4 flex flex-col gap-2 text-center md:text-align-initial">
 					<div className="flex flex-col gap-6 items-center md:items-start">
 						<div className="flex flex-col gap-4 items-center md:items-start">
@@ -228,15 +163,29 @@ const CustomProductScreen = ({
 							productVariant={mainVariant}
 							selectedQuantity={selectedQuantity}
 							className="uppercase"
-							disabled={productData.availableForSale || selectedQuantity === 0}
+							disabled={!productData.availableForSale || selectedQuantity === 0}
 							variants={{ btn: 'primary' }}
 						/>
+						{!productData.availableForSale && (
+							<small className="text-red-500 text-[80%]">
+								<em>
+									<strong>Not available for sale</strong>
+								</em>
+							</small>
+						)}
 						<p className="max-w-[52ch]">{productData.description}</p>
 					</div>
 				</div>
 				<ProductImageShowcase productData={productData} />
 			</section>
-			{children}
+			{children || (
+				<div
+					className="custom-prose p-4 no-custom-max-w"
+					dangerouslySetInnerHTML={{
+						__html: productData.descriptionHtml || productData.description,
+					}}
+				/>
+			)}
 			<article>
 				<CTAButton
 					text="Explore more high quality packs"

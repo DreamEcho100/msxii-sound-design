@@ -112,7 +112,7 @@ const Slider = ({
 			</div>
 
 			<Swiper
-				className="cards-container"
+				className="cards-container flex-grow"
 				navigation={{
 					prevEl: navigationPrevRef.current,
 					nextEl: navigationNextRef.current,

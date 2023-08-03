@@ -10,7 +10,7 @@ import { appRouter } from '~/server/api/root';
 import { RouterInputs, api } from '~/utils/api';
 
 const CollectionsPage = ({
-	input
+	input,
 }: {
 	input: RouterInputs['shopify']['collections']['getAllBasic'];
 }) =>
@@ -36,11 +36,12 @@ export async function getStaticProps() {
 	const ssg = createServerSideHelpers({
 		router: appRouter,
 		ctx: await createInnerTRPCContext({ session: null }),
-		transformer: superjson // optional - adds superjson serialization
+		transformer: superjson, // optional - adds superjson serialization
 	});
 
 	const input: RouterInputs['shopify']['collections']['getAllBasic'] = {
-		productsFirst: 100
+		productsFirst: 7,
+		collectionsFirst: 50,
 	};
 	/*
 	 * Prefetching the `products.getAll` query here.
@@ -51,9 +52,9 @@ export async function getStaticProps() {
 	return {
 		props: {
 			trpcState: ssg.dehydrate(),
-			input
+			input,
 		},
-		revalidate: 10
+		revalidate: 10,
 	};
 }
 

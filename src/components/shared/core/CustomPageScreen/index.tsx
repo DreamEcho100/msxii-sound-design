@@ -11,7 +11,7 @@ import {
 } from '~/utils/custom-pages';
 import Merch from './components/Merch';
 import BlueLabel from './components/BlueLabel';
-import Products from './components/Products';
+import { BiPlus } from 'react-icons/bi';
 
 type Props = GetCustomPageDataProps;
 
@@ -19,6 +19,7 @@ const PageCategoryItems = (props: {
 	data: InfiniteData<
 		RouterOutputs['customPages']['pagesCategories']['getManyItems']
 	>;
+	showAddPageToPageCategory?: boolean;
 }) => {
 	const data = useMemo(
 		() =>
@@ -28,7 +29,7 @@ const PageCategoryItems = (props: {
 		[props.data.pages],
 	);
 
-	if (data.length === 0) return <></>;
+	if (data.length === 0 && !props.showAddPageToPageCategory) return <></>;
 
 	return (
 		<div
@@ -77,6 +78,17 @@ const PageCategoryItems = (props: {
 					)}
 				</div>
 			))}
+			{props.showAddPageToPageCategory && (
+				<button
+					type="button"
+					className={cx(
+						'bg-gray-500 text-white flex items-center justify-center',
+						data.length === 0 ? 'w-96 h-96' : undefined,
+					)}
+				>
+					<BiPlus className="text-9xl" />
+				</button>
+			)}
 		</div>
 	);
 };
@@ -175,15 +187,18 @@ const CustomPageScreen = (props: Props) => {
 			<CustomPageBuilder_ page={customPageStructureData.data}>
 				{pageParams.pageCategoryName === 'merch' && !pageParams.slug ? (
 					<Merch />
-				) : pageParams.pageCategoryName === 'products' && !pageParams.slug ? (
-					<Products />
 				) : pageParams.pageCategoryName === 'blue-label' && !pageParams.slug ? (
 					<BlueLabel />
 				) : (
 					<></>
 				)}
 				{pageCategoryItemsData.status === 'success' && (
-					<PageCategoryItems data={pageCategoryItemsData.data} />
+					<PageCategoryItems
+						data={pageCategoryItemsData.data}
+						showAddPageToPageCategory={
+							!!(pageParams.pageCategoryName === 'products' && !pageParams.slug)
+						}
+					/>
 				)}
 			</CustomPageBuilder_>
 		)

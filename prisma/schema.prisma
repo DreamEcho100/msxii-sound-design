@@ -8,7 +8,7 @@ datasource db {
 }
 
 model Account {
-  id                String  @id // @default(cuid())
+  id                String  @id
   userId            String
   type              String
   provider          String
@@ -27,7 +27,7 @@ model Account {
 }
 
 model Session {
-  id           String   @id // @default(cuid())
+  id           String   @id
   sessionToken String   @unique
   userId       String
   expires      DateTime
@@ -37,7 +37,7 @@ model Session {
 }
 
 model User {
-  id            String    @id // @default(cuid())
+  id            String    @id
   name          String?
   email         String?   @unique
   emailVerified DateTime?
@@ -55,7 +55,7 @@ model VerificationToken {
 }
 
 model css {
-  id            String    @id // @default(cuid())
+  id            String    @id
   createdAt     DateTime  @default(now())
   updatedAt     DateTime? @updatedAt
   twVariants    Json      @default("{}")
@@ -67,7 +67,7 @@ model css {
 }
 
 model MdBox {
-  id        String    @id(map: "MdBx_PK") // @default(cuid())
+  id        String    @id(map: "MdBx_PK")
   createdAt DateTime  @default(now())
   updatedAt DateTime? @updatedAt
   boxId     String
@@ -79,7 +79,7 @@ model MdBox {
 }
 
 model ImageBox {
-  id        String    @id(map: "ImageBx_PK") // @default(cuid())
+  id        String    @id(map: "ImageBx_PK")
   createdAt DateTime  @default(now())
   updatedAt DateTime? @updatedAt
   boxId     String
@@ -94,7 +94,7 @@ model ImageBox {
 }
 
 model IframeBox {
-  id        String         @id(map: "IframeBx_PK") // @default(cuid())
+  id        String         @id(map: "IframeBx_PK")
   createdAt DateTime       @default(now())
   updatedAt DateTime?      @updatedAt
   boxId     String
@@ -108,7 +108,7 @@ model IframeBox {
 }
 
 model QuoteBox {
-  id        String    @id(map: "QuoteBx_PK") // @default(cuid())
+  id        String    @id(map: "QuoteBx_PK")
   createdAt DateTime  @default(now())
   updatedAt DateTime? @updatedAt
   boxId     String
@@ -121,7 +121,7 @@ model QuoteBox {
 }
 
 model HeaderBox {
-  id          String         @id(map: "HeaderBx_PK") // @default(cuid())
+  id          String         @id(map: "HeaderBx_PK")
   createdAt   DateTime       @default(now())
   updatedAt   DateTime?      @updatedAt
   title       String
@@ -135,7 +135,7 @@ model HeaderBox {
 }
 
 model Tabs {
-  id          String      @id // @default(cuid())
+  id          String      @id
   createdAt   DateTime    @default(now())
   updatedAt   DateTime?   @updatedAt
   boxId       String
@@ -147,7 +147,7 @@ model Tabs {
 }
 
 model BoxToTabs {
-  id        String    @unique(map: "BTTs_id_K") // @default(cuid())
+  id        String    @unique(map: "BTTs_id_K")
   createdAt DateTime  @default(now())
   updatedAt DateTime? @updatedAt
   title     String
@@ -164,7 +164,7 @@ model BoxToTabs {
 }
 
 model Slider {
-  id                String            @id(map: "SliderBx_PK") // @default(cuid())
+  id                String            @id(map: "SliderBx_PK")
   createdAt         DateTime          @default(now())
   updatedAt         DateTime?         @updatedAt
   boxId             String
@@ -177,7 +177,7 @@ model Slider {
 }
 
 model BoxToSlider {
-  id        String    @unique(map: "BTS_id_K") // @default(cuid())
+  id        String    @unique(map: "BTS_id_K")
   createdAt DateTime  @default(now())
   updatedAt DateTime? @updatedAt
   title     String?
@@ -194,7 +194,7 @@ model BoxToSlider {
 }
 
 model Grid {
-  id           String      @id(map: "GridBx_PK") // @default(cuid())
+  id           String      @id(map: "GridBx_PK")
   createdAt    DateTime    @default(now())
   updatedAt    DateTime?   @updatedAt
   boxId        String
@@ -206,7 +206,7 @@ model Grid {
 }
 
 model BoxToGrid {
-  id        String    @unique(map: "BTG_id_K") // @default(cuid())
+  id        String    @unique(map: "BTG_id_K")
   createdAt DateTime  @default(now())
   updatedAt DateTime? @updatedAt
   order     Int       @default(autoincrement())
@@ -222,7 +222,7 @@ model BoxToGrid {
 }
 
 model Box {
-  id             String        @unique // @default(cuid())
+  id             String        @unique
   type           BoxTypes
   createdAt      DateTime      @default(now())
   order          Int           @default(autoincrement())
@@ -249,7 +249,7 @@ model Box {
 }
 
 model Section {
-  id        String   @id // @default(cuid())
+  id        String   @id
   createdAt DateTime @default(now())
   order     Int      @default(autoincrement())
   pageId    String
@@ -264,7 +264,7 @@ model Section {
 }
 
 model PageCategory {
-  id          String    @id // @default(cuid())
+  id          String    @id
   createdAt   DateTime  @default(now())
   updatedAt   DateTime? @updatedAt
   name        String    @unique
@@ -275,7 +275,7 @@ model PageCategory {
 }
 
 model Image {
-  id        String    @id // @default(cuid())
+  id        String    @id
   createdAt DateTime  @default(now())
   updatedAt DateTime? @updatedAt
   src       String    @unique
@@ -286,7 +286,7 @@ model Image {
 }
 
 model seo {
-  id        String    @id // @default(cuid())
+  id        String    @id
   createdAt DateTime  @default(now())
   updatedAt DateTime? @updatedAt
 
@@ -299,7 +299,7 @@ model seo {
 }
 
 model Page {
-  id               String       @id // @default(cuid())
+  id               String       @id
   createdAt        DateTime     @default(now())
   updatedAt        DateTime?    @updatedAt
   cssId            String

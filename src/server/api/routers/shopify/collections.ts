@@ -1,24 +1,27 @@
 import { createTRPCRouter, publicProcedure } from '~/server/api/trpc';
 import {
-	getQQLCollectionBasicTextSchema,
-	oneCollectionByHandleQuerySchema
+	getQQLManyCollectionTextSchema,
+	oneCollectionByHandleQuerySchema,
 } from '~/utils/shopify/client/collections';
 
 export const shopifyCollectionsHandlesRouter = createTRPCRouter({
 	getAll: publicProcedure.query(
-		async ({ ctx }) => await ctx.shopify.collections.queries.allHandles()
-	)
+		async ({ ctx }) => await ctx.shopify.collections.queries.allHandles(),
+	),
 });
 
 export const shopifyCollectionsRouter = createTRPCRouter({
-	getAll: publicProcedure.query(
-		async ({ ctx }) => await ctx.shopify.collections.queries.all()
-	),
-	getAllBasic: publicProcedure
-		.input(getQQLCollectionBasicTextSchema)
+	getMany: publicProcedure
+		.input(getQQLManyCollectionTextSchema)
 		.query(
 			async ({ ctx, input }) =>
-				(await ctx.shopify.collections.queries.allBasic(input)).collections
+				(await ctx.shopify.collections.queries.many(input)).collections,
+		),
+	getAllBasic: publicProcedure
+		.input(getQQLManyCollectionTextSchema)
+		.query(
+			async ({ ctx, input }) =>
+				(await ctx.shopify.collections.queries.many(input)).collections,
 		),
 	handles: shopifyCollectionsHandlesRouter,
 	getOneByHandle: publicProcedure
@@ -26,6 +29,6 @@ export const shopifyCollectionsRouter = createTRPCRouter({
 		.query(
 			async ({ ctx, input }) =>
 				(await ctx.shopify.collections.queries.getOneByHandle(input))
-					.collectionByHandle
-		)
+					.collectionByHandle,
+		),
 });

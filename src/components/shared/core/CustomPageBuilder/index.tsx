@@ -321,6 +321,7 @@ const SectionBodyBox = ({
 				className={customPageClassName}
 				style={{
 					gridTemplateColumns: box.gridTemplateColumns,
+					gridTemplateRows: box.gridTemplateRows,
 				}}
 			>
 				{box.items.map((item, index) => (

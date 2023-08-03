@@ -159,7 +159,10 @@ const HomeShowcaseSection = ({
 
 const HomeShowcaseSectionHolder = () => {
 	const getAllBasicCollectionsShopify =
-		api.shopify.collections.getAllBasic.useQuery();
+		api.shopify.collections.getAllBasic.useQuery({
+			productsFirst: 7,
+			collectionsFirst: 50,
+		});
 
 	if (getAllBasicCollectionsShopify.isSuccess)
 		return (

@@ -26,7 +26,8 @@ const CustomNextImage = ({
 	...props
 }: ICustomNextImageProps) => {
 	const [isWeservNlOptimized, setIsWeservNlOptimized] = useState(
-		process.env.NODE_ENV === 'production' ? weservNlOptimized : false,
+		// process.env.NODE_ENV === 'production' ? weservNlOptimized : false,
+		weservNlOptimized,
 	);
 	const [_src, setSrc] = useState(src);
 	const [isLoaded, setIsLoaded] = useState(false);
@@ -59,7 +60,7 @@ const CustomNextImage = ({
 							_src.startsWith('/') ? `${websiteBasePath}${_src}` : _src,
 					  )}&w=${props.width}${props.height ? `&h=${props.height}` : ''}${
 							isAnimated ? '&n=-1' : ''
-					  }&q=${props.quality ? props.quality : 95}`
+					  }&q=${props.quality ? props.quality : 95}&&output=webp`
 					: _src,
 			unoptimized,
 			placeholder,

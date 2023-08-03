@@ -96,6 +96,7 @@ export type Grid = {
 	twClassNameVariants?: BoxVariants;
 	customPageClassesKeys?: string[];
 	gridTemplateColumns?: string;
+	gridTemplateRows?: string;
 	items: Exclude<Box, RowsOnlyBox | TwoColumnsBox>[]; //(ImageOnly | MdBox | IframeBox | QuoteBox)[];
 };
 // x

@@ -148,17 +148,6 @@ export function SectionBoxContainer(props: {
 					zIndex: props.boxDeepLevel.toString(),
 				} as CSSProperties
 			}
-			// onPointerEnter={(event) => {
-			// 	event.currentTarget.classList.add('active');
-			// 	console.log('___ onPointerEnter', props);
-			// }}
-			// onPointerDown={() => {
-			// 	console.log('___ onPointerDown', props);
-			// }}
-			// onPointerLeave={(event) => {
-			// 	event.currentTarget.classList.remove('active');
-			// 	console.log('___ onPointerLeave', props);
-			// }}
 		>
 			<SectionBox
 				box={props.box}

@@ -10,8 +10,90 @@ import { updateOneImageBoxSchema } from '~/server/utils/validations-schemas/dash
 import { updateOneIframeBoxSchema } from '~/server/utils/validations-schemas/dashboard/boxes/types/iframes';
 import { updateOneSliderSchema } from '~/server/utils/validations-schemas/dashboard/boxes/types/sliders';
 import { UpdateOneInlineStyleCssSchema } from '~/server/utils/validations-schemas/dashboard/css/inlineStyles';
+import { createId } from '@paralleldrive/cuid2';
 
 export const dashboardRouter = createTRPCRouter({
+	pages: createTRPCRouter({
+		createOnePproductByTemplate: adminProtectedProcedure
+			.input(
+				z.object({
+					templateName: z.enum(['product']),
+					slug: z.string().min(3),
+					image: z
+						.object({
+							src: z.string().min(3).nullable().optional(),
+							altText: z.string().min(3).nullable().optional(),
+							width: z.string().min(3).nullable().optional(),
+							height: z.string().min(3).nullable().optional(),
+						})
+						.nullable()
+						.optional(),
+					seo: z.object({
+						title: z.string().min(3),
+						description: z.string().min(3).nullable().optional(),
+					}),
+				}),
+			)
+			.mutation(async ({ ctx, input }) => {
+				if (input.templateName === 'product') {
+					//
+					await ctx.drizzleQueryClient.transaction(async (tx) => {
+						const [cssId, seoId, imageId] = await Promise.all([
+							tx
+								.insert(ctx.drizzleSchema.css)
+								.values({
+									id: createId(),
+									customClasses: [],
+									inlineStyles: {},
+									twVariants: {},
+								})
+								.returning({ id: ctx.drizzleSchema.css.id })
+								.then((res) => res[0]!.id),
+							tx
+								.insert(ctx.drizzleSchema.seo)
+								.values({
+									id: createId(),
+									title: input.seo.title,
+									description: input.seo.description,
+								})
+								.returning({ id: ctx.drizzleSchema.seo.id })
+								.then((res) => res[0]!.id),
+							!input.image?.src
+								? null
+								: tx
+										.insert(ctx.drizzleSchema.image)
+										.values({
+											// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+											// @ts-ignore
+											id: createId(),
+											src: input.image.src,
+											altText: input.image.altText,
+											width: input.image.width,
+											height: input.image.height,
+										})
+										.returning({ id: ctx.drizzleSchema.image.id })
+										.then((res) => res[0]!.id),
+						]);
+
+						const newPage = await tx
+							.insert(ctx.drizzleSchema.page)
+							.values({
+								id: createId(),
+								isActive: false,
+								cssId,
+								seoId,
+								imageId,
+								slug: input.slug,
+								pageCategoryName: 'products',
+							})
+							.returning();
+
+						newPage;
+					});
+					//
+				}
+			}),
+	}),
 	pagesCategories: createTRPCRouter({
 		getAll: adminProtectedProcedure.query(({ ctx }) => {
 			return ctx.drizzleQueryClient.query.pageCategory.findMany();

@@ -30,7 +30,7 @@ const DynamicAuthDialog = dynamic(() => import('./components/AuthDialog'), {
 const headersLinks = [
 	{
 		title: 'New Releases',
-		href: '/collections/?handles=new-releases',
+		href: '/collections/new-releases',
 	},
 	{
 		title: 'iOS Apps',
@@ -43,13 +43,13 @@ const headersLinks = [
 	{
 		title: 'Samples',
 		links: [
-			{ title: 'Drum Kits', href: '/collections/?handles=drum-kits' },
+			{ title: 'Drum Kits', href: '/collections/drum-kits' },
 			{
 				title: 'Ableton Racks',
 				href: 'https://racksforlive.com/',
 				isA: 'normal-link',
 			},
-			{ title: 'Vinyl', href: '/vinyl' },
+			{ title: 'Vinyl', href: '/collections/vinyl' },
 		] as {
 			readonly title: 'Ableton Racks';
 			readonly href: 'https://racksforlive.com/';
@@ -58,7 +58,7 @@ const headersLinks = [
 	},
 	{
 		title: 'Bundles',
-		href: '/collections/?handles=bundles',
+		href: '/collections/bundles',
 	},
 	{
 		title: 'Blog',

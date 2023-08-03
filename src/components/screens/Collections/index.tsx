@@ -75,6 +75,7 @@ const ProductsScreen = ({
 	const filterMenuOnSMScreensCloseButtonRef = useRef<HTMLButtonElement>(null);
 	const [isFiltersMenuActive, setIsFiltersMenuActive] = useState(true);
 	const searchParams = useSearchParams();
+	const [isReady, setIsReady] = useState(false);
 
 	const {
 		pagesCategories,
@@ -90,13 +91,24 @@ const ProductsScreen = ({
 		},
 	});
 
+	console.log('___ collectionsByHandle', collectionsByHandle);
+
 	useEffect(() => {
+		let timeoutId: NodeJS.Timeout;
+		if (!isReady) {
+			timeoutId = setTimeout(() => setIsReady(true), 2000);
+		}
+
 		const handles = searchParams.get('handles');
 		const productTitleQuery = searchParams.get('productTitleQuery');
 
 		if (handles) setSelectedHandles(handles.split(','));
 		if (productTitleQuery) setProductTitleQuery(productTitleQuery);
-	}, [searchParams, setProductTitleQuery, setSelectedHandles]);
+
+		return () => {
+			timeoutId && clearTimeout(timeoutId);
+		};
+	}, [isReady, searchParams, setProductTitleQuery, setSelectedHandles]);
 
 	useEffect(() => {
 		const timeoutId = setTimeout(() => {
@@ -211,7 +223,13 @@ const ProductsScreen = ({
 						{filteredCollectionsByHandle.map((collection) => (
 							<article key={collection[0]} className="flex flex-col gap-4">
 								<h2 className="capitalize text-h4 text-text-primary-300 font-normal">
-									{collection[0].replaceAll('-', ' ')}
+									<Clickable
+										href={`/collections/${collection[0]}`}
+										isA="next-js"
+										className="border-b-3 border-b-transparent hover:border-b-text-primary-200 focus:border-b-text-primary-200"
+									>
+										{collection[0].replaceAll('-', ' ')}
+									</Clickable>
 								</h2>
 								<div className="">
 									<CardsSlider

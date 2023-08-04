@@ -95,9 +95,15 @@ const CustomPageScreen = (props: Props): React.JSX.Element => {
     isACustomPage,
     customPageStructureQuery,
     pageParams,
+    isRouterReady,
   } = useGetCustomPageData(props);
 
   const pageCategoryItemsData = useMemo(() => {
+    if (!isRouterReady)
+      return {
+        status: "loading" as const,
+      };
+
     if (!isAShowcasePage)
       return {
         status: "not-available" as const,
@@ -123,6 +129,7 @@ const CustomPageScreen = (props: Props): React.JSX.Element => {
       data: getManyPagesCategoriesItemsQuery.data,
     };
   }, [
+    isRouterReady,
     isAShowcasePage,
     getManyPagesCategoriesItemsQuery.data,
     getManyPagesCategoriesItemsQuery.isLoading,
@@ -131,6 +138,11 @@ const CustomPageScreen = (props: Props): React.JSX.Element => {
   ]);
 
   const customPageStructureData = useMemo(() => {
+    if (!isRouterReady)
+      return {
+        status: "loading" as const,
+      };
+
     if (!isACustomPage)
       return {
         status: "not-available" as const,
@@ -156,6 +168,7 @@ const CustomPageScreen = (props: Props): React.JSX.Element => {
       data: customPageStructureQuery.data,
     };
   }, [
+    isRouterReady,
     isACustomPage,
     customPageStructureQuery.data,
     customPageStructureQuery.isLoading,
@@ -167,13 +180,13 @@ const CustomPageScreen = (props: Props): React.JSX.Element => {
     pageCategoryItemsData.status === "not-available" &&
     customPageStructureData.status === "not-available"
   )
-    return <p className='capitalize'>not available</p>;
+    return <p className="capitalize">not available</p>;
 
-		if (
-			pageCategoryItemsData.status === "loading" ||
-			customPageStructureData.status === "loading"
-		)
-			return <>Loading...</>;
+  if (
+    pageCategoryItemsData.status === "loading" ||
+    customPageStructureData.status === "loading"
+  )
+    return <>Loading...</>;
 
   if (
     pageCategoryItemsData.status === "error" ||
@@ -204,10 +217,10 @@ const CustomPageScreen = (props: Props): React.JSX.Element => {
           />
         )}
       </CustomPageBuilder_>
-		);
-	
-		console.log('___ pageCategoryItemsData', pageCategoryItemsData)
-		console.log('___ customPageStructureData', customPageStructureData)
+    );
+
+  console.log("___ pageCategoryItemsData", pageCategoryItemsData);
+  console.log("___ customPageStructureData", customPageStructureData);
 
   throw new Error("Unknown type");
 };

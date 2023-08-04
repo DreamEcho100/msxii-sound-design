@@ -23,6 +23,7 @@ const ProductPage = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
       keepPreviousData: true,
     }
   );
+  console.log("___ props", props);
 
   return (
     <>
@@ -56,11 +57,14 @@ const ProductPage = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
 };
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const paths = (await shopify.collections.queries.allHandles()).map(
-    (handle) => ({
-      params: { handle },
-    })
-  );
+  const paths: { params: { handle: string } }[] = [];
+
+  (await shopify.collections.queries.allHandles()).forEach((handle) => {
+    if (handle)
+      paths.push({
+        params: { handle },
+      });
+  });
   return {
     paths,
     fallback: true,
@@ -69,9 +73,23 @@ export const getStaticPaths: GetStaticPaths = async () => {
 export const getStaticProps = async (
   context: GetStaticPropsContext<{ handle: string }>
 ) => {
-  const { handle } = z
-    .object({ handle: z.string().trim().min(1) })
-    .parse(context.params);
+  console.log("___ context.params", context.params);
+
+  let handle: string;
+  try {
+    const params = z
+      .object({ handle: z.string().trim().min(1) })
+      .parse(context.params);
+
+    handle = params.handle;
+  } catch (err) {
+    console.log(err);
+    if (err instanceof Error) console.log(err.message);
+
+    return {
+      notFound: true,
+    };
+  }
 
   const ssg = createServerSideHelpers({
     router: appRouter,

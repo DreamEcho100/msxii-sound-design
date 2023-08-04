@@ -118,9 +118,21 @@ export const getStaticPaths: GetStaticPaths = async () => {
 export const getStaticProps = async (
   context: GetStaticPropsContext<{ id: string }>
 ) => {
-  const { id } = z
-    .object({ id: z.string().trim().min(1) })
-    .parse(context.params);
+  let id: string;
+  try {
+    const params = z
+      .object({ id: z.string().trim().min(1) })
+      .parse(context.params);
+
+    id = params.id;
+  } catch (err) {
+    console.log(err);
+    if (err instanceof Error) console.log(err.message);
+
+    return {
+      notFound: true,
+    };
+  }
 
   const ssg = createServerSideHelpers({
     router: appRouter,

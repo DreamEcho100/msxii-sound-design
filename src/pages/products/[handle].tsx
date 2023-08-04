@@ -49,10 +49,21 @@ export const getStaticPaths: GetStaticPaths = () => {
 export const getStaticProps = async (
   context: GetStaticPropsContext<{ handle: string }>
 ) => {
-  const { handle } = z
-    .object({ handle: z.string().trim().min(1) })
-    .parse(context.params);
+  let handle: string;
+  try {
+    const params = z
+      .object({ handle: z.string().trim().min(1) })
+      .parse(context.params);
 
+    handle = params.handle;
+  } catch (err) {
+    console.log(err);
+    if (err instanceof Error) console.log(err.message);
+
+    return {
+      notFound: true,
+    };
+  }
   const ssg = createServerSideHelpers({
     router: appRouter,
     ctx: createInnerTRPCContext({}),

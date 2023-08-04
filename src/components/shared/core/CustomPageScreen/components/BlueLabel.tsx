@@ -15,7 +15,7 @@ const BlueLabel = () => {
     api.shopify.collections.getOneByHandle.useInfiniteQuery(input);
 
   const firstItem =
-    collectionQuery.data?.pages[collectionQuery.data.pages.length - 1].items[0]
+    collectionQuery.data?.pages[collectionQuery.data.pages.length - 1]?.items[0]
       ?.node;
 
   return (

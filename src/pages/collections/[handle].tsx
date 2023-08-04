@@ -38,12 +38,22 @@ const ProductPage = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
     .map((page) => page.items.map((item) => item.node))
     .flat();
 
-  console.log("___ productsData", productsData);
+  // console.log("___ productsData", productsData);
+  // console.log("___ productsQuery.hasNextPage", productsQuery.hasNextPage);
+  // console.log(
+  //   "___ productsQuery.isFetchingNextPage",
+  //   productsQuery.isFetchingNextPage
+  // );
 
   return (
     <>
       <Head>
-        <title>{props.input.handle.replace("-", " ")}</title>
+        <title>
+          {props.input.handle
+            .split("-")
+            .map((str) => str.slice(0, 1).toUpperCase() + str.slice(1))
+            .join(" ")}
+        </title>
         {/* <meta name="description" content={productData.description} /> */}
       </Head>
       <section
@@ -66,16 +76,18 @@ const ProductPage = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
             />
           ))}
         </div>
-        <Clickable
-          variants={{ w: "full", rounded: null }}
-          // eslint-disable-next-line @typescript-eslint/no-misused-promises
-          onClick={async () => {
-            await loadNextPage();
-          }}
-          disabled={productsQuery.isFetchingNextPage}
-        >
-          load more
-        </Clickable>
+        {productsQuery.hasNextPage && (
+          <Clickable
+            variants={{ w: "full", rounded: null }}
+            // eslint-disable-next-line @typescript-eslint/no-misused-promises
+            onClick={async () => {
+              await loadNextPage();
+            }}
+            disabled={productsQuery.isFetchingNextPage}
+          >
+            load more
+          </Clickable>
+        )}
       </section>
     </>
   );

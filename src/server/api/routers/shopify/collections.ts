@@ -40,6 +40,7 @@ export const shopifyCollectionsRouter = createTRPCRouter({
       return {
         items: items.collectionByHandle.products.edges,
         nextCursor,
+        hasNextPage: items.collectionByHandle.products.pageInfo.hasNextPage,
       };
     }),
 });

@@ -33,6 +33,7 @@ const gqlCollectionSchemaWithBasicProductsText = (
 		updatedAt
 		products(${buildGQLArgsString(argsMap)}) {
 			edges {
+				cursor
 				node {
 					${gqlProductBasicSchemaText}
 				}

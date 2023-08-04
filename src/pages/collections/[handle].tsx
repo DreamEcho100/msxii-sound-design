@@ -29,10 +29,12 @@ const ProductPage = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
     <>
       <Head>
         <title>
-          {props?.input?.handle
-            ?.split("-")
-            .map((str) => str.slice(0, 1).toUpperCase() + str.slice(1))
-            .join(" ")}
+          {productsQuery.isLoading
+            ? "Loading..."
+            : props?.input?.handle
+                ?.split("-")
+                .map((str) => str.slice(0, 1).toUpperCase() + str.slice(1))
+                .join(" ")}
         </title>
         {/* <meta name="description" content={productData.description} /> */}
       </Head>

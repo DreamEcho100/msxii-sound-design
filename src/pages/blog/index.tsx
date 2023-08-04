@@ -120,6 +120,7 @@ const BlogPage = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
               variants={null}
               className="flex items-center disabled:cursor-not-allowed disabled:text-text-primary-200"
               disabled={disableNextPageButton}
+              // eslint-disable-next-line @typescript-eslint/no-misused-promises
               onClick={goToNextPage}
             >
               Newer

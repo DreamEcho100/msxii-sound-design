@@ -1,4 +1,4 @@
-import { type CSSProperties, useState, type ReactNode } from 'react';
+import { type CSSProperties, type ReactNode } from 'react';
 import BoxEditOverlay from '../../BoxEditOverlay';
 import { BoxTypeQuote, PageStoreApi } from '../../_';
 import { BoxTypes } from '@prisma/client';
@@ -27,6 +27,7 @@ import {
 	useCreateTwVariantsFormStore,
 } from '../../Css/TwVariants';
 import CustomNextImage from '~/components/shared/CustomNextImage';
+import TextTruncateManager from '~/components/shared/common/TextTruncater';
 
 type QuoteBox = { content: string; cite: string };
 type QuoteFormStore = FormStoreApi<QuoteBox, typeof createOneQuoteBoxSchema>;
@@ -106,17 +107,6 @@ const QuoteBoxView = (
 	} & SharedProps &
 		QuoteBox,
 ) => {
-	// return (
-	// 	<div className={props.className}>
-	// 		<ReactMarkdownFormatter content={props.content} />
-	// 		{props.childrenAfter}
-	// 	</div>
-	// );
-	const TEXT_MAX_LENGTH = 200;
-	const isTextLong = props.content.length > TEXT_MAX_LENGTH;
-
-	const [isFullTextActive, setIsFullTextActive] = useState(!isTextLong);
-
 	return (
 		<div className={cx(props.className, 'group')} style={props.style}>
 			<CustomNextImage
@@ -139,36 +129,7 @@ const QuoteBoxView = (
 					</strong>
 				</cite>
 				<q className="text-[70%] flex-grow font-medium">
-					<pre
-						className="whitespace-pre-wrap inline"
-						style={{ fontFamily: 'inherit' }}
-					>
-						{isFullTextActive
-							? props.content
-							: props.content.slice(0, TEXT_MAX_LENGTH)}
-					</pre>
-					{isTextLong && (
-						<>
-							{isFullTextActive ? (
-								<>&nbsp;&nbsp;&nbsp;&nbsp;</>
-							) : (
-								<>...&nbsp;</>
-							)}
-							<button
-								className={cx(
-									'text-[90%] capitalize',
-									'text-special-primary-800 hover:text-special-primary-600 focus:text-special-primary-600',
-									'dark:text-special-primary-600 dark:hover:text-special-primary-400 dark:focus:text-special-primary-400',
-								)}
-								type="button"
-								onClick={() => setIsFullTextActive((prev) => !prev)}
-							>
-								<strong className="font-semibold">
-									<em>see {isFullTextActive ? 'less' : 'more'}</em>
-								</strong>
-							</button>
-						</>
-					)}
+					<TextTruncateManager content={props.content} />
 				</q>
 			</div>
 			{props.childrenAfter}

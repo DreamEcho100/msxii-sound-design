@@ -16,7 +16,6 @@ export const shopifyProductsRouter = createTRPCRouter({
 				}),
 		),
 
-	//  = { handle: 'schlump-loops-2' }
 	getOneByHandle: publicProcedure
 		.input(oneProductByHandleQuerySchema)
 		.query(

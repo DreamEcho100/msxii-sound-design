@@ -12,11 +12,11 @@ import * as Tabs from '@radix-ui/react-tabs';
 import { cx } from 'class-variance-authority';
 import BordersContainer from './BordersContainer';
 import { usePathname } from 'next/navigation';
-import { Dialog } from '@headlessui/react';
-import Form from '../../common/@de100/form-echo/Forms';
 import { useCreateFormStore } from '@de100/form-echo';
 import { z } from 'zod';
-import ContainedInputField from '../../common/@de100/form-echo/Fields/Contained/Input';
+import Form from '~/components/shared/common/@de100/form-echo/Forms';
+import ContainedInputField from '~/components/shared/common/@de100/form-echo/Fields/Contained/Input';
+import Dialog from '~/components/shared/common/Dialog';
 import { api } from '~/utils/api';
 import { toast } from 'react-toastify';
 import { getValueByPathArray, newUpdatedByPathArray } from '~/utils/obj/update';
@@ -54,50 +54,32 @@ const EditBoxModal = (props: {
 		});
 
 	return (
-		<Dialog
-			as="div"
-			onClose={() => props.setIsOpen(false)}
-			className={cx(
-				'fixed inset-0 z-10 bg-black/50 w-full h-full flex',
-				'block', // props.isOpen ? 'block' : 'hidden',
-			)}
-			open={props.isOpen}
-		>
-			<div className="flex-grow w-full h-full relative flex items-center justify-center">
-				<Dialog.Overlay
-					onClick={() => props.setIsOpen(false)}
-					className="cursor-pointer absolute inset-0 bg-black/50 w-full h-full"
-				/>
-				<Dialog.Panel className="pointer-events-none relative">
-					<div className="pointer-events-auto w-72 max-w-screen-sm bg-white p-8 rounded-md">
-						<Form
-							onSubmit={async (event, params) => {
-								event.preventDefault();
-								await updateOneRequest.mutateAsync({
-									boxToTabsId: props.boxToTabsId,
-									...params.validatedValues,
-								});
+		<Dialog setIsOpen={props.setIsOpen} isOpen={props.isOpen}>
+			<Form
+				onSubmit={async (event, params) => {
+					event.preventDefault();
+					await updateOneRequest.mutateAsync({
+						boxToTabsId: props.boxToTabsId,
+						...params.validatedValues,
+					});
 
-								props.onSuccess(params);
-							}}
-							store={formStore}
-						>
-							<ContainedInputField
-								store={formStore}
-								name="title"
-								labelProps={{ children: 'title' }}
-							/>
-							<button
-								type="submit"
-								disabled={updateOneRequest.isLoading}
-								className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-							>
-								submit
-							</button>
-						</Form>
-					</div>
-				</Dialog.Panel>
-			</div>
+					props.onSuccess(params);
+				}}
+				store={formStore}
+			>
+				<ContainedInputField
+					store={formStore}
+					name="title"
+					labelProps={{ children: 'title' }}
+				/>
+				<button
+					type="submit"
+					disabled={updateOneRequest.isLoading}
+					className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+				>
+					submit
+				</button>
+			</Form>
 		</Dialog>
 	);
 };

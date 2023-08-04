@@ -45,6 +45,7 @@ export const YouTubeIFrame = ({
 					{...props}
 					className={cx(props.className, 'w-full')}
 					allow="autoplay"
+					loading="lazy"
 				/>
 			</div>
 			{childrenAfter}
@@ -363,11 +364,13 @@ export const SoundCloudIframe = ({
 	src,
 	title,
 	className,
+	allow,
 	childrenAfter,
 }: {
 	src: string;
 	title?: string | null;
 	className?: string;
+	allow?: string;
 	childrenAfter?: ReactNode;
 }) => {
 	return (
@@ -387,6 +390,8 @@ export const SoundCloudIframe = ({
 				}}
 				title={title || undefined}
 				allowFullScreen
+				allow={allow}
+				loading="lazy"
 			/>
 			{childrenAfter}
 		</div>

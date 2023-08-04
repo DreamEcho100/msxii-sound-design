@@ -13,39 +13,58 @@ import { UpdateOneInlineStyleCssSchema } from '~/server/utils/validations-schema
 import { createId } from '@paralleldrive/cuid2';
 
 export const dashboardRouter = createTRPCRouter({
-	pages: createTRPCRouter({
-		createOnePproductByTemplate: adminProtectedProcedure
+	shopify: createTRPCRouter({
+		getProducts: adminProtectedProcedure
 			.input(
 				z.object({
-					templateName: z.enum(['product']),
+					title: z.string().min(3).optional(),
+				}),
+			)
+			.query(async ({ ctx, input }) => {
+				return (
+					await ctx.shopify.products.queries.all({
+						first: 100,
+						query: {
+							title: input?.title ? `${input.title}*` : undefined,
+						},
+					})
+				).products.edges;
+				// await getShopifyClient().product.fetch
+			}),
+	}),
+	pages: createTRPCRouter({
+		createOneProductByTemplate: adminProtectedProcedure
+			.input(
+				z.object({
 					slug: z.string().min(3),
-					image: z
-						.object({
-							src: z.string().min(3).nullable().optional(),
-							altText: z.string().min(3).nullable().optional(),
-							width: z.string().min(3).nullable().optional(),
-							height: z.string().min(3).nullable().optional(),
-						})
-						.nullable()
-						.optional(),
-					seo: z.object({
-						title: z.string().min(3),
-						description: z.string().min(3).nullable().optional(),
-					}),
+					//
+					imageSrc: z.string().min(3).nullable().optional(),
+					imageAltText: z.string().min(3).nullable().optional(),
+					imageWidth: z.number().min(0).nullable().optional(),
+					imageHeight: z.number().min(0).nullable().optional(),
+					//
+					seoTitle: z.string().min(3),
+					seoDescription: z.string().min(3).nullable().optional(),
 				}),
 			)
 			.mutation(async ({ ctx, input }) => {
-				if (input.templateName === 'product') {
-					//
-					await ctx.drizzleQueryClient.transaction(async (tx) => {
-						const [cssId, seoId, imageId] = await Promise.all([
+				//
+				await ctx.drizzleQueryClient.transaction(async (tx) => {
+					const [newPageCssId, newPageSeoId, newPageImageId] =
+						await Promise.all([
 							tx
 								.insert(ctx.drizzleSchema.css)
 								.values({
 									id: createId(),
-									customClasses: [],
-									inlineStyles: {},
-									twVariants: {},
+									twVariants: {
+										'max-w': '100ch',
+										w: 'full',
+										mx: 'auto',
+										px: '8',
+										py: '16',
+										'gap-x': '16',
+										'gap-y': '16',
+									},
 								})
 								.returning({ id: ctx.drizzleSchema.css.id })
 								.then((res) => res[0]!.id),
@@ -53,12 +72,12 @@ export const dashboardRouter = createTRPCRouter({
 								.insert(ctx.drizzleSchema.seo)
 								.values({
 									id: createId(),
-									title: input.seo.title,
-									description: input.seo.description,
+									title: input.seoTitle,
+									description: input.seoDescription,
 								})
 								.returning({ id: ctx.drizzleSchema.seo.id })
 								.then((res) => res[0]!.id),
-							!input.image?.src
+							!input.imageSrc
 								? null
 								: tx
 										.insert(ctx.drizzleSchema.image)
@@ -66,32 +85,325 @@ export const dashboardRouter = createTRPCRouter({
 											// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 											// @ts-ignore
 											id: createId(),
-											src: input.image.src,
-											altText: input.image.altText,
-											width: input.image.width,
-											height: input.image.height,
+											src: input.imageSrc,
+											altText: input.imageAltText,
+											width: input.imageWidth,
+											height: input.imageHeight,
 										})
 										.returning({ id: ctx.drizzleSchema.image.id })
 										.then((res) => res[0]!.id),
 						]);
 
-						const newPage = await tx
-							.insert(ctx.drizzleSchema.page)
+					const newPageId = await tx
+						.insert(ctx.drizzleSchema.page)
+						.values({
+							id: createId(),
+							isActive: false,
+							cssId: newPageCssId,
+							seoId: newPageSeoId,
+							imageId: newPageImageId,
+							slug: input.slug,
+							pageCategoryName: 'products',
+						})
+						.returning({ id: ctx.drizzleSchema.page.id })
+						.then((res) => res[0]!.id);
+
+					const section1CssId = await tx
+						.insert(ctx.drizzleSchema.css)
+						.values({
+							id: createId(),
+							twVariants: {
+								'gap-y': '4',
+							},
+						})
+						.returning({ id: ctx.drizzleSchema.css.id })
+						.then((res) => res[0]!.id);
+
+					const newSection1Id = await tx
+						.insert(ctx.drizzleSchema.section)
+						.values({
+							id: createId(),
+							pageId: newPageId,
+							order: 0,
+							cssId: section1CssId,
+						})
+						.returning({ id: ctx.drizzleSchema.section.id })
+						.then((res) => res[0]!.id);
+
+					{
+						const section1Box1CssId = await tx
+							.insert(ctx.drizzleSchema.css)
 							.values({
 								id: createId(),
-								isActive: false,
-								cssId,
-								seoId,
-								imageId,
-								slug: input.slug,
-								pageCategoryName: 'products',
 							})
-							.returning();
+							.returning({ id: ctx.drizzleSchema.css.id })
+							.then((res) => res[0]!.id);
+						const section1Box1Id = await tx
+							.insert(ctx.drizzleSchema.box)
+							.values({
+								id: createId(),
+								sectionId: newSection1Id,
+								order: 0,
+								type: 'HEADER',
+								cssId: section1Box1CssId,
+							})
+							.returning({ id: ctx.drizzleSchema.box.id })
+							.then((res) => res[0]!.id);
+						await tx.insert(ctx.drizzleSchema.headerBox).values({
+							id: createId(),
+							boxId: section1Box1Id,
+							title: 'Details',
+						});
 
-						newPage;
-					});
-					//
-				}
+						const section1Box2CssId = await tx
+							.insert(ctx.drizzleSchema.css)
+							.values({
+								id: createId(),
+								twVariants: {
+									'gap-y': '4',
+								},
+							})
+							.returning({ id: ctx.drizzleSchema.css.id })
+							.then((res) => res[0]!.id);
+						const section1Box2Id = await tx
+							.insert(ctx.drizzleSchema.box)
+							.values({
+								id: createId(),
+								sectionId: newSection1Id,
+								order: 1,
+								cssId: section1Box2CssId,
+								type: 'MD',
+							})
+							.returning({ id: ctx.drizzleSchema.box.id })
+							.then((res) => res[0]!.id);
+						await tx.insert(ctx.drizzleSchema.mdBox).values({
+							id: createId(),
+							boxId: section1Box2Id,
+							content: `MSXII Sound Design presents Schlump Loops 6! Like no other, Volume 6 delivers more character, textures, tone, & grooves! Schlump Loops 6 is for the producer that needs that new! New sounds within drumbreaks & grooves to use as is, or to chop! Using the loops as-is is ok...but the really beauty in the Schlump Loops series is finding the uniquely characterized one-shots & "in between" stuff.
+
+Pull these up in Serato Sample, Maschine, iOS device, FL Studio, Ableton, or your MPC and lock in! Cop Schlump Loops 5 and add it to your collection of the best drums the game has to offer! Kit Features: 40 original, uniquely textured drum loops in .wav format Mixed ready to go.
+
+Levels set under 0 Db to allow for max idea building, minimal gain staging Chop new one-shots, find new grooves, build more distinct loops by mix & matching Numerous tempos, tons of textures, vibes, character, and originality Loops labeled with bpm for easy file management Not for resale, repurposing, sharing or pirating Compatible with all DAWs, samplers, and iOS apps that accept .wav files`,
+						});
+
+						const section1Box3CssId = await tx
+							.insert(ctx.drizzleSchema.css)
+							.values({
+								id: createId(),
+							})
+							.returning({ id: ctx.drizzleSchema.css.id })
+							.then((res) => res[0]!.id);
+						const section1Box3Id = await tx
+							.insert(ctx.drizzleSchema.box)
+							.values({
+								id: createId(),
+								sectionId: newSection1Id,
+								order: 2,
+								cssId: section1Box3CssId,
+								type: 'IFRAME',
+							})
+							.returning({ id: ctx.drizzleSchema.box.id })
+							.then((res) => res[0]!.id);
+						await tx.insert(ctx.drizzleSchema.iframeBox).values({
+							id: createId(),
+							boxId: section1Box3Id,
+							type: 'YOUTUBE',
+							src: 'https://www.youtube.com/embed/-r2sMTHi5jU',
+						});
+					}
+
+					const section2CssId = await tx
+						.insert(ctx.drizzleSchema.css)
+						.values({
+							id: createId(),
+							twVariants: {
+								'gap-y': '4',
+							},
+							customClasses: ['section-container-v1'],
+						})
+						.returning({ id: ctx.drizzleSchema.css.id })
+						.then((res) => res[0]!.id);
+
+					const newSection2Id = await tx
+						.insert(ctx.drizzleSchema.section)
+						.values({
+							id: createId(),
+							pageId: newPageId,
+							order: 1,
+							cssId: section2CssId,
+						})
+						.returning({ id: ctx.drizzleSchema.section.id })
+						.then((res) => res[0]!.id);
+
+					{
+						const section2Box1CssId = await tx
+							.insert(ctx.drizzleSchema.css)
+							.values({
+								id: createId(),
+								inlineStyles: {
+									gridTemplateColumns: '1fr',
+								},
+								twVariants: {
+									'gap-y': '8',
+								},
+							})
+							.returning({ id: ctx.drizzleSchema.css.id })
+							.then((res) => res[0]!.id);
+						const section2Box1Id = await tx
+							.insert(ctx.drizzleSchema.box)
+							.values({
+								id: createId(),
+								sectionId: newSection2Id,
+								order: 0,
+								type: 'GRID',
+								cssId: section2Box1CssId,
+							})
+							.returning({ id: ctx.drizzleSchema.box.id })
+							.then((res) => res[0]!.id);
+						const section2Box1GridId = await tx
+							.insert(ctx.drizzleSchema.grid)
+							.values({
+								id: createId(),
+								boxId: section2Box1Id,
+							})
+							.returning({ id: ctx.drizzleSchema.grid.id })
+							.then((res) => res[0]!.id);
+
+						{
+							const section2Box1GridBox1IdCssId = await tx
+								.insert(ctx.drizzleSchema.css)
+								.values({
+									id: createId(),
+								})
+								.returning({ id: ctx.drizzleSchema.css.id })
+								.then((res) => res[0]!.id);
+							const section2Box1GridBox1Id = await tx
+								.insert(ctx.drizzleSchema.box)
+								.values({
+									id: createId(),
+									// sectionId: newSection2Id,
+									order: 0,
+									type: 'HEADER',
+									cssId: section2Box1GridBox1IdCssId,
+								})
+								.returning({ id: ctx.drizzleSchema.box.id })
+								.then((res) => res[0]!.id);
+							await tx.insert(ctx.drizzleSchema.headerBox).values({
+								id: createId(),
+								boxId: section2Box1GridBox1Id,
+								title: 'Preview Samples',
+							});
+
+							const section2Box1GridBox2IdCssId = await tx
+								.insert(ctx.drizzleSchema.css)
+								.values({
+									id: createId(),
+								})
+								.returning({ id: ctx.drizzleSchema.css.id })
+								.then((res) => res[0]!.id);
+							const section2Box1GridBox2Id = await tx
+								.insert(ctx.drizzleSchema.box)
+								.values({
+									id: createId(),
+									// sectionId: newSection2Id,
+									order: 1,
+									type: 'IFRAME',
+									cssId: section2Box1GridBox2IdCssId,
+								})
+								.returning({ id: ctx.drizzleSchema.box.id })
+								.then((res) => res[0]!.id);
+							await tx.insert(ctx.drizzleSchema.iframeBox).values({
+								id: createId(),
+								boxId: section2Box1GridBox2Id,
+								type: 'SOUND_CLOUD',
+								src: 'https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/718025401%3Fsecret_token%3Ds-CjhnZ&color=%23c74c4c&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true',
+							});
+
+							const section2Box1GridBox3IdCssId = await tx
+								.insert(ctx.drizzleSchema.css)
+								.values({
+									id: createId(),
+								})
+								.returning({ id: ctx.drizzleSchema.css.id })
+								.then((res) => res[0]!.id);
+							const section2Box1GridBox3Id = await tx
+								.insert(ctx.drizzleSchema.box)
+								.values({
+									id: createId(),
+									// sectionId: newSection2Id,
+									order: 2,
+									type: 'IFRAME',
+									cssId: section2Box1GridBox3IdCssId,
+								})
+								.returning({ id: ctx.drizzleSchema.box.id })
+								.then((res) => res[0]!.id);
+							const section2Box1GridBox3Iframe = await tx
+								.insert(ctx.drizzleSchema.iframeBox)
+								.values({
+									id: createId(),
+									boxId: section2Box1GridBox3Id,
+									type: 'SOUND_CLOUD',
+									src: 'https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/718025401%3Fsecret_token%3Ds-CjhnZ&color=%23c74c4c&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&_=2',
+								});
+							section2Box1GridBox3Iframe;
+
+							const section2Box1GridBox4IdCssId = await tx
+								.insert(ctx.drizzleSchema.css)
+								.values({
+									id: createId(),
+								})
+								.returning({ id: ctx.drizzleSchema.css.id })
+								.then((res) => res[0]!.id);
+							const section2Box1GridBox4Id = await tx
+								.insert(ctx.drizzleSchema.box)
+								.values({
+									id: createId(),
+									// sectionId: newSection2Id,
+									order: 3,
+									type: 'MD',
+									cssId: section2Box1GridBox4IdCssId,
+								})
+								.returning({ id: ctx.drizzleSchema.box.id })
+								.then((res) => res[0]!.id);
+							const section2Box1GridBox4Header = await tx
+								.insert(ctx.drizzleSchema.mdBox)
+								.values({
+									id: createId(),
+									boxId: section2Box1GridBox4Id,
+									content: '&plus; so many more high quality samples',
+								});
+							section2Box1GridBox4Header;
+
+							await tx.insert(ctx.drizzleSchema.boxToGrid).values([
+								{
+									id: createId(),
+									boxId: section2Box1GridBox1Id,
+									order: 0,
+									gridId: section2Box1GridId,
+								},
+								{
+									id: createId(),
+									boxId: section2Box1GridBox2Id,
+									order: 1,
+									gridId: section2Box1GridId,
+								},
+								{
+									id: createId(),
+									boxId: section2Box1GridBox3Id,
+									order: 2,
+									gridId: section2Box1GridId,
+								},
+								{
+									id: createId(),
+									boxId: section2Box1GridBox4Id,
+									order: 3,
+									gridId: section2Box1GridId,
+								},
+							]);
+						}
+					}
+				});
+				//
 			}),
 	}),
 	pagesCategories: createTRPCRouter({

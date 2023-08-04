@@ -11,7 +11,7 @@ import {
 } from '~/utils/custom-pages';
 import Merch from './components/Merch';
 import BlueLabel from './components/BlueLabel';
-import { BiPlus } from 'react-icons/bi';
+import CreateProductPageButton from './components/CreateProductPageButton';
 
 type Props = GetCustomPageDataProps;
 
@@ -19,7 +19,7 @@ const PageCategoryItems = (props: {
 	data: InfiniteData<
 		RouterOutputs['customPages']['pagesCategories']['getManyItems']
 	>;
-	showAddPageToPageCategory?: boolean;
+	addPageToPageCategoryType?: 'product';
 }) => {
 	const data = useMemo(
 		() =>
@@ -29,7 +29,7 @@ const PageCategoryItems = (props: {
 		[props.data.pages],
 	);
 
-	if (data.length === 0 && !props.showAddPageToPageCategory) return <></>;
+	if (data.length === 0 && !props.addPageToPageCategoryType) return <></>;
 
 	return (
 		<div
@@ -41,6 +41,12 @@ const PageCategoryItems = (props: {
 					: 'grid-cols-[repeat(auto-fit,_minmax(12rem,_1fr))]',
 			)}
 		>
+			{props.addPageToPageCategoryType && (
+				<CreateProductPageButton
+					dataLength={data.length}
+					itemsSlugs={data.map((item) => item.slug)}
+				/>
+			)}
 			{data.map((item) => (
 				<div key={item.id} className="flex flex-col gap-4">
 					<Clickable
@@ -78,17 +84,6 @@ const PageCategoryItems = (props: {
 					)}
 				</div>
 			))}
-			{props.showAddPageToPageCategory && (
-				<button
-					type="button"
-					className={cx(
-						'bg-gray-500 text-white flex items-center justify-center',
-						data.length === 0 ? 'w-96 h-96' : undefined,
-					)}
-				>
-					<BiPlus className="text-9xl" />
-				</button>
-			)}
 		</div>
 	);
 };
@@ -195,8 +190,10 @@ const CustomPageScreen = (props: Props) => {
 				{pageCategoryItemsData.status === 'success' && (
 					<PageCategoryItems
 						data={pageCategoryItemsData.data}
-						showAddPageToPageCategory={
+						addPageToPageCategoryType={
 							!!(pageParams.pageCategoryName === 'products' && !pageParams.slug)
+								? 'product'
+								: undefined
 						}
 					/>
 				)}

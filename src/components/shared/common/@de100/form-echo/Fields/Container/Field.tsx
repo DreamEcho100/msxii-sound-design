@@ -114,7 +114,7 @@ const FieldContainer = <Fields, ValidatedFields>(
 			>
 				{children}
 			</LabelAndFieldItemContainerBase>
-			<ul className="flex max-w-full flex-col" id={`describe-${id}`}>
+			<ul className="flex max-w-full flex-col -my-1.5" id={`describe-${id}`}>
 				{errors ? (
 					errors.map((error) => (
 						<li key={error} className="text-red-500/75">

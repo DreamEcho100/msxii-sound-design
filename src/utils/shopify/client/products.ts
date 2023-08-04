@@ -73,19 +73,39 @@ variants(first: 100) {
 
 export const allProductsQuerySchema = z.object({
 	first: z.number().min(0).max(250),
-	query: z.object({
-		title: z.string().optional(),
-		available_for_sale: z.boolean().optional()
-	})
+	query: z
+		.object({
+			title: z.string().optional(),
+			available_for_sale: z.boolean().optional(),
+		})
+		.optional(),
 });
 
 const allProductsQuery = async (
-	input: z.infer<typeof allProductsQuerySchema>
+	input: z.infer<typeof allProductsQuerySchema>,
 ) => {
 	// https://shopify.dev/docs/api/storefront/2023-04/queries/products
+
+	const queryStr =
+		input.query &&
+		Object.keys(input.query)
+			.map((key) =>
+				!(input.query as NonNullable<(typeof input)['query']>)[
+					key as keyof NonNullable<(typeof input)['query']>
+				]
+					? undefined
+					: `${key}:${
+							(input.query as NonNullable<(typeof input)['query']>)[
+								key as keyof NonNullable<(typeof input)['query']>
+							]
+					  }`,
+			)
+			.filter(Boolean)
+			.join(' AND ');
+
 	const template = gql`
-				query getProducts($first: Int, $query: String) {
-					products(first: $first, query: $query) {
+				query getProducts($first: Int${queryStr ? ', $query: String' : ''}) {
+					products(first: $first${queryStr ? ', query: $query' : ''}) {
 						edges {
 							cursor
 							node {
@@ -96,13 +116,14 @@ const allProductsQuery = async (
 				}
 			`;
 
-	const query = input.query;
+	setTimeout(() => {
+		console.log('___ template', template);
+		console.log('___ queryStr', queryStr);
+	}, 7000);
 
 	return (await graphQLClient.request(template, {
 		first: input.first,
-		query: Object.keys(query)
-			.map((key) => `${key}:${query[key as keyof typeof query]}`)
-			.join(' AND ')
+		query: queryStr,
 	})) as {
 		products: Edges<Product>;
 	};
@@ -110,7 +131,7 @@ const allProductsQuery = async (
 
 export const oneProductByHandleQuerySchema = z.object({ handle: z.string() });
 const oneProductByHandleQuery = async (
-	input: z.infer<typeof oneProductByHandleQuerySchema>
+	input: z.infer<typeof oneProductByHandleQuerySchema>,
 ) => {
 	// https://shopify.dev/docs/api/storefront/2023-04/queries/productByHandle
 	const template = gql`query ($handle: String!) {
@@ -125,7 +146,7 @@ const oneProductByHandleQuery = async (
 };
 
 const products = {
-	queries: { all: allProductsQuery, getOneByHandle: oneProductByHandleQuery }
+	queries: { all: allProductsQuery, getOneByHandle: oneProductByHandleQuery },
 };
 
 export default products;

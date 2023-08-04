@@ -52,7 +52,7 @@ export const getStaticProps = async (ctx: GetStaticPropsContext) => {
 			trpcState: ssg.dehydrate(),
 			pageParams,
 		},
-		revalidate: 10,
+		revalidate: 60,
 	};
 };
 

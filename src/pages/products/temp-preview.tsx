@@ -100,7 +100,15 @@ const TempPreviewProductPage = () => {
 		<>
 			<CustomPageBuilder
 				customPage={{
-					twClassNameVariants: undefined,
+					twClassNameVariants: {
+						'max-w': '100ch',
+						w: 'full',
+						mx: 'auto',
+						px: '8',
+						py: '16',
+						'gap-x': '16',
+						'gap-y': '16',
+					},
 					customPageClassesKeys: undefined,
 					slug: undefined,
 					pageCategoryName: '',
@@ -132,9 +140,19 @@ Levels set under 0 Db to allow for max idea building, minimal gain staging Chop 
 									___subType: 'youtube',
 									src: 'https://www.youtube.com/embed/-r2sMTHi5jU',
 								},
+							],
+						},
+						{
+							___type: 'standard-section',
+							order: 1,
+							twClassNameVariants: {
+								'gap-y': '4',
+							},
+							customPageClassesKeys: ['section-container-v1'],
+							body: [
 								{
 									___type: 'grid',
-									gridTemplateColumns: '0',
+									gridTemplateColumns: '1fr',
 									twClassNameVariants: {
 										'gap-y': '8',
 									},

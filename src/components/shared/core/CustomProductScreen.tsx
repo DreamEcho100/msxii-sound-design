@@ -1,6 +1,6 @@
 import { cx } from 'class-variance-authority';
 
-import { ReactNode, useState } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
 
 import { SwiperSlide } from 'swiper/react';
 
@@ -15,6 +15,9 @@ import CTAButton from './Shopify/Cards/CTAButton';
 import Slider, { CardsSlider } from './Shopify/Cards/Slider';
 import ProductPrice from './Shopify/ProductPrice';
 import AddToCartButton from './Shopify/Buttons/AddToCart';
+import { Switch } from '@headlessui/react';
+import { SoundCloudIframe } from '../Iframes';
+import TextTruncateManager from '../common/TextTruncater';
 
 // Credit to: <https://dev.to/anxiny/create-an-image-magnifier-with-react-3fd7>
 const ProductImageShowcase = ({
@@ -26,6 +29,12 @@ const ProductImageShowcase = ({
 }) => {
 	const [selectedImage, setSelectedImage] = useState(productData.featuredImage);
 	const hasImagesVariations = productData.images.edges.length > 1;
+
+	console.log(
+		'productData.images.edges.length',
+		productData.images.edges.length,
+		productData.images.edges,
+	);
 
 	return (
 		<div
@@ -51,7 +60,8 @@ const ProductImageShowcase = ({
 				<Slider
 					verticalOnLG
 					swiperProps={{
-						className: 'max-w-full max-h-[24rem] lg:max-w-[6rem]',
+						className:
+							'max-w-full max-h-[24rem] lg:max-w-[6rem] w-full flex-grow',
 						breakpoints: {
 							1024: {
 								direction: 'vertical',
@@ -63,7 +73,7 @@ const ProductImageShowcase = ({
 					}}
 					isNavButtonsOutside
 					containerProps={{
-						className: 'h-fit',
+						className: 'flex-grow min-w-[5rem]',
 					}}
 				>
 					{productData.images.edges.map(({ node }) => (
@@ -74,7 +84,7 @@ const ProductImageShowcase = ({
 						>
 							<button
 								className={cx(
-									'block w-full transition-all duration-300',
+									'block transition-all duration-300 w-28 aspect-square max-w-full',
 									selectedImage === node ? 'p-2' : '',
 								)}
 								type="button"
@@ -113,12 +123,82 @@ const CustomProductScreen = ({
 }) => {
 	const [selectedQuantity, setSelectedQuantity] = useState(1);
 	const mainVariant = productData.variants.edges[0]?.node;
-	console.log(
-		'++++ productData.availableForSale || selectedQuantity === 0',
+	const [newViewEnabled, setNewViewEnabled] = useState(false);
+	const [newViewData, setNewViewData] = useState<{
+		detailsHTML: string;
+		iframes: {
+			youtube: { src: string; allow: string; title: string }[];
+			soundCloud: { src: string; allow: string; title: string }[];
+		};
+	}>({
+		detailsHTML: '',
+		iframes: { youtube: [], soundCloud: [] },
+	});
 
-		productData.availableForSale,
-		selectedQuantity,
-	);
+	useEffect(() => {
+		if (typeof window === 'undefined') return;
+
+		const container = document.createElement('div');
+		container.innerHTML = productData.descriptionHtml;
+
+		let hasIframes = false;
+		const iframes: {
+			youtube: { src: string; allow: string; title: string }[];
+			soundCloud: { src: string; allow: string; title: string }[];
+		} = {
+			youtube: [],
+			soundCloud: [],
+		};
+
+		container.querySelectorAll('iframe').forEach((iframe) => {
+			const url = new URL(iframe.src);
+
+			if (url.origin.startsWith('https://w.soundcloud.com')) {
+				iframes.soundCloud.push({
+					src: iframe.src,
+					allow: iframe.allow,
+					title: iframe.title,
+				});
+				iframe.parentElement?.removeChild(iframe);
+				iframe.nextElementSibling?.parentElement?.removeChild(iframe);
+				hasIframes = true;
+			}
+
+			if (url.origin.startsWith('https://www.youtube.com')) {
+				iframes.youtube.push({
+					src: iframe.src,
+					allow: iframe.allow,
+					title: iframe.title,
+				});
+				iframe.parentElement?.removeChild(iframe);
+				hasIframes = true;
+			}
+		});
+
+		container.querySelectorAll('div').forEach((div) => {
+			if (div.innerText.trimStart().startsWith('MSXIISound · '))
+				div.parentElement?.removeChild(div);
+		});
+
+		let i;
+		for (i = container.children.length - 1; i > -1; i--) {
+			const child = container.children[i];
+			if (
+				!child ||
+				(child as unknown as { innerText: string }).innerText.trim()
+			)
+				break;
+
+			child.parentElement?.removeChild(child);
+		}
+
+		if (!hasIframes) return;
+
+		setNewViewData({
+			detailsHTML: container.innerHTML,
+			iframes,
+		});
+	}, [productData.descriptionHtml]);
 
 	return (
 		<div className="text-h6 leading-primary-3 p-16 text-text-primary-300 flex flex-col gap-16 max-w-[140ch] mx-auto">
@@ -173,18 +253,64 @@ const CustomProductScreen = ({
 								</em>
 							</small>
 						)}
-						<p className="max-w-[52ch]">{productData.description}</p>
+						<p className="max-w-[52ch]">
+							<TextTruncateManager content={productData.description} />
+						</p>
 					</div>
 				</div>
 				<ProductImageShowcase productData={productData} />
 			</section>
 			{children || (
-				<div
-					className="custom-prose p-4 no-custom-max-w"
-					dangerouslySetInnerHTML={{
-						__html: productData.descriptionHtml || productData.description,
-					}}
-				/>
+				<div>
+					<div className="flex justify-end">
+						<Switch
+							checked={newViewEnabled}
+							onChange={setNewViewEnabled}
+							className={cx(
+								newViewEnabled
+									? 'bg-special-primary-500'
+									: 'bg-special-primary-900',
+								!newViewData.detailsHTML ? 'invisible' : undefined,
+								'relative inline-flex h-8 w-16 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2  focus-visible:ring-white focus-visible:ring-opacity-75',
+							)}
+						>
+							<span className="sr-only">Use setting</span>
+							<span
+								aria-hidden="true"
+								className={`${
+									newViewEnabled ? 'translate-x-9' : 'translate-x-0'
+								}
+            pointer-events-none inline-block h-7 w-7 transform rounded-full bg-white shadow-lg ring-0 transition duration-200 ease-in-out`}
+							/>
+						</Switch>
+					</div>
+					<div className="flex flex-col gap-8">
+						<div
+							className="custom-prose p-4 no-custom-max-w"
+							dangerouslySetInnerHTML={{
+								__html: newViewEnabled
+									? newViewData.detailsHTML
+									: productData.descriptionHtml || productData.description,
+							}}
+						/>
+
+						{newViewEnabled && newViewData.iframes.soundCloud.length !== 0 && (
+							<section className="w-full mx-auto max-w-[140ch] bg-initial-primary-0 text-initial-primary-500 flex flex-col gap-10 rounded-3xl py-12 px-16">
+								<h2 className="font-normal text-initial-primary-500 text-h3">
+									Preview Samples
+								</h2>
+								<div className="flex flex-col gap-8">
+									{newViewData.iframes.soundCloud.map((iframeData) => (
+										<article key={productData.id} className="flex gap-8">
+											<SoundCloudIframe {...iframeData} />
+										</article>
+									))}
+								</div>
+								<p>+ so many more high quality samples</p>
+							</section>
+						)}
+					</div>
+				</div>
 			)}
 			<article>
 				<CTAButton

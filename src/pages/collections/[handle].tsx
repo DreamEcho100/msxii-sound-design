@@ -11,10 +11,9 @@ import { cx } from "class-variance-authority";
 import { createInnerTRPCContext } from "~/server/api/trpc";
 // import { shopifyFakeProductsData } from '~/utils/appData';
 import { type RouterInputs, api } from "~/utils/api";
-import { BasicProductCard } from "~/components/shared/core/Shopify/Cards/Card";
 import Head from "next/head";
 import shopify from "~/utils/shopify/client";
-import Clickable from "~/components/shared/core/Clickable";
+import InfiniteLoadCollectionProductsSection from "~/components/shared/core/InfiniteLoadCollectionProductsSection";
 
 const ProductPage = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
   const productsQuery = api.shopify.collections.getOneByHandle.useInfiniteQuery(
@@ -24,26 +23,6 @@ const ProductPage = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
       keepPreviousData: true,
     }
   );
-  const loadNextPage = async () => {
-    if (!productsQuery.hasNextPage || productsQuery.isFetchingNextPage) return;
-
-    await productsQuery.fetchNextPage();
-  };
-
-  if (productsQuery.isLoading) return <>Loading...</>;
-
-  if (productsQuery.isError) return <>{productsQuery.error.message}</>;
-
-  const productsData = productsQuery.data.pages
-    .map((page) => page.items.map((item) => item.node))
-    .flat();
-
-  // console.log("___ productsData", productsData);
-  // console.log("___ productsQuery.hasNextPage", productsQuery.hasNextPage);
-  // console.log(
-  //   "___ productsQuery.isFetchingNextPage",
-  //   productsQuery.isFetchingNextPage
-  // );
 
   return (
     <>
@@ -67,27 +46,10 @@ const ProductPage = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
             {props.input.handle.replace("-", " ")}
           </h1>
         </header>
-        <div className="grid grid-cols-[repeat(auto-fill,_minmax(12rem,_1fr))] gap-8 lg:flex-nowrap lg:justify-between">
-          {productsData.map((node) => (
-            <BasicProductCard
-              key={node.handle}
-              product={node}
-              containerVariants={{ w: null }}
-            />
-          ))}
-        </div>
-        {productsQuery.hasNextPage && (
-          <Clickable
-            variants={{ w: "full", rounded: null }}
-            // eslint-disable-next-line @typescript-eslint/no-misused-promises
-            onClick={async () => {
-              await loadNextPage();
-            }}
-            disabled={productsQuery.isFetchingNextPage}
-          >
-            load more
-          </Clickable>
-        )}
+        <InfiniteLoadCollectionProductsSection
+          infiniteQuery={productsQuery}
+          input={props.input}
+        />
       </section>
     </>
   );

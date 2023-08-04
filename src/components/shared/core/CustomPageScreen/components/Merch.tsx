@@ -14,11 +14,17 @@ const Merch = () => {
   const collectionQuery =
     api.shopify.collections.getOneByHandle.useInfiniteQuery(input);
 
+  const firstItem =
+    collectionQuery.data?.pages[collectionQuery.data.pages.length - 1].items[0]
+      ?.node;
+
   return (
     <>
       <Head>
-        <title>Merch</title>
-        {/* <meta name="description" content={collectionData.description} /> */}
+        <title>{firstItem?.title ?? "Merch"}</title>
+        {firstItem && (
+          <meta name="description" content={firstItem.description} />
+        )}
       </Head>
       <div
         className="grid justify-items-center gap-8"

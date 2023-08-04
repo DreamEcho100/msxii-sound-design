@@ -11,7 +11,6 @@ import { cx } from "class-variance-authority";
 import { createInnerTRPCContext } from "~/server/api/trpc";
 // import { shopifyFakeProductsData } from '~/utils/appData';
 import { type RouterInputs, api } from "~/utils/api";
-import Head from "next/head";
 import shopify from "~/utils/shopify/client";
 import InfiniteLoadCollectionProductsSection from "~/components/shared/core/InfiniteLoadCollectionProductsSection";
 
@@ -23,38 +22,24 @@ const ProductPage = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
       keepPreviousData: true,
     }
   );
-  console.log("___ props", props);
 
   return (
-    <>
-      <Head>
-        <title>
-          {productsQuery.isLoading
-            ? "Loading..."
-            : props?.input?.handle
-                ?.split("-")
-                .map((str) => str.slice(0, 1).toUpperCase() + str.slice(1))
-                .join(" ")}
-        </title>
-        {/* <meta name="description" content={productData.description} /> */}
-      </Head>
-      <section
-        className={cx(
-          "px-main-p-4 py-main-p-1 sm:px-main-p-2",
-          "flex flex-col gap-10"
-        )}
-      >
-        <header className="lg:text-align-initial flex flex-col gap-6 text-center">
-          <h1 className="text-h3 font-semibold capitalize">
-            {props.input.handle.replace("-", " ")}
-          </h1>
-        </header>
-        <InfiniteLoadCollectionProductsSection
-          infiniteQuery={productsQuery}
-          input={props.input}
-        />
-      </section>
-    </>
+    <section
+      className={cx(
+        "px-main-p-4 py-main-p-1 sm:px-main-p-2",
+        "flex flex-col gap-10"
+      )}
+    >
+      <header className="lg:text-align-initial flex flex-col gap-6 text-center">
+        <h1 className="text-h3 font-semibold capitalize">
+          {props.input.handle.replace("-", " ")}
+        </h1>
+      </header>
+      <InfiniteLoadCollectionProductsSection
+        infiniteQuery={productsQuery}
+        input={props.input}
+      />
+    </section>
   );
 };
 

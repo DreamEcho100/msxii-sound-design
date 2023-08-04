@@ -2,6 +2,7 @@ import { type UseInfiniteQueryResult } from "@tanstack/react-query";
 import { type RouterOutputs, type RouterInputs } from "~/utils/api";
 import { BasicProductCard } from "./Shopify/Cards/Card";
 import Clickable from "./Clickable";
+import Head from "next/head";
 
 type Props = {
   input: RouterInputs["shopify"]["collections"]["getOneByHandle"];
@@ -31,13 +32,36 @@ const InfiniteLoadCollectionProductsSection = (props: Props) => {
     .map((page) => page.items.map((item) => item.node))
     .flat();
 
+  const firstItem = productsData?.[productsData.length - 1];
+
   return (
     <>
+      <Head>
+        <title>
+          {props.input.handle
+            .split("-")
+            .map((str) => str.slice(0, 1).toUpperCase() + str.slice(1))
+            .join(" ")}
+        </title>
+        {/* <meta name="description" content={productData.description} /> */}
+      </Head>
+      <Head>
+        <title>
+          {firstItem?.title ??
+            props.input.handle
+              .split("-")
+              .map((str) => str.slice(0, 1).toUpperCase() + str.slice(1))
+              .join(" ")}
+        </title>
+        {firstItem && (
+          <meta name="description" content={firstItem.description} />
+        )}
+      </Head>
       <div className="grid grid-cols-[repeat(auto-fill,_minmax(15rem,_1fr))] gap-8 lg:flex-nowrap lg:justify-between">
-        {productsData.map((node) => (
+        {productsData.map((item) => (
           <BasicProductCard
-            key={node.handle}
-            product={node}
+            key={item.handle}
+            product={item}
             containerVariants={{ w: null }}
           />
         ))}

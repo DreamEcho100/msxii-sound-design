@@ -32,7 +32,7 @@ const ProductPage = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
     >
       <header className="lg:text-align-initial flex flex-col gap-6 text-center">
         <h1 className="text-h3 font-semibold capitalize">
-          {props.input.handle.replace("-", " ")}
+          {props?.input?.handle?.replace("-", " ")}
         </h1>
       </header>
       <InfiniteLoadCollectionProductsSection

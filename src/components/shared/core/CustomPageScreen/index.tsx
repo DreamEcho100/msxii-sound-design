@@ -164,10 +164,16 @@ const CustomPageScreen = (props: Props): React.JSX.Element => {
   ]);
 
   if (
-    pageCategoryItemsData.status === "loading" ||
-    customPageStructureData.status === "loading"
+    pageCategoryItemsData.status === "not-available" &&
+    customPageStructureData.status === "not-available"
   )
-    return <>Loading...</>;
+    return <p className='capitalize'>not available</p>;
+
+		if (
+			pageCategoryItemsData.status === "loading" ||
+			customPageStructureData.status === "loading"
+		)
+			return <>Loading...</>;
 
   if (
     pageCategoryItemsData.status === "error" ||

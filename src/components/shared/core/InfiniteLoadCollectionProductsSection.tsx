@@ -39,10 +39,11 @@ const InfiniteLoadCollectionProductsSection = (props: Props) => {
       <Head>
         <title>
           {firstItem?.title ??
-            props.input.handle
-              .split("-")
-              .map((str) => str.slice(0, 1).toUpperCase() + str.slice(1))
-              .join(" ")}
+            // props.input.handle
+            //   .split("-")
+            //   .map((str) => str.slice(0, 1).toUpperCase() + str.slice(1))
+            // 	.join(" ")
+            props?.input?.handle}
         </title>
         {firstItem && (
           <meta name="description" content={firstItem.description} />

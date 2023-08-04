@@ -91,7 +91,6 @@ const ProductsScreen = ({
 		},
 	});
 
-	console.log('___ collectionsByHandle', collectionsByHandle);
 
 	useEffect(() => {
 		let timeoutId: NodeJS.Timeout;

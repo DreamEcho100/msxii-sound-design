@@ -1,11 +1,11 @@
-import { gql } from 'graphql-request';
-import { type Collection, type Edges, type BasicCollection } from '../types';
-import { graphQLClient } from './_utils';
-import { gqlProductSchemaText } from './products';
-import { z } from 'zod';
+import { gql } from "graphql-request";
+import { type Collection, type Edges, type BasicCollection } from "../types";
+import { graphQLClient } from "./_utils";
+import { gqlProductSchemaText, gqlProductBasicSchemaText } from "./products";
+import { z } from "zod";
 
 // , filters: { available: true }
-const gqlCollectionSchemaText = `description
+const gqlCollectionSchemaWithBasicProductsText = `description
 		handle
 		id
 		onlineStoreUrl
@@ -14,37 +14,51 @@ const gqlCollectionSchemaText = `description
 		products(first: 100) {
 			edges {
 				node {
-					${gqlProductSchemaText}
+					${gqlProductBasicSchemaText}
 				}
 			}
 		}`;
+// , filters: { available: true }
+const gqlCollectionSchemaText = `description
+				handle
+				id
+				onlineStoreUrl
+				title
+				updatedAt
+				products(first: 100) {
+					edges {
+						node {
+							${gqlProductSchemaText}
+						}
+					}
+				}`;
 
 export const getQQLManyCollectionTextSchema = z
-	.object({
-		collectionsFirst: z.number().min(5).max(100).optional().default(25),
-		productsFirst: z.number().min(5).max(100).optional().default(25),
-	})
-	.optional()
-	.default({
-		collectionsFirst: 10,
-		productsFirst: 10,
-	});
+  .object({
+    collectionsFirst: z.number().min(5).max(100).optional().default(25),
+    productsFirst: z.number().min(5).max(100).optional().default(25),
+  })
+  .optional()
+  .default({
+    collectionsFirst: 10,
+    productsFirst: 10,
+  });
 
 const getQQLManyCollectionText = (
-	input?: z.infer<typeof getQQLManyCollectionTextSchema>,
+  input?: z.infer<typeof getQQLManyCollectionTextSchema>
 ) => {
-	// const query = !input?.query;
-	// const queryText = !query
-	// 	? ''
-	// 	: Object.keys(query)
-	// 			.map((key) => `"${key}:${query[key as keyof typeof query]}"`)
-	// 			.join(' AND ');
+  // const query = !input?.query;
+  // const queryText = !query
+  // 	? ''
+  // 	: Object.keys(query)
+  // 			.map((key) => `"${key}:${query[key as keyof typeof query]}"`)
+  // 			.join(' AND ');
 
-	// ${!queryText ? '' : `query: ${queryText}, `}
-	// , filters: { available: true }
-	const first = input?.productsFirst ?? 10;
+  // ${!queryText ? '' : `query: ${queryText}, `}
+  // , filters: { available: true }
+  const first = input?.productsFirst ?? 10;
 
-	return `description
+  return `description
 	handle
 	id
 	onlineStoreUrl
@@ -60,33 +74,33 @@ const getQQLManyCollectionText = (
 };
 
 const allCollectionsHandlesQuery = async () =>
-	// input: z.infer<typeof customerAccessTokenInputSchema>
-	{
-		// https://shopify.dev/docs/api/storefront/2023-04/queries/collections
-		const template = gql`
-			query {
-				collections(first: 100) {
-					edges {
-						node {
-							handle
-						}
-					}
-				}
-			}
-		`;
+  // input: z.infer<typeof customerAccessTokenInputSchema>
+  {
+    // https://shopify.dev/docs/api/storefront/2023-04/queries/collections
+    const template = gql`
+      query {
+        collections(first: 100) {
+          edges {
+            node {
+              handle
+            }
+          }
+        }
+      }
+    `;
 
-		return (
-			(await graphQLClient.request<{
-				collections: {
-					edges: {
-						node: {
-							handle: string;
-						};
-					}[];
-				};
-			}>(template))
-		).collections.edges.map((edge) => edge.node.handle);
-	};
+    return (
+      await graphQLClient.request<{
+        collections: {
+          edges: {
+            node: {
+              handle: string;
+            };
+          }[];
+        };
+      }>(template)
+    ).collections.edges.map((edge) => edge.node.handle);
+  };
 
 // const allCollectionsQuery = async () => {
 // 	// https://shopify.dev/docs/api/storefront/2023-04/queries/collections
@@ -107,10 +121,10 @@ const allCollectionsHandlesQuery = async () =>
 // 	};
 // };
 const manyCollectionsQuery = async (
-	input?: z.infer<typeof getQQLManyCollectionTextSchema>,
+  input?: z.infer<typeof getQQLManyCollectionTextSchema>
 ) => {
-	// https://shopify.dev/docs/api/storefront/2023-04/queries/collections
-	const template = gql`
+  // https://shopify.dev/docs/api/storefront/2023-04/queries/collections
+  const template = gql`
 						query {
 							collections(first: ${input?.collectionsFirst}) {
 								edges {
@@ -122,36 +136,36 @@ const manyCollectionsQuery = async (
 						}
 					`;
 
-	return (await graphQLClient.request<{
-		collections: Edges<BasicCollection>;
-	}>(template)) ;
+  return await graphQLClient.request<{
+    collections: Edges<BasicCollection>;
+  }>(template);
 };
 
 export const oneCollectionByHandleQuerySchema = z.object({
-	handle: z.string(),
+  handle: z.string(),
 });
 const oneCollectionByHandleQuery = async (
-	input: z.infer<typeof oneCollectionByHandleQuerySchema>,
+  input: z.infer<typeof oneCollectionByHandleQuerySchema>
 ) => {
-	// https://shopify.dev/docs/api/storefront/2023-04/queries/collectionByHandle
-	const template = gql`query ($handle: String!) {
+  // https://shopify.dev/docs/api/storefront/2023-04/queries/collectionByHandle
+  const template = gql`query ($handle: String!) {
 		collectionByHandle(handle: $handle) {
-			${gqlCollectionSchemaText}
+			${gqlCollectionSchemaWithBasicProductsText}
 		}
 	}`;
 
-	return (await graphQLClient.request<{
-		collectionByHandle: Collection;
-	}>(template, input)) ;
+  return await graphQLClient.request<{
+    collectionByHandle: Collection;
+  }>(template, input);
 };
 
 const collections = {
-	queries: {
-		// all: allCollectionsQuery,
-		many: manyCollectionsQuery,
-		allHandles: allCollectionsHandlesQuery,
-		getOneByHandle: oneCollectionByHandleQuery,
-	},
+  queries: {
+    // all: allCollectionsQuery,
+    many: manyCollectionsQuery,
+    allHandles: allCollectionsHandlesQuery,
+    getOneByHandle: oneCollectionByHandleQuery,
+  },
 };
 
 export default collections;

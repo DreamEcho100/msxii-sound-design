@@ -38,7 +38,7 @@ const SelectFormField = ({
           </option>
           {options.map((option) => (
             <option
-              key={option.key || String(option.value)}
+              key={option.key ?? String(option.value)}
               {...option}
               selected={option.value === value}
             />

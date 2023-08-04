@@ -1,7 +1,7 @@
 import { cx } from 'class-variance-authority';
 import { BsPersonFill } from 'react-icons/bs';
 import { useStore } from 'zustand';
-import Clickable, { ClickableProps } from '~/components/shared/Clickable';
+import Clickable, { type ClickableProps } from '~/components/shared/Clickable';
 import { globalStore } from '~/store';
 
 const PersonIcon = () => {

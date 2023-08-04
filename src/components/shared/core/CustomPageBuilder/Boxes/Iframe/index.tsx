@@ -1,11 +1,11 @@
 import { type ReactNode } from 'react';
 import BoxEditOverlay from '../../BoxEditOverlay';
-import { BoxTypeIframe, PageStoreApi } from '../../_';
+import { type BoxTypeIframe, type PageStoreApi } from '../../_';
 import { BoxTypes, IframeBoxTypes } from '@prisma/client';
 import { useStore } from 'zustand';
 import { getValueByPathArray, newUpdatedByPathArray } from '~/utils/obj/update';
 import { cx } from 'class-variance-authority';
-import { BoxVariants, handleBoxVariants } from '~/utils/appData';
+import { type BoxVariants, handleBoxVariants } from '~/utils/appData';
 import {
 	type FormStoreApi,
 	type GetPassedValidationFieldsValues,
@@ -20,7 +20,7 @@ import { toast } from 'react-toastify';
 
 import customPageClasses from '~/styles/_custom-page.module.css';
 import { CreateOneCustomCssSchema } from '~/server/utils/validations-schemas/dashboard/css/customClasses';
-import { CustomCssFormStore, CustomCssForm } from '../../Css/CustomClasses';
+import { type CustomCssFormStore, CustomCssForm } from '../../Css/CustomClasses';
 import {
 	type TwVariantsFormStore,
 	TwVariantsForm,
@@ -74,7 +74,9 @@ const IframeBoxForm = (props: {
 
 	return (
 		<Form
-			onSubmit={async (event, params) => {
+			
+// eslint-disable-next-line @typescript-eslint/no-misused-promises
+onSubmit={async (event, params) => {
 				event.preventDefault();
 				await updateOneRequest.mutateAsync({
 					id: props.id,
@@ -142,7 +144,7 @@ const IframeBoxView = (
 				width={props.parentBox === BoxTypes.SLIDER ? '200' : '550'}
 				height={props.parentBox === BoxTypes.SLIDER ? '200' : '550'}
 				src={props.src}
-				title={props.title || 'YouTube video player'}
+				title={props.title ?? 'YouTube video player'}
 				allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
 			/>
 		);
@@ -166,6 +168,8 @@ const IframeBoxView = (
 				childrenAfter={props.childrenAfter}
 			/>
 		);
+
+	return <></>
 };
 
 const IframeBoxFormView = (
@@ -232,7 +236,7 @@ const IframeBoxFormView = (
 const IframeBoxEditOverlay = (props: Props) => {
 	const box = useStore(
 		props.pageStore,
-		(state) => getValueByPathArray(state.page, props.path) as BoxTypeIframe, // .slice(0, -1)
+		(state) => getValueByPathArray<BoxTypeIframe>(state.page, props.path), // .slice(0, -1)
 	);
 	const iframeFormStore: IframeFormStore = useCreateFormStore({
 		initValues: {
@@ -379,7 +383,7 @@ const IframeBoxEditOverlay = (props: Props) => {
 export const IframeBoxEditable = (props: Props) => {
 	const box = useStore(
 		props.pageStore,
-		(state) => getValueByPathArray(state.page, props.path) as BoxTypeIframe,
+		(state) => getValueByPathArray<BoxTypeIframe>(state.page, props.path) ,
 	);
 
 	const iframeBoxViewProps = {

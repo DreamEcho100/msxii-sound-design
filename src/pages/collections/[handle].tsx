@@ -1,16 +1,16 @@
 import { createServerSideHelpers } from '@trpc/react-query/server';
 import superjson from 'superjson';
 import {
-	GetStaticPaths,
-	GetStaticPropsContext,
-	InferGetStaticPropsType,
+	type GetStaticPaths,
+	type GetStaticPropsContext,
+	type InferGetStaticPropsType,
 } from 'next';
 import { z } from 'zod';
 import { appRouter } from '~/server/api/root';
 import { cx } from 'class-variance-authority';
 import { createInnerTRPCContext } from '~/server/api/trpc';
 // import { shopifyFakeProductsData } from '~/utils/appData';
-import { RouterInputs, api } from '~/utils/api';
+import { type RouterInputs, api } from '~/utils/api';
 import { BasicProductCard } from '~/components/shared/core/Shopify/Cards/Card';
 import Head from 'next/head';
 import shopify from '~/utils/shopify/client';
@@ -77,7 +77,7 @@ export const getStaticProps = async (
 
 	const ssg = createServerSideHelpers({
 		router: appRouter,
-		ctx: await createInnerTRPCContext({ session: null }),
+		ctx: createInnerTRPCContext({}),
 		transformer: superjson, // optional - adds superjson serialization
 	});
 

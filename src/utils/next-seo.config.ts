@@ -1,4 +1,4 @@
-import { DefaultSeoProps } from 'next-seo';
+import { type  DefaultSeoProps } from 'next-seo';
 
 export const websiteBasePath = `https://${process.env.NEXT_PUBLIC_APP_DOMAINE}`;
 

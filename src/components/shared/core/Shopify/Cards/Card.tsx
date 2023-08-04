@@ -1,8 +1,8 @@
-import { ReactNode, useMemo } from 'react';
+import { type ReactNode, useMemo } from 'react';
 import Clickable from '../../Clickable';
 import CustomNextImage from '~/components/shared/CustomNextImage';
-import { VariantProps, cva } from 'class-variance-authority';
-import { Product, BasicProduct } from '~/utils/shopify/types';
+import { type VariantProps, cva } from 'class-variance-authority';
+import { type Product, type BasicProduct } from '~/utils/shopify/types';
 import { BiPlay } from 'react-icons/bi';
 import Link from 'next/link';
 import ProductPrice from '../ProductPrice';
@@ -83,7 +83,7 @@ export const BasicProductCard = (props: {
 	return (
 		<article
 			className={handleBasicProductCardHolderVariants({
-				...(props.containerVariants || {}),
+				...(props.containerVariants ?? {}),
 				className: props.containerClassName,
 			})}
 		>

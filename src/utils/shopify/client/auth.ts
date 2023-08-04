@@ -2,7 +2,7 @@ import { gql } from 'graphql-request';
 import { z } from 'zod';
 import {
 	type ShopifyCustomer,
-	ShopifyErrorShape,
+	type ShopifyErrorShape,
 	type SHOPIFY_CUSTOMER_ERRORS_CODES,
 } from '../types';
 import { graphQLClient, customerGQLFields } from './_utils';
@@ -39,7 +39,7 @@ const customerAccessTokenCreateMutation = async (
 		}
 	`;
 
-	return (await graphQLClient.request(template, { input })) as {
+	return (await graphQLClient.request<{
 		customerAccessTokenCreate: {
 			customerAccessToken: {
 				accessToken: string;
@@ -47,7 +47,7 @@ const customerAccessTokenCreateMutation = async (
 			};
 			customerUserErrors: ShopifyErrorShape<SHOPIFY_CUSTOMER_ERRORS_CODES>[];
 		};
-	};
+	}>(template, { input }));
 };
 
 const customerAccessTokenInputSchema = z.object({
@@ -65,9 +65,9 @@ const customerDataByAccessTokenQuery = async (
 }
  `;
 
-	return (await graphQLClient.request(template)) as {
+	return (await graphQLClient.request<{
 		customer: ShopifyCustomer;
-	};
+	}>(template)) ;
 };
 
 const customerAccessTokenDeleteSchema = z.object({
@@ -89,7 +89,7 @@ const customerAccessTokenDeleteMutation = async (
 		}
 	`;
 
-	return (await graphQLClient.request(template, input)) as {
+	return (await graphQLClient.request<{
 		// customerAccessTokenCreate: {
 		// customerAccessToken: {
 		// 	customerAccessToken: string;
@@ -102,7 +102,7 @@ const customerAccessTokenDeleteMutation = async (
 		// 	message: string;
 		// }[];
 		// };
-	};
+	}>(template, input)) ;
 };
 
 const customerCreateSchema = z.object({
@@ -129,12 +129,12 @@ const customerCreateMutation = async (
 		}
 	`;
 
-	return (await graphQLClient.request(template, { input })) as {
+	return (await graphQLClient.request<{
 		customerCreate: {
 			customer: ShopifyCustomer;
 			customerUserErrors: ShopifyErrorShape<SHOPIFY_CUSTOMER_ERRORS_CODES>[];
 		};
-	};
+	}>(template, { input })) ;
 };
 
 const auth = {

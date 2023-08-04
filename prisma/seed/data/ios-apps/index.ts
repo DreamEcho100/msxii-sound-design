@@ -1,4 +1,4 @@
-import { CustomPage } from '~/utils/types/custom-page';
+import { type CustomPage } from '~/utils/types/custom-page';
 import { iosAppPagesPageCategory } from '../pagesCategories';
 import { createStandardSection } from '../../utils';
 

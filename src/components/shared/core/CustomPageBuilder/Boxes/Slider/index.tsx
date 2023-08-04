@@ -1,11 +1,11 @@
 import { useState, type ReactNode, useEffect } from 'react';
 import BoxEditOverlay from '../../BoxEditOverlay';
-import { Box, BoxTypeSlider, PageStoreApi, SectionBoxContainer } from '../../_';
+import { type Box, type BoxTypeSlider, type PageStoreApi, SectionBoxContainer } from '../../_';
 import { BoxTypes, SlidesPerViewType } from '@prisma/client';
 import { useStore } from 'zustand';
 import { getValueByPathArray, newUpdatedByPathArray } from '~/utils/obj/update';
 import { cx } from 'class-variance-authority';
-import { BoxVariants, handleBoxVariants } from '~/utils/appData';
+import { type BoxVariants, handleBoxVariants } from '~/utils/appData';
 import {
 	type FormStoreApi,
 	type GetPassedValidationFieldsValues,
@@ -19,7 +19,7 @@ import { toast } from 'react-toastify';
 
 import customPageClasses from '~/styles/_custom-page.module.css';
 import { CreateOneCustomCssSchema } from '~/server/utils/validations-schemas/dashboard/css/customClasses';
-import { CustomCssFormStore, CustomCssForm } from '../../Css/CustomClasses';
+import { type CustomCssFormStore, CustomCssForm } from '../../Css/CustomClasses';
 import {
 	type TwVariantsFormStore,
 	TwVariantsForm,
@@ -84,6 +84,7 @@ const SliderForm = (props: {
 
 	return (
 		<Form
+			// eslint-disable-next-line @typescript-eslint/no-misused-promises
 			onSubmit={async (event, params) => {
 				event.preventDefault();
 				await updateOneRequest.mutateAsync({
@@ -114,9 +115,11 @@ const SliderForm = (props: {
 				onChange={(value) => {
 					props.store.getState().utils.handleOnInputChange(
 						'slidesPerViewType',
-						// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-						// @ts-ignore
-						value.value,
+						// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+						(value as {
+							value: "DEFAULT" | "ONE_SLIDE" | "LARGE_SLIDES";
+							name: string;
+						}).value,
 					);
 				}}
 				// defaultValue={{
@@ -182,7 +185,7 @@ const SliderView = (
 				{!forceRerender && (
 					<SliderComp
 						swiperProps={{
-							className: cx(customPageClasses['swiper'], 'swiper-fluid'),
+							className: cx(customPageClasses.swiper, 'swiper-fluid'),
 							breakpoints:
 								props.slidesPerViewType === SlidesPerViewType.LARGE_SLIDES
 									? {
@@ -314,7 +317,7 @@ const SliderEditOverlay = (
 ) => {
 	const box = useStore(
 		props.pageStore,
-		(state) => getValueByPathArray(state.page, props.path) as BoxTypeSlider, // .slice(0, -1)
+		(state) => getValueByPathArray<BoxTypeSlider>(state.page, props.path), // .slice(0, -1)
 	);
 	const sliderFormStore: SliderFormStore = useCreateFormStore({
 		initValues: {
@@ -448,7 +451,7 @@ const SliderEditOverlay = (
 export const SliderEditable = (props: Props) => {
 	const box = useStore(
 		props.pageStore,
-		(state) => getValueByPathArray(state.page, props.path) as BoxTypeSlider,
+		(state) => getValueByPathArray<BoxTypeSlider>(state.page, props.path),
 	);
 
 	const sliderViewProps = {

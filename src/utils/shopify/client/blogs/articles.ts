@@ -84,9 +84,9 @@ const getManyArticlesGQLQuery = async (
 						}
 					`;
 
-	return (await graphQLClient.request(template)) as {
+	return (await graphQLClient.request<{
 		articles: EdgesWithPagination<Article>;
-	};
+	}>(template));
 };
 
 export const getQQLManyBasicArticlesInputSchema = z.object({
@@ -119,9 +119,9 @@ const getManyBasicArticlesGQLQuery = async (
 						}
 					`;
 
-	return (await graphQLClient.request(template)) as {
+	return (await graphQLClient.request<{
 		articles: EdgesWithPagination<Article>;
-	};
+	}>(template));
 };
 const geAllArticlesIdsGQLQuery = async () => {
 	// https://shopify.dev/docs/api/storefront/2023-04/objects/Article
@@ -137,9 +137,9 @@ const geAllArticlesIdsGQLQuery = async () => {
 		}
 	`;
 
-	return (await graphQLClient.request(template)) as {
+	return (await graphQLClient.request<{
 		articles: Edges<Pick<Article, 'id'>>;
-	};
+	}>(template));
 };
 
 export const getOneArticleByIdGQLQueryInputSchema = z.string().min(1);
@@ -155,9 +155,9 @@ const getOneArticleByIdGQLQuery = async (
 		}
 	`;
 
-	return (await graphQLClient.request(template)) as {
+	return (await graphQLClient.request<{
 		article: Article;
-	};
+	}>(template));
 };
 
 const articles = {

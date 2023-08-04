@@ -1,12 +1,12 @@
 import {
-	StandardSection,
+	type StandardSection,
 	BOXES_TYPES_map,
-	IframeBox,
+	type IframeBox,
 	SUB_BOXES_TYPES_map,
-	TabsBox,
-	Slider,
-	CustomPage,
-	Grid,
+	type TabsBox,
+	type Slider,
+	type CustomPage,
+	type Grid,
 } from '~/utils/types/custom-page';
 import { createStandardSection } from '../utils';
 
@@ -15,7 +15,7 @@ export const FlyTapeIOSApp: StandardSection[] = (() => {
 
 	const grid: Grid = {
 		twClassNameVariants: { 'gap-x': '8' },
-		___type: BOXES_TYPES_map['grid'],
+		___type: BOXES_TYPES_map.grid,
 		gridTemplateColumns: `repeat(auto-fit, minmax(20rem, 1fr))`,
 		items: [
 			{
@@ -27,7 +27,7 @@ export const FlyTapeIOSApp: StandardSection[] = (() => {
 			{
 				customPageClassesKeys: ['center-on-ls-md-screens'],
 				twClassNameVariants: { 'gap-y': '2', px: '4' },
-				___type: BOXES_TYPES_map['md'],
+				___type: BOXES_TYPES_map.md,
 				content: `# Fly Tape
 ## IOS-APP
 
@@ -40,18 +40,18 @@ Fly Tape installs as an iOS AUv3 FX plugin, designed for use within host apps su
 		],
 	};
 	const iframeBox: IframeBox = {
-		___type: BOXES_TYPES_map['iframe'],
-		___subType: SUB_BOXES_TYPES_map['youtube'],
+		___type: BOXES_TYPES_map.iframe,
+		___subType: SUB_BOXES_TYPES_map.youtube,
 		src: 'https://www.youtube.com/embed/OLPSb69q5mM?autoplay=0&loop=0&mute=0&controls=0&enablejsapi=1',
 	};
 	const tabsBox: TabsBox = {
-		___type: BOXES_TYPES_map['tabs'],
+		___type: BOXES_TYPES_map.tabs,
 		tabs: [
 			{
 				title: 'Description',
 				data: {
 					twClassNameVariants: { 'gap-y': '2', px: '4' },
-					___type: BOXES_TYPES_map['md'],
+					___type: BOXES_TYPES_map.md,
 					content: `Named for it's performance style of use, users can adding FX to their incoming audio signals in many ways "on the Fly." Sliders for textured nuances such as hiss & pitch will allow you to dial in tasteful settings that can become reminiscent of cassette tapes. These also can be automated via midi cc for additional modulation.`,
 				},
 			},
@@ -59,7 +59,7 @@ Fly Tape installs as an iOS AUv3 FX plugin, designed for use within host apps su
 				title: 'Specs',
 				data: {
 					twClassNameVariants: { 'gap-y': '2', px: '4' },
-					___type: BOXES_TYPES_map['md'],
+					___type: BOXES_TYPES_map.md,
 					content: `### Fly Tape FX:
 
 Fly Tape includes numerous touch based FX. These FX also release upon button release to enhance the performance experience. Additionally, some FX have more settings upon a quick, double-tap of the effect.
@@ -146,13 +146,13 @@ Fly Tape's Midi CC values are listed below:
 				title: 'User Manual',
 				data: {
 					twClassNameVariants: { 'gap-x': '8', 'gap-y': '8' },
-					___type: BOXES_TYPES_map['grid'],
+					___type: BOXES_TYPES_map.grid,
 					gridTemplateColumns: `repeat(auto-fit, minmax(20rem, 1fr))`,
 					items: [
 						{
 							customPageClassesKeys: ['center-on-ls-md-screens'],
 							twClassNameVariants: { 'gap-y': '2', px: '4' },
-							___type: BOXES_TYPES_map['md'],
+							___type: BOXES_TYPES_map.md,
 							content: `### Whats New:
 	
 2.0 updates:
@@ -177,53 +177,53 @@ You can check out the reference guide below
 		],
 	};
 	const slider: Slider = {
-		___type: BOXES_TYPES_map['slider'],
+		___type: BOXES_TYPES_map.slider,
 		slides: [
 			{
-				___type: BOXES_TYPES_map['iframe'],
-				___subType: SUB_BOXES_TYPES_map['youtube'],
+				___type: BOXES_TYPES_map.iframe,
+				___subType: SUB_BOXES_TYPES_map.youtube,
 				src: 'https://www.youtube.com/embed/dAaKwsDX11U?autoplay=0&loop=0&mute=0&controls=1&enablejsapi=1',
 			},
 			{
-				___type: BOXES_TYPES_map['iframe'],
-				___subType: SUB_BOXES_TYPES_map['youtube'],
+				___type: BOXES_TYPES_map.iframe,
+				___subType: SUB_BOXES_TYPES_map.youtube,
 				src: 'https://www.youtube.com/embed/K-W9vtIRAZw?autoplay=0&loop=0&mute=0&controls=1&enablejsapi=1',
 			},
 			{
-				___type: BOXES_TYPES_map['iframe'],
-				___subType: SUB_BOXES_TYPES_map['youtube'],
+				___type: BOXES_TYPES_map.iframe,
+				___subType: SUB_BOXES_TYPES_map.youtube,
 				src: 'https://www.youtube.com/embed/vWyepI8I_R8?autoplay=0&loop=0&mute=0&controls=1&enablejsapi=1',
 			},
 		],
 	};
 	const slider2: Slider = {
-		___type: BOXES_TYPES_map['slider'],
+		___type: BOXES_TYPES_map.slider,
 		slidesPerViewType: 'large-slides',
 		slides: [
 			{
-				___type: BOXES_TYPES_map['iframe'],
+				___type: BOXES_TYPES_map.iframe,
 				___subType: 'instagram',
 				src: 'https://www.instagram.com/p/B86N3QiHJcn/?utm_source=ig_embed&utm_campaign=loading',
 			},
 			// {
-			// 	___type: BOXES_TYPES_map['iframe'],
+			// 	___type: BOXES_TYPES_map.iframe,
 			// 	___subType: 'instagram',
 			// 	src: 'https://www.instagram.com/p/B8qiCA6i3qa/?utm_source=ig_embed&utm_campaign=loading'
 			// },
 			// {
-			// 	___type: BOXES_TYPES_map['iframe'],
+			// 	___type: BOXES_TYPES_map.iframe,
 			// 	___subType: 'instagram',
 			// 	src: 'https://www.instagram.com/p/BvJsq-qAqzU/?utm_source=ig_embed&utm_campaign=loading'
 			// },
 			{
-				___type: BOXES_TYPES_map['iframe'],
+				___type: BOXES_TYPES_map.iframe,
 				___subType: 'instagram',
 				src: 'https://www.instagram.com/p/B7sPExan8Js/?utm_source=ig_embed&utm_campaign=loading',
 			},
 		],
 	};
 	const grid2: Grid = {
-		___type: BOXES_TYPES_map['grid'],
+		___type: BOXES_TYPES_map.grid,
 		twClassNameVariants: { 'gap-y': '3' },
 		gridTemplateColumns: `1fr`,
 		customPageClassesKeys: ['center-content'],

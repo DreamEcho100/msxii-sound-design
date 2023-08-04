@@ -2,7 +2,7 @@ import { useCallback } from 'react';
 import { type Checkout } from 'shopify-buy';
 import { useStore } from 'zustand';
 import { globalStore } from '~/store';
-import { RouterInputs, api } from '~/utils/api';
+import { type RouterInputs, api } from '~/utils/api';
 
 export const useRegisterMutation = ({
 	onError,
@@ -114,7 +114,7 @@ export const useMutateCart = () => {
 	const checkoutId = useStore(globalStore, (store) => store.cart.data?.id);
 	const lineItems = useStore(
 		globalStore,
-		(store) => store.cart.data?.lineItems || [],
+		(store) => store.cart.data?.lineItems ?? [],
 	);
 
 	const addManyLineItemCheckouts =

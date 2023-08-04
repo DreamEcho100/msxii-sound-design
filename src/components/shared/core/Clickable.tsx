@@ -1,5 +1,5 @@
-import { VariantProps, cva } from 'class-variance-authority';
-import { default as ClickableBase, ClickableTypes } from '../Clickable';
+import { type VariantProps, cva } from 'class-variance-authority';
+import { default as ClickableBase, type ClickableTypes } from '../Clickable';
 import type { ClickableProps } from '../Clickable';
 import { useCallback } from 'react';
 import { usePathname } from 'next/navigation';
@@ -98,7 +98,7 @@ const Clickable = ({ variants = {}, className, ...props }: Props) => {
 								variants.disabled === null
 									? false
 									: handleDefaultVariant<'disabled'>({
-											passedVariantValue: variants.disabled || !!props.disabled,
+											passedVariantValue: variants.disabled ?? !!props.disabled,
 											variantDefaultValue: null,
 											variantDefaultValueCondition: () =>
 												clickableType === 'button',
@@ -141,7 +141,7 @@ const Clickable = ({ variants = {}, className, ...props }: Props) => {
 	);
 
 	if (isInDashboard && props.href && props.isA === 'next-js')
-		props.href = `/dashboard/custom-pages${props.href}`;
+		props.href = typeof props.href === 'string' ? `/dashboard/custom-pages${props.href}` : props.href;
 
 	return <ClickableBase {...props} className={handleClassName} />;
 };

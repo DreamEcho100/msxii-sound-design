@@ -21,13 +21,14 @@ const AddToCartButton = ({
 	return (
 		<Clickable
 			className="lg:whitespace-nowrap text-sm uppercase"
+			// eslint-disable-next-line @typescript-eslint/no-misused-promises
 			onClick={async () => {
 				productVariant &&
-					addToCart.mutateAsync(
+					await addToCart.mutateAsync(
 						{
 							lineItems: [
 								{
-									quantity: selectedQuantity || 1,
+									quantity: selectedQuantity ?? 1,
 									variantId: productVariant.id
 								}
 							]
@@ -41,7 +42,7 @@ const AddToCartButton = ({
 				btn: 'secondary',
 				py: 'sm',
 				px: 'lg',
-				...(props.variants || {})
+				...(props.variants ?? {})
 			}}
 		>
 			add to cart

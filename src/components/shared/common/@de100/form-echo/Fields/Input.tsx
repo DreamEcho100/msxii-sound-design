@@ -36,8 +36,8 @@ const InputField = <Fields, ValidatedFields>(
   const fieldProps = {
     ..._props,
     autoComplete: "new-password",
-    id: props.id || id,
-    "aria-describedby": props["aria-describedby"] || `describe-${id}`,
+    id: props.id ?? id,
+    "aria-describedby": props["aria-describedby"] ?? `describe-${id}`,
   };
 
   if (isA === "select")

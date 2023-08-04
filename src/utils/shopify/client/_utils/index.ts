@@ -1,8 +1,8 @@
 import { TRPCError } from '@trpc/server';
-import { TRPC_ERROR_CODE_KEY } from '@trpc/server/rpc';
+import { type TRPC_ERROR_CODE_KEY } from '@trpc/server/rpc';
 import { GraphQLClient } from 'graphql-request';
 import { env } from '~/env.mjs';
-import { ShopifyErrorShape } from '../../types';
+import { type ShopifyErrorShape } from '../../types';
 import Client from 'shopify-buy';
 
 export const graphQLClient = new GraphQLClient(env.SHOPIFY_STORE_URL, {
@@ -30,7 +30,7 @@ export const handleShopifyErrors = <ErrorCodes extends string>(
 ) => {
 	if (customerUserErrors.length > 0)
 		throw new TRPCError({
-			code: options?.code || 'INTERNAL_SERVER_ERROR',
+			code: options?.code ?? 'INTERNAL_SERVER_ERROR',
 			message: [
 				options?.customMessage,
 				...customerUserErrors.map((item) =>

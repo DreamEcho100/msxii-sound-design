@@ -673,7 +673,7 @@ Levels set under 0 Db to allow for max idea building, minimal gain staging Chop 
 					}
 
 					// NOTE: Should I allow it to be null?
-					box.customClasses = input.customClasses || [];
+					box.customClasses = input.customClasses ?? [];
 
 					await ctx.drizzleQueryClient
 						.update(ctx.drizzleSchema.css)

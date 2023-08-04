@@ -1,11 +1,11 @@
 import { type ReactNode } from 'react';
 import BoxEditOverlay from '../../BoxEditOverlay';
-import { BoxTypeHeader, PageStoreApi } from '../../_';
+import { type BoxTypeHeader, type PageStoreApi } from '../../_';
 import { BoxTypes, HeaderBoxHType } from '@prisma/client';
 import { useStore } from 'zustand';
 import { getValueByPathArray, newUpdatedByPathArray } from '~/utils/obj/update';
 import { cx } from 'class-variance-authority';
-import { BoxVariants, handleBoxVariants } from '~/utils/appData';
+import { type BoxVariants, handleBoxVariants } from '~/utils/appData';
 import {
 	type FormStoreApi,
 	type GetPassedValidationFieldsValues,
@@ -20,7 +20,7 @@ import { toast } from 'react-toastify';
 
 import customPageClasses from '~/styles/_custom-page.module.css';
 import { CreateOneCustomCssSchema } from '~/server/utils/validations-schemas/dashboard/css/customClasses';
-import { CustomCssFormStore, CustomCssForm } from '../../Css/CustomClasses';
+import { type CustomCssFormStore, CustomCssForm } from '../../Css/CustomClasses';
 import {
 	type TwVariantsFormStore,
 	TwVariantsForm,
@@ -67,7 +67,9 @@ const HeaderBoxForm = (props: {
 
 	return (
 		<Form
-			onSubmit={async (event, params) => {
+			
+// eslint-disable-next-line @typescript-eslint/no-misused-promises
+onSubmit={async (event, params) => {
 				event.preventDefault();
 				await updateOneRequest.mutateAsync({
 					id: props.id,
@@ -190,7 +192,7 @@ const HeaderBoxFormView = (
 const HeaderBoxEditOverlay = (props: Props) => {
 	const box = useStore(
 		props.pageStore,
-		(state) => getValueByPathArray(state.page, props.path) as BoxTypeHeader, // .slice(0, -1)
+		(state) => getValueByPathArray<BoxTypeHeader>(state.page, props.path), // .slice(0, -1)
 	);
 	const headerFormStore: HeaderFormStore = useCreateFormStore({
 		initValues: {
@@ -329,7 +331,7 @@ const HeaderBoxEditOverlay = (props: Props) => {
 export const HeaderBoxEditable = (props: Props) => {
 	const box = useStore(
 		props.pageStore,
-		(state) => getValueByPathArray(state.page, props.path) as BoxTypeHeader,
+		(state) => getValueByPathArray<BoxTypeHeader>(state.page, props.path),
 	);
 
 	const headerBoxViewProps = {

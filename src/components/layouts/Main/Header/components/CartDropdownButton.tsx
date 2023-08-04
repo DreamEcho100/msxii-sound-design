@@ -14,7 +14,7 @@ const CartDropdownButton = () => {
 			store.cart.data?.lineItems.reduce(
 				(acc, item) => acc + item.quantity,
 				0,
-			) || 0,
+			) ?? 0,
 	);
 
 	return (

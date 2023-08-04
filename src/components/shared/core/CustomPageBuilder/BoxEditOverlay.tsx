@@ -1,4 +1,4 @@
-import { PageStoreApi, type Box } from './_';
+import { type PageStoreApi, type Box } from './_';
 import { type ReactNode } from 'react';
 import EditBoxModal from '~/components/layouts/Dashboard/components/Modals/EditBox';
 import BordersContainer from './BordersContainer';

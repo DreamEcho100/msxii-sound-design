@@ -95,7 +95,7 @@ const handleGetData = <TData, FormattedData = undefined>(
 	}
 
 	return formatDataToOptions(
-		(data || []) as unknown as NonNullable<TData>,
+		(data ?? []) as unknown as NonNullable<TData>,
 	) as NonNullable<GetData<TData, FormattedData>>; //! as unknown as NonNullable<FormattedData>;
 };
 
@@ -189,7 +189,7 @@ const CustomCombobox = <TData, FormattedData = undefined>(
 
 			handleSetSelected(selectedValue);
 
-			const _query = getInitialQuery?.(selectedValue) || query;
+			const _query = getInitialQuery?.(selectedValue) ?? query;
 			if (_query) handleSetQuery(_query);
 
 			configRef.current.initialSelectSetCounter++;

@@ -1,6 +1,6 @@
 import { gql } from 'graphql-request';
 import { z } from 'zod';
-import { Edges, type Product } from '../types';
+import { type Edges, type Product } from '../types';
 import { graphQLClient } from './_utils';
 import { gqlPriceText, gqlImageText } from './utils';
 
@@ -90,12 +90,12 @@ const allProductsQuery = async (
 		input.query &&
 		Object.keys(input.query)
 			.map((key) =>
-				!(input.query as NonNullable<(typeof input)['query']>)[
+				!(input.query!)[
 					key as keyof NonNullable<(typeof input)['query']>
 				]
 					? undefined
 					: `${key}:${
-							(input.query as NonNullable<(typeof input)['query']>)[
+							(input.query!)[
 								key as keyof NonNullable<(typeof input)['query']>
 							]
 					  }`,
@@ -121,12 +121,12 @@ const allProductsQuery = async (
 		console.log('___ queryStr', queryStr);
 	}, 7000);
 
-	return (await graphQLClient.request(template, {
+	return (await graphQLClient.request<{
+		products: Edges<Product>;
+	}>(template, {
 		first: input.first,
 		query: queryStr,
-	})) as {
-		products: Edges<Product>;
-	};
+	}))   ;
 };
 
 export const oneProductByHandleQuerySchema = z.object({ handle: z.string() });
@@ -140,9 +140,9 @@ const oneProductByHandleQuery = async (
 		}
 	}`;
 
-	return (await graphQLClient.request(template, input)) as {
+	return (await graphQLClient.request<{
 		productByHandle: Product;
-	};
+	}>(template, input))  ;
 };
 
 const products = {

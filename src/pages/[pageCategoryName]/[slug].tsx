@@ -61,7 +61,7 @@ export const getStaticProps = async (ctx: GetStaticPropsContext) => {
 
 	const ssg = createServerSideHelpers({
 		router: appRouter,
-		ctx: await createInnerTRPCContext({ session: null }),
+		ctx: createInnerTRPCContext({}),
 		transformer: superjson, // optional - adds superjson serialization
 	});
 	/*

@@ -3,14 +3,14 @@ import {
 	IframeBoxTypes,
 	PrismaClient,
 	SlidesPerViewType,
-	Box as BoxModel,
+	type Box as BoxModel,
 } from '@prisma/client';
 // import page from './data/lo-fly-dirt';
 import {
-	Box,
-	CustomPage,
-	RowsOnlyBox,
-	TwoColumnsBox,
+	type Box,
+	type CustomPage,
+	type RowsOnlyBox,
+	type TwoColumnsBox,
 } from '../../src/utils/types/custom-page';
 import defaultIOSAppsPages, {
 	chomplrPageData,
@@ -29,7 +29,7 @@ declare global {
 }
 
 const prisma =
-	global.prisma ||
+	global.prisma ??
 	new PrismaClient({
 		log:
 			process.env.NODE_ENV === 'development'
@@ -276,7 +276,7 @@ const seedPage = async (page: CustomPage) => {
 							boxes.map((_box, _boxIndex) => ({
 								id: createId(),
 								boxId: _box.id,
-								title: box.tabs[_boxIndex]?.title || '',
+								title: box.tabs[_boxIndex]?.title ?? '',
 							})),
 						);
 
@@ -306,6 +306,7 @@ const seedPage = async (page: CustomPage) => {
 								boxId: _box.id,
 								// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 								// @ts-ignore
+								// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 								title: box.slides[_boxIndex]?.title,
 							})),
 						);

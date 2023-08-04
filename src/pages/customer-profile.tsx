@@ -4,7 +4,7 @@ import PagePrimaryLoader from '~/components/shared/Loaders/PagePrimary';
 import PageLoaderContainer from '~/components/shared/LoadersContainers/Page';
 import { globalStore } from '~/store';
 import { useRouter } from 'next/navigation';
-import { ShopifyCustomer, ShopifyOrder } from '~/utils/shopify/types';
+import { type ShopifyCustomer, type ShopifyOrder } from '~/utils/shopify/types';
 import Link from 'next/link';
 import { formatPrice } from '~/utils/shopify';
 import { useIsMounted } from '~/utils/hooks';
@@ -74,7 +74,7 @@ const ProductsOnOrder = ({
 										{item?.variant?.image?.url && (
 											<CustomNextImage
 												src={item.variant.image.url}
-												alt={item.variant.image.altText || ''}
+												alt={item.variant.image.altText ?? ''}
 												width={150}
 												height={150}
 												className="w-full h-full aspect-square object-contain"

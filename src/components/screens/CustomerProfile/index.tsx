@@ -6,10 +6,10 @@
 // } from '@utils/core/hooks';
 
 import {
-	Dispatch,
-	FormEvent,
+	type Dispatch,
+	type FormEvent,
 	Fragment,
-	SetStateAction,
+	type SetStateAction,
 	useMemo,
 	useState,
 } from 'react';
@@ -108,7 +108,7 @@ const ProductsOnOrder = ({
 											<CustomNextImage
 												unoptimized
 												src={item.variant.image.url}
-												alt={item.variant.image.altText || ''}
+												alt={item.variant.image.altText ?? ''}
 												width={150}
 												height={150}
 												className="w-full h-full aspect-square object-contain"
@@ -195,7 +195,7 @@ const UpdateUserBasicDetails = ({
 			if (!customerSession.data) throw new Error('No user data available');
 
 			return fetch(
-				`${process.env.NEXT_PUBLIC_BACKEND_RELATIVE_PATH}//clients`,
+				`${process.env.NEXT_PUBLIC_BACKEND_RELATIVE_PATH}/clients`,
 				{
 					method: 'PUT',
 					headers: {
@@ -223,14 +223,14 @@ const UpdateUserBasicDetails = ({
 				},
 			)
 				.then((response) => response.json())
-				.then((result) => {
-					if ('success' in result && !result.success)
-						throw new Error(result.message);
+				.then(() => {
+					// if ('success' in result && !result.success)
+					// 	throw new Error(result.message);
 
-					return result;
+					// return result;
 				});
 		},
-		onSuccess: async () => {
+		onSuccess: () => {
 			// console.log('result', result)
 			// await user.refetch();
 			queryClient.setQueryData<ShopifyCustomer>(['check-token'], (prev) => {

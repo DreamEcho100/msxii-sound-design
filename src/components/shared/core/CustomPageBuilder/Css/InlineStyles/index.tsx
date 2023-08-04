@@ -18,8 +18,8 @@ import {
 	useRef,
 	useEffect,
 	useId,
-	PropsWithChildren,
-	LabelHTMLAttributes,
+	type PropsWithChildren,
+	type LabelHTMLAttributes,
 } from 'react';
 import {
 	getGridTemplateData,
@@ -75,6 +75,7 @@ export const GridTemplateManager = (props: {
 
 			return props.setGridTemplate(gridTemplateData.trackList);
 		},
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 		[props.setGridTemplate],
 	);
 
@@ -224,7 +225,9 @@ export const InlineStylesForm = (props: {
 
 	return (
 		<Form
-			onSubmit={async (event, params) => {
+			
+// eslint-disable-next-line @typescript-eslint/no-misused-promises
+onSubmit={async (event, params) => {
 				event.preventDefault();
 				await setOneRequest.mutateAsync({
 					cssId: props.cssId,

@@ -10,7 +10,7 @@ import Dropdown, {
 } from '~/components/shared/core/Dropdown';
 import { AnimatePresence, motion } from 'framer-motion';
 import { cx } from 'class-variance-authority';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 import SearchMenuDropdown from './components/SearchMenuDropdown';
 import dynamic from 'next/dynamic';
 import CartDropdown from './components/CartDropdown';

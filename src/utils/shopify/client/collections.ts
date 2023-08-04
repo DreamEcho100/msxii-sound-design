@@ -1,5 +1,5 @@
 import { gql } from 'graphql-request';
-import { type Collection, Edges, BasicCollection } from '../types';
+import { type Collection, type Edges, type BasicCollection } from '../types';
 import { graphQLClient } from './_utils';
 import { gqlProductSchemaText } from './products';
 import { z } from 'zod';
@@ -42,7 +42,7 @@ const getQQLManyCollectionText = (
 
 	// ${!queryText ? '' : `query: ${queryText}, `}
 	// , filters: { available: true }
-	const first = input?.productsFirst || 10;
+	const first = input?.productsFirst ?? 10;
 
 	return `description
 	handle
@@ -76,7 +76,7 @@ const allCollectionsHandlesQuery = async () =>
 		`;
 
 		return (
-			(await graphQLClient.request(template)) as {
+			(await graphQLClient.request<{
 				collections: {
 					edges: {
 						node: {
@@ -84,7 +84,7 @@ const allCollectionsHandlesQuery = async () =>
 						};
 					}[];
 				};
-			}
+			}>(template))
 		).collections.edges.map((edge) => edge.node.handle);
 	};
 
@@ -122,9 +122,9 @@ const manyCollectionsQuery = async (
 						}
 					`;
 
-	return (await graphQLClient.request(template)) as {
+	return (await graphQLClient.request<{
 		collections: Edges<BasicCollection>;
-	};
+	}>(template)) ;
 };
 
 export const oneCollectionByHandleQuerySchema = z.object({
@@ -140,9 +140,9 @@ const oneCollectionByHandleQuery = async (
 		}
 	}`;
 
-	return (await graphQLClient.request(template, input)) as {
+	return (await graphQLClient.request<{
 		collectionByHandle: Collection;
-	};
+	}>(template, input)) ;
 };
 
 const collections = {

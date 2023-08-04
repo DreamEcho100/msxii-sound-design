@@ -1,5 +1,5 @@
 import { createStandardSection } from '../../utils';
-import { CustomPage } from '../../../../src/utils/types/custom-page';
+import { type CustomPage } from '../../../../src/utils/types/custom-page';
 import {
 	aboutPageCategory,
 	blueLabelPageCategory,

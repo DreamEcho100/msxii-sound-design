@@ -1,6 +1,6 @@
 import { type VariantProps, cva } from 'class-variance-authority';
 
-import React, { LabelHTMLAttributes, type HTMLAttributes } from 'react';
+import React, { type LabelHTMLAttributes, type HTMLAttributes } from 'react';
 
 const handleLabelAndInputContainerClassVariants = cva('flex flex-col');
 const handleLabelClassVariants = cva(
@@ -36,14 +36,14 @@ const LabelAndFieldItemContainerBase = (
 		<div
 			{..._props}
 			className={handleLabelAndInputContainerClassVariants({
-				...(classVariants || {}),
+				...(classVariants ?? {}),
 				className: _props.className,
 			})}
 		>
 			<label
 				{...labelProps}
 				className={handleLabelClassVariants({
-					...(labelClassVariants || {}),
+					...(labelClassVariants ?? {}),
 					className: labelProps.className,
 				})}
 			/>

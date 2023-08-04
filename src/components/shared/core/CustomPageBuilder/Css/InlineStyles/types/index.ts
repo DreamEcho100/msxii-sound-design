@@ -1,4 +1,4 @@
-import { FormStoreApi } from '@de100/form-echo';
+import { type FormStoreApi } from '@de100/form-echo';
 import { z } from 'zod';
 import { CreateOneInlineStyleCssSchema } from '~/server/utils/validations-schemas/dashboard/css/inlineStyles';
 

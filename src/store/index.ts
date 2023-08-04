@@ -1,7 +1,7 @@
 import { createStore } from 'zustand';
-import { ShopifyCustomer } from '~/utils/shopify/types';
+import { type ShopifyCustomer } from '~/utils/shopify/types';
 
-import { Checkout } from 'shopify-buy';
+import { type Checkout } from 'shopify-buy';
 
 interface GlobalStore {
 	cart: {
@@ -9,7 +9,7 @@ interface GlobalStore {
 		// lineItems: CheckoutLineItem[];
 
 		isCartDropdownOpen: boolean;
-		toggleCartDropdown(): void;
+		toggleCartDropdown: () => void;
 		// addToCart(
 		// 	product: CheckoutLineItem, // | ShopifyProduct | ShopifyProductVariant,
 		// 	quantity: number | ((value: number) => number),
@@ -62,20 +62,20 @@ interface GlobalStore {
 		  }
 	);
 	menus: {
-		closeAllMenus(): void;
+		closeAllMenus: () => void;
 
 		isDropdownMenuOnLessThanLGOpen: boolean;
-		toggleDropdownMenuOnLessThanLG(): void;
+		toggleDropdownMenuOnLessThanLG: () => void;
 
 		isSearchMenuDropdownOpen: boolean;
-		toggleSearchMenuDropdown(): void;
+		toggleSearchMenuDropdown: () => void;
 	};
 	dialogs: {
 		auth: {
 			isOpen: boolean;
-			toggleOpen(): void;
+			toggleOpen: () => void;
 			type: 'register' | 'login';
-			setDialogType(state: 'register' | 'login'): void;
+			setDialogType: (state: 'register' | 'login') => void;
 		};
 	};
 	themeConfig: {
@@ -299,7 +299,7 @@ export const globalStore = createStore<GlobalStore>((set, get) => ({
 							isSuccess: true,
 							status: type,
 							isCartDropdownOpen:
-								payload.toOpenCart || prev.cart.isCartDropdownOpen,
+								payload.toOpenCart ?? prev.cart.isCartDropdownOpen,
 						},
 					}));
 			}

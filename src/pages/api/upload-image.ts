@@ -7,8 +7,11 @@ export default async function handler(
 ) {
 	if (req.method === 'POST') {
 		try {
+			// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 			const imageFile = req.body;
+			// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 			const imageUrl = await uploadImageToShopify(imageFile as File);
+			// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 			res.status(200).json({ imageUrl });
 		} catch (error) {
 			console.error(error);
@@ -54,11 +57,14 @@ async function uploadImageToShopify(imageFile: File) {
 		},
 	);
 
+	// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 	const data = await response.json();
 
 	if (response.ok) {
+		// eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-member-access
 		return data.product.images[0].src;
 	} else {
+		// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
 		throw new Error(`Failed to upload image to Shopify: ${data.errors}`);
 	}
 }

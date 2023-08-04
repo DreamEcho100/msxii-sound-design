@@ -1,4 +1,4 @@
-import { FormStoreApi, useCreateFormStore } from '@de100/form-echo';
+import { type FormStoreApi, useCreateFormStore } from '@de100/form-echo';
 import Dialog from '~/components/shared/common/Dialog';
 import { cx } from 'class-variance-authority';
 import { Fragment, useRef, useMemo, useState, useEffect } from 'react';
@@ -8,7 +8,7 @@ import { z } from 'zod';
 import ContainedInputField from '~/components/shared/common/@de100/form-echo/Fields/Contained/Input';
 import Form from '~/components/shared/common/@de100/form-echo/Forms';
 import CustomNextImage from '~/components/shared/CustomNextImage';
-import { RouterInputs, api } from '~/utils/api';
+import { type RouterInputs, api } from '~/utils/api';
 
 const formSchema = {
 	slug: z.string().min(3),
@@ -121,9 +121,9 @@ function SelectProductModal(props: {
 							>
 								<CustomNextImage
 									src={node.featuredImage.url}
-									alt={node.featuredImage.altText || ''}
-									width={node.featuredImage.width || 250}
-									height={node.featuredImage.height || 250}
+									alt={node.featuredImage.altText ?? ''}
+									width={node.featuredImage.width ?? 250}
+									height={node.featuredImage.height ?? 250}
 									className="aspect-square object-contain bg-black/20"
 								/>
 								<p>{node.title}</p>
@@ -185,7 +185,9 @@ function CreateProductPageModal(props: {
 		<>
 			<Dialog setIsOpen={props.setIsOpen} isOpen={props.isOpen}>
 				<Form
-					onSubmit={async (event, params) => {
+					
+// eslint-disable-next-line @typescript-eslint/no-misused-promises
+onSubmit={async (event, params) => {
 						event.preventDefault();
 						await createProductPage.mutateAsync(params.validatedValues);
 

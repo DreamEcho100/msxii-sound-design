@@ -4,9 +4,9 @@ import { useMemo } from 'react';
 import CustomNextImage from '~/components/shared/CustomNextImage';
 import Clickable from '~/components/shared/core/Clickable';
 import { CustomPageBuilder_ } from '~/components/shared/core/CustomPageBuilder';
-import { RouterOutputs } from '~/utils/api';
+import { type RouterOutputs } from '~/utils/api';
 import {
-	GetCustomPageDataProps,
+	type GetCustomPageDataProps,
 	useGetCustomPageData,
 } from '~/utils/custom-pages';
 import Merch from './components/Merch';
@@ -61,12 +61,12 @@ const PageCategoryItems = (props: {
 						<CustomNextImage
 							priority
 							src={
-								item?.image?.src ||
+								item?.image?.src ??
 								`https://api.dicebear.com/6.x/shapes/svg?seed=${item.pageCategoryName}/${item.slug}`
 							}
-							alt={item?.image?.altText || undefined}
-							width={item?.image?.width || 500}
-							height={item?.image?.height || 500}
+							alt={item?.image?.altText ?? undefined}
+							width={item?.image?.width ?? 500}
+							height={item?.image?.height ?? 500}
 							className="w-full h-full object-cover"
 						/>
 					</Clickable>
@@ -88,7 +88,7 @@ const PageCategoryItems = (props: {
 	);
 };
 
-const CustomPageScreen = (props: Props) => {
+const CustomPageScreen = (props: Props): React.JSX.Element => {
 	const {
 		isAShowcasePage,
 		getManyPagesCategoriesItemsQuery,
@@ -174,7 +174,7 @@ const CustomPageScreen = (props: Props) => {
 		customPageStructureData.status === 'error'
 	)
 		return (
-			<>{pageCategoryItemsData?.message || customPageStructureData?.message}</>
+			<>{pageCategoryItemsData?.message ?? customPageStructureData?.message}</>
 		);
 
 	return (
@@ -200,6 +200,8 @@ const CustomPageScreen = (props: Props) => {
 			</CustomPageBuilder_>
 		)
 	);
+
+	throw new Error('Unknown type')
 };
 
 export default CustomPageScreen;

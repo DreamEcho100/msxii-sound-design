@@ -236,7 +236,7 @@ const FormField = <T,>({
 		return value;
 	}, [props.name, values]);
 
-	const doesLabelExist = labelText || labelChildren || labelChildrenHolder;
+	const doesLabelExist = labelText ?? labelChildren ?? labelChildrenHolder;
 
 	return (
 		<label
@@ -249,7 +249,7 @@ const FormField = <T,>({
 					{...labelChildrenHolder}
 					className={handleLabelTextVariants(labelTextVariants)}
 				>
-					{labelText || labelChildren}
+					{labelText ?? labelChildren}
 				</span>
 			)}
 			{doesLabelExist && <span {...separatorProps} className="p-1" />}

@@ -1,5 +1,5 @@
 import { getCookies, setCookie, getCookie, deleteCookie } from 'cookies-next';
-import { OptionsType } from 'cookies-next/lib/types';
+import { type OptionsType } from 'cookies-next/lib/types';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type FirstParam<Func extends (...params: any[]) => any> = NonNullable<

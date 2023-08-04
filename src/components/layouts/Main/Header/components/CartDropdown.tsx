@@ -17,7 +17,7 @@ const CartDropdown = () => {
 	);
 	const cartLineItems = useStore(
 		globalStore,
-		(store) => store.cart.data?.lineItems || [],
+		(store) => store.cart.data?.lineItems ?? [],
 	);
 
 	return (
@@ -84,12 +84,12 @@ const CartDetails = () => {
 		(store) =>
 			store.cart.data?.lineItems.reduce((acc, item) => {
 				acc.totalPrice +=
-					Number(item.unitPrice?.amount || item.variant?.price.amount || 0) *
+					Number(item.unitPrice?.amount ?? item.variant?.price.amount ?? 0) *
 					item.quantity;
 				acc.quantity += item.quantity;
-				acc.currencyCode = item.unitPrice?.currencyCode || acc.currencyCode;
+				acc.currencyCode = item.unitPrice?.currencyCode ?? acc.currencyCode;
 				return acc;
-			}, getInitDefaultCartDetails()) || getInitDefaultCartDetails(),
+			}, getInitDefaultCartDetails()) ?? getInitDefaultCartDetails(),
 	);
 
 	return (
@@ -99,8 +99,8 @@ const CartDetails = () => {
 					total price:&nbsp;
 					<ProductPrice
 						price={{
-							amount: cartTotalPrice?.amount || totalPrice,
-							currencyCode: cartCurrencyCode || 'USD',
+							amount: cartTotalPrice?.amount ?? totalPrice,
+							currencyCode: cartCurrencyCode ?? 'USD',
 						}}
 					/>
 				</p>
@@ -137,7 +137,7 @@ const CartItem = ({ item }: { item: CheckoutLineItem }) => {
 					<div className="overflow-hidden">
 						<CustomNextImage
 							src={variant.image.src}
-							alt={variant.image.altText || ''}
+							alt={variant.image.altText ?? ''}
 							width={100}
 							height={100}
 							className="hover:scale-110 duration-300 transition-all w-full h-full object-cover"

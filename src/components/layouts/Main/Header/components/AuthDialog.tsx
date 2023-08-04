@@ -1,8 +1,8 @@
 import {
-	Dispatch,
-	InputHTMLAttributes,
-	LabelHTMLAttributes,
-	SetStateAction,
+	type Dispatch,
+	type InputHTMLAttributes,
+	type LabelHTMLAttributes,
+	type SetStateAction,
 	useId,
 	useState
 } from 'react';
@@ -11,7 +11,7 @@ import { cx } from 'class-variance-authority';
 
 import Clickable from '~/components/shared/core/Clickable';
 import { useLoginMutation, useRegisterMutation } from '~/utils/shopify/hooks';
-import { RouterInputs } from '~/utils/api';
+import { type RouterInputs } from '~/utils/api';
 import { useStore } from 'zustand';
 import { globalStore } from '~/store';
 import CustomDialog, { DialogContentHeader } from '~/components/shared/Dialog';

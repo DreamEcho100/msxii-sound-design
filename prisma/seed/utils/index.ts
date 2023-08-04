@@ -1,6 +1,6 @@
 import {
 	SECTIONS_TYPES_map,
-	StandardSection,
+	type StandardSection,
 } from '../../../src/utils/types/custom-page';
 
 export const createStandardSection = (

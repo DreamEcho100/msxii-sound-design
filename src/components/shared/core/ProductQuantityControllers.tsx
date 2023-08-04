@@ -9,9 +9,9 @@ const ProductQuantityControllers = ({
 	quantity,
 	isLoading
 }: {
-	handleIncreaseByOne(): void;
-	handleDecreaseByOne(): void;
-	handleSetSelectedQuantity(value: number): void;
+	handleIncreaseByOne: () => Promise<void>;
+	handleDecreaseByOne: () => Promise<void>;
+	handleSetSelectedQuantity(value: number): Promise<void>;
 	quantity: number;
 	isLoading?: boolean;
 }) => {
@@ -20,6 +20,7 @@ const ProductQuantityControllers = ({
 			<Clickable
 				variants={{ btn: null, px: null, py: null, rounded: null }}
 				className="bg-bg-primary-600 px-2 flex items-center justify-center"
+				// eslint-disable-next-line @typescript-eslint/no-misused-promises
 				onClick={handleDecreaseByOne}
 				disabled={quantity === 0 || isLoading}
 			>
@@ -31,7 +32,8 @@ const ProductQuantityControllers = ({
 					width: `${quantity.toString().length + 2}ch`
 				}}
 				value={quantity}
-				onChange={(event) => {
+				// eslint-disable-next-line @typescript-eslint/no-misused-promises
+				onChange={async (event) => {
 					const valueAsNumberSchema = z
 						.number()
 						.min(0)
@@ -39,7 +41,7 @@ const ProductQuantityControllers = ({
 						.safeParse(Number(event.target.value));
 
 					if (valueAsNumberSchema.success)
-						handleSetSelectedQuantity(valueAsNumberSchema.data);
+						await handleSetSelectedQuantity(valueAsNumberSchema.data);
 				}}
 				name="quantity"
 				readOnly={isLoading}
@@ -47,6 +49,7 @@ const ProductQuantityControllers = ({
 			<Clickable
 				variants={{ btn: null, px: null, py: null, rounded: null }}
 				className="bg-bg-primary-600 px-2 flex items-center justify-center"
+				// eslint-disable-next-line @typescript-eslint/no-misused-promises
 				onClick={handleIncreaseByOne}
 				disabled={isLoading}
 			>

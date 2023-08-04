@@ -1,6 +1,6 @@
 import { cx } from 'class-variance-authority';
 
-import { ReactNode, useEffect, useState } from 'react';
+import { type ReactNode, useEffect, useState } from 'react';
 
 import { SwiperSlide } from 'swiper/react';
 
@@ -8,11 +8,11 @@ import CustomNextImage from '../CustomNextImage';
 
 import ProductQuantityControllers from './ProductQuantityControllers';
 
-import { NextJsLinkProps } from '../Clickable';
+import { type NextJsLinkProps } from '../Clickable';
 import ImageMagnifier from '../ImageMagnifier';
-import { Product } from '~/utils/shopify/types';
+import { type Product } from '~/utils/shopify/types';
 import CTAButton from './Shopify/Cards/CTAButton';
-import Slider, { CardsSlider } from './Shopify/Cards/Slider';
+import Slider, { type CardsSlider } from './Shopify/Cards/Slider';
 import ProductPrice from './Shopify/ProductPrice';
 import AddToCartButton from './Shopify/Buttons/AddToCart';
 import { Switch } from '@headlessui/react';
@@ -260,7 +260,7 @@ const CustomProductScreen = ({
 				</div>
 				<ProductImageShowcase productData={productData} />
 			</section>
-			{children || (
+			{children ?? (
 				<div>
 					<div className="flex justify-end">
 						<Switch

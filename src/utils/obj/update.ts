@@ -11,7 +11,7 @@ export function newUpdatedByPathString<Item>(
 	item: Item,
 	value: unknown,
 ) {
-	return newUpdatedByPathArray(path.split('.'), item, value) as Item;
+	return newUpdatedByPathArray<Item>(path.split('.'), item, value);
 }
 
 /**
@@ -42,6 +42,7 @@ export function newUpdatedByPathArray<Item>(
 		if (Number.isNaN(index)) throw new Error('Invalid path.');
 
 		return [
+			// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 			...item.slice(0, index),
 			// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 			// @ts-ignore
@@ -54,11 +55,13 @@ export function newUpdatedByPathArray<Item>(
 				: // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 				  // @ts-ignore
 				  newUpdatedByPathArray(path, item[key], value),
+			// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 			...item.slice(index + 1),
 		] as Item;
 	} else if (typeof item === 'object' && key in item) {
 		return {
 			...item,
+			// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 			[key]:
 				path.length === 0
 					? typeof value === 'function'

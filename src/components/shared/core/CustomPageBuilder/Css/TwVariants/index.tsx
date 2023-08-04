@@ -1,11 +1,11 @@
-import { FormStoreApi, useCreateFormStore } from '@de100/form-echo';
+import { type FormStoreApi, useCreateFormStore } from '@de100/form-echo';
 import { toast } from 'react-toastify';
 import { useStore } from 'zustand';
 import CustomCombobox from '~/components/shared/common/@de100/form-echo/Fields/Base/Combobox';
 import Form from '~/components/shared/common/@de100/form-echo/Forms';
 import { CreateOneTwVariantsSchema } from '~/server/utils/validations-schemas/dashboard/css/twVariants';
 import { api } from '~/utils/api';
-import { BoxVariants, boxVariants } from '~/utils/appData';
+import { type BoxVariants, boxVariants } from '~/utils/appData';
 
 export type TwVariantsFormStore = FormStoreApi<
 	{
@@ -31,6 +31,7 @@ export const twVariantsConfig = (() => {
 
 	let boxVariantsKey: keyof typeof boxVariants;
 	for (boxVariantsKey in boxVariants) {
+		// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 		twVariantsConfig.variantsToItemsKeys[boxVariantsKey] = Object.keys(
 			boxVariants[boxVariantsKey]!,
 			// eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -79,7 +80,9 @@ export function TwVariantsForm(props: {
 
 	return (
 		<Form
-			onSubmit={async (event, params) => {
+			
+// eslint-disable-next-line @typescript-eslint/no-misused-promises
+onSubmit={async (event, params) => {
 				event.preventDefault();
 				await setOneRequest.mutateAsync({
 					cssId: props.cssId,
@@ -117,7 +120,7 @@ export function TwVariantsForm(props: {
 							</button>
 						</div>
 						<CustomCombobox
-							data={twVariantsConfig.variantsToItemsKeys[variantKey]!}
+							data={twVariantsConfig.variantsToItemsKeys[variantKey]}
 							value={twVariants[variantKey]}
 							setSelected={(value) => {
 								props.store

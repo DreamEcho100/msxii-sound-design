@@ -11,13 +11,13 @@ import { cx } from 'class-variance-authority';
 import { SwiperSlide } from 'swiper/react';
 import { handleBoxVariants } from '~/utils/appData';
 import {
-	BOXES_TYPE,
+	type BOXES_TYPE,
 	BOXES_TYPES_map,
-	Box,
-	CustomPage,
-	QuoteBox,
+	type Box,
+	type CustomPage,
+	type QuoteBox,
 	SUB_BOXES_TYPES_map,
-	StandardSection,
+	type StandardSection,
 	TabsBox,
 } from '~/utils/types/custom-page';
 import {
@@ -166,7 +166,7 @@ const SectionBody = ({
 					: []),
 			)}
 		>
-			{!!(section.title || section.description) && (
+			{!!(section.title ?? section.description) && (
 				<header className="flex flex-col gap-8">
 					{section.title && (
 						<h2
@@ -231,14 +231,14 @@ const SectionBodyBox = ({
 			</div>
 		);
 
-	if (box.___type === BOXES_TYPES_map['md'])
+	if (box.___type === BOXES_TYPES_map.md)
 		return (
 			<div className={cx(customPageClassName)}>
 				<ReactMarkdownFormatter content={box.content} />
 			</div>
 		);
 
-	if (box.___type === BOXES_TYPES_map['quote'])
+	if (box.___type === BOXES_TYPES_map.quote)
 		return (
 			<Quote
 				className={cx(customPageClassName)}
@@ -247,12 +247,12 @@ const SectionBodyBox = ({
 			/>
 		);
 
-	if (box.___type === BOXES_TYPES_map['tabs']) {
+	if (box.___type === BOXES_TYPES_map.tabs) {
 		return <TabsBox box={box} className={cx(customPageClassName)} />;
 	}
 
-	if (box.___type === BOXES_TYPES_map['iframe']) {
-		if (box.___subType === SUB_BOXES_TYPES_map['youtube'])
+	if (box.___type === BOXES_TYPES_map.iframe) {
+		if (box.___subType === SUB_BOXES_TYPES_map.youtube)
 			return (
 				<YouTubeIFrame
 					containerProps={{
@@ -263,29 +263,29 @@ const SectionBodyBox = ({
 					}}
 					youTubeIconVariants={{
 						fontSize:
-							parentBox === BOXES_TYPES_map['slider'] ? 'small' : 'medium',
+							parentBox === BOXES_TYPES_map.slider ? 'small' : 'medium',
 					}}
-					width={parentBox === BOXES_TYPES_map['slider'] ? '200' : '550'}
-					height={parentBox === BOXES_TYPES_map['slider'] ? '200' : '550'}
+					width={parentBox === BOXES_TYPES_map.slider ? '200' : '550'}
+					height={parentBox === BOXES_TYPES_map.slider ? '200' : '550'}
 					src={box.src}
 					title="YouTube video player"
 					allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
 				/>
 			);
-		if (box.___subType === SUB_BOXES_TYPES_map['instagram'])
+		if (box.___subType === SUB_BOXES_TYPES_map.instagram)
 			return <InstagramIframe src={box.src} className={customPageClassName} />;
-		if (box.___subType === SUB_BOXES_TYPES_map['soundcloud'])
+		if (box.___subType === SUB_BOXES_TYPES_map.soundcloud)
 			return <SoundCloudIframe src={box.src} className={customPageClassName} />;
 	}
 
-	if (box.___type === BOXES_TYPES_map['slider']) {
+	if (box.___type === BOXES_TYPES_map.slider) {
 		return (
 			<div className={customPageClassName}>
 				<Slider
 					swiperProps={{
 						className: cx(
 							customPageClassName,
-							customPageClasses['swiper'],
+							customPageClasses.swiper,
 							'swiper-fluid',
 						),
 						breakpoints:
@@ -315,7 +315,7 @@ const SectionBodyBox = ({
 		);
 	}
 
-	if (box.___type === BOXES_TYPES_map['grid']) {
+	if (box.___type === BOXES_TYPES_map.grid) {
 		return (
 			<div
 				className={customPageClassName}

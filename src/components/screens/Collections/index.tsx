@@ -1,7 +1,7 @@
 import {
-	Dispatch,
-	InputHTMLAttributes,
-	SetStateAction,
+	type Dispatch,
+	type InputHTMLAttributes,
+	type SetStateAction,
 	useEffect,
 	useMemo,
 	useRef,
@@ -14,7 +14,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 
 import { useSearchParams } from 'next/navigation';
 import { useBasicCollectionsHandleFilterManager } from '~/utils/hooks';
-import { RouterOutputs } from '~/utils/api';
+import { type RouterOutputs } from '~/utils/api';
 import { ProductCard } from '~/components/shared/core/Shopify/Cards/Card';
 
 const CheckboxField = ({
@@ -250,6 +250,7 @@ const ProductsScreen = ({
 											isPlayButtonActive: true,
 											extraDetailsElemProps: {
 												buttonProps: {
+													// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 													variants: {
 														btn: 'light:primary_dark:secondary',
 														py: 'sm',

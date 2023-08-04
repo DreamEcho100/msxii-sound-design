@@ -3,7 +3,7 @@ import { BiPlay } from 'react-icons/bi';
 import Clickable from '~/components/shared/core/Clickable';
 import CustomNextImage from '~/components/shared/CustomNextImage';
 import { YouTubeIFrame } from '~/components/shared/Iframes';
-import { Product } from '~/utils/shopify/types';
+import { type Product } from '~/utils/shopify/types';
 import CustomPageBuilder from '~/components/shared/core/CustomPageBuilder';
 
 const productData = {
@@ -233,7 +233,7 @@ Levels set under 0 Db to allow for max idea building, minimal gain staging Chop 
 							<div className="w-24 h-24 aspect-square overflow-hidden rounded-sm relative">
 								<CustomNextImage
 									src={media.src}
-									alt={media.altText || ''}
+									alt={media.altText ?? ''}
 									width={800}
 									height={800}
 									className="w-full h-full object-cover"

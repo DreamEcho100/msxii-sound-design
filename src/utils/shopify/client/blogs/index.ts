@@ -1,5 +1,5 @@
 import { gql } from 'graphql-request';
-import { Edges } from '../../types';
+import { type Edges } from '../../types';
 import { graphQLClient } from '../_utils';
 import articles from './articles';
 
@@ -47,9 +47,9 @@ const allBlogsQuery = async () => {
 						}
 					`;
 
-	return (await graphQLClient.request(template)) as {
+	return (await graphQLClient.request<{
 		blogs: Edges<Blog>[];
-	};
+	}>(template)) ;
 };
 
 const blogs = {

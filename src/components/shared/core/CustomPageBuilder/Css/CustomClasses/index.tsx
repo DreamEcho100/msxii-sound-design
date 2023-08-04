@@ -1,10 +1,10 @@
-import { FormStoreApi } from '@de100/form-echo';
+import { type FormStoreApi } from '@de100/form-echo';
 import { Fragment } from 'react';
 import { toast } from 'react-toastify';
 import { useStore } from 'zustand';
 import CustomCombobox from '~/components/shared/common/@de100/form-echo/Fields/Base/Combobox';
 import Form from '~/components/shared/common/@de100/form-echo/Forms';
-import { CreateOneCustomCssSchema } from '~/server/utils/validations-schemas/dashboard/css/customClasses';
+import { type CreateOneCustomCssSchema } from '~/server/utils/validations-schemas/dashboard/css/customClasses';
 import { api } from '~/utils/api';
 
 import customPageClasses from '~/styles/_custom-page.module.css';
@@ -17,10 +17,10 @@ export type CustomCssFormStore = FormStoreApi<
 export const customClassesConfig = (() => {
 	const customClassesConfig: {
 		originalKeys: string[];
-		items: { [key: string]: string };
+		items: Record<string, string>;
 		originalKeyToBeatifiedKeyEntries: [string, string][];
-		originalKeyToBeatifiedKeyMap: { [key: string]: string };
-		beatifiedKeyToOriginalKeyMap: { [key: string]: string };
+		originalKeyToBeatifiedKeyMap: Record<string, string>;
+		beatifiedKeyToOriginalKeyMap: Record<string, string>;
 		beatifiedKeys: string[];
 	} = {
 		originalKeys: [],
@@ -80,7 +80,9 @@ export const CustomCssForm = (props: {
 
 	return (
 		<Form
-			onSubmit={async (event, params) => {
+			
+// eslint-disable-next-line @typescript-eslint/no-misused-promises
+onSubmit={async (event, params) => {
 				event.preventDefault();
 				await setOneRequest.mutateAsync({
 					cssId: props.cssId,

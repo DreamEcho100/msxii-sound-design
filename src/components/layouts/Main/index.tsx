@@ -48,7 +48,7 @@ const GettingCheckout = () => {
 	useEffect(() => {
 		if (
 			typeof window === 'undefined' ||
-			checkoutId ||
+			checkoutId ??
 			checkoutStatus !== 'checking-stored'
 		)
 			return;

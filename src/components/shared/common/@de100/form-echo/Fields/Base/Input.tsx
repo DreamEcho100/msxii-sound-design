@@ -25,7 +25,7 @@ const InputFormField = (props: InputProps) => {
     ..._props,
     className: cx(handleClassVariants(classVariants), props.className),
     checked:
-      props.type === "checkbox" ? props.checked || !!props.value : undefined,
+      props.type === "checkbox" ? props.checked ?? !!props.value : undefined,
     value: props.type !== "checkbox" ? props.value ?? "" : undefined,
   };
 

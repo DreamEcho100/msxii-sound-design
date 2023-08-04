@@ -17,38 +17,12 @@ import {
 	grid,
 } from './schema';
 import {
-	user,
-	account,
-	session,
 	page,
 	section,
 	css,
 	box,
 	headerBox,
 } from './schema';
-
-export const userRelations = relations(user, ({ many }) => ({
-	// creativeWorks: many(creativeWork),
-	account: many(account),
-	session: many(session),
-	// profile: one(userProfile, {
-	// 	fields: [user.id],
-	// 	references: [userProfile.userId]
-	// })
-}));
-
-export const sessionRelations = relations(session, ({ one }) => ({
-	user: one(user, {
-		fields: [session.userId],
-		references: [user.id],
-	}),
-}));
-export const accountRelations = relations(account, ({ one }) => ({
-	user: one(user, {
-		fields: [account.userId],
-		references: [user.id],
-	}),
-}));
 
 export const cssRelations = relations(css, ({ many }) => ({
 	pages: many(page),

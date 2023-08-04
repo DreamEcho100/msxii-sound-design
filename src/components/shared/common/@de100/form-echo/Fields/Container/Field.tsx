@@ -6,7 +6,7 @@ import FieldContainerBase, {
 	type FieldContainerBaseProps,
 } from '../Base/Container/Field';
 import LabelAndFieldItemContainerBase, {
-	LabelAndFieldItemContainerBaseProps,
+	type LabelAndFieldItemContainerBaseProps,
 } from '../Base/Container/LabelAndFieldItem';
 
 // const handleLabelAndInputContainerClassVariants = cva(
@@ -100,7 +100,7 @@ const FieldContainer = <Fields, ValidatedFields>(
 			{..._props}
 			classVariants={{
 				state: errors ? 'error' : 'idle',
-				...(classVariants || {}),
+				...(classVariants ?? {}),
 			}}
 		>
 			<LabelAndFieldItemContainerBase
@@ -109,7 +109,7 @@ const FieldContainer = <Fields, ValidatedFields>(
 				classVariants={labelAndFieldContainerClassVariants}
 				labelClassVariants={{
 					state: errors ? 'error' : 'idle',
-					...(labelClassVariants || {}),
+					...(labelClassVariants ?? {}),
 				}}
 			>
 				{children}

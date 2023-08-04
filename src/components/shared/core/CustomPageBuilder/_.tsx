@@ -1,13 +1,13 @@
 import { type CSSProperties, type ReactNode } from 'react';
 
 import { cx } from 'class-variance-authority';
-import { BoxVariants, handleBoxVariants } from '~/utils/appData';
+import { type BoxVariants, handleBoxVariants } from '~/utils/appData';
 import customPageClasses from '~/styles/_custom-page.module.css';
-import { RouterOutputs } from '~/utils/api';
+import { type RouterOutputs } from '~/utils/api';
 import { BoxTypes } from '@prisma/client';
 // import BoxEditOverlay from './BoxEditOverlay';
 import CustomTabs from './CustomTabs';
-import { StoreApi, createStore } from 'zustand';
+import { type StoreApi, createStore } from 'zustand';
 import { MdBoxEditable } from './Boxes/Md';
 import { QuoteBoxEditable } from './Boxes/Quote';
 import { HeaderBoxEditable } from './Boxes/Header';
@@ -86,7 +86,7 @@ const CustomPageBuilder = (props: Props) => {
 				<SectionBody
 					key={section.id}
 					section={section}
-					path={[...(props.path || []), 'sections', index]}
+					path={[...(props.path ?? []), 'sections', index]}
 					pageStore={pageStore}
 				/>
 			))}
@@ -101,7 +101,7 @@ const SectionBody = (props: {
 	path: (string | number)[];
 	pageStore: PageStoreApi;
 }) => {
-	const boxDeepLevel = props.boxDeepLevel || 1;
+	const boxDeepLevel = props.boxDeepLevel ?? 1;
 	return (
 		<section
 			className={cx(
@@ -128,7 +128,7 @@ const SectionBody = (props: {
 };
 
 const createBoxTypeClass = (type: string) =>
-	`${customPageClasses[`${type}-BOX`]} ${customPageClasses['BOX']} box ${
+	`${customPageClasses[`${type}-BOX`]} ${customPageClasses.BOX} box ${
 		customPageClasses.box
 	}`;
 

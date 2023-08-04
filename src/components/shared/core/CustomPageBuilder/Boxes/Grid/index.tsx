@@ -1,23 +1,23 @@
-import { CSSProperties, type ReactNode } from 'react';
+import { type CSSProperties, type ReactNode } from 'react';
 import BoxEditOverlay from '../../BoxEditOverlay';
 import {
-	Box,
-	BoxTypeGrid,
-	Css,
-	PageStoreApi,
+	type Box,
+	type BoxTypeGrid,
+	type Css,
+	type PageStoreApi,
 	SectionBoxContainer,
 } from '../../_';
 import { BoxTypes } from '@prisma/client';
 import { useStore } from 'zustand';
 import { getValueByPathArray, newUpdatedByPathArray } from '~/utils/obj/update';
 import { cx } from 'class-variance-authority';
-import { BoxVariants, handleBoxVariants } from '~/utils/appData';
+import { type BoxVariants, handleBoxVariants } from '~/utils/appData';
 import { useCreateFormStore } from '@de100/form-echo';
 import Accordion from '~/components/shared/common/Accordion';
 
 import customPageClasses from '~/styles/_custom-page.module.css';
 import { CreateOneCustomCssSchema } from '~/server/utils/validations-schemas/dashboard/css/customClasses';
-import { CustomCssFormStore, CustomCssForm } from '../../Css/CustomClasses';
+import { type CustomCssFormStore, CustomCssForm } from '../../Css/CustomClasses';
 import {
 	type TwVariantsFormStore,
 	TwVariantsForm,
@@ -25,8 +25,8 @@ import {
 } from '../../Css/TwVariants';
 import {
 	GridTemplateManager,
-	InlineStylesFormProps,
-	InlineStylesFormStore,
+	type InlineStylesFormProps,
+	type InlineStylesFormStore,
 	useInlineStylesFormStore,
 	useSetInlineStylesOneRequest,
 } from '../../Css/InlineStyles';
@@ -100,7 +100,9 @@ export const InlineStylesForm = (props: InlineStylesFormProps) => {
 
 	return (
 		<Form
-			onSubmit={async (event, params) => {
+			
+// eslint-disable-next-line @typescript-eslint/no-misused-promises
+onSubmit={async (event, params) => {
 				event.preventDefault();
 				await setOneRequest.mutateAsync({
 					cssId: props.cssId,
@@ -221,7 +223,7 @@ const GridEditOverlay = (
 ) => {
 	const box = useStore(
 		props.pageStore,
-		(state) => getValueByPathArray(state.page, props.path) as BoxTypeGrid, // .slice(0, -1)
+		(state) => getValueByPathArray<BoxTypeGrid>(state.page, props.path), // .slice(0, -1)
 	);
 	// const gridFormStore: GridFormStore = useCreateFormStore({
 	// 	initValues: {
@@ -360,7 +362,7 @@ const GridEditOverlay = (
 export const GridEditable = (props: Props) => {
 	const box = useStore(
 		props.pageStore,
-		(state) => getValueByPathArray(state.page, props.path) as BoxTypeGrid,
+		(state) => getValueByPathArray<BoxTypeGrid>(state.page, props.path),
 	);
 
 	const gridViewProps = {

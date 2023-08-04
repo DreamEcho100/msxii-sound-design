@@ -1,11 +1,11 @@
 import { type ReactNode } from 'react';
 import BoxEditOverlay from '../../BoxEditOverlay';
-import { BoxTypeImage, PageStoreApi } from '../../_';
+import { type BoxTypeImage, type PageStoreApi } from '../../_';
 import { BoxTypes } from '@prisma/client';
 import { useStore } from 'zustand';
 import { getValueByPathArray, newUpdatedByPathArray } from '~/utils/obj/update';
 import { cx } from 'class-variance-authority';
-import { BoxVariants, handleBoxVariants } from '~/utils/appData';
+import { type BoxVariants, handleBoxVariants } from '~/utils/appData';
 import {
 	type FormStoreApi,
 	type GetPassedValidationFieldsValues,
@@ -20,7 +20,7 @@ import { toast } from 'react-toastify';
 
 import customPageClasses from '~/styles/_custom-page.module.css';
 import { CreateOneCustomCssSchema } from '~/server/utils/validations-schemas/dashboard/css/customClasses';
-import { CustomCssFormStore, CustomCssForm } from '../../Css/CustomClasses';
+import { type CustomCssFormStore, CustomCssForm } from '../../Css/CustomClasses';
 import {
 	type TwVariantsFormStore,
 	TwVariantsForm,
@@ -70,7 +70,9 @@ const ImageBoxForm = (props: {
 
 	return (
 		<Form
-			onSubmit={async (event, params) => {
+			
+// eslint-disable-next-line @typescript-eslint/no-misused-promises
+onSubmit={async (event, params) => {
 				event.preventDefault();
 				await updateOneRequest.mutateAsync({
 					id: props.id,
@@ -111,8 +113,8 @@ const ImageBoxForm = (props: {
 							onClick={() => {
 								props.store
 									.getState()
-									// eslint-disable-next-line @typescript-eslint/no-explicit-any
-									.utils.handleOnInputChange('width', null as any);
+									// eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-explicit-any
+									.utils.handleOnInputChange('width', null  as any);
 							}}
 						>
 							<BsX />
@@ -138,7 +140,7 @@ const ImageBoxForm = (props: {
 							onClick={() => {
 								props.store
 									.getState()
-									// eslint-disable-next-line @typescript-eslint/no-explicit-any
+									// eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-explicit-any
 									.utils.handleOnInputChange('height', null as any);
 							}}
 						>
@@ -168,9 +170,9 @@ const ImageBoxView = (
 		<div className={props.className}>
 			<CustomNextImage
 				src={props.src}
-				width={props.width || 800}
-				height={props.height || 800}
-				alt={props.altText || ''}
+				width={props.width ?? 800}
+				height={props.height ?? 800}
+				alt={props.altText ?? ''}
 			/>
 			{props.childrenAfter}
 		</div>
@@ -232,7 +234,7 @@ const ImageBoxFormView = (
 const ImageBoxEditOverlay = (props: Props) => {
 	const box = useStore(
 		props.pageStore,
-		(state) => getValueByPathArray(state.page, props.path) as BoxTypeImage, // .slice(0, -1)
+		(state) => getValueByPathArray<BoxTypeImage>(state.page, props.path)  , // .slice(0, -1)
 	);
 	const imageFormStore: ImageFormStore = useCreateFormStore({
 		initValues: {
@@ -375,7 +377,7 @@ const ImageBoxEditOverlay = (props: Props) => {
 export const ImageBoxEditable = (props: Props) => {
 	const box = useStore(
 		props.pageStore,
-		(state) => getValueByPathArray(state.page, props.path) as BoxTypeImage,
+		(state) => getValueByPathArray<BoxTypeImage>(state.page, props.path) ,
 	);
 
 	const imageBoxViewProps = {

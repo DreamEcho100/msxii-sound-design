@@ -70,14 +70,14 @@ const DropdownField = <
       : field.value;
   });
 
-  const id = (props.id as string | undefined) || idFromStore;
+  const id = (props.id as string | undefined) ?? idFromStore;
 
   const fieldProps = {
     ..._props,
     value,
     id,
     "aria-describedby":
-      (props["aria-describedby"] as string | undefined) || `describe-${id}`,
+      (props["aria-describedby"] as string | undefined) ?? `describe-${id}`,
   }; // as DropdownFieldProps<Fields, ValidatedFields, Name>;
 
   if (isA === "combobox")
@@ -87,7 +87,7 @@ const DropdownField = <
         value={value}
         onChange={
           // eslint-disable-next-line @typescript-eslint/unbound-method
-          props.onChange ||
+          props.onChange ??
           ((value) =>
             store.getState().utils.handleOnInputChange(
               props.name,
@@ -105,7 +105,7 @@ const DropdownField = <
     <Select
       {...(fieldProps as SelectProps)}
       onChange={
-        props.onChange ||
+        props.onChange ??
         ((event) =>
           store.getState().utils.handleOnInputChange(
             props.name,

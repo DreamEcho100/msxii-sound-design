@@ -2,9 +2,9 @@ export * from './hooks';
 
 import { z } from 'zod';
 import {
-	GridTemplateData,
-	GridTemplateDataTypes,
-	GridTemplateDataTypesMap,
+	type GridTemplateData,
+	type GridTemplateDataTypes,
+	type GridTemplateDataTypesMap,
 } from '../types';
 
 export const gridTemplateDataTypesMap: GridTemplateDataTypesMap = {
@@ -41,7 +41,7 @@ const trackListExamples = [
 ];
 const trackListSchema = z.string().nonempty().regex(trackListRegex);
 export const getGridTemplateDataTrackListWithoutType = (
-	gridTemplate: string = '1fr 1fr 1fr 1fr 1fr',
+	gridTemplate = '1fr 1fr 1fr 1fr 1fr',
 ) => {
 	return {
 		trackListRegex,
@@ -51,7 +51,7 @@ export const getGridTemplateDataTrackListWithoutType = (
 	};
 };
 export const getGridTemplateDataTypeRepeatWithoutType = (
-	gridTemplate: string = 'repeat(auto-fit, minmax(20rem, 1fr))',
+	gridTemplate = 'repeat(auto-fit, minmax(20rem, 1fr))',
 ) => {
 	const formattedStr = gridTemplate.slice(
 		'repeat('.length,

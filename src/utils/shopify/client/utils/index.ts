@@ -15,10 +15,12 @@ export const buildGQLArgsString = (argsMap: Record<string, unknown>) => {
 
 		if (element) {
 			if (!argsString) {
+				// eslint-disable-next-line @typescript-eslint/no-base-to-string, @typescript-eslint/restrict-template-expressions
 				argsString += `${argKey}: ${element}`;
 				continue;
 			}
 
+			// eslint-disable-next-line @typescript-eslint/no-base-to-string, @typescript-eslint/restrict-template-expressions
 			argsString += `, ${argKey}: ${element}`;
 		}
 	}

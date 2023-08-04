@@ -1,7 +1,7 @@
 import { cx } from 'class-variance-authority';
 import { dashboardStore, showcaseBoxId, sideEditMenuId } from '../../utils';
 import { createPortal } from 'react-dom';
-import { PropsWithChildren } from 'react';
+import { type PropsWithChildren } from 'react';
 import { useStore } from 'zustand';
 
 export default function EditSideMenu() {

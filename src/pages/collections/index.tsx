@@ -7,7 +7,7 @@ import { createServerSideHelpers } from '@trpc/react-query/server';
 import { createInnerTRPCContext } from '~/server/api/trpc';
 import superjson from 'superjson';
 import { appRouter } from '~/server/api/root';
-import { RouterInputs, api } from '~/utils/api';
+import { type RouterInputs, api } from '~/utils/api';
 
 const CollectionsPage = ({
 	input,
@@ -35,7 +35,7 @@ export async function getStaticProps() {
 	// context: GetStaticPropsContext<undefined>
 	const ssg = createServerSideHelpers({
 		router: appRouter,
-		ctx: await createInnerTRPCContext({ session: null }),
+		ctx: createInnerTRPCContext({}),
 		transformer: superjson, // optional - adds superjson serialization
 	});
 

@@ -1,4 +1,4 @@
-import { BoxVariants } from '../appData';
+import { type BoxVariants } from '../appData';
 
 export const SECTIONS_TYPES = ['standard-section'] as const;
 export type SECTIONS_TYPE = (typeof SECTIONS_TYPES)[number];

@@ -1,5 +1,5 @@
 import { Menu, Transition } from '@headlessui/react';
-import { Fragment, ReactNode } from 'react';
+import { Fragment, type ReactNode } from 'react';
 import Clickable from '../core/Clickable';
 import type { ButtonProps } from '../Clickable';
 

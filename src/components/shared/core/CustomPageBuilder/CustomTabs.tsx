@@ -1,7 +1,7 @@
 import {
-	Box,
-	BoxTypeTabs,
-	PageStoreApi,
+	type Box,
+	type BoxTypeTabs,
+	type PageStoreApi,
 	SectionBoxContainer,
 	type TabsBox,
 } from './_';
@@ -56,7 +56,9 @@ const EditBoxModal = (props: {
 	return (
 		<Dialog setIsOpen={props.setIsOpen} isOpen={props.isOpen}>
 			<Form
-				onSubmit={async (event, params) => {
+				
+// eslint-disable-next-line @typescript-eslint/no-misused-promises
+onSubmit={async (event, params) => {
 					event.preventDefault();
 					await updateOneRequest.mutateAsync({
 						boxToTabsId: props.boxToTabsId,
@@ -95,7 +97,7 @@ export default function CustomTabs(props: {
 	const pathname = usePathname();
 	const box = useStore(
 		props.pageStore,
-		(state) => getValueByPathArray(state.page, props.path) as BoxTypeTabs,
+		(state) => getValueByPathArray<BoxTypeTabs>(state.page, props.path) ,
 	);
 
 	const isTabsEditable = pathname.startsWith('/dashboard');

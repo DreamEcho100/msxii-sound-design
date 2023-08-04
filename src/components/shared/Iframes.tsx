@@ -1,7 +1,7 @@
-import { VariantProps, cva, cx } from 'class-variance-authority';
-import CustomNextImage from '~/components/shared/CustomNextImage';
+import { type VariantProps, cva, cx } from 'class-variance-authority';
+import type CustomNextImage from '~/components/shared/CustomNextImage';
 import Script from 'next/script';
-import React, { HTMLAttributes, IframeHTMLAttributes, ReactNode } from 'react';
+import React, { type HTMLAttributes, type IframeHTMLAttributes, type ReactNode } from 'react';
 
 type TNextImageProps = Parameters<typeof CustomNextImage>[0];
 
@@ -388,7 +388,7 @@ export const SoundCloudIframe = ({
 					position: 'absolute',
 					border: 0,
 				}}
-				title={title || undefined}
+				title={title ?? undefined}
 				allowFullScreen
 				allow={allow}
 				loading="lazy"

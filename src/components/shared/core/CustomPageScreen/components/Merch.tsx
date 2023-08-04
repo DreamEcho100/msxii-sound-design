@@ -11,7 +11,7 @@ const Merch = () => {
 
 	if (collectionQuery.isError) return <>{collectionQuery.error?.message}</>;
 
-	const collectionData = collectionQuery.data!;
+	const collectionData = collectionQuery.data;
 
 	return (
 		<>

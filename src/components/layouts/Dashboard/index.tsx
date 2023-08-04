@@ -1,37 +1,36 @@
-import { type PropsWithChildren } from 'react';
+import { type PropsWithChildren } from "react";
 
-import { useEffect } from 'react';
-import { useRouter } from 'next/navigation';
-import { useCheckIsAdmin } from '~/utils/hooks';
-import EditSideMenu from './components/Menus/Edit';
-import MainSideMenu from './components/Menus/Main';
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { useCheckIsAdmin } from "~/utils/hooks";
+import EditSideMenu from "./components/Menus/Edit";
+import MainSideMenu from "./components/Menus/Main";
+import MainHeader from "./components/MainHeader";
 
 const DashboardLayout = (props: PropsWithChildren) => {
-	const router = useRouter();
-	const { customerStatus, isAdmin } = useCheckIsAdmin();
+  const router = useRouter();
+  const { customerStatus, isAdmin } = useCheckIsAdmin();
 
-	useEffect(() => {
-		if (customerStatus !== 'loading' && !isAdmin) router.push('/');
-	}, [customerStatus, isAdmin, router]);
+  useEffect(() => {
+    if (customerStatus !== "loading" && !isAdmin) router.push("/");
+  }, [customerStatus, isAdmin, router]);
 
-	if (customerStatus === 'loading') return <>Loading...</>;
+  if (customerStatus === "loading") return <>Loading...</>;
 
-	if (!isAdmin) return <>Not Authorized</>;
+  if (!isAdmin) return <>Not Authorized</>;
 
-	return (
-		<div className="flex flex-grow">
-			<MainSideMenu />
-			<div className="flex flex-col flex-grow relative">
-				<header className="px-4 sm:px-8 py-4 border-b mx-auto w-full max-w-main">
-					main header
-				</header>
-				<main className="mx-auto w-full max-w-main px-4 sm:px-8 py-8 flex-grow overflow-y-auto overflow-x-hidden flex flex-col">
-					{props.children}
-				</main>
-				<EditSideMenu />
-			</div>
-		</div>
-	);
+  return (
+    <div className="flex flex-grow">
+      <MainSideMenu />
+      <div className="relative flex flex-grow flex-col">
+        <MainHeader />
+        <main className="mx-auto flex w-full max-w-main flex-grow flex-col overflow-y-auto overflow-x-hidden px-4 py-8 sm:px-8">
+          {props.children}
+        </main>
+        <EditSideMenu />
+      </div>
+    </div>
+  );
 };
 
 export default DashboardLayout;

@@ -195,7 +195,7 @@ const CustomProductScreen = ({
   }, [productData.descriptionHtml]);
 
   return (
-    <div className="mx-auto flex max-w-[140ch] flex-col gap-16 p-16 text-h6 leading-primary-3 text-text-primary-300">
+    <div className="mx-auto flex max-w-[140ch] flex-col gap-16 px-4 text-h6 leading-primary-3 text-text-primary-300 sm:px-8 lg:px-12">
       <section className="flex w-full flex-col-reverse items-center justify-between gap-12 md:flex-row-reverse">
         <div className="md:text-align-initial my-4 flex flex-grow flex-col gap-2 text-center">
           <div className="flex flex-col items-center gap-6 md:items-start">
@@ -264,8 +264,8 @@ const CustomProductScreen = ({
                 newViewEnabled
                   ? "bg-special-primary-500"
                   : "bg-special-primary-900",
-                !newViewData.detailsHTML ? "invisible" : undefined,
-                "relative inline-flex h-8 w-16 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2  focus-visible:ring-white focus-visible:ring-opacity-75"
+                newViewData.detailsHTML.length === 0 ? "invisible" : undefined,
+                "relative inline-flex h-6 w-12 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2  focus-visible:ring-white focus-visible:ring-opacity-75"
               )}
             >
               <span className="sr-only">Use setting</span>
@@ -274,7 +274,7 @@ const CustomProductScreen = ({
                 className={`${
                   newViewEnabled ? "translate-x-9" : "translate-x-0"
                 }
-            pointer-events-none inline-block h-7 w-7 transform rounded-full bg-white shadow-lg ring-0 transition duration-200 ease-in-out`}
+            pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow-lg ring-0 transition duration-200 ease-in-out`}
               />
             </Switch>
           </div>

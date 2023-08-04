@@ -1,0 +1,36 @@
+import React from "react";
+import { dashboardStore } from "../utils";
+import { useStore } from "zustand";
+import { FaBars } from "react-icons/fa";
+import Clickable from "~/components/shared/core/Clickable";
+import CustomNextImage from "~/components/shared/CustomNextImage";
+
+const MainHeader = () => {
+  const setMenuIsOpen = useStore(
+    dashboardStore,
+    (store) => store.utils.setMenuIsOpen
+  );
+
+  return (
+    <>
+      <header className="fixed inset-x-0 w-full bg-black/5 backdrop-blur-md">
+        <div className="mx-auto flex h-16 max-w-main items-center justify-between border-b px-4 sm:px-8">
+          <Clickable href="/" isA="next-js" noDashboardCustomPages>
+            <CustomNextImage
+              src="/images/logo.png"
+              alt="logo"
+              width="60"
+              height="48"
+            />
+          </Clickable>
+          <button type="button" onClick={() => setMenuIsOpen("sideMain", true)}>
+            <FaBars />
+          </button>
+        </div>
+      </header>
+      <div className="h-16 w-full" />
+    </>
+  );
+};
+
+export default MainHeader;

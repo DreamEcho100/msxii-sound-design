@@ -14,12 +14,7 @@ const Merch = () => {
     api.shopify.collections.getOneByHandle.useInfiniteQuery(input);
 
   return (
-    <div
-      className="grid justify-items-center gap-8"
-      style={{
-        gridTemplateColumns: "repeat(auto-fill, minmax(15rem, 1fr))",
-      }}
-    >
+    <div className="flex flex-col gap-8">
       <InfiniteLoadCollectionProductsSection
         infiniteQuery={collectionQuery}
         input={input}

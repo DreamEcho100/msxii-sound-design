@@ -29,7 +29,7 @@ const ProductPage = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
     <>
       <Head>
         <title>
-          {props.input.handle
+          {props?.input?.handle
             .split("-")
             .map((str) => str.slice(0, 1).toUpperCase() + str.slice(1))
             .join(" ")}

@@ -6,7 +6,7 @@ export const shopifyProductsRouter = createTRPCRouter({
   getManyBasic: publicProcedure
     .input(
       z.object({
-        first: z.number().min(5).max(100),
+        limit: z.number().min(5).max(100),
         cursor: z.string().nonempty().nullish(),
         title: z.string().optional().nullable(),
       })

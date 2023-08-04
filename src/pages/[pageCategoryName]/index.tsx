@@ -37,8 +37,8 @@ export const getStaticProps = async (ctx: GetStaticPropsContext) => {
       .object({ pageCategoryName: z.string().nonempty() })
       .parse(ctx.params);
   } catch (err) {
-    console.log(err);
-    if (err instanceof Error) console.log(err.message);
+    console.error(err);
+    if (err instanceof Error) console.error(err.message);
 
     return {
       notFound: true,

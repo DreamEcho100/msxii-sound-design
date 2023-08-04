@@ -60,8 +60,6 @@ export const getStaticPaths: GetStaticPaths = async () => {
 export const getStaticProps = async (
   context: GetStaticPropsContext<{ handle: string }>
 ) => {
-  console.log("___ context.params", context.params);
-
   let handle: string;
   try {
     const params = z
@@ -70,8 +68,8 @@ export const getStaticProps = async (
 
     handle = params.handle;
   } catch (err) {
-    console.log(err);
-    if (err instanceof Error) console.log(err.message);
+    console.error(err);
+    if (err instanceof Error) console.error(err.message);
 
     return {
       notFound: true,

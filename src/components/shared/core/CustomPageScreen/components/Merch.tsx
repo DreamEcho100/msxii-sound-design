@@ -13,10 +13,6 @@ const Merch = () => {
   const collectionQuery =
     api.shopify.collections.getOneByHandle.useInfiniteQuery(input);
 
-  const firstItem =
-    collectionQuery.data?.pages[collectionQuery.data.pages.length - 1]?.items[0]
-      ?.node;
-
   return (
     <div
       className="grid justify-items-center gap-8"

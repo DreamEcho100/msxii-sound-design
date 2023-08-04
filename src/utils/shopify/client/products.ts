@@ -1,6 +1,6 @@
 import { gql } from "graphql-request";
 import { z } from "zod";
-import { type Edges, type Product } from "../types";
+import { type EdgesWithPagination, type Product } from "../types";
 import { graphQLClient } from "./_utils";
 import { gqlPriceText, gqlImageText } from "./utils";
 
@@ -71,7 +71,7 @@ variants(first: 100) {
 	}
 }`;
 
-export const allProductsQuerySchema = z.object({
+export const manyProductsQuerySchema = z.object({
   first: z.number().min(0).max(250),
   query: z
     .object({
@@ -79,10 +79,11 @@ export const allProductsQuerySchema = z.object({
       available_for_sale: z.boolean().optional(),
     })
     .optional(),
+  cursor: z.string().nullish(), // <-- "cursor" needs to exist, but can be any type
 });
 
-const allProductsQuery = async (
-  input: z.infer<typeof allProductsQuerySchema>
+const manyProductsQuery = async (
+  input: z.infer<typeof manyProductsQuerySchema>
 ) => {
   // https://shopify.dev/docs/api/storefront/2023-04/queries/products
 
@@ -101,19 +102,25 @@ const allProductsQuery = async (
 
   const template = gql`
 				query getProducts($first: Int${queryStr ? ", $query: String" : ""}) {
-					products(first: $first${queryStr ? ", query: $query" : ""}) {
+					products(first: $first${queryStr ? ", query: $query" : ""}${
+    !input.cursor ? "" : `after: "${input.cursor}"`
+  }) {
 						edges {
 							cursor
 							node {
 								${gqlProductSchemaText}
 							}
 						}
+						pageInfo {
+							hasNextPage
+							hasPreviousPage
+						}
 					}
 				}
 			`;
 
   return await graphQLClient.request<{
-    products: Edges<Product>;
+    products: EdgesWithPagination<Product>;
   }>(template, {
     first: input.first,
     query: queryStr,
@@ -137,7 +144,7 @@ const oneProductByHandleQuery = async (
 };
 
 const products = {
-  queries: { all: allProductsQuery, getOneByHandle: oneProductByHandleQuery },
+  queries: { many: manyProductsQuery, getOneByHandle: oneProductByHandleQuery },
 };
 
 export default products;

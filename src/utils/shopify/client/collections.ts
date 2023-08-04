@@ -1,23 +1,48 @@
 import { gql } from "graphql-request";
-import { type Collection, type Edges, type BasicCollection } from "../types";
+import {
+  type Collection,
+  type Edges,
+  type BasicCollection,
+  type CollectionWithPageProducts,
+} from "../types";
 import { graphQLClient } from "./_utils";
 import { gqlProductSchemaText, gqlProductBasicSchemaText } from "./products";
 import { z } from "zod";
+import { buildGQLArgsString } from "./utils";
+
+export const oneCollectionByHandleQuerySchema = z.object({
+  handle: z.string(),
+  limit: z.number().min(5).max(50),
+  cursor: z.string().nullish(),
+});
 
 // , filters: { available: true }
-const gqlCollectionSchemaWithBasicProductsText = `description
+const gqlCollectionSchemaWithBasicProductsText = (
+  input: z.infer<typeof oneCollectionByHandleQuerySchema>
+) => {
+  const argsMap = {
+    first: input.limit,
+    after: input.cursor && `"${input.cursor}"`,
+  };
+
+  return `description
 		handle
 		id
 		onlineStoreUrl
 		title
 		updatedAt
-		products(first: 100) {
+		products(${buildGQLArgsString(argsMap)}) {
 			edges {
 				node {
 					${gqlProductBasicSchemaText}
 				}
 			}
+			pageInfo {
+				hasNextPage
+				hasPreviousPage
+			}
 		}`;
+};
 // , filters: { available: true }
 const gqlCollectionSchemaText = `description
 				handle
@@ -141,21 +166,18 @@ const manyCollectionsQuery = async (
   }>(template);
 };
 
-export const oneCollectionByHandleQuerySchema = z.object({
-  handle: z.string(),
-});
 const oneCollectionByHandleQuery = async (
   input: z.infer<typeof oneCollectionByHandleQuerySchema>
 ) => {
   // https://shopify.dev/docs/api/storefront/2023-04/queries/collectionByHandle
   const template = gql`query ($handle: String!) {
 		collectionByHandle(handle: $handle) {
-			${gqlCollectionSchemaWithBasicProductsText}
+			${gqlCollectionSchemaWithBasicProductsText(input)}
 		}
 	}`;
 
   return await graphQLClient.request<{
-    collectionByHandle: Collection;
+    collectionByHandle: CollectionWithPageProducts;
   }>(template, input);
 };
 

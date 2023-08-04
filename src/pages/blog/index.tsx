@@ -150,9 +150,7 @@ export async function getStaticProps() {
    * `prefetchQuery` does not return the result - if you need that, use `fetchQuery` instead.
    */
   const blogGetManyInput: inferRouterInputs<AppRouter>["shopify"]["blog"]["articles"]["getManyBasic"] =
-    {
-      limit: 24,
-    };
+    { limit: 24 };
   await ssg.shopify.blog.articles.getManyBasic.prefetchInfinite(
     blogGetManyInput
   );

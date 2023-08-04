@@ -198,7 +198,10 @@ const CustomPageScreen = (props: Props): React.JSX.Element => {
           />
         )}
       </CustomPageBuilder_>
-    );
+		);
+	
+		console.log('___ pageCategoryItemsData', pageCategoryItemsData)
+		console.log('___ customPageStructureData', customPageStructureData)
 
   throw new Error("Unknown type");
 };

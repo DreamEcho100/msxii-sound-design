@@ -1,6 +1,5 @@
 import { gql } from "graphql-request";
 import {
-  type Collection,
   type Edges,
   type BasicCollection,
   type CollectionWithPageProducts,
@@ -44,20 +43,6 @@ const gqlCollectionSchemaWithBasicProductsText = (
 			}
 		}`;
 };
-// , filters: { available: true }
-const gqlCollectionSchemaText = `description
-				handle
-				id
-				onlineStoreUrl
-				title
-				updatedAt
-				products(first: 100) {
-					edges {
-						node {
-							${gqlProductSchemaText}
-						}
-					}
-				}`;
 
 export const getQQLManyCollectionTextSchema = z
   .object({

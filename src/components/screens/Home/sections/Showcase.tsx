@@ -157,12 +157,11 @@ const HomeShowcaseSection = ({
   );
 };
 
-const HomeShowcaseSectionHolder = () => {
+const HomeShowcaseSectionHolder = (props: {
+  input: RouterInputs["shopify"]["collections"]["getAllBasic"];
+}) => {
   const getAllBasicCollectionsShopify =
-    api.shopify.collections.getAllBasic.useQuery({
-      productsFirst: 7,
-      collectionsFirst: 50,
-    });
+    api.shopify.collections.getAllBasic.useQuery(props.input);
 
   if (getAllBasicCollectionsShopify.isSuccess)
     return (

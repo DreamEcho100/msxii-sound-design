@@ -272,9 +272,10 @@ const CustomProductScreen = ({
               <span
                 aria-hidden="true"
                 className={`${
-                  newViewEnabled ? "translate-x-9" : "translate-x-0"
+                  newViewEnabled ? "translate-x-6" : "translate-x-0"
                 }
-            pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow-lg ring-0 transition duration-200 ease-in-out`}
+								pointer-events-none
+            mt-[1%] inline-block h-5 w-5 transform rounded-full bg-white shadow-lg ring-0 transition duration-200 ease-in-out`}
               />
             </Switch>
           </div>

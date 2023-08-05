@@ -19,8 +19,10 @@ const MainHeader = () => {
             <CustomNextImage
               src="/images/logo.png"
               alt="logo"
-              width="60"
-              height="48"
+              width="240"
+              height="192"
+              className="h-12 w-16"
+              priority
             />
           </Clickable>
           <button type="button" onClick={() => setMenuIsOpen("sideMain", true)}>

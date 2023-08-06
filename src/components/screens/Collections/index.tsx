@@ -10,19 +10,19 @@ import {
 import { CardsSlider } from "~/components/shared/core/Shopify/Cards/Slider";
 import Clickable from "~/components/shared/core/Clickable";
 import { GiSettingsKnobs } from "react-icons/gi";
-import { motion, AnimatePresence } from "framer-motion";
 
 import { useSearchParams } from "next/navigation";
 import { useBasicCollectionsHandleFilterManager } from "~/utils/hooks";
 import { type RouterOutputs } from "~/utils/api";
 import { ProductCard } from "~/components/shared/core/Shopify/Cards/Card";
+import { cx } from "class-variance-authority";
 
 const CheckboxField = ({
   children,
   ...props
 }: InputHTMLAttributes<HTMLInputElement>) => {
   return (
-    <label className="flex cursor-pointer items-center gap-1 capitalize sm:whitespace-nowrap">
+    <label className="flex cursor-pointer items-center gap-1 capitalize md:whitespace-nowrap">
       <input
         type="checkbox"
         className="aspect-square h-5 w-5 accent-special-primary-500"
@@ -67,13 +67,91 @@ const PagesCategoriesMenu = ({
   );
 };
 
+const SideMenu = (props: {
+  isFiltersMenuActive: boolean;
+  setIsFiltersMenuActive: Dispatch<SetStateAction<boolean>>;
+  pagesCategories: string[];
+  setSelectedHandles: Dispatch<SetStateAction<string[]>>;
+  selectedHandles: string[];
+}) => {
+  // const filterMenuOnSMScreensCloseButtonRef = useRef<HTMLButtonElement>(null);
+
+  // useEffect(() => {
+  //   const timeoutId = setTimeout(() => {
+  //     if (!filterMenuOnSMScreensCloseButtonRef.current) return;
+  //     filterMenuOnSMScreensCloseButtonRef.current.click();
+  //   }, 0);
+
+  //   return () => clearTimeout(timeoutId);
+  // }, []);
+
+  return (
+    <>
+      <div
+        className={cx(
+          "bg-bg-primary absolute left-0 top-0 z-[2] h-full max-w-[90%] origin-left bg-bg-primary-500 p-8 rtl:origin-right md:pointer-events-none md:hidden md:opacity-0",
+          "overflow-x-hidden transition-all duration-300",
+          props.isFiltersMenuActive ? "translate-x-0" : "-translate-x-full"
+        )}
+      >
+        <div className="flex flex-col gap-1">
+          <header className="flex justify-between gap-2">
+            <h3 className="text-h4 text-text-primary-300 md:whitespace-nowrap">
+              Shop all
+            </h3>
+            <button
+              onClick={() => props.setIsFiltersMenuActive((prev) => !prev)}
+              // ref={filterMenuOnSMScreensCloseButtonRef}
+              type="button"
+              title={`${props.isFiltersMenuActive ? "Hide" : "Show"} filters`}
+            >
+              <GiSettingsKnobs className="rotate-90 scale-y-110 text-xl font-bold" />
+            </button>
+          </header>
+          <PagesCategoriesMenu
+            pagesCategories={props.pagesCategories}
+            setSelectedPagesCategories={props.setSelectedHandles}
+            selectedPagesCategories={props.selectedHandles}
+          />
+        </div>
+      </div>
+      <div className="hidden md:flex">
+        <div
+          className={cx(
+            "z-[2] h-full origin-left flex-col gap-1 bg-bg-primary-500 py-main-p-3 rtl:origin-right md:flex",
+            "overflow-x-hidden transition-all duration-300",
+            props.isFiltersMenuActive ? "w-auto scale-100" : "w-0 scale-0"
+          )}
+        >
+          <header className="flex justify-between gap-2">
+            <h3 className="text-h4 text-text-primary-300 md:whitespace-nowrap">
+              Shop all
+            </h3>
+            <Clickable
+              variants={null}
+              onClick={() => props.setIsFiltersMenuActive((prev) => !prev)}
+              title={`${props.isFiltersMenuActive ? "Hide" : "Show"} filters`}
+            >
+              <GiSettingsKnobs className="rotate-90 scale-y-110 text-xl font-bold" />
+            </Clickable>
+          </header>
+          <PagesCategoriesMenu
+            pagesCategories={props.pagesCategories}
+            setSelectedPagesCategories={props.setSelectedHandles}
+            selectedPagesCategories={props.selectedHandles}
+          />
+        </div>
+      </div>
+    </>
+  );
+};
+
 const ProductsScreen = ({
   collectionsBasic,
 }: {
   collectionsBasic: RouterOutputs["shopify"]["collections"]["getAllBasic"];
 }) => {
-  const filterMenuOnSMScreensCloseButtonRef = useRef<HTMLButtonElement>(null);
-  const [isFiltersMenuActive, setIsFiltersMenuActive] = useState(true);
+  const [isFiltersMenuActive, setIsFiltersMenuActive] = useState(false);
   const searchParams = useSearchParams();
   const [isReady, setIsReady] = useState(false);
 
@@ -108,15 +186,6 @@ const ProductsScreen = ({
     };
   }, [isReady, searchParams, setProductTitleQuery, setSelectedHandles]);
 
-  useEffect(() => {
-    const timeoutId = setTimeout(() => {
-      if (!filterMenuOnSMScreensCloseButtonRef.current) return;
-      filterMenuOnSMScreensCloseButtonRef.current.click();
-    }, 0);
-
-    return () => clearTimeout(timeoutId);
-  }, []);
-
   const filteredCollectionsByHandle = useMemo(() => {
     if (selectedHandles.length === 0) return collectionsByHandle;
 
@@ -132,72 +201,21 @@ const ProductsScreen = ({
   }, [collectionsByHandle, selectedHandles]);
 
   return (
-    <section>
-      <div className="relative flex py-main-p-1 sm:gap-main-p-3 sm:p-main-p-3">
-        {isFiltersMenuActive && (
-          <AnimatePresence>
-            <motion.div
-              initial={{ scaleX: 0 }}
-              animate={{ scaleX: 1 }}
-              exit={{ scaleX: 0 }}
-              transition={{ duration: 0.3 }}
-              className="bg-bg-primary absolute left-0 top-0 z-[2] h-full max-w-[90%] origin-left bg-bg-primary-500 p-8 rtl:origin-right sm:pointer-events-none sm:hidden sm:opacity-0"
-            >
-              <div className="flex flex-col gap-1">
-                <header className="flex justify-between gap-2">
-                  <h3 className="text-h4 text-text-primary-300 sm:whitespace-nowrap">
-                    Shop all
-                  </h3>
-                  <button
-                    onClick={() => setIsFiltersMenuActive((prev) => !prev)}
-                    ref={filterMenuOnSMScreensCloseButtonRef}
-                    type="button"
-                    title={`${isFiltersMenuActive ? "Hide" : "Show"} filters`}
-                  >
-                    <GiSettingsKnobs className="rotate-90 scale-y-110 text-xl font-bold" />
-                  </button>
-                </header>
-                <PagesCategoriesMenu
-                  pagesCategories={pagesCategories}
-                  setSelectedPagesCategories={setSelectedHandles}
-                  selectedPagesCategories={selectedHandles}
-                />
-              </div>
-            </motion.div>
-          </AnimatePresence>
-        )}
-        <div className="hidden sm:flex">
-          <AnimatePresence>
-            {isFiltersMenuActive && (
-              <motion.div
-                initial={{ scaleX: 0, width: 0 }}
-                animate={{ scaleX: 1, width: "auto" }}
-                exit={{ scaleX: 0, width: 0 }}
-                transition={{ duration: 0.3 }}
-                className="z-[2] h-full origin-left flex-col gap-1 bg-bg-primary-500 py-main-p-3 rtl:origin-right sm:flex"
-              >
-                <header className="flex justify-between gap-2">
-                  <h3 className="text-h4 text-text-primary-300 sm:whitespace-nowrap">
-                    Shop all
-                  </h3>
-                  <Clickable
-                    variants={null}
-                    onClick={() => setIsFiltersMenuActive((prev) => !prev)}
-                    title={`${isFiltersMenuActive ? "Hide" : "Show"} filters`}
-                  >
-                    <GiSettingsKnobs className="rotate-90 scale-y-110 text-xl font-bold" />
-                  </Clickable>
-                </header>
-                <PagesCategoriesMenu
-                  pagesCategories={pagesCategories}
-                  setSelectedPagesCategories={setSelectedHandles}
-                  selectedPagesCategories={selectedHandles}
-                />
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </div>
-        <div className="isolate flex max-w-full flex-grow flex-col gap-12 overflow-hidden bg-bg-primary-100 px-4 py-12 transition-all dark:bg-bg-primary-900 sm:rounded-2xl sm:px-8 lg:px-12">
+    <section className="flex flex-grow flex-col">
+      <div className="relative flex h-[75vh] min-h-[25rem] flex-grow py-main-p-1 md:gap-main-p-3 md:p-main-p-3">
+        <SideMenu
+          isFiltersMenuActive={isFiltersMenuActive}
+          setIsFiltersMenuActive={setIsFiltersMenuActive}
+          pagesCategories={pagesCategories}
+          setSelectedHandles={setSelectedHandles}
+          selectedHandles={selectedHandles}
+        />
+        <div
+          className={cx(
+            "isolate flex max-w-full flex-grow flex-col gap-12 overflow-hidden bg-bg-primary-100 px-4 py-12 transition-all dark:bg-bg-primary-900 md:rounded-2xl md:px-8 lg:px-12",
+            "min-h-50rem overflow-y-auto overflow-x-hidden"
+          )}
+        >
           <header className="flex justify-between">
             <h1 className="text-h1 font-semibold">
               {selectedHandles.length === pagesCategories.length ||
@@ -238,7 +256,7 @@ const ProductsScreen = ({
                     previousSlideButtonClassName="scale-[50%] -translate-y-[200%] lg:-translate-y-[225%]"
                     swiperProps={{
                       breakpoints: {
-                        384: { slidesPerView: 1 },
+                        384: { slidesPerView: 2 },
                         768: { slidesPerView: 3 },
                         1024: { slidesPerView: 4 },
                         1280: { slidesPerView: 5 },
@@ -251,7 +269,7 @@ const ProductsScreen = ({
                           // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
                           variants: {
                             btn: "light:primary_dark:secondary",
-                            py: "sm",
+                            py: "md",
                             px: "lg",
                             // eslint-disable-next-line @typescript-eslint/no-explicit-any
                           } as any,

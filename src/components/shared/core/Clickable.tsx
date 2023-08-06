@@ -6,7 +6,7 @@ import { usePathname } from "next/navigation";
 
 const sharedAnimationClasses = "duration-150 transition-all";
 
-const handleClickableVariants = cva("", {
+const handleClickableVariants = cva("text-[80%] sm:text-[100%]", {
   variants: {
     btn: {
       primary: `bg-initial-primary-900 text-initial-secondary-0 hover:bg-initial-primary-100 hover:text-initial-secondary-900 ${sharedAnimationClasses}`,

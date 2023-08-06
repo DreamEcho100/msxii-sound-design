@@ -88,7 +88,7 @@ const MainLayout = (props: Props) => {
     <>
       <MainLayoutHeader />
       {/* min-h-main-content */}
-      <main className="mx-auto mt-main-header-h w-full max-w-main flex-grow">
+      <main className="mx-auto mt-main-header-h flex w-full max-w-main flex-grow flex-col">
         {props.children}
       </main>
       <MainLayoutFooter />

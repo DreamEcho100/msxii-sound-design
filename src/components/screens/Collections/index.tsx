@@ -4,7 +4,6 @@ import {
   type SetStateAction,
   useEffect,
   useMemo,
-  useRef,
   useState,
 } from "react";
 import { CardsSlider } from "~/components/shared/core/Shopify/Cards/Slider";

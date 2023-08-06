@@ -201,7 +201,7 @@ const ProductsScreen = ({
 
   return (
     <section className="flex flex-grow flex-col">
-      <div className="relative flex h-[75vh] min-h-[25rem] flex-grow py-main-p-1 md:gap-main-p-3 md:p-main-p-3">
+      <div className="relative flex flex-grow py-main-p-1 md:gap-main-p-3 md:p-main-p-3">
         <SideMenu
           isFiltersMenuActive={isFiltersMenuActive}
           setIsFiltersMenuActive={setIsFiltersMenuActive}
@@ -209,12 +209,7 @@ const ProductsScreen = ({
           setSelectedHandles={setSelectedHandles}
           selectedHandles={selectedHandles}
         />
-        <div
-          className={cx(
-            "isolate flex max-w-full flex-grow flex-col gap-12 overflow-hidden bg-bg-primary-100 px-4 py-12 transition-all dark:bg-bg-primary-900 md:rounded-2xl md:px-8 lg:px-12",
-            "min-h-50rem overflow-y-auto overflow-x-hidden"
-          )}
-        >
+        <div className="isolate flex max-w-full flex-grow flex-col gap-12 overflow-hidden bg-bg-primary-100 px-4 py-12 transition-all dark:bg-bg-primary-900 md:rounded-2xl md:px-8 lg:px-12">
           <header className="flex justify-between">
             <h1 className="text-h1 font-semibold">
               {selectedHandles.length === pagesCategories.length ||
@@ -234,7 +229,7 @@ const ProductsScreen = ({
               <GiSettingsKnobs className="rotate-90 scale-y-110 text-xl font-bold" />
             </Clickable>
           </header>
-          <div className="flex flex-col gap-8">
+          <div className="flex h-[75vh] min-h-[25rem] flex-grow flex-col gap-8 overflow-y-auto overflow-x-hidden">
             {filteredCollectionsByHandle.map((collection) => (
               <article key={collection[0]} className="flex flex-col gap-4">
                 <h2 className="text-h4 font-normal capitalize text-text-primary-300">

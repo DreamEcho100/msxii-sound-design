@@ -14,7 +14,7 @@ import {
 } from "~/server/utils/shopify";
 
 export const shopifyAuthRouter = createTRPCRouter({
-  register: customerProtectedProcedure
+  register: publicProcedure
     .input(
       z.object({
         firstName: z.string().min(2),
@@ -26,6 +26,9 @@ export const shopifyAuthRouter = createTRPCRouter({
       })
     )
     .mutation(async ({ ctx, input }) => {
+      if (!ctx.cookieManger)
+        throw new TRPCError({ code: "INTERNAL_SERVER_ERROR" });
+
       const data = await ctx.shopify.auth.customer.mutations
         .create(input)
         .then((result) => {

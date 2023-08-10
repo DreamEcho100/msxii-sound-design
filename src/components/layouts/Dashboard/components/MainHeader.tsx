@@ -13,7 +13,7 @@ const MainHeader = () => {
 
   return (
     <>
-      <header className="fixed inset-x-0 w-full bg-black/5 backdrop-blur-md">
+      <header className="fixed inset-x-0 z-[2] w-full bg-black/5 backdrop-blur-md">
         <div className="mx-auto flex h-16 max-w-main items-center justify-between border-b px-4 sm:px-8">
           <Clickable href="/" isA="next-js" noDashboardCustomPages>
             <CustomNextImage

@@ -11,9 +11,7 @@ const Dialog = (props: PropsWithChildren<DialogProps>) => {
   return (
     <HUDialog
       as="div"
-      onClose={() => {
-        console.log("___");
-      }}
+      onClose={() => props.setIsOpen(false)}
       className={cx(
         "fixed inset-0 z-10 flex h-full w-full items-center justify-center",
         "block" // props.isOpen ? 'block' : 'hidden',

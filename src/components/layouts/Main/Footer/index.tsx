@@ -204,7 +204,7 @@ const MainLayoutFooter = () => {
                 alt="logo"
                 width="240"
                 height="192"
-                className="h-12 w-16"
+                className="h-12 w-16 object-contain"
                 priority
               />
             </Clickable>

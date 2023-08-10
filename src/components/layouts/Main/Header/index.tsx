@@ -106,14 +106,14 @@ const MainLayoutHeader = () => {
     <>
       <header
         className={cx(
-          "fixed left-0 right-0 top-0 isolate z-10 flex flex-col transition-all duration-300"
+          "fixed left-0 right-0 top-0 isolate z-[2] flex flex-col transition-all duration-300"
         )}
       >
         <div className="mx-auto flex w-full max-w-main flex-col">
           <div
             className={cx(
               "flex h-main-header-h w-full items-center justify-between gap-4 px-main-p-3 sm:px-main-p-2",
-              "relative isolate z-[2]",
+              "relative isolate",
               isAnyMenuOpen
                 ? "bg-bg-primary-500"
                 : "bg-bg-primary-500/80 backdrop-blur-sm dark:bg-bg-primary-500/90"
@@ -129,7 +129,7 @@ const MainLayoutHeader = () => {
                 alt="logo"
                 width="240"
                 height="192"
-                className="h-12 w-16"
+                className="h-12 w-16 object-contain"
                 priority
               />
             </Clickable>

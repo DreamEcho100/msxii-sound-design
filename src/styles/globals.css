@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+.box-container {
+  /* overflow-x: hidden; */
+  max-width: 100%;
+}
 .box-container > *:not(.box-container > * > .box-edit-overlay) {
   position: relative;
 }

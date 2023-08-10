@@ -21,9 +21,7 @@ export default function MainSideMenu() {
   return (
     <HUDialog
       as="div"
-      onClose={() => {
-        console.log("___");
-      }}
+      onClose={() => setMenuIsOpen("sideMain", false)}
       className={cx(
         "absolute inset-0 z-10 flex h-full w-full items-center justify-center",
         "block" // props.isOpen ? 'block' : 'hidden',

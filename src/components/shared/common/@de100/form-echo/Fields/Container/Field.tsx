@@ -1,13 +1,13 @@
-import { type FormStoreApi } from '@de100/form-echo';
+import { type FormStoreApi } from "@de100/form-echo";
 
-import React from 'react';
-import { useStore } from 'zustand';
+import React from "react";
+import { useStore } from "zustand";
 import FieldContainerBase, {
-	type FieldContainerBaseProps,
-} from '../Base/Container/Field';
+  type FieldContainerBaseProps,
+} from "../Base/Container/Field";
 import LabelAndFieldItemContainerBase, {
-	type LabelAndFieldItemContainerBaseProps,
-} from '../Base/Container/LabelAndFieldItem';
+  type LabelAndFieldItemContainerBaseProps,
+} from "../Base/Container/LabelAndFieldItem";
 
 // const handleLabelAndInputContainerClassVariants = cva(
 // 	'flex rounded-lg text-gray-600',
@@ -53,86 +53,91 @@ import LabelAndFieldItemContainerBase, {
 // );
 
 export type FieldContainerSpecialProps<Fields, ValidatedFields> = {
-	store: FormStoreApi<Fields, ValidatedFields>;
-	name: keyof Fields & string;
-	validationName?: keyof ValidatedFields & string;
+  store: FormStoreApi<Fields, ValidatedFields>;
+  name: keyof Fields & string;
+  validationName?: keyof ValidatedFields & string;
 
-	htmlFor?: string;
-	className?: string;
+  htmlFor?: string;
+  className?: string;
 } & FieldContainerBaseProps & {
-		labelAndFieldContainerClassVariants?: LabelAndFieldItemContainerBaseProps['classVariants'];
-		labelClassVariants?: LabelAndFieldItemContainerBaseProps['labelClassVariants'];
-		labelProps: LabelAndFieldItemContainerBaseProps['labelProps'];
-		labelAndFieldItemContainerProps?: Partial<LabelAndFieldItemContainerBaseProps>;
-	};
+    labelAndFieldContainerClassVariants?: LabelAndFieldItemContainerBaseProps["classVariants"];
+    labelClassVariants?: LabelAndFieldItemContainerBaseProps["labelClassVariants"];
+    labelProps: LabelAndFieldItemContainerBaseProps["labelProps"];
+    labelAndFieldItemContainerProps?: Partial<LabelAndFieldItemContainerBaseProps>;
+  };
 
 export type FieldContainerProps<Fields, ValidatedFields> =
-	FieldContainerSpecialProps<Fields, ValidatedFields>;
+  FieldContainerSpecialProps<Fields, ValidatedFields>;
 
 const FieldContainer = <Fields, ValidatedFields>(
-	props: FieldContainerProps<Fields, ValidatedFields>,
+  props: FieldContainerProps<Fields, ValidatedFields>,
 ) => {
-	// const isDirty = useStore(
-	//   store,
-	//   (state) => state.fields[name].isDirty,
-	// );
-	const {
-		store,
-		name,
-		validationName,
-		labelProps,
-		labelClassVariants,
-		htmlFor,
-		labelAndFieldItemContainerProps = {},
-		classVariants,
-		labelAndFieldContainerClassVariants,
-		children,
-		..._props
-	} = props;
-	const errors = useStore(
-		store,
-		(state) => state.errors[(validationName as unknown as typeof name) || name],
-	);
-	const id = useStore(store, (state) => state.fields[name].metadata.id);
+  // const isDirty = useStore(
+  //   store,
+  //   (state) => state.fields[name].isDirty,
+  // );
+  const {
+    store,
+    name,
+    validationName,
+    labelProps,
+    labelClassVariants,
+    htmlFor,
+    labelAndFieldItemContainerProps = {},
+    classVariants,
+    labelAndFieldContainerClassVariants,
+    children,
+    ..._props
+  } = props;
+  const errors = useStore(
+    store,
+    (state) => state.errors[(validationName as unknown as typeof name) || name],
+  );
+  const id = useStore(store, (state) => state.fields[name].metadata.id);
 
-	return (
-		<FieldContainerBase
-			{..._props}
-			classVariants={{
-				state: errors ? 'error' : 'idle',
-				...(classVariants ?? {}),
-			}}
-		>
-			<LabelAndFieldItemContainerBase
-				{...labelAndFieldItemContainerProps}
-				labelProps={{ ...labelProps, htmlFor }}
-				classVariants={labelAndFieldContainerClassVariants}
-				labelClassVariants={{
-					state: errors ? 'error' : 'idle',
-					...(labelClassVariants ?? {}),
-				}}
-			>
-				{children}
-			</LabelAndFieldItemContainerBase>
-			<ul className="flex max-w-full flex-col -my-1.5" id={`describe-${id}`}>
-				{errors ? (
-					errors.map((error) => (
-						<li key={error} className="text-red-500/75">
-							<small className="text-[80%]">
-								<strong>
-									<em>{error}</em>
-								</strong>
-							</small>
-						</li>
-					))
-				) : (
-					<li className="invisible">
-						<small className="text-[80%]">|</small>
-					</li>
-				)}
-			</ul>
-		</FieldContainerBase>
-	);
+  const isError = Array.isArray(errors) && errors.length > 0;
+
+  return (
+    <FieldContainerBase
+      {..._props}
+      classVariants={{
+        state: isError ? "error" : "idle",
+        ...(classVariants ?? {}),
+      }}
+    >
+      <LabelAndFieldItemContainerBase
+        {...labelAndFieldItemContainerProps}
+        labelProps={{ ...labelProps, htmlFor }}
+        classVariants={labelAndFieldContainerClassVariants}
+        labelClassVariants={{
+          state: isError ? "error" : "idle",
+          ...(labelClassVariants ?? {}),
+        }}
+      >
+        {children}
+      </LabelAndFieldItemContainerBase>
+      <ul
+        className="-my-1 flex w-fit max-w-full flex-col text-[75%]"
+        id={`describe-${id}`}
+      >
+        {Array.isArray(errors) && errors.length > 0 ? (
+          errors.map((error) => (
+            <li key={error} className="flex flex-wrap text-red-500/75">
+              <small>
+                <strong>
+                  <em>{error}</em>
+                </strong>
+              </small>
+            </li>
+          ))
+        ) : (
+          <li className="invisible flex flex-wrap">
+            <small>|</small>
+          </li>
+        )}
+      </ul>
+    </FieldContainerBase>
+  );
 };
 
 export default FieldContainer;

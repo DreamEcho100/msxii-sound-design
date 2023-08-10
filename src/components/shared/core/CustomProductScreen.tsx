@@ -16,7 +16,7 @@ import Slider, { type CardsSlider } from "./Shopify/Cards/Slider";
 import ProductPrice from "./Shopify/ProductPrice";
 import AddToCartButton from "./Shopify/Buttons/AddToCart";
 import { Switch } from "@headlessui/react";
-import { SoundCloudIframe } from "../Iframes";
+import { SoundCloudIframe, YouTubeIFrame } from "../Iframes";
 import TextTruncateManager from "../common/TextTruncater";
 
 // Credit to: <https://dev.to/anxiny/create-an-image-magnifier-with-react-3fd7>
@@ -33,11 +33,11 @@ const ProductImageShowcase = ({
   return (
     <div
       className={cx(
-        "flex max-w-full flex-col gap-2 lg:flex-row",
+        "flex max-w-full flex-grow flex-col gap-x-2 lg:flex-row",
         noCustomWith
           ? undefined
           : hasImagesVariations
-          ? "md:w-5/12 lg:w-6/12"
+          ? "md:w-8/12 lg:w-6/12"
           : "md:w-5/12"
       )}
     >
@@ -47,7 +47,12 @@ const ProductImageShowcase = ({
         width={selectedImage.width || 800}
         height={selectedImage.height || 800}
         className="h-full w-full rounded-xl object-cover"
-        containerProps={{ className: "aspect-square w-full" }}
+        containerProps={{
+          className: cx(
+            "aspect-square w-full",
+            hasImagesVariations ? "lg:w-[calc(100%-6rem)]" : ""
+          ),
+        }}
         priority
       />
       {hasImagesVariations && (
@@ -91,7 +96,7 @@ const ProductImageShowcase = ({
                   className={cx(
                     "aspect-square h-full w-full object-cover transition-all duration-300",
                     selectedImage === node
-                      ? "rounded-lg ring-4 ring-special-primary-500"
+                      ? "rounded-lg ring-4 ring-special-primary-500 transition-all duration-300"
                       : "rounded-md"
                   )}
                 />
@@ -116,18 +121,33 @@ const CustomProductScreen = ({
   ctaButtonProps?: Partial<NextJsLinkProps>;
 }) => {
   const [selectedQuantity, setSelectedQuantity] = useState(1);
-  const mainVariant = productData.variants.edges[0]?.node;
   const [newViewEnabled, setNewViewEnabled] = useState(false);
   const [newViewData, setNewViewData] = useState<{
     detailsHTML: string;
     iframes: {
-      youtube: { src: string; allow: string; title: string }[];
-      soundCloud: { src: string; allow: string; title: string }[];
+      youtube: {
+        src: string;
+        allow: string;
+        title: string;
+        width?: string;
+        height?: string;
+      }[];
+      soundCloud: {
+        src: string;
+        allow: string;
+        title: string;
+        width?: string;
+        height?: string;
+      }[];
     };
   }>({
     detailsHTML: "",
     iframes: { youtube: [], soundCloud: [] },
   });
+  const [isShortDetailsActive, setIsShortDetailsActive] = useState(false);
+  const [selectedVariant, setSelectedVariant] = useState(
+    productData.variants.edges[0]?.node
+  );
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -137,8 +157,20 @@ const CustomProductScreen = ({
 
     let hasIframes = false;
     const iframes: {
-      youtube: { src: string; allow: string; title: string }[];
-      soundCloud: { src: string; allow: string; title: string }[];
+      youtube: {
+        src: string;
+        allow: string;
+        title: string;
+        width?: string;
+        height?: string;
+      }[];
+      soundCloud: {
+        src: string;
+        allow: string;
+        title: string;
+        width?: string;
+        height?: string;
+      }[];
     } = {
       youtube: [],
       soundCloud: [],
@@ -152,6 +184,8 @@ const CustomProductScreen = ({
           src: iframe.src,
           allow: iframe.allow,
           title: iframe.title,
+          width: iframe.width,
+          height: iframe.height,
         });
         iframe.parentElement?.removeChild(iframe);
         iframe.nextElementSibling?.parentElement?.removeChild(iframe);
@@ -163,6 +197,8 @@ const CustomProductScreen = ({
           src: iframe.src,
           allow: iframe.allow,
           title: iframe.title,
+          width: iframe.width,
+          height: iframe.height,
         });
         iframe.parentElement?.removeChild(iframe);
         hasIframes = true;
@@ -186,35 +222,69 @@ const CustomProductScreen = ({
       child.parentElement?.removeChild(child);
     }
 
+    setIsShortDetailsActive(
+      productData.description
+        .trim()
+        .replace(/\s{2,}/g, " ")
+        .slice(0, 50)
+        .toLowerCase()
+        .startsWith(
+          container.innerText
+            .trim()
+            .replace(/\s{2,}/g, " ")
+            .slice(0, 50)
+            .toLowerCase()
+        )
+    );
+
     if (!hasIframes) return;
 
     setNewViewData({
       detailsHTML: container.innerHTML,
       iframes,
     });
-  }, [productData.descriptionHtml]);
+  }, [productData.description, productData.descriptionHtml]);
+
+  const htmlDescription = newViewEnabled
+    ? newViewData.detailsHTML
+    : productData.descriptionHtml || productData.description;
+  const description =
+    isShortDetailsActive || htmlDescription === productData.description
+      ? undefined
+      : productData.description;
+  const hasVariants = productData.variants.edges.length > 1;
 
   return (
-    <div className="mx-auto flex max-w-[140ch] flex-col gap-16 px-4 text-h6 leading-primary-3 text-text-primary-300 sm:px-8 lg:px-12">
-      <section className="flex w-full flex-col-reverse items-center justify-between gap-12 md:flex-row-reverse">
-        <div className="md:text-align-initial my-4 flex flex-grow flex-col gap-2 text-center">
+    <div className="mx-auto flex w-[140ch] max-w-full flex-col gap-16 overflow-x-hidden px-4 py-8 text-h6 leading-primary-3 text-text-primary-300 sm:px-8 md:py-12 lg:px-12">
+      <section className="flex w-full flex-col-reverse justify-between gap-12 md:flex-row-reverse">
+        <div
+          className={cx(
+            "md:text-align-initial my-4 flex flex-grow flex-col gap-2 text-center",
+            !hasVariants && !description
+              ? "md:py-16"
+              : !description
+              ? "md:py-12"
+              : ""
+          )}
+        >
           <div className="flex flex-col items-center gap-6 md:items-start">
             <div className="flex flex-col items-center gap-4 md:items-start">
               <h1 className="text-h3 text-text-primary-500">
                 {productData.title}
               </h1>
               <div className="mx-auto flex w-fit flex-wrap gap-8 sm:mx-0">
-                {mainVariant && (
+                {selectedVariant && (
                   <p className="whitespace-nowrap text-text-primary-500/60">
                     <ProductPrice
                       price={{
-                        amount: Number(mainVariant.price.amount),
-                        currencyCode: mainVariant.price.currencyCode,
+                        amount: Number(selectedVariant.price.amount),
+                        currencyCode: selectedVariant.price.currencyCode,
                       }}
                       compareAtPrice={
-                        mainVariant.compareAtPrice && {
-                          amount: Number(mainVariant.compareAtPrice.amount),
-                          currencyCode: mainVariant.compareAtPrice.currencyCode,
+                        selectedVariant.compareAtPrice && {
+                          amount: Number(selectedVariant.compareAtPrice.amount),
+                          currencyCode:
+                            selectedVariant.compareAtPrice.currencyCode,
                         }
                       }
                     />
@@ -232,9 +302,44 @@ const CustomProductScreen = ({
                 />
               </div>
             </div>
-            {/* className="uppercase mt-4 text-[85%]" */}
+            {hasVariants && (
+              <div className="grid max-w-full grid-cols-[repeat(auto-fit,6rem)] gap-4 md:max-w-[25rem] lg:max-w-full">
+                {productData.variants.edges.map(({ node }) => (
+                  <button
+                    key={node.id}
+                    type="button"
+                    onClick={() => setSelectedVariant(node)}
+                    className={cx(
+                      "h-full w-full",
+                      selectedVariant?.title === node.title ? "px-2" : "pt-2"
+                    )}
+                  >
+                    <div
+                      className={cx(
+                        "w-full",
+                        selectedVariant?.title === node.title
+                          ? "h-[calc(100%-0,5rem)] rounded-lg text-[90%] ring-4 ring-special-primary-500 transition-all duration-300"
+                          : "h-full rounded-md"
+                      )}
+                    >
+                      <CustomNextImage
+                        src={node.image.src}
+                        alt={node.image.altText}
+                        width={node.image.width}
+                        height={node.image.height}
+                        className={cx(
+                          "w-full",
+                          selectedVariant?.title === node.title ? "p-0.5" : ""
+                        )}
+                      />
+                      <p className="leading-tight">{node.title}</p>
+                    </div>
+                  </button>
+                ))}
+              </div>
+            )}
             <AddToCartButton
-              productVariant={mainVariant}
+              productVariant={selectedVariant}
               selectedQuantity={selectedQuantity}
               className="uppercase"
               disabled={!productData.availableForSale || selectedQuantity === 0}
@@ -247,9 +352,11 @@ const CustomProductScreen = ({
                 </em>
               </small>
             )}
-            <p className="max-w-[52ch]">
-              <TextTruncateManager content={productData.description} />
-            </p>
+            {description && (
+              <p className="max-w-[52ch]">
+                <TextTruncateManager content={description} />
+              </p>
+            )}
           </div>
         </div>
         <ProductImageShowcase productData={productData} />
@@ -268,11 +375,13 @@ const CustomProductScreen = ({
                 "relative inline-flex h-6 w-12 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2  focus-visible:ring-white focus-visible:ring-opacity-75"
               )}
             >
-              <span className="sr-only">Use setting</span>
+              <span className="sr-only">enabled new view</span>
               <span
                 aria-hidden="true"
                 className={`${
-                  newViewEnabled ? "translate-x-6" : "translate-x-0"
+                  newViewEnabled
+                    ? "translate-x-6"
+                    : "translate-x-0 animate-pulse"
                 }
 								pointer-events-none
             mt-[1%] inline-block h-5 w-5 transform rounded-full bg-white shadow-lg ring-0 transition duration-200 ease-in-out`}
@@ -283,9 +392,7 @@ const CustomProductScreen = ({
             <div
               className="custom-prose no-custom-max-w p-4"
               dangerouslySetInnerHTML={{
-                __html: newViewEnabled
-                  ? newViewData.detailsHTML
-                  : productData.descriptionHtml || productData.description,
+                __html: htmlDescription,
               }}
             />
 
@@ -304,6 +411,48 @@ const CustomProductScreen = ({
                 <p>+ so many more high quality samples</p>
               </section>
             )}
+
+            {newViewEnabled &&
+              newViewData.iframes.youtube.length !== 0 &&
+              (newViewData.iframes.youtube.length < 2 ? (
+                <div className="grid grid-cols-1">
+                  {newViewData.iframes.youtube.map((iframeData, index) => (
+                    <YouTubeIFrame
+                      width={iframeData.width}
+                      height={iframeData.height}
+                      key={index}
+                      src={iframeData.src}
+                      title={iframeData.title}
+                      allow={iframeData.allow}
+                      className="w-full"
+                    />
+                  ))}
+                </div>
+              ) : (
+                <div>
+                  <Slider
+                    swiperProps={{
+                      className: cx("swiper-fluid"),
+                      breakpoints: {
+                        400: { slidesPerView: 2 },
+                        1024: { slidesPerView: 3 },
+                      },
+                    }}
+                  >
+                    {newViewData.iframes.youtube.map((iframeData, index) => (
+                      <SwiperSlide key={index} className="flex flex-col">
+                        <YouTubeIFrame
+                          width={iframeData.width}
+                          height={iframeData.height}
+                          src={iframeData.src}
+                          title={iframeData.title}
+                          allow={iframeData.allow}
+                        />
+                      </SwiperSlide>
+                    ))}
+                  </Slider>
+                </div>
+              ))}
           </div>
         </div>
       )}

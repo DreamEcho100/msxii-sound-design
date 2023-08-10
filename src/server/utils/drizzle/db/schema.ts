@@ -316,7 +316,7 @@ export const pageCategory = pgTable("PageCategory", {
   name: text("name").notNull(),
   counter: integer("counter").default(0).notNull(),
   hasSubPages: boolean("hasSubPages").default(false).notNull(),
-  isAPage: boolean("isAPage").default(false).notNull(),
+  isPage: boolean("isPage").default(false).notNull(),
 });
 
 export const image = pgTable(

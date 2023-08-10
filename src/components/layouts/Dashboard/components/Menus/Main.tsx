@@ -58,7 +58,7 @@ export default function MainSideMenu() {
                       <li key={pageCategory.id}>
                         <Link
                           className="flex px-12 py-1 capitalize hover:bg-initial-primary-400/70"
-                          href={`/dashboard/custom-pages/${pageCategory.name}?isAPage=${pageCategory.isAPage}`}
+                          href={`/dashboard/custom-pages/${pageCategory.name}?isPage=${pageCategory.isPage}`}
                           onClick={() => setMenuIsOpen("sideMain", false)}
                         >
                           <span className="px-2" />

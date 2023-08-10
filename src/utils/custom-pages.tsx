@@ -80,7 +80,7 @@ export const useGetCustomPageData = (props?: {
     () =>
       typeof props?.isACustomPage === "boolean" ||
       typeof pageParams.pageCategoryName === "string",
-    // !!getOnePageCategoryQuery.data?.isAPage ||
+    // !!getOnePageCategoryQuery.data?.isPage ||
     // !!(
     // 	pageParams.pageCategoryName &&
     // 	['ios-apps'].includes(pageParams.pageCategoryName)
@@ -88,7 +88,7 @@ export const useGetCustomPageData = (props?: {
     [
       props?.isACustomPage,
       pageParams.pageCategoryName,
-      // getOnePageCategoryQuery.data?.isAPage,
+      // getOnePageCategoryQuery.data?.isPage,
     ]
   );
 

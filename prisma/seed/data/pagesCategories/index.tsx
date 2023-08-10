@@ -6,49 +6,49 @@ export const iosAppPagesPageCategory = {
   name: "ios-apps" as const,
   counter: 5,
   hasSubPages: true,
-  isAPage: true,
+  isPage: true,
 };
 export const aboutPageCategory = {
   id: "olr0j2np96eoydnmmt77vcxo",
   name: "about" as const,
   counter: 1,
   hasSubPages: false,
-  isAPage: true,
+  isPage: true,
 };
 export const supportPageCategory = {
   id: "r1s8ys9l2zxhukai30mnyx89",
   name: "support" as const,
   counter: 1,
   hasSubPages: false,
-  isAPage: true,
+  isPage: true,
 };
 export const policiesPageCategory = {
   id: "lnlog3gquw4s612c9ctypcq6",
   name: "policies" as const,
   counter: 1,
   hasSubPages: true,
-  isAPage: true,
+  isPage: true,
 };
 export const merchPageCategory = {
   id: "bkn7jft2ecnpt9ih8o05zpuv",
   name: "merch" as const,
   counter: 1,
   hasSubPages: false,
-  isAPage: true,
+  isPage: true,
 };
 export const blueLabelPageCategory = {
   id: "gymm72pshbbv47oezq4lm3sa",
   name: "blue-label" as const,
   counter: 1,
   hasSubPages: false,
-  isAPage: true,
+  isPage: true,
 };
 // export const productsPageCategory = {
 // 	id: 'jxhw3jtc4opuu0eg4y7nb07l',
 // 	name: 'products' as const,
 // 	counter: 1,
 // 	hasSubPages: true,
-// 	isAPage: true,
+// 	isPage: true,
 // };
 
 const pagesCategories = [

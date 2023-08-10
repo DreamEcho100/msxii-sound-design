@@ -43,27 +43,26 @@ const InputField = <Fields, ValidatedFields>(
   if (isA === "select")
     return (
       <Select
-        {...(fieldProps as SelectProps)}
         onChange={(event) =>
           handleOnInputChange(props.name, event.target.value)
         }
+        {...(fieldProps as SelectProps)}
       />
     );
 
   if (isA === "textarea")
     return (
       <Textarea
-        {...(fieldProps as TextareaProps)}
         value={value as string}
         onChange={(event) =>
           handleOnInputChange(props.name, event.target.value)
         }
+        {...(fieldProps as TextareaProps)}
       />
     );
 
   return (
     <Input
-      {...(fieldProps as InputProps)}
       value={value as string}
       onChange={
         "type" in props && props.type === "checkbox"
@@ -71,6 +70,7 @@ const InputField = <Fields, ValidatedFields>(
               handleOnInputChange(props.name, event.target.checked)
           : (event) => handleOnInputChange(props.name, event.target.value)
       }
+      {...(fieldProps as InputProps)}
     />
   );
 };

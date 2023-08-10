@@ -1,4 +1,5 @@
 import type { FormStoreApi, HandlePreSubmitCB } from "@de100/form-echo";
+import { cx } from "class-variance-authority";
 import { type FormHTMLAttributes } from "react";
 import { useStore } from "zustand";
 
@@ -22,9 +23,13 @@ const Form = <Fields, ValidatedFields>({
 
   return (
     <form
-      onSubmit={handlePreSubmit(onSubmit)}
-      className="flex flex-col gap-8"
+      onSubmit={(event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        handlePreSubmit(onSubmit)(event);
+      }}
       {...props}
+      className={cx("flex flex-col gap-6", props.className)}
     />
   );
 };

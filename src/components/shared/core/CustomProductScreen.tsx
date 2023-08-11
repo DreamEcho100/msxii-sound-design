@@ -69,7 +69,7 @@ const ProductRecommendations = (props: { productId: string }) => {
                 width={product.featuredImage.width || 250}
                 height={product.featuredImage.height || 250}
                 className={cx(
-                  "aspect-square h-full w-full object-cover transition-all duration-300",
+                  "aspect-square h-full w-full object-contain transition-all duration-300",
                   "rounded-md",
                 )}
               />
@@ -108,7 +108,7 @@ const ProductImageShowcase = ({
         // alt={selectedImage.altText ?? ''}
         width={selectedImage.width || 800}
         height={selectedImage.height || 800}
-        className="h-full w-full rounded-xl object-cover"
+        className="h-full w-full rounded-xl object-contain"
         containerProps={{
           className: cx(
             "aspect-square w-full",
@@ -155,7 +155,7 @@ const ProductImageShowcase = ({
                   width={112}
                   height={112}
                   className={cx(
-                    "aspect-square h-full w-full object-cover transition-all duration-300",
+                    "aspect-square h-full w-full object-contain transition-all duration-300",
                     selectedImage === node
                       ? "rounded-lg ring-4 ring-special-primary-500 transition-all duration-300"
                       : "rounded-md",
@@ -364,7 +364,7 @@ const CustomProductScreen = ({
               </div>
             </div>
             {hasVariants && (
-              <div className="grid max-w-full grid-cols-[repeat(auto-fit,6rem)] gap-4 md:max-w-[25rem] lg:max-w-full">
+              <div className="grid max-w-full grid-cols-[repeat(auto-fit,minmax(6rem,_0.25fr))] gap-4 md:max-w-[25rem] lg:max-w-full">
                 {productData.variants.edges.map(({ node }) => (
                   <button
                     key={node.id}
@@ -445,7 +445,7 @@ const CustomProductScreen = ({
                     : "translate-x-0 animate-pulse"
                 }
 								pointer-events-none
-            mt-[0.5%] inline-block h-5 w-5 transform rounded-full bg-white shadow-lg ring-0 transition duration-200 ease-in-out`}
+            inline-block h-5 w-5 transform rounded-full bg-white shadow-lg ring-0 transition duration-200 ease-in-out`}
               />
             </Switch>
           </div>
@@ -525,14 +525,7 @@ const CustomProductScreen = ({
           {...ctaButtonProps}
           className="mb-16 mt-4"
         />
-        {/* <ProductRecommendations productId={productData.id} /> */}
-        {/* <CardsSlider
-					products={products}
-					CardElem={ProductCard}
-					nextSlideButtonClassName="-translate-y-[200%] lg:-translate-y-[225%]"
-					previousSlideButtonClassName="-translate-y-[200%] lg:-translate-y-[225%]"
-					{...cardsSliderProps}
-				/> */}
+        <ProductRecommendations productId={productData.id} />
       </article>
     </div>
   );

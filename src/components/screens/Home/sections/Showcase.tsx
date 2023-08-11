@@ -11,7 +11,7 @@ import {
   ProductCard,
 } from "~/components/shared/core/Shopify/Cards/Card";
 import { type BasicProduct } from "~/utils/shopify/types";
-import { type RouterOutputs, api } from "~/utils/api";
+import { type RouterOutputs, type RouterInputs, api } from "~/utils/api";
 import SectionPrimaryLoader from "~/components/shared/Loaders/SectionPrimary";
 import SectionLoaderContainer from "~/components/shared/LoadersContainers/Section";
 
@@ -37,9 +37,9 @@ const FilteredProducts = ({
   const filteredCollections = useMemo(
     () =>
       collectionsByHandle.filter(
-        (item) => item[0] === selectedPageCategory
+        (item) => item[0] === selectedPageCategory,
       )?.[0]?.[1],
-    [collectionsByHandle, selectedPageCategory]
+    [collectionsByHandle, selectedPageCategory],
   );
   const firstPageCategory = pagesCategories[0];
 
@@ -62,7 +62,7 @@ const FilteredProducts = ({
                 "relative capitalize",
                 selectedPageCategory === item
                   ? "font-bold text-text-primary-400/90"
-                  : "font-medium text-text-primary-400/70 outline-none duration-100 hover:text-text-primary-500 focus:text-text-primary-500"
+                  : "font-medium text-text-primary-400/70 outline-none duration-100 hover:text-text-primary-500 focus:text-text-primary-500",
               )}
             >
               {item.replaceAll("-", " ")}
@@ -70,7 +70,7 @@ const FilteredProducts = ({
                 <div
                   className={cx(
                     "h-1 translate-y-full bg-special-primary-500",
-                    selectedPageCategory === item ? "w-11/12" : "w-0"
+                    selectedPageCategory === item ? "w-11/12" : "w-0",
                   )}
                 />
               </div>
@@ -96,7 +96,7 @@ const HomeShowcaseSection = ({
   const flattenedCollectionEdges = useGetEdgeNodes(collectionsBasic);
   const bundlesCollections = useMemo(
     () => flattenedCollectionEdges.filter((item) => item.handle === "bundles"),
-    [flattenedCollectionEdges]
+    [flattenedCollectionEdges],
   );
   const selectedBundlesCollections = useMemo(() => {
     const handlesMap: Record<string, boolean> = {};
@@ -116,7 +116,7 @@ const HomeShowcaseSection = ({
           products.push(node);
           handlesMap[node.handle] = true;
         }
-      })
+      }),
     );
     return products;
   }, [flattenedCollectionEdges]);
@@ -139,7 +139,7 @@ const HomeShowcaseSection = ({
             <div
               className={cx(
                 "grid gap-8 px-8",
-                "sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
+                "sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4",
               )}
             >
               {selectedBundlesCollections.map((item) => (

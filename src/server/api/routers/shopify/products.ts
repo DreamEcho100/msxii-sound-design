@@ -1,5 +1,8 @@
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
-import { oneProductByHandleQuerySchema } from "~/utils/shopify/client/products";
+import {
+  oneProductByHandleQuerySchema,
+  oneProductRecommendationsQuerySchema,
+} from "~/utils/shopify/client/products";
 import { z } from "zod";
 
 export const shopifyProductsRouter = createTRPCRouter({
@@ -29,5 +32,13 @@ export const shopifyProductsRouter = createTRPCRouter({
       async ({ ctx, input }) =>
         (await ctx.shopify.products.queries.getOneByHandle(input))
           .productByHandle
+    ),
+
+  getOneRecommendations: publicProcedure
+    .input(oneProductRecommendationsQuerySchema)
+    .query(
+      async ({ ctx, input }) =>
+        (await ctx.shopify.products.queries.recommendations(input))
+          .productRecommendations
     ),
 });

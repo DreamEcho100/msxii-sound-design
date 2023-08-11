@@ -48,7 +48,7 @@ const ContainedInputField = <Fields, ValidatedFields>(
       labelAndFieldContainerClassVariants={labelAndInputContainerClassVariants}
       labelClassVariants={labelClassVariants}
       labelProps={labelProps}
-      htmlFor={htmlFor || id}
+      htmlFor={htmlFor ?? id}
     >
       <InputField {...formFieldProps} />
     </FieldContainer>

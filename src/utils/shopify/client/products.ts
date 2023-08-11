@@ -143,8 +143,25 @@ const oneProductByHandleQuery = async (
   }>(template, input);
 };
 
+
+export const oneProductRecommendationsQuerySchema = z.object({ productId: z.string() });
+const oneProductRecommendationsQuery = async (
+  input: z.infer<typeof oneProductRecommendationsQuerySchema>
+) => {
+  // https://shopify.dev/docs/api/storefront/2023-04/queries/productRecommendations
+  const template = gql`query productRecommendations($productId: ID!) {
+    productRecommendations(productId: $productId) {
+			${gqlProductSchemaText}
+		}
+	}`;
+
+  return await graphQLClient.request<{
+    productRecommendations: Product[];
+  }>(template, input);
+};
+
 const products = {
-  queries: { many: manyProductsQuery, getOneByHandle: oneProductByHandleQuery },
+  queries: { many: manyProductsQuery, getOneByHandle: oneProductByHandleQuery, recommendations: oneProductRecommendationsQuery },
 };
 
 export default products;

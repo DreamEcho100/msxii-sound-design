@@ -12,12 +12,74 @@ import { type NextJsLinkProps } from "../Clickable";
 import ImageMagnifier from "../ImageMagnifier";
 import { type Product } from "~/utils/shopify/types";
 import CTAButton from "./Shopify/Cards/CTAButton";
-import Slider, { type CardsSlider } from "./Shopify/Cards/Slider";
+import Slider from "./Shopify/Cards/Slider";
 import ProductPrice from "./Shopify/ProductPrice";
 import AddToCartButton from "./Shopify/Buttons/AddToCart";
 import { Switch } from "@headlessui/react";
 import { SoundCloudIframe, YouTubeIFrame } from "../Iframes";
 import TextTruncateManager from "../common/TextTruncater";
+import { api } from "~/utils/api";
+import Clickable from "./Clickable";
+
+const ProductRecommendations = (props: { productId: string }) => {
+  const getOneProductRecommendations =
+    api.shopify.products.getOneRecommendations.useQuery({
+      productId: props.productId,
+    });
+
+  if (getOneProductRecommendations.isLoading) return <>Loading...</>;
+
+  if (getOneProductRecommendations.isError)
+    return <>{getOneProductRecommendations.error.message}</>;
+
+  const data = getOneProductRecommendations.data;
+
+  return (
+    <section className="flex flex-col gap-8">
+      <header>
+        <h2 className="text-h3 font-normal text-text-primary-400">
+          Related products
+        </h2>
+      </header>
+      <Slider
+        swiperProps={{
+          className: "max-w-full w-full flex-grow",
+          slidesPerView: 3,
+          breakpoints: {
+            400: { slidesPerView: 5 },
+            1024: { slidesPerView: 6 },
+          },
+        }}
+        isNavButtonsOutside
+      >
+        {data.map((product) => (
+          <SwiperSlide
+            key={product.id}
+            className="aspect-square items-center justify-center"
+            style={{ display: "flex" }}
+          >
+            <Clickable
+              className="block aspect-square w-48 max-w-full transition-all duration-300"
+              href={`/products/${product.handle}`}
+              isA="next-js"
+            >
+              <CustomNextImage
+                src={product.featuredImage.url}
+                alt={product.featuredImage.altText ?? ""}
+                width={product.featuredImage.width || 250}
+                height={product.featuredImage.height || 250}
+                className={cx(
+                  "aspect-square h-full w-full object-cover transition-all duration-300",
+                  "rounded-md",
+                )}
+              />
+            </Clickable>
+          </SwiperSlide>
+        ))}
+      </Slider>
+    </section>
+  );
+};
 
 // Credit to: <https://dev.to/anxiny/create-an-image-magnifier-with-react-3fd7>
 const ProductImageShowcase = ({
@@ -38,7 +100,7 @@ const ProductImageShowcase = ({
           ? undefined
           : hasImagesVariations
           ? "md:w-8/12 lg:w-6/12"
-          : "md:w-5/12"
+          : "md:w-5/12",
       )}
     >
       <ImageMagnifier
@@ -50,7 +112,7 @@ const ProductImageShowcase = ({
         containerProps={{
           className: cx(
             "aspect-square w-full",
-            hasImagesVariations ? "lg:w-[calc(100%-6rem)]" : ""
+            hasImagesVariations ? "lg:w-[calc(100%-6rem)]" : "",
           ),
         }}
         priority
@@ -68,7 +130,6 @@ const ProductImageShowcase = ({
             },
             slidesPerView: 4,
             spaceBetween: 8,
-            autoplay: false,
           }}
           isNavButtonsOutside
           containerProps={{
@@ -84,7 +145,7 @@ const ProductImageShowcase = ({
               <button
                 className={cx(
                   "block aspect-square w-28 max-w-full transition-all duration-300",
-                  selectedImage === node ? "p-2" : ""
+                  selectedImage === node ? "p-2" : "",
                 )}
                 type="button"
                 onClick={() => setSelectedImage(node)}
@@ -97,7 +158,7 @@ const ProductImageShowcase = ({
                     "aspect-square h-full w-full object-cover transition-all duration-300",
                     selectedImage === node
                       ? "rounded-lg ring-4 ring-special-primary-500 transition-all duration-300"
-                      : "rounded-md"
+                      : "rounded-md",
                   )}
                 />
               </button>
@@ -117,7 +178,7 @@ const CustomProductScreen = ({
   children?: ReactNode;
   productData: Product;
   products: Product[];
-  cardsSliderProps?: Partial<Parameters<typeof CardsSlider>[0]>;
+  // cardsSliderProps?: Partial<Parameters<typeof CardsSlider>[0]>;
   ctaButtonProps?: Partial<NextJsLinkProps>;
 }) => {
   const [selectedQuantity, setSelectedQuantity] = useState(1);
@@ -146,7 +207,7 @@ const CustomProductScreen = ({
   });
   const [isShortDetailsActive, setIsShortDetailsActive] = useState(false);
   const [selectedVariant, setSelectedVariant] = useState(
-    productData.variants.edges[0]?.node
+    productData.variants.edges[0]?.node,
   );
 
   useEffect(() => {
@@ -233,8 +294,8 @@ const CustomProductScreen = ({
             .trim()
             .replace(/\s{2,}/g, " ")
             .slice(0, 50)
-            .toLowerCase()
-        )
+            .toLowerCase(),
+        ),
     );
 
     if (!hasIframes) return;
@@ -264,7 +325,7 @@ const CustomProductScreen = ({
               ? "md:py-16"
               : !description
               ? "md:py-12"
-              : ""
+              : "",
           )}
         >
           <div className="flex flex-col items-center gap-6 md:items-start">
@@ -311,7 +372,7 @@ const CustomProductScreen = ({
                     onClick={() => setSelectedVariant(node)}
                     className={cx(
                       "h-full w-full",
-                      selectedVariant?.title === node.title ? "px-2" : "pt-2"
+                      selectedVariant?.title === node.title ? "px-2" : "pt-2",
                     )}
                   >
                     <div
@@ -319,7 +380,7 @@ const CustomProductScreen = ({
                         "w-full",
                         selectedVariant?.title === node.title
                           ? "h-[calc(100%-0,5rem)] rounded-lg text-[90%] ring-4 ring-special-primary-500 transition-all duration-300"
-                          : "h-full rounded-md"
+                          : "h-full rounded-md",
                       )}
                     >
                       <CustomNextImage
@@ -329,7 +390,7 @@ const CustomProductScreen = ({
                         height={node.image.height}
                         className={cx(
                           "w-full",
-                          selectedVariant?.title === node.title ? "p-0.5" : ""
+                          selectedVariant?.title === node.title ? "p-0.5" : "",
                         )}
                       />
                       <p className="leading-tight">{node.title}</p>
@@ -372,7 +433,7 @@ const CustomProductScreen = ({
                   ? "bg-special-primary-500"
                   : "bg-special-primary-900",
                 newViewData.detailsHTML.length === 0 ? "invisible" : undefined,
-                "relative inline-flex h-6 w-12 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2  focus-visible:ring-white focus-visible:ring-opacity-75"
+                "relative inline-flex h-6 w-12 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2  focus-visible:ring-white focus-visible:ring-opacity-75",
               )}
             >
               <span className="sr-only">enabled new view</span>
@@ -384,7 +445,7 @@ const CustomProductScreen = ({
                     : "translate-x-0 animate-pulse"
                 }
 								pointer-events-none
-            mt-[1%] inline-block h-5 w-5 transform rounded-full bg-white shadow-lg ring-0 transition duration-200 ease-in-out`}
+            mt-[0.5%] inline-block h-5 w-5 transform rounded-full bg-white shadow-lg ring-0 transition duration-200 ease-in-out`}
               />
             </Switch>
           </div>
@@ -464,11 +525,7 @@ const CustomProductScreen = ({
           {...ctaButtonProps}
           className="mb-16 mt-4"
         />
-        <header>
-          <h2 className="text-h3 font-normal text-text-primary-400">
-            Related products
-          </h2>
-        </header>
+        {/* <ProductRecommendations productId={productData.id} /> */}
         {/* <CardsSlider
 					products={products}
 					CardElem={ProductCard}

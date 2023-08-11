@@ -75,7 +75,7 @@ const ContainedDropdownField = <
       labelAndFieldContainerClassVariants={labelAndFieldContainerClassVariants}
       labelClassVariants={labelClassVariants}
       labelProps={labelProps}
-      htmlFor={htmlFor || id}
+      htmlFor={htmlFor ?? id}
     >
       <DropdownField
         {

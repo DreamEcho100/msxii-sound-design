@@ -111,7 +111,7 @@ const ProductImageShowcase = ({
         className="h-full w-full rounded-xl object-contain"
         containerProps={{
           className: cx(
-            "aspect-square w-full",
+            "aspect-square w-full max-w-[20rem] mx-auto md:max-w-full md:mx-0",
             hasImagesVariations ? "lg:w-[calc(100%-6rem)]" : "",
           ),
         }}

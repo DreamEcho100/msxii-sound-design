@@ -62,7 +62,7 @@ export const imageBox = pgTable(
     return {
       imgBxBxIdBxTK: uniqueIndex("ImgBx_BxId_BxT_K").on(
         table.boxId,
-        table.boxType
+        table.boxType,
       ),
       imhBxBxIdBtFk: foreignKey({
         columns: [table.boxId, table.boxType],
@@ -71,7 +71,7 @@ export const imageBox = pgTable(
         .onUpdate("cascade")
         .onDelete("cascade"),
     };
-  }
+  },
 );
 
 export const iframeBox = pgTable(
@@ -92,7 +92,7 @@ export const iframeBox = pgTable(
     return {
       iframeBxBxIdBxTK: uniqueIndex("IframeBx_BxId_BxT_K").on(
         table.boxId,
-        table.boxType
+        table.boxType,
       ),
       iframeBxBxIdBtFk: foreignKey({
         columns: [table.boxId, table.boxType],
@@ -101,7 +101,7 @@ export const iframeBox = pgTable(
         .onUpdate("cascade")
         .onDelete("cascade"),
     };
-  }
+  },
 );
 
 export const quoteBox = pgTable(
@@ -121,7 +121,7 @@ export const quoteBox = pgTable(
     return {
       quoteBxBxIdBxTK: uniqueIndex("QuoteBx_BxId_BxT_K").on(
         table.boxId,
-        table.boxType
+        table.boxType,
       ),
       quoteBxBxIdBtFk: foreignKey({
         columns: [table.boxId, table.boxType],
@@ -130,7 +130,7 @@ export const quoteBox = pgTable(
         .onUpdate("cascade")
         .onDelete("cascade"),
     };
-  }
+  },
 );
 
 export const headerBox = pgTable(
@@ -151,7 +151,7 @@ export const headerBox = pgTable(
     return {
       headerBxBxIdBxTK: uniqueIndex("HeaderBx_BxId_BxT_K").on(
         table.boxId,
-        table.boxType
+        table.boxType,
       ),
       headerBxBxIdBtFk: foreignKey({
         columns: [table.boxId, table.boxType],
@@ -160,7 +160,7 @@ export const headerBox = pgTable(
         .onUpdate("cascade")
         .onDelete("cascade"),
     };
-  }
+  },
 );
 
 export const css = pgTable("css", {
@@ -190,7 +190,7 @@ export const mdBox = pgTable(
     return {
       mdBxBxIdBxTK: uniqueIndex("MdBx_BxId_BxT_K").on(
         table.boxId,
-        table.boxType
+        table.boxType,
       ),
       mdBxBxIdBtFk: foreignKey({
         columns: [table.boxId, table.boxType],
@@ -199,7 +199,7 @@ export const mdBox = pgTable(
         .onUpdate("cascade")
         .onDelete("cascade"),
     };
-  }
+  },
 );
 
 export const slider = pgTable(
@@ -220,7 +220,7 @@ export const slider = pgTable(
     return {
       xBxIdBxTK: uniqueIndex("SliderBx_BxId_BxT_K").on(
         table.boxId,
-        table.boxType
+        table.boxType,
       ),
       sliderBxBxIdBtFk: foreignKey({
         columns: [table.boxId, table.boxType],
@@ -229,7 +229,7 @@ export const slider = pgTable(
         .onUpdate("cascade")
         .onDelete("cascade"),
     };
-  }
+  },
 );
 
 export const grid = pgTable(
@@ -247,7 +247,7 @@ export const grid = pgTable(
     return {
       xBxIdBxTK: uniqueIndex("GridBx_BxId_BxT_K").on(
         table.boxId,
-        table.boxType
+        table.boxType,
       ),
       gridBxBxIdBtFk: foreignKey({
         columns: [table.boxId, table.boxType],
@@ -256,7 +256,7 @@ export const grid = pgTable(
         .onUpdate("cascade")
         .onDelete("cascade"),
     };
-  }
+  },
 );
 
 export const section = pgTable(
@@ -280,7 +280,7 @@ export const section = pgTable(
       pageIdIdx: index("Section_pageId_idx").on(table.pageId),
       cssIdIdx: index("Section_cssId_idx").on(table.cssId),
     };
-  }
+  },
 );
 
 export const tabs = pgTable(
@@ -304,7 +304,7 @@ export const tabs = pgTable(
         .onUpdate("cascade")
         .onDelete("cascade"),
     };
-  }
+  },
 );
 
 export const pageCategory = pgTable("PageCategory", {
@@ -336,7 +336,7 @@ export const image = pgTable(
     return {
       srcKey: uniqueIndex("Image_src_key").on(table.src),
     };
-  }
+  },
 );
 
 export const seo = pgTable("seo", {
@@ -383,14 +383,14 @@ export const page = pgTable(
       cssIdIdx: index("Page_cssId_idx").on(table.cssId),
       pageCategoryNameSlugKey: uniqueIndex("Page_pageCategoryName_slug_key").on(
         table.slug,
-        table.pageCategoryName
+        table.pageCategoryName,
       ),
     };
-  }
+  },
 );
 
-export const boxToGrid = pgTable(
-  "BoxToGrid",
+export const gridBox = pgTable(
+  "GridBox",
   {
     id: text("id").notNull(),
     createdAt: timestamp("createdAt", { precision: 3, mode: "date" })
@@ -413,7 +413,7 @@ export const boxToGrid = pgTable(
       btgOrderIdx: index("BTG_order_idx").on(table.order),
       btgPk: primaryKey(table.boxId, table.gridId),
     };
-  }
+  },
 );
 
 export const box = pgTable(
@@ -440,11 +440,11 @@ export const box = pgTable(
       sectionIdIdx: index("Box_sectionId_idx").on(table.sectionId),
       boxPkey: primaryKey(table.id, table.type),
     };
-  }
+  },
 );
 
-export const boxToTabs = pgTable(
-  "BoxToTabs",
+export const tabsBox = pgTable(
+  "TabsBox",
   {
     id: text("id").notNull(),
     createdAt: timestamp("createdAt", { precision: 3, mode: "date" })
@@ -468,11 +468,11 @@ export const boxToTabs = pgTable(
       btTsTabsBxIdIdx: index("BTTs_tabsBxId_idx").on(table.tabsId),
       btTsPk: primaryKey(table.boxId, table.tabsId),
     };
-  }
+  },
 );
 
 export const boxToSlider = pgTable(
-  "BoxToSlider",
+  "SliderBox",
   {
     id: text("id").notNull(),
     createdAt: timestamp("createdAt", { precision: 3, mode: "date" })
@@ -499,5 +499,5 @@ export const boxToSlider = pgTable(
       btsSliderBxIdIdx: index("BTS_sliderBxId_idx").on(table.sliderId),
       btsPk: primaryKey(table.boxId, table.sliderId),
     };
-  }
+  },
 );

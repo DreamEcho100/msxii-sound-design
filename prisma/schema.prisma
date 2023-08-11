@@ -88,18 +88,18 @@ model HeaderBox {
 }
 
 model Tabs {
-  id          String      @id
-  createdAt   DateTime    @default(now())
-  updatedAt   DateTime?   @updatedAt
-  boxId       String
-  boxType     BoxTypes    @default(TABS_HOLDER)
-  boxesToTabs BoxToTabs[]
-  box         Box         @relation(fields: [boxId, boxType], references: [id, type], onDelete: Cascade, map: "TabsBx_BxId_BT_FK")
+  id        String    @id
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt
+  boxId     String
+  boxType   BoxTypes  @default(TABS_HOLDER)
+  tabsBoxes TabsBox[]
+  box       Box       @relation(fields: [boxId, boxType], references: [id, type], onDelete: Cascade, map: "TabsBx_BxId_BT_FK")
 
   @@unique([boxId, boxType], map: "Tabs_BxId_BxT_K")
 }
 
-model BoxToTabs {
+model TabsBox {
   id        String    @unique(map: "BTTs_id_K")
   createdAt DateTime  @default(now())
   updatedAt DateTime? @updatedAt
@@ -123,13 +123,13 @@ model Slider {
   boxId             String
   boxType           BoxTypes          @default(SLIDER)
   slidesPerViewType SlidesPerViewType @default(DEFAULT)
-  boxesToSliders    BoxToSlider[]
+  slidersBoxes      SliderBox[]
   box               Box               @relation(fields: [boxId, boxType], references: [id, type], onDelete: Cascade, map: "SliderBx_BxId_BT_FK")
 
   @@unique([boxId, boxType], map: "SliderBx_BxId_BxT_K")
 }
 
-model BoxToSlider {
+model SliderBox {
   id        String    @unique(map: "BTS_id_K")
   createdAt DateTime  @default(now())
   updatedAt DateTime? @updatedAt
@@ -147,18 +147,18 @@ model BoxToSlider {
 }
 
 model Grid {
-  id           String      @id(map: "GridBx_PK")
-  createdAt    DateTime    @default(now())
-  updatedAt    DateTime?   @updatedAt
-  boxId        String
-  boxType      BoxTypes    @default(GRID)
-  boxesToGrids BoxToGrid[]
-  box          Box         @relation(fields: [boxId, boxType], references: [id, type], onDelete: Cascade, map: "GridBx_BxId_BT_FK")
+  id         String    @id(map: "GridBx_PK")
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime? @updatedAt
+  boxId      String
+  boxType    BoxTypes  @default(GRID)
+  gridsBoxes GridBox[]
+  box        Box       @relation(fields: [boxId, boxType], references: [id, type], onDelete: Cascade, map: "GridBx_BxId_BT_FK")
 
   @@unique([boxId, boxType], map: "GridBx_BxId_BxT_K")
 }
 
-model BoxToGrid {
+model GridBox {
   id        String    @unique(map: "BTG_id_K")
   createdAt DateTime  @default(now())
   updatedAt DateTime? @updatedAt
@@ -175,25 +175,25 @@ model BoxToGrid {
 }
 
 model Box {
-  id             String        @unique
-  type           BoxTypes
-  createdAt      DateTime      @default(now())
-  order          Int           @default(autoincrement())
-  cssId          String
-  sectionId      String?
-  css            css           @relation(fields: [cssId], references: [id])
-  section        Section?      @relation(fields: [sectionId], references: [id], onDelete: Cascade)
-  boxesToGrids   BoxToGrid[]
-  boxesToSliders BoxToSlider[]
-  boxesToTabs    BoxToTabs[]
-  grid           Grid?
-  headerBox      HeaderBox?
-  iframeBox      IframeBox?
-  imageBox       ImageBox?
-  mdBox          MdBox?
-  quoteBox       QuoteBox?
-  slider         Slider?
-  tabs           Tabs?
+  id           String      @unique
+  type         BoxTypes
+  createdAt    DateTime    @default(now())
+  order        Int         @default(autoincrement())
+  cssId        String
+  sectionId    String?
+  css          css         @relation(fields: [cssId], references: [id])
+  section      Section?    @relation(fields: [sectionId], references: [id], onDelete: Cascade)
+  gridsBoxes   GridBox[]
+  slidersBoxes SliderBox[]
+  tabsBoxes    TabsBox[]
+  grid         Grid?
+  headerBox    HeaderBox?
+  iframeBox    IframeBox?
+  imageBox     ImageBox?
+  mdBox        MdBox?
+  quoteBox     QuoteBox?
+  slider       Slider?
+  tabs         Tabs?
 
   @@id([id, type])
   @@index([order])

@@ -18,7 +18,7 @@ export const dashboardRouter = createTRPCRouter({
       .input(
         z.object({
           title: z.string().min(3).optional(),
-        })
+        }),
       )
       .query(async ({ ctx, input }) => {
         return (
@@ -45,7 +45,7 @@ export const dashboardRouter = createTRPCRouter({
           //
           seoTitle: z.string().min(3),
           seoDescription: z.string().min(3).nullable().optional(),
-        })
+        }),
       )
       .mutation(async ({ ctx, input }) => {
         //
@@ -374,7 +374,7 @@ Levels set under 0 Db to allow for max idea building, minimal gain staging Chop 
                 });
               section2Box1GridBox4Header;
 
-              await tx.insert(ctx.drizzleSchema.boxToGrid).values([
+              await tx.insert(ctx.drizzleSchema.gridBox).values([
                 {
                   id: createId(),
                   boxId: section2Box1GridBox1Id,
@@ -415,7 +415,7 @@ Levels set under 0 Db to allow for max idea building, minimal gain staging Chop 
         z.object({
           pageCategoryName: z.string().nonempty(),
           slug: z.string().nonempty().optional(),
-        })
+        }),
       )
       .query(async ({ ctx, input }) => {
         return ctx.drizzleQueryClient.query.pageCategory.findFirst({
@@ -602,14 +602,14 @@ Levels set under 0 Db to allow for max idea building, minimal gain staging Chop 
         updateOneName: adminProtectedProcedure
           .input(
             z.object({
-              boxToTabsId: z.string().cuid(),
+              tabsBoxId: z.string().cuid(),
               title: z.string().min(3),
-            })
+            }),
           )
           .mutation(async ({ ctx, input }) => {
-            const box = await ctx.drizzleQueryClient.query.boxToTabs.findFirst({
+            const box = await ctx.drizzleQueryClient.query.tabsBox.findFirst({
               where(fields, operators) {
-                return operators.eq(fields.id, input.boxToTabsId);
+                return operators.eq(fields.id, input.tabsBoxId);
               },
             });
 
@@ -620,11 +620,11 @@ Levels set under 0 Db to allow for max idea building, minimal gain staging Chop 
             box.title = input.title ?? box.title;
 
             await ctx.drizzleQueryClient
-              .update(ctx.drizzleSchema.boxToTabs)
+              .update(ctx.drizzleSchema.tabsBox)
               .set({
                 title: input.title,
               })
-              .where(eq(ctx.drizzleSchema.boxToTabs.id, input.boxToTabsId));
+              .where(eq(ctx.drizzleSchema.tabsBox.id, input.tabsBoxId));
 
             return box;
           }),

@@ -83,7 +83,7 @@ export const manyProductsQuerySchema = z.object({
 });
 
 const manyProductsQuery = async (
-  input: z.infer<typeof manyProductsQuerySchema>
+  input: z.infer<typeof manyProductsQuerySchema>,
 ) => {
   // https://shopify.dev/docs/api/storefront/2023-04/queries/products
 
@@ -95,7 +95,7 @@ const manyProductsQuery = async (
           ? undefined
           : `${key}:${
               input.query![key as keyof NonNullable<(typeof input)["query"]>]
-            }`
+            }`,
       )
       .filter(Boolean)
       .join(" AND ");
@@ -103,8 +103,8 @@ const manyProductsQuery = async (
   const template = gql`
 				query getProducts($first: Int${queryStr ? ", $query: String" : ""}) {
 					products(first: $first${queryStr ? ", query: $query" : ""}${
-    !input.cursor ? "" : `after: "${input.cursor}"`
-  }) {
+            !input.cursor ? "" : `after: "${input.cursor}"`
+          }) {
 						edges {
 							cursor
 							node {
@@ -129,7 +129,7 @@ const manyProductsQuery = async (
 
 export const oneProductByHandleQuerySchema = z.object({ handle: z.string() });
 const oneProductByHandleQuery = async (
-  input: z.infer<typeof oneProductByHandleQuerySchema>
+  input: z.infer<typeof oneProductByHandleQuerySchema>,
 ) => {
   // https://shopify.dev/docs/api/storefront/2023-04/queries/productByHandle
   const template = gql`query ($handle: String!) {
@@ -143,10 +143,31 @@ const oneProductByHandleQuery = async (
   }>(template, input);
 };
 
+export const oneProductHTMLDescriptionByHandleQuerySchema = z.object({
+  handle: z.string(),
+});
+const oneProductHTMLDescriptionByHandleQuery = async (
+  input: z.infer<typeof oneProductHTMLDescriptionByHandleQuerySchema>,
+) => {
+  // https://shopify.dev/docs/api/storefront/2023-04/queries/productByHandle
+  const template = gql`
+    query ($handle: String!) {
+      productByHandle(handle: $handle) {
+        descriptionHtml
+      }
+    }
+  `;
 
-export const oneProductRecommendationsQuerySchema = z.object({ productId: z.string() });
+  return await graphQLClient.request<{
+    productByHandle: Product;
+  }>(template, input);
+};
+
+export const oneProductRecommendationsQuerySchema = z.object({
+  productId: z.string(),
+});
 const oneProductRecommendationsQuery = async (
-  input: z.infer<typeof oneProductRecommendationsQuerySchema>
+  input: z.infer<typeof oneProductRecommendationsQuerySchema>,
 ) => {
   // https://shopify.dev/docs/api/storefront/2023-04/queries/productRecommendations
   const template = gql`query productRecommendations($productId: ID!) {
@@ -161,7 +182,12 @@ const oneProductRecommendationsQuery = async (
 };
 
 const products = {
-  queries: { many: manyProductsQuery, getOneByHandle: oneProductByHandleQuery, recommendations: oneProductRecommendationsQuery },
+  queries: {
+    many: manyProductsQuery,
+    getOneByHandle: oneProductByHandleQuery,
+    getOneHTMLDescriptionByHandle: oneProductHTMLDescriptionByHandleQuery,
+    recommendations: oneProductRecommendationsQuery,
+  },
 };
 
 export default products;

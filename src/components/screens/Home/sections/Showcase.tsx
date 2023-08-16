@@ -100,25 +100,33 @@ const HomeShowcaseSection = ({
   );
   const selectedBundlesCollections = useMemo(() => {
     const handlesMap: Record<string, boolean> = {};
-    const products: BasicProduct[] = [];
+    const selectedProducts: BasicProduct[] = [];
+    const otherProducts: BasicProduct[] = [];
 
     flattenedCollectionEdges.forEach((collection) =>
       collection.products.edges.forEach(({ node }) => {
+        if (handlesMap[node.handle]) return;
+
         if (
           [
             "schlump-loops-bundle",
             "drums-out-the-sp404-bundle",
             "schlump-shots-bundle",
             "the-classic-era-bundle",
-          ].includes(node.handle) &&
-          !handlesMap[node.handle]
+          ].includes(node.handle)
         ) {
-          products.push(node);
+          selectedProducts.push(node);
           handlesMap[node.handle] = true;
+          return;
         }
+
+        otherProducts.push(node);
       }),
     );
-    return products;
+    return [
+      ...selectedProducts,
+      ...otherProducts.slice(0, 4 - selectedProducts.length),
+    ];
   }, [flattenedCollectionEdges]);
 
   return (

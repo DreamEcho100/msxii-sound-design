@@ -1,4 +1,4 @@
-import { useCallback } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { type Checkout } from "shopify-buy";
 import { useStore } from "zustand";
@@ -14,7 +14,7 @@ export const useRegisterMutation = ({
 }) => {
   const setCustomerSession = useStore(
     globalStore,
-    (store) => store.customerSession.utils.set
+    (store) => store.authSession.utils.set,
   );
 
   const registerMutation = api.shopify.auth.register.useMutation({
@@ -42,7 +42,7 @@ export const useLoginMutation = ({
 }) => {
   const setCustomerSession = useStore(
     globalStore,
-    (store) => store.customerSession.utils.set
+    (store) => store.authSession.utils.set,
   );
 
   const loginMutation = api.shopify.auth.login.useMutation({
@@ -70,7 +70,7 @@ export const useCheckAccessToken = ({
 } = {}) => {
   const setCustomerSession = useStore(
     globalStore,
-    (store) => store.customerSession.utils.set
+    (store) => store.authSession.utils.set,
   );
 
   const checkAccessTokenQuery = api.shopify.auth.checkAccessToken.useQuery(
@@ -87,7 +87,7 @@ export const useCheckAccessToken = ({
       refetchOnWindowFocus: true,
       refetchOnReconnect: true,
       retry: 3,
-    }
+    },
   );
 
   // useEffect(() => {
@@ -117,7 +117,7 @@ export const useMutateCart = () => {
   const checkoutId = useStore(globalStore, (store) => store.cart.data?.id);
   const lineItems = useStore(
     globalStore,
-    (store) => store.cart.data?.lineItems ?? []
+    (store) => store.cart.data?.lineItems ?? [],
   );
 
   const addManyLineItemCheckouts =
@@ -140,16 +140,19 @@ export const useMutateCart = () => {
         RouterInputs["shopify"]["checkouts"]["lineItems"]["addMany"],
         "checkoutId"
       >,
-      toOpenCart = true
+      toOpenCart = true,
     ) => {
       if (!checkoutId || input.lineItems.length < 0) return;
 
       const originalLineItemsIfMap = Object.fromEntries(
-        lineItems.reduce((acc, curr) => {
-          if (curr.variant?.id) acc.push([curr.variant.id, curr.id]);
+        lineItems.reduce(
+          (acc, curr) => {
+            if (curr.variant?.id) acc.push([curr.variant.id, curr.id]);
 
-          return acc;
-        }, [] as [string, string][])
+            return acc;
+          },
+          [] as [string, string][],
+        ),
       );
 
       const lineItemsToAdd: RouterInputs["shopify"]["checkouts"]["lineItems"]["addMany"]["lineItems"] =
@@ -200,7 +203,7 @@ export const useMutateCart = () => {
       addManyLineItemCheckouts,
       lineItems,
       updateManyLineItemCheckouts,
-    ]
+    ],
   );
 
   const updateCartAsync = useCallback(
@@ -209,7 +212,7 @@ export const useMutateCart = () => {
         RouterInputs["shopify"]["checkouts"]["lineItems"]["updateMany"],
         "checkoutId"
       >,
-      toOpenCart = true
+      toOpenCart = true,
     ) => {
       if (!checkoutId) return;
       const lineItemsToUpdate: typeof input.lineItems = [];
@@ -251,13 +254,13 @@ export const useMutateCart = () => {
           payload: { data: checkout, toOpenCart },
         });
     },
-    [checkoutId, removeManyLineItemCheckouts, updateManyLineItemCheckouts]
+    [checkoutId, removeManyLineItemCheckouts, updateManyLineItemCheckouts],
   );
 
   const removeToCartAsync = useCallback(
     async (
       input: RouterInputs["shopify"]["checkouts"]["lineItems"]["removeMany"],
-      toOpenCart = true
+      toOpenCart = true,
     ) => {
       if (!checkoutId || input.lineItemIds.length === 0) return;
 
@@ -270,10 +273,10 @@ export const useMutateCart = () => {
           globalStore.getState().cart.setId({
             type: "updating-cart",
             payload: { data: result, toOpenCart },
-          })
+          }),
         );
     },
-    [checkoutId, removeManyLineItemCheckouts]
+    [checkoutId, removeManyLineItemCheckouts],
   );
 
   return {
@@ -289,5 +292,120 @@ export const useMutateCart = () => {
       mutateAsync: removeToCartAsync,
       isLoading: isRemoveToCartLoading,
     },
+  };
+};
+
+export const useExtractDataFromHTMLDescription = (htmlDescription?: string) => {
+  const [extractDataFromHTMLDescription, setExtractDataFromHTMLDescription] =
+    useState<{
+      detailsHTML: string;
+      detailsText: string;
+      iframes: {
+        youtube: {
+          src: string;
+          allow: string;
+          title: string;
+          width?: string;
+          height?: string;
+        }[];
+        soundCloud: {
+          src: string;
+          allow: string;
+          title: string;
+          width?: string;
+          height?: string;
+        }[];
+      };
+    }>({
+      detailsHTML: "",
+      detailsText: "",
+      iframes: { youtube: [], soundCloud: [] },
+    });
+
+  useEffect(() => {
+    if (typeof window === "undefined" || !htmlDescription) return;
+
+    const container = document.createElement("div");
+    container.innerHTML = htmlDescription;
+
+    let hasIframes = false;
+    const iframes: {
+      youtube: {
+        src: string;
+        allow: string;
+        title: string;
+        width?: string;
+        height?: string;
+      }[];
+      soundCloud: {
+        src: string;
+        allow: string;
+        title: string;
+        width?: string;
+        height?: string;
+      }[];
+    } = {
+      youtube: [],
+      soundCloud: [],
+    };
+
+    container.querySelectorAll("iframe").forEach((iframe) => {
+      const url = new URL(iframe.src);
+
+      if (url.origin.startsWith("https://w.soundcloud.com")) {
+        iframes.soundCloud.push({
+          src: iframe.src,
+          allow: iframe.allow,
+          title: iframe.title,
+          width: iframe.width,
+          height: iframe.height,
+        });
+        iframe.parentElement?.removeChild(iframe);
+        iframe.nextElementSibling?.parentElement?.removeChild(iframe);
+        hasIframes = true;
+      }
+
+      if (url.origin.startsWith("https://www.youtube.com")) {
+        iframes.youtube.push({
+          src: iframe.src,
+          allow: iframe.allow,
+          title: iframe.title,
+          width: iframe.width,
+          height: iframe.height,
+        });
+        iframe.parentElement?.removeChild(iframe);
+        hasIframes = true;
+      }
+    });
+
+    container.querySelectorAll("div").forEach((div) => {
+      if (div.innerText.trimStart().startsWith("MSXIISound · "))
+        div.parentElement?.removeChild(div);
+    });
+
+    let i;
+    for (i = container.children.length - 1; i > -1; i--) {
+      const child = container.children[i];
+      if (
+        !child ||
+        (child as unknown as { innerText: string }).innerText.trim()
+      )
+        break;
+
+      child.parentElement?.removeChild(child);
+    }
+
+    if (!hasIframes) return;
+
+    setExtractDataFromHTMLDescription({
+      detailsHTML: container.innerHTML,
+      detailsText: container.innerText,
+      iframes,
+    });
+  }, [htmlDescription]);
+
+  return {
+    extractDataFromHTMLDescription,
+    setExtractDataFromHTMLDescription,
   };
 };

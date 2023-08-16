@@ -14,7 +14,7 @@ const Dialog = (props: PropsWithChildren<DialogProps>) => {
       onClose={() => props.setIsOpen(false)}
       className={cx(
         "fixed inset-0 z-10 flex h-full w-full items-center justify-center",
-        "block" // props.isOpen ? 'block' : 'hidden',
+        "block", // props.isOpen ? 'block' : 'hidden',
       )}
       open={props.isOpen}
     >
@@ -23,7 +23,7 @@ const Dialog = (props: PropsWithChildren<DialogProps>) => {
         className="absolute inset-0 h-full w-full cursor-pointer bg-black/50"
       />
       <div className="pointer-events-none relative flex h-full w-full flex-grow items-center justify-center">
-        <HUDialog.Panel className="pointer-events-auto relative max-h-[75vh] w-full max-w-screen-sm overflow-y-auto rounded-md bg-white p-8">
+        <HUDialog.Panel className="pointer-events-auto relative max-h-[75vh] w-full max-w-screen-sm overflow-y-auto rounded-md bg-bg-primary-500 p-8">
           {props.children}
         </HUDialog.Panel>
       </div>

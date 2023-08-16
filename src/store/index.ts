@@ -1,388 +1,231 @@
-import { createStore } from 'zustand';
-import { type ShopifyCustomer } from '~/utils/shopify/types';
+import { type GlobalStore } from "./types";
 
-import { type Checkout } from 'shopify-buy';
+import { createStore } from "zustand";
 
-interface GlobalStore {
-	cart: {
-		// id?: string;
-		// lineItems: CheckoutLineItem[];
-
-		isCartDropdownOpen: boolean;
-		toggleCartDropdown: () => void;
-		// addToCart(
-		// 	product: CheckoutLineItem, // | ShopifyProduct | ShopifyProductVariant,
-		// 	quantity: number | ((value: number) => number),
-		// ): void;
-		// setCartLineItems(lineItems: CheckoutLineItem[], toOpenCart?: boolean): void;
-
-		setId: (
-			params:
-				| {
-						type:
-							| 'init'
-							| 'checking-stored'
-							| 'creating-checkout'
-							| 'checkout-found-in-cookies';
-						payload?: null;
-				  }
-				| {
-						type: 'not-found-in-cookies' | 'failed-creating-checkout';
-						payload?: null;
-				  }
-				| {
-						type: 'checkout-created' | 'line-items-fetched' | 'updating-cart';
-						payload: {
-							data: Checkout;
-							toOpenCart?: boolean;
-						};
-				  },
-		) => void;
-	} & (
-		| {
-				isLoading: true;
-				isSuccess: false;
-				status:
-					| 'checking-stored'
-					| 'creating-checkout'
-					| 'checkout-found-in-cookies';
-				data: null;
-		  }
-		| {
-				isLoading: false;
-				isSuccess: false;
-				status: 'not-found-in-cookies' | 'failed-creating-checkout';
-				data: null;
-		  }
-		| {
-				isLoading: false;
-				isSuccess: true;
-				status: 'checkout-created' | 'line-items-fetched' | 'updating-cart';
-				data: Checkout;
-		  }
-	);
-	menus: {
-		closeAllMenus: () => void;
-
-		isDropdownMenuOnLessThanLGOpen: boolean;
-		toggleDropdownMenuOnLessThanLG: () => void;
-
-		isSearchMenuDropdownOpen: boolean;
-		toggleSearchMenuDropdown: () => void;
-	};
-	dialogs: {
-		auth: {
-			isOpen: boolean;
-			toggleOpen: () => void;
-			type: 'register' | 'login';
-			setDialogType: (state: 'register' | 'login') => void;
-		};
-	};
-	themeConfig: {
-		currentTheme: 'dark' | 'light';
-		changeCurrentTheme: (passedTheme?: 'dark' | 'light') => void;
-	};
-	customerSession: {
-		utils: {
-			set: (
-				params:
-					| { type: 'LOADING'; payload?: null }
-					| { type: 'UNAUTHENTICATED'; payload?: null }
-					| {
-							type: 'AUTHENTICATED';
-							payload: ShopifyCustomer;
-					  },
-			) => void;
-		};
-		attemptCounter: number;
-	} & (
-		| {
-				isLoading: true;
-				status: 'loading';
-				data: null;
-		  }
-		| {
-				isLoading: false;
-				status: 'unauthenticated';
-				data: null;
-		  }
-		| {
-				isLoading: false;
-				status: 'authenticated';
-				data: ShopifyCustomer;
-		  }
-	);
-}
-
-const generateOppositeTheme = (theme?: 'dark' | 'light') =>
-	theme === 'light' ? 'dark' : 'light';
+const generateOppositeTheme = (theme?: "dark" | "light") =>
+  theme === "light" ? "dark" : "light";
 
 export const globalStore = createStore<GlobalStore>((set, get) => ({
-	customerSession: {
-		isLoading: true,
-		attemptCounter: 0,
-		status: 'loading',
-		data: null,
-		utils: {
-			set: ({ type, payload }) => {
-				switch (type) {
-					case 'LOADING':
-						return set((prev) => ({
-							...prev,
-							customerSession: {
-								...prev.customerSession,
-								data: null,
-								isLoading: true,
-								status: 'loading',
-							},
-						}));
+  authSession: {
+    isLoading: true,
+    attemptCounter: 0,
+    status: "loading",
+    data: null,
+    utils: {
+      set: ({ type, payload }) => {
+        switch (type) {
+          case "LOADING":
+            return set((prev) => ({
+              ...prev,
+              authSession: {
+                ...prev.authSession,
+                data: null,
+                isLoading: true,
+                status: "loading",
+              },
+            }));
 
-					case 'UNAUTHENTICATED':
-						return set((prev) => ({
-							...prev,
-							customerSession: {
-								...prev.customerSession,
-								data: null,
-								isLoading: false,
-								status: 'unauthenticated',
-								attemptCounter: prev.customerSession.attemptCounter + 1,
-							},
-						}));
+          case "UNAUTHENTICATED":
+            return set((prev) => ({
+              ...prev,
+              authSession: {
+                ...prev.authSession,
+                data: null,
+                isLoading: false,
+                status: "unauthenticated",
+                attemptCounter: prev.authSession.attemptCounter + 1,
+              },
+            }));
 
-					case 'AUTHENTICATED':
-						return set((prev) => ({
-							...prev,
-							customerSession: {
-								...prev.customerSession,
-								data: payload,
-								isLoading: false,
-								status: 'authenticated',
-								attemptCounter: prev.customerSession.attemptCounter + 1,
-							},
-						}));
-				}
-			},
-		},
-	},
-	cart: {
-		data: null,
-		isLoading: true,
-		isSuccess: false,
-		status: 'checking-stored',
+          case "AUTHENTICATED":
+            return set((prev) => ({
+              ...prev,
+              authSession: {
+                ...prev.authSession,
+                data: payload,
+                isLoading: false,
+                status: "authenticated",
+                attemptCounter: prev.authSession.attemptCounter + 1,
+              },
+            }));
+        }
+      },
+    },
+  },
+  cart: {
+    data: null,
+    isLoading: true,
+    isSuccess: false,
+    status: "checking-stored",
 
-		lineItems: [],
-		isCartDropdownOpen: false,
+    lineItems: [],
+    isCartDropdownOpen: false,
 
-		toggleCartDropdown: () =>
-			set(({ cart }) => ({
-				cart: {
-					...cart,
-					isCartDropdownOpen: !cart.isCartDropdownOpen,
-				},
-			})),
-		// setCartLineItems(lineItems, toOpenCart = false) {
-		// 	// get().menus.closeAllMenus();
-		// 	set(({ cart, menus }) => {
-		// 		if (toOpenCart) menus.closeAllMenus();
+    toggleCartDropdown: () =>
+      set(({ cart }) => ({
+        cart: {
+          ...cart,
+          isCartDropdownOpen: !cart.isCartDropdownOpen,
+        },
+      })),
+    setId: ({ type, payload }) => {
+      if (process.env.NODE_ENV === "development") {
+        console.log(
+          '%cCart Status: "' + type.replace(/-/g, " ") + '"',
+          "font-weight: bold;",
+        );
+      }
 
-		// 		return {
-		// 			cart: {
-		// 				...cart,
-		// 				lineItems,
-		// 				isCartDropdownOpen: toOpenCart,
-		// 			},
-		// 		};
-		// 	});
-		// },
-		// addToCart: (product, quantity) =>
-		// 	set(({ cart }) => {
-		// 		get().menus.closeAllMenus();
-		// 		const cartItemIndex = cart.lineItems.findIndex(
-		// 			(item) => item.id === product.id,
-		// 		);
+      if (!["updating-cart"].includes(type) && type === get().cart.status)
+        return;
 
-		// 		let cartItems: typeof cart.lineItems = [];
+      switch (type) {
+        case "checking-stored":
+        case "creating-checkout":
+        case "checkout-found-in-cookies":
+          type;
+          return set((prev) => ({
+            ...prev,
+            cart: {
+              ...prev.cart,
+              data: null,
+              isLoading: true,
+              isSuccess: false,
+              status: type,
+            },
+          }));
 
-		// 		if (cartItemIndex === -1) {
-		// 			cartItems = [
-		// 				{
-		// 					...product,
-		// 					quantity: typeof quantity === 'function' ? quantity(0) : quantity,
-		// 				},
-		// 				...cart.lineItems,
-		// 			];
-		// 		} else {
-		// 			let cartItem: (typeof cart.lineItems)[number];
-		// 			let cartItemQuantity: number;
+        case "not-found-in-cookies":
+        case "failed-creating-checkout":
+          type;
+          return set((prev) => ({
+            ...prev,
+            cart: {
+              ...prev.cart,
+              data: null,
+              isLoading: false,
+              isSuccess: false,
+              status: type,
+            },
+          }));
 
-		// 			for (let i = 0; i < cart.lineItems.length; i++) {
-		// 				cartItem = cart.lineItems[i]!;
+        case "checkout-created":
+        case "updating-cart":
+        case "line-items-fetched":
+          type;
+          return set((prev) => ({
+            ...prev,
+            cart: {
+              ...prev.cart,
+              data: payload.data,
+              isLoading: false,
+              isSuccess: true,
+              status: type,
+              isCartDropdownOpen:
+                payload.toOpenCart ?? prev.cart.isCartDropdownOpen,
+            },
+          }));
+      }
+    },
+  },
+  soundCloudPlayer: {
+    activeHandle: null,
+    iframes: null,
+    utils: {
+      setData: (data) => {
+        set((prev) => {
+          const newData =
+            typeof data === "function" ? data(prev.soundCloudPlayer) : data;
 
-		// 				if (i === cartItemIndex) {
-		// 					cartItemQuantity =
-		// 						typeof quantity === 'function'
-		// 							? quantity(cartItem.quantity)
-		// 							: cartItem.quantity + quantity;
+          return {
+            ...prev,
+            soundCloudPlayer: {
+              ...prev.soundCloudPlayer,
+              ...newData,
+            },
+          };
+        });
+      },
+    },
+  },
+  menus: {
+    isDropdownMenuOnLessThanLGOpen: false,
+    toggleDropdownMenuOnLessThanLG: () =>
+      set(({ menus, cart }) => ({
+        menus: {
+          ...menus,
+          isDropdownMenuOnLessThanLGOpen: !menus.isDropdownMenuOnLessThanLGOpen,
+        },
+        cart: {
+          ...cart,
+          isCartDropdownOpen: false,
+        },
+      })),
 
-		// 					if (cartItemQuantity <= 0) continue;
-		// 					cartItems.push({
-		// 						...cartItem,
-		// 						quantity: cartItemQuantity,
-		// 					});
-		// 					continue;
-		// 				}
+    isSearchMenuDropdownOpen: false,
+    toggleSearchMenuDropdown: () =>
+      set(({ menus, cart }) => ({
+        menus: {
+          ...menus,
+          isSearchMenuDropdownOpen: !menus.isSearchMenuDropdownOpen,
+        },
+        cart: {
+          ...cart,
+          isCartDropdownOpen: false,
+        },
+      })),
 
-		// 				cartItems.push(cartItem);
-		// 			}
-		// 		}
+    closeAllMenus: () =>
+      set(({ menus, cart }) => ({
+        menus: {
+          ...menus,
+          isSearchMenuDropdownOpen: false,
+          isDropdownMenuOnLessThanLGOpen: false,
+        },
+        cart: {
+          ...cart,
+          isCartDropdownOpen: false,
+        },
+      })),
+  },
+  dialogs: {
+    auth: {
+      isOpen: false,
+      toggleOpen: () =>
+        set(({ dialogs }) => ({
+          dialogs: {
+            ...dialogs,
+            auth: { ...dialogs.auth, isOpen: !dialogs.auth.isOpen },
+          },
+        })),
+      type: "login",
+      setDialogType: (type) =>
+        set(({ dialogs }) => ({
+          dialogs: {
+            ...dialogs,
+            auth: { ...dialogs.auth, type },
+          },
+        })),
+    },
+  },
+  themeConfig: {
+    currentTheme: "light",
+    changeCurrentTheme(passedTheme) {
+      set(({ themeConfig }) => {
+        const currentTheme = passedTheme
+          ? generateOppositeTheme(passedTheme)
+          : themeConfig.currentTheme;
+        const newTheme = generateOppositeTheme(currentTheme);
 
-		// 		return {
-		// 			cart: {
-		// 				...cart,
-		// 				lineItems: cartItems,
-		// 				isCartDropdownOpen: true,
-		// 			},
-		// 		};
-		// 	}),
+        document.body.classList.remove(currentTheme);
+        document.body.classList.add(newTheme);
 
-		setId: ({ type, payload }) => {
-			if (process.env.NODE_ENV === 'development') {
-				console.log(
-					'%cCart Status: "' + type.replace(/-/g, ' ') + '"',
-					'font-weight: bold;',
-				);
-			}
+        localStorage.setItem("currentTheme", newTheme);
 
-			if (!['updating-cart'].includes(type) && type === get().cart.status)
-				return;
-
-			switch (type) {
-				case 'checking-stored':
-				case 'creating-checkout':
-				case 'checkout-found-in-cookies':
-					type;
-					return set((prev) => ({
-						...prev,
-						cart: {
-							...prev.cart,
-							data: null,
-							isLoading: true,
-							isSuccess: false,
-							status: type,
-						},
-					}));
-
-				case 'not-found-in-cookies':
-				case 'failed-creating-checkout':
-					type;
-					return set((prev) => ({
-						...prev,
-						cart: {
-							...prev.cart,
-							data: null,
-							isLoading: false,
-							isSuccess: false,
-							status: type,
-						},
-					}));
-
-				case 'checkout-created':
-				case 'updating-cart':
-				case 'line-items-fetched':
-					type;
-					return set((prev) => ({
-						...prev,
-						cart: {
-							...prev.cart,
-							data: payload.data,
-							isLoading: false,
-							isSuccess: true,
-							status: type,
-							isCartDropdownOpen:
-								payload.toOpenCart ?? prev.cart.isCartDropdownOpen,
-						},
-					}));
-			}
-		},
-	},
-	menus: {
-		isDropdownMenuOnLessThanLGOpen: false,
-		toggleDropdownMenuOnLessThanLG: () =>
-			set(({ menus, cart }) => ({
-				menus: {
-					...menus,
-					isDropdownMenuOnLessThanLGOpen: !menus.isDropdownMenuOnLessThanLGOpen,
-				},
-				cart: {
-					...cart,
-					isCartDropdownOpen: false,
-				},
-			})),
-
-		isSearchMenuDropdownOpen: false,
-		toggleSearchMenuDropdown: () =>
-			set(({ menus, cart }) => ({
-				menus: {
-					...menus,
-					isSearchMenuDropdownOpen: !menus.isSearchMenuDropdownOpen,
-				},
-				cart: {
-					...cart,
-					isCartDropdownOpen: false,
-				},
-			})),
-
-		closeAllMenus: () =>
-			set(({ menus, cart }) => ({
-				menus: {
-					...menus,
-					isSearchMenuDropdownOpen: false,
-					isDropdownMenuOnLessThanLGOpen: false,
-				},
-				cart: {
-					...cart,
-					isCartDropdownOpen: false,
-				},
-			})),
-	},
-	dialogs: {
-		auth: {
-			isOpen: false,
-			toggleOpen: () =>
-				set(({ dialogs }) => ({
-					dialogs: {
-						...dialogs,
-						auth: { ...dialogs.auth, isOpen: !dialogs.auth.isOpen },
-					},
-				})),
-			type: 'login',
-			setDialogType: (type) =>
-				set(({ dialogs }) => ({
-					dialogs: {
-						...dialogs,
-						auth: { ...dialogs.auth, type },
-					},
-				})),
-		},
-	},
-	themeConfig: {
-		currentTheme: 'light',
-		changeCurrentTheme(passedTheme) {
-			set(({ themeConfig }) => {
-				const currentTheme = passedTheme
-					? generateOppositeTheme(passedTheme)
-					: themeConfig.currentTheme;
-				const newTheme = generateOppositeTheme(currentTheme);
-
-				document.body.classList.remove(currentTheme);
-				document.body.classList.add(newTheme);
-
-				localStorage.setItem('currentTheme', newTheme);
-
-				return { themeConfig: { ...themeConfig, currentTheme: newTheme } };
-			});
-		},
-	},
+        return { themeConfig: { ...themeConfig, currentTheme: newTheme } };
+      });
+    },
+  },
 }));
 
 // export const useGlobalStore = <U>(

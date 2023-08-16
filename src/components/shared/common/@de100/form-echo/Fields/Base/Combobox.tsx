@@ -223,14 +223,14 @@ const CustomCombobox = <TData, FormattedData = undefined>(
                   : getDisplayValue(locallySelected)}
               </span>
               <RiArrowUpDownFill
-                className="h-5 w-5 text-gray-400"
+                className="h-5 w-5 text-text-primary-400"
                 aria-hidden="true"
               />
             </Combobox.Button>
           ) : (
             <>
               <Combobox.Input
-                className="w-full border-none bg-transparent px-1 py-1 text-sm leading-5 text-gray-900 outline-none focus:ring-0"
+                className="w-full border-none bg-transparent px-1 py-1 text-sm leading-5 text-text-primary-400 outline-none focus:ring-0"
                 displayValue={(
                   value: GetData<TData, FormattedData>[number] | undefined,
                 ) =>
@@ -243,7 +243,7 @@ const CustomCombobox = <TData, FormattedData = undefined>(
               />
               <Combobox.Button className="absolute inset-y-0 right-0 flex items-center bg-transparent pr-2">
                 <RiArrowUpDownFill
-                  className="h-5 w-5 text-gray-400"
+                  className="h-5 w-5 text-text-primary-400"
                   aria-hidden="true"
                 />
               </Combobox.Button>
@@ -257,9 +257,9 @@ const CustomCombobox = <TData, FormattedData = undefined>(
           leaveTo="opacity-0"
           afterLeave={() => handleSetQuery("")}
         >
-          <Combobox.Options className="absolute z-[1] mt-1 max-h-60 w-full overflow-auto rounded-b-md bg-white py-1 text-base ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+          <Combobox.Options className="absolute z-[1] mt-1 max-h-60 w-full overflow-auto rounded-b-md bg-bg-primary-500 py-1 text-base ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
             {options.length === 0 && localQuery !== "" ? (
-              <div className="relative cursor-default select-none px-4 py-2 text-gray-700">
+              <div className="relative cursor-default select-none px-4 py-2 text-text-primary-400">
                 Nothing found.
               </div>
             ) : (

@@ -21,7 +21,7 @@ const handleLabelClassVariants = cva(
   {
     variants: {
       state: {
-        idle: "text-gray-700/80 ring-gray-400/50",
+        idle: "text-text-primary-400/80 ring-gray-400/50",
         error: "text-red-500/75 ring-red-400/75",
         success: "text-green-600/90 ring-green-400/75",
         active: "text-blue-600/90 ring-blue-400",

@@ -88,7 +88,7 @@ const ProductsOnOrder = ({
                       {formatPrice(
                         Number(item.originalTotalPrice.amount),
                         item.originalTotalPrice.currencyCode,
-                        isMounted
+                        isMounted,
                       )}
                     </p>
                   </div>
@@ -234,7 +234,7 @@ const CustomerProfileScreen = (props: { customerData: ShopifyCustomer }) => {
                           undefined,
                           {
                             dateStyle: "medium",
-                          }
+                          },
                         )}
                       </span>
                     </td>
@@ -251,7 +251,7 @@ const CustomerProfileScreen = (props: { customerData: ShopifyCustomer }) => {
                       {formatPrice(
                         Number(itemNode.totalPrice.amount),
                         itemNode.totalPrice.currencyCode,
-                        isMounted
+                        isMounted,
                       )}
                     </td>
                   </tr>
@@ -350,33 +350,30 @@ content: attr(aria-label);
 
 const CustomerProfilePage = () => {
   const router = useRouter();
-  const customerSession = useStore(
-    globalStore,
-    (store) => store.customerSession
-  );
+  const authSession = useStore(globalStore, (store) => store.authSession);
   const toggleOpenAuthDialog = useStore(
     globalStore,
-    (store) => store.dialogs.auth.toggleOpen
+    (store) => store.dialogs.auth.toggleOpen,
   );
 
   useEffect(() => {
-    if (customerSession.status === "unauthenticated") {
+    if (authSession.status === "unauthenticated") {
       router.push("/");
       toggleOpenAuthDialog();
     }
-  }, [customerSession.status, router, toggleOpenAuthDialog]);
+  }, [authSession.status, router, toggleOpenAuthDialog]);
 
-  if (customerSession.isLoading)
+  if (authSession.isLoading)
     return (
       <PageLoaderContainer>
         <PagePrimaryLoader />
       </PageLoaderContainer>
     );
 
-  if (customerSession.status === "authenticated")
-    return <CustomerProfileScreen customerData={customerSession.data} />;
+  if (authSession.status === "authenticated")
+    return <CustomerProfileScreen customerData={authSession.data} />;
 
-  return customerSession.status;
+  return authSession.status;
 };
 
 export default CustomerProfilePage;

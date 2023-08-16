@@ -12,7 +12,7 @@ export const shopifyProductsRouter = createTRPCRouter({
         limit: z.number().min(5).max(100),
         cursor: z.string().nonempty().nullish(),
         title: z.string().optional().nullable(),
-      })
+      }),
     )
     .query(
       async ({ ctx, input }) =>
@@ -23,7 +23,7 @@ export const shopifyProductsRouter = createTRPCRouter({
             // available_for_sale: true,
             title: input?.title ? `${input.title}*` : undefined,
           },
-        })
+        }),
     ),
 
   getOneByHandle: publicProcedure
@@ -31,7 +31,18 @@ export const shopifyProductsRouter = createTRPCRouter({
     .query(
       async ({ ctx, input }) =>
         (await ctx.shopify.products.queries.getOneByHandle(input))
-          .productByHandle
+          .productByHandle,
+    ),
+
+  getOneHTMLDescriptionByHandle: publicProcedure
+    .input(oneProductByHandleQuerySchema)
+    .query(
+      async ({ ctx, input }) =>
+        (
+          await ctx.shopify.products.queries.getOneHTMLDescriptionByHandle(
+            input,
+          )
+        ).productByHandle,
     ),
 
   getOneRecommendations: publicProcedure
@@ -39,6 +50,6 @@ export const shopifyProductsRouter = createTRPCRouter({
     .query(
       async ({ ctx, input }) =>
         (await ctx.shopify.products.queries.recommendations(input))
-          .productRecommendations
+          .productRecommendations,
     ),
 });

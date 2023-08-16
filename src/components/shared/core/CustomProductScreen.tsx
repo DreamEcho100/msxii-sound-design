@@ -20,6 +20,7 @@ import { SoundCloudIframe, YouTubeIFrame } from "../Iframes";
 import TextTruncateManager from "../common/TextTruncater";
 import { api } from "~/utils/api";
 import Clickable from "./Clickable";
+import { useExtractDataFromHTMLDescription } from "~/utils/shopify/hooks";
 
 const ProductRecommendations = (props: { productId: string }) => {
   const getOneProductRecommendations =
@@ -183,105 +184,25 @@ const CustomProductScreen = ({
 }) => {
   const [selectedQuantity, setSelectedQuantity] = useState(1);
   const [newViewEnabled, setNewViewEnabled] = useState(false);
-  const [newViewData, setNewViewData] = useState<{
-    detailsHTML: string;
-    iframes: {
-      youtube: {
-        src: string;
-        allow: string;
-        title: string;
-        width?: string;
-        height?: string;
-      }[];
-      soundCloud: {
-        src: string;
-        allow: string;
-        title: string;
-        width?: string;
-        height?: string;
-      }[];
-    };
-  }>({
-    detailsHTML: "",
-    iframes: { youtube: [], soundCloud: [] },
-  });
   const [isShortDetailsActive, setIsShortDetailsActive] = useState(false);
   const [selectedVariant, setSelectedVariant] = useState(
     productData.variants.edges[0]?.node,
   );
+  const { extractDataFromHTMLDescription } = useExtractDataFromHTMLDescription(
+    productData.descriptionHtml,
+  );
+
+  const htmlDescription = newViewEnabled
+    ? extractDataFromHTMLDescription.detailsHTML
+    : productData.descriptionHtml || productData.description;
+  const description =
+    isShortDetailsActive || htmlDescription === productData.description
+      ? undefined
+      : productData.description;
+  const hasVariants = productData.variants.edges.length > 1;
 
   useEffect(() => {
-    if (typeof window === "undefined") return;
-
-    const container = document.createElement("div");
-    container.innerHTML = productData.descriptionHtml;
-
-    let hasIframes = false;
-    const iframes: {
-      youtube: {
-        src: string;
-        allow: string;
-        title: string;
-        width?: string;
-        height?: string;
-      }[];
-      soundCloud: {
-        src: string;
-        allow: string;
-        title: string;
-        width?: string;
-        height?: string;
-      }[];
-    } = {
-      youtube: [],
-      soundCloud: [],
-    };
-
-    container.querySelectorAll("iframe").forEach((iframe) => {
-      const url = new URL(iframe.src);
-
-      if (url.origin.startsWith("https://w.soundcloud.com")) {
-        iframes.soundCloud.push({
-          src: iframe.src,
-          allow: iframe.allow,
-          title: iframe.title,
-          width: iframe.width,
-          height: iframe.height,
-        });
-        iframe.parentElement?.removeChild(iframe);
-        iframe.nextElementSibling?.parentElement?.removeChild(iframe);
-        hasIframes = true;
-      }
-
-      if (url.origin.startsWith("https://www.youtube.com")) {
-        iframes.youtube.push({
-          src: iframe.src,
-          allow: iframe.allow,
-          title: iframe.title,
-          width: iframe.width,
-          height: iframe.height,
-        });
-        iframe.parentElement?.removeChild(iframe);
-        hasIframes = true;
-      }
-    });
-
-    container.querySelectorAll("div").forEach((div) => {
-      if (div.innerText.trimStart().startsWith("MSXIISound · "))
-        div.parentElement?.removeChild(div);
-    });
-
-    let i;
-    for (i = container.children.length - 1; i > -1; i--) {
-      const child = container.children[i];
-      if (
-        !child ||
-        (child as unknown as { innerText: string }).innerText.trim()
-      )
-        break;
-
-      child.parentElement?.removeChild(child);
-    }
+    if (!extractDataFromHTMLDescription.detailsText) return;
 
     setIsShortDetailsActive(
       productData.description
@@ -290,30 +211,14 @@ const CustomProductScreen = ({
         .slice(0, 50)
         .toLowerCase()
         .startsWith(
-          container.innerText
+          extractDataFromHTMLDescription.detailsText
             .trim()
             .replace(/\s{2,}/g, " ")
             .slice(0, 50)
             .toLowerCase(),
         ),
     );
-
-    if (!hasIframes) return;
-
-    setNewViewData({
-      detailsHTML: container.innerHTML,
-      iframes,
-    });
-  }, [productData.description, productData.descriptionHtml]);
-
-  const htmlDescription = newViewEnabled
-    ? newViewData.detailsHTML
-    : productData.descriptionHtml || productData.description;
-  const description =
-    isShortDetailsActive || htmlDescription === productData.description
-      ? undefined
-      : productData.description;
-  const hasVariants = productData.variants.edges.length > 1;
+  }, [extractDataFromHTMLDescription.detailsText, productData.description]);
 
   return (
     <div className="mx-auto flex w-[140ch] max-w-full flex-col gap-16 overflow-x-hidden px-4 py-8 text-h6 leading-primary-3 text-text-primary-300 sm:px-8 md:py-12 lg:px-12">
@@ -432,7 +337,9 @@ const CustomProductScreen = ({
                 newViewEnabled
                   ? "bg-special-primary-500"
                   : "bg-special-primary-900",
-                newViewData.detailsHTML.length === 0 ? "invisible" : undefined,
+                extractDataFromHTMLDescription.detailsHTML.length === 0
+                  ? "invisible"
+                  : undefined,
                 "relative inline-flex h-6 w-12 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2  focus-visible:ring-white focus-visible:ring-opacity-75",
               )}
             >
@@ -445,7 +352,7 @@ const CustomProductScreen = ({
                     : "translate-x-0 animate-pulse"
                 }
 								pointer-events-none
-            inline-block h-5 w-5 transform rounded-full bg-white shadow-lg ring-0 transition duration-200 ease-in-out`}
+            inline-block h-5 w-5 transform rounded-full bg-bg-primary-500 shadow-lg ring-0 transition duration-200 ease-in-out`}
               />
             </Switch>
           </div>
@@ -457,37 +364,43 @@ const CustomProductScreen = ({
               }}
             />
 
-            {newViewEnabled && newViewData.iframes.soundCloud.length !== 0 && (
-              <section className="mx-auto flex w-full max-w-[140ch] flex-col gap-10 rounded-3xl bg-initial-primary-0 px-16 py-12 text-initial-primary-500">
-                <h2 className="text-h3 font-normal text-initial-primary-500">
-                  Preview Samples
-                </h2>
-                <div className="flex flex-col gap-8">
-                  {newViewData.iframes.soundCloud.map((iframeData) => (
-                    <article key={productData.id} className="flex gap-8">
-                      <SoundCloudIframe {...iframeData} />
-                    </article>
-                  ))}
-                </div>
-                <p>+ so many more high quality samples</p>
-              </section>
-            )}
+            {newViewEnabled &&
+              extractDataFromHTMLDescription.iframes.soundCloud.length !==
+                0 && (
+                <section className="mx-auto flex w-full max-w-[140ch] flex-col gap-10 rounded-3xl bg-initial-primary-0 px-16 py-12 text-initial-primary-500">
+                  <h2 className="text-h3 font-normal text-initial-primary-500">
+                    Preview Samples
+                  </h2>
+                  <div className="flex flex-col gap-8">
+                    {extractDataFromHTMLDescription.iframes.soundCloud.map(
+                      (iframeData) => (
+                        <article key={productData.id} className="flex gap-8">
+                          <SoundCloudIframe {...iframeData} />
+                        </article>
+                      ),
+                    )}
+                  </div>
+                  <p>+ so many more high quality samples</p>
+                </section>
+              )}
 
             {newViewEnabled &&
-              newViewData.iframes.youtube.length !== 0 &&
-              (newViewData.iframes.youtube.length < 2 ? (
+              extractDataFromHTMLDescription.iframes.youtube.length !== 0 &&
+              (extractDataFromHTMLDescription.iframes.youtube.length < 2 ? (
                 <div className="grid grid-cols-1">
-                  {newViewData.iframes.youtube.map((iframeData, index) => (
-                    <YouTubeIFrame
-                      width={iframeData.width}
-                      height={iframeData.height}
-                      key={index}
-                      src={iframeData.src}
-                      title={iframeData.title}
-                      allow={iframeData.allow}
-                      className="w-full"
-                    />
-                  ))}
+                  {extractDataFromHTMLDescription.iframes.youtube.map(
+                    (iframeData, index) => (
+                      <YouTubeIFrame
+                        width={iframeData.width}
+                        height={iframeData.height}
+                        key={index}
+                        src={iframeData.src}
+                        title={iframeData.title}
+                        allow={iframeData.allow}
+                        className="w-full"
+                      />
+                    ),
+                  )}
                 </div>
               ) : (
                 <div>
@@ -500,17 +413,19 @@ const CustomProductScreen = ({
                       },
                     }}
                   >
-                    {newViewData.iframes.youtube.map((iframeData, index) => (
-                      <SwiperSlide key={index} className="flex flex-col">
-                        <YouTubeIFrame
-                          width={iframeData.width}
-                          height={iframeData.height}
-                          src={iframeData.src}
-                          title={iframeData.title}
-                          allow={iframeData.allow}
-                        />
-                      </SwiperSlide>
-                    ))}
+                    {extractDataFromHTMLDescription.iframes.youtube.map(
+                      (iframeData, index) => (
+                        <SwiperSlide key={index} className="flex flex-col">
+                          <YouTubeIFrame
+                            width={iframeData.width}
+                            height={iframeData.height}
+                            src={iframeData.src}
+                            title={iframeData.title}
+                            allow={iframeData.allow}
+                          />
+                        </SwiperSlide>
+                      ),
+                    )}
                   </Slider>
                 </div>
               ))}

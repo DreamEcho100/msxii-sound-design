@@ -3,7 +3,7 @@ import { type VariantProps, cx, cva } from "class-variance-authority";
 import React, { type HTMLAttributes } from "react";
 
 const handleClassVariants = cva(
-  "flex flex-col flex-grow rounded-lg text-gray-600",
+  "flex flex-col flex-grow rounded-lg text-text-primary-400",
   {
     variants: {
       state: {

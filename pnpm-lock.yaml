@@ -113,9 +113,6 @@ dependencies:
   react-player:
     specifier: ^2.12.0
     version: 2.12.0(react@18.2.0)
-  react-soundcloud-widget:
-    specifier: ^2.0.4
-    version: 2.0.4(react@18.2.0)
   react-toastify:
     specifier: ^9.1.3
     version: 9.1.3(react-dom@18.2.0)(react@18.2.0)
@@ -128,9 +125,6 @@ dependencies:
   slug:
     specifier: ^8.2.3
     version: 8.2.3
-  soundcloud-widget:
-    specifier: ^0.2.1
-    version: 0.2.1
   superjson:
     specifier: 1.13.1
     version: 1.13.1
@@ -4837,10 +4831,6 @@ packages:
     dependencies:
       '@prisma/engines': 5.1.1
 
-  /promise-polyfill@7.1.2:
-    resolution: {integrity: sha512-FuEc12/eKqqoRYIGBrUptCBRhobL19PS2U31vMNTfyck1FxPyMfgsXyW4Mav85y/ZN1hop3hOwRlUDok23oYfQ==}
-    dev: false
-
   /prop-types@15.8.1:
     resolution: {integrity: sha512-oj87CgZICdulUohogVAR7AjlC0327U4el4L6eAvOqCeudMDVU0NThNaV+b9Df4dXgSP1gXMTnPdhfe/2qDH5cg==}
     dependencies:
@@ -4963,15 +4953,6 @@ packages:
       tslib: 2.6.1
       use-callback-ref: 1.3.0(@types/react@18.2.20)(react@18.2.0)
       use-sidecar: 1.1.2(@types/react@18.2.20)(react@18.2.0)
-    dev: false
-
-  /react-soundcloud-widget@2.0.4(react@18.2.0):
-    resolution: {integrity: sha512-9hcZilFO8EvLZ5rKUMYpc1LVpJuLIzYO/wUR8ayn8hQZ3NQHWf8u5/rVxBGetYHyPgNHyoAMS8VsVEf8HGoB0A==}
-    peerDependencies:
-      react: '>=0.13.0'
-    dependencies:
-      load-script: 1.0.0
-      react: 18.2.0
     dev: false
 
   /react-ssr-prepass@1.5.0(react@18.2.0):
@@ -5220,12 +5201,6 @@ packages:
   /slug@8.2.3:
     resolution: {integrity: sha512-fXjhAZszNecz855GUNIwW0+sFPi9WV4bMiEKDOCA4wcq1ts1UnUVNy/F78B0Aat7/W3rA+se//33ILKNMrbeYQ==}
     hasBin: true
-    dev: false
-
-  /soundcloud-widget@0.2.1:
-    resolution: {integrity: sha512-C2DYQjxw8JrdJp+ZU31xTC6g4Op7MIgGp0C9BeErDGQtlRDrmNA2Yk0AggF1HhbZPf7cP7pGRgHGhpn7rf25Lg==}
-    dependencies:
-      promise-polyfill: 7.1.2
     dev: false
 
   /source-map-js@1.0.2:

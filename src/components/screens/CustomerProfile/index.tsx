@@ -31,6 +31,8 @@ import FormField from "~/components/shared/core/FieldForm";
 import { formatPrice } from "~/utils/shopify";
 import { useIsMounted } from "~/utils/hooks";
 import { useSignOutMutation } from "~/utils/shopify/hooks";
+import SectionLoaderContainer from "~/components/shared/LoadersContainers/Section";
+import SectionPrimaryLoader from "~/components/shared/Loaders/SectionPrimary";
 
 const TitleValue = ({
   title,
@@ -361,7 +363,9 @@ const CustomerProfileScreen = () => {
         />
         <section className="bg-primary-1 section-p-v1 h-[75vh] max-h-[45rem] min-h-fit">
           <div className="mx-auto max-w-screen-md">
-            <p>Loading...</p>
+            <SectionLoaderContainer>
+              <SectionPrimaryLoader />
+            </SectionLoaderContainer>
           </div>
         </section>
       </>

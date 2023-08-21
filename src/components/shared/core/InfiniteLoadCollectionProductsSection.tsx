@@ -3,6 +3,8 @@ import { type RouterOutputs, type RouterInputs } from "~/utils/api";
 import { BasicProductCard } from "./Shopify/Cards/Card";
 import Clickable from "./Clickable";
 import Head from "next/head";
+import SectionLoaderContainer from "../LoadersContainers/Section";
+import SectionPrimaryLoader from "../Loaders/SectionPrimary";
 
 type Props = {
   input: RouterInputs["shopify"]["collections"]["getOneByHandle"];
@@ -13,7 +15,12 @@ type Props = {
 };
 
 const InfiniteLoadCollectionProductsSection = (props: Props) => {
-  if (props.infiniteQuery.isLoading) return <>Loading...</>;
+  if (props.infiniteQuery.isLoading)
+    return (
+      <SectionLoaderContainer>
+        <SectionPrimaryLoader />
+      </SectionLoaderContainer>
+    );
 
   if (props.infiniteQuery.isError)
     return <>{props.infiniteQuery.error.message}</>;

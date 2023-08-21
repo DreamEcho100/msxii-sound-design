@@ -12,13 +12,20 @@ import { createInnerTRPCContext } from "~/server/api/trpc";
 import { type RouterInputs, api } from "~/utils/api";
 import Head from "next/head";
 import CustomProductScreen from "~/components/shared/core/CustomProductScreen";
+import SectionLoaderContainer from "~/components/shared/LoadersContainers/Section";
+import SectionPrimaryLoader from "~/components/shared/Loaders/SectionPrimary";
 
 const ProductPage = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
   const productQuery = api.shopify.products.getOneByHandle.useQuery(
-    props.input
+    props.input,
   );
 
-  if (productQuery.isLoading) return <>Loading...</>;
+  if (productQuery.isLoading)
+    return (
+      <SectionLoaderContainer>
+        <SectionPrimaryLoader />
+      </SectionLoaderContainer>
+    );
 
   if (productQuery.isError) return <>{productQuery.error.message}</>;
 
@@ -47,7 +54,7 @@ export const getStaticPaths: GetStaticPaths = () => {
   };
 };
 export const getStaticProps = async (
-  context: GetStaticPropsContext<{ handle: string }>
+  context: GetStaticPropsContext<{ handle: string }>,
 ) => {
   let handle: string;
   try {

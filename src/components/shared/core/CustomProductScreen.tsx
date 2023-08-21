@@ -21,6 +21,8 @@ import TextTruncateManager from "../common/TextTruncater";
 import { api } from "~/utils/api";
 import Clickable from "./Clickable";
 import { useExtractDataFromHTMLDescription } from "~/utils/shopify/hooks";
+import SectionLoaderContainer from "../LoadersContainers/Section";
+import SectionPrimaryLoader from "../Loaders/SectionPrimary";
 
 const ProductRecommendations = (props: { productId: string }) => {
   const getOneProductRecommendations =
@@ -28,7 +30,12 @@ const ProductRecommendations = (props: { productId: string }) => {
       productId: props.productId,
     });
 
-  if (getOneProductRecommendations.isLoading) return <>Loading...</>;
+  if (getOneProductRecommendations.isLoading)
+    return (
+      <SectionLoaderContainer>
+        <SectionPrimaryLoader />
+      </SectionLoaderContainer>
+    );
 
   if (getOneProductRecommendations.isError)
     return <>{getOneProductRecommendations.error.message}</>;

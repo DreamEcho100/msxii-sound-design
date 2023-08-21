@@ -12,6 +12,8 @@ import {
 import Merch from "./components/Merch";
 import BlueLabel from "./components/BlueLabel";
 import CreateProductPageButton from "./components/CreateProductPageButton";
+import SectionLoaderContainer from "../../LoadersContainers/Section";
+import SectionPrimaryLoader from "../../Loaders/SectionPrimary";
 
 type Props = GetCustomPageDataProps;
 
@@ -26,7 +28,7 @@ const PageCategoryItems = (props: {
       props.data.pages
         .map((page) => page.items.filter((item) => !!item.slug))
         .flat(),
-    [props.data.pages]
+    [props.data.pages],
   );
 
   if (data.length === 0 && !props.addPageToPageCategoryType) return <></>;
@@ -38,7 +40,7 @@ const PageCategoryItems = (props: {
         "grid gap-8 lg:flex-nowrap lg:justify-between",
         data.length < 4
           ? "grid-cols-[repeat(auto-fit,_24.5rem)]"
-          : "grid-cols-[repeat(auto-fit,_minmax(12rem,_1fr))]"
+          : "grid-cols-[repeat(auto-fit,_minmax(12rem,_1fr))]",
       )}
     >
       {props.addPageToPageCategoryType && (
@@ -186,7 +188,11 @@ const CustomPageScreen = (props: Props): React.JSX.Element => {
     pageCategoryItemsData.status === "loading" ||
     customPageStructureData.status === "loading"
   )
-    return <>Loading...</>;
+    return (
+      <SectionLoaderContainer>
+        <SectionPrimaryLoader />
+      </SectionLoaderContainer>
+    );
 
   if (
     pageCategoryItemsData.status === "error" ||

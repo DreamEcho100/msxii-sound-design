@@ -12,6 +12,8 @@ import {
 } from "react-icons/hi";
 import Clickable from "~/components/shared/core/Clickable";
 import CustomNextImage from "~/components/shared/CustomNextImage";
+import SectionLoaderContainer from "~/components/shared/LoadersContainers/Section";
+import SectionPrimaryLoader from "~/components/shared/Loaders/SectionPrimary";
 
 const BlogPage = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
   const [currentPageIndex, setCurrentPageIndex] = useState(0);
@@ -20,12 +22,17 @@ const BlogPage = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
     {
       getNextPageParam: (lastPage) => lastPage.nextCursor,
       keepPreviousData: true,
-    }
+    },
   );
 
-  if (articlesQuery.isLoading) return <>Loading...</>;
+  if (articlesQuery.isLoading)
+    return (
+      <SectionLoaderContainer>
+        <SectionPrimaryLoader />
+      </SectionLoaderContainer>
+    );
 
-  if (articlesQuery.isError) return <>Error</>;
+  if (articlesQuery.isError) return <>{articlesQuery.error.message}</>;
 
   const pages = articlesQuery.data.pages;
   const pagesLength = pages.length;
@@ -152,7 +159,7 @@ export async function getStaticProps() {
   const blogGetManyInput: inferRouterInputs<AppRouter>["shopify"]["blog"]["articles"]["getManyBasic"] =
     { limit: 24 };
   await ssg.shopify.blog.articles.getManyBasic.prefetchInfinite(
-    blogGetManyInput
+    blogGetManyInput,
   );
 
   // Make sure to return { props: { trpcState: ssg.dehydrate() } }

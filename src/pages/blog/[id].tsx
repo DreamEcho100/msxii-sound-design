@@ -13,46 +13,53 @@ import Head from "next/head";
 import shopifyGQLClient from "~/utils/shopify/client";
 import CustomNextImage from "~/components/shared/CustomNextImage";
 import { useEffect, useState } from "react";
+import SectionLoaderContainer from "~/components/shared/LoadersContainers/Section";
+import SectionPrimaryLoader from "~/components/shared/Loaders/SectionPrimary";
 
 const ProductPage = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
   const articleByIdQuery = api.shopify.blog.articles.getOneById.useQuery(
-    props.input
+    props.input,
   );
 
   const [publishedAt, setPublishedAt] = useState(
-    articleByIdQuery.data?.article.publishedAt
+    articleByIdQuery.data?.publishedAt
       ? Intl.DateTimeFormat("en-gd", {
           dateStyle: "long",
-        }).format(new Date(articleByIdQuery.data.article.publishedAt))
-      : ""
+        }).format(new Date(articleByIdQuery.data.publishedAt))
+      : "",
   );
 
   useEffect(() => {
     if (articleByIdQuery.isSuccess) {
       setPublishedAt(
-        articleByIdQuery.data.article.publishedAt
+        articleByIdQuery.data?.publishedAt
           ? Intl.DateTimeFormat(undefined, {
               dateStyle: "long",
-            }).format(new Date(articleByIdQuery.data.article.publishedAt))
-          : ""
+            }).format(new Date(articleByIdQuery.data.publishedAt))
+          : "",
       );
 
       if (typeof window === "undefined") return;
       const articleContentAnchors = document.querySelectorAll(
-        "#article-content a"
+        "#article-content a",
       ) as unknown as HTMLAnchorElement[];
 
       articleContentAnchors.forEach((item) => {
         item.target = "_blank";
       });
     }
-  }, [articleByIdQuery.isSuccess, articleByIdQuery.data?.article.publishedAt]);
+  }, [articleByIdQuery.isSuccess, articleByIdQuery.data?.publishedAt]);
 
-  if (articleByIdQuery.isLoading) return <>Loading...</>;
+  if (articleByIdQuery.isLoading)
+    return (
+      <SectionLoaderContainer>
+        <SectionPrimaryLoader />
+      </SectionLoaderContainer>
+    );
 
   if (articleByIdQuery.isError) return <>{articleByIdQuery.error.message}</>;
 
-  const articleByIdData = articleByIdQuery.data.article;
+  const articleByIdData = articleByIdQuery.data;
 
   if (!articleByIdData) return <>Product is not found</>;
 
@@ -108,7 +115,7 @@ const ProductPage = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
 export const getStaticPaths: GetStaticPaths = async () => {
   return {
     paths: (
-      await shopifyGQLClient.blogs.articles.queries.allIds()
+      await shopifyGQLClient.blogs.articles.queries.allIdsAndHandles()
     ).articles.edges.map((item) => ({
       params: { id: item.node.id.replace("gid://shopify/Article/", "") },
     })),
@@ -116,7 +123,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
   };
 };
 export const getStaticProps = async (
-  context: GetStaticPropsContext<{ id: string }>
+  context: GetStaticPropsContext<{ id: string }>,
 ) => {
   let id: string;
   try {

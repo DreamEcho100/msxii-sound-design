@@ -5,17 +5,18 @@ import { dashboardStore } from "../../utils";
 import { useStore } from "zustand";
 import { Dialog as HUDialog } from "@headlessui/react";
 import { cx } from "class-variance-authority";
+import SectionPrimaryLoader from "~/components/shared/Loaders/SectionPrimary";
 
 export default function MainSideMenu() {
   const pagesCategoriesQuery = api.dashboard.pagesCategories.getAll.useQuery();
 
   const isSideMainOpen = useStore(
     dashboardStore,
-    (store) => store.menu.sideMain.isOpen
+    (store) => store.menu.sideMain.isOpen,
   );
   const setMenuIsOpen = useStore(
     dashboardStore,
-    (store) => store.utils.setMenuIsOpen
+    (store) => store.utils.setMenuIsOpen,
   );
 
   return (
@@ -24,7 +25,7 @@ export default function MainSideMenu() {
       onClose={() => setMenuIsOpen("sideMain", false)}
       className={cx(
         "absolute inset-0 z-10 flex h-full w-full items-center justify-center",
-        "block" // props.isOpen ? 'block' : 'hidden',
+        "block", // props.isOpen ? 'block' : 'hidden',
       )}
       open={isSideMainOpen}
     >
@@ -41,7 +42,7 @@ export default function MainSideMenu() {
                 {pagesCategoriesQuery.isLoading ? (
                   <p className="px-12">
                     <span className="px-2" />
-                    <span>Loading...</span>
+                    <SectionPrimaryLoader />
                   </p>
                 ) : pagesCategoriesQuery.isError ? (
                   <p className="px-12">

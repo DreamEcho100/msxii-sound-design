@@ -7,6 +7,8 @@ import EditSideMenu from "./components/Menus/Edit";
 import MainSideMenu from "./components/Menus/Main";
 import MainHeader from "./components/MainHeader";
 import Head from "next/head";
+import SectionLoaderContainer from "~/components/shared/LoadersContainers/Section";
+import SectionPrimaryLoader from "~/components/shared/Loaders/SectionPrimary";
 
 const DashboardLayout = (props: PropsWithChildren) => {
   const router = useRouter();
@@ -16,7 +18,12 @@ const DashboardLayout = (props: PropsWithChildren) => {
     if (customerStatus !== "loading" && !isAdmin) router.push("/");
   }, [customerStatus, isAdmin, router]);
 
-  if (customerStatus === "loading") return <>Loading...</>;
+  if (customerStatus === "loading")
+    return (
+      <SectionLoaderContainer>
+        <SectionPrimaryLoader />
+      </SectionLoaderContainer>
+    );
 
   if (!isAdmin) return <>Not Authorized</>;
 

@@ -8,6 +8,8 @@ import { createInnerTRPCContext } from "~/server/api/trpc";
 import superjson from "superjson";
 import { appRouter } from "~/server/api/root";
 import { type RouterInputs, api } from "~/utils/api";
+import SectionLoaderContainer from "~/components/shared/LoadersContainers/Section";
+import SectionPrimaryLoader from "~/components/shared/Loaders/SectionPrimary";
 
 const CollectionsPage = ({
   input,
@@ -19,7 +21,12 @@ const CollectionsPage = ({
     const getAllBasicCollectionsShopify =
       api.shopify.collections.getAllBasic.useQuery(input);
 
-    if (getAllBasicCollectionsShopify.isLoading) return <>Loading...</>;
+    if (getAllBasicCollectionsShopify.isLoading)
+      return (
+        <SectionLoaderContainer>
+          <SectionPrimaryLoader />
+        </SectionLoaderContainer>
+      );
 
     if (getAllBasicCollectionsShopify.isError)
       return <>{getAllBasicCollectionsShopify.error.message}</>;

@@ -21,7 +21,7 @@ const config = {
     defaultLocale: "en",
   },
   images: {
-    domains: ["cdn.shopify.com"],
+    domains: ["cdn.shopify.com", "res.cloudinary.com"],
   },
   typescript: {
     ignoreBuildErrors: !process.env.IS_LOCAL_ENV,

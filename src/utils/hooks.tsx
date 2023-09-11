@@ -8,8 +8,9 @@ import { useStore } from "zustand";
 import { globalStore } from "~/store";
 import { allowedAdminEmails } from ".";
 
-export const useGetEdgeNodes = <Data,>(item: Edges<Data>) =>
+export const getEdgeNodes = <Data,>(item: Edges<Data>) =>
   item.edges.map(({ node }) => node);
+export const useGetEdgeNodes = <Data,>(item: Edges<Data>) => getEdgeNodes(item);
 
 const filterBasicCollectionProductsByTitle = <
   TCollection extends Collection | BasicCollection,

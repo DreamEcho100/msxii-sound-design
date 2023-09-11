@@ -11,9 +11,8 @@ import {
   ProductCard,
 } from "~/components/shared/core/Shopify/Cards/Card";
 import { type BasicProduct } from "~/utils/shopify/types";
-import { type RouterOutputs, type RouterInputs, api } from "~/utils/api";
-import SectionPrimaryLoader from "~/components/shared/Loaders/SectionPrimary";
-import SectionLoaderContainer from "~/components/shared/LoadersContainers/Section";
+import { type RouterOutputs } from "~/utils/api";
+import { type HomePageProps } from "~/pages";
 
 type CollectionsBasic = RouterOutputs["shopify"]["collections"]["getAllBasic"];
 
@@ -165,27 +164,21 @@ const HomeShowcaseSection = ({
   );
 };
 
-const HomeShowcaseSectionHolder = (props: {
-  input: RouterInputs["shopify"]["collections"]["getAllBasic"];
-}) => {
-  const getAllBasicCollectionsShopify =
-    api.shopify.collections.getAllBasic.useQuery(props.input);
+const HomeShowcaseSectionHolder = (props: HomePageProps) => {
+  // const getAllBasicCollectionsShopify =
+  //   api.shopify.collections.getAllBasic.useQuery(props.input);
 
-  if (getAllBasicCollectionsShopify.isSuccess)
-    return (
-      <HomeShowcaseSection
-        collectionsBasic={getAllBasicCollectionsShopify.data}
-      />
-    );
+  // if (getAllBasicCollectionsShopify.isSuccess)
+  return <HomeShowcaseSection collectionsBasic={props.allBasicCollections} />;
 
-  if (getAllBasicCollectionsShopify.isError)
-    return <>{getAllBasicCollectionsShopify.error.message}</>;
+  // if (getAllBasicCollectionsShopify.isError)
+  //   return <>{getAllBasicCollectionsShopify.error.message}</>;
 
-  return (
-    <SectionLoaderContainer>
-      <SectionPrimaryLoader />
-    </SectionLoaderContainer>
-  );
+  // return (
+  //   <SectionLoaderContainer>
+  //     <SectionPrimaryLoader />
+  //   </SectionLoaderContainer>
+  // );
 };
 
 export default HomeShowcaseSectionHolder;

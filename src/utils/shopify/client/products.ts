@@ -59,7 +59,7 @@ compareAtPriceRange {
 	minVariantPrice { ${gqlPriceText} }
 }
 featuredImage { ${gqlImageText} }
-variants(first: 100) {
+variants(first: 1) {
 	edges {
 		node {
 			id

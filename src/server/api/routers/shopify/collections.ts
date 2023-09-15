@@ -6,7 +6,7 @@ import {
 
 export const shopifyCollectionsHandlesRouter = createTRPCRouter({
   getAll: publicProcedure.query(
-    async ({ ctx }) => await ctx.shopify.collections.queries.allHandles()
+    async ({ ctx }) => await ctx.shopify.collections.queries.allHandles(),
   ),
 });
 
@@ -15,13 +15,13 @@ export const shopifyCollectionsRouter = createTRPCRouter({
     .input(getQQLManyCollectionTextSchema)
     .query(
       async ({ ctx, input }) =>
-        (await ctx.shopify.collections.queries.many(input)).collections
+        (await ctx.shopify.collections.queries.many(input)).collections,
     ),
   getAllBasic: publicProcedure
     .input(getQQLManyCollectionTextSchema)
     .query(
       async ({ ctx, input }) =>
-        (await ctx.shopify.collections.queries.many(input)).collections
+        (await ctx.shopify.collections.queries.many(input)).collections,
     ),
   handles: shopifyCollectionsHandlesRouter,
   getOneByHandle: publicProcedure

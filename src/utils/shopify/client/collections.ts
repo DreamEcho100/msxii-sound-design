@@ -17,7 +17,7 @@ export const oneCollectionByHandleQuerySchema = z.object({
 
 // , filters: { available: true }
 const gqlCollectionSchemaWithBasicProductsText = (
-  input: z.infer<typeof oneCollectionByHandleQuerySchema>
+  input: z.infer<typeof oneCollectionByHandleQuerySchema>,
 ) => {
   const argsMap = {
     first: input.limit,
@@ -56,7 +56,7 @@ export const getQQLManyCollectionTextSchema = z
   });
 
 const getQQLManyCollectionText = (
-  input?: z.infer<typeof getQQLManyCollectionTextSchema>
+  input?: z.infer<typeof getQQLManyCollectionTextSchema>,
 ) => {
   // const query = !input?.query;
   // const queryText = !query
@@ -78,7 +78,7 @@ const getQQLManyCollectionText = (
 	products(first: ${first}) {
 		edges {
 			node {
-				${gqlProductSchemaText}
+				${gqlProductBasicSchemaText}
 			}
 		}
 	}`;
@@ -132,7 +132,7 @@ const allCollectionsHandlesQuery = async () =>
 // 	};
 // };
 const manyCollectionsQuery = async (
-  input?: z.infer<typeof getQQLManyCollectionTextSchema>
+  input?: z.infer<typeof getQQLManyCollectionTextSchema>,
 ) => {
   // https://shopify.dev/docs/api/storefront/2023-04/queries/collections
   const template = gql`
@@ -153,7 +153,7 @@ const manyCollectionsQuery = async (
 };
 
 const oneCollectionByHandleQuery = async (
-  input: z.infer<typeof oneCollectionByHandleQuerySchema>
+  input: z.infer<typeof oneCollectionByHandleQuerySchema>,
 ) => {
   // https://shopify.dev/docs/api/storefront/2023-04/queries/collectionByHandle
   const template = gql`query ($handle: String!) {

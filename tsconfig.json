@@ -19,7 +19,8 @@
     "baseUrl": ".",
     "paths": {
       "~/*": ["./src/*"]
-    }
+    },
+    "plugins": [{ "name": "next" }]
   },
   "include": [
     ".eslintrc.cjs",
@@ -28,7 +29,9 @@
     "**/*.tsx",
     "**/*.cjs",
     "**/*.mjs",
-    "src/utils/obj/update.js"
+    "src/utils/obj/update.js",
+    ".next/types/**/*.ts",
+    ".next/types/**/*.ts"
   ],
   "exclude": ["node_modules"],
   "ts-node": {

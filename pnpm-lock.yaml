@@ -86,9 +86,6 @@ dependencies:
   next:
     specifier: 13.4.13
     version: 13.4.13(@opentelemetry/api@1.4.1)(react-dom@18.2.0)(react@18.2.0)
-  next-auth:
-    specifier: ^4.22.5
-    version: 4.22.5(next@13.4.13)(react-dom@18.2.0)(react@18.2.0)
   next-seo:
     specifier: ^6.1.0
     version: 6.1.0(next@13.4.13)(react-dom@18.2.0)(react@18.2.0)

@@ -15,11 +15,11 @@ import { ZodError } from "zod";
 import { ACCESS_TOKEN_COOKIE_KEY } from "~/utils/shopify";
 
 import shopify from "../../utils/shopify/client/index";
-import { getCookieManger } from "~/utils/cookies";
 import drizzleQueryClient from "~/server/utils/drizzle/db/queryClient";
 import { getDecryptedShopifyUserDataFromAccessToKen } from "~/server/utils/shopify";
 import { allowedAdminEmails } from "~/utils";
 import { drizzleSchema } from "~/server/utils/drizzle/db/SchemaWithRelations";
+import { cookies } from "next/headers";
 
 /**
  * 1. CONTEXT
@@ -51,8 +51,7 @@ export const createInnerTRPCContext = (_opts: CreateContextOptions) => {
     drizzleQueryClient,
     drizzleSchema,
     shopify,
-    cookieManger:
-      _opts.req && _opts.res && getCookieManger(_opts.req, _opts.res),
+    //   _opts.req && _opts.res && getCookieManger(_opts.req, _opts.res),
   };
 };
 
@@ -113,17 +112,14 @@ export const publicProcedure = t.procedure;
 
 /** Reusable middleware that enforces users are logged in before running the procedure. */
 const enforceUserIsAuthed = t.middleware(({ ctx, next }) => {
-  if (!ctx.cookieManger) throw new TRPCError({ code: "INTERNAL_SERVER_ERROR" });
-
-  // const accessToken = ctx.cookieManger.getOne(ACCESS_TOKEN_COOKIE_KEY);
-
   let shopifyUserDecryptedData: ReturnType<
     typeof getDecryptedShopifyUserDataFromAccessToKen
   >;
 
   try {
+    const cookiesStore = cookies();
     shopifyUserDecryptedData = getDecryptedShopifyUserDataFromAccessToKen(
-      ctx.cookieManger.getOne(ACCESS_TOKEN_COOKIE_KEY)
+      cookiesStore.get(ACCESS_TOKEN_COOKIE_KEY)?.value,
     );
   } catch (error) {
     throw new TRPCError({
@@ -135,29 +131,25 @@ const enforceUserIsAuthed = t.middleware(({ ctx, next }) => {
   return next({
     ctx: {
       shopifyUserDecryptedData,
-      cookieManger: ctx.cookieManger,
       // infers the `session` as non-nullable
       // session: { ...ctx.session, user: ctx.session.user }
     },
   });
 });
 const enforceAdminAuthed = t.middleware(({ ctx, next }) => {
-  if (!ctx.cookieManger) throw new TRPCError({ code: "INTERNAL_SERVER_ERROR" });
-
-  // const accessToken = ctx.cookieManger.getOne(ACCESS_TOKEN_COOKIE_KEY);
-
   let shopifyUserDecryptedData: ReturnType<
     typeof getDecryptedShopifyUserDataFromAccessToKen
   >;
 
   try {
+    const cookiesStore = cookies();
     shopifyUserDecryptedData = getDecryptedShopifyUserDataFromAccessToKen(
-      ctx.cookieManger.getOne(ACCESS_TOKEN_COOKIE_KEY)
+      cookiesStore.get(ACCESS_TOKEN_COOKIE_KEY)?.value,
     );
 
     if (
       !allowedAdminEmails.includes(
-        shopifyUserDecryptedData.payload.shopifyUserEmail
+        shopifyUserDecryptedData.payload.shopifyUserEmail,
       )
     )
       throw new Error("not authorized");
@@ -171,7 +163,6 @@ const enforceAdminAuthed = t.middleware(({ ctx, next }) => {
   return next({
     ctx: {
       shopifyUserDecryptedData,
-      cookieManger: ctx.cookieManger,
       // infers the `session` as non-nullable
       // session: { ...ctx.session, user: ctx.session.user }
     },
@@ -185,7 +176,7 @@ const printInputs = t.middleware(
     console.log("meta", meta);
 
     return next({ ctx });
-  }
+  },
 );
 
 /**

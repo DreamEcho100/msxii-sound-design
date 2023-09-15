@@ -23,7 +23,6 @@ const CustomNextImage = forwardRef<HTMLImageElement, ICustomNextImageProps>(
       unoptimized = false,
       weservNlOptimized = false,
       src,
-      alt = "",
       placeholder = "empty",
       blurDataURL,
       isAnimated = true,
@@ -71,11 +70,11 @@ const CustomNextImage = forwardRef<HTMLImageElement, ICustomNextImageProps>(
         unoptimized,
         placeholder,
         className: `${className} ${isLoaded ? "" : "no-content"}`,
-        alt,
         onLoadingComplete: () => {
           setIsLoaded(true);
         },
         ...props,
+        alt: props.alt ?? "",
       };
 
       if (placeholder !== "empty") {

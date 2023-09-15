@@ -1,6 +1,4 @@
 import { type AppType } from "next/app";
-import { type Session } from "next-auth";
-import { SessionProvider } from "next-auth/react";
 
 import { api } from "~/utils/api";
 
@@ -28,10 +26,7 @@ const LayoutsManager = ({ children }: { children: ReactNode }) => {
   return <MainLayout>{children}</MainLayout>;
 };
 
-const MyApp: AppType<{ session: Session | null }> = ({
-  Component,
-  pageProps: { session, ...pageProps },
-}) => {
+const MyApp: AppType = ({ Component, pageProps }) => {
   const changeCurrentTheme = useStore(
     globalStore,
     (store) => store.themeConfig.changeCurrentTheme,
@@ -67,7 +62,7 @@ const MyApp: AppType<{ session: Session | null }> = ({
   }, []);
 
   return (
-    <SessionProvider session={session}>
+    <>
       <LayoutsManager>
         <ToastContainer
           position="top-left"
@@ -83,7 +78,7 @@ const MyApp: AppType<{ session: Session | null }> = ({
         <SoundCloudPlayerMenu />
       </LayoutsManager>
       <ReactQueryDevtools initialIsOpen={false} />
-    </SessionProvider>
+    </>
   );
 };
 

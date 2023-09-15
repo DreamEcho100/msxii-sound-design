@@ -81,6 +81,8 @@ export const BasicProductCard = (props: {
 }) => {
   const routeBase = props.routeBase ?? "/products"; // collections
 
+  const isGif = props.product.featuredImage.url.includes(".gif");
+
   return (
     <article
       className={handleBasicProductCardHolderVariants({
@@ -94,14 +96,32 @@ export const BasicProductCard = (props: {
         )}
       >
         <Link href={`${routeBase}/${props.product.handle}`}>
-          <CustomNextImage
-            src={props.product.featuredImage}
-            alt={props.product.title}
-            width={325}
-            height={325}
-            className={handleBasicProductCardImageVariants(props.imageVariants)}
-            priority={props.imgPriority}
-          />
+          {isGif ? (
+            <video
+              poster={props.product.featuredImage.url}
+              title={props.product.title}
+              width={325}
+              height={325}
+              className={handleBasicProductCardImageVariants(
+                props.imageVariants,
+              )}
+              autoPlay
+              loop
+              muted
+              playsInline
+            />
+          ) : (
+            <CustomNextImage
+              src={props.product.featuredImage.url}
+              alt={props.product.title}
+              width={325}
+              height={325}
+              className={handleBasicProductCardImageVariants(
+                props.imageVariants,
+              )}
+              priority={props.imgPriority}
+            />
+          )}
         </Link>
         {props.isPlayButtonActive && <PlayButton product={props.product} />}
       </div>

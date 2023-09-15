@@ -77,6 +77,7 @@ export const BasicProductCard = (props: {
   titleVariants?: VariantProps<typeof handleBasicProductCardTitleVariants>;
   isPlayButtonActive?: boolean;
   routeBase?: string;
+  imgPriority?: boolean;
 }) => {
   const routeBase = props.routeBase ?? "/products"; // collections
 
@@ -99,6 +100,7 @@ export const BasicProductCard = (props: {
             width={325}
             height={325}
             className={handleBasicProductCardImageVariants(props.imageVariants)}
+            priority={props.imgPriority}
           />
         </Link>
         {props.isPlayButtonActive && <PlayButton product={props.product} />}

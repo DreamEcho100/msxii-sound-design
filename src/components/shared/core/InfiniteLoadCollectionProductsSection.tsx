@@ -56,11 +56,12 @@ const InfiniteLoadCollectionProductsSection = (props: Props) => {
         )}
       </Head>
       <div className="grid grid-cols-[repeat(auto-fill,_minmax(15rem,_1fr))] gap-8 lg:flex-nowrap lg:justify-between">
-        {productsData.map((item) => (
+        {productsData.map((item, itemIndex) => (
           <BasicProductCard
             key={item.handle}
             product={item}
-            containerVariants={{ w: null }}
+						containerVariants={{ w: null }}
+						imgPriority={itemIndex < 8}
           />
         ))}
       </div>

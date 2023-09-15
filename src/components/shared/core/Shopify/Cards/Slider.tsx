@@ -43,10 +43,15 @@ export const CardsSlider = <CardElemProps extends Record<string, unknown>>({
 }: CardsSliderProps<CardElemProps>) => {
   return (
     <Slider {...props}>
-      {collections.map((collection) =>
-        collection.products.edges.map(({ node }) => (
+      {collections.map((collection, collectionIndex) =>
+        collection.products.edges.map(({ node }, index) => (
           <SwiperSlide key={node.id} className="flex flex-col">
-            <CardElem key={node.id} product={node} {...cardsSharedProps} />
+            <CardElem
+              key={node.id}
+              product={node}
+              {...cardsSharedProps}
+              imgPriority={collectionIndex > 2 && index < 5}
+            />
           </SwiperSlide>
         )),
       )}

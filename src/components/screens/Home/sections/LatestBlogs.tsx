@@ -81,8 +81,8 @@ const HomeLatestBlogsSection = () => {
                       <CustomNextImage
                         src={node.image.src}
                         alt={node.image.altText}
-                        width={900}
-                        height={500}
+                        width={325}
+                        height={360}
                         className="card-img-zoom-animation-1 h-full w-full bg-fixed object-cover object-right duration-300 ease-in hover:scale-110"
                       />
                     </Clickable>

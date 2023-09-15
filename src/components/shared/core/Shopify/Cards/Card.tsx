@@ -96,8 +96,8 @@ export const BasicProductCard = (props: {
           <CustomNextImage
             src={props.product.featuredImage}
             alt={props.product.title}
-            width={800}
-            height={800}
+            width={325}
+            height={325}
             className={handleBasicProductCardImageVariants(props.imageVariants)}
           />
         </Link>

@@ -112,8 +112,8 @@ flex flex-col items-center justify-center gap-8 py-main-p-3 text-center text-[1.
             >
               <CustomNextImage
                 src={path}
-                width={500}
-                height={500}
+                width={325}
+                height={325}
                 className="h-full w-full rounded-xl object-contain"
                 priority
               />

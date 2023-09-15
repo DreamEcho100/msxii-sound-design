@@ -46,7 +46,8 @@ const CustomNextImage = forwardRef<HTMLImageElement, ICustomNextImageProps>(
     }, [src]);
 
     function handleImageProps() {
-      const imageProps: Omit<ICustomNextImageProps, "alt"> & { alt: string } = {
+			const imageProps: Omit<ICustomNextImageProps, "alt"> & { alt: string } = {
+				priority: true,
         onError: () => {
           if (isWeservNlOptimized) {
             setIsLoaded(true);

@@ -30,7 +30,6 @@
     "**/*.cjs",
     "**/*.mjs",
     "src/utils/obj/update.js",
-    ".next/types/**/*.ts",
     ".next/types/**/*.ts"
   ],
   "exclude": ["node_modules"],

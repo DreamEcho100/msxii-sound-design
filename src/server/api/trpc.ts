@@ -19,7 +19,7 @@ import drizzleQueryClient from "~/server/utils/drizzle/db/queryClient";
 import { getDecryptedShopifyUserDataFromAccessToKen } from "~/server/utils/shopify";
 import { allowedAdminEmails } from "~/utils";
 import { drizzleSchema } from "~/server/utils/drizzle/db/SchemaWithRelations";
-import { cookies } from "next/headers";
+import { getCookieManger } from "~/utils/cookies";
 
 /**
  * 1. CONTEXT
@@ -51,7 +51,7 @@ export const createInnerTRPCContext = (_opts: CreateContextOptions) => {
     drizzleQueryClient,
     drizzleSchema,
     shopify,
-    //   _opts.req && _opts.res && getCookieManger(_opts.req, _opts.res),
+    getCookieManger: () => getCookieManger(_opts.req, _opts.res),
   };
 };
 
@@ -117,9 +117,9 @@ const enforceUserIsAuthed = t.middleware(({ ctx, next }) => {
   >;
 
   try {
-    const cookiesStore = cookies();
+    const cookiesStore = ctx.getCookieManger();
     shopifyUserDecryptedData = getDecryptedShopifyUserDataFromAccessToKen(
-      cookiesStore.get(ACCESS_TOKEN_COOKIE_KEY)?.value,
+      cookiesStore.get(ACCESS_TOKEN_COOKIE_KEY),
     );
   } catch (error) {
     throw new TRPCError({
@@ -142,9 +142,9 @@ const enforceAdminAuthed = t.middleware(({ ctx, next }) => {
   >;
 
   try {
-    const cookiesStore = cookies();
+    const cookiesStore = ctx.getCookieManger();
     shopifyUserDecryptedData = getDecryptedShopifyUserDataFromAccessToKen(
-      cookiesStore.get(ACCESS_TOKEN_COOKIE_KEY)?.value,
+      cookiesStore.get(ACCESS_TOKEN_COOKIE_KEY),
     );
 
     if (

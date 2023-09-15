@@ -1,4 +1,3 @@
-import { cookies } from "next/headers";
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 import { CHECKOUT_ID_COOKIE_KEY } from "~/utils/shopify";
 import { getShopifyClient } from "~/utils/shopify/client/_utils";
@@ -16,7 +15,7 @@ export const shopifyCheckoutsRouter = createTRPCRouter({
     .mutation(async ({ ctx, input }) => {
       const checkout = await getShopifyClient().checkout.create(input);
 
-      const cookiesStore = cookies();
+      const cookiesStore = ctx.getCookieManger();
       cookiesStore.set(CHECKOUT_ID_COOKIE_KEY, checkout.id, {
         // maxAge:
         // 	(new Date(accessTokenInfo.expiresAt).getTime() - Date.now()) / 1000,

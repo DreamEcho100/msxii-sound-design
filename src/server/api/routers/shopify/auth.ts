@@ -12,7 +12,6 @@ import {
   encryptedShopifyUserData,
   getDecryptedShopifyUserDataFromAccessToKen,
 } from "~/server/utils/shopify";
-import { cookies } from "next/headers";
 
 export const shopifyAuthRouter = createTRPCRouter({
   register: publicProcedure
@@ -64,7 +63,7 @@ export const shopifyAuthRouter = createTRPCRouter({
         shopifyUserEmail: data.customerCreate.customer.email,
       });
 
-      const cookiesStore = cookies();
+      const cookiesStore = ctx.getCookieManger();
 
       cookiesStore.set(ACCESS_TOKEN_COOKIE_KEY, encryptedAccessToken, {
         maxAge: (expiresAtInMS - Date.now()) / 1000,
@@ -106,7 +105,7 @@ export const shopifyAuthRouter = createTRPCRouter({
         shopifyUserEmail: data.customer.email,
       });
 
-      const cookiesStore = cookies();
+      const cookiesStore = ctx.getCookieManger();
       cookiesStore.set(ACCESS_TOKEN_COOKIE_KEY, encryptedAccessToken, {
         maxAge: (expiresAtInMS - Date.now()) / 1000,
         httpOnly: true,
@@ -120,9 +119,9 @@ export const shopifyAuthRouter = createTRPCRouter({
   checkAccessToken: publicProcedure.query(async ({ ctx }) => {
     let shopifyAccessToken: string;
     try {
-      const cookiesStore = cookies();
+      const cookiesStore = ctx.getCookieManger();
       shopifyAccessToken = getDecryptedShopifyUserDataFromAccessToKen(
-        cookiesStore.get(ACCESS_TOKEN_COOKIE_KEY)?.value,
+        cookiesStore.get(ACCESS_TOKEN_COOKIE_KEY),
       ).payload.shopifyAccessToken;
     } catch (error) {
       throw new TRPCError({
@@ -150,7 +149,7 @@ export const shopifyAuthRouter = createTRPCRouter({
       };
     };
 
-    const cookiesStore = cookies();
+    const cookiesStore = ctx.getCookieManger();
     cookiesStore.delete(ACCESS_TOKEN_COOKIE_KEY);
 
     return data;

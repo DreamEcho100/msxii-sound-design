@@ -1,8 +1,5 @@
-import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
-import {
-  getQQLManyCollectionTextSchema,
-  oneCollectionByHandleQuerySchema,
-} from "~/utils/shopify/client/collections";
+import { getQQLManyCollectionTextSchema, oneCollectionByHandleQuerySchema } from "~/libs/shopify/client/collections";
+import { createTRPCRouter, publicProcedure } from "~/server/libs/trpc";
 
 export const shopifyCollectionsHandlesRouter = createTRPCRouter({
   getAll: publicProcedure.query(

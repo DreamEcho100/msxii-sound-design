@@ -1,10 +1,6 @@
-import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
-import {
-  getOneArticleByHandleGQLQueryInputSchema,
-  getOneArticleByIdGQLQueryInputSchema,
-  getQQLManyArticlesInputSchema,
-  getQQLManyBasicArticlesInputSchema,
-} from "~/utils/shopify/client/blogs/articles";
+import { getOneArticleByIdGQLQueryInputSchema, getOneArticleByHandleGQLQueryInputSchema, getQQLManyArticlesInputSchema, getQQLManyBasicArticlesInputSchema } from "~/libs/shopify/client/blogs/articles";
+import { createTRPCRouter, publicProcedure } from "~/server/libs/trpc";
+
 // gid://shopify/Article/11589513
 export const shopifyBlogsRouter = createTRPCRouter({
   // getAll: publicProcedure.query(

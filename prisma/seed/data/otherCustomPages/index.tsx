@@ -1,39 +1,39 @@
-import { createStandardSection } from '../../utils';
-import { type CustomPage } from '../../../../src/utils/types/custom-page';
+import { createStandardSection } from "../../utils";
+import { type CustomPage } from "../../../../src/libs/utils/types/custom-page";
 import {
-	aboutPageCategory,
-	blueLabelPageCategory,
-	policiesPageCategory,
-	// productsPageCategory,
-	supportPageCategory,
-} from '../pagesCategories/index';
+  aboutPageCategory,
+  blueLabelPageCategory,
+  policiesPageCategory,
+  // productsPageCategory,
+  supportPageCategory,
+} from "../pagesCategories";
 
 const otherCustomPages: CustomPage[] = [
-	{
-		twClassNameVariants: {
-			'max-w': '100ch',
-			w: 'full',
-			mx: 'auto',
-			px: '12',
-			py: '16',
-			'gap-x': '16',
-			'gap-y': '16',
-		},
-		// slug: 'about',
-		pageCategoryName: aboutPageCategory.name,
-		title: 'About',
-		description: '',
-		pageStructure: [
-			{
-				order: 0,
-				twClassNameVariants: { 'gap-y': '16' },
-				___type: 'standard-section',
-				title: 'About MSX Audio',
-				body: [
-					{
-						customPageClassesKeys: ['blog-post'],
-						___type: 'md',
-						content: `## What we do
+  {
+    twClassNameVariants: {
+      "max-w": "100ch",
+      w: "full",
+      mx: "auto",
+      px: "12",
+      py: "16",
+      "gap-x": "16",
+      "gap-y": "16",
+    },
+    // slug: 'about',
+    pageCategoryName: aboutPageCategory.name,
+    title: "About",
+    description: "",
+    pageStructure: [
+      {
+        order: 0,
+        twClassNameVariants: { "gap-y": "16" },
+        ___type: "standard-section",
+        title: "About MSX Audio",
+        body: [
+          {
+            customPageClassesKeys: ["blog-post"],
+            ___type: "md",
+            content: `## What we do
 
 MSXII is committed to providing the audio community with quality, well-thought out, up-to-date, relevant & vintage sounds; sounds that are ready to use in your projects upon download. All material released is recorded through state-of-the-art equipment such as the SSL Duality, UA & Avalon preamps, vintage Neumann microphones, and into Apogee converters before landing into either Protools, Logic, or Live for print. Some projects will also receive further processing into vintage tape machines and other analog boards for added warmth and character. All products are mix-ready with light to little compression. No limiting or mastering is processed on our sounds to provide the user with the best possible end result for their project.
 
@@ -50,63 +50,63 @@ All MSXII kits, breaks, sample packs, and sounds are compatible with any DAW, so
 ![](https://res.cloudinary.com/dpjuamt6q/image/upload/v1690932566/compatibility_alq5kl.png?className=w-96)
 
 With any questions regarding our kits, breaks, or sample packs, contact us at msxaudio@gmail.com`,
-					},
-				],
-			},
-		],
-	},
-	{
-		twClassNameVariants: {
-			py: '8',
-			'gap-x': '16',
-			'gap-y': '16',
-		},
-		// image: {
-		// 	src: 'https://www.msxaudio.com/cdn/shop/t/28/assets/pf-14628b40-cf9b-4aa0-bb27-4a9d4df56e9c--LoFly-Dirt-App-Banner.jpg?v=1580772023',
-		// },
-		// title: 'Lo-Fly Dirt',
-		// slug: 'lo-fly-dirt',
-		pageCategoryName: policiesPageCategory.name,
-		title: 'Policies',
-		description: null,
-		pageStructure: [
-			createStandardSection({
-				order: 0,
-				body: [
-					{
-						___type: 'header',
-						title: 'Policies',
-						description: null, // 'Explore our unique and practical iOS apps.',
-					},
-				],
-			}),
-		],
-	},
-	{
-		twClassNameVariants: {
-			'max-w': '100ch',
-			w: 'full',
-			mx: 'auto',
-			px: '12',
-			py: '16',
-			'gap-x': '16',
-			'gap-y': '16',
-		},
-		// slug: 'support',
-		pageCategoryName: supportPageCategory.name,
-		title: 'Support',
-		description: '',
-		pageStructure: [
-			{
-				order: 0,
-				twClassNameVariants: { 'gap-y': '16' },
-				___type: 'standard-section',
-				title: 'Support',
-				body: [
-					{
-						customPageClassesKeys: ['blog-post'],
-						___type: 'md',
-						content: `## I purchased a product(s) and can't find the download link. Where is it?
+          },
+        ],
+      },
+    ],
+  },
+  {
+    twClassNameVariants: {
+      py: "8",
+      "gap-x": "16",
+      "gap-y": "16",
+    },
+    // image: {
+    // 	src: 'https://www.msxaudio.com/cdn/shop/t/28/assets/pf-14628b40-cf9b-4aa0-bb27-4a9d4df56e9c--LoFly-Dirt-App-Banner.jpg?v=1580772023',
+    // },
+    // title: 'Lo-Fly Dirt',
+    // slug: 'lo-fly-dirt',
+    pageCategoryName: policiesPageCategory.name,
+    title: "Policies",
+    description: null,
+    pageStructure: [
+      createStandardSection({
+        order: 0,
+        body: [
+          {
+            ___type: "header",
+            title: "Policies",
+            description: null, // 'Explore our unique and practical iOS apps.',
+          },
+        ],
+      }),
+    ],
+  },
+  {
+    twClassNameVariants: {
+      "max-w": "100ch",
+      w: "full",
+      mx: "auto",
+      px: "12",
+      py: "16",
+      "gap-x": "16",
+      "gap-y": "16",
+    },
+    // slug: 'support',
+    pageCategoryName: supportPageCategory.name,
+    title: "Support",
+    description: "",
+    pageStructure: [
+      {
+        order: 0,
+        twClassNameVariants: { "gap-y": "16" },
+        ___type: "standard-section",
+        title: "Support",
+        body: [
+          {
+            customPageClassesKeys: ["blog-post"],
+            ___type: "md",
+            content: `## I purchased a product(s) and can't find the download link. Where is it?
 
 All drum kits and digital downloads links are sent to the e-mail address your order was placed under. Occasionally, some e-mail services and filters will re-direct our e-mails to your SPAM Folder/Filter. If your PayPal e-mail address is different than the order e-mail address, check your PayPal e-mail inbox. Please check your SPAM Folder/Filter before contacting us. Should you have further trouble locating your order download link, email us at support@msxaudio.com.
 
@@ -136,37 +136,37 @@ We are committed to protecting your privacy. There is an opt-in policy to receiv
 
 Your payment and personal information is always safe. Our SSL (secure server software) is the industry standard and among the best software available today for secure commerce transactions. It encrypts all of your personal information, including credit card number, name, and address, so that it cannot be read over the internet.
 For all other questions and inquiries, feel free to email our support at support@msxaudio.com.`,
-					},
-				],
-			},
-		],
-	},
-	{
-		twClassNameVariants: {
-			'max-w': '100ch',
-			w: 'full',
-			mx: 'auto',
-			px: '12',
-			py: '16',
-			'gap-x': '16',
-			'gap-y': '16',
-		},
-		slug: 'license-agreement',
-		pageCategoryName: policiesPageCategory.name,
-		title: 'Policies',
-		description: 'policies - license agreement',
-		pageStructure: [
-			{
-				order: 0,
-				twClassNameVariants: { 'gap-y': '16' },
-				___type: 'standard-section',
-				title: 'License Agreement',
-				description: `By purchasing any MSXII Sound Design product you accept the following product license agreement:`,
-				body: [
-					{
-						customPageClassesKeys: ['blog-post'],
-						___type: 'md',
-						content: `#### 1. License Grant:
+          },
+        ],
+      },
+    ],
+  },
+  {
+    twClassNameVariants: {
+      "max-w": "100ch",
+      w: "full",
+      mx: "auto",
+      px: "12",
+      py: "16",
+      "gap-x": "16",
+      "gap-y": "16",
+    },
+    slug: "license-agreement",
+    pageCategoryName: policiesPageCategory.name,
+    title: "Policies",
+    description: "policies - license agreement",
+    pageStructure: [
+      {
+        order: 0,
+        twClassNameVariants: { "gap-y": "16" },
+        ___type: "standard-section",
+        title: "License Agreement",
+        description: `By purchasing any MSXII Sound Design product you accept the following product license agreement:`,
+        body: [
+          {
+            customPageClassesKeys: ["blog-post"],
+            ___type: "md",
+            content: `#### 1. License Grant:
 
 The license for this product is granted only to a single user.  You may use our product(s) on up to two (2) computers, which computers shall be owned and used by you exclusively.  If you need more, special arrangements may be made on a case-by-case basis.  All sounds and samples in compositional format in our products are licensed, but not sold, to you by MSXII Sound Design for commercial and non-commercial use in music, sound-effect, audio/video post-production, performance, broadcast or similar finished content-creation and production use with proper clearance for any commercial usage.
 
@@ -199,130 +199,130 @@ All bundle and discounted purchases and prices apply only to the product line at
 (b) You agree that this license contains the complete agreement between the parties hereto, and supersedes all other communication, relating to the subject matter of the license.
 
 (c) You acknowledge that you have read this license and understand it and agree to be bound by its terms and conditions.`,
-					},
-				],
-			},
-		],
-	},
-	{
-		twClassNameVariants: {
-			px: '12',
-			py: '16',
-			'gap-x': '16',
-			'gap-y': '16',
-		},
-		// slug: 'merch',
-		pageCategoryName: 'merch',
-		title: 'Merch',
-		description: '',
-		pageStructure: [
-			{
-				order: 0,
-				twClassNameVariants: { 'gap-y': '16' },
-				___type: 'standard-section',
-				title: 'Merch',
-				description: 'Explore our merch products',
-				body: [],
-			},
-		],
-	},
-	{
-		twClassNameVariants: {
-			px: '12',
-			py: '16',
-			'gap-x': '16',
-			'gap-y': '16',
-		},
-		// slug: 'blue-label',
-		pageCategoryName: blueLabelPageCategory.name,
-		title: 'Bue Label',
-		description: 'Explore our merch products',
-		pageStructure: [
-			{
-				order: 0,
-				twClassNameVariants: { 'gap-y': '16' },
-				___type: 'standard-section',
-				title: 'Blue Label',
-				body: [
-					{
-						twClassNameVariants: {
-							w: 'full',
-							rounded: '3xl',
-							'max-w': '100ch',
-							mx: 'auto',
-						},
-						___type: 'image-only',
-						src: 'https://res.cloudinary.com/dpjuamt6q/image/upload/v1690932892/blue-label_vdpfrk.png',
-					},
-					{
-						___type: 'md',
-						content: `Welcome to the MSXII Blue Label.  The MSXII Blue Label is a brand new segment of periodic releases that are completely royalty-free for use. No such follow up or clearance is required. While we have a very clear, concise license use case policy with our compositional based products such as Lofi Melodics, Synthesized Soul, 70's Soul Aesthetics etc, we understand that all end use cases are different. Here's a line & label that requires no questions asked. Use however, whenever, wherever you'd like & generate as much income in your endeavors as possible w/o having to contact our support. Each product will be marked with a "Blue Label" banner in the top left corner of it's product as well as include a .pdf inside its packaging. Most MSXII Blue Label compositional packs will include stems options at checkout or as included in the product. Trap Melodics Vol. 1 kicks this off!`,
-					},
-				],
-			},
-		],
-	},
-	// {
-	// 	twClassNameVariants: {
-	// 		py: '8',
-	// 		'gap-x': '16',
-	// 		'gap-y': '16',
-	// 	},
-	// 	// image: {
-	// 	// 	src: 'https://www.msxaudio.com/cdn/shop/t/28/assets/pf-14628b40-cf9b-4aa0-bb27-4a9d4df56e9c--LoFly-Dirt-App-Banner.jpg?v=1580772023',
-	// 	// },
-	// 	// title: 'Lo-Fly Dirt',
-	// 	// slug: 'lo-fly-dirt',
-	// 	pageCategoryName: productsPageCategory.name,
-	// 	title: 'Products',
-	// 	description: null,
-	// 	pageStructure: [
-	// 		createStandardSection({
-	// 			order: 0,
-	// 			body: [
-	// 				{
-	// 					___type: 'header',
-	// 					title: 'Products',
-	// 					description: null, // 'Explore our unique and practical iOS apps.',
-	// 				},
-	// 			],
-	// 		}),
-	// 	],
-	// },
-	// 	{
-	// 		twClassNameVariants: {
-	// 			'gap-x': '16',
-	// 			'gap-y': '16',
-	// 		},
-	// 		slug: 'champion-hoodie',
-	// 		pageCategoryName: 'merch',
-	// 		pageStructure: [
-	// 			{
-	// 				order: 0,
-	// 				twClassNameVariants: { 'gap-y': '16' },
-	// 				___type: 'standard-section',
-	// 				body: [
-	// 					{
-	// 						twClassNameVariants: { 'max-w': '125ch', mx: 'auto' },
-	// 						customPageClassesKeys: ['blog-post'],
-	// 						___type: 'md',
-	// 						content: `## Details
-	// Lorem ipsum dolor sit amet consectetur adipisicing elit.
-	// Necessitatibus amet tempore delectus voluptatibus perspiciatis, et
-	// tempora non, deserunt molestias sint unde at debitis obcaecati nobis
-	// incidunt asperiores. Fugit, doloremque voluptates.
+          },
+        ],
+      },
+    ],
+  },
+  {
+    twClassNameVariants: {
+      px: "12",
+      py: "16",
+      "gap-x": "16",
+      "gap-y": "16",
+    },
+    // slug: 'merch',
+    pageCategoryName: "merch",
+    title: "Merch",
+    description: "",
+    pageStructure: [
+      {
+        order: 0,
+        twClassNameVariants: { "gap-y": "16" },
+        ___type: "standard-section",
+        title: "Merch",
+        description: "Explore our merch products",
+        body: [],
+      },
+    ],
+  },
+  {
+    twClassNameVariants: {
+      px: "12",
+      py: "16",
+      "gap-x": "16",
+      "gap-y": "16",
+    },
+    // slug: 'blue-label',
+    pageCategoryName: blueLabelPageCategory.name,
+    title: "Bue Label",
+    description: "Explore our merch products",
+    pageStructure: [
+      {
+        order: 0,
+        twClassNameVariants: { "gap-y": "16" },
+        ___type: "standard-section",
+        title: "Blue Label",
+        body: [
+          {
+            twClassNameVariants: {
+              w: "full",
+              rounded: "3xl",
+              "max-w": "100ch",
+              mx: "auto",
+            },
+            ___type: "image-only",
+            src: "https://res.cloudinary.com/dpjuamt6q/image/upload/v1690932892/blue-label_vdpfrk.png",
+          },
+          {
+            ___type: "md",
+            content: `Welcome to the MSXII Blue Label.  The MSXII Blue Label is a brand new segment of periodic releases that are completely royalty-free for use. No such follow up or clearance is required. While we have a very clear, concise license use case policy with our compositional based products such as Lofi Melodics, Synthesized Soul, 70's Soul Aesthetics etc, we understand that all end use cases are different. Here's a line & label that requires no questions asked. Use however, whenever, wherever you'd like & generate as much income in your endeavors as possible w/o having to contact our support. Each product will be marked with a "Blue Label" banner in the top left corner of it's product as well as include a .pdf inside its packaging. Most MSXII Blue Label compositional packs will include stems options at checkout or as included in the product. Trap Melodics Vol. 1 kicks this off!`,
+          },
+        ],
+      },
+    ],
+  },
+  // {
+  // 	twClassNameVariants: {
+  // 		py: '8',
+  // 		'gap-x': '16',
+  // 		'gap-y': '16',
+  // 	},
+  // 	// image: {
+  // 	// 	src: 'https://www.msxaudio.com/cdn/shop/t/28/assets/pf-14628b40-cf9b-4aa0-bb27-4a9d4df56e9c--LoFly-Dirt-App-Banner.jpg?v=1580772023',
+  // 	// },
+  // 	// title: 'Lo-Fly Dirt',
+  // 	// slug: 'lo-fly-dirt',
+  // 	pageCategoryName: productsPageCategory.name,
+  // 	title: 'Products',
+  // 	description: null,
+  // 	pageStructure: [
+  // 		createStandardSection({
+  // 			order: 0,
+  // 			body: [
+  // 				{
+  // 					___type: 'header',
+  // 					title: 'Products',
+  // 					description: null, // 'Explore our unique and practical iOS apps.',
+  // 				},
+  // 			],
+  // 		}),
+  // 	],
+  // },
+  // 	{
+  // 		twClassNameVariants: {
+  // 			'gap-x': '16',
+  // 			'gap-y': '16',
+  // 		},
+  // 		slug: 'champion-hoodie',
+  // 		pageCategoryName: 'merch',
+  // 		pageStructure: [
+  // 			{
+  // 				order: 0,
+  // 				twClassNameVariants: { 'gap-y': '16' },
+  // 				___type: 'standard-section',
+  // 				body: [
+  // 					{
+  // 						twClassNameVariants: { 'max-w': '125ch', mx: 'auto' },
+  // 						customPageClassesKeys: ['blog-post'],
+  // 						___type: 'md',
+  // 						content: `## Details
+  // Lorem ipsum dolor sit amet consectetur adipisicing elit.
+  // Necessitatibus amet tempore delectus voluptatibus perspiciatis, et
+  // tempora non, deserunt molestias sint unde at debitis obcaecati nobis
+  // incidunt asperiores. Fugit, doloremque voluptates.
 
-	// |                 |     S    |   M      |     L    |     X    |    2XL   |
-	// | --------------- | -------- | -------- | -------- | -------- | -------- |
-	// | Length (inches) |  27 1/2  |  28 1/2  |  29 1/2  |  30 1/2  |  31 1/2  |
-	// | Width (inches)  |    21    |    23    | 	25 	 	 |    27  	|	 29      |
+  // |                 |     S    |   M      |     L    |     X    |    2XL   |
+  // | --------------- | -------- | -------- | -------- | -------- | -------- |
+  // | Length (inches) |  27 1/2  |  28 1/2  |  29 1/2  |  30 1/2  |  31 1/2  |
+  // | Width (inches)  |    21    |    23    | 	25 	 	 |    27  	|	 29      |
 
-	// `,
-	// 					},
-	// 				],
-	// 			},
-	// 		],
-	// 	},
+  // `,
+  // 					},
+  // 				],
+  // 			},
+  // 		],
+  // 	},
 ];
 
 export default otherCustomPages;

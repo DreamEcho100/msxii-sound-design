@@ -1,9 +1,6 @@
-import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
-import {
-  oneProductByHandleQuerySchema,
-  oneProductRecommendationsQuerySchema,
-} from "~/utils/shopify/client/products";
 import { z } from "zod";
+import { oneProductByHandleQuerySchema, oneProductRecommendationsQuerySchema } from "~/libs/shopify/client/products";
+import { createTRPCRouter, publicProcedure } from "~/server/libs/trpc";
 
 export const shopifyProductsRouter = createTRPCRouter({
   getManyBasic: publicProcedure

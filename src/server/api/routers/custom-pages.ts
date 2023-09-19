@@ -1,15 +1,9 @@
-import { TRPCError } from "@trpc/server";
-
 import { z } from "zod";
 
-import { CustomPages } from "~/utils/appData";
-import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 import { isNull, lte } from "drizzle-orm";
+import { createTRPCRouter, publicProcedure } from "~/server/libs/trpc";
 
 export const customPagesRouter = createTRPCRouter({
-  getAll: publicProcedure.query(() => {
-    return CustomPages;
-  }),
   getOne: publicProcedure
     .input(
       z.object({

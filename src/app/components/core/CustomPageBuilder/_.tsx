@@ -1,9 +1,9 @@
-import React, { type CSSProperties, type ReactNode } from "react";
+import  { type CSSProperties, type ReactNode } from "react";
 
 import { cx } from "class-variance-authority";
-import { type BoxVariants, handleBoxVariants } from "~/utils/appData";
+// import { type BoxVariants, handleBoxVariants } from "~/utils/appData";
 import customPageClasses from "~/styles/_custom-page.module.css";
-import { type RouterOutputs } from "~/utils/api";
+// import { type RouterOutputs } from "~/utils/api";
 import { BoxTypes } from "@prisma/client";
 // import BoxEditOverlay from './BoxEditOverlay';
 import CustomTabs from "./CustomTabs";
@@ -15,6 +15,8 @@ import { ImageBoxEditable } from "./Boxes/Image";
 import { IframeBoxEditable } from "./Boxes/Iframe";
 import { SliderEditable } from "./Boxes/Slider";
 import { GridEditable } from "./Boxes/Grid";
+import { handleBoxVariants, type BoxVariants } from "~/libs/utils/appData";
+import { type RouterOutputs } from "~/server/api/root"; 
 
 type Page = RouterOutputs["customPages"]["_getOne"];
 export type Css = Page["css"];

@@ -1,17 +1,18 @@
-import { api } from "~/utils/api";
-import InfiniteLoadCollectionProductsSection from "~/components/shared/core/InfiniteLoadCollectionProductsSection";
+"use client";
 import { useMemo } from "react";
+import InfiniteLoadCollectionProductsSection from "../../InfiniteLoadCollectionProductsSection";
+import { trpcApi } from "~/app/libs/trpc/client";
 
-const BlueLabel = () => {
+export default function BlueLabel() {
   const input = useMemo(
     () => ({
       handle: "blue-label",
       limit: 50,
     }),
-    []
+    [],
   );
   const collectionQuery =
-    api.shopify.collections.getOneByHandle.useInfiniteQuery(input);
+    trpcApi.shopify.collections.getOneByHandle.useInfiniteQuery(input);
 
   return (
     <div className="flex flex-col">
@@ -21,5 +22,4 @@ const BlueLabel = () => {
       />
     </div>
   );
-};
-export default BlueLabel;
+}

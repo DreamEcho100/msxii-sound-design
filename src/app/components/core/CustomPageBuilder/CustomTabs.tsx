@@ -1,3 +1,4 @@
+"use client";
 import {
   type Box,
   type BoxTypeTabs,
@@ -14,13 +15,13 @@ import BordersContainer from "./BordersContainer";
 import { usePathname } from "next/navigation";
 import { useCreateFormStore } from "@de100/form-echo";
 import { z } from "zod";
-import Form from "~/components/shared/common/@de100/form-echo/Forms";
-import ContainedInputField from "~/components/shared/common/@de100/form-echo/Fields/Contained/Input";
-import Dialog from "~/components/shared/common/Dialog";
-import { api } from "~/utils/api";
 import { toast } from "react-toastify";
-import { getValueByPathArray, newUpdatedByPathArray } from "~/utils/obj/update";
 import { useStore } from "zustand";
+import { trpcApi } from "~/app/libs/trpc/client";
+import ContainedInputField from "../../common/@de100/form-echo/Fields/Contained/Input";
+import Form from "../../common/@de100/form-echo/Forms";
+import Dialog from "../../common/Dialog";
+import { getValueByPathArray, newUpdatedByPathArray } from "~/libs/obj/update";
 
 const EditBoxModal = (props: {
   box: TabsBox;
@@ -44,7 +45,7 @@ const EditBoxModal = (props: {
     validationEvents: { change: true },
   });
   const updateOneRequest =
-    api.dashboard.boxes.types.tabs.updateOneName.useMutation({
+    trpcApi.dashboard.boxes.types.tabs.updateOneName.useMutation({
       onError(error) {
         toast(error.message, { type: "error" });
       },

@@ -1,4 +1,3 @@
-"use client";
 import { type BasicCollection, type BasicProduct } from "~/libs/shopify/types";
 import { cx } from "class-variance-authority";
 import {
@@ -8,13 +7,13 @@ import {
 import { CardsSlider } from "~/app/components/core/Shopify/Cards/Slider";
 import FilteredProducts from "./FilteredProducts";
 
-type Props = {
+type HomeShowcaseSectionProps = {
   flattenedCollectionEdges: BasicCollection[];
   bundlesCollections: BasicCollection[];
   selectedBundlesCollections: BasicProduct[];
 };
 
-export default function HomeShowcaseSection(props: Props) {
+export default function HomeShowcaseSection(props: HomeShowcaseSectionProps) {
   return (
     <section className="sm:p-main-p-3">
       <div className="bg-bg-primary-100 px-main-p-4 py-main-p-2 dark:bg-bg-primary-900 flex flex-col gap-16 sm:rounded-xl">

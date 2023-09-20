@@ -42,7 +42,7 @@ dependencies:
     specifier: ^4.35.3
     version: 4.35.3(react-dom@18.2.0)(react@18.2.0)
   '@tanstack/react-query-devtools':
-    specifier: ^4.32.6
+    specifier: ^4.35.3
     version: 4.35.3(@tanstack/react-query@4.35.3)(react-dom@18.2.0)(react@18.2.0)
   '@trpc/client':
     specifier: ^10.38.3
@@ -104,12 +104,12 @@ dependencies:
   next:
     specifier: 13.4.19
     version: 13.4.19(@opentelemetry/api@1.6.0)(react-dom@18.2.0)(react@18.2.0)
-  next-auth:
-    specifier: ^4.23.1
-    version: 4.23.1(next@13.4.19)(react-dom@18.2.0)(react@18.2.0)
   next-seo:
     specifier: ^6.1.0
     version: 6.1.0(next@13.4.19)(react-dom@18.2.0)(react@18.2.0)
+  next-themes:
+    specifier: ^0.2.1
+    version: 0.2.1(next@13.4.19)(react-dom@18.2.0)(react@18.2.0)
   nprogress:
     specifier: ^0.2.0
     version: 0.2.0
@@ -126,7 +126,7 @@ dependencies:
     specifier: 18.2.0
     version: 18.2.0(react@18.2.0)
   react-icons:
-    specifier: ^4.10.1
+    specifier: ^4.11.0
     version: 4.11.0(react@18.2.0)
   react-markdown:
     specifier: ^8.0.7
@@ -150,8 +150,8 @@ dependencies:
     specifier: ^1.13.1
     version: 1.13.1
   swiper:
-    specifier: ^9.4.1
-    version: 9.4.1
+    specifier: ^10.2.0
+    version: 10.2.0
   tailwindcss:
     specifier: 3.3.3
     version: 3.3.3(ts-node@10.9.1)
@@ -3950,6 +3950,18 @@ packages:
       react-dom: 18.2.0(react@18.2.0)
     dev: false
 
+  /next-themes@0.2.1(next@13.4.19)(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-B+AKNfYNIzh0vqQQKqQItTS8evEouKD7H5Hj3kmuPERwddR2TxvDSFZuTj6T7Jfn1oyeUyJMydPl1Bkxkh0W7A==}
+    peerDependencies:
+      next: '*'
+      react: '*'
+      react-dom: '*'
+    dependencies:
+      next: 13.4.19(@opentelemetry/api@1.6.0)(react-dom@18.2.0)(react@18.2.0)
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
+    dev: false
+
   /next-tick@1.1.0:
     resolution: {integrity: sha512-CXdUiJembsNjuToQvxayPZF9Vqht7hewsvy2sOWafLvi2awflj9mOC6bHIg50orX8IJvWKY9wYQ/zB2kogPslQ==}
     dev: true
@@ -4747,10 +4759,6 @@ packages:
     resolution: {integrity: sha512-PEGlAwrG8yXGXRjW32fGbg66JAlOAwbObuqVoJpv/mRgoWDQfgH1wDPvtzWyUSNAXBGSk8h755YDbbcEy3SH2Q==}
     dev: false
 
-  /ssr-window@4.0.2:
-    resolution: {integrity: sha512-ISv/Ch+ig7SOtw7G2+qkwfVASzazUnvlDTwypdLoPoySv+6MqlOV10VwPSE6EWkGjhW50lUmghPmpYZXMu/+AQ==}
-    dev: false
-
   /streamsearch@1.1.0:
     resolution: {integrity: sha512-Mcc5wHehp9aXz1ax6bZUyY5afg9u2rv5cqQI3mRrYkGC8rW2hM02jWuwjtL++LS5qinSyhj2QfLyNsuc+VsExg==}
     engines: {node: '>=10.0.0'}
@@ -4863,11 +4871,9 @@ packages:
     resolution: {integrity: sha512-ot0WnXS9fgdkgIcePe6RHNk1WA8+muPa6cSjeR3V8K27q9BB1rTE3R1p7Hv0z1ZyAc8s6Vvv8DIyWf681MAt0w==}
     engines: {node: '>= 0.4'}
 
-  /swiper@9.4.1:
-    resolution: {integrity: sha512-1nT2T8EzUpZ0FagEqaN/YAhRj33F2x/lN6cyB0/xoYJDMf8KwTFT3hMOeoB8Tg4o3+P/CKqskP+WX0Df046fqA==}
+  /swiper@10.2.0:
+    resolution: {integrity: sha512-nktQsOtBInJjr3f5DicxC8eHYGcLXDVIGPSon0QoXRaO6NjKnATCbQ8SZsD3dN1Ph1RH4EhVPwSYCcuDRFWHGQ==}
     engines: {node: '>= 4.7.0'}
-    dependencies:
-      ssr-window: 4.0.2
     dev: false
 
   /tailwindcss@3.3.3(ts-node@10.9.1):

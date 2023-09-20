@@ -4,7 +4,7 @@ import { useEffect, useMemo } from "react";
 import Clickable from "~/app/components/core/Clickable";
 import { ProductCard } from "~/app/components/core/Shopify/Cards/Card";
 import { CardsSlider } from "~/app/components/core/Shopify/Cards/Slider";
-import { useBasicCollectionsHandleFilterManager } from "~/app/libs/utils";
+import { useBasicCollectionsHandleFilterManager } from "~/app/libs/hooks";
 import { type BasicCollection } from "~/libs/shopify/types";
 
 export default function FilteredProducts(props: {

@@ -1,3 +1,4 @@
+"use client";
 import { useState, type ReactNode, useEffect } from "react";
 import BoxEditOverlay from "../../BoxEditOverlay";
 import {
@@ -8,22 +9,15 @@ import {
 } from "../../_";
 import { BoxTypes, SlidesPerViewType } from "@prisma/client";
 import { useStore } from "zustand";
-import { getValueByPathArray, newUpdatedByPathArray } from "~/utils/obj/update";
 import { cx } from "class-variance-authority";
-import { type BoxVariants, handleBoxVariants } from "~/utils/appData";
 import {
   type FormStoreApi,
   type GetPassedValidationFieldsValues,
   useCreateFormStore,
 } from "@de100/form-echo";
-import Form from "~/components/shared/common/@de100/form-echo/Forms";
-import Accordion from "~/components/shared/common/Accordion";
-import { createOneSliderSchema } from "~/server/utils/validations-schemas/dashboard/boxes/types/sliders";
-import { api } from "~/utils/api";
 import { toast } from "react-toastify";
 
-import customPageClasses from "~/styles/_custom-page.module.css";
-import { CreateOneCustomCssSchema } from "~/server/utils/validations-schemas/dashboard/css/customClasses";
+import customPageClasses from "~/app/styles/_custom-page.module.css";
 import {
   type CustomCssFormStore,
   CustomCssForm,
@@ -33,9 +27,16 @@ import {
   TwVariantsForm,
   useCreateTwVariantsFormStore,
 } from "../../Css/TwVariants";
-import ContainedDropdownField from "~/components/shared/common/@de100/form-echo/Fields/Contained/Dropdown";
 import SliderComp from "../../../Shopify/Cards/Slider";
 import { SwiperSlide } from "swiper/react";
+import { trpcApi } from "~/app/libs/trpc/client";
+import { createOneSliderSchema } from "~/libs/utils/validations-schemas/dashboard/boxes/types/sliders";
+import Form from "~/app/components/common/@de100/form-echo/Forms";
+import ContainedDropdownField from "~/app/components/common/@de100/form-echo/Fields/Contained/Dropdown";
+import { type BoxVariants, handleBoxVariants } from "~/libs/utils/appData";
+import { getValueByPathArray, newUpdatedByPathArray } from "~/libs/obj/update";
+import { CreateOneCustomCssSchema } from "~/libs/utils/validations-schemas/dashboard/css/customClasses";
+import Accordion from "~/app/components/common/Accordion";
 
 type Slider = {
   slidesPerViewType: (typeof SlidesPerViewType)[keyof typeof SlidesPerViewType];
@@ -81,7 +82,7 @@ const SliderForm = (props: {
   }) => void;
 }) => {
   const updateOneRequest =
-    api.dashboard.boxes.types.sliders.updateOne.useMutation({
+    trpcApi.dashboard.boxes.types.sliders.updateOne.useMutation({
       onError(error) {
         toast(error.message, { type: "error" });
       },

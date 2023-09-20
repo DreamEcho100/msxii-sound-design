@@ -1,7 +1,7 @@
-"use client"
+"use client";
 import { FaMinus, FaPlus } from "react-icons/fa";
 import { z } from "zod";
-import Clickable from "~/components/shared/core/Clickable";
+import Clickable from "~/app/components/core/Clickable";
 
 const ProductQuantityControllers = ({
   handleIncreaseByOne,
@@ -20,7 +20,7 @@ const ProductQuantityControllers = ({
     <div className="flex overflow-hidden rounded-xl">
       <Clickable
         variants={{ btn: null, px: null, py: null, rounded: null }}
-        className="flex items-center justify-center bg-bg-primary-600 px-2"
+        className="bg-bg-primary-600 flex items-center justify-center px-2"
         // eslint-disable-next-line @typescript-eslint/no-misused-promises
         onClick={handleDecreaseByOne}
         disabled={quantity === 0 || isLoading}
@@ -49,7 +49,7 @@ const ProductQuantityControllers = ({
       />
       <Clickable
         variants={{ btn: null, px: null, py: null, rounded: null }}
-        className="flex items-center justify-center bg-bg-primary-600 px-2"
+        className="bg-bg-primary-600 flex items-center justify-center px-2"
         // eslint-disable-next-line @typescript-eslint/no-misused-promises
         onClick={handleIncreaseByOne}
         disabled={isLoading}

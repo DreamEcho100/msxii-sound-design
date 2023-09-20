@@ -1,55 +1,45 @@
-import { type InfiniteData } from "@tanstack/react-query";
 import { cx } from "class-variance-authority";
-import { useMemo } from "react";
-import CustomNextImage from "~/components/shared/CustomNextImage";
-import Clickable from "~/components/shared/core/Clickable";
-import { CustomPageBuilder_ } from "~/components/shared/core/CustomPageBuilder";
-import { type RouterOutputs } from "~/utils/api";
-import {
-  type GetCustomPageDataProps,
-  useGetCustomPageData,
-} from "~/utils/custom-pages";
 import Merch from "./components/Merch";
 import BlueLabel from "./components/BlueLabel";
 import CreateProductPageButton from "./components/CreateProductPageButton";
-import SectionLoaderContainer from "../../LoadersContainers/Section";
-import SectionPrimaryLoader from "../../Loaders/SectionPrimary";
+import CustomNextImage from "../../common/CustomNextImage";
+import Clickable from "../Clickable";
+import { CustomPageBuilder_ } from "../CustomPageBuilder";
+import { type RouterOutputs } from "~/server/api/root";
 
-type Props = GetCustomPageDataProps;
+type Props = {
+  customPageStructureData: RouterOutputs["customPages"]["_getOne"];
+  pageCategoryItemsData?: RouterOutputs["customPages"]["pagesCategories"]["getManyItems"];
+  pageParams: {
+    pageCategoryName: string;
+    slug?: string | null;
+  };
+}; // & GetCustomPageDataProps;
 
 const PageCategoryItems = (props: {
-  data: InfiniteData<
-    RouterOutputs["customPages"]["pagesCategories"]["getManyItems"]
-  >;
+  data: RouterOutputs["customPages"]["pagesCategories"]["getManyItems"];
   addPageToPageCategoryType?: "product";
 }) => {
-  const data = useMemo(
-    () =>
-      props.data.pages
-        .map((page) => page.items.filter((item) => !!item.slug))
-        .flat(),
-    [props.data.pages],
-  );
-
-  if (data.length === 0 && !props.addPageToPageCategoryType) return <></>;
+  if (props.data.items.length === 0 && !props.addPageToPageCategoryType)
+    return <></>;
 
   return (
     <div
       className={cx(
         "grid gap-8 lg:flex-nowrap",
         "grid gap-8 lg:flex-nowrap lg:justify-between",
-        data.length < 4
+        props.data.items.length < 4
           ? "grid-cols-[repeat(auto-fit,_24.5rem)]"
           : "grid-cols-[repeat(auto-fit,_minmax(12rem,_1fr))]",
       )}
     >
       {props.addPageToPageCategoryType && (
         <CreateProductPageButton
-          dataLength={data.length}
-          itemsSlugs={data.map((item) => item.slug)}
+          dataLength={props.data.items.length}
+          itemsSlugs={props.data.items.map((item) => item.slug)}
         />
       )}
-      {data.map((item) => (
+      {props.data.items.map((item) => (
         <div key={item.id} className="flex flex-col gap-4">
           <Clickable
             href={
@@ -91,141 +81,32 @@ const PageCategoryItems = (props: {
 };
 
 const CustomPageScreen = (props: Props): React.JSX.Element => {
-  const {
-    isAShowcasePage,
-    getManyPagesCategoriesItemsQuery,
-    isACustomPage,
-    customPageStructureQuery,
-    pageParams,
-    isRouterReady,
-  } = useGetCustomPageData(props);
-
-  const pageCategoryItemsData = useMemo(() => {
-    if (!isRouterReady)
-      return {
-        status: "loading" as const,
-      };
-
-    if (!isAShowcasePage)
-      return {
-        status: "not-available" as const,
-      };
-
-    if (!getManyPagesCategoriesItemsQuery.data) {
-      if (getManyPagesCategoriesItemsQuery.isLoading)
-        return {
-          status: "loading" as const,
-        };
-
-      if (getManyPagesCategoriesItemsQuery.isError)
-        return {
-          status: "error" as const,
-          message: getManyPagesCategoriesItemsQuery.error.message,
-        };
-
-      throw new Error("!");
-    }
-
-    return {
-      status: "success" as const,
-      data: getManyPagesCategoriesItemsQuery.data,
-    };
-  }, [
-    isRouterReady,
-    isAShowcasePage,
-    getManyPagesCategoriesItemsQuery.data,
-    getManyPagesCategoriesItemsQuery.isLoading,
-    getManyPagesCategoriesItemsQuery.isError,
-    getManyPagesCategoriesItemsQuery.error?.message,
-  ]);
-
-  const customPageStructureData = useMemo(() => {
-    if (!isRouterReady)
-      return {
-        status: "loading" as const,
-      };
-
-    if (!isACustomPage)
-      return {
-        status: "not-available" as const,
-      };
-
-    if (!customPageStructureQuery.data) {
-      if (customPageStructureQuery.isLoading)
-        return {
-          status: "loading" as const,
-        };
-
-      if (customPageStructureQuery.isError)
-        return {
-          status: "error" as const,
-          message: customPageStructureQuery.error.message,
-        };
-
-      throw new Error("!");
-    }
-
-    return {
-      status: "success" as const,
-      data: customPageStructureQuery.data,
-    };
-  }, [
-    isRouterReady,
-    isACustomPage,
-    customPageStructureQuery.data,
-    customPageStructureQuery.isLoading,
-    customPageStructureQuery.isError,
-    customPageStructureQuery.error?.message,
-  ]);
-
-  if (
-    pageCategoryItemsData.status === "not-available" &&
-    customPageStructureData.status === "not-available"
-  )
-    return <p className="capitalize">not available</p>;
-
-  if (
-    pageCategoryItemsData.status === "loading" ||
-    customPageStructureData.status === "loading"
-  )
-    return (
-      <SectionLoaderContainer>
-        <SectionPrimaryLoader />
-      </SectionLoaderContainer>
-    );
-
-  if (
-    pageCategoryItemsData.status === "error" ||
-    customPageStructureData.status === "error"
-  )
-    return (
-      <>{pageCategoryItemsData?.message ?? customPageStructureData?.message}</>
-    );
-
-  if (customPageStructureData.status === "success")
-    return (
-      <CustomPageBuilder_ page={customPageStructureData.data}>
-        {pageParams.pageCategoryName === "merch" && !pageParams.slug ? (
-          <Merch />
-        ) : pageParams.pageCategoryName === "blue-label" && !pageParams.slug ? (
-          <BlueLabel />
-        ) : (
-          <></>
-        )}
-        {pageCategoryItemsData.status === "success" && (
-          <PageCategoryItems
-            data={pageCategoryItemsData.data}
-            addPageToPageCategoryType={
-              !!(pageParams.pageCategoryName === "products" && !pageParams.slug)
-                ? "product"
-                : undefined
-            }
-          />
-        )}
-      </CustomPageBuilder_>
-    );
-
-  throw new Error("Unknown type");
+  return (
+    <CustomPageBuilder_ page={props.customPageStructureData}>
+      {props.pageParams.pageCategoryName === "merch" &&
+      !props.pageParams.slug ? (
+        <Merch />
+      ) : props.pageParams.pageCategoryName === "blue-label" &&
+        !props.pageParams.slug ? (
+        <BlueLabel />
+      ) : (
+        <></>
+      )}
+      {props.pageCategoryItemsData && (
+        <PageCategoryItems
+          data={props.pageCategoryItemsData}
+          addPageToPageCategoryType={
+            !!(
+              props.pageParams.pageCategoryName === "products" &&
+              !props.pageParams.slug
+            )
+              ? "product"
+              : undefined
+          }
+        />
+      )}
+    </CustomPageBuilder_>
+  );
 };
 
 export default CustomPageScreen;

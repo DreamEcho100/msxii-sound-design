@@ -1,8 +1,18 @@
-import "./globals.css";
 import type { Metadata } from "next";
 // import { Inter } from 'next/font/google';
 import { type PropsWithChildren } from "react";
 import TRPCProvider from "./components/core/providers/TRPC";
+// import { ThemeProvider } from "./components/core/providers/Theme";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+
+import "~/app/styles/globals.css";
+import "~/app/styles/swiper.css";
+import "react-toastify/dist/ReactToastify.css";
+import SoundCloudPlayerMenu from "./components/core/SoundCloudPlayerMenu";
+import ToastProvider from "./components/core/providers/ToastProvider";
+import { ThemeProvider } from "./components/core/providers/Theme";
+import { ralewayFont } from "./libs/fonts";
+import { cx } from "class-variance-authority";
 
 // const inter = Inter({ subsets: ['latin'] });
 
@@ -17,9 +27,25 @@ export default function RootLayout(props: PropsWithChildren) {
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-      // className={inter.className}
+        className={cx(
+          "bg-bg-primary-500 text-text-primary-500",
+          ralewayFont.className,
+        )}
+        style={{ fontFamily: "'Raleway', sans-serif" }}
       >
-        <TRPCProvider>{props.children}</TRPCProvider>
+        <TRPCProvider>
+          <ToastProvider />
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="light"
+            enableSystem={false}
+            storageKey="msxaudio-theme"
+          >
+            {props.children}
+          </ThemeProvider>
+          <SoundCloudPlayerMenu />
+          <ReactQueryDevtools initialIsOpen={false} />
+        </TRPCProvider>
       </body>
     </html>
   );

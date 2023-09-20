@@ -4,6 +4,7 @@ import { customPagesRouter } from "./routers/custom-pages";
 import { shopifyRouter } from "./routers/shopify";
 import { dashboardRouter } from "./routers/dashboard";
 import { createTRPCRouter } from "../libs/trpc";
+import { type inferRouterInputs, type inferRouterOutputs } from "@trpc/server";
 
 /**
  * This is the primary router for your server.

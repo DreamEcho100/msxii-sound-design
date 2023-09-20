@@ -1,16 +1,19 @@
+"use client";
 import { type FormStoreApi, useCreateFormStore } from "@de100/form-echo";
-import Dialog from "~/components/shared/common/Dialog";
+// import Dialog from "~/components/shared/common/Dialog";
 import { cx } from "class-variance-authority";
 import { Fragment, useRef, useMemo, useState, useEffect } from "react";
 import { BiPlus } from "react-icons/bi";
 import { toast } from "react-toastify";
 import { z } from "zod";
-import ContainedInputField from "~/components/shared/common/@de100/form-echo/Fields/Contained/Input";
-import Form from "~/components/shared/common/@de100/form-echo/Forms";
-import CustomNextImage from "~/components/shared/CustomNextImage";
-import { type RouterInputs, api } from "~/utils/api";
-import SectionLoaderContainer from "~/components/shared/LoadersContainers/Section";
-import SectionPrimaryLoader from "~/components/shared/Loaders/SectionPrimary";
+import ContainedInputField from "~/app/components/common/@de100/form-echo/Fields/Contained/Input";
+import Form from "~/app/components/common/@de100/form-echo/Forms";
+import CustomNextImage from "~/app/components/common/CustomNextImage";
+import Dialog from "~/app/components/common/Dialog";
+import SectionPrimaryLoader from "~/app/components/common/Loaders/SectionPrimary";
+import SectionLoaderContainer from "~/app/components/common/LoadersContainers/Section";
+import { trpcApi } from "~/app/libs/trpc/client";
+import { type RouterInputs } from "~/server/api/root";
 
 const formSchema = {
   slug: z.string().min(3),
@@ -59,7 +62,7 @@ function SelectProductModal(props: {
     title: undefined,
   });
   const getShopifyProductsQuery =
-    api.dashboard.shopify.getProducts.useQuery(query);
+    trpcApi.dashboard.shopify.getProducts.useQuery(query);
 
   useEffect(() => {
     if (!props.isOpen || !searchInputRef.current) return;
@@ -178,7 +181,7 @@ function CreateProductPageModal(props: {
     },
   });
   const createProductPage =
-    api.dashboard.pages.createOneProductByTemplate.useMutation({
+    trpcApi.dashboard.pages.createOneProductByTemplate.useMutation({
       onError(error) {
         toast(error.message, { type: "error" });
       },

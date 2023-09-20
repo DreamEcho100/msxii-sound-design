@@ -2,7 +2,7 @@
 import type { FunctionComponent, HTMLAttributes, ReactNode } from "react";
 
 import { useRef } from "react";
-import { A11y, Autoplay, Navigation } from "swiper";
+import { A11y, Autoplay, Navigation } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 
 import "swiper/css";

@@ -1,6 +1,7 @@
-import { api } from "~/utils/api";
-import InfiniteLoadCollectionProductsSection from "~/components/shared/core/InfiniteLoadCollectionProductsSection";
+"use client";
 import { useMemo } from "react";
+import { trpcApi } from "~/app/libs/trpc/client";
+import InfiniteLoadCollectionProductsSection from "../../InfiniteLoadCollectionProductsSection";
 
 const Merch = () => {
   const input = useMemo(
@@ -8,10 +9,10 @@ const Merch = () => {
       handle: "merch",
       limit: 50,
     }),
-    []
+    [],
   );
   const collectionQuery =
-    api.shopify.collections.getOneByHandle.useInfiniteQuery(input);
+    trpcApi.shopify.collections.getOneByHandle.useInfiniteQuery(input);
 
   return (
     <div className="flex flex-col gap-8">

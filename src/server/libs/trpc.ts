@@ -9,12 +9,10 @@
 
 import { initTRPC, TRPCError } from "@trpc/server";
 import { type FetchCreateContextFnOptions } from "@trpc/server/adapters/fetch";
-import { type Session } from "next-auth";
 import superjson from "superjson";
 import { ZodError } from "zod";
 import { cookies } from "next/headers";
 
-import { getServerAuthSession } from "~/server/libs/next-auth";
 import { db } from "~/server/libs/prisma";
 import { getDecryptedShopifyUserDataFromAccessToKen } from "./shopify";
 import drizzleQueryClient from "./drizzle/db/queryClient";
@@ -35,9 +33,8 @@ import { allowedAdminEmails } from "./utils";
  * These allow you to access things when processing a request, like the database, the session, etc.
  */
 
-interface CreateContextOptions {
-  session: Session | null;
-}
+// interface CreateContextOptions {
+// }
 
 /**
  * This helper generates the "internals" for a tRPC context. If you need to use it, you can export
@@ -49,9 +46,9 @@ interface CreateContextOptions {
  *
  * @see https://create.t3.gg/en/usage/trpc#-serverapitrpcts
  */
-export const createInnerTRPCContext = (opts: CreateContextOptions) => {
+export const createInnerTRPCContext = () => {
+  // opts: CreateContextOptions
   return {
-    session: opts.session,
     db,
     drizzleQueryClient,
     drizzleSchema,
@@ -69,15 +66,12 @@ export const createInnerTRPCContext = (opts: CreateContextOptions) => {
  *
  * @see https://trpc.io/docs/context
  */
-export const createTRPCContext = async (opts: FetchCreateContextFnOptions) => {
+export const createTRPCContext = (opts: FetchCreateContextFnOptions) => {
   // const { req, res } = opts;
 
   // Get the session from the server using the getServerSession wrapper function
-  const session = await getServerAuthSession(); // { req, res }
 
-  return createInnerTRPCContext({
-    session,
-  });
+  return createInnerTRPCContext();
 };
 
 /**

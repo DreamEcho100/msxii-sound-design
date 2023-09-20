@@ -1,13 +1,13 @@
-import { toast } from 'react-toastify';
-import { api } from '~/utils/api';
+import { toast } from "react-toastify";
+import { trpcApi } from "~/app/libs/trpc/client";
 
 export const useSetInlineStylesOneRequest = () => {
-	return api.dashboard.css.inlineStyles.setOne.useMutation({
-		onError(error) {
-			toast(error.message, { type: 'error' });
-		},
-		onSuccess() {
-			toast('Successful submission!', { type: 'success' });
-		},
-	});
+  return trpcApi.dashboard.css.inlineStyles.setOne.useMutation({
+    onError(error) {
+      toast(error.message, { type: "error" });
+    },
+    onSuccess() {
+      toast("Successful submission!", { type: "success" });
+    },
+  });
 };

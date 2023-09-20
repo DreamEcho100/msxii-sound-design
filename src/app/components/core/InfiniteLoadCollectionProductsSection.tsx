@@ -1,12 +1,11 @@
-"use client"
+"use client";
 import { type UseInfiniteQueryResult } from "@tanstack/react-query";
-import { type RouterOutputs, type RouterInputs } from "~/utils/api";
 import { BasicProductCard } from "./Shopify/Cards/Card";
 import Clickable from "./Clickable";
 import Head from "next/head";
-import SectionLoaderContainer from "../LoadersContainers/Section";
-import SectionPrimaryLoader from "../Loaders/SectionPrimary";
-
+import SectionPrimaryLoader from "../common/Loaders/SectionPrimary";
+import SectionLoaderContainer from "../common/LoadersContainers/Section";
+import { type RouterInputs, type RouterOutputs } from "~/server/api/root";
 type Props = {
   input: RouterInputs["shopify"]["collections"]["getOneByHandle"];
   infiniteQuery: UseInfiniteQueryResult<
@@ -61,8 +60,8 @@ const InfiniteLoadCollectionProductsSection = (props: Props) => {
           <BasicProductCard
             key={item.handle}
             product={item}
-						containerVariants={{ w: null }}
-						imgPriority={itemIndex < 8}
+            containerVariants={{ w: null }}
+            imgPriority={itemIndex < 8}
           />
         ))}
       </div>

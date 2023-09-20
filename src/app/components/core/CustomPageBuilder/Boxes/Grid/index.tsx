@@ -1,3 +1,4 @@
+"use client";
 import { type CSSProperties, type ReactNode } from "react";
 import BoxEditOverlay from "../../BoxEditOverlay";
 import {
@@ -9,14 +10,10 @@ import {
 } from "../../_";
 import { BoxTypes } from "@prisma/client";
 import { useStore } from "zustand";
-import { getValueByPathArray, newUpdatedByPathArray } from "~/utils/obj/update";
 import { cx } from "class-variance-authority";
-import { type BoxVariants, handleBoxVariants } from "~/utils/appData";
 import { useCreateFormStore } from "@de100/form-echo";
-import Accordion from "~/components/shared/common/Accordion";
 
-import customPageClasses from "~/styles/_custom-page.module.css";
-import { CreateOneCustomCssSchema } from "~/server/utils/validations-schemas/dashboard/css/customClasses";
+import customPageClasses from "~/app/styles/_custom-page.module.css";
 import {
   type CustomCssFormStore,
   CustomCssForm,
@@ -33,7 +30,11 @@ import {
   useInlineStylesFormStore,
   useSetInlineStylesOneRequest,
 } from "../../Css/InlineStyles";
-import Form from "~/components/shared/common/@de100/form-echo/Forms";
+import Form from "~/app/components/common/@de100/form-echo/Forms";
+import Accordion from "~/app/components/common/Accordion";
+import { getValueByPathArray, newUpdatedByPathArray } from "~/libs/obj/update";
+import { handleBoxVariants, type BoxVariants } from "~/libs/utils/appData";
+import { CreateOneCustomCssSchema } from "~/libs/utils/validations-schemas/dashboard/css/customClasses";
 
 type Grid = {
   // slidesPerViewType: (typeof SlidesPerViewType)[keyof typeof SlidesPerViewType];

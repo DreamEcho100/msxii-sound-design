@@ -1,10 +1,8 @@
 "use client";
 import { useMemo } from "react";
 import { type MoneyV2 } from "shopify-buy";
-import { useIsMounted } from "~/app/libs/utils";
+import { useIsMounted } from "~/app/libs/hooks";
 import { formatPrice } from "~/libs/shopify";
-// import { useIsMounted } from "~/utils/hooks";
-// import { formatPrice } from "~/utils/shopify";
 
 type Props = {
   price: MoneyV2;

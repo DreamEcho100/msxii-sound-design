@@ -9,10 +9,8 @@ export function useBasicCollectionsHandleFilterManager<
   TCollection extends Collection | BasicCollection,
 >({
   collections,
-  handleToCollectionToIgnoreMap,
 }: {
   collections: TCollection[]; // NonNullable<HomeScreenProps['collectionsBasic']>;
-  handleToCollectionToIgnoreMap?: Record<string, true>;
 }) {
   const [selectedHandles, setSelectedHandles] = useState<string[]>([]);
   const [productTitleQuery, setProductTitleQuery] = useState<
@@ -23,7 +21,6 @@ export function useBasicCollectionsHandleFilterManager<
     const collectionsHandleMap: Record<string, TCollection[]> = {};
 
     collections.forEach((collection) => {
-      if (handleToCollectionToIgnoreMap?.[collection.handle]) return;
       const _collection = productTitleQuery
         ? filterBasicCollectionProductsByTitle(collection, productTitleQuery)
         : collection;
@@ -48,7 +45,7 @@ export function useBasicCollectionsHandleFilterManager<
       collectionsByHandle,
       pagesCategories,
     };
-  }, [collections, handleToCollectionToIgnoreMap, productTitleQuery]);
+  }, [collections, productTitleQuery]);
 
   return {
     collectionsByHandle,

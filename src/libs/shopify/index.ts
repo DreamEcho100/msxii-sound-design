@@ -15,5 +15,18 @@ export const formatPrice = (
     { style: "currency", currency },
   ).format(price);
 
-export const getEdgeNodes = <Data>(item: Edges<Data>) =>
-  item.edges.map(({ node }) => node);
+export const getEdgeNodes = <Data>(
+  item: Edges<Data>,
+  skipCB?: (item: Data, index: number, arr: { node: Data }[]) => boolean,
+) => {
+  const data: Data[] = [];
+  item.edges.forEach(({ node }, index, arr) => {
+    if (typeof skipCB === "function") {
+      if (skipCB(node, index, arr)) return;
+    }
+
+    data.push(node);
+  });
+
+  return data;
+};

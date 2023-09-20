@@ -2,6 +2,16 @@ import CustomPageScreen from "~/app/components/core/CustomPageScreen";
 import drizzleQueryClient from "~/server/libs/drizzle/db/queryClient";
 import { serverClient } from "~/app/libs/trpc/serverClient";
 
+export const revalidate = 360;
+
+export async function getStaticPaths() {
+  return (
+    await drizzleQueryClient.query.pageCategory.findMany({
+      columns: { name: true },
+    })
+  ).map((item) => ({ params: { pageCategoryName: item.name } }));
+}
+
 export default async function DashboardCustomPageProfilePage(props: {
   params: { pageCategoryName: string };
 }) {
@@ -17,12 +27,4 @@ export default async function DashboardCustomPageProfilePage(props: {
       pageCategoryItemsData={pageCategoryItemsData}
     />
   );
-}
-
-export async function getStaticPaths() {
-  return (
-    await drizzleQueryClient.query.pageCategory.findMany({
-      columns: { name: true },
-    })
-  ).map((item) => ({ params: { pageCategoryName: item.name } }));
 }

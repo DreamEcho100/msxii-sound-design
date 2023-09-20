@@ -7,6 +7,7 @@ import { serverClient } from "~/app/libs/trpc/serverClient";
 import { getEdgeNodes } from "~/libs/shopify";
 import { type BasicProduct } from "~/libs/shopify/types";
 
+export const revalidate = 360;
 export const metadata = {
   title: "Site Page",
   description: "This is the site page",

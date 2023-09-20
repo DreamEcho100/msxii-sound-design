@@ -3,22 +3,7 @@ import drizzleQueryClient from "~/server/libs/drizzle/db/queryClient";
 import CustomPageScreen from "~/app/components/core/CustomPageScreen";
 import { serverClient } from "~/app/libs/trpc/serverClient";
 
-export default async function CustomSectionPage(props: {
-  params: { pageCategoryName: string; slug: string };
-}) {
-  const [customPageStructureData, pageCategoryItemsData] = await Promise.all([
-    serverClient.customPages._getOne(props.params),
-    serverClient.customPages.pagesCategories.getManyItems(props.params),
-  ]);
-
-  return (
-    <CustomPageScreen
-      pageParams={props.params}
-      customPageStructureData={customPageStructureData}
-      pageCategoryItemsData={pageCategoryItemsData}
-    />
-  );
-}
+export const revalidate = 360;
 export async function getStaticPaths() {
   return await drizzleQueryClient.query.pageCategory
     .findMany({
@@ -45,4 +30,21 @@ export async function getStaticPaths() {
 
       return paths;
     });
+}
+
+export default async function CustomSectionPage(props: {
+  params: { pageCategoryName: string; slug: string };
+}) {
+  const [customPageStructureData, pageCategoryItemsData] = await Promise.all([
+    serverClient.customPages._getOne(props.params),
+    serverClient.customPages.pagesCategories.getManyItems(props.params),
+  ]);
+
+  return (
+    <CustomPageScreen
+      pageParams={props.params}
+      customPageStructureData={customPageStructureData}
+      pageCategoryItemsData={pageCategoryItemsData}
+    />
+  );
 }

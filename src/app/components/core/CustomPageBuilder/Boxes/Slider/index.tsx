@@ -1,12 +1,8 @@
 "use client";
 import { useState, type ReactNode, useEffect } from "react";
 import BoxEditOverlay from "../../BoxEditOverlay";
-import {
-  type Box,
-  type BoxTypeSlider,
-  type PageStoreApi,
-  SectionBoxContainer,
-} from "../../_";
+import { type Box, type BoxTypeSlider,  } from "../../_";
+import { type PageStoreApi } from "../../types";
 import { BoxTypes, SlidesPerViewType } from "@prisma/client";
 import { useStore } from "zustand";
 import { cx } from "class-variance-authority";
@@ -37,6 +33,7 @@ import { type BoxVariants, handleBoxVariants } from "~/libs/utils/appData";
 import { getValueByPathArray, newUpdatedByPathArray } from "~/libs/obj/update";
 import { CreateOneCustomCssSchema } from "~/libs/utils/validations-schemas/dashboard/css/customClasses";
 import Accordion from "~/app/components/common/Accordion";
+import { SectionBoxContainer } from "../../SectionBoxContainer";
 
 type Slider = {
   slidesPerViewType: (typeof SlidesPerViewType)[keyof typeof SlidesPerViewType];

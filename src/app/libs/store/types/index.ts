@@ -126,8 +126,4 @@ export interface GlobalStore {
       setDialogType: (state: "register" | "login") => void;
     };
   };
-  themeConfig: {
-    currentTheme: "dark" | "light";
-    changeCurrentTheme: (passedTheme?: "dark" | "light") => void;
-  };
 }

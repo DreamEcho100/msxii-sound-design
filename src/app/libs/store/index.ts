@@ -2,9 +2,6 @@ import { type GlobalStore } from "./types";
 
 import { createStore } from "zustand";
 
-const generateOppositeTheme = (theme?: "dark" | "light") =>
-  theme === "light" ? "dark" : "light";
-
 export const globalStore = createStore<GlobalStore>((set, get) => ({
   authSession: {
     isLoading: true,
@@ -206,24 +203,6 @@ export const globalStore = createStore<GlobalStore>((set, get) => ({
             auth: { ...dialogs.auth, type },
           },
         })),
-    },
-  },
-  themeConfig: {
-    currentTheme: "light",
-    changeCurrentTheme(passedTheme) {
-      set(({ themeConfig }) => {
-        const currentTheme = passedTheme
-          ? generateOppositeTheme(passedTheme)
-          : themeConfig.currentTheme;
-        const newTheme = generateOppositeTheme(currentTheme);
-
-        document.body.classList.remove(currentTheme);
-        document.body.classList.add(newTheme);
-
-        localStorage.setItem("currentTheme", newTheme);
-
-        return { themeConfig: { ...themeConfig, currentTheme: newTheme } };
-      });
     },
   },
 }));

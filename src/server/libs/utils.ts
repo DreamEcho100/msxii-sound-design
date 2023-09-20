@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { env } from "~/libs/env.mjs";
 
 export const allowedAdminEmails = z
   .array(z.string().email())
@@ -7,6 +8,6 @@ export const allowedAdminEmails = z
     z
       .string()
       .nonempty()
-      .parse(process.env.NEXT_PUBLIC_ALLOWED_ADMIN_EMAILS_STRING)
+      .parse(env.NEXT_PUBLIC_ALLOWED_ADMIN_EMAILS_STRING)
       .split(","),
   );

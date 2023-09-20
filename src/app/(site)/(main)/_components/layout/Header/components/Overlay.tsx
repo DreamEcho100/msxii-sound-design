@@ -32,7 +32,7 @@ const Overlay = () => {
   return (
     <button
       className={cx(
-        "fixed inset-0 z-[1] block h-full w-full",
+        "fixed inset-0 z-[2] block h-full w-full",
         isDropdownMenuOnLessThanLGOpen && !isSearchMenuDropdownOpen
           ? "lg:hidden"
           : "",

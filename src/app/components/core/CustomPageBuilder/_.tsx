@@ -1,26 +1,19 @@
-import  { type CSSProperties, type ReactNode } from "react";
+"use client";
 
+import { type ReactNode } from "react";
+import { handleBoxVariants } from "~/libs/utils/appData";
+import { type RouterOutputs } from "~/server/api/root";
 import { cx } from "class-variance-authority";
-// import { type BoxVariants, handleBoxVariants } from "~/utils/appData";
-import customPageClasses from "~/styles/_custom-page.module.css";
-// import { type RouterOutputs } from "~/utils/api";
-import { BoxTypes } from "@prisma/client";
-// import BoxEditOverlay from './BoxEditOverlay';
-import CustomTabs from "./CustomTabs";
-import { type StoreApi, createStore } from "zustand";
-import { MdBoxEditable } from "./Boxes/Md";
-import { QuoteBoxEditable } from "./Boxes/Quote";
-import { HeaderBoxEditable } from "./Boxes/Header";
-import { ImageBoxEditable } from "./Boxes/Image";
-import { IframeBoxEditable } from "./Boxes/Iframe";
-import { SliderEditable } from "./Boxes/Slider";
-import { GridEditable } from "./Boxes/Grid";
-import { handleBoxVariants, type BoxVariants } from "~/libs/utils/appData";
-import { type RouterOutputs } from "~/server/api/root"; 
+import { createStore } from "zustand";
+import { type BoxVariants } from "~/libs/utils/appData";
+import { type PageStoreApi, type PageStore } from "./types";
+import { SectionBoxContainer } from "./SectionBoxContainer";
+import customPageClasses from "~/app/styles/custom-page.module.css";
 
 type Page = RouterOutputs["customPages"]["_getOne"];
 export type Css = Page["css"];
-type Section = RouterOutputs["customPages"]["_getOne"]["sections"][number];
+export type Section =
+  RouterOutputs["customPages"]["_getOne"]["sections"][number];
 export type Box =
   RouterOutputs["customPages"]["_getOne"]["sections"][number]["body"][number];
 
@@ -55,15 +48,39 @@ type Props = {
   path?: (string | number)[];
 };
 
-type PageStore = {
-  page: Page;
-  utils: {
-    setPage: (UpdaterOrValue: Page | ((UpdaterOrValue: Page) => Page)) => void;
-  };
-};
-export type PageStoreApi = StoreApi<PageStore>;
+function SectionBody(props: {
+  section: Section;
+  boxDeepLevel?: number;
+  path: (string | number)[];
+  pageStore: PageStoreApi;
+}) {
+  const boxDeepLevel = props.boxDeepLevel ?? 1;
+  return (
+    <section
+      className={cx(
+        "flex flex-col",
+        handleBoxVariants(props.section.css.twVariants as BoxVariants),
+        ...(props.section.css.customClasses
+          ? props.section.css.customClasses.map((key) => customPageClasses[key])
+          : []),
+      )}
+    >
+      {props.section.body.map((box, boxIndex) => {
+        return (
+          <SectionBoxContainer
+            key={box.id}
+            box={box}
+            boxDeepLevel={boxDeepLevel}
+            path={[...props.path, "body", boxIndex]}
+            pageStore={props.pageStore}
+          />
+        );
+      })}
+    </section>
+  );
+}
 
-const CustomPageBuilder = (props: Props): React.JSX.Element => {
+export default function CustomPageBuilder(props: Props): React.JSX.Element {
   const pageStore = createStore<PageStore>((set) => ({
     page: props.page,
     utils: {
@@ -95,202 +112,4 @@ const CustomPageBuilder = (props: Props): React.JSX.Element => {
       {props.children}
     </div>
   );
-};
-
-const SectionBody = (props: {
-  section: Section;
-  boxDeepLevel?: number;
-  path: (string | number)[];
-  pageStore: PageStoreApi;
-}) => {
-  const boxDeepLevel = props.boxDeepLevel ?? 1;
-  return (
-    <section
-      className={cx(
-        "flex flex-col",
-        handleBoxVariants(props.section.css.twVariants as BoxVariants),
-        ...(props.section.css.customClasses
-          ? props.section.css.customClasses.map((key) => customPageClasses[key])
-          : [])
-      )}
-    >
-      {props.section.body.map((box, boxIndex) => {
-        return (
-          <SectionBoxContainer
-            key={box.id}
-            box={box}
-            boxDeepLevel={boxDeepLevel}
-            path={[...props.path, "body", boxIndex]}
-            pageStore={props.pageStore}
-          />
-        );
-      })}
-    </section>
-  );
-};
-
-const createBoxTypeClass = (type: string) =>
-  `${customPageClasses[`${type}-BOX`]} ${customPageClasses.BOX} box ${
-    customPageClasses.box
-  }`;
-
-export function SectionBoxContainer(props: {
-  box: Box;
-  parentBox?: BoxTypes;
-  boxDeepLevel: number;
-  path: (string | number)[];
-  pageStore: PageStoreApi;
-}) {
-  return (
-    <div
-      className="box-container"
-      style={
-        {
-          "--boxDeepLevel": props.boxDeepLevel,
-          zIndex: props.boxDeepLevel.toString(),
-        } as CSSProperties
-      }
-    >
-      <SectionBox
-        box={props.box}
-        parentBox={props.parentBox}
-        boxDeepLevel={props.boxDeepLevel}
-        path={props.path}
-        pageStore={props.pageStore}
-      />
-    </div>
-  );
 }
-
-const SectionBox = (props: {
-  box: Box;
-  parentBox?: BoxTypes;
-  boxDeepLevel: number;
-  path: (string | number)[];
-  pageStore: PageStoreApi;
-}) => {
-  const newBoxDeepLevel = props.boxDeepLevel + 1;
-  const customPageClassName = cx(
-    createBoxTypeClass(props.box.type),
-    handleBoxVariants(props.box.css.twVariants as BoxVariants),
-    ...(props.box.css.customClasses
-      ? props.box.css.customClasses?.map((key) => customPageClasses[key])
-      : [])
-  );
-
-  if (props.box.type === BoxTypes.HEADER && props.box.headerBox)
-    return (
-      <HeaderBoxEditable
-        boxDeepLevel={props.boxDeepLevel}
-        parentBox={props.parentBox}
-        pageStore={props.pageStore}
-        box={props.box}
-        path={props.path}
-        // It's already passed inside
-        // path={[...props.path, 'headerBox']}
-      />
-    );
-
-  if (props.box.type === BoxTypes.IMAGE && props.box.imageBox)
-    return (
-      <ImageBoxEditable
-        boxDeepLevel={props.boxDeepLevel}
-        parentBox={props.parentBox}
-        pageStore={props.pageStore}
-        box={props.box}
-        path={props.path}
-        // It's already passed inside
-        // path={[...props.path, 'imageBox']}
-      />
-    );
-
-  if (props.box.type === BoxTypes.MD && props.box.mdBox)
-    return (
-      <MdBoxEditable
-        boxDeepLevel={props.boxDeepLevel}
-        parentBox={props.parentBox}
-        pageStore={props.pageStore}
-        box={props.box}
-        path={props.path}
-        // It's already passed inside
-        // path={[...props.path, 'mdBox']}
-      />
-    );
-
-  if (props.box.type === BoxTypes.QUOTE && props.box.quoteBox)
-    return (
-      <QuoteBoxEditable
-        boxDeepLevel={props.boxDeepLevel}
-        parentBox={props.parentBox}
-        pageStore={props.pageStore}
-        box={props.box}
-        path={props.path}
-        // It's already passed inside
-        // path={[...props.path, 'quoteBox']}
-        style={{ "--divider": 1 / 3, "--w": "3rem" } as CSSProperties}
-      />
-    );
-
-  if (props.box.type === BoxTypes.IFRAME && props.box.iframeBox)
-    return (
-      <IframeBoxEditable
-        boxDeepLevel={props.boxDeepLevel}
-        parentBox={props.parentBox}
-        pageStore={props.pageStore}
-        box={props.box}
-        path={props.path}
-        // It's already passed inside
-        // path={[...props.path, 'iframeBox']}
-      />
-    );
-
-  if (props.box.type === BoxTypes.SLIDER && props.box.slider)
-    return (
-      <SliderEditable
-        boxDeepLevel={props.boxDeepLevel}
-        parentBox={props.parentBox}
-        pageStore={props.pageStore}
-        box={props.box}
-        path={props.path}
-        // It's already passed inside
-        // path={[...props.path, 'sliderBox']}
-      />
-    );
-
-  if (props.box.type === BoxTypes.GRID && props.box.grid)
-    return (
-      <GridEditable
-        boxDeepLevel={props.boxDeepLevel}
-        parentBox={props.parentBox}
-        pageStore={props.pageStore}
-        box={props.box}
-        path={props.path}
-        // It's already passed inside
-        // path={[...props.path, 'gridBox']}
-      />
-    );
-
-  if (props.box.type === BoxTypes.TABS_HOLDER && props.box.tabs) {
-    return (
-      <CustomTabs
-        box={props.box.tabs}
-        className={cx(customPageClassName)}
-        boxDeepLevel={newBoxDeepLevel}
-        // childrenAfter={
-        // 	<BoxEditOverlay
-        // 		boxDeepLevel={props.boxDeepLevel}
-        // 		box={props.box}
-        // 		path={[...props.path, 'tabs']}
-        // 		pageStore={props.pageStore}
-        // 	/>
-        // }
-        path={props.path}
-        pageStore={props.pageStore}
-      />
-    );
-  }
-
-  throw new Error("Unknown box type");
-};
-
-export default CustomPageBuilder;

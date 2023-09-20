@@ -127,6 +127,30 @@ const manyProductsQuery = async (
   });
 };
 
+const manyProductsHandles = async () => {
+  // https://shopify.dev/docs/api/storefront/2023-04/queries/products
+  z;
+
+  const template = gql`
+    query getProducts($first: Int) {
+      products(first: $first) {
+        edges {
+          cursor
+          node {
+            handle
+          }
+        }
+      }
+    }
+  `;
+
+  return await graphQLClient.request<{
+    products: EdgesWithPagination<{ handle: string }>;
+  }>(template, {
+    first: 100,
+  });
+};
+
 export const oneProductByHandleQuerySchema = z.object({ handle: z.string() });
 const oneProductByHandleQuery = async (
   input: z.infer<typeof oneProductByHandleQuerySchema>,
@@ -183,6 +207,7 @@ const oneProductRecommendationsQuery = async (
 
 const products = {
   queries: {
+    getManyHandles: manyProductsHandles,
     many: manyProductsQuery,
     getOneByHandle: oneProductByHandleQuery,
     getOneHTMLDescriptionByHandle: oneProductHTMLDescriptionByHandleQuery,

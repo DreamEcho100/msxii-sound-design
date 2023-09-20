@@ -2,7 +2,7 @@
 import { Menu, Transition } from '@headlessui/react';
 import { Fragment, type ReactNode } from 'react';
 import Clickable from '../core/Clickable';
-import type { ButtonProps } from '../Clickable';
+import { type ButtonProps } from '../common/Clickable';
 
 const Dropdown = (props: Partial<Parameters<typeof Menu>[0]>) => {
 	return <Menu as="div" className="relative inline-block" {...props} />;

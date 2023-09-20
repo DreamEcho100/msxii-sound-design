@@ -8,7 +8,7 @@ export default function Quote({
   box,
   ...props
 }: HTMLAttributes<HTMLDivElement> & { box: QuoteBox }) {
-  const TEXT_MAX_LENGTH = 200;
+  const TEXT_MAX_LENGTH = 150;
   const isTextLong = box.content.length > TEXT_MAX_LENGTH;
 
   const [isFullTextActive, setIsFullTextActive] = useState(!isTextLong);

@@ -1,7 +1,9 @@
 "use client";
 import { type ReactNode } from "react";
 import BoxEditOverlay from "../../BoxEditOverlay";
-import { type BoxTypeIframe, type PageStoreApi } from "../../_";
+import { type BoxTypeIframe } from "../../_";
+
+import { type PageStoreApi } from "../../types";
 import { BoxTypes, IframeBoxTypes } from "@prisma/client";
 import { useStore } from "zustand";
 import { cx } from "class-variance-authority";

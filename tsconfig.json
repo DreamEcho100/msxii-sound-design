@@ -14,9 +14,9 @@
     "jsx": "preserve",
     "incremental": true,
     "plugins": [{ "name": "next" }],
-    "paths": {
-      "~/*": ["./src/*"]
-    }
+    "paths": { "~/*": ["./src/*"] },
+    // "forceConsistentCasingInFileNames": true
+    "forceConsistentCasingInFileNames": false
   },
   "include": [
     "next-env.d.ts",

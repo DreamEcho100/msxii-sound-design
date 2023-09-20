@@ -9,8 +9,8 @@ import { type BasicProduct } from "~/libs/shopify/types";
 
 export const revalidate = 360;
 export const metadata = {
-  title: "Site Page",
-  description: "This is the site page",
+  title: "MSXII Sound Design",
+  description: "MSXII Sound Design home page",
 };
 
 const blogGetManyInput = {

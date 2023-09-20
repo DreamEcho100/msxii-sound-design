@@ -1,14 +1,7 @@
 "use client";
-import {
-  type Box,
-  type BoxTypeTabs,
-  type PageStoreApi,
-  SectionBoxContainer,
-  type TabsBox,
-} from "./_";
-
+import { type Box, type BoxTypeTabs, type TabsBox } from "./_";
+import { type PageStoreApi } from "./types";
 import { type ReactNode } from "react";
-
 import * as Tabs from "@radix-ui/react-tabs";
 import { cx } from "class-variance-authority";
 import BordersContainer from "./BordersContainer";
@@ -22,6 +15,7 @@ import ContainedInputField from "../../common/@de100/form-echo/Fields/Contained/
 import Form from "../../common/@de100/form-echo/Forms";
 import Dialog from "../../common/Dialog";
 import { getValueByPathArray, newUpdatedByPathArray } from "~/libs/obj/update";
+import { SectionBoxContainer } from "./SectionBoxContainer";
 
 const EditBoxModal = (props: {
   box: TabsBox;

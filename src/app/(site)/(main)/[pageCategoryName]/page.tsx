@@ -1,24 +1,25 @@
 import CustomPageScreen from "~/app/components/core/CustomPageScreen";
 import drizzleQueryClient from "~/server/libs/drizzle/db/queryClient";
-import { serverClient } from "~/app/libs/trpc/serverClient";
+import { generateCustomPageDataMetadata, getCustomPageData } from "./_utils";
+
+type Props = { params: { pageCategoryName: string } };
 
 export const revalidate = 360;
-
 export async function getStaticPaths() {
-  return (
-    await drizzleQueryClient.query.pageCategory.findMany({
-      columns: { name: true },
-    })
-  ).map((item) => ({ params: { pageCategoryName: item.name } }));
+  return {
+    paths: (
+      await drizzleQueryClient.query.pageCategory.findMany({
+        columns: { name: true },
+      })
+    ).map((item) => ({ params: { pageCategoryName: item.name } })),
+    fallback: true,
+  };
 }
+export const generateDataMetadata = generateCustomPageDataMetadata;
 
-export default async function DashboardCustomPageProfilePage(props: {
-  params: { pageCategoryName: string };
-}) {
-  const [customPageStructureData, pageCategoryItemsData] = await Promise.all([
-    serverClient.customPages._getOne(props.params),
-    serverClient.customPages.pagesCategories.getManyItems(props.params),
-  ]);
+export default async function DashboardCustomPageProfilePage(props: Props) {
+  const [customPageStructureData, pageCategoryItemsData] =
+    await getCustomPageData(props);
 
   return (
     <CustomPageScreen

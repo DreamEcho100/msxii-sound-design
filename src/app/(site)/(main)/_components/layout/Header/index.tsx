@@ -107,17 +107,17 @@ const MainLayoutHeader = () => {
     <>
       <header
         className={cx(
-          "fixed left-0 right-0 top-0 isolate z-[2] flex flex-col transition-all duration-300",
+          "fixed left-0 right-0 top-0 isolate z-[3] flex flex-col transition-all duration-300",
         )}
       >
-        <div className="max-w-main mx-auto flex w-full flex-col">
+        <div className="mx-auto flex w-full max-w-main flex-col">
           <div
             className={cx(
-              "h-main-header-h px-main-p-3 sm:px-main-p-2 flex w-full items-center justify-between gap-4",
+              "flex h-main-header-h w-full items-center justify-between gap-4 px-main-p-3 sm:px-main-p-2",
               "relative isolate",
               isAnyMenuOpen
                 ? "bg-bg-primary-500"
-                : "bg-bg-primary-500/80 dark:bg-bg-primary-500/90 backdrop-blur-sm",
+                : "bg-bg-primary-500/80 backdrop-blur-sm dark:bg-bg-primary-500/90",
             )}
           >
             <Clickable
@@ -141,13 +141,13 @@ const MainLayoutHeader = () => {
                     key={item.title}
                     href={item.href}
                     isA="next-js"
-                    className="hover:text-special-primary-700 whitespace-nowrap duration-150"
+                    className="whitespace-nowrap duration-150 hover:text-special-primary-700"
                   >
                     {item.title}
                   </Clickable>
                 ) : (
                   <Dropdown key={item.title}>
-                    <DropdownButton className="hover:text-special-primary-700 duration-150">
+                    <DropdownButton className="duration-150 hover:text-special-primary-700">
                       <IoMdArrowDropdown className="text-xl" /> {item.title}
                       <span className="pl-1" />
                     </DropdownButton>
@@ -188,7 +188,7 @@ const MainLayoutHeader = () => {
                   href="/dashboard"
                   isA="next-js"
                   className={cx(
-                    "text-special-primary-500 text-xl",
+                    "text-xl text-special-primary-500",
                     "hover:text-special-primary-900 focus:text-special-primary-900",
                     "hover:text-special-primary-600 focus:text-special-primary-600",
                   )}
@@ -228,7 +228,7 @@ const MainLayoutHeader = () => {
                 animate={{ opacity: 1, y: "0%" }}
                 exit={{ opacity: 0, y: "-100%" }}
                 transition={{ duration: 0.3 }}
-                className="bg-bg-primary-500 flex w-full flex-col uppercase
+                className="flex w-full flex-col bg-bg-primary-500 uppercase
 					lg:hidden"
               >
                 <ul>
@@ -236,7 +236,7 @@ const MainLayoutHeader = () => {
                     <li
                       key={item.title}
                       className={cx(
-                        "border-b-special-primary-500 px-main-p-3 sm:px-main-p-2 flex flex-wrap border-b-[0.0625rem] border-solid",
+                        "flex flex-wrap border-b-[0.0625rem] border-solid border-b-special-primary-500 px-main-p-3 sm:px-main-p-2",
                       )}
                     >
                       {"href" in item ? (
@@ -244,10 +244,10 @@ const MainLayoutHeader = () => {
                           href={item.href}
                           isA="next-js"
                           className={cx(
-                            "max-w-main mx-auto w-full whitespace-nowrap bg-clip-text p-1",
+                            "mx-auto w-full max-w-main whitespace-nowrap bg-clip-text p-1",
                             "bg-text-primary-500",
-                            "hover:from-text-primary-200 hover:to-special-primary-700 hover:text-special-secondary-100 hover:bg-gradient-to-br hover:transition-all hover:duration-150",
-                            "focus:from-text-primary-300 focus:to-special-primary-500 focus:text-special-secondary-100 focus:bg-gradient-to-br focus:transition-all focus:duration-150",
+                            "hover:bg-gradient-to-br hover:from-text-primary-200 hover:to-special-primary-700 hover:text-special-secondary-100 hover:transition-all hover:duration-150",
+                            "focus:bg-gradient-to-br focus:from-text-primary-300 focus:to-special-primary-500 focus:text-special-secondary-100 focus:transition-all focus:duration-150",
                           )}
                           variants={null}
                           style={{
@@ -261,7 +261,7 @@ const MainLayoutHeader = () => {
                         <Dropdown>
                           <DropdownButton
                             title="Settings and other options."
-                            className="hover:text-special-primary-700 duration-150"
+                            className="duration-150 hover:text-special-primary-700"
                           >
                             <IoMdArrowDropdown className="text-xl" />{" "}
                             {item.title}

@@ -6,6 +6,7 @@ import CustomNextImage from "../../common/CustomNextImage";
 import Clickable from "../Clickable";
 import { CustomPageBuilder_ } from "../CustomPageBuilder";
 import { type RouterOutputs } from "~/server/api/root";
+import { Fragment } from "react";
 
 type Props = {
   customPageStructureData: RouterOutputs["customPages"]["_getOne"];
@@ -39,43 +40,47 @@ const PageCategoryItems = (props: {
           itemsSlugs={props.data.items.map((item) => item.slug)}
         />
       )}
-      {props.data.items.map((item) => (
-        <div key={item.id} className="flex flex-col gap-4">
-          <Clickable
-            href={
-              item.slug
-                ? `/${item.pageCategoryName}/${item.slug}`
-                : `/${item.pageCategoryName}`
-            }
-            isA="next-js"
-            className="aspect-square w-full overflow-hidden rounded-lg"
-          >
-            <CustomNextImage
-              priority
-              src={
-                item?.image?.src ??
-                `https://api.dicebear.com/6.x/shapes/svg?seed=${item.pageCategoryName}/${item.slug}`
+      {props.data.items.map((item) =>
+        !item.slug ? (
+          <Fragment key={item.id} />
+        ) : (
+          <div key={item.id} className="flex flex-col gap-4">
+            <Clickable
+              href={
+                item.slug
+                  ? `/${item.pageCategoryName}/${item.slug}`
+                  : `/${item.pageCategoryName}`
               }
-              alt={item?.image?.altText ?? undefined}
-              width={item?.image?.width ?? 500}
-              height={item?.image?.height ?? 500}
-              className="h-full w-full object-cover"
-            />
-          </Clickable>
-          {item.slug && (
-            <p>
-              <Clickable
-                isA="next-js"
-                href={`/${item.pageCategoryName}/${item.slug}`}
-                target="_blank"
-                className="capitalize"
-              >
-                {item.slug.replace("-", " ")}
-              </Clickable>
-            </p>
-          )}
-        </div>
-      ))}
+              isA="next-js"
+              className="aspect-square w-full overflow-hidden rounded-lg"
+            >
+              <CustomNextImage
+                priority
+                src={
+                  item?.image?.src ??
+                  `https://api.dicebear.com/6.x/shapes/svg?seed=${item.pageCategoryName}/${item.slug}`
+                }
+                alt={item?.image?.altText ?? undefined}
+                width={item?.image?.width ?? 500}
+                height={item?.image?.height ?? 500}
+                className="h-full w-full object-cover"
+              />
+            </Clickable>
+            {item.slug && (
+              <p>
+                <Clickable
+                  isA="next-js"
+                  href={`/${item.pageCategoryName}/${item.slug}`}
+                  target="_blank"
+                  className="capitalize"
+                >
+                  {item.slug.replace("-", " ")}
+                </Clickable>
+              </p>
+            )}
+          </div>
+        ),
+      )}
     </div>
   );
 };
@@ -92,7 +97,7 @@ const CustomPageScreen = (props: Props): React.JSX.Element => {
       ) : (
         <></>
       )}
-      {props.pageCategoryItemsData && (
+      {!props.pageParams.slug && props.pageCategoryItemsData && (
         <PageCategoryItems
           data={props.pageCategoryItemsData}
           addPageToPageCategoryType={

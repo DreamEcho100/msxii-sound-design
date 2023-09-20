@@ -3,7 +3,6 @@ import type { Metadata } from "next";
 import { type PropsWithChildren } from "react";
 import TRPCProvider from "./components/core/providers/TRPC";
 // import { ThemeProvider } from "./components/core/providers/Theme";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 import "~/app/styles/globals.css";
 import "~/app/styles/swiper.css";
@@ -13,6 +12,7 @@ import ToastProvider from "./components/core/providers/ToastProvider";
 import { ThemeProvider } from "./components/core/providers/Theme";
 import { ralewayFont } from "./libs/fonts";
 import { cx } from "class-variance-authority";
+import ReactQueryDevtoolsProvider from "./components/core/providers/ReactQueryDevtools";
 
 // const inter = Inter({ subsets: ['latin'] });
 
@@ -44,7 +44,7 @@ export default function RootLayout(props: PropsWithChildren) {
             {props.children}
           </ThemeProvider>
           <SoundCloudPlayerMenu />
-          <ReactQueryDevtools initialIsOpen={false} />
+          <ReactQueryDevtoolsProvider />
         </TRPCProvider>
       </body>
     </html>

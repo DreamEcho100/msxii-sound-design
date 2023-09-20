@@ -12,7 +12,7 @@ import { type CreateOneCustomCssSchema } from "~/libs/utils/validations-schemas/
 // import { type CreateOneCustomCssSchema } from '~/server/utils/validations-schemas/dashboard/css/customClasses';
 // import { api } from '~/utils/api';
 
-import customPageClasses from "~/styles/_custom-page.module.css";
+import customPageClasses from "~/app/styles/_custom-page.module.css";
 
 export type CustomCssFormStore = FormStoreApi<
   { customClasses: string[] },

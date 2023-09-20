@@ -41,6 +41,7 @@ export const customPagesRouter = createTRPCRouter({
           css: true,
           pageCategory: true,
           image: true,
+          seo: true,
           sections: {
             with: {
               css: true,

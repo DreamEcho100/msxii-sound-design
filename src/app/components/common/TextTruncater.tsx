@@ -8,7 +8,7 @@ type Props = {
 };
 
 export default function TextTruncateManager(props: Props) {
-  const TEXT_MAX_LENGTH = props.TEXT_MAX_LENGTH ?? 200;
+  const TEXT_MAX_LENGTH = props.TEXT_MAX_LENGTH ?? 150;
   const isTextLong = props.content.length > TEXT_MAX_LENGTH;
 
   const [isFullTextActive, setIsFullTextActive] = useState(!isTextLong);

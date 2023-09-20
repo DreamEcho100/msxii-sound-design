@@ -1,33 +1,29 @@
-"use client"
+"use client";
 import { cx } from "class-variance-authority";
-
 import { type ReactNode, useEffect, useState } from "react";
-
 import { SwiperSlide } from "swiper/react";
-
-import CustomNextImage from "../CustomNextImage";
-
-import ProductQuantityControllers from "./ProductQuantityControllers";
-
-import { type NextJsLinkProps } from "../Clickable";
-import ImageMagnifier from "../ImageMagnifier";
-import { type Product } from "~/utils/shopify/types";
-import CTAButton from "./Shopify/Cards/CTAButton";
-import Slider from "./Shopify/Cards/Slider";
-import ProductPrice from "./Shopify/ProductPrice";
-import AddToCartButton from "./Shopify/Buttons/AddToCart";
+import ProductQuantityControllers from "../ProductQuantityControllers";
+import CTAButton from "../Shopify/Cards/CTAButton";
+import Slider from "../Shopify/Cards/Slider";
+import ProductPrice from "../Shopify/ProductPrice";
+import AddToCartButton from "../Shopify/Buttons/AddToCart";
 import { Switch } from "@headlessui/react";
-import { SoundCloudIframe, YouTubeIFrame } from "../Iframes";
-import TextTruncateManager from "../common/TextTruncater";
-import { api } from "~/utils/api";
-import Clickable from "./Clickable";
-import { useExtractDataFromHTMLDescription } from "~/utils/shopify/hooks";
-import SectionLoaderContainer from "../LoadersContainers/Section";
-import SectionPrimaryLoader from "../Loaders/SectionPrimary";
+import TextTruncateManager from "../../common/TextTruncater";
+import Clickable from "../Clickable";
+import { trpcApi } from "~/app/libs/trpc/client";
+import SectionLoaderContainer from "../../common/LoadersContainers/Section";
+import SectionPrimaryLoader from "../../common/Loaders/SectionPrimary";
+import CustomNextImage from "../../common/CustomNextImage";
+import { type Product } from "~/libs/shopify/types";
+import ImageMagnifier from "../../common/ImageMagnifier";
+import { useExtractDataFromHTMLDescription } from "~/libs/shopify/hooks";
+import { SoundCloudIframe, YouTubeIFrame } from "../../common/Iframes";
+import { type NextJsLinkProps } from "../../common/Clickable";
+import ProductImageShowcase from "./ProductRecommendations";
 
 const ProductRecommendations = (props: { productId: string }) => {
   const getOneProductRecommendations =
-    api.shopify.products.getOneRecommendations.useQuery({
+    trpcApi.shopify.products.getOneRecommendations.useQuery({
       productId: props.productId,
     });
 
@@ -55,7 +51,7 @@ const ProductRecommendations = (props: { productId: string }) => {
           className: "max-w-full w-full flex-grow",
           slidesPerView: 3,
           breakpoints: {
-            400: { slidesPerView: 5 },
+            400: { slidesPerView: 4 },
             1024: { slidesPerView: 6 },
           },
         }}
@@ -90,95 +86,6 @@ const ProductRecommendations = (props: { productId: string }) => {
   );
 };
 
-// Credit to: <https://dev.to/anxiny/create-an-image-magnifier-with-react-3fd7>
-const ProductImageShowcase = ({
-  productData,
-  noCustomWith,
-}: {
-  productData: Product;
-  noCustomWith?: boolean;
-}) => {
-  const [selectedImage, setSelectedImage] = useState(productData.featuredImage);
-  const hasImagesVariations = productData.images.edges.length > 1;
-
-  return (
-    <div
-      className={cx(
-        "flex max-w-full flex-grow flex-col gap-x-2 lg:flex-row",
-        noCustomWith
-          ? undefined
-          : hasImagesVariations
-          ? "md:w-8/12 lg:w-6/12"
-          : "md:w-5/12",
-      )}
-    >
-      <ImageMagnifier
-        src={selectedImage.src}
-        // alt={selectedImage.altText ?? ''}
-        width={selectedImage.width || 800}
-        height={selectedImage.height || 800}
-        className="h-full w-full rounded-xl object-contain"
-        containerProps={{
-          className: cx(
-            "aspect-square w-full max-w-[20rem] mx-auto md:max-w-full md:mx-0",
-            hasImagesVariations ? "lg:w-[calc(100%-6rem)]" : "",
-          ),
-        }}
-        priority
-      />
-      {hasImagesVariations && (
-        <Slider
-          verticalOnLG
-          swiperProps={{
-            className:
-              "max-w-full max-h-[24rem] lg:max-w-[6rem] w-full flex-grow",
-            breakpoints: {
-              1024: {
-                direction: "vertical",
-              },
-            },
-            slidesPerView: 4,
-            spaceBetween: 8,
-          }}
-          isNavButtonsOutside
-          containerProps={{
-            className: "flex-grow min-w-[5rem]",
-          }}
-        >
-          {productData.images.edges.map(({ node }) => (
-            <SwiperSlide
-              key={node.id}
-              className="aspect-square items-center justify-center"
-              style={{ display: "flex" }}
-            >
-              <button
-                className={cx(
-                  "block aspect-square w-28 max-w-full transition-all duration-300",
-                  selectedImage === node ? "p-2" : "",
-                )}
-                type="button"
-                onClick={() => setSelectedImage(node)}
-              >
-                <CustomNextImage
-                  src={node}
-                  width={112}
-                  height={112}
-                  className={cx(
-                    "aspect-square h-full w-full object-contain transition-all duration-300",
-                    selectedImage === node
-                      ? "rounded-lg ring-4 ring-special-primary-500 transition-all duration-300"
-                      : "rounded-md",
-                  )}
-                />
-              </button>
-            </SwiperSlide>
-          ))}
-        </Slider>
-      )}
-    </div>
-  );
-};
-
 const CustomProductScreen = ({
   productData,
   children,
@@ -186,8 +93,6 @@ const CustomProductScreen = ({
 }: {
   children?: ReactNode;
   productData: Product;
-  products: Product[];
-  // cardsSliderProps?: Partial<Parameters<typeof CardsSlider>[0]>;
   ctaButtonProps?: Partial<NextJsLinkProps>;
 }) => {
   const [selectedQuantity, setSelectedQuantity] = useState(1);
@@ -292,7 +197,7 @@ const CustomProductScreen = ({
                       className={cx(
                         "w-full",
                         selectedVariant?.title === node.title
-                          ? "h-[calc(100%-0,5rem)] rounded-lg text-[90%] ring-4 ring-special-primary-500 transition-all duration-300"
+                          ? "h-[calc(100%-0.5rem)] rounded-lg text-[90%] ring-4 ring-special-primary-500 transition-all duration-300"
                           : "h-full rounded-md",
                       )}
                     >

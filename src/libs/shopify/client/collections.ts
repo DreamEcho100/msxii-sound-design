@@ -5,7 +5,7 @@ import {
   type CollectionWithPageProducts,
 } from "../types";
 import { graphQLClient } from "./_utils";
-import { gqlProductSchemaText, gqlProductBasicSchemaText } from "./products";
+import { gqlProductBasicSchemaText } from "./products";
 import { z } from "zod";
 import { buildGQLArgsString } from "./utils";
 

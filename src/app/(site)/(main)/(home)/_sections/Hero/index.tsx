@@ -38,14 +38,14 @@ const heroImages: { path: string }[] = [
 
 const HeroHomeSection = () => {
   return (
-    <section className="px-main-p-3 sm:px-main-p-1 flex flex-col justify-center gap-2 overflow-hidden py-8 lg:flex-row">
+    <section className="flex flex-col justify-center gap-2 overflow-hidden px-main-p-3 py-8 sm:px-main-p-1 lg:flex-row">
       <div
         className="lg:text-align-initial 
-py-main-p-3 sm:py-main-p-1 flex flex-col items-center justify-center gap-8 text-center text-[1.125rem] lg:w-1/2 lg:items-start lg:justify-start min-[1350px]:w-auto"
+flex flex-col items-center justify-center gap-8 py-main-p-3 text-center text-[1.125rem] sm:py-main-p-1 lg:w-1/2 lg:items-start lg:justify-start min-[1350px]:w-auto"
       >
         <h1
           className={cx(
-            "text-h1 leading-h1 font-medium",
+            "text-h1 font-medium leading-h1",
             "translate-y-8 opacity-0",
             classNames["item-to-animate-up"],
             classNames.active,
@@ -90,7 +90,7 @@ py-main-p-3 sm:py-main-p-1 flex flex-col items-center justify-center gap-8 text-
         </span>
       </div>
       <div className="relative flex flex-grow items-center justify-center p-8 pb-10 sm:p-16 lg:p-0">
-        <div className="pb-main-p-3 sm:pb-main-p-1 relative aspect-square h-96 w-96 max-w-full">
+        <div className="relative aspect-square h-96 w-96 max-w-full pb-main-p-3 sm:pb-main-p-1">
           {heroImages.map(({ path }, index, arr) => (
             <div
               key={path}
@@ -106,9 +106,9 @@ py-main-p-3 sm:py-main-p-1 flex flex-col items-center justify-center gap-8 text-
                 } as CSSProperties
               }
               className={cx(
-                "item-to-translate-animation active",
+                classNames["item-to-translate-animation"],
+                classNames.active,
                 "absolute inset-0 aspect-square h-full w-full",
-                "transition-transform delay-500 duration-1000",
               )}
             >
               <CustomNextImage

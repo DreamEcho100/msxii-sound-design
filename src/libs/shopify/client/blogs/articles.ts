@@ -91,7 +91,7 @@ const getManyArticlesGQLQuery = async (
 
 export const getQQLManyBasicArticlesInputSchema = z.object({
   limit: z.number().min(1).max(100).nullish(),
-  reverse: z.boolean().nullish(),
+  reverse: z.boolean().nullish().default(true),
   cursor: z.string().nullish(), // <-- "cursor" needs to exist, but can be any type
 });
 const getManyBasicArticlesGQLQuery = async (
@@ -101,6 +101,7 @@ const getManyBasicArticlesGQLQuery = async (
     first: input.limit,
     reverse: input.reverse,
     after: input.cursor && `"${input.cursor}"`,
+    sortKey: "PUBLISHED_AT",
   };
 
   // https://shopify.dev/docs/api/storefront/2023-04/objects/Article

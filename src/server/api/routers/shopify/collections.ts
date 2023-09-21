@@ -24,20 +24,20 @@ export const shopifyCollectionsRouter = createTRPCRouter({
   getOneByHandle: publicProcedure
     .input(oneCollectionByHandleQuerySchema)
     .query(async ({ ctx, input }) => {
-      const items = await ctx.shopify.collections.queries.getOneByHandle(input);
+      const item = (await ctx.shopify.collections.queries.getOneByHandle(input)).collectionByHandle;
 
       let nextCursor: typeof input.cursor | undefined = undefined;
-      if (items.collectionByHandle.products.pageInfo.hasNextPage) {
+      if (item.products.pageInfo.hasNextPage) {
         nextCursor =
-          items.collectionByHandle.products.edges[
-            items.collectionByHandle.products.edges.length - 1
+          item.products.edges[
+            item.products.edges.length - 1
           ]!.cursor;
       }
 
       return {
-        items: items.collectionByHandle.products.edges,
+        item,
         nextCursor,
-        hasNextPage: items.collectionByHandle.products.pageInfo.hasNextPage,
+        hasNextPage: item.products.pageInfo.hasNextPage,
       };
     }),
 });

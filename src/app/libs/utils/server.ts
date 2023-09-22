@@ -10,7 +10,7 @@ export async function getCustomPageData(props: Props) {
   ]);
 }
 
-export async function generateCustomPageDataMetadata(
+export async function generateCustomPageMetadata(
   props: Props,
   parent: ResolvingMetadata,
 ): Promise<Metadata> {

@@ -291,7 +291,7 @@ const HeaderBoxEditOverlay = (props: Props) => {
               titleElem: (
                 <h3 className="text-h6 font-bold capitalize">custom classes</h3>
               ),
-              ___key: "twVariants",
+              ___key: "customCss",
             },
             {
               defaultOpen: true,

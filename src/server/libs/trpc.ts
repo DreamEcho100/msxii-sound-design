@@ -54,7 +54,6 @@ export const createInnerTRPCContext = () => {
     drizzleSchema,
     shopify,
     getCookieManger: () => {
-      console.log("___", typeof window);
       return cookies();
     },
   };
@@ -128,7 +127,7 @@ const enforceUserIsAuthed = t.middleware(({ ctx, next }) => {
   try {
     const cookiesStore = ctx.getCookieManger();
     shopifyUserDecryptedData = getDecryptedShopifyUserDataFromAccessToKen(
-      cookiesStore.get(ACCESS_TOKEN_COOKIE_KEY),
+      cookiesStore.get(ACCESS_TOKEN_COOKIE_KEY)?.value,
     );
   } catch (error) {
     throw new TRPCError({
@@ -153,7 +152,7 @@ const enforceAdminAuthed = t.middleware(({ ctx, next }) => {
   try {
     const cookiesStore = ctx.getCookieManger();
     shopifyUserDecryptedData = getDecryptedShopifyUserDataFromAccessToKen(
-      cookiesStore.get(ACCESS_TOKEN_COOKIE_KEY),
+      cookiesStore.get(ACCESS_TOKEN_COOKIE_KEY)?.value,
     );
     if (
       !allowedAdminEmails.includes(

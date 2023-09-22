@@ -20,7 +20,7 @@ export async function getStaticPaths() {
     fallback: true,
   };
 }
-export async function generateDataMetadata(
+export async function generateMetadata(
   props: Props,
   parent: ResolvingMetadata,
 ): Promise<Metadata> {

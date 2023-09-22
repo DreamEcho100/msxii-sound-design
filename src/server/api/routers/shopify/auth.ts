@@ -122,7 +122,7 @@ export const shopifyAuthRouter = createTRPCRouter({
     try {
       const cookiesStore = ctx.getCookieManger();
       shopifyAccessToken = getDecryptedShopifyUserDataFromAccessToKen(
-        cookiesStore.get(ACCESS_TOKEN_COOKIE_KEY),
+        cookiesStore.get(ACCESS_TOKEN_COOKIE_KEY)?.value,
       ).payload.shopifyAccessToken;
     } catch (error) {
       throw new TRPCError({

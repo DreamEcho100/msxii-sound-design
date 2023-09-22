@@ -5,6 +5,7 @@ import SoundCloudPlayerMenu from "../SoundCloudPlayerMenu";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import TRPCProvider from "./TRPC";
 import { ToastContainer } from "react-toastify";
+import UseCheckAccessToken from "./UseCheckAccessToken";
 
 export default function Providers(props: PropsWithChildren) {
   return (
@@ -25,6 +26,7 @@ export default function Providers(props: PropsWithChildren) {
         enableSystem={false}
         storageKey="msxaudio-theme"
       >
+        <UseCheckAccessToken />
         {props.children}
       </ThemeProvider>
       <SoundCloudPlayerMenu />

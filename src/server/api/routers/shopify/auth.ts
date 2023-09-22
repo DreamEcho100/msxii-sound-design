@@ -1,17 +1,18 @@
+// import {  } from '~/utils/shopify/client/auth';
+import { handleShopifyErrors } from "~/libs/shopify/client/_utils/index";
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
+import {
+  encryptedShopifyUserData,
+  getDecryptedShopifyUserDataFromAccessToKen,
+} from "~/server/libs/shopify";
 import {
   createTRPCRouter,
   customerProtectedProcedure,
   publicProcedure,
-} from "~/server/api/trpc";
-import { customerAccessTokenCreateInputSchema } from "~/utils/shopify/client/auth";
-import { handleShopifyErrors } from "~/utils/shopify/client/_utils";
-import { ACCESS_TOKEN_COOKIE_KEY } from "~/utils/shopify";
-import {
-  encryptedShopifyUserData,
-  getDecryptedShopifyUserDataFromAccessToKen,
-} from "~/server/utils/shopify";
+} from "~/server/libs/trpc";
+import { customerAccessTokenCreateInputSchema } from "~/libs/shopify/client/auth";
+import { ACCESS_TOKEN_COOKIE_KEY } from "~/libs/shopify";
 
 export const shopifyAuthRouter = createTRPCRouter({
   register: publicProcedure
@@ -121,7 +122,7 @@ export const shopifyAuthRouter = createTRPCRouter({
     try {
       const cookiesStore = ctx.getCookieManger();
       shopifyAccessToken = getDecryptedShopifyUserDataFromAccessToKen(
-        cookiesStore.get(ACCESS_TOKEN_COOKIE_KEY),
+        cookiesStore.get(ACCESS_TOKEN_COOKIE_KEY)?.value,
       ).payload.shopifyAccessToken;
     } catch (error) {
       throw new TRPCError({

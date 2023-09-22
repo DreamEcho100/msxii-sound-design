@@ -1,38 +1,31 @@
 {
   "compilerOptions": {
-    "target": "es2017",
+    "target": "ESNext",
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
-    "checkJs": true,
     "skipLibCheck": true,
     "strict": true,
-    "forceConsistentCasingInFileNames": true,
     "noEmit": true,
     "esModuleInterop": true,
     "module": "esnext",
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "preserve",
     "incremental": true,
-    "noUncheckedIndexedAccess": true,
-    "baseUrl": ".",
-    "paths": {
-      "~/*": ["./src/*"]
-    },
-    "plugins": [{ "name": "next" }]
+    "plugins": [{ "name": "next" }],
+    "paths": { "~/*": ["./src/*"] },
+    // "forceConsistentCasingInFileNames": true
+    "forceConsistentCasingInFileNames": false
   },
   "include": [
-    ".eslintrc.cjs",
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
-    "**/*.cjs",
-    "**/*.mjs",
-    "src/utils/obj/update.js",
-    ".next/types/**/*.ts"
+    ".next/types/**/*.ts",
+    "./next.config.mjs"
   ],
-  "exclude": ["node_modules"],
+  "exclude": ["node_modules", "_old"],
   "ts-node": {
     "require": ["tsconfig-paths/register"],
     "esm": true,

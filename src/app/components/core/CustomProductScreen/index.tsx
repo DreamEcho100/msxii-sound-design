@@ -74,7 +74,7 @@ const ProductRecommendations = (props: { productId: string }) => {
                 width={product.featuredImage.width || 250}
                 height={product.featuredImage.height || 250}
                 className={cx(
-                  "aspect-square h-full w-full object-contain transition-all duration-300",
+                  "aspect-square w-full object-contain transition-all duration-300",
                   "rounded-md",
                 )}
               />

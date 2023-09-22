@@ -5,4 +5,5 @@ export const ralewayFont = Raleway({
 	style: ['normal', 'italic'],
 	subsets: ['latin'],
 	variable: '--font-raleway',
+	display: 'swap'
 });

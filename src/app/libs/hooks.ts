@@ -1,6 +1,11 @@
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useStore } from "zustand";
-import { type BasicCollection, type Collection } from "~/libs/shopify/types";
+import {
+  type BasicProduct,
+  type Product,
+  type BasicCollection,
+  type Collection,
+} from "~/libs/shopify/types";
 import { allowedAdminEmails } from "~/server/libs/utils";
 import { globalStore } from "./store";
 import { filterBasicCollectionProductsByTitle } from "./utils";
@@ -47,6 +52,30 @@ export function useBasicCollectionsHandleFilterManager<
     };
   }, [collections, productTitleQuery]);
 
+  const getSelectedCollectionProduct = useCallback(
+    (
+      collectionsByHandle: [string, TCollection[]][],
+      selectedHandles?: string,
+    ) => {
+      if (!selectedHandles) return undefined;
+
+      const filteredCollections: (Product | BasicProduct)[] = [];
+
+      collectionsByHandle.forEach((collectionByHandle) => {
+        if (collectionByHandle[0] !== selectedHandles) return;
+
+        collectionByHandle[1].forEach((item) =>
+          item.products.edges.map((edge) =>
+            filteredCollections.push(edge.node),
+          ),
+        );
+      });
+
+      return filteredCollections.length === 0 ? undefined : filteredCollections;
+    },
+    [],
+  );
+
   return {
     collectionsByHandle,
     pagesCategories,
@@ -55,6 +84,7 @@ export function useBasicCollectionsHandleFilterManager<
     collections,
     productTitleQuery,
     setProductTitleQuery,
+    getSelectedCollectionProduct,
   };
 }
 

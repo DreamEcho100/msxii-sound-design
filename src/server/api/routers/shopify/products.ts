@@ -1,5 +1,8 @@
 import { z } from "zod";
-import { oneProductByHandleQuerySchema, oneProductRecommendationsQuerySchema } from "~/libs/shopify/client/products";
+import {
+  oneProductByHandleQuerySchema,
+  oneProductRecommendationsQuerySchema,
+} from "~/libs/shopify/client/products";
 import { createTRPCRouter, publicProcedure } from "~/server/libs/trpc";
 
 export const shopifyProductsRouter = createTRPCRouter({
@@ -11,17 +14,28 @@ export const shopifyProductsRouter = createTRPCRouter({
         title: z.string().optional().nullable(),
       }),
     )
-    .query(
-      async ({ ctx, input }) =>
-        await ctx.shopify.products.queries.many({
+    .query(async ({ ctx, input }) => {
+      const items = await ctx.shopify.products.queries
+        .manyBasic({
           first: input.limit,
           cursor: input.cursor,
           query: {
-            // available_for_sale: true,
             title: input?.title ? `${input.title}*` : undefined,
           },
-        }),
-    ),
+        })
+        .then((result) => result.products);
+
+      let nextCursor: typeof input.cursor | undefined = undefined;
+      if (items.pageInfo.hasNextPage) {
+        nextCursor = items.edges[items.edges.length - 1]!.cursor;
+      }
+
+      return {
+        items,
+        nextCursor,
+        hasNextPage: items.pageInfo.hasNextPage,
+      };
+    }),
 
   getOneByHandle: publicProcedure
     .input(oneProductByHandleQuerySchema)

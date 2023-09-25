@@ -1,25 +1,25 @@
 "use client";
-import { BasicProductCard } from "./Shopify/Cards/Card";
-import Clickable from "./Clickable";
+import { BasicProductCard } from "../../../../components/core/Shopify/Cards/Card";
+import Clickable from "../../../../components/core/Clickable";
 import Head from "next/head";
-import SectionPrimaryLoader from "../common/Loaders/SectionPrimary";
-import SectionLoaderContainer from "../common/LoadersContainers/Section";
+import SectionPrimaryLoader from "../../../../components/common/Loaders/SectionPrimary";
+import SectionLoaderContainer from "../../../../components/common/LoadersContainers/Section";
 import { type RouterInputs, type RouterOutputs } from "~/server/api/root";
 import { trpcApi } from "~/app/libs/trpc/client";
 type Props = {
-  baseInput: RouterInputs["shopify"]["collections"]["getOneByHandle"];
-  profileData?: RouterOutputs["shopify"]["collections"]["getOneByHandle"];
+  baseInput: RouterInputs["shopify"]["products"]["getManyBasic"];
+  baseData?: RouterOutputs["shopify"]["products"]["getManyBasic"];
 };
 
-const InfiniteLoadCollectionProductsSection = (props: Props) => {
-  const dataQuery = trpcApi.shopify.collections.getOneByHandle.useInfiniteQuery(
+export default function InfiniteLoadBasicProducts(props: Props) {
+  const dataQuery = trpcApi.shopify.products.getManyBasic.useInfiniteQuery(
     props.baseInput,
     {
-      initialData: props.profileData && {
+      initialData: props.baseData && {
         pageParams: [undefined],
-        pages: [props.profileData],
+        pages: [props.baseData],
       },
-      keepPreviousData: !!props.profileData,
+      keepPreviousData: !!props.baseData,
       getNextPageParam: (data) => data.nextCursor,
     },
   );
@@ -40,31 +40,15 @@ const InfiniteLoadCollectionProductsSection = (props: Props) => {
   };
 
   const productsData = dataQuery.data.pages
-    .map((page) => page.items.products.edges.map((item) => item.node))
+    .map((page) => page.items.edges.map((item) => item.node))
     .flat();
 
-  const profileData =
-    dataQuery.data.pages[dataQuery.data.pages.length - 1].items ??
-    props.profileData?.items;
-
   return (
-    <>
-      <Head>
-        <title>
-          {profileData?.title ??
-            props.baseInput.handle
-              .split("-")
-              .map((str) => str.slice(0, 1).toUpperCase() + str.slice(1))
-              .join(" ")}
-        </title>
-        {profileData?.description && (
-          <meta name="description" content={profileData.description} />
-        )}
-      </Head>
+    <section className="flex flex-col gap-8 px-8">
       <div className="grid grid-cols-[repeat(auto-fill,_minmax(15rem,_1fr))] gap-8 lg:flex-nowrap lg:justify-between">
         {productsData.map((item, itemIndex) => (
           <BasicProductCard
-            key={item.handle}
+            key={item.id}
             item={item}
             containerVariants={{ w: null }}
             imgPriority={itemIndex < 8}
@@ -81,8 +65,6 @@ const InfiniteLoadCollectionProductsSection = (props: Props) => {
           load more
         </Clickable>
       )}
-    </>
+    </section>
   );
-};
-
-export default InfiniteLoadCollectionProductsSection;
+}

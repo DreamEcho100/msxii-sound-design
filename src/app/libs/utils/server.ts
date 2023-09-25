@@ -5,7 +5,7 @@ type Props = { params: { pageCategoryName: string; slug?: string } };
 
 export async function getCustomPageData(props: Props) {
   return await Promise.all([
-    serverClient.customPages._getOne(props.params),
+    serverClient.customPages.getOne(props.params),
     serverClient.customPages.pagesCategories.getManyItems(props.params),
   ]);
 }

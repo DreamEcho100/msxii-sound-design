@@ -30,9 +30,7 @@ type SliderProps = {
 interface CardsSliderProps<CardElemProps extends Record<string, unknown>>
   extends Omit<SliderProps, "children"> {
   collections: Collection[] | BasicCollection[];
-  CardElem: FunctionComponent<
-    CardElemProps & { product: Product | BasicProduct }
-  >;
+  CardElem: FunctionComponent<CardElemProps & { item: Product | BasicProduct }>;
   cardsSharedProps?: CardElemProps;
 }
 
@@ -49,7 +47,7 @@ export const CardsSlider = <CardElemProps extends Record<string, unknown>>({
           <SwiperSlide key={node.id} className="flex flex-col">
             <CardElem
               key={node.id}
-              product={node}
+              item={node}
               {...cardsSharedProps}
               imgPriority={collectionIndex > 2 && index < 5}
             />
@@ -118,7 +116,7 @@ const Slider = ({
       </div>
 
       <Swiper
-        className="cards-container flex-grow"
+        className="cards-container"
         navigation={{
           prevEl: navigationPrevRef.current,
           nextEl: navigationNextRef.current,
@@ -128,7 +126,7 @@ const Slider = ({
         slidesPerView={1}
         spaceBetween={20}
         breakpoints={{
-          384: { slidesPerView: 2 },
+          384: { slidesPerView: 2, spaceBetween: 10 },
           768: { slidesPerView: 3 },
           1024: { slidesPerView: 5 },
           1280: { slidesPerView: 6 },

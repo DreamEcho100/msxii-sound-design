@@ -1,5 +1,4 @@
 "use client";
-import { useEffect, useRef } from "react";
 import { FaFacebookF, FaInstagram, FaTwitter, FaYoutube } from "react-icons/fa";
 import Clickable from "~/app/components/core/Clickable";
 import { motion } from "framer-motion";
@@ -12,7 +11,6 @@ import CustomNextImage from "~/app/components/common/CustomNextImage";
 import { useTheme } from "next-themes";
 
 const MainLayoutFooter = () => {
-  const mainFooterRef = useRef<HTMLElement>(null);
   const toggleSearchMenuDropdown = useStore(
     globalStore,
     (store) => store.menus.toggleSearchMenuDropdown,
@@ -109,24 +107,8 @@ const MainLayoutFooter = () => {
     },
   ];
 
-  useEffect(() => {
-    const mainFooterResizeObserver = new ResizeObserver((entries) => {
-      entries.forEach((entry) => {
-        const heightInRem = `${(entry.contentRect.height / 16).toFixed(2)}rem`;
-        process.env.NODE_ENV === "development" &&
-          console.log("heightInRem", heightInRem);
-      });
-    });
-
-    if (!mainFooterRef.current) return;
-
-    mainFooterResizeObserver.observe(mainFooterRef.current);
-
-    return () => mainFooterResizeObserver.disconnect();
-  }, []);
-
   return (
-    <footer id="main-footer" ref={mainFooterRef}>
+    <footer id="main-footer">
       <div className="mx-auto flex max-w-main flex-col gap-4 px-main-p-3 py-main-p-4 text-text-primary-400 dark:text-text-primary-600 sm:px-main-p-2">
         <div className="flex flex-wrap justify-between gap-4">
           {footerLinks.map((item) => (

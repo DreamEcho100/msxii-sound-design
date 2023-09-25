@@ -1,11 +1,39 @@
 "use client";
 import { cx } from "class-variance-authority";
-import { useState } from "react";
-import { type Product } from "~/libs/shopify/types";
+import { type SetStateAction, useState } from "react";
+import { type ShopifyImage, type Product } from "~/libs/shopify/types";
 import ImageMagnifier from "../../common/ImageMagnifier";
-import Slider from "../Shopify/Cards/Slider";
-import { SwiperSlide } from "swiper/react";
 import CustomNextImage from "../../common/CustomNextImage";
+import Slider from "../../common/Slider";
+
+const VariantsSlideComp = (props: {
+  item: { node: ShopifyImage };
+  selectedImage: ShopifyImage;
+  setSelectedImage: (value: SetStateAction<ShopifyImage>) => void;
+}) => {
+  return (
+    <button
+      className={cx(
+        "flex aspect-square w-28 max-w-full items-center justify-center transition-all duration-300",
+        props.selectedImage.id === props.item.node.id ? "p-2" : "",
+      )}
+      type="button"
+      onClick={() => props.setSelectedImage(props.item.node)}
+    >
+      <CustomNextImage
+        src={props.item.node}
+        width={112}
+        height={112}
+        className={cx(
+          "aspect-square h-full w-full object-contain transition-all duration-300",
+          props.selectedImage.id === props.item.node.id
+            ? "rounded-lg ring-4 ring-special-primary-500 transition-all duration-300"
+            : "rounded-md",
+        )}
+      />
+    </button>
+  );
+};
 
 // Credit to: <https://dev.to/anxiny/create-an-image-magnifier-with-react-3fd7>
 export default function ProductImageShowcase({
@@ -44,52 +72,24 @@ export default function ProductImageShowcase({
       />
       {hasImagesVariations && (
         <Slider
+          data={productData.images.edges}
           verticalOnLG
-          swiperProps={{
-            className:
-              "max-w-full max-h-[24rem] lg:max-w-[6rem] w-full flex-grow",
-            breakpoints: {
-              1024: {
-                direction: "vertical",
-              },
+          breakpoints={{
+            1024: {
+              direction: "vertical",
             },
-            slidesPerView: 4,
-            spaceBetween: 8,
           }}
+          slidesPerView={4}
+          spaceBetween={8}
           isNavButtonsOutside
           containerProps={{
-            className: "flex-grow min-w-[5rem]",
+            className:
+              "flex-grow min-w-[5rem] max-w-full max-h-[24rem] lg:max-w-[6rem] w-full flex-grow",
           }}
-        >
-          {productData.images.edges.map(({ node }) => (
-            <SwiperSlide
-              key={node.id}
-              className="aspect-square items-center justify-center"
-              style={{ display: "flex" }}
-            >
-              <button
-                className={cx(
-                  "block aspect-square w-28 max-w-full transition-all duration-300",
-                  selectedImage === node ? "p-2" : "",
-                )}
-                type="button"
-                onClick={() => setSelectedImage(node)}
-              >
-                <CustomNextImage
-                  src={node}
-                  width={112}
-                  height={112}
-                  className={cx(
-                    "aspect-square h-full w-full object-contain transition-all duration-300",
-                    selectedImage === node
-                      ? "rounded-lg ring-4 ring-special-primary-500 transition-all duration-300"
-                      : "rounded-md",
-                  )}
-                />
-              </button>
-            </SwiperSlide>
-          ))}
-        </Slider>
+          getSlideKey={(item) => item.node.id}
+          SlideComp={VariantsSlideComp}
+          compProps={{ selectedImage, setSelectedImage }}
+        />
       )}
     </div>
   );

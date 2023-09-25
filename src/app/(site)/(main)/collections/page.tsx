@@ -1,5 +1,5 @@
 import { serverClient } from "~/app/libs/trpc/serverClient";
-import { getEdgeNodes } from "~/libs/shopify";
+import { getCollectionWithNoEdges } from "~/libs/shopify";
 import { type RouterInputs } from "~/server/api/root";
 import CollectionsScreen from "./screen";
 
@@ -17,13 +17,29 @@ export const metadata = {
   description: "Our Collections",
 };
 
-const CollectionsPage = async () => {
+const CollectionsPage = async (props: {
+  params: Record<string, never>;
+  searchParams: { handles?: string };
+}) => {
+  let selectedHandles = props.searchParams.handles?.split(",");
+  if (selectedHandles?.length === 1)
+    selectedHandles = selectedHandles.filter(Boolean);
   const basicCollectionsEdges = await getPageData();
-  const basicCollections = getEdgeNodes(basicCollectionsEdges, (item) => {
-    return item.handle === "all-products" || item.handle === "merch";
+  const data = getCollectionWithNoEdges(basicCollectionsEdges, {
+    withHandles: true,
+    filterHandles(handle) {
+      return handle !== "all-products" && handle !== "merch";
+    },
+    filterCollectionWithEdge(collectionWithEdgedProducts) {
+      return (
+        !selectedHandles ||
+        selectedHandles.length === 0 ||
+        selectedHandles.includes(collectionWithEdgedProducts.handle)
+      );
+    },
   });
 
-  return <CollectionsScreen basicCollections={basicCollections} />;
+  return <CollectionsScreen {...data} selectedHandles={selectedHandles} />;
 };
 
 export default CollectionsPage;

@@ -1,4 +1,7 @@
-import { getQQLManyCollectionTextSchema, oneCollectionByHandleQuerySchema } from "~/libs/shopify/client/collections";
+import {
+  getQQLManyCollectionTextSchema,
+  oneCollectionByHandleQuerySchema,
+} from "~/libs/shopify/client/collections";
 import { createTRPCRouter, publicProcedure } from "~/server/libs/trpc";
 
 export const shopifyCollectionsHandlesRouter = createTRPCRouter({
@@ -24,20 +27,20 @@ export const shopifyCollectionsRouter = createTRPCRouter({
   getOneByHandle: publicProcedure
     .input(oneCollectionByHandleQuerySchema)
     .query(async ({ ctx, input }) => {
-      const item = (await ctx.shopify.collections.queries.getOneByHandle(input)).collectionByHandle;
+      const items = (
+        await ctx.shopify.collections.queries.getOneByHandle(input)
+      ).collectionByHandle;
 
       let nextCursor: typeof input.cursor | undefined = undefined;
-      if (item.products.pageInfo.hasNextPage) {
+      if (items.products.pageInfo.hasNextPage) {
         nextCursor =
-          item.products.edges[
-            item.products.edges.length - 1
-          ]!.cursor;
+          items.products.edges[items.products.edges.length - 1]!.cursor;
       }
 
       return {
-        item,
+        items,
         nextCursor,
-        hasNextPage: item.products.pageInfo.hasNextPage,
+        hasNextPage: items.products.pageInfo.hasNextPage,
       };
     }),
 });

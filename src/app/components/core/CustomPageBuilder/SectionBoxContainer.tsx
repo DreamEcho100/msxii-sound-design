@@ -1,8 +1,7 @@
 import { type CSSProperties } from "react";
 import { type BoxTypes } from "@prisma/client";
-import { type PageStoreApi } from "./types";
+import { type Box, type PageStoreApi } from "./types";
 import SectionBox from "./SectionBox";
-import { type Box } from "./_";
 
 export function SectionBoxContainer(props: {
   box: Box;

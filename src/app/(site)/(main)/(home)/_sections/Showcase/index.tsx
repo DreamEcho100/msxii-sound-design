@@ -4,28 +4,27 @@ import {
   ProductCard,
   ProductBundleCard,
 } from "~/app/components/core/Shopify/Cards/Card";
-import { CardsSlider } from "~/app/components/core/Shopify/Cards/Slider";
 import FilteredProducts from "./FilteredProducts";
+import ProductsCardsSlider from "~/app/components/core/Shopify/Cards/ProductsCardsSlider";
 
 type HomeShowcaseSectionProps = {
   flattenedCollectionEdges: BasicCollection[];
-  bundlesCollections: BasicCollection[];
+  bundlesCollections: BasicProduct[];
   selectedBundlesCollections: BasicProduct[];
 };
 
 export default function HomeShowcaseSection(props: HomeShowcaseSectionProps) {
   return (
     <section className="sm:p-main-p-3">
-      <div className="bg-bg-primary-100 px-main-p-4 py-main-p-2 dark:bg-bg-primary-900 flex flex-col gap-16 sm:rounded-xl">
+      <div className="flex flex-col gap-16 bg-bg-primary-100 px-main-p-4 py-main-p-2 dark:bg-bg-primary-900 sm:rounded-xl">
         <FilteredProducts basicCollections={props.flattenedCollectionEdges} />
         <article className="flex flex-col gap-4 px-4">
           <header>
-            <h2 className="text-h1 leading-h2 px-8 font-semibold">Bundles</h2>
+            <h2 className="px-8 text-h1 font-semibold leading-h2">Bundles</h2>
           </header>
           <div className="flex flex-col gap-8">
-            <CardsSlider
-              collections={props.bundlesCollections}
-              CardElem={ProductCard}
+            <ProductsCardsSlider
+              data={props.bundlesCollections}
               nextSlideButtonClassName="-translate-y-[200%] lg:-translate-y-[200%]"
               previousSlideButtonClassName="-translate-y-[200%] lg:-translate-y-[200%]"
             />
@@ -38,7 +37,7 @@ export default function HomeShowcaseSection(props: HomeShowcaseSectionProps) {
               {props.selectedBundlesCollections.map((item) => (
                 <ProductBundleCard
                   key={item.id}
-                  product={item}
+                  item={item}
                   containerVariants={{ flex: "grow", w: null }}
                 />
               ))}

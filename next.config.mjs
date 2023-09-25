@@ -1,4 +1,5 @@
 // @ts-check
+import million from "million/compiler";
 
 /**
  * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation.
@@ -60,4 +61,4 @@ const config = {
     ];
   },
 };
-export default config;
+export default million.next(config);

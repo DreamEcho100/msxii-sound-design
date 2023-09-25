@@ -2,33 +2,10 @@ import { z } from "zod";
 
 import { isNull, lte } from "drizzle-orm";
 import { createTRPCRouter, publicProcedure } from "~/server/libs/trpc";
-import { CustomPages } from "~/libs/utils/appData";
 import { TRPCError } from "@trpc/server";
 
 export const customPagesRouter = createTRPCRouter({
   getOne: publicProcedure
-    .input(
-      z.object({
-        slug: z.string().nullable().optional(),
-        pageCategoryName: z.string().optional(),
-      }),
-    )
-    .query(({ input }) => {
-      if (!input.slug && !input.pageCategoryName)
-        throw new TRPCError({ code: "BAD_REQUEST" });
-
-      const product = CustomPages.find(
-        (item) =>
-          (typeof input.slug === "undefined" || item.slug === input.slug) &&
-          (typeof input.pageCategoryName === "undefined" ||
-            item.pageCategoryName === input.pageCategoryName),
-      );
-
-      if (!product) throw new TRPCError({ code: "NOT_FOUND" });
-
-      return product;
-    }),
-  _getOne: publicProcedure
     .input(
       z.object({
         slug: z.string().nullable().optional(),

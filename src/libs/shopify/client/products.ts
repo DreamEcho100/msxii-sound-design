@@ -103,7 +103,7 @@ const manyProductsQuery = async (
   const template = gql`
 				query getProducts($first: Int${queryStr ? ", $query: String" : ""}) {
 					products(first: $first${queryStr ? ", query: $query" : ""}${
-            !input.cursor ? "" : `after: "${input.cursor}"`
+            !input.cursor ? "" : `, after: "${input.cursor}"`
           }) {
 						edges {
 							cursor
@@ -208,7 +208,7 @@ const oneProductRecommendationsQuery = async (
 const products = {
   queries: {
     getManyHandles: manyProductsHandles,
-    many: manyProductsQuery,
+    manyBasic: manyProductsQuery,
     getOneByHandle: oneProductByHandleQuery,
     getOneHTMLDescriptionByHandle: oneProductHTMLDescriptionByHandleQuery,
     recommendations: oneProductRecommendationsQuery,

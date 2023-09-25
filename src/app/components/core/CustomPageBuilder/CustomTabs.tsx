@@ -1,6 +1,10 @@
 "use client";
-import { type Box, type BoxTypeTabs, type TabsBox } from "./_";
-import { type PageStoreApi } from "./types";
+import {
+  type Box,
+  type BoxTypeTabs,
+  type TabsBox,
+  type PageStoreApi,
+} from "./types";
 import { type ReactNode } from "react";
 import * as Tabs from "@radix-ui/react-tabs";
 import { cx } from "class-variance-authority";

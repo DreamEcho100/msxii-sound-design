@@ -13,6 +13,7 @@ export const oneCollectionByHandleQuerySchema = z.object({
   handle: z.string(),
   limit: z.number().min(5).max(50),
   cursor: z.string().nullish(),
+  query: z.string().nullish(),
 });
 
 // , filters: { available: true }
@@ -22,6 +23,7 @@ const gqlCollectionSchemaWithBasicProductsText = (
   const argsMap = {
     first: input.limit,
     after: input.cursor && `"${input.cursor}"`,
+    query: input.query && `"${input.query}*"`,
   };
 
   return `description
@@ -67,7 +69,11 @@ const getQQLManyCollectionText = (
 
   // ${!queryText ? '' : `query: ${queryText}, `}
   // , filters: { available: true }
-  const first = input?.productsFirst ?? 10;
+  const argsMap = {
+    first: input?.productsFirst ?? 10,
+  };
+
+  console.log("argsMap", argsMap);
 
   return `description
 	handle
@@ -75,7 +81,7 @@ const getQQLManyCollectionText = (
 	onlineStoreUrl
 	title
 	updatedAt
-	products(first: ${first}) {
+	products(${buildGQLArgsString(argsMap)}) {
 		edges {
 			node {
 				${gqlProductBasicSchemaText}

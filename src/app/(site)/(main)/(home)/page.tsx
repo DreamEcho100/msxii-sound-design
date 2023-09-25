@@ -27,9 +27,10 @@ export default async function HomeScreen() {
     serverClient.shopify.blog.articles.getManyBasic(blogGetManyInput),
     serverClient.shopify.collections.getAllBasic(input).then((result) => {
       const flattenedCollectionEdges = getEdgeNodes(result);
-      const bundlesCollections = flattenedCollectionEdges.filter(
-        (item) => item.handle === "bundles",
-      );
+      const bundlesCollections = flattenedCollectionEdges
+        .filter((item) => item.handle === "bundles")
+        .map((collection) => collection.products.edges.map(({ node }) => node))
+        .flat();
       const selectedBundlesCollections = (() => {
         const handlesMap: Record<string, boolean> = {};
         const selectedProducts: BasicProduct[] = [];

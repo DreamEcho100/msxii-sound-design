@@ -14,7 +14,7 @@ export type CustomPageProps = {
   // 	unknown // TRPCClientErrorLike<TProcedure>
   // >;
   customPageStructureQuery: UseTRPCQueryResult<
-    RouterOutputs["customPages"]["_getOne"],
+    RouterOutputs["customPages"]["getOne"],
     unknown // TRPCClientErrorLike<TProcedure>
   >;
   getManyPagesCategoriesItemsQuery: UseTRPCQueryResult<
@@ -92,7 +92,7 @@ export const useGetCustomPageData = (props?: {
     ],
   );
 
-  const customPageStructureQuery = api.customPages._getOne.useQuery(
+  const customPageStructureQuery = api.customPages.getOne.useQuery(
     {
       pageCategoryName: pageParams.pageCategoryName!,
       slug: pageParams.slug,

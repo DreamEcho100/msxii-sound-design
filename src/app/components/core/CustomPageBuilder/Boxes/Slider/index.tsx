@@ -1,8 +1,7 @@
 "use client";
 import { useState, type ReactNode, useEffect } from "react";
 import BoxEditOverlay from "../../BoxEditOverlay";
-import { type Box, type BoxTypeSlider,  } from "../../_";
-import { type PageStoreApi } from "../../types";
+import { type Box, type BoxTypeSlider, type PageStoreApi } from "../../types";
 import { BoxTypes, SlidesPerViewType } from "@prisma/client";
 import { useStore } from "zustand";
 import { cx } from "class-variance-authority";
@@ -23,8 +22,6 @@ import {
   TwVariantsForm,
   useCreateTwVariantsFormStore,
 } from "../../Css/TwVariants";
-import SliderComp from "../../../Shopify/Cards/Slider";
-import { SwiperSlide } from "swiper/react";
 import { trpcApi } from "~/app/libs/trpc/client";
 import { createOneSliderSchema } from "~/libs/utils/validations-schemas/dashboard/boxes/types/sliders";
 import Form from "~/app/components/common/@de100/form-echo/Forms";
@@ -34,6 +31,7 @@ import { getValueByPathArray, newUpdatedByPathArray } from "~/libs/obj/update";
 import { CreateOneCustomCssSchema } from "~/libs/utils/validations-schemas/dashboard/css/customClasses";
 import Accordion from "~/app/components/common/Accordion";
 import { SectionBoxContainer } from "../../SectionBoxContainer";
+import { default as SliderComp } from "~/app/components/common/Slider";
 
 type Slider = {
   slidesPerViewType: (typeof SlidesPerViewType)[keyof typeof SlidesPerViewType];
@@ -152,6 +150,24 @@ const SliderForm = (props: {
   );
 };
 
+const SlideComp = (props: {
+  item: BoxTypeSlider["slider"]["slidersBoxes"][number];
+  parentBox: "SLIDER";
+  boxDeepLevel: number;
+  path: (number | string)[];
+  pageStore: PageStoreApi;
+}) => {
+  const { item, ..._props } = props;
+
+  return (
+    <>
+      {/* <SwiperSlide key={boxToSlider.boxId} className="flex flex-col"> */}
+      <SectionBoxContainer box={item.box as Box} {..._props} />
+      {/* </SwiperSlide> */}
+    </>
+  );
+};
+
 const SliderView = (
   props: {
     childrenAfter?: ReactNode;
@@ -192,43 +208,34 @@ const SliderView = (
       <div className={props.className}>
         {!forceRerender && (
           <SliderComp
-            swiperProps={{
-              className: cx(customPageClasses.swiper, "swiper-fluid"),
-              breakpoints:
-                props.slidesPerViewType === SlidesPerViewType.LARGE_SLIDES
-                  ? {
-                      640: { slidesPerView: 2 },
-                      1024: { slidesPerView: 3 },
-                      1280: { slidesPerView: 4 },
-                    }
-                  : props.slidesPerViewType === SlidesPerViewType.ONE_SLIDE
-                  ? { 0: { slidesPerView: 1 } }
-                  : {
-                      400: { slidesPerView: 2 },
-                      768: { slidesPerView: 3 },
-                      1024: { slidesPerView: 4 },
-                      1280: { slidesPerView: 5 },
-                    },
-            }}
-          >
-            {props.slidersBoxes.map((boxToSlider, boxToSliderIndex) => (
-              <SwiperSlide key={boxToSlider.boxId} className="flex flex-col">
-                <SectionBoxContainer
-                  box={boxToSlider.box as Box}
-                  parentBox={BOX_TYPE}
-                  boxDeepLevel={newBoxDeepLevel}
-                  path={[
-                    ...props.path,
-                    "slider",
-                    "slidersBoxes",
-                    boxToSliderIndex,
-                    "box",
-                  ]}
-                  pageStore={props.pageStore}
-                />
-              </SwiperSlide>
-            ))}
-          </SliderComp>
+            className={cx(customPageClasses.swiper, "swiper-fluid")}
+            breakpoints={
+              props.slidesPerViewType === SlidesPerViewType.LARGE_SLIDES
+                ? {
+                    640: { slidesPerView: 2, spaceBetween: 20 },
+                    1024: { slidesPerView: 3, spaceBetween: 30 },
+                    1280: { slidesPerView: 4, spaceBetween: 30 },
+                  }
+                : props.slidesPerViewType === SlidesPerViewType.ONE_SLIDE
+                ? { 0: { slidesPerView: 1 } }
+                : {
+                    400: { slidesPerView: 2, spaceBetween: 20 },
+                    768: { slidesPerView: 3, spaceBetween: 30 },
+                    1024: { slidesPerView: 4, spaceBetween: 30 },
+                    1280: { slidesPerView: 5, spaceBetween: 30 },
+                  }
+            }
+            data={props.slidersBoxes}
+            getSlideKey={(item) => item.id}
+            SlideComp={SlideComp}
+            compProps={(_, itemIndex) => ({
+              parentBox: BOX_TYPE,
+              boxDeepLevel: newBoxDeepLevel,
+              path: [...props.path, "slider", "slidersBoxes", itemIndex, "box"],
+              pageStore: props.pageStore,
+            })}
+            isNavButtonsOutside
+          />
         )}
         {props.childrenAfter}
       </div>

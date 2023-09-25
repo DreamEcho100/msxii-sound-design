@@ -18,6 +18,10 @@ export type EdgesWithPagination<Node> = {
   };
 };
 
+export type GetNodeFromEdge<TEdges> = TEdges extends Edges<infer Node>
+  ? Node
+  : never;
+
 export type ShopifyErrorShape<ErrorCodes> = {
   // https://shopify.dev/docs/api/storefront/2023-04/enums/CustomerErrorCode
   code: ErrorCodes;
@@ -171,22 +175,22 @@ export type BasicProduct = {
 
   priceRange: {
     maxVariantPrice: {
-      amount: "369.99";
-      currencyCode: "USD";
+      amount: string;
+      currencyCode: string;
     };
     minVariantPrice: {
-      amount: "369.99";
-      currencyCode: "USD";
+      amount: string;
+      currencyCode: string;
     };
   };
   compareAtPriceRange: {
     maxVariantPrice: {
-      amount: "437.84";
-      currencyCode: "USD";
+      amount: string;
+      currencyCode: string;
     };
     minVariantPrice: {
-      amount: "437.84";
-      currencyCode: "USD";
+      amount: string;
+      currencyCode: string;
     };
   };
   images: Edges<ShopifyImage>;
@@ -224,6 +228,16 @@ export type BasicCollection = {
   title: string;
   updatedAt: string;
   products: Edges<BasicProduct>;
+};
+
+export type BasicCollectionWithNoEdges = Omit<BasicCollection, "products"> & {
+  products: BasicProduct[];
+};
+
+export type TGetCollectionWithNoEdges<
+  TCollection extends Edges<BasicCollection> | Edges<Collection>,
+> = Omit<GetNodeFromEdge<TCollection>, "products"> & {
+  products: GetNodeFromEdge<GetNodeFromEdge<TCollection>["products"]>[];
 };
 
 export type BasicArticle = {

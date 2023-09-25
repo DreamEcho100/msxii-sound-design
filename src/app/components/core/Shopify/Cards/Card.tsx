@@ -67,7 +67,7 @@ const handleBasicProductCardTitleVariants = cva(
 );
 
 export const BasicProductCard = (props: {
-  product: Product | BasicProduct;
+  item: Product | BasicProduct;
   extraDetailsElem?: ReactNode;
   containerVariants?: VariantProps<typeof handleBasicProductCardHolderVariants>;
   containerClassName?: string;
@@ -81,8 +81,7 @@ export const BasicProductCard = (props: {
   imgPriority?: boolean;
 }) => {
   const routeBase = props.routeBase ?? "/products"; // collections
-
-  const isGif = props.product.featuredImage.url.includes(".gif");
+  const isGif = props.item.featuredImage.url.includes(".gif");
 
   return (
     <article
@@ -96,11 +95,11 @@ export const BasicProductCard = (props: {
           props.imageHolderVariants,
         )}
       >
-        <Link href={`${routeBase}/${props.product.handle}`}>
+        <Link href={`${routeBase}/${props.item.handle}`}>
           {isGif ? (
             <video
-              poster={props.product.featuredImage.url}
-              title={props.product.title}
+              poster={props.item.featuredImage.url}
+              title={props.item.title}
               width={325}
               height={325}
               className={handleBasicProductCardImageVariants(
@@ -113,8 +112,8 @@ export const BasicProductCard = (props: {
             />
           ) : (
             <CustomNextImage
-              src={props.product.featuredImage.url}
-              alt={props.product.title}
+              src={props.item.featuredImage.url}
+              alt={props.item.title}
               width={325}
               height={325}
               className={handleBasicProductCardImageVariants(
@@ -124,15 +123,15 @@ export const BasicProductCard = (props: {
             />
           )}
         </Link>
-        {props.isPlayButtonActive && <PlayButton product={props.product} />}
+        {props.isPlayButtonActive && <PlayButton product={props.item} />}
       </div>
-      <div className="text-align-initial leading-primary-5 flex flex-grow flex-col justify-between gap-2 px-2 py-3">
+      <div className="text-align-initial flex flex-grow flex-col justify-between gap-2 px-2 py-3 leading-primary-5">
         <h3
           className={handleBasicProductCardTitleVariants(props.titleVariants)}
-          title={props.product.title}
+          title={props.item.title}
         >
-          <Link href={`${routeBase}/${props.product.handle}`}>
-            {props.product.title}
+          <Link href={`${routeBase}/${props.item.handle}`}>
+            {props.item.title}
           </Link>
         </h3>
         {props.extraDetailsElem}
@@ -155,7 +154,7 @@ export const ProductExtraDetails = ({
 
   return (
     <>
-      <p className="text-text-primary-500/60 -translate-y-[20%] whitespace-nowrap text-[90%] font-normal">
+      <p className="-translate-y-[20%] whitespace-nowrap text-[90%] font-normal text-text-primary-500/60">
         <ProductPrice
           price={{
             amount: Number(productVariant.price.amount),
@@ -187,19 +186,21 @@ export const ProductExtraDetails = ({
   );
 };
 
+export type ProductCardProps = {
+  item: Product | BasicProduct;
+  extraDetailsElemProps?: Partial<Parameters<typeof ProductExtraDetails>[0]>;
+} & Partial<Omit<Parameters<typeof BasicProductCard>[0], "item">>;
+
 export const ProductCard = ({
-  product,
+  item,
   extraDetailsElemProps,
   ...props
-}: {
-  product: Product | BasicProduct;
-  extraDetailsElemProps?: Partial<Parameters<typeof ProductExtraDetails>[0]>;
-} & Partial<Parameters<typeof BasicProductCard>[0]>) => {
+}: ProductCardProps) => {
   return (
     <BasicProductCard
-      product={product}
+      item={item}
       extraDetailsElem={
-        <ProductExtraDetails {...extraDetailsElemProps} product={product} />
+        <ProductExtraDetails {...extraDetailsElemProps} product={item} />
       }
       {...props}
     />
@@ -207,13 +208,13 @@ export const ProductCard = ({
 };
 
 export const ProductBundleCard = ({
-  product,
+  item: product,
   ...props
-}: Pick<Parameters<typeof BasicProductCard>[0], "product"> &
-  Omit<Partial<Parameters<typeof BasicProductCard>[0]>, "product">) => {
+}: Pick<Parameters<typeof BasicProductCard>[0], "item"> &
+  Omit<Partial<Parameters<typeof BasicProductCard>[0]>, "item">) => {
   return (
     <BasicProductCard
-      product={product}
+      item={product}
       containerVariants={{ "aspect-ratio": "video" }}
       imageHolderVariants={{ "object-fit": "cover" }}
       titleVariants={{ "text-align": "center", "text-size": "md" }}

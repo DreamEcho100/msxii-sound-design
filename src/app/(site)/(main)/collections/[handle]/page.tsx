@@ -44,15 +44,15 @@ export async function generateMetadata(
   // optionally access and extend (rather than replace) parent metadata
   const previousImages = (await parent).openGraph?.images ?? [];
   const images = [
-    ...collectionData.profile.item.products.edges.map(
+    ...collectionData.profile.items.products.edges.map(
       ({ node }) => node.featuredImage.url,
     ),
     ...previousImages,
   ];
 
   return {
-    title: collectionData.profile.item.title,
-    description: collectionData.profile.item.description ?? undefined,
+    title: collectionData.profile.items.title,
+    description: collectionData.profile.items.description ?? undefined,
     openGraph: { images },
   };
 }
@@ -69,7 +69,7 @@ const CollectionPage = async (props: Props) => {
     >
       <header className="lg:text-align-initial flex flex-col gap-6 text-center">
         <h1 className="text-h3 font-semibold capitalize">
-          {collectionData.profile.item.title ??
+          {collectionData.profile.items.title ??
             collectionData.baseInput.handle
               .split("-")
               .map((str) => str.slice(0, 1).toUpperCase() + str.slice(1))

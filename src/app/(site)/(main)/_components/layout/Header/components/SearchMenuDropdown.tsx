@@ -9,6 +9,7 @@ import { globalStore } from "~/app/libs/store";
 
 const SearchMenuDropdown = () => {
   const productTitleQueryInputRef = useRef<HTMLInputElement>(null);
+  // useSearchParams()
   const [formValues, setFormValues] = useState({
     productTitleQuery: "",
   });
@@ -33,9 +34,9 @@ const SearchMenuDropdown = () => {
           transition={{ duration: 0.3 }}
           className="flex justify-end"
         >
-          <div className="bg-bg-primary-0 w-full max-w-screen-md overflow-hidden md:mx-auto md:rounded-b-lg lg:mx-8">
+          <div className="w-full max-w-screen-md overflow-hidden bg-bg-primary-0 md:mx-auto md:rounded-b-lg lg:mx-8">
             <form
-              className="bg-bg-primary-600/75 dark:bg-bg-primary-400 text-text-primary-600  flex items-center gap-4 px-4"
+              className="flex items-center gap-4  bg-bg-primary-600/75 px-4 text-text-primary-600 dark:bg-bg-primary-400"
               onSubmit={(event) => {
                 event.preventDefault();
 
@@ -46,7 +47,7 @@ const SearchMenuDropdown = () => {
                   return;
 
                 router.push(
-                  `collections?productTitleQuery=${formValues.productTitleQuery}`,
+                  `/products?productTitleQuery=${formValues.productTitleQuery}`,
                 );
               }}
             >
@@ -57,7 +58,7 @@ const SearchMenuDropdown = () => {
               >
                 <BiSearchAlt2 className="text-[125%]" />
               </Clickable>
-              <div className="bg-bg-primary-0 my-2 flex flex-grow overflow-hidden rounded-3xl">
+              <div className="my-2 flex flex-grow overflow-hidden rounded-3xl bg-bg-primary-0">
                 <input
                   ref={productTitleQueryInputRef}
                   type="search"
@@ -74,7 +75,7 @@ const SearchMenuDropdown = () => {
                 />
                 <Clickable
                   variants={null}
-                  className="text-text-primary-300 px-2 py-1"
+                  className="px-2 py-1 text-text-primary-300"
                   onClick={() => {
                     setFormValues(() => ({ productTitleQuery: "" }));
                     productTitleQueryInputRef.current?.focus();

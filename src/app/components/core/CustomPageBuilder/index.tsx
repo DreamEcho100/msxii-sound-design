@@ -1,73 +1,87 @@
-export { default as CustomPageBuilder_ } from "./_";
-import { type ReactNode } from "react";
+"use client";
 
-import { cx } from "class-variance-authority";
-import customPageClasses from "~/app/styles/custom-page.module.css";
-import {
-  type CustomPage,
-  type StandardSection,
-} from "~/libs/utils/types/custom-page";
+import { type ReactNode } from "react";
 import { handleBoxVariants } from "~/libs/utils/appData";
-import { SectionBodyBox } from "./SectionBodyBox";
+import { cx } from "class-variance-authority";
+import { createStore } from "zustand";
+import { type BoxVariants } from "~/libs/utils/appData";
+import {
+  type PageStoreApi,
+  type PageStore,
+  type Page,
+  type Section,
+} from "./types";
+import { SectionBoxContainer } from "./SectionBoxContainer";
+import customPageClasses from "~/app/styles/custom-page.module.css";
 
 type Props = {
-  customPage: CustomPage;
+  page: Page;
   children?: ReactNode;
+  path?: (string | number)[];
 };
 
-const CustomPageBuilder = (props: Props) => {
-  return (
-    <div
-      className={handleBoxVariants({
-        ...props.customPage.twClassNameVariants,
-        className: "flex flex-col text-h6 text-text-primary-400",
-      })}
-    >
-      {props.customPage.pageStructure.map((section, index) => (
-        <SectionBody key={index} section={section} sectionIndex={index} />
-      ))}
-      {props.children}
-    </div>
-  );
-};
-
-const SectionBody = ({
-  section,
-  sectionIndex,
-}: {
-  section: StandardSection;
-  sectionIndex: number;
-}) => {
+function SectionBody(props: {
+  section: Section;
+  boxDeepLevel?: number;
+  path: (string | number)[];
+  pageStore: PageStoreApi;
+}) {
+  const boxDeepLevel = props.boxDeepLevel ?? 1;
   return (
     <section
       className={cx(
         "flex flex-col",
-        handleBoxVariants(section.twClassNameVariants),
-        ...(section.customPageClassesKeys
-          ? section.customPageClassesKeys.map((key) => customPageClasses[key])
+        handleBoxVariants(props.section.css.twVariants as BoxVariants),
+        ...(props.section.css.customClasses
+          ? props.section.css.customClasses.map((key) => customPageClasses[key])
           : []),
       )}
     >
-      {!!(section.title ?? section.description) && (
-        <header className="flex flex-col gap-8">
-          {section.title && (
-            <h2
-              className={cx(
-                sectionIndex === 0 ? "font-semibold" : "",
-                "text-h3 text-text-primary-500",
-              )}
-            >
-              {section.title}
-            </h2>
-          )}
-          {section.description && <p>{section.description}</p>}
-        </header>
-      )}
-      {section.body.map((box, index) => {
-        return <SectionBodyBox key={index} box={box} />;
+      {props.section.body.map((box, boxIndex) => {
+        return (
+          <SectionBoxContainer
+            key={box.id}
+            box={box}
+            boxDeepLevel={boxDeepLevel}
+            path={[...props.path, "body", boxIndex]}
+            pageStore={props.pageStore}
+          />
+        );
       })}
     </section>
   );
-};
+}
 
-export default CustomPageBuilder;
+export default function CustomPageBuilder(props: Props): React.JSX.Element {
+  const pageStore = createStore<PageStore>((set) => ({
+    page: props.page,
+    utils: {
+      setPage: (UpdaterOrValue) =>
+        set((prevState: PageStore) => ({
+          page:
+            typeof UpdaterOrValue === "function"
+              ? UpdaterOrValue(prevState.page)
+              : UpdaterOrValue,
+        })),
+    },
+  }));
+
+  return (
+    <div
+      className={handleBoxVariants({
+        ...(props.page.css.twVariants as BoxVariants),
+        className: "flex flex-col text-h6 text-text-primary-400",
+      })}
+    >
+      {props.page.sections.map((section, index) => (
+        <SectionBody
+          key={section.id}
+          section={section}
+          path={[...(props.path ?? []), "sections", index]}
+          pageStore={pageStore}
+        />
+      ))}
+      {props.children}
+    </div>
+  );
+}

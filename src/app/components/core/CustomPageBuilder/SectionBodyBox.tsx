@@ -1,5 +1,5 @@
 "use client";
-export { default as CustomPageBuilder_ } from "./_";
+export { default as CustomPageBuilder_ } from ".";
 import { type CSSProperties } from "react";
 
 import { cx } from "class-variance-authority";

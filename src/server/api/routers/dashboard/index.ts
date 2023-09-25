@@ -32,7 +32,7 @@ export const dashboardRouter = createTRPCRouter({
       )
       .query(async ({ ctx, input }) => {
         return (
-          await ctx.shopify.products.queries.many({
+          await ctx.shopify.products.queries.manyBasic({
             first: 100,
             query: {
               title: input?.title ? `${input.title}*` : undefined,

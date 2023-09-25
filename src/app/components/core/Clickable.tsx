@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import { type VariantProps, cva } from "class-variance-authority";
 import { useCallback } from "react";
 import { usePathname } from "next/navigation";
@@ -10,58 +10,61 @@ import {
 
 const sharedAnimationClasses = "duration-150 transition-all";
 
-const handleClickableVariants = cva("text-[80%] sm:text-[100%]", {
-  variants: {
-    btn: {
-      primary: `bg-initial-primary-900 text-initial-secondary-0 hover:bg-initial-primary-100 hover:text-initial-secondary-900 ${sharedAnimationClasses}`,
-      secondary: `bg-initial-primary-300 dark:bg-initial-primary-300 text-initial-secondary-0 hover:bg-initial-primary-500 hover:text-initial-primary-0 ${sharedAnimationClasses}`,
-      "light:primary_dark:secondary": [
-        sharedAnimationClasses,
-        "bg-initial-primary-900 text-initial-secondary-0 hover:bg-initial-primary-100 hover:text-initial-secondary-900",
-        "dark:bg-initial-primary-300 dark:text-initial-secondary-0 dark:hover:bg-initial-primary-500 dark:hover:text-initial-primary-0",
-      ],
+const handleClickableVariants = cva(
+  "text-[75%] md:text-[80%] font-semibold lg:font-normal lg:text-[100%]",
+  {
+    variants: {
+      btn: {
+        primary: `bg-initial-primary-900 text-initial-secondary-0 hover:bg-initial-primary-100 hover:text-initial-secondary-900 ${sharedAnimationClasses}`,
+        secondary: `bg-initial-primary-300 dark:bg-initial-primary-300 text-initial-secondary-0 hover:bg-initial-primary-500 hover:text-initial-primary-0 ${sharedAnimationClasses}`,
+        "light:primary_dark:secondary": [
+          sharedAnimationClasses,
+          "bg-initial-primary-900 text-initial-secondary-0 hover:bg-initial-primary-100 hover:text-initial-secondary-900",
+          "dark:bg-initial-primary-300 dark:text-initial-secondary-0 dark:hover:bg-initial-primary-500 dark:hover:text-initial-primary-0",
+        ],
+      },
+      transform: {
+        "hover:x0-y-7.5%": "hover:-translate-y-[7.5%]",
+      },
+      w: { fit: "w-fit", full: "w-full" },
+      py: {
+        "extra-sm": "py-1",
+        sm: "py-2",
+        "semi-md": "py-3",
+        md: "py-4",
+        lg: "py-6",
+        xl: "py-8",
+        "2xl": "py-10",
+        "3xl": "py-12",
+      },
+      px: {
+        "extra-sm": "px-1",
+        sm: "px-2",
+        "semi-md": "px-3",
+        md: "px-4",
+        lg: "px-6",
+        xl: "px-8",
+        "2xl": "px-10",
+        "3xl": "px-12",
+      },
+      rounded: {
+        md: "rounded-md",
+        "3xl": "rounded-3xl",
+        "3xl.2": "rounded-[1.75rem]",
+        full: "rounded-full",
+      },
+      "font-weight": {
+        light: "font-light",
+        normal: "font-normal",
+        medium: "font-medium",
+      },
+      disabled: {
+        true: "bg-opacity-75 brightness-50 backdrop-grayscale grayscale backdrop-blur-sm backdrop-opacity-75 cursor-not-allowed",
+      },
     },
-    transform: {
-      "hover:x0-y-7.5%": "hover:-translate-y-[7.5%]",
-    },
-    w: { fit: "w-fit", full: "w-full" },
-    py: {
-      "extra-sm": "py-1",
-      sm: "py-2",
-      "semi-md": "py-3",
-      md: "py-4",
-      lg: "py-6",
-      xl: "py-8",
-      "2xl": "py-10",
-      "3xl": "py-12",
-    },
-    px: {
-      "extra-sm": "px-1",
-      sm: "px-2",
-      "semi-md": "px-3",
-      md: "px-4",
-      lg: "px-6",
-      xl: "px-8",
-      "2xl": "px-10",
-      "3xl": "px-12",
-    },
-    rounded: {
-      md: "rounded-md",
-      "3xl": "rounded-3xl",
-      "3xl.2": "rounded-[1.75rem]",
-      full: "rounded-full",
-    },
-    "font-weight": {
-      light: "font-light",
-      normal: "font-normal",
-      medium: "font-medium",
-    },
-    disabled: {
-      true: "bg-opacity-75 brightness-50 backdrop-grayscale grayscale backdrop-blur-sm backdrop-opacity-75 cursor-not-allowed",
-    },
+    defaultVariants: { transform: "hover:x0-y-7.5%" },
   },
-  defaultVariants: { transform: "hover:x0-y-7.5%" },
-});
+);
 
 type Props = {
   variants?: VariantProps<typeof handleClickableVariants> | null;

@@ -3,19 +3,20 @@ import {
   type Dispatch,
   type InputHTMLAttributes,
   type SetStateAction,
-  useEffect,
-  useMemo,
   useState,
 } from "react";
 import { GiSettingsKnobs } from "react-icons/gi";
 
-import { useSearchParams } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { cx } from "class-variance-authority";
-import { CardsSlider } from "~/app/components/core/Shopify/Cards/Slider";
+// import { CardsSlider } from "~/app/components/core/Shopify/Cards/Slider";
 import Clickable from "~/app/components/core/Clickable";
-import { useBasicCollectionsHandleFilterManager } from "~/app/libs/hooks";
-import { type BasicCollection } from "~/libs/shopify/types";
-import { ProductCard } from "~/app/components/core/Shopify/Cards/Card";
+import {
+  type Edges,
+  type BasicCollection,
+  type TGetCollectionWithNoEdges,
+} from "~/libs/shopify/types";
+import ProductsCardsSlider from "~/app/components/core/Shopify/Cards/ProductsCardsSlider";
 
 const CheckboxField = ({
   children,
@@ -34,31 +35,48 @@ const CheckboxField = ({
 };
 
 const PagesCategoriesMenu = ({
-  pagesCategories,
-  setSelectedPagesCategories,
-  selectedPagesCategories,
+  handles,
+  selectedHandles: selectedPagesCategories,
 }: {
-  pagesCategories: string[];
-  setSelectedPagesCategories: Dispatch<SetStateAction<string[]>>;
-  selectedPagesCategories: string[];
+  handles: string[];
+  // setSelectedPagesCategories: Dispatch<SetStateAction<string[]>>;
+  selectedHandles?: string[];
 }) => {
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
   return (
     <div className="flex flex-col gap-1">
-      {pagesCategories.map((pageCategoryName) => (
+      {handles.map((pageCategoryName) => (
         <CheckboxField
           key={pageCategoryName}
-          checked={selectedPagesCategories.includes(pageCategoryName)}
+          checked={selectedPagesCategories?.includes(pageCategoryName)}
           value={pageCategoryName}
-          onChange={(event) =>
-            setSelectedPagesCategories((prev) =>
-              event.target.checked
-                ? [...prev, event.target.value]
-                : prev.filter(
-                    (pageCategoryName) =>
-                      pageCategoryName !== event.target.value,
-                  ),
-            )
-          }
+          onChange={(event) => {
+            const params = new URLSearchParams(
+              Array.from(searchParams.entries()),
+            );
+            if (!searchParams.has("handles")) {
+              if (event.target.checked) params.set("handles", pageCategoryName);
+              return;
+            }
+
+            let handles = searchParams.get("handles")!.split(",");
+
+            if (event.target.checked) handles.push(pageCategoryName);
+            else
+              handles = handles.filter((handle) => handle !== pageCategoryName);
+
+            params.set("handles", handles.join(","));
+
+            // cast to string
+            const search = params.toString();
+            // or const query = `${'?'.repeat(search.length && 1)}${search}`;
+            const query = search ? `?${search}` : "";
+
+            router.replace(`${pathname}${query}`);
+          }}
         >
           {pageCategoryName.replaceAll("-", " ")}
         </CheckboxField>
@@ -70,9 +88,8 @@ const PagesCategoriesMenu = ({
 const SideMenu = (props: {
   isFiltersMenuActive: boolean;
   setIsFiltersMenuActive: Dispatch<SetStateAction<boolean>>;
-  pagesCategories: string[];
-  setSelectedHandles: Dispatch<SetStateAction<string[]>>;
-  selectedHandles: string[];
+  allHandles: string[];
+  selectedHandles?: string[];
 }) => {
   return (
     <>
@@ -98,9 +115,8 @@ const SideMenu = (props: {
             </button>
           </header>
           <PagesCategoriesMenu
-            pagesCategories={props.pagesCategories}
-            setSelectedPagesCategories={props.setSelectedHandles}
-            selectedPagesCategories={props.selectedHandles}
+            handles={props.allHandles}
+            selectedHandles={props.selectedHandles}
           />
         </div>
       </div>
@@ -125,9 +141,9 @@ const SideMenu = (props: {
             </Clickable>
           </header>
           <PagesCategoriesMenu
-            pagesCategories={props.pagesCategories}
-            setSelectedPagesCategories={props.setSelectedHandles}
-            selectedPagesCategories={props.selectedHandles}
+            handles={props.allHandles}
+            // setSelectedPagesCategories={props.setSelectedHandles}
+            selectedHandles={props.selectedHandles}
           />
         </div>
       </div>
@@ -135,67 +151,33 @@ const SideMenu = (props: {
   );
 };
 
-const CollectionsScreen = (props: { basicCollections: BasicCollection[] }) => {
+const CollectionsScreen = (props: {
+  collectionsWithNoEdges: TGetCollectionWithNoEdges<Edges<BasicCollection>>[];
+  handles: string[];
+  selectedHandles?: string[];
+}) => {
   const [isFiltersMenuActive, setIsFiltersMenuActive] = useState(false);
-  const searchParams = useSearchParams();
-  const [isReady, setIsReady] = useState(false);
+  // const searchParams = useSearchParams();
+  // const [isReady, setIsReady] = useState(false);
 
-  const {
-    pagesCategories,
-    collectionsByHandle,
-    selectedHandles,
-    setSelectedHandles,
-    setProductTitleQuery,
-  } = useBasicCollectionsHandleFilterManager({
-    collections: props.basicCollections,
-  });
-
-  useEffect(() => {
-    let timeoutId: NodeJS.Timeout;
-    if (!isReady) {
-      timeoutId = setTimeout(() => setIsReady(true), 2000);
-    }
-
-    const handles = searchParams.get("handles");
-    const productTitleQuery = searchParams.get("productTitleQuery");
-
-    if (handles) setSelectedHandles(handles.split(","));
-    if (productTitleQuery) setProductTitleQuery(productTitleQuery);
-
-    return () => {
-      timeoutId && clearTimeout(timeoutId);
-    };
-  }, [isReady, searchParams, setProductTitleQuery, setSelectedHandles]);
-
-  const filteredCollectionsByHandle = useMemo(() => {
-    if (selectedHandles.length === 0) return collectionsByHandle;
-
-    const filteredCollectionsByHandle: typeof collectionsByHandle = [];
-
-    collectionsByHandle.forEach((collection) => {
-      if (selectedHandles.includes(collection[0])) {
-        filteredCollectionsByHandle.push(collection);
-      }
-    });
-
-    return filteredCollectionsByHandle;
-  }, [collectionsByHandle, selectedHandles]);
+  // const [selectedHandles, setSelectedHandles] = useState<string[]>([]);
+  // setSelectedHandles
 
   return (
     <section className="flex flex-grow flex-col">
-      <div className="relative flex flex-grow py-main-p-1 md:gap-main-p-3 md:p-main-p-3">
+      <div className="relative isolate flex flex-grow py-main-p-1 md:gap-main-p-3 md:p-main-p-3">
         <SideMenu
           isFiltersMenuActive={isFiltersMenuActive}
           setIsFiltersMenuActive={setIsFiltersMenuActive}
-          pagesCategories={pagesCategories}
-          setSelectedHandles={setSelectedHandles}
-          selectedHandles={selectedHandles}
+          allHandles={props.handles}
+          selectedHandles={props.selectedHandles}
         />
         <div className="isolate flex max-w-full flex-grow flex-col gap-12 overflow-hidden bg-bg-primary-100 px-4 py-12 transition-all dark:bg-bg-primary-900 md:rounded-2xl md:px-8 lg:px-12">
           <header className="flex justify-between">
             <h1 className="text-h1 font-semibold">
-              {selectedHandles.length === pagesCategories.length ||
-              selectedHandles.length === 0
+              {!props.selectedHandles ||
+              props.selectedHandles.length === props.handles.length ||
+              props.selectedHandles.length === 0
                 ? "All Packs"
                 : "Filtered Lists"}
             </h1>
@@ -212,33 +194,30 @@ const CollectionsScreen = (props: { basicCollections: BasicCollection[] }) => {
             </Clickable>
           </header>
           <div className="flex h-[75vh] min-h-[25rem] flex-grow flex-col gap-8 overflow-y-auto overflow-x-hidden">
-            {filteredCollectionsByHandle.map((collection) => (
-              <article key={collection[0]} className="flex flex-col gap-4">
+            {props.collectionsWithNoEdges.map((collection) => (
+              <article key={collection.id} className="flex flex-col gap-4">
                 <h2 className="text-h4 font-normal capitalize text-text-primary-300">
                   <Clickable
-                    href={`/collections/${collection[0]}`}
+                    href={`/collections/${collection.handle}`}
                     isA="next-js"
                     className="border-b-3 border-b-transparent hover:border-b-text-primary-200 focus:border-b-text-primary-200"
                   >
-                    {collection[0].replaceAll("-", " ")}
+                    {collection.title.replaceAll("-", " ")}
                   </Clickable>
                 </h2>
                 <div className="">
-                  <CardsSlider
+                  <ProductsCardsSlider
                     isNavButtonsOutside
-                    collections={collection[1]}
-                    CardElem={ProductCard}
+                    data={collection.products}
                     nextSlideButtonClassName="scale-[50%] -translate-y-[200%] lg:-translate-y-[225%]"
                     previousSlideButtonClassName="scale-[50%] -translate-y-[200%] lg:-translate-y-[225%]"
-                    swiperProps={{
-                      breakpoints: {
-                        384: { slidesPerView: 2 },
-                        768: { slidesPerView: 3 },
-                        1024: { slidesPerView: 4 },
-                        1280: { slidesPerView: 5 },
-                      },
+                    breakpoints={{
+                      384: { slidesPerView: 2, spaceBetween: 10 },
+                      768: { slidesPerView: 3 },
+                      1024: { slidesPerView: 4 },
+                      1280: { slidesPerView: 5 },
                     }}
-                    cardsSharedProps={{
+                    compProps={{
                       isPlayButtonActive: true,
                       extraDetailsElemProps: {
                         buttonProps: {

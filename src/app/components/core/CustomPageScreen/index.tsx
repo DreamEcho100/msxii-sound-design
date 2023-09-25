@@ -4,12 +4,12 @@ import BlueLabel from "./components/BlueLabel";
 import CreateProductPageButton from "./components/CreateProductPageButton";
 import CustomNextImage from "../../common/CustomNextImage";
 import Clickable from "../Clickable";
-import { CustomPageBuilder_ } from "../CustomPageBuilder";
+import CustomPageBuilder from "../CustomPageBuilder";
 import { type RouterOutputs } from "~/server/api/root";
 import { Fragment } from "react";
 
 type Props = {
-  customPageStructureData: RouterOutputs["customPages"]["_getOne"];
+  customPageStructureData: RouterOutputs["customPages"]["getOne"];
   pageCategoryItemsData?: RouterOutputs["customPages"]["pagesCategories"]["getManyItems"];
   pageParams: {
     pageCategoryName: string;
@@ -87,7 +87,7 @@ const PageCategoryItems = (props: {
 
 const CustomPageScreen = (props: Props): React.JSX.Element => {
   return (
-    <CustomPageBuilder_ page={props.customPageStructureData}>
+    <CustomPageBuilder page={props.customPageStructureData}>
       {props.pageParams.pageCategoryName === "merch" &&
       !props.pageParams.slug ? (
         <Merch />
@@ -110,7 +110,7 @@ const CustomPageScreen = (props: Props): React.JSX.Element => {
           }
         />
       )}
-    </CustomPageBuilder_>
+    </CustomPageBuilder>
   );
 };
 

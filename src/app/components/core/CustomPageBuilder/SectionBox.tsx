@@ -17,8 +17,7 @@ import { SliderEditable } from "./Boxes/Slider";
 import { GridEditable } from "./Boxes/Grid";
 import { handleBoxVariants, type BoxVariants } from "~/libs/utils/appData";
 import { createBoxTypeClass } from "./utils";
-import { type Box } from "./_";
-import { type PageStoreApi } from "./types";
+import { type Box, type PageStoreApi } from "./types";
 
 export default function SectionBox(props: {
   box: Box;

@@ -1,10 +1,8 @@
 "use client";
 import { cx } from "class-variance-authority";
 import { type ReactNode, useEffect, useState } from "react";
-import { SwiperSlide } from "swiper/react";
 import ProductQuantityControllers from "../ProductQuantityControllers";
 import CTAButton from "../Shopify/Cards/CTAButton";
-import Slider from "../Shopify/Cards/Slider";
 import ProductPrice from "../Shopify/ProductPrice";
 import AddToCartButton from "../Shopify/Buttons/AddToCart";
 import { Switch } from "@headlessui/react";
@@ -15,11 +13,51 @@ import SectionLoaderContainer from "../../common/LoadersContainers/Section";
 import SectionPrimaryLoader from "../../common/Loaders/SectionPrimary";
 import CustomNextImage from "../../common/CustomNextImage";
 import { type Product } from "~/libs/shopify/types";
-import ImageMagnifier from "../../common/ImageMagnifier";
 import { useExtractDataFromHTMLDescription } from "~/libs/shopify/hooks";
 import { SoundCloudIframe, YouTubeIFrame } from "../../common/Iframes";
 import { type NextJsLinkProps } from "../../common/Clickable";
 import ProductImageShowcase from "./ProductRecommendations";
+import Slider from "../../common/Slider";
+
+function ProductSlidComp(props: { item: Product }) {
+  return (
+    <Clickable
+      className="flex aspect-square w-48 max-w-full items-center justify-center transition-all duration-300"
+      href={`/products/${props.item.handle}`}
+      isA="next-js"
+    >
+      <CustomNextImage
+        src={props.item.featuredImage.url}
+        alt={props.item.featuredImage.altText ?? ""}
+        width={props.item.featuredImage.width || 250}
+        height={props.item.featuredImage.height || 250}
+        className={cx(
+          "aspect-square h-full w-full object-contain transition-all duration-300",
+          "rounded-md",
+        )}
+      />
+    </Clickable>
+  );
+}
+function YoutubeIFrameSlidComp(props: {
+  item: {
+    src: string;
+    allow: string;
+    title: string;
+    width?: string | undefined;
+    height?: string | undefined;
+  };
+}) {
+  return (
+    <YouTubeIFrame
+      width={props.item.width}
+      height={props.item.height}
+      src={props.item.src}
+      title={props.item.title}
+      allow={props.item.allow}
+    />
+  );
+}
 
 const ProductRecommendations = (props: { productId: string }) => {
   const getOneProductRecommendations =
@@ -47,41 +85,17 @@ const ProductRecommendations = (props: { productId: string }) => {
         </h2>
       </header>
       <Slider
-        swiperProps={{
-          className: "max-w-full w-full flex-grow",
-          slidesPerView: 3,
-          breakpoints: {
-            400: { slidesPerView: 4 },
-            1024: { slidesPerView: 6 },
-          },
+        slidesPerView={3}
+        breakpoints={{
+          400: { slidesPerView: 4 },
+          1024: { slidesPerView: 6 },
         }}
         isNavButtonsOutside
-      >
-        {data.map((product) => (
-          <SwiperSlide
-            key={product.id}
-            className="aspect-square items-center justify-center"
-            style={{ display: "flex" }}
-          >
-            <Clickable
-              className="block aspect-square w-48 max-w-full transition-all duration-300"
-              href={`/products/${product.handle}`}
-              isA="next-js"
-            >
-              <CustomNextImage
-                src={product.featuredImage.url}
-                alt={product.featuredImage.altText ?? ""}
-                width={product.featuredImage.width || 250}
-                height={product.featuredImage.height || 250}
-                className={cx(
-                  "aspect-square w-full object-contain transition-all duration-300",
-                  "rounded-md",
-                )}
-              />
-            </Clickable>
-          </SwiperSlide>
-        ))}
-      </Slider>
+        containerProps={{ className: "max-w-full w-full flex-grow" }}
+        data={data}
+        getSlideKey={(item) => item.id}
+        SlideComp={ProductSlidComp}
+      />
     </section>
   );
 };
@@ -318,28 +332,16 @@ const CustomProductScreen = ({
               ) : (
                 <div>
                   <Slider
-                    swiperProps={{
-                      className: cx("swiper-fluid"),
-                      breakpoints: {
-                        400: { slidesPerView: 2 },
-                        1024: { slidesPerView: 3 },
-                      },
+                    className="swiper-fluid"
+                    breakpoints={{
+                      400: { slidesPerView: 2 },
+                      1024: { slidesPerView: 3 },
                     }}
-                  >
-                    {extractDataFromHTMLDescription.iframes.youtube.map(
-                      (iframeData, index) => (
-                        <SwiperSlide key={index} className="flex flex-col">
-                          <YouTubeIFrame
-                            width={iframeData.width}
-                            height={iframeData.height}
-                            src={iframeData.src}
-                            title={iframeData.title}
-                            allow={iframeData.allow}
-                          />
-                        </SwiperSlide>
-                      ),
-                    )}
-                  </Slider>
+                    data={extractDataFromHTMLDescription.iframes.youtube}
+                    getSlideKey={(_, itemIndex) => itemIndex}
+                    SlideComp={YoutubeIFrameSlidComp}
+                    // compProps={undefined}
+                  />
                 </div>
               ))}
           </div>

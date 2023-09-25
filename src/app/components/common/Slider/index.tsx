@@ -57,6 +57,7 @@ export default function Slider<Item, CompProps extends { item: Item }>(
     getSlideKey,
     SlideComp,
     compProps,
+    data,
     ..._props
   } = props;
   const navigationPrevRef = useRef<HTMLButtonElement>(null);
@@ -136,7 +137,7 @@ export default function Slider<Item, CompProps extends { item: Item }>(
         {..._props}
         className={cx("w-full", _props.className)}
       >
-        {props.data.map((item, itemIndex) => (
+        {data.map((item, itemIndex) => (
           <SwiperSlide key={getSlideKey(item, itemIndex)}>
             {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
             {/* @ts-ignore */}

@@ -2,6 +2,7 @@ import { cx } from "class-variance-authority";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import CustomNextImage from "./CustomNextImage";
+import { getBaseUrl } from "~/libs/utils";
 
 const ReactMarkdownFormatter = ({ content }: { content: string }) => {
   return (
@@ -14,7 +15,7 @@ const ReactMarkdownFormatter = ({ content }: { content: string }) => {
           let url: URL;
 
           if (src.startsWith("/")) {
-            url = new URL(`http://localhost:3000${src}`);
+            url = new URL(`${getBaseUrl()}${src}`);
           } else url = new URL(src);
 
           const params = url.searchParams;

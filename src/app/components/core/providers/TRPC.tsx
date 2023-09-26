@@ -3,6 +3,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { httpBatchLink, loggerLink } from "@trpc/client";
 import { type PropsWithChildren, useState } from "react";
 import { trpcApi } from "~/app/libs/trpc/client";
+import { getBaseUrl } from "~/libs/utils";
 import superjson from "superjson";
 
 export default function TRPCProvider(props: PropsWithChildren) {
@@ -25,9 +26,7 @@ export default function TRPCProvider(props: PropsWithChildren) {
             process.env.NODE_ENV === "development" ||
             (opts.direction === "down" && opts.result instanceof Error),
         }),
-        httpBatchLink({
-          url: "http://localhost:3000/api/trpc",
-        }),
+        httpBatchLink({ url: `${getBaseUrl()}/api/trpc` }),
       ],
     }),
   );

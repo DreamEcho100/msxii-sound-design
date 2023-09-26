@@ -146,11 +146,21 @@ function ProductsSearch(props: Props) {
         <Clickable
           variants={{ w: "full", rounded: null }}
           // eslint-disable-next-line @typescript-eslint/no-misused-promises
-          onClick={async () => await loadNextPage()}
-          disabled={!dataQuery.hasNextPage || dataQuery.isFetchingNextPage}
+          onClick={async () =>
+            dataQuery.isLoadingError
+              ? dataQuery.refetch()
+              : await loadNextPage()
+          }
+          disabled={
+            !dataQuery.hasNextPage ||
+            dataQuery.isFetchingNextPage ||
+            dataQuery.isRefetching
+          }
           className="capitalize"
         >
-          load more
+          {dataQuery.isLoadingError || dataQuery.isRefetchError
+            ? "refetch"
+            : "load more"}
         </Clickable>
       )}
     </>

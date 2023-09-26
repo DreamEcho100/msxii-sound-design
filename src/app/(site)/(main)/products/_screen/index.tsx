@@ -124,7 +124,7 @@ function ProductsSearch(props: Props) {
   return (
     <>
       <SearchForm setProductTitleQueryDebounce={setProductTitleQueryDebounce} />
-      <div className="grid grid-cols-[repeat(auto-fill,_minmax(14rem,_1fr))] gap-8 lg:flex-nowrap lg:justify-between">
+      <div className="grid flex-grow grid-cols-[repeat(auto-fill,_minmax(14rem,_1fr))] gap-8 lg:flex-nowrap lg:justify-between">
         {dataQuery.isLoading ? (
           <SectionLoaderContainer>
             <SectionPrimaryLoader />
@@ -159,7 +159,7 @@ function ProductsSearch(props: Props) {
 
 export default function ProductsScreen(props: Props) {
   return (
-    <section className="flex flex-col gap-8 px-16 py-8">
+    <section className="flex flex-grow flex-col gap-8 px-16 py-8">
       <ProductsSearch {...props} />
     </section>
   );

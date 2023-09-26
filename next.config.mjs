@@ -41,6 +41,7 @@ const config = {
   eslint: {
     ignoreDuringBuilds: !process.env.IS_LOCAL_ENV,
   },
+  // https://blog.logrocket.com/using-cors-next-js-handle-cross-origin-requests/
   // eslint-disable-next-line @typescript-eslint/require-await
   headers: async () => {
     return [
@@ -55,28 +56,28 @@ const config = {
             key: "Content-Security-Policy",
             value: "frame-ancestors 'self'",
           },
-          {
-            key: "X-XSS-Protection",
-            value: "1; mode=block",
-          },
+          // {
+          //   key: "X-XSS-Protection",
+          //   value: "1; mode=block",
+          // },
         ],
       },
-      {
-        source: "/api/(.*)",
-        headers: [
-          { key: "Access-Control-Allow-Credentials", value: "true" },
-          { key: "Access-Control-Allow-Origin", value: "*" },
-          {
-            key: "Access-Control-Allow-Methods",
-            value: "GET,DELETE,PATCH,POST,PUT",
-          },
-          {
-            key: "Access-Control-Allow-Headers",
-            value:
-              "X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version",
-          },
-        ],
-      },
+      // {
+      //   source: "/api/(.*)",
+      //   headers: [
+      //     { key: "Access-Control-Allow-Credentials", value: "true" },
+      //     { key: "Access-Control-Allow-Origin", value: "*" },
+      //     {
+      //       key: "Access-Control-Allow-Methods",
+      //       value: "GET,DELETE,PATCH,POST,PUT",
+      //     },
+      //     // {
+      //     //   key: "Access-Control-Allow-Headers",
+      //     //   value:
+      //     //     "X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version",
+      //     // },
+      //   ],
+      // },
     ];
   },
 };

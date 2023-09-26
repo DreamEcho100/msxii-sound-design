@@ -1,15 +1,20 @@
 "use client";
 
-import Slider, { type SliderProps } from "~/app/components/common/Slider";
+import Slider, {
+  type SliderPropsBase,
+  type SliderPropsWithComp,
+} from "~/app/components/common/Slider";
 import { ProductCard, type ProductCardProps } from "./Card";
 
-type BaseT = SliderProps<ProductCardProps["item"], ProductCardProps>;
+type BaseT = SliderPropsBase &
+  SliderPropsWithComp<ProductCardProps["item"], ProductCardProps>;
 
 type CardsSliderProps = Omit<
   BaseT,
-  "children" | "getSlideKey" | "SlideComp" | "item" | "compProps"
+  "children" | "getSlideKey" | "SlideComp" | "item" | "compProps" | "data"
 > & {
   compProps?: BaseT["compProps"];
+  data: Required<BaseT["data"]>;
 };
 
 export default function ProductsCardsSlider(props: CardsSliderProps) {

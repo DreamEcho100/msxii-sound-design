@@ -1,11 +1,15 @@
 "use client";
 import { cx } from "class-variance-authority";
-import { useEffect, useMemo } from "react";
+import { Fragment, useEffect, useMemo } from "react";
 import Clickable from "~/app/components/core/Clickable";
+import SeeMoreSlideChildren from "~/app/components/core/SeeMoreSlideChildren";
 import ProductsCardsSlider from "~/app/components/core/Shopify/Cards/ProductsCardsSlider";
-// import { CardsSlider } from "~/app/components/core/Shopify/Cards/Slider";
 import { useBasicCollectionsHandleFilterManager } from "~/app/libs/hooks";
-import { type BasicCollection } from "~/libs/shopify/types";
+import {
+  type BasicProduct,
+  type Product,
+  type BasicCollection,
+} from "~/libs/shopify/types";
 
 export default function FilteredProducts(props: {
   basicCollections: BasicCollection[];
@@ -13,11 +17,11 @@ export default function FilteredProducts(props: {
   const {
     pagesCategories,
     collectionsByHandle,
-    selectedHandles: selectedPagesCategories,
+    selectedHandles,
     setSelectedHandles: setSelectedPagesCategories,
-    getSelectedCollectionProduct,
   } = useBasicCollectionsHandleFilterManager({
     collections: props.basicCollections,
+    allProductsHandle: true,
   });
 
   const base = useMemo(
@@ -28,13 +32,23 @@ export default function FilteredProducts(props: {
     [props.basicCollections],
   );
 
-  const selectedPageCategory = selectedPagesCategories[0];
+  const selectedPageCategory = selectedHandles[0];
 
-  const filteredCollections = useMemo(
-    () =>
-      getSelectedCollectionProduct(collectionsByHandle, selectedPageCategory),
-    [collectionsByHandle, getSelectedCollectionProduct, selectedPageCategory],
-  );
+  const filteredCollections = useMemo(() => {
+    if (!selectedHandles) return undefined;
+
+    const filteredCollections: (Product | BasicProduct)[] = [];
+
+    collectionsByHandle.forEach((collectionByHandle) => {
+      if (collectionByHandle[0] !== selectedHandles[0]) return;
+
+      collectionByHandle[1].forEach((item) =>
+        item.products.edges.map((edge) => filteredCollections.push(edge.node)),
+      );
+    });
+
+    return filteredCollections.length === 0 ? base : filteredCollections;
+  }, [base, collectionsByHandle, selectedHandles]);
   const firstPageCategory = pagesCategories[0];
 
   useEffect(() => {
@@ -72,12 +86,32 @@ export default function FilteredProducts(props: {
           ))}
         </div>
       </header>
+      {/* <div className="hidden">
+        {(filteredCollections ?? base).map((item) => {
+          return (
+            <Fragment key={`${selectedPageCategory}-${item.title}-${item.id}`}>
+              {item.handle}
+            </Fragment>
+          );
+        })}
+      </div> */}
       <ProductsCardsSlider
         data={filteredCollections ?? base}
         nextSlideButtonClassName="-translate-y-[200%] lg:-translate-y-[200%]"
         previousSlideButtonClassName="-translate-y-[200%] lg:-translate-y-[200%]"
         containerProps={{ className: "px-4" }}
-        compProps={{}}
+        extraLastSlideChildren={
+          selectedPageCategory === "all-products" ? undefined : (
+            <SeeMoreSlideChildren
+              href={
+                selectedPageCategory === "merch"
+                  ? "/merch"
+                  : `/collections/${selectedPageCategory}`
+              }
+              linkClassName="-translate-y-[40%]"
+            />
+          )
+        }
       />
     </article>
   );

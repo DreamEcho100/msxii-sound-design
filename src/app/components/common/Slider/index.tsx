@@ -9,43 +9,56 @@ import "swiper/css";
 import "swiper/css/navigation";
 
 import "swiper/css";
-import { type FC, type Key, type HTMLAttributes, useRef } from "react";
+import React, {
+  type FC,
+  type Key,
+  type HTMLAttributes,
+  useRef,
+  type PropsWithChildren,
+  type ReactNode,
+} from "react";
 import { cx } from "class-variance-authority";
 import CustomNextImage from "~/app/components/common/CustomNextImage";
 
-export type SliderProps<
-  Item,
-  CompProps extends { item: Item },
-> = SwiperProps & {
-  data: Item[];
-  getSlideKey: (item: Item, itemIndex: number) => Key;
-  SlideComp: FC<CompProps>;
+export type SliderPropsBase = SwiperProps & {
   containerProps?: HTMLAttributes<HTMLDivElement>;
   isNavButtonsOutside?: boolean;
   verticalOnLG?: boolean;
   nextSlideButtonClassName?: string;
   previousSlideButtonClassName?: string;
+  extraLastSlideChildren?: ReactNode;
+};
+
+export type SliderPropsWithComp<Item, CompProps extends { item: Item }> = {
+  data: Item[];
+  getSlideKey: (item: Item, itemIndex: number) => Key;
+  SlideComp: FC<CompProps>;
 } & (Omit<CompProps, "item"> extends Record<string, never>
-    ? { compProps?: CompProps }
-    : {
-        compProps:
-          | Omit<CompProps, "item">
-          | ((item: Item, itemIndex: number) => Omit<CompProps, "item">);
-      });
-/*
-https://swiperjs.com/demos
-https://swiperjs.com/react#useswiperslide
-https://swiperjs.com/blog/using-swiper-element-in-react
+  ? { compProps?: CompProps }
+  : {
+      compProps:
+        | Omit<CompProps, "item">
+        | ((item: Item, itemIndex: number) => Omit<CompProps, "item">);
+    });
 
-https://dev.to/tobysolutions/how-to-use-millionjs-in-a-next-app-1eim
-https://million.dev/docs
+export type SliderProps<Item, CompProps> = SliderPropsBase &
+  (Item extends undefined
+    ? PropsWithChildren<{
+        getSlideKey?: undefined;
+        SlideComp?: undefined;
+        compProps?: undefined;
+        data?: undefined;
+      }>
+    : CompProps extends { item: Item }
+    ? SliderPropsWithComp<Item, CompProps>
+    : PropsWithChildren<{
+        getSlideKey?: undefined;
+        SlideComp?: undefined;
+        compProps?: undefined;
+        data?: undefined;
+      }>);
 
-https://dev.to/mayorstacks/sending-react-emails-using-nextjs-and-the-resend-sdk-sdk-19bd
-
-*/
-// const baseEmptyProps: Record<string, unknown> = {}
-
-export default function Slider<Item, CompProps extends { item: Item }>(
+export default function Slider<Item, CompProps>(
   props: SliderProps<Item, CompProps>,
 ) {
   const {
@@ -58,6 +71,7 @@ export default function Slider<Item, CompProps extends { item: Item }>(
     SlideComp,
     compProps,
     data,
+    extraLastSlideChildren,
     ..._props
   } = props;
   const navigationPrevRef = useRef<HTMLButtonElement>(null);
@@ -128,8 +142,8 @@ export default function Slider<Item, CompProps extends { item: Item }>(
         breakpoints={{
           384: { slidesPerView: 2, spaceBetween: 10 },
           768: { slidesPerView: 4, spaceBetween: 20 },
-          1024: { slidesPerView: 5, spaceBetween: 30 },
-          1280: { slidesPerView: 6, spaceBetween: 50 },
+          1024: { slidesPerView: 4, spaceBetween: 30 },
+          1280: { slidesPerView: 5, spaceBetween: 50 },
         }}
         style={{
           padding: isNavButtonsOutside ? "0 1rem" : undefined,
@@ -137,18 +151,25 @@ export default function Slider<Item, CompProps extends { item: Item }>(
         {..._props}
         className={cx("w-full", _props.className)}
       >
-        {data.map((item, itemIndex) => (
-          <SwiperSlide key={getSlideKey(item, itemIndex)}>
-            {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
-            {/* @ts-ignore */}
-            <SlideComp
-              item={item}
-              {...(typeof compProps === "function"
-                ? compProps(item, itemIndex)
-                : compProps)}
-            />
-          </SwiperSlide>
-        ))}
+        {_props.children ??
+          data?.map((item, itemIndex) => {
+            return (
+              <SwiperSlide key={getSlideKey(item, itemIndex)}>
+                {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
+                {/* @ts-ignore */}
+                <SlideComp
+                  item={item}
+                  {...(typeof compProps === "function"
+                    ? // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-call
+                      (compProps as any)(item, itemIndex)
+                    : compProps)}
+                />
+              </SwiperSlide>
+            );
+          })}
+        {extraLastSlideChildren && (
+          <SwiperSlide>{extraLastSlideChildren}</SwiperSlide>
+        )}
       </Swiper>
 
       {isNavButtonsOutside && (

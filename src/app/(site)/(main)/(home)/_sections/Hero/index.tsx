@@ -1,9 +1,11 @@
+"use client";
 import { cx } from "class-variance-authority";
 import { type CSSProperties } from "react";
 import CustomNextImage from "~/app/components/common/CustomNextImage";
 import Clickable from "~/app/components/core/Clickable";
 
 import classNames from "./index.module.css";
+import { useIsMounted } from "~/app/libs/hooks";
 
 const heroImages: { path: string }[] = [
   {
@@ -37,6 +39,8 @@ const heroImages: { path: string }[] = [
 ];
 
 const HeroHomeSection = () => {
+  const isMounted = useIsMounted();
+
   return (
     <section className="flex flex-col justify-center gap-2 overflow-hidden px-main-p-3 py-8 sm:px-main-p-1 lg:flex-row">
       <div
@@ -48,7 +52,7 @@ flex flex-col items-center justify-center gap-8 py-main-p-3 text-center text-[1.
             "text-h1 font-medium leading-h1",
             "translate-y-8 opacity-0",
             classNames["item-to-animate-up"],
-            classNames.active,
+            isMounted && classNames.active,
           )}
         >
           Unlock Limitless Possibilities with <br /> MSXAudio Sample Packs
@@ -58,7 +62,7 @@ flex flex-col items-center justify-center gap-8 py-main-p-3 text-center text-[1.
             "max-w-[55ch]",
             "translate-y-8 opacity-0",
             classNames["item-to-animate-up"],
-            classNames.active,
+            isMounted && classNames.active,
           )}
         >
           MSXAudio sample packs offer a wide range of high-quality audio and
@@ -72,7 +76,7 @@ flex flex-col items-center justify-center gap-8 py-main-p-3 text-center text-[1.
             "mt-6",
             "translate-y-8 opacity-0",
             classNames["item-to-animate-up"],
-            classNames.active,
+            isMounted && classNames.active,
           )}
         >
           <Clickable
@@ -107,7 +111,7 @@ flex flex-col items-center justify-center gap-8 py-main-p-3 text-center text-[1.
               }
               className={cx(
                 classNames["item-to-translate-animation"],
-                classNames.active,
+                isMounted && classNames.active,
                 "absolute inset-0 aspect-square h-full w-full",
               )}
             >

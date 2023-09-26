@@ -73,8 +73,6 @@ const getQQLManyCollectionText = (
     first: input?.productsFirst ?? 10,
   };
 
-  console.log("argsMap", argsMap);
-
   return `description
 	handle
 	id

@@ -6,6 +6,8 @@ import {
 } from "~/app/components/core/Shopify/Cards/Card";
 import FilteredProducts from "./FilteredProducts";
 import ProductsCardsSlider from "~/app/components/core/Shopify/Cards/ProductsCardsSlider";
+import Link from "next/link";
+import SeeMoreSlideChildren from "~/app/components/core/SeeMoreSlideChildren";
 
 type HomeShowcaseSectionProps = {
   flattenedCollectionEdges: BasicCollection[];
@@ -27,6 +29,12 @@ export default function HomeShowcaseSection(props: HomeShowcaseSectionProps) {
               data={props.bundlesCollections}
               nextSlideButtonClassName="-translate-y-[200%] lg:-translate-y-[200%]"
               previousSlideButtonClassName="-translate-y-[200%] lg:-translate-y-[200%]"
+              extraLastSlideChildren={
+                <SeeMoreSlideChildren
+                  href="/collections/bundles"
+                  linkClassName="-translate-y-[40%]"
+                />
+              }
             />
             <div
               className={cx(

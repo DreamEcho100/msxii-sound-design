@@ -21,7 +21,7 @@ const AddToCartButton = ({
 
   return (
     <Clickable
-      className="text-sm uppercase lg:whitespace-nowrap"
+      className="max-w-full uppercase xl:whitespace-nowrap"
       // eslint-disable-next-line @typescript-eslint/no-misused-promises
       onClick={async () => {
         productVariant &&
@@ -42,7 +42,7 @@ const AddToCartButton = ({
       variants={{
         btn: "secondary",
         py: "sm",
-        px: "lg",
+        px: "md",
         ...(props.variants ?? {}),
       }}
     >

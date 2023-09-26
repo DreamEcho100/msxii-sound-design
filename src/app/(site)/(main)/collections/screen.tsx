@@ -17,6 +17,7 @@ import {
   type TGetCollectionWithNoEdges,
 } from "~/libs/shopify/types";
 import ProductsCardsSlider from "~/app/components/core/Shopify/Cards/ProductsCardsSlider";
+import SeeMoreSlideChildren from "~/app/components/core/SeeMoreSlideChildren";
 
 const CheckboxField = ({
   children,
@@ -217,6 +218,18 @@ const CollectionsScreen = (props: {
                       1024: { slidesPerView: 4 },
                       1280: { slidesPerView: 5 },
                     }}
+                    extraLastSlideChildren={
+                      collection.handle === "all-products" ? undefined : (
+                        <SeeMoreSlideChildren
+                          href={
+                            collection.handle === "merch"
+                              ? "/merch"
+                              : `/collections/${collection.handle}`
+                          }
+                          linkClassName="-translate-y-[40%]"
+                        />
+                      )
+                    }
                     compProps={{
                       isPlayButtonActive: true,
                       extraDetailsElemProps: {

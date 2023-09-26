@@ -1,5 +1,4 @@
 // @ts-check
-import million from "million/compiler";
 
 /**
  * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation.
@@ -10,6 +9,10 @@ import million from "million/compiler";
 /** @type {import("next").NextConfig} */
 const config = {
   reactStrictMode: true,
+
+  experimental: {
+    optimizePackageImports: ["swiper"],
+  },
 
   // /**
   //  * If you have the "experimental: { appDir: true }" setting enabled, then you
@@ -61,4 +64,4 @@ const config = {
     ];
   },
 };
-export default million.next(config);
+export default config;

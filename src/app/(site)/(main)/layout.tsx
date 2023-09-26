@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { type PropsWithChildren } from "react";
+import MainContent from "./_components/layout/Content";
 import MainLayoutHeader from "./_components/layout/Header";
 import MainLayoutFooter from "./_components/layout/Footer";
 import CheckoutManager from "./_components/layout/CheckoutManager";
@@ -13,9 +14,9 @@ export default function RootLayout(props: PropsWithChildren) {
   return (
     <>
       <MainLayoutHeader />
-      <main className="mx-auto mt-main-header-h flex w-full max-w-main flex-grow flex-col">
+      <MainContent>
         {props.children}
-      </main>
+      </MainContent>
       <MainLayoutFooter />
       <CheckoutManager />
     </>

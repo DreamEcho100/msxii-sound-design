@@ -1,13 +1,18 @@
 import { type RouterInputs } from "~/server/api/root";
 import { serverClient } from "~/app/libs/trpc/serverClient";
-import InfiniteLoadBasicProducts from "./_components/InfiniteLoadCollectionProductsSection copy";
+import ProductsScreen from "./_screen";
 
-async function getPageData(params: { productTitleQuery?: string }) {
+type Props = {
+  searchParams: { productTitleQuery?: string };
+};
+
+async function getPageData(props: Props) {
   const baseInput: RouterInputs["shopify"]["products"]["getManyBasic"] = {
     limit: 24,
     title:
-      params.productTitleQuery && params.productTitleQuery.length >= 3
-        ? params.productTitleQuery
+      props.searchParams?.productTitleQuery &&
+      props.searchParams.productTitleQuery.length >= 3
+        ? props.searchParams.productTitleQuery
         : undefined,
   };
 
@@ -23,13 +28,11 @@ export const metadata = {
   description: "Search for your desired products",
 };
 
-export default async function ProductsPage(props: {
-  searchParams: { productTitleQuery?: string };
-}) {
-  const basicManyBlogArticles = await getPageData(props.searchParams);
+export default async function ProductsPage(props: Props) {
+  const basicManyBlogArticles = await getPageData(props);
 
   return (
-    <InfiniteLoadBasicProducts
+    <ProductsScreen
       baseData={basicManyBlogArticles.baseData}
       baseInput={basicManyBlogArticles.baseInput}
     />

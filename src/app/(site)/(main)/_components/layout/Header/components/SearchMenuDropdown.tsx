@@ -17,11 +17,25 @@ const SearchMenuDropdown = () => {
     globalStore,
     (store) => store.menus.isSearchMenuDropdownOpen,
   );
+  const toggleSearchMenuDropdown = useStore(
+    globalStore,
+    (store) => store.menus.toggleSearchMenuDropdown,
+  );
 
   const router = useRouter();
 
   useEffect(() => {
-    if (isSearchMenuDropdownOpen) productTitleQueryInputRef.current?.focus();
+    if (isSearchMenuDropdownOpen) {
+      productTitleQueryInputRef.current?.focus();
+      const productTitleQuery =
+        new URL(window.location.href).searchParams.get("productTitleQuery") ??
+        "";
+
+      setFormValues((prev) => ({
+        ...prev,
+        productTitleQuery,
+      }));
+    }
   }, [isSearchMenuDropdownOpen]);
 
   return (
@@ -49,6 +63,7 @@ const SearchMenuDropdown = () => {
                 router.push(
                   `/products?productTitleQuery=${formValues.productTitleQuery}`,
                 );
+                toggleSearchMenuDropdown();
               }}
             >
               <Clickable

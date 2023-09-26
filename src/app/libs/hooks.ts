@@ -14,10 +14,14 @@ export function useBasicCollectionsHandleFilterManager<
   TCollection extends Collection | BasicCollection,
 >({
   collections,
+  allProductsHandle,
 }: {
   collections: TCollection[]; // NonNullable<HomeScreenProps['collectionsBasic']>;
+  allProductsHandle?: boolean;
 }) {
-  const [selectedHandles, setSelectedHandles] = useState<string[]>([]);
+  const [selectedHandles, setSelectedHandles] = useState<string[]>(
+    allProductsHandle ? ["all-products"] : [],
+  );
   const [productTitleQuery, setProductTitleQuery] = useState<
     string | undefined
   >(undefined);
@@ -52,29 +56,24 @@ export function useBasicCollectionsHandleFilterManager<
     };
   }, [collections, productTitleQuery]);
 
-  const getSelectedCollectionProduct = useCallback(
-    (
-      collectionsByHandle: [string, TCollection[]][],
-      selectedHandles?: string,
-    ) => {
-      if (!selectedHandles) return undefined;
+  const getSelectedCollectionProduct = (
+    collectionsByHandle: [string, TCollection[]][],
+    selectedHandles?: string,
+  ) => {
+    if (!selectedHandles) return undefined;
 
-      const filteredCollections: (Product | BasicProduct)[] = [];
+    const filteredCollections: (Product | BasicProduct)[] = [];
 
-      collectionsByHandle.forEach((collectionByHandle) => {
-        if (collectionByHandle[0] !== selectedHandles) return;
+    collectionsByHandle.forEach((collectionByHandle) => {
+      if (collectionByHandle[0] !== selectedHandles) return;
 
-        collectionByHandle[1].forEach((item) =>
-          item.products.edges.map((edge) =>
-            filteredCollections.push(edge.node),
-          ),
-        );
-      });
+      collectionByHandle[1].forEach((item) =>
+        item.products.edges.map((edge) => filteredCollections.push(edge.node)),
+      );
+    });
 
-      return filteredCollections.length === 0 ? undefined : filteredCollections;
-    },
-    [],
-  );
+    return filteredCollections.length === 0 ? undefined : filteredCollections;
+  };
 
   return {
     collectionsByHandle,

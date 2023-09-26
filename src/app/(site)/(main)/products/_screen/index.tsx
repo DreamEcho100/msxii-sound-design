@@ -147,7 +147,7 @@ function ProductsSearch(props: Props) {
           variants={{ w: "full", rounded: null }}
           // eslint-disable-next-line @typescript-eslint/no-misused-promises
           onClick={async () =>
-            dataQuery.isLoadingError
+            dataQuery.isLoadingError || dataQuery.isRefetchError
               ? dataQuery.refetch()
               : await loadNextPage()
           }

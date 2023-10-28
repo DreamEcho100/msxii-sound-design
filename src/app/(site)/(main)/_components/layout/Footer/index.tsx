@@ -9,6 +9,67 @@ import { useStore } from "zustand";
 import { globalStore } from "~/app/libs/store";
 import CustomNextImage from "~/app/components/common/CustomNextImage";
 import { useTheme } from "next-themes";
+import { trpcApi } from "~/app/libs/trpc/client";
+import z from "zod";
+import { toast } from "react-toastify";
+
+function Subscribe() {
+  const subscribeToEmailList = trpcApi.subscribeToEmailList.useMutation({
+    onError: (error) => toast.error(error.message),
+    onSuccess: () => {
+      toast.success("Successful request, subscribed to the email list");
+    },
+  });
+
+  return (
+    <div className="flex max-w-sm flex-grow flex-col gap-4">
+      <header className="flex flex-col gap-2">
+        <h3 className="text-h4 font-medium dark:text-text-primary-500">
+          Join our newsletter
+        </h3>
+        <p>New Subscribers get our Site Sampler Free!</p>
+      </header>
+      <form
+        className="flex flex-col gap-6"
+        onSubmit={(event) => {
+          event.preventDefault();
+          const data = new FormData(event.currentTarget);
+          const emailSafeParsed = z
+            .string()
+            .email()
+            .safeParse(data.get("email"));
+          if (!emailSafeParsed.success) {
+            toast.error("Please enter a valid email");
+            return;
+          }
+
+          subscribeToEmailList.mutate(emailSafeParsed.data);
+        }}
+      >
+        <input
+          type="email"
+          name="email"
+          required
+          placeholder="Enter your email address"
+          className="border-b-[0.125rem] border-solid border-b-text-primary-200 bg-transparent py-2 outline-none"
+        />
+        <Clickable
+          variants={{
+            rounded: "md",
+            w: "full",
+            py: "sm",
+            "font-weight": null,
+          }}
+          className="text-h4 font-normal uppercase"
+          type="submit"
+          disabled={subscribeToEmailList.isLoading}
+        >
+          Subscribe
+        </Clickable>
+      </form>
+    </div>
+  );
+}
 
 const MainLayoutFooter = () => {
   const toggleSearchMenuDropdown = useStore(
@@ -136,32 +197,7 @@ const MainLayoutFooter = () => {
               ))}
             </ul>
           ))}
-          <div className="flex max-w-sm flex-grow flex-col gap-4">
-            <header className="flex flex-col gap-2">
-              <h3 className="text-h4 font-medium dark:text-text-primary-500">
-                Join our newsletter
-              </h3>
-              <p>New Subscribers get our Site Sampler Free!</p>
-            </header>
-            <form className="flex flex-col gap-6">
-              <input
-                type="text"
-                placeholder="Enter your email address"
-                className="border-b-[0.125rem] border-solid border-b-text-primary-200 bg-transparent py-2 outline-none"
-              />
-              <Clickable
-                variants={{
-                  rounded: "md",
-                  w: "full",
-                  py: "sm",
-                  "font-weight": null,
-                }}
-                className="text-h4 font-normal uppercase"
-              >
-                Subscribe
-              </Clickable>
-            </form>
-          </div>
+          <Subscribe />
         </div>
         <div className="mx-auto flex w-full max-w-main flex-grow flex-wrap items-center justify-around gap-x-8 gap-y-4 text-center font-normal sm:justify-between">
           <div className="">

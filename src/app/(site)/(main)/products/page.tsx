@@ -24,7 +24,7 @@ async function getPageData(props: Props) {
 
 export const revalidate = 360;
 export const metadata = {
-  title: "Products search",
+  title: "Products",
   description: "Search for your desired products",
 };
 

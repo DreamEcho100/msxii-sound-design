@@ -14,7 +14,8 @@ const VariantsSlideComp = (props: {
   return (
     <button
       className={cx(
-        "flex aspect-square w-28 max-w-full items-center justify-center transition-all duration-300",
+        "flex aspect-square w-full items-center justify-center transition-all duration-300",
+        "items-center justify-center",
         props.selectedImage.id === props.item.node.id ? "p-2" : "",
       )}
       type="button"
@@ -25,7 +26,7 @@ const VariantsSlideComp = (props: {
         width={112}
         height={112}
         className={cx(
-          "aspect-square h-full w-full object-contain transition-all duration-300",
+          "aspect-square h-full w-28 object-contain transition-all duration-300",
           props.selectedImage.id === props.item.node.id
             ? "rounded-lg ring-4 ring-special-primary-500 transition-all duration-300"
             : "rounded-md",
@@ -57,7 +58,7 @@ export default function ProductImageShowcase({
           : "md:w-5/12",
       )}
     >
-      <ImageMagnifier
+      {/* <ImageMagnifier
         src={selectedImage.src}
         width={selectedImage.width || 800}
         height={selectedImage.height || 800}
@@ -69,7 +70,21 @@ export default function ProductImageShowcase({
           ),
         }}
         priority
-      />
+      /> */}
+      <div
+        className={cx(
+          "mx-auto w-full max-w-[20rem] md:mx-0 md:max-w-full",
+          hasImagesVariations ? "lg:w-[calc(100%-6rem)]" : "",
+        )}
+      >
+        <CustomNextImage
+          src={selectedImage.src}
+          width={selectedImage.width || 800}
+          height={selectedImage.height || 800}
+          className="w-full rounded-xl object-contain"
+          priority
+        />
+      </div>
       {hasImagesVariations && (
         <Slider
           data={productData.images.edges}
@@ -79,8 +94,14 @@ export default function ProductImageShowcase({
               direction: "vertical",
             },
           }}
-          slidesPerView={4}
-          spaceBetween={8}
+          className="sm:flex-grow"
+          slidesPerView={
+            productData.images.edges.length < 4
+              ? productData.images.edges.length
+              : 4
+          }
+          // spaceBetween={productData.images.edges.length < 4 ? 0 : 0}
+          spaceBetween={0}
           isNavButtonsOutside
           containerProps={{
             className:

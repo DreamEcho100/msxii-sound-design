@@ -122,12 +122,12 @@ const CustomProductScreen = ({
   const htmlDescription = newViewEnabled
     ? extractDataFromHTMLDescription.detailsHTML
     : productData.descriptionHtml || productData.description;
-  const description =
-    isShortDetailsActive || htmlDescription === productData.description
-      ? undefined
-      : productData.description;
   const hasVariants = productData.variants.edges.length > 1;
-
+  const description =
+    (!hasVariants && isShortDetailsActive) ||
+    htmlDescription !== productData.description
+      ? productData.description
+      : undefined;
   useEffect(() => {
     if (!extractDataFromHTMLDescription.detailsText) return;
 
@@ -195,23 +195,34 @@ const CustomProductScreen = ({
                 />
               </div>
             </div>
+            {description && (
+              <p className="max-w-[50ch]">
+                <TextTruncateManager content={description} />
+              </p>
+            )}
             {hasVariants && (
-              <div className="grid max-w-full grid-cols-[repeat(auto-fit,minmax(6rem,_0.25fr))] gap-4 md:max-w-[25rem] lg:max-w-full">
-                {productData.variants.edges.map(({ node }) => (
+              <div
+                className={cx(
+                  "grid w-full max-w-full grid-cols-[repeat(auto-fit,minmax(6rem,_0.25fr))] justify-center gap-4 sm:justify-start",
+                  "relative isolate",
+                )}
+              >
+                {productData.variants.edges.map(({ node }, index) => (
                   <button
                     key={node.id}
                     type="button"
                     onClick={() => setSelectedVariant(node)}
                     className={cx(
-                      "h-full w-full",
-                      selectedVariant?.title === node.title ? "px-2" : "pt-2",
+                      "flex h-full w-full items-start",
+                      selectedVariant?.title === node.title &&
+                        "relative isolate z-[1] origin-top scale-90 ring-inset",
                     )}
                   >
                     <div
                       className={cx(
-                        "w-full",
+                        "flex w-full flex-col gap-1",
                         selectedVariant?.title === node.title
-                          ? "h-[calc(100%-0.5rem)] rounded-lg text-[90%] ring-4 ring-special-primary-500 transition-all duration-300"
+                          ? "rounded-lg ring-4 ring-special-primary-500 transition-all duration-300"
                           : "h-full rounded-md",
                       )}
                     >
@@ -220,12 +231,17 @@ const CustomProductScreen = ({
                         alt={node.image.altText}
                         width={node.image.width}
                         height={node.image.height}
-                        className={cx(
-                          "w-full",
-                          selectedVariant?.title === node.title ? "p-0.5" : "",
-                        )}
+                        className="relative z-[-1]"
+                        priority
                       />
-                      <p className="leading-tight">{node.title}</p>
+                      <p
+                        className={cx(
+                          "leading-tight",
+                          selectedVariant?.title === node.title && "text-[90%]",
+                        )}
+                      >
+                        {node.title}
+                      </p>
                     </div>
                   </button>
                 ))}
@@ -244,11 +260,6 @@ const CustomProductScreen = ({
                   <strong>Not available for sale</strong>
                 </em>
               </small>
-            )}
-            {description && (
-              <p className="max-w-[52ch]">
-                <TextTruncateManager content={description} />
-              </p>
             )}
           </div>
         </div>

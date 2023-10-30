@@ -5,53 +5,60 @@ import SectionPrimaryLoader from "~/app/components/common/Loaders/SectionPrimary
 import SectionLoaderContainer from "~/app/components/common/LoadersContainers/Section";
 import { type RouterInputs, type RouterOutputs } from "~/server/api/root";
 import { trpcApi } from "~/app/libs/trpc/client";
-import {
-  type Dispatch,
-  type SetStateAction,
-  useEffect,
-  useMemo,
-  useState,
-} from "react";
+import { useEffect, useMemo, useRef } from "react";
 import { useRouter } from "next/navigation";
+
 type Props = {
   baseInput: RouterInputs["shopify"]["products"]["getManyBasic"];
   baseData?: RouterOutputs["shopify"]["products"]["getManyBasic"];
 };
 
-function SearchForm(props: {
-  setProductTitleQueryDebounce: Dispatch<
-    SetStateAction<string | null | undefined>
-  >;
-}) {
-  const [productTitleQuery, setProductTitleQuery] = useState("");
+function SearchForm(props: { productTitleQuery?: string | null }) {
+  const inputRef = useRef<HTMLInputElement>(null);
+  const productTitleQuery = useMemo(() => {
+    return props.productTitleQuery && props.productTitleQuery.length >= 3
+      ? props.productTitleQuery
+      : "";
+  }, [props.productTitleQuery]);
+
   const router = useRouter();
+  const configRef = useRef<{
+    timeoutId?: NodeJS.Timeout;
+  }>({ timeoutId: undefined });
 
-  useEffect(() => {
-    if (productTitleQuery.length !== 0 && productTitleQuery.length < 3) return;
+  const setProductTitleQuery = (query: string | undefined) => {
+    if (!query || query.length < 3) return;
 
-    const timeoutId = setTimeout(() => {
-      props.setProductTitleQueryDebounce(productTitleQuery);
-
+    configRef.current.timeoutId = setTimeout(() => {
       const searchParamsProductTitleQuery =
         new URL(window.location.href).searchParams.get("productTitleQuery") ??
         "";
 
-      if (searchParamsProductTitleQuery !== productTitleQuery)
-        router.replace(`/products?productTitleQuery=${productTitleQuery}`);
+      if (searchParamsProductTitleQuery !== query)
+        router.replace(`/products?productTitleQuery=${query}`);
     }, 500);
-
-    return () => {
-      if (timeoutId) clearTimeout(timeoutId);
-    };
-  }, [productTitleQuery, props, router]);
+  };
 
   useEffect(() => {
-    // productTitleQueryInputRef.current?.focus();
-    const productTitleQuery =
-      new URL(window.location.href).searchParams.get("productTitleQuery") ?? "";
-
-    setProductTitleQuery(productTitleQuery);
+    const config = configRef.current;
+    return () => {
+      if (config.timeoutId) {
+        clearTimeout(config.timeoutId);
+        config.timeoutId = undefined;
+      }
+    };
   }, []);
+
+  useEffect(() => {
+    // inputRef.current?.value = productTitleQuery;
+    const productsPageProductTitleQuery = document.getElementById(
+      "products-page-productTitleQuery",
+    ) as HTMLInputElement | null;
+
+    if (productsPageProductTitleQuery) {
+      productsPageProductTitleQuery.value = productTitleQuery;
+    }
+  }, [productTitleQuery]);
 
   return (
     <form
@@ -60,10 +67,12 @@ function SearchForm(props: {
       }}
     >
       <input
+        ref={inputRef}
         type="search"
         name="productTitleQuery"
-        id="productTitleQuery"
-        value={productTitleQuery}
+        id="products-page-productTitleQuery"
+        placeholder="What are you looking for? (min of 3 characters)"
+        defaultValue={productTitleQuery}
         onChange={(event) => setProductTitleQuery(event.target.value)}
         className="w-full rounded-md px-2 py-1 text-xl"
       />
@@ -72,24 +81,21 @@ function SearchForm(props: {
 }
 
 function ProductsSearch(props: Props) {
-  const [productTitleQueryDebounce, setProductTitleQueryDebounce] = useState(
-    props.baseInput.title,
-  );
-  const queryInput = useMemo(
+  const input = useMemo(
     () => ({
       ...props.baseInput,
       title:
-        !productTitleQueryDebounce ||
-        productTitleQueryDebounce.length === 0 ||
-        productTitleQueryDebounce.length >= 3
-          ? productTitleQueryDebounce
+        !props.baseInput.title ||
+        props.baseInput.title.length === 0 ||
+        props.baseInput.title.length >= 3
+          ? props.baseInput.title
           : undefined,
     }),
-    [productTitleQueryDebounce, props.baseInput],
+    [props.baseInput],
   );
 
   const dataQuery = trpcApi.shopify.products.getManyBasic.useInfiniteQuery(
-    queryInput,
+    input,
     {
       initialData: props.baseData && {
         pageParams: [undefined],
@@ -123,7 +129,7 @@ function ProductsSearch(props: Props) {
 
   return (
     <>
-      <SearchForm setProductTitleQueryDebounce={setProductTitleQueryDebounce} />
+      <SearchForm productTitleQuery={input.title} />
       <div className="grid flex-grow grid-cols-[repeat(auto-fill,_minmax(14rem,_1fr))] gap-8 lg:flex-nowrap lg:justify-between">
         {dataQuery.isLoading ? (
           <SectionLoaderContainer>

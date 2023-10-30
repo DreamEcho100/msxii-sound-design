@@ -20,7 +20,7 @@ const ProductQuantityControllers = ({
     <div className="flex overflow-hidden rounded-xl">
       <Clickable
         variants={{ btn: null, px: null, py: null, rounded: null }}
-        className="bg-bg-primary-600 flex items-center justify-center px-2"
+        className="flex items-center justify-center bg-bg-primary-600 px-2"
         // eslint-disable-next-line @typescript-eslint/no-misused-promises
         onClick={handleDecreaseByOne}
         disabled={quantity === 0 || isLoading}
@@ -28,7 +28,7 @@ const ProductQuantityControllers = ({
         <FaMinus className="text-[60%]" />
       </Clickable>
       <input
-        className="w-fit px-2 focus:outline-none"
+        className="w-fit px-2 text-center focus:outline-none"
         style={{
           width: `${quantity.toString().length + 2}ch`,
         }}
@@ -49,7 +49,7 @@ const ProductQuantityControllers = ({
       />
       <Clickable
         variants={{ btn: null, px: null, py: null, rounded: null }}
-        className="bg-bg-primary-600 flex items-center justify-center px-2"
+        className="flex items-center justify-center bg-bg-primary-600 px-2"
         // eslint-disable-next-line @typescript-eslint/no-misused-promises
         onClick={handleIncreaseByOne}
         disabled={isLoading}

@@ -38,8 +38,8 @@ export default function HomeShowcaseSection(props: HomeShowcaseSectionProps) {
             />
             <div
               className={cx(
-                "grid gap-8 px-8",
-                "sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4",
+                "flex flex-wrap justify-center gap-8 px-8",
+                // "sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4",
               )}
             >
               {props.selectedBundlesCollections.map((item) => (
@@ -47,6 +47,7 @@ export default function HomeShowcaseSection(props: HomeShowcaseSectionProps) {
                   key={item.id}
                   item={item}
                   containerVariants={{ flex: "grow", w: null }}
+                  containerClassName="max-w-[22rem]"
                 />
               ))}
             </div>

@@ -124,9 +124,9 @@ const Slider = ({
         modules={[A11y, Autoplay, Navigation]}
         autoplay={{ delay: 7500 }}
         slidesPerView={1}
-        spaceBetween={20}
+        spaceBetween={40}
         breakpoints={{
-          384: { slidesPerView: 2, spaceBetween: 10 },
+          640: { slidesPerView: 2, spaceBetween: 10 },
           768: { slidesPerView: 3 },
           1024: { slidesPerView: 5 },
           1280: { slidesPerView: 6 },

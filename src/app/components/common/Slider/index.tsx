@@ -140,9 +140,9 @@ export default function Slider<Item, CompProps>(
         }
         autoplay={{ delay: 7500 }}
         breakpoints={{
-          384: { slidesPerView: 2, spaceBetween: 10 },
+          640: { slidesPerView: 2, spaceBetween: 10 },
           768: { slidesPerView: 4, spaceBetween: 20 },
-          1024: { slidesPerView: 4, spaceBetween: 30 },
+          // 1024: { slidesPerView: 4, spaceBetween: 30 },
           1280: { slidesPerView: 5, spaceBetween: 50 },
         }}
         style={{

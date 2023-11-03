@@ -82,7 +82,8 @@ const MainLayoutFooter = () => {
 
   const footerLinks: {
     text: string;
-    links: ({
+    href?: string;
+    links?: ({
       text: string;
       // href: string;
       icon: JSX.Element | null;
@@ -166,6 +167,10 @@ const MainLayoutFooter = () => {
         },
       ],
     },
+    {
+      text: "Sitemap",
+      href: "sitemap.xml",
+    },
   ];
 
   return (
@@ -176,10 +181,25 @@ const MainLayoutFooter = () => {
             <ul key={item.text} className="flex flex-col gap-2">
               <li>
                 <h3 className="text-h6 font-medium dark:text-text-primary-500">
-                  {item.text}
+                  {item.href ? (
+                    <Clickable
+                      // {...itemProps}
+                      href={item.href}
+                      className={cx(
+                        "flex w-fit flex-wrap items-center gap-1 border-b-[0.125rem] border-solid border-b-transparent outline-none sm:flex-nowrap",
+                        "transition-all duration-150",
+                        "focus:border-b-text-primary-200 focus:text-text-primary-300",
+                        "hover:border-b-text-primary-500 hover:text-text-primary-500",
+                      )}
+                    >
+                      {item.text}
+                    </Clickable>
+                  ) : (
+                    item.text
+                  )}
                 </h3>
               </li>
-              {item.links.map(({ icon, text, ...itemProps }) => (
+              {item.links?.map(({ icon, text, ...itemProps }) => (
                 <li key={text}>
                   <Clickable
                     {...itemProps}

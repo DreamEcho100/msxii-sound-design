@@ -26,6 +26,9 @@ function SearchForm(props: { q?: string | null }) {
 
   const setProductTitleQuery = (query: string | undefined) => {
     if (query && query.length !== 0 && query.length < 3) return;
+    clearTimeout(configRef.current.timeoutId);
+    configRef.current.timeoutId = undefined;
+
     configRef.current.timeoutId = setTimeout(() => {
       const searchParamsProductTitleQuery =
         new URL(window.location.href).searchParams.get("q") ?? "";

@@ -10,7 +10,7 @@ const getPageData = cache(async (props: Props) => {
   return await serverClient.shopify.products.getOneByHandle(props.params);
 });
 
-export const revalidate = 360;
+export const revalidate = 720;
 export async function getStaticPaths() {
   return {
     paths: (await shopify.products.queries.getManyHandles()).products.edges.map(

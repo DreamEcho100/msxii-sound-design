@@ -7,7 +7,7 @@ import {
 } from "~/app/libs/utils/server";
 
 type Props = { params: { pageCategoryName: string; slug: string } };
-export const revalidate = 360;
+export const revalidate = 720;
 export async function getStaticPaths() {
   const paths = await drizzleQueryClient.query.pageCategory
     .findMany({

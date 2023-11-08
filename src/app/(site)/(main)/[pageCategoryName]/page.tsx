@@ -7,7 +7,7 @@ import {
 
 type Props = { params: { pageCategoryName: string } };
 
-export const revalidate = 360;
+export const revalidate = 720;
 export async function getStaticPaths() {
   return {
     paths: (

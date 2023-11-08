@@ -8,7 +8,7 @@ import { getEdgeNodes } from "~/libs/shopify";
 import { type BasicProduct } from "~/libs/shopify/types";
 import { Suspense } from "react";
 
-export const revalidate = 360;
+export const revalidate = 720;
 export const metadata = {
   title: "MSXII Sound Design",
   description: "MSXII Sound Design home page",

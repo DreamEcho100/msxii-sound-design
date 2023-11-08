@@ -11,7 +11,7 @@ async function getPageData() {
   return await serverClient.shopify.collections.getAllBasic(input);
 }
 
-export const revalidate = 360;
+export const revalidate = 720;
 export const metadata = {
   title: "Collections",
   description: "Our Collections",

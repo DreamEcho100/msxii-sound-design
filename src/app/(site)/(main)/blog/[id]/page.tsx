@@ -20,7 +20,7 @@ const getPageData = cache(async (props: Props) => {
   );
 });
 
-export const revalidate = 360;
+export const revalidate = 720;
 export const getStaticPaths: GetStaticPaths = async () => {
   return {
     paths: (

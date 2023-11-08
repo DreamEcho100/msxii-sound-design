@@ -91,42 +91,43 @@ const MainLayoutFooter = () => {
   }[] = [
     {
       text: "Collections",
+      href: "/collections",
       links: [
         {
           text: "New Releases",
           isA: "next-js",
-          href: `/collections/new-releases`,
+          href: "/collections/new-releases",
           icon: null,
         },
         {
           text: "Loops",
           isA: "next-js",
-          href: `/collections/loops`,
+          href: "/collections/loops",
           icon: null,
         },
         {
           text: "One shot drums",
           isA: "next-js",
-          href: `/collections/one-shot-drums`,
+          href: "/collections/one-shot-drums",
           icon: null,
         },
         {
           text: "Sample Packs",
           isA: "next-js",
-          href: `/collections/sample-packs`,
+          href: "/collections/sample-packs",
           icon: null,
         },
         {
           text: "Drum Kits",
           isA: "next-js",
-          href: `/collections/drum-kits`,
+          href: "/collections/drum-kits",
           icon: null,
         },
-        // { text: 'Construction Kits', isA: 'next-js', href: `/`, icon: null },
+        // { text: 'Construction Kits', isA: 'next-js', href: '/', icon: null },
         {
           text: "Presets",
           isA: "next-js",
-          href: `/collections/presets`,
+          href: "/collections/presets",
           icon: null,
         },
         {

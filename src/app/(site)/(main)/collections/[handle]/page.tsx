@@ -5,6 +5,7 @@ import { serverClient } from "~/app/libs/trpc/serverClient";
 import shopify from "~/libs/shopify/client";
 import { type RouterInputs } from "~/server/api/root";
 import { cache } from "react";
+import { getBaseUrl } from "~/libs/utils";
 
 const limit = 24;
 type Props = { params: { handle: string } };
@@ -54,6 +55,7 @@ export async function generateMetadata(
   return {
     title: collectionData.profile.items.title,
     description: collectionData.profile.items.description ?? undefined,
+    metadataBase: new URL(getBaseUrl()),
     openGraph: { images },
   };
 }

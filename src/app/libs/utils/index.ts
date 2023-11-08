@@ -11,7 +11,7 @@ export const filterBasicCollectionProductsByTitle = <
   TCollection extends Collection | BasicCollection,
 >(
   collection: TCollection,
-  productTitleQuery: string,
+  q: string,
 ) => {
   return {
     ...collection,
@@ -21,9 +21,7 @@ export const filterBasicCollectionProductsByTitle = <
           node: { title: string };
         }[]
       ).filter(
-        ({ node }) =>
-          node.title.toLowerCase().search(productTitleQuery.toLowerCase()) !==
-          -1,
+        ({ node }) => node.title.toLowerCase().search(q.toLowerCase()) !== -1,
       ),
     },
   };

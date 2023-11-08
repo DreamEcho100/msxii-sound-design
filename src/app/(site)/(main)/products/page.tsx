@@ -3,16 +3,15 @@ import { serverClient } from "~/app/libs/trpc/serverClient";
 import ProductsScreen from "./_screen";
 
 type Props = {
-  searchParams: { productTitleQuery?: string };
+  searchParams: { q?: string };
 };
 
 async function getPageData(props: Props) {
   const baseInput: RouterInputs["shopify"]["products"]["getManyBasic"] = {
     limit: 24,
     title:
-      props.searchParams?.productTitleQuery &&
-      props.searchParams.productTitleQuery.length >= 3
-        ? props.searchParams.productTitleQuery
+      props.searchParams?.q && props.searchParams.q.length >= 3
+        ? props.searchParams.q
         : undefined,
   };
 

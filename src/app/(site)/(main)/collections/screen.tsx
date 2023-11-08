@@ -1,13 +1,12 @@
 "use client";
 import {
   type Dispatch,
-  type InputHTMLAttributes,
   type SetStateAction,
   useState,
+  Suspense,
 } from "react";
 import { GiSettingsKnobs } from "react-icons/gi";
 
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { cx } from "class-variance-authority";
 // import { CardsSlider } from "~/app/components/core/Shopify/Cards/Slider";
 import Clickable from "~/app/components/core/Clickable";
@@ -18,73 +17,7 @@ import {
 } from "~/libs/shopify/types";
 import ProductsCardsSlider from "~/app/components/core/Shopify/Cards/ProductsCardsSlider";
 import SeeMoreSlideChildren from "~/app/components/core/SeeMoreSlideChildren";
-
-const CheckboxField = ({
-  children,
-  ...props
-}: InputHTMLAttributes<HTMLInputElement>) => {
-  return (
-    <label className="flex cursor-pointer items-center gap-1 capitalize md:whitespace-nowrap">
-      <input
-        type="checkbox"
-        className="aspect-square h-5 w-5 accent-special-primary-500"
-        {...props}
-      />
-      {children}
-    </label>
-  );
-};
-
-const PagesCategoriesMenu = ({
-  handles,
-  selectedHandles: selectedPagesCategories,
-}: {
-  handles: string[];
-  // setSelectedPagesCategories: Dispatch<SetStateAction<string[]>>;
-  selectedHandles?: string[];
-}) => {
-  const router = useRouter();
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
-
-  return (
-    <div className="flex flex-col gap-1">
-      {handles.map((pageCategoryName) => (
-        <CheckboxField
-          key={pageCategoryName}
-          checked={selectedPagesCategories?.includes(pageCategoryName)}
-          value={pageCategoryName}
-          onChange={(event) => {
-            const params = new URLSearchParams(
-              Array.from(searchParams.entries()),
-            );
-            if (!searchParams.has("handles")) {
-              if (event.target.checked) params.set("handles", pageCategoryName);
-              return;
-            }
-
-            let handles = searchParams.get("handles")!.split(",");
-
-            if (event.target.checked) handles.push(pageCategoryName);
-            else
-              handles = handles.filter((handle) => handle !== pageCategoryName);
-
-            params.set("handles", handles.join(","));
-
-            // cast to string
-            const search = params.toString();
-            // or const query = `${'?'.repeat(search.length && 1)}${search}`;
-            const query = search ? `?${search}` : "";
-
-            router.replace(`${pathname}${query}`);
-          }}
-        >
-          {pageCategoryName.replaceAll("-", " ")}
-        </CheckboxField>
-      ))}
-    </div>
-  );
-};
+import PagesCategoriesMenu from "./_components/PagesCategoriesMenu";
 
 const SideMenu = (props: {
   isFiltersMenuActive: boolean;
@@ -115,10 +48,12 @@ const SideMenu = (props: {
               <GiSettingsKnobs className="rotate-90 scale-y-110 text-xl font-bold" />
             </button>
           </header>
-          <PagesCategoriesMenu
-            handles={props.allHandles}
-            selectedHandles={props.selectedHandles}
-          />
+          <Suspense>
+            <PagesCategoriesMenu
+              handles={props.allHandles}
+              selectedHandles={props.selectedHandles}
+            />
+          </Suspense>
         </div>
       </div>
       <div className="hidden md:flex">
@@ -141,11 +76,13 @@ const SideMenu = (props: {
               <GiSettingsKnobs className="rotate-90 scale-y-110 text-xl font-bold" />
             </Clickable>
           </header>
-          <PagesCategoriesMenu
-            handles={props.allHandles}
-            // setSelectedPagesCategories={props.setSelectedHandles}
-            selectedHandles={props.selectedHandles}
-          />
+          <Suspense>
+            <PagesCategoriesMenu
+              handles={props.allHandles}
+              // setSelectedPagesCategories={props.setSelectedHandles}
+              selectedHandles={props.selectedHandles}
+            />
+          </Suspense>
         </div>
       </div>
     </>

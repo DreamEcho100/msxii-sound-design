@@ -22,16 +22,14 @@ export function useBasicCollectionsHandleFilterManager<
   const [selectedHandles, setSelectedHandles] = useState<string[]>(
     allProductsHandle ? ["all-products"] : [],
   );
-  const [productTitleQuery, setProductTitleQuery] = useState<
-    string | undefined
-  >(undefined);
+  const [q, setProductTitleQuery] = useState<string | undefined>(undefined);
 
   const { collectionsByHandle, pagesCategories } = useMemo(() => {
     const collectionsHandleMap: Record<string, TCollection[]> = {};
 
     collections.forEach((collection) => {
-      const _collection = productTitleQuery
-        ? filterBasicCollectionProductsByTitle(collection, productTitleQuery)
+      const _collection = q
+        ? filterBasicCollectionProductsByTitle(collection, q)
         : collection;
 
       if (_collection.products.edges.length === 0) return;
@@ -54,7 +52,7 @@ export function useBasicCollectionsHandleFilterManager<
       collectionsByHandle,
       pagesCategories,
     };
-  }, [collections, productTitleQuery]);
+  }, [collections, q]);
 
   const getSelectedCollectionProduct = (
     collectionsByHandle: [string, TCollection[]][],
@@ -81,7 +79,7 @@ export function useBasicCollectionsHandleFilterManager<
     selectedHandles,
     setSelectedHandles,
     collections,
-    productTitleQuery,
+    q,
     setProductTitleQuery,
     getSelectedCollectionProduct,
   };

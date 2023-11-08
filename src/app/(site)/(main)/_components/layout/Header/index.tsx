@@ -24,6 +24,7 @@ import CustomNextImage from "~/app/components/common/CustomNextImage";
 import Clickable from "~/app/components/core/Clickable";
 import NavMenuOnLtLg from "./components/NavMenuOnLtLg";
 import { headersLinks } from "./utils";
+import { Suspense } from "react";
 
 const DynamicAuthDialog = dynamic(() => import("./components/AuthDialog"), {
   ssr: false,
@@ -178,7 +179,9 @@ const MainLayoutHeader = () => {
               <CartDropdown />
             </div>
           </div>
-          <SearchMenuDropdown />
+          <Suspense>
+            <SearchMenuDropdown />
+          </Suspense>
           <NavMenuOnLtLg />
         </div>
       </header>

@@ -3,6 +3,7 @@ import CustomProductScreen from "~/app/components/core/CustomProductScreen";
 import { serverClient } from "~/app/libs/trpc/serverClient";
 import shopify from "~/libs/shopify/client";
 import { cache } from "react";
+import { getBaseUrl } from "~/libs/utils";
 
 type Props = { params: { handle: string } };
 
@@ -34,6 +35,7 @@ export async function generateMetadata(
   return {
     title: productData.title,
     description: productData.description,
+    metadataBase: new URL(getBaseUrl()),
     openGraph: {
       images: [productData.featuredImage.url, ...previousImages],
     },

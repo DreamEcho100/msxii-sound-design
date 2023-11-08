@@ -9,6 +9,7 @@ import { serverClient } from "~/app/libs/trpc/serverClient";
 import shopify from "~/libs/shopify/client";
 import OnClient from "./_components/OnClient";
 import { Suspense, cache } from "react";
+import { getBaseUrl } from "~/libs/utils";
 
 type Props = { params: { id: string } };
 
@@ -45,6 +46,7 @@ export async function generateMetadata(
   return {
     title: articleData.title,
     description: articleData.excerpt ?? undefined,
+    metadataBase: new URL(getBaseUrl()),
     openGraph: { images },
   };
 }

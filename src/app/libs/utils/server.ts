@@ -1,5 +1,6 @@
 import { serverClient } from "~/app/libs/trpc/serverClient";
 import { type Metadata, type ResolvingMetadata } from "next";
+import { getBaseUrl } from "~/libs/utils";
 
 type Props = { params: { pageCategoryName: string; slug?: string } };
 
@@ -28,6 +29,7 @@ export async function generateCustomPageMetadata(
         .map((item) => item.slice(0, 1).toUpperCase() + item.slice(1))
         .join(" "),
     description: customPageStructureData.seo?.description,
+    metadataBase: new URL(getBaseUrl()),
     openGraph: {
       images: [...previousImages],
     },

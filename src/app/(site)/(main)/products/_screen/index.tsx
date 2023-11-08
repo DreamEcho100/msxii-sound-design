@@ -13,13 +13,11 @@ type Props = {
   baseData?: RouterOutputs["shopify"]["products"]["getManyBasic"];
 };
 
-function SearchForm(props: { productTitleQuery?: string | null }) {
+function SearchForm(props: { q?: string | null }) {
   const inputRef = useRef<HTMLInputElement>(null);
-  const productTitleQuery = useMemo(() => {
-    return props.productTitleQuery && props.productTitleQuery.length >= 3
-      ? props.productTitleQuery
-      : "";
-  }, [props.productTitleQuery]);
+  const q = useMemo(() => {
+    return props.q && props.q.length >= 3 ? props.q : "";
+  }, [props.q]);
 
   const router = useRouter();
   const configRef = useRef<{
@@ -27,15 +25,13 @@ function SearchForm(props: { productTitleQuery?: string | null }) {
   }>({ timeoutId: undefined });
 
   const setProductTitleQuery = (query: string | undefined) => {
-    if (!query || query.length < 3) return;
-
+    if (query && query.length !== 0 && query.length < 3) return;
     configRef.current.timeoutId = setTimeout(() => {
       const searchParamsProductTitleQuery =
-        new URL(window.location.href).searchParams.get("productTitleQuery") ??
-        "";
+        new URL(window.location.href).searchParams.get("q") ?? "";
 
       if (searchParamsProductTitleQuery !== query)
-        router.replace(`/products?productTitleQuery=${query}`);
+        router.replace(`/products?q=${query}`);
     }, 500);
   };
 
@@ -50,15 +46,15 @@ function SearchForm(props: { productTitleQuery?: string | null }) {
   }, []);
 
   useEffect(() => {
-    // inputRef.current?.value = productTitleQuery;
+    // inputRef.current?.value = q;
     const productsPageProductTitleQuery = document.getElementById(
-      "products-page-productTitleQuery",
+      "products-page-q",
     ) as HTMLInputElement | null;
 
     if (productsPageProductTitleQuery) {
-      productsPageProductTitleQuery.value = productTitleQuery;
+      productsPageProductTitleQuery.value = q;
     }
-  }, [productTitleQuery]);
+  }, [q]);
 
   return (
     <form
@@ -69,12 +65,12 @@ function SearchForm(props: { productTitleQuery?: string | null }) {
       <input
         ref={inputRef}
         type="search"
-        name="productTitleQuery"
-        id="products-page-productTitleQuery"
+        name="q"
+        id="products-page-q"
         placeholder="What are you looking for? (min of 3 characters)"
-        defaultValue={productTitleQuery}
+        defaultValue={q}
         onChange={(event) => setProductTitleQuery(event.target.value)}
-        className="w-full rounded-md px-2 py-1 text-xl"
+        className="w-full rounded-md px-3 py-3 text-xl"
       />
     </form>
   );
@@ -129,7 +125,7 @@ function ProductsSearch(props: Props) {
 
   return (
     <>
-      <SearchForm productTitleQuery={input.title} />
+      <SearchForm q={input.title} />
       <div className="grid flex-grow grid-cols-[repeat(auto-fill,_minmax(14rem,_1fr))] gap-8 lg:flex-nowrap lg:justify-between">
         {dataQuery.isLoading ? (
           <SectionLoaderContainer>

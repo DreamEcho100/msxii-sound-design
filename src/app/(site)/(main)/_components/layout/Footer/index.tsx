@@ -82,7 +82,8 @@ const MainLayoutFooter = () => {
 
   const footerLinks: {
     text: string;
-    href?: string;
+    // href?: string;
+    clickable?: Parameters<typeof Clickable>[0];
     links?: ({
       text: string;
       // href: string;
@@ -91,7 +92,7 @@ const MainLayoutFooter = () => {
   }[] = [
     {
       text: "Collections",
-      href: "/collections",
+      clickable: { href: "/collections", isA: "next-js" },
       links: [
         {
           text: "New Releases",
@@ -170,7 +171,7 @@ const MainLayoutFooter = () => {
     },
     {
       text: "Sitemap",
-      href: "sitemap.xml",
+      clickable: { href: "sitemap.xml" },
     },
   ];
 
@@ -182,10 +183,9 @@ const MainLayoutFooter = () => {
             <ul key={item.text} className="flex flex-col gap-2">
               <li>
                 <h3 className="text-h6 font-medium dark:text-text-primary-500">
-                  {item.href ? (
+                  {item.clickable ? (
                     <Clickable
-                      // {...itemProps}
-                      href={item.href}
+                      {...item.clickable}
                       className={cx(
                         "flex w-fit flex-wrap items-center gap-1 border-b-[0.125rem] border-solid border-b-transparent outline-none sm:flex-nowrap",
                         "transition-all duration-150",

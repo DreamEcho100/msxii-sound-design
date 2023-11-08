@@ -46,8 +46,11 @@ export default function HomeShowcaseSection(props: HomeShowcaseSectionProps) {
                 <ProductBundleCard
                   key={item.id}
                   item={item}
-                  containerVariants={{ flex: "grow", w: null }}
-                  containerClassName="max-w-[22rem]"
+                  containerVariants={{
+                    flex: "grow",
+                    w: null,
+                    "max-w": "22rem",
+                  }}
                 />
               ))}
             </div>

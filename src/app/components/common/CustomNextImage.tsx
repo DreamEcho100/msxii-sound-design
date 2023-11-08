@@ -71,7 +71,7 @@ const CustomNextImage = forwardRef<HTMLImageElement, ICustomNextImageProps>(
         unoptimized,
         placeholder,
         className: `${className} ${isLoaded ? "" : "no-content"}`,
-        onLoadingComplete: () => {
+        onLoad: () => {
           setIsLoaded(true);
         },
         ...props,

@@ -1,5 +1,3 @@
-"use client";
-
 // import CustomNextImage from "~/components/shared/CustomNextImage";
 import Clickable from "~/app/components/core/Clickable";
 import CustomNextImage from "~/app/components/common/CustomNextImage";
@@ -13,16 +11,16 @@ type Props = {
 const HomeLatestBlogsSection = (props: Props) => {
   return (
     <section className="sm:px-main-p-3 sm:py-main-p-2">
-      <div className="bg-bg-primary-0 px-main-p-2 py-main-p-1 md:p-main-p-1 sm:rounded-xl">
+      <div className="bg-bg-primary-0 px-main-p-2 py-main-p-1 sm:rounded-xl md:p-main-p-1">
         <div className="mx-auto flex w-fit flex-col gap-4 sm:gap-12">
           <header className="text-initial-primary-900">
-            <h2 className="text-h1 leading-h2 font-semibold">Latest Blogs</h2>
+            <h2 className="text-h1 font-semibold leading-h2">Latest Blogs</h2>
           </header>
-          <div className="cards-container text-initial-primary-500 flex w-fit flex-col gap-8 lg:flex-row">
+          <div className="cards-container flex w-fit flex-col gap-8 text-initial-primary-500 lg:flex-row">
             {props.basicArticles.map(({ node }) => (
               <article
                 key={node.id}
-                className="bg-bg-primary-600 text-text-primary-500 flex flex-col-reverse overflow-hidden rounded-lg bg-opacity-20 transition-all duration-300 dark:bg-opacity-100 sm:aspect-video sm:flex-row md:max-w-[600px]"
+                className="flex flex-col-reverse overflow-hidden rounded-lg bg-bg-primary-600 bg-opacity-20 text-text-primary-500 transition-all duration-300 dark:bg-opacity-100 sm:aspect-video sm:flex-row md:max-w-[600px]"
               >
                 <div className="sm:text-align-initial group flex flex-col items-center justify-between gap-2 p-8 text-center sm:w-1/2 sm:items-start sm:gap-0 lg:p-8">
                   <Clickable

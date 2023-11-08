@@ -6,7 +6,7 @@ import CustomNextImage from "../../common/CustomNextImage";
 import Clickable from "../Clickable";
 import CustomPageBuilder from "../CustomPageBuilder";
 import { type RouterOutputs } from "~/server/api/root";
-import { Fragment } from "react";
+import { Fragment, Suspense } from "react";
 
 type Props = {
   customPageStructureData: RouterOutputs["customPages"]["getOne"];
@@ -35,10 +35,12 @@ const PageCategoryItems = (props: {
       )}
     >
       {props.addPageToPageCategoryType && (
-        <CreateProductPageButton
-          dataLength={props.data.items.length}
-          itemsSlugs={props.data.items.map((item) => item.slug)}
-        />
+        <Suspense>
+          <CreateProductPageButton
+            dataLength={props.data.items.length}
+            itemsSlugs={props.data.items.map((item) => item.slug)}
+          />
+        </Suspense>
       )}
       {props.data.items.map((item) =>
         !item.slug ? (
@@ -88,15 +90,17 @@ const PageCategoryItems = (props: {
 const CustomPageScreen = (props: Props): React.JSX.Element => {
   return (
     <CustomPageBuilder page={props.customPageStructureData}>
-      {props.pageParams.pageCategoryName === "merch" &&
-      !props.pageParams.slug ? (
-        <Merch />
-      ) : props.pageParams.pageCategoryName === "blue-label" &&
+      <Suspense>
+        {props.pageParams.pageCategoryName === "merch" &&
         !props.pageParams.slug ? (
-        <BlueLabel />
-      ) : (
-        <></>
-      )}
+          <Merch />
+        ) : props.pageParams.pageCategoryName === "blue-label" &&
+          !props.pageParams.slug ? (
+          <BlueLabel />
+        ) : (
+          <></>
+        )}
+      </Suspense>
       {!props.pageParams.slug && props.pageCategoryItemsData && (
         <PageCategoryItems
           data={props.pageCategoryItemsData}

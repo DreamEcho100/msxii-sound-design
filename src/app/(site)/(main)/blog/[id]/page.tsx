@@ -8,16 +8,17 @@ import CustomNextImage from "~/app/components/common/CustomNextImage";
 import { serverClient } from "~/app/libs/trpc/serverClient";
 import shopify from "~/libs/shopify/client";
 import OnClient from "./_components/OnClient";
+import { Suspense, cache } from "react";
 
 type Props = { params: { id: string } };
 
 const gidBase = "gid://shopify/Article/";
 
-async function getPageData(props: Props) {
+const getPageData = cache(async (props: Props) => {
   return await serverClient.shopify.blog.articles.getOneById(
     `${gidBase}${props.params.id}`,
   );
-}
+});
 
 export const revalidate = 360;
 export const getStaticPaths: GetStaticPaths = async () => {
@@ -96,7 +97,9 @@ export default async function ProductPage(props: Props) {
             )}
           </div>
         </header>
-        <OnClient />
+        <Suspense>
+          <OnClient />
+        </Suspense>
         <section
           id="article-content"
           className="blog-article prose mx-auto flex w-full max-w-[120ch] flex-col px-4 leading-loose dark:prose-invert lg:prose-xl prose-lead:leading-loose md:px-8"

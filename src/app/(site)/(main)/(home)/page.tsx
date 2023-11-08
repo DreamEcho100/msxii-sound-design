@@ -6,6 +6,7 @@ import HomeShowcaseSection from "./_sections/Showcase";
 import { serverClient } from "~/app/libs/trpc/serverClient";
 import { getEdgeNodes } from "~/libs/shopify";
 import { type BasicProduct } from "~/libs/shopify/types";
+import { Suspense } from "react";
 
 export const revalidate = 360;
 export const metadata = {
@@ -70,7 +71,9 @@ export default async function HomeScreen() {
   return (
     <>
       <HeroHomeSection />
-      <HomeShowcaseSection {...showcaseData} />
+      <Suspense>
+        <HomeShowcaseSection {...showcaseData} />
+      </Suspense>
       <HomeIOSAppsSection />
       <HomeLatestBlogsSection basicArticles={basicArticles.items} />
       <AboutMSXIISoundDesign />

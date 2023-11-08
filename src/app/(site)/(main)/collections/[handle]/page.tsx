@@ -4,10 +4,11 @@ import InfiniteLoadCollectionProductsSection from "~/app/components/core/Infinit
 import { serverClient } from "~/app/libs/trpc/serverClient";
 import shopify from "~/libs/shopify/client";
 import { type RouterInputs } from "~/server/api/root";
+import { cache } from "react";
 
 const limit = 24;
 type Props = { params: { handle: string } };
-async function getPageData(props: Props) {
+const getPageData = cache(async (props: Props) => {
   const input: RouterInputs["shopify"]["collections"]["getOneByHandle"] = {
     handle: props.params.handle,
     limit,
@@ -16,7 +17,7 @@ async function getPageData(props: Props) {
     profile: await serverClient.shopify.collections.getOneByHandle(input),
     baseInput: input,
   };
-}
+});
 
 export const revalidate = 360;
 export async function getStaticPaths() {

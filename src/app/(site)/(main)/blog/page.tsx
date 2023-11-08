@@ -1,8 +1,9 @@
 import { type RouterInputs } from "~/server/api/root";
 import { serverClient } from "~/app/libs/trpc/serverClient";
 import BlogScreen from "./Screen";
+import { Suspense } from "react";
 
-async function getPageData() {
+const getPageData = async () => {
   const baseInput: RouterInputs["shopify"]["blog"]["articles"]["getManyBasic"] =
     { limit: 24 };
 
@@ -10,7 +11,7 @@ async function getPageData() {
     baseInput,
     baseData: await serverClient.shopify.blog.articles.getManyBasic(baseInput),
   };
-}
+};
 
 export const revalidate = 360;
 export const metadata = {
@@ -22,9 +23,11 @@ export default async function BlogPage() {
   const basicManyBlogArticles = await getPageData();
 
   return (
-    <BlogScreen
-      baseData={basicManyBlogArticles.baseData}
-      baseInput={basicManyBlogArticles.baseInput}
-    />
+    <Suspense>
+      <BlogScreen
+        baseData={basicManyBlogArticles.baseData}
+        baseInput={basicManyBlogArticles.baseInput}
+      />
+    </Suspense>
   );
 }

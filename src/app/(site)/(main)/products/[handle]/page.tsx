@@ -2,12 +2,13 @@ import { type ResolvingMetadata, type Metadata } from "next";
 import CustomProductScreen from "~/app/components/core/CustomProductScreen";
 import { serverClient } from "~/app/libs/trpc/serverClient";
 import shopify from "~/libs/shopify/client";
+import { cache } from "react";
 
 type Props = { params: { handle: string } };
 
-async function getPageData(props: Props) {
+const getPageData = cache(async (props: Props) => {
   return await serverClient.shopify.products.getOneByHandle(props.params);
-}
+});
 
 export const revalidate = 360;
 export async function getStaticPaths() {

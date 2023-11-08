@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import {
   HiOutlineArrowNarrowLeft,
   HiOutlineArrowNarrowRight,
@@ -18,8 +18,8 @@ type Props = {
 
 export default function BlogScreen(props: Props) {
   const [currentPageIndex, setCurrentPageIndex] = useState(0);
-  const articlesQuery =
-    trpcApi.shopify.blog.articles.getManyBasic.useInfiniteQuery(
+  const [articles, articlesQuery] =
+    trpcApi.shopify.blog.articles.getManyBasic.useSuspenseInfiniteQuery(
       props.baseInput,
       {
         initialData: {
@@ -38,9 +38,9 @@ export default function BlogScreen(props: Props) {
       </SectionLoaderContainer>
     );
 
-  if (articlesQuery.isError) return <>{articlesQuery.error.message}</>;
+  // if (articlesQuery.isError) return <>{articlesQuery.error!.message}</>;
 
-  const pages = articlesQuery.data.pages;
+  const pages = articles.pages;
   const pagesLength = pages.length;
   const isOnLastPage = currentPageIndex === pagesLength - 1;
 
@@ -83,32 +83,37 @@ export default function BlogScreen(props: Props) {
             gridTemplateColumns: "repeat(auto-fill, minmax(15rem, 1fr))",
           }}
         >
-          {currentPageItems.map(({ node }) => (
-            <article
-              key={node.id}
-              className="flex w-56 flex-col gap-4 text-center"
-            >
-              <Clickable
-                variants={{ btn: null, px: null, py: null }}
-                isA="next-js"
-                href={`/blog/${node.id.replace("gid://shopify/Article/", "")}`}
-                className="aspect-square overflow-hidden rounded-lg"
+          <Suspense>
+            {currentPageItems.map(({ node }) => (
+              <article
+                key={node.id}
+                className="flex w-56 flex-col gap-4 text-center"
               >
-                <CustomNextImage
-                  src={node.image.url}
-                  alt={node.image.altText ?? ""}
-                  width={node.image.width ?? 300}
-                  height={node.image.height ?? 300}
-                  className="aspect-square h-full w-full object-cover duration-300 ease-in hover:scale-110"
-                  priority
-                />
-              </Clickable>
-              <h3 className="flex-grow text-[1rem] font-light leading-snug">
-                <small>{node.title}</small>
-              </h3>
-              <p>read more</p>
-            </article>
-          ))}
+                <Clickable
+                  variants={{ btn: null, px: null, py: null }}
+                  isA="next-js"
+                  href={`/blog/${node.id.replace(
+                    "gid://shopify/Article/",
+                    "",
+                  )}`}
+                  className="aspect-square overflow-hidden rounded-lg"
+                >
+                  <CustomNextImage
+                    src={node.image.url}
+                    alt={node.image.altText ?? ""}
+                    width={300}
+                    height={300}
+                    className="aspect-square h-full w-full object-cover duration-300 ease-in hover:scale-110"
+                    priority
+                  />
+                </Clickable>
+                <h3 className="flex-grow text-[1rem] font-light leading-snug">
+                  <small>{node.title}</small>
+                </h3>
+                <p>read more</p>
+              </article>
+            ))}
+          </Suspense>
         </div>
         <footer className="mt-4 flex flex-col items-center justify-center">
           <div className="flex items-center gap-6 text-h5 text-text-primary-400">

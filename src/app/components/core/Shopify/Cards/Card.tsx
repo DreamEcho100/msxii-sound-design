@@ -10,14 +10,18 @@ import CustomNextImage from "~/app/components/common/CustomNextImage";
 import { type BasicProduct, type Product } from "~/libs/shopify/types";
 
 const handleBasicProductCardHolderVariants = cva(
-  "max-w-full card flex flex-col px-1 group duration-300 delay-75 transition-all",
+  "card flex flex-col px-1 group duration-300 delay-75 transition-all",
   {
     variants: {
       "aspect-ratio": { video: "aspect-video" },
       flex: { grow: "flex-grow" },
       w: { "64": "w-64", "72": "w-72" },
+      "max-w": {
+        full: "max-w-full",
+        "22rem": "max-w-[22rem]",
+      },
     },
-    defaultVariants: { w: "64" },
+    defaultVariants: { w: "64", "max-w": "full" },
   },
 );
 const handleBasicProductCardImageHolderVariants = cva(

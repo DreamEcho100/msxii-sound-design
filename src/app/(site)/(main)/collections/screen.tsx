@@ -1,10 +1,5 @@
 "use client";
-import {
-  type Dispatch,
-  type SetStateAction,
-  useState,
-  Suspense,
-} from "react";
+import { type Dispatch, type SetStateAction, useState, Suspense } from "react";
 import { GiSettingsKnobs } from "react-icons/gi";
 
 import { cx } from "class-variance-authority";
@@ -89,18 +84,16 @@ const SideMenu = (props: {
   );
 };
 
-const CollectionsScreen = (props: {
+export default function CollectionsScreen(props: {
   collectionsWithNoEdges: TGetCollectionWithNoEdges<Edges<BasicCollection>>[];
   handles: string[];
   selectedHandles?: string[];
-}) => {
+}) {
   const [isFiltersMenuActive, setIsFiltersMenuActive] = useState(false);
   // const searchParams = useSearchParams();
   // const [isReady, setIsReady] = useState(false);
-
   // const [selectedHandles, setSelectedHandles] = useState<string[]>([]);
   // setSelectedHandles
-
   return (
     <section className="flex flex-grow flex-col">
       <div className="relative isolate flex flex-grow py-main-p-1 md:gap-main-p-3 md:p-main-p-3">
@@ -190,6 +183,4 @@ const CollectionsScreen = (props: {
       </div>
     </section>
   );
-};
-
-export default CollectionsScreen;
+}

@@ -19,6 +19,8 @@ const CheckboxField = ({
   );
 };
 
+// ???
+// Change to a nested layout?
 export default function PagesCategoriesMenu({
   handles,
   selectedHandles: selectedPagesCategories,
@@ -42,12 +44,11 @@ export default function PagesCategoriesMenu({
             const params = new URLSearchParams(
               Array.from(searchParams.entries()),
             );
-            if (!searchParams.has("handles")) {
-              if (event.target.checked) params.set("handles", pageCategoryName);
-              return;
-            }
 
-            let handles = searchParams.get("handles")!.split(",");
+            const handlesSearchParams = searchParams.get("handles");
+            let handles = handlesSearchParams
+              ? handlesSearchParams.split(",").filter(Boolean)
+              : [];
 
             if (event.target.checked) handles.push(pageCategoryName);
             else

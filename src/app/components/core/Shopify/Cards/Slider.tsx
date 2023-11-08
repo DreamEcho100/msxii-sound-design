@@ -23,7 +23,7 @@ type SliderProps = {
   nextSlideButtonClassName?: string;
   previousSlideButtonClassName?: string;
   containerProps?: HTMLAttributes<HTMLDivElement>;
-  verticalOnLG?: boolean;
+  verticalOnLg?: boolean;
   isNavButtonsOutside?: boolean;
 };
 
@@ -63,7 +63,7 @@ const Slider = ({
   swiperProps = {},
   nextSlideButtonClassName,
   previousSlideButtonClassName,
-  verticalOnLG,
+  verticalOnLg,
   isNavButtonsOutside,
   containerProps,
 }: SliderProps) => {
@@ -75,16 +75,16 @@ const Slider = ({
       {...containerProps}
       className={cx(
         "relative flex gap-4",
-        verticalOnLG ? "verticalOnLG lg:flex-col" : "",
+        verticalOnLg ? "verticalOnLg lg:flex-col" : "",
         containerProps?.className,
       )}
     >
       <div
         className={cx(
           "flex items-center justify-center",
-          // verticalOnLG ? 'lg:rotate-90 scale-75' : '',
+          // verticalOnLg ? 'lg:rotate-90 scale-75' : '',
           !isNavButtonsOutside ? "" : "absolute",
-          verticalOnLG && isNavButtonsOutside
+          verticalOnLg && isNavButtonsOutside
             ? "lg:left-1/2 lg:right-auto lg:top-0 lg:-translate-x-1/2 lg:-translate-y-full lg:rtl:left-1/2 lg:rtl:right-auto"
             : "",
 
@@ -100,7 +100,7 @@ const Slider = ({
           ref={navigationPrevRef}
           className={cx(
             "aspect-[1.91/1] h-8 w-4 transition-all duration-150 hover:scale-[1.25] focus:scale-[1.25] rtl:rotate-180",
-            verticalOnLG
+            verticalOnLg
               ? "scale-75 lg:rotate-90 rtl:lg:rotate-90"
               : "rtl:rotate-180",
             previousSlideButtonClassName,
@@ -140,9 +140,9 @@ const Slider = ({
       <div
         className={cx(
           "flex items-center justify-center",
-          // verticalOnLG ? 'lg:rotate-90 scale-75' : '',
+          // verticalOnLg ? 'lg:rotate-90 scale-75' : '',
           !isNavButtonsOutside ? "" : "absolute",
-          verticalOnLG && isNavButtonsOutside
+          verticalOnLg && isNavButtonsOutside
             ? "lg:left-1/2 lg:right-auto lg:top-full lg:-translate-x-1/2 lg:translate-y-0 lg:rtl:left-1/2 lg:rtl:right-auto"
             : "",
 
@@ -158,7 +158,7 @@ const Slider = ({
           ref={navigationNextRef}
           className={cx(
             "aspect-[1.91/1] h-8 w-4 transition-all duration-150 hover:scale-[1.25] focus:scale-[1.25]",
-            verticalOnLG
+            verticalOnLg
               ? "scale-75 lg:rotate-90 rtl:lg:rotate-90"
               : "rtl:rotate-180",
             nextSlideButtonClassName,

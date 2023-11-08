@@ -146,12 +146,12 @@ export const globalStore = createStore<GlobalStore>((set, get) => ({
     },
   },
   menus: {
-    isDropdownMenuOnLessThanLGOpen: false,
-    toggleDropdownMenuOnLessThanLG: () =>
+    isDropdownMenuOnLessThanLgOpen: false,
+    toggleDropdownMenuOnLessThanLg: () =>
       set(({ menus, cart }) => ({
         menus: {
           ...menus,
-          isDropdownMenuOnLessThanLGOpen: !menus.isDropdownMenuOnLessThanLGOpen,
+          isDropdownMenuOnLessThanLgOpen: !menus.isDropdownMenuOnLessThanLgOpen,
         },
         cart: {
           ...cart,
@@ -177,7 +177,7 @@ export const globalStore = createStore<GlobalStore>((set, get) => ({
         menus: {
           ...menus,
           isSearchMenuDropdownOpen: false,
-          isDropdownMenuOnLessThanLGOpen: false,
+          isDropdownMenuOnLessThanLgOpen: false,
         },
         cart: {
           ...cart,

@@ -60,7 +60,7 @@ flex flex-col items-center justify-center gap-8 py-main-p-3 text-center text-[1.
         <p
           className={cx(
             "max-w-[55ch]",
-            "translate-y-8opacity-5",
+            "translate-y-8 opacity-5",
             classNames["item-to-animate-up"],
             isMounted && classNames.active,
           )}
@@ -74,7 +74,7 @@ flex flex-col items-center justify-center gap-8 py-main-p-3 text-center text-[1.
         <span
           className={cx(
             "mt-6",
-            "translate-y-8opacity-5",
+            "translate-y-8 opacity-5",
             classNames["item-to-animate-up"],
             isMounted && classNames.active,
           )}

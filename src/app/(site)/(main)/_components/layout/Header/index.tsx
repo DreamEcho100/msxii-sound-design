@@ -34,18 +34,18 @@ const MainLayoutHeader = () => {
 
   const { isAdmin } = useCheckIsAdmin();
 
-  const toggleDropdownMenuOnLessThanLG = useStore(
+  const toggleDropdownMenuOnLessThanLg = useStore(
     globalStore,
-    (store) => store.menus.toggleDropdownMenuOnLessThanLG,
+    (store) => store.menus.toggleDropdownMenuOnLessThanLg,
   );
   const toggleSearchMenuDropdown = useStore(
     globalStore,
     (store) => store.menus.toggleSearchMenuDropdown,
   );
 
-  const isDropdownMenuOnLessThanLGOpen = useStore(
+  const isDropdownMenuOnLessThanLgOpen = useStore(
     globalStore,
-    (store) => store.menus.isDropdownMenuOnLessThanLGOpen,
+    (store) => store.menus.isDropdownMenuOnLessThanLgOpen,
   );
   const isSearchMenuDropdownOpen = useStore(
     globalStore,
@@ -57,7 +57,7 @@ const MainLayoutHeader = () => {
   );
 
   const isAnyMenuOpen =
-    isDropdownMenuOnLessThanLGOpen ||
+    isDropdownMenuOnLessThanLgOpen ||
     isSearchMenuDropdownOpen ||
     isCartDropdownOpen;
 
@@ -119,7 +119,7 @@ const MainLayoutHeader = () => {
                                 if (isA === "normal-link") open(href, "_blank");
                                 else router.push(href);
 
-                                toggleDropdownMenuOnLessThanLG();
+                                toggleDropdownMenuOnLessThanLg();
                               }}
                             >
                               <span className="p-2">{title}</span>
@@ -166,11 +166,11 @@ const MainLayoutHeader = () => {
               <PersonIcon />
               <CartDropdownButton />
               <Clickable
-                onClick={toggleDropdownMenuOnLessThanLG}
+                onClick={toggleDropdownMenuOnLessThanLg}
                 variants={null}
                 className="block lg:hidden"
                 title={`${
-                  isDropdownMenuOnLessThanLGOpen ? "Open" : "Close"
+                  isDropdownMenuOnLessThanLgOpen ? "Open" : "Close"
                 } the navigation menu.`}
               >
                 <GiHamburgerMenu className="text-xl" />

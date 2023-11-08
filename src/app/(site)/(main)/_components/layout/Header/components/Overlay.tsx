@@ -9,9 +9,9 @@ const Overlay = () => {
     (store) => store.menus.closeAllMenus,
   );
 
-  const isDropdownMenuOnLessThanLGOpen = useStore(
+  const isDropdownMenuOnLessThanLgOpen = useStore(
     globalStore,
-    (store) => store.menus.isDropdownMenuOnLessThanLGOpen,
+    (store) => store.menus.isDropdownMenuOnLessThanLgOpen,
   );
   const isSearchMenuDropdownOpen = useStore(
     globalStore,
@@ -23,7 +23,7 @@ const Overlay = () => {
   );
 
   const isAnyMenuOpen =
-    isDropdownMenuOnLessThanLGOpen ||
+    isDropdownMenuOnLessThanLgOpen ||
     isSearchMenuDropdownOpen ||
     isCartDropdownOpen;
 
@@ -33,7 +33,7 @@ const Overlay = () => {
     <button
       className={cx(
         "fixed inset-0 z-[2] block h-full w-full",
-        isDropdownMenuOnLessThanLGOpen && !isSearchMenuDropdownOpen
+        isDropdownMenuOnLessThanLgOpen && !isSearchMenuDropdownOpen
           ? "lg:hidden"
           : "",
         isCartDropdownOpen

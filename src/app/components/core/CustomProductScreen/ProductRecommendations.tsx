@@ -88,7 +88,7 @@ export default function ProductImageShowcase({
       {hasImagesVariations && (
         <Slider
           data={productData.images.edges}
-          verticalOnLG
+          verticalOnLg
           breakpoints={{
             1024: {
               direction: "vertical",

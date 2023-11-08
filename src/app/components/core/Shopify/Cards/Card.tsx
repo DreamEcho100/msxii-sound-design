@@ -20,8 +20,9 @@ const handleBasicProductCardHolderVariants = cva(
         full: "max-w-full",
         "22rem": "max-w-[22rem]",
       },
+      mx: { auto: "mx-auto" },
     },
-    defaultVariants: { w: "64", "max-w": "full" },
+    defaultVariants: { w: "64", "max-w": "full", mx: "auto" },
   },
 );
 const handleBasicProductCardImageHolderVariants = cva(

@@ -112,8 +112,8 @@ export interface GlobalStore {
   menus: {
     closeAllMenus: () => void;
 
-    isDropdownMenuOnLessThanLGOpen: boolean;
-    toggleDropdownMenuOnLessThanLG: () => void;
+    isDropdownMenuOnLessThanLgOpen: boolean;
+    toggleDropdownMenuOnLessThanLg: () => void;
 
     isSearchMenuDropdownOpen: boolean;
     toggleSearchMenuDropdown: () => void;

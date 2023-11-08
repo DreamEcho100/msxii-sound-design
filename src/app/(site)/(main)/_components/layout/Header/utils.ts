@@ -1,4 +1,15 @@
-export const headersLinks = [
+export const headersLinks: (
+  | {
+      title: string;
+      href: string;
+      onLtLg?: "hide" | { title: string; href: string };
+    }
+  | {
+      title: string;
+      links: { title: string; href: string; isA?: string }[];
+      onLtLg?: "hide" | { title: string; href: string };
+    }
+)[] = [
   {
     title: "New Releases",
     href: "/collections/new-releases",
@@ -10,9 +21,11 @@ export const headersLinks = [
   {
     title: "Blue Label",
     href: "/blue-label",
+    onLtLg: "hide",
   },
   {
     title: "Samples",
+    onLtLg: { title: "Samples", href: "/collections" },
     links: [
       { title: "Drum Kits", href: "/collections/drum-kits" },
       {
@@ -21,11 +34,7 @@ export const headersLinks = [
         isA: "normal-link",
       },
       { title: "Vinyl", href: "/collections/vinyl" },
-    ] as {
-      readonly title: "Ableton Racks";
-      readonly href: "https://racksforlive.com/";
-      readonly isA?: "normal-link";
-    }[],
+    ],
   },
   {
     title: "Bundles",
@@ -39,4 +48,4 @@ export const headersLinks = [
     title: "Merch",
     href: "/merch",
   },
-] as const;
+]; // as const;

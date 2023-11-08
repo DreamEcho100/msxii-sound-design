@@ -14,21 +14,14 @@ import Clickable from "~/app/components/core/Clickable";
 import { headersLinks } from "../utils";
 
 export default function NavMenuOnLtLg() {
-  const router = useRouter();
-
-  const toggleDropdownMenuOnLessThanLG = useStore(
+  const isDropdownMenuOnLessThanLgOpen = useStore(
     globalStore,
-    (store) => store.menus.toggleDropdownMenuOnLessThanLG,
-  );
-
-  const isDropdownMenuOnLessThanLGOpen = useStore(
-    globalStore,
-    (store) => store.menus.isDropdownMenuOnLessThanLGOpen,
+    (store) => store.menus.isDropdownMenuOnLessThanLgOpen,
   );
 
   return (
     <AnimatePresence>
-      {isDropdownMenuOnLessThanLGOpen && (
+      {isDropdownMenuOnLessThanLgOpen && (
         <motion.nav
           initial={{ opacity: 0.75, y: "-100%" }}
           animate={{ opacity: 1, y: "0%" }}
@@ -37,67 +30,89 @@ export default function NavMenuOnLtLg() {
           className="flex w-full flex-col bg-bg-primary-500 uppercase
 					lg:hidden"
         >
-          <ul>
+          <ul className="pb-2">
             {headersLinks.map((item) => (
               <li
                 key={item.title}
-                className={cx(
-                  "flex flex-wrap border-b-[0.0625rem] border-solid border-b-special-primary-500 px-main-p-3 sm:px-main-p-2",
-                )}
+                className={cx("flex flex-wrap px-main-p-3 sm:px-main-p-2")}
               >
-                {"href" in item ? (
-                  <Clickable
-                    href={item.href}
-                    isA="next-js"
-                    className={cx(
-                      "mx-auto w-full max-w-main whitespace-nowrap bg-clip-text p-1",
-                      "bg-text-primary-500",
-                      "hover:bg-gradient-to-br hover:from-text-primary-200 hover:to-special-primary-700 hover:text-special-secondary-100 hover:transition-all hover:duration-150",
-                      "focus:bg-gradient-to-br focus:from-text-primary-300 focus:to-special-primary-500 focus:text-special-secondary-100 focus:transition-all focus:duration-150",
-                    )}
-                    variants={null}
-                    style={{
-                      WebkitTextFillColor: "transparent",
-                    }}
-                    onClick={toggleDropdownMenuOnLessThanLG}
-                  >
-                    {item.title}
-                  </Clickable>
-                ) : (
-                  <Dropdown>
-                    <DropdownButton
-                      title="Settings and other options."
-                      className="duration-150 hover:text-special-primary-700"
-                    >
-                      <IoMdArrowDropdown className="text-xl" /> {item.title}
-                      <span className="pl-1" />
-                    </DropdownButton>
-                    <DropdownItems>
-                      {item.links.map(({ href, title, isA }) => (
-                        <DropdownItem key={title}>
-                          {({ active }) => (
-                            <DropdownButton
-                              active={active}
-                              onClick={() => {
-                                if (isA === "normal-link") open(href, "_blank");
-                                else router.push(href);
-
-                                toggleDropdownMenuOnLessThanLG();
-                              }}
-                            >
-                              <span className="p-2">{title}</span>
-                            </DropdownButton>
-                          )}
-                        </DropdownItem>
-                      ))}
-                    </DropdownItems>
-                  </Dropdown>
-                )}
+                <HeadersLink item={item} />
               </li>
             ))}
           </ul>
         </motion.nav>
       )}
     </AnimatePresence>
+  );
+}
+
+function HeadersLink(props: { item: (typeof headersLinks)[number] }) {
+  const router = useRouter();
+  const toggleDropdownMenuOnLessThanLg = useStore(
+    globalStore,
+    (store) => store.menus.toggleDropdownMenuOnLessThanLg,
+  );
+
+  if (props.item.onLtLg === "hide") return <></>;
+
+  if (
+    "href" in props.item ||
+    (props.item.onLtLg && typeof props.item.onLtLg === "object")
+  ) {
+    const item = (props.item.onLtLg ?? props.item) as {
+      title: string;
+      href: string;
+    };
+
+    return (
+      <Clickable
+        href={item.href}
+        isA="next-js"
+        className={cx(
+          "mx-auto w-full max-w-main whitespace-nowrap bg-clip-text px-1",
+          "bg-text-primary-500",
+          "hover:bg-gradient-to-br hover:from-text-primary-200 hover:to-special-primary-700 hover:text-special-secondary-100 hover:transition-all hover:duration-150",
+          "focus:bg-gradient-to-br focus:from-text-primary-300 focus:to-special-primary-500 focus:text-special-secondary-100 focus:transition-all focus:duration-150",
+        )}
+        variants={null}
+        style={{
+          WebkitTextFillColor: "transparent",
+        }}
+        onClick={toggleDropdownMenuOnLessThanLg}
+      >
+        {item.title}
+      </Clickable>
+    );
+  }
+
+  return (
+    <Dropdown>
+      <DropdownButton
+        title="Settings and other options."
+        className="duration-150 hover:text-special-primary-700"
+      >
+        <IoMdArrowDropdown className="text-xl" /> {props.item.title}
+        <span className="pl-1" />
+      </DropdownButton>
+      <DropdownItems>
+        {props.item.links.map(({ href, title, isA }) => (
+          <DropdownItem key={title}>
+            {({ active }) => (
+              <DropdownButton
+                active={active}
+                onClick={() => {
+                  if (isA === "normal-link") open(href, "_blank");
+                  else router.push(href);
+
+                  toggleDropdownMenuOnLessThanLg();
+                }}
+              >
+                <span className="p-2">{title}</span>
+              </DropdownButton>
+            )}
+          </DropdownItem>
+        ))}
+      </DropdownItems>
+    </Dropdown>
   );
 }

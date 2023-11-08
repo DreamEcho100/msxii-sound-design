@@ -19,11 +19,11 @@ export const DropdownItems = ({
   <Transition
     as={Fragment}
     enter="transition ease-out duration-100"
-    enterFrom="transformopacity-5 scale-95"
+    enterFrom="transform opacity-5 scale-95"
     enterTo="transform opacity-100 scale-100"
     leave="transition ease-in duration-75"
     leaveFrom="transform opacity-100 scale-100"
-    leaveTo="transformopacity-5 scale-95"
+    leaveTo="transform opacity-5 scale-95"
   >
     <Menu.Items
       className="backdrop absolute left-0 mt-2 flex min-w-full origin-top-right flex-col divide-y divide-gray-100 overflow-hidden whitespace-nowrap rounded-md bg-bg-primary-600/50 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none rtl:left-auto rtl:right-0"

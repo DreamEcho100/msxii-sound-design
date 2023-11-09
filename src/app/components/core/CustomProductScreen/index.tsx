@@ -128,6 +128,7 @@ const CustomProductScreen = ({
     htmlDescription !== productData.description
       ? productData.description
       : undefined;
+
   useEffect(() => {
     if (!extractDataFromHTMLDescription.detailsText) return;
 

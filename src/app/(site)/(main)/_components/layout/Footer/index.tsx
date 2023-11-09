@@ -246,7 +246,7 @@ const MainLayoutFooter = () => {
           </div>
           <div className="flex flex-wrap items-center justify-center gap-2">
             <div className="flex">
-              <p className="text-[90%]">
+              <p className="text-[90%]" suppressHydrationWarning>
                 {isDarkTheme ? "Dark" : "Light"} mode
               </p>
               &nbsp;

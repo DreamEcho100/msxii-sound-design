@@ -6,12 +6,6 @@ import {
   type Box as BoxModel,
 } from "@prisma/client";
 // import page from './data/lo-fly-dirt';
-import {
-  type Box,
-  type CustomPage,
-  type RowsOnlyBox,
-  type TwoColumnsBox,
-} from "../../src/utils/types/custom-page";
 import defaultIOSAppsPages, {
   chomplrPageData,
   flyTape2PageData,
@@ -21,6 +15,12 @@ import defaultIOSAppsPages, {
 import pagesCategories from "./data/pagesCategories";
 import { createId } from "@paralleldrive/cuid2";
 import otherCustomPages from "./data/otherCustomPages";
+import {
+  type Box,
+  type CustomPage,
+  type RowsOnlyBox,
+  TwoColumnsBox,
+} from "../../src/libs/utils/types/custom-page";
 // import loFlyDirtPageData from './data/lo-fly-dirt';
 
 declare global {

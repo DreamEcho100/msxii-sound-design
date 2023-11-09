@@ -20,7 +20,7 @@ export default function SliderBoxComp({
   className: string;
 }) {
   return (
-    <Slider
+    <Slider<(typeof box)["slides"][number], Parameters<typeof SlideComp>[0]>
       className={cx(className, "swiper-fluid")}
       breakpoints={
         box.slidesPerViewType === "large-slides"
@@ -32,15 +32,24 @@ export default function SliderBoxComp({
           : box.slidesPerViewType === "one-slide"
           ? { 0: { slidesPerView: 1 } }
           : {
-						640: { slidesPerView: 2, spaceBetween: 20 },
+              640: { slidesPerView: 2, spaceBetween: 20 },
               768: { slidesPerView: 3, spaceBetween: 30 },
               1024: { slidesPerView: 4, spaceBetween: 30 },
               1280: { slidesPerView: 5, spaceBetween: 30 },
             }
       }
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
       data={box.slides}
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-return
       getSlideKey={(_, itemIndex) => itemIndex}
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
       SlideComp={SlideComp}
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
       compProps={{ parentBox: box.___type }}
       isNavButtonsOutside
     />

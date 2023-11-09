@@ -8,7 +8,7 @@
  */
 
 import { initTRPC, TRPCError } from "@trpc/server";
-import { type FetchCreateContextFnOptions } from "@trpc/server/adapters/fetch";
+// import { type FetchCreateContextFnOptions } from "@trpc/server/adapters/fetch";
 import superjson from "superjson";
 import { ZodError } from "zod";
 import { cookies } from "next/headers";
@@ -65,7 +65,8 @@ export const createInnerTRPCContext = () => {
  *
  * @see https://trpc.io/docs/context
  */
-export const createTRPCContext = (opts: FetchCreateContextFnOptions) => {
+export const createTRPCContext = () => {
+  // opts: FetchCreateContextFnOptions
   // const { req, res } = opts;
 
   // Get the session from the server using the getServerSession wrapper function

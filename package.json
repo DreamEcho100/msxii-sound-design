@@ -9,8 +9,8 @@
     "postinstall": "prisma generate",
     "lint": "next lint",
     "start": "next start",
-    "eslint": "eslint . --ext .js,.jsx,.ts,.tsx --ignore-path .gitignore",
-    "format": "prettier --write \"**/*.{js,jsx,ts,tsx}\"",
+    "format": "prettier --check \"**/*.{js,mjs,ts,md,json}\"",
+    "typecheck": "tsc --noEmit",
     "seed": "prisma generate && ts-node --esm --project tsconfig.json ./prisma/seed/index.ts"
   },
   "dependencies": {

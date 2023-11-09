@@ -6,8 +6,6 @@ import {
 } from "react-icons/hi";
 import Clickable from "~/app/components/core/Clickable";
 import CustomNextImage from "~/app/components/common/CustomNextImage";
-import SectionPrimaryLoader from "~/app/components/common/Loaders/SectionPrimary";
-import SectionLoaderContainer from "~/app/components/common/LoadersContainers/Section";
 import { trpcApi } from "~/app/libs/trpc/client";
 import { type RouterOutputs, type RouterInputs } from "~/server/api/root";
 
@@ -30,15 +28,6 @@ export default function BlogScreen(props: Props) {
         keepPreviousData: true,
       },
     );
-
-  if (articlesQuery.isLoading)
-    return (
-      <SectionLoaderContainer>
-        <SectionPrimaryLoader />
-      </SectionLoaderContainer>
-    );
-
-  // if (articlesQuery.isError) return <>{articlesQuery.error!.message}</>;
 
   const pages = articles.pages;
   const pagesLength = pages.length;

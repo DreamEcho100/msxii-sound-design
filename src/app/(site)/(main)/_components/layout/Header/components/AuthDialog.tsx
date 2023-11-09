@@ -250,7 +250,7 @@ const FormInput = <FormValues extends Record<string, unknown>>({
         </label>
       )}
       <input
-        className="border-b-text-primary-500/50 hover:border-b-text-primary-500/75 focus:border-b-text-primary-500 rounded-t-sm border-[0.0625rem] border-transparent px-3 py-2 focus:outline-none"
+        className="rounded-t-sm border-[0.0625rem] border-transparent border-b-text-primary-500/50 px-3 py-2 hover:border-b-text-primary-500/75 focus:border-b-text-primary-500 focus:outline-none"
         id={baseId}
         onChange={(event) =>
           setFormValues((prev) => ({

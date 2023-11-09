@@ -93,17 +93,15 @@ function ProductsSearch(props: Props) {
     [props.baseInput],
   );
 
-  const dataQuery = trpcApi.shopify.products.getManyBasic.useInfiniteQuery(
-    input,
-    {
+  const [data, dataQuery] =
+    trpcApi.shopify.products.getManyBasic.useSuspenseInfiniteQuery(input, {
       initialData: props.baseData && {
         pageParams: [undefined],
         pages: [props.baseData],
       },
       keepPreviousData: !!props.baseData,
       getNextPageParam: (data) => data.nextCursor,
-    },
-  );
+    });
 
   const loadNextPage = async () => {
     if (!dataQuery.hasNextPage || dataQuery.isFetchingNextPage) return;
@@ -113,39 +111,24 @@ function ProductsSearch(props: Props) {
 
   const productsData = useMemo(
     () =>
-      dataQuery.data?.pages
+      data.pages
         .map((page) => page.items.edges.map((item) => item.node))
         .flat() ?? [],
-    [dataQuery?.data?.pages],
+    [data.pages],
   );
-
-  if (dataQuery.isInitialLoading)
-    return (
-      <SectionLoaderContainer>
-        <SectionPrimaryLoader />
-      </SectionLoaderContainer>
-    );
 
   return (
     <>
       <SearchForm q={input.title} />
       <div className="grid flex-grow grid-cols-[repeat(auto-fill,_minmax(14rem,_1fr))] gap-8 lg:flex-nowrap lg:justify-between">
-        {dataQuery.isLoading ? (
-          <SectionLoaderContainer>
-            <SectionPrimaryLoader />
-          </SectionLoaderContainer>
-        ) : dataQuery.isError ? (
-          <>{dataQuery.error.message}</>
-        ) : (
-          productsData.map((item, itemIndex) => (
-            <BasicProductCard
-              key={item.id}
-              item={item}
-              containerVariants={{ w: null }}
-              imgPriority={itemIndex < 8}
-            />
-          ))
-        )}
+        {productsData.map((item, itemIndex) => (
+          <BasicProductCard
+            key={item.id}
+            item={item}
+            containerVariants={{ w: null }}
+            imgPriority={itemIndex < 8}
+          />
+        ))}
       </div>
       {dataQuery.hasNextPage && (
         <Clickable

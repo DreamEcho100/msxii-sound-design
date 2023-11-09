@@ -1,7 +1,6 @@
 import { type RouterInputs } from "~/server/api/root";
 import { serverClient } from "~/app/libs/trpc/serverClient";
 import BlogScreen from "./Screen";
-import { Suspense } from "react";
 import type { Blog } from "schema-dts";
 import { getBaseUrl } from "~/libs/utils";
 
@@ -70,9 +69,7 @@ export default async function BlogPage() {
 
   return (
     <>
-      <Suspense>
-        <BlogScreen baseData={data.baseData} baseInput={data.baseInput} />
-      </Suspense>
+      <BlogScreen baseData={data.baseData} baseInput={data.baseInput} />
 
       <script
         type="application/ld+json"

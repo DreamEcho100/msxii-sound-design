@@ -2,36 +2,28 @@
 import { BasicProductCard } from "./Shopify/Cards/Card";
 import Clickable from "./Clickable";
 import Head from "next/head";
-import SectionPrimaryLoader from "../common/Loaders/SectionPrimary";
-import SectionLoaderContainer from "../common/LoadersContainers/Section";
 import { type RouterInputs, type RouterOutputs } from "~/server/api/root";
 import { trpcApi } from "~/app/libs/trpc/client";
+import { Suspense } from "react";
+import Loading from "~/app/(site)/(main)/loading";
 type Props = {
   baseInput: RouterInputs["shopify"]["collections"]["getOneByHandle"];
   profileData?: RouterOutputs["shopify"]["collections"]["getOneByHandle"];
 };
 
 const InfiniteLoadCollectionProductsSection = (props: Props) => {
-  const dataQuery = trpcApi.shopify.collections.getOneByHandle.useInfiniteQuery(
-    props.baseInput,
-    {
-      initialData: props.profileData && {
-        pageParams: [undefined],
-        pages: [props.profileData],
+  const [data, dataQuery] =
+    trpcApi.shopify.collections.getOneByHandle.useSuspenseInfiniteQuery(
+      props.baseInput,
+      {
+        initialData: props.profileData && {
+          pageParams: [undefined],
+          pages: [props.profileData],
+        },
+        keepPreviousData: !!props.profileData,
+        getNextPageParam: (data) => data.nextCursor,
       },
-      keepPreviousData: !!props.profileData,
-      getNextPageParam: (data) => data.nextCursor,
-    },
-  );
-
-  if (dataQuery.isLoading)
-    return (
-      <SectionLoaderContainer>
-        <SectionPrimaryLoader />
-      </SectionLoaderContainer>
     );
-
-  if (dataQuery.isError) return <>{dataQuery.error.message}</>;
 
   const loadNextPage = async () => {
     if (!dataQuery.hasNextPage || dataQuery.isFetchingNextPage) return;
@@ -39,16 +31,15 @@ const InfiniteLoadCollectionProductsSection = (props: Props) => {
     await dataQuery.fetchNextPage();
   };
 
-  const productsData = dataQuery.data.pages
+  const productsData = data.pages
     .map((page) => page.items.products.edges.map((item) => item.node))
     .flat();
 
   const profileData =
-    dataQuery.data.pages[dataQuery.data.pages.length - 1].items ??
-    props.profileData?.items;
+    data.pages[data.pages.length - 1].items ?? props.profileData?.items;
 
   return (
-    <>
+    <Suspense fallback={<Loading />}>
       <Head>
         <title>
           {profileData?.title ??
@@ -81,7 +72,7 @@ const InfiniteLoadCollectionProductsSection = (props: Props) => {
           load more
         </Clickable>
       )}
-    </>
+    </Suspense>
   );
 };
 

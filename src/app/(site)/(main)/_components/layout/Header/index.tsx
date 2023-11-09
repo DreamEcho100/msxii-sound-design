@@ -186,7 +186,9 @@ const MainLayoutHeader = () => {
         </div>
       </header>
       <Overlay />
-      <DynamicAuthDialog />
+      <Suspense>
+        <DynamicAuthDialog />
+      </Suspense>
     </>
   );
 };

@@ -87,7 +87,7 @@ const MainLayoutFooter = () => {
     links?: ({
       text: string;
       // href: string;
-      icon: JSX.Element | null;
+      icon?: JSX.Element | null;
     } & Parameters<typeof Clickable>[0])[];
   }[] = [
     {
@@ -98,44 +98,37 @@ const MainLayoutFooter = () => {
           text: "New Releases",
           isA: "next-js",
           href: "/collections/new-releases",
-          icon: null,
         },
         {
           text: "Loops",
           isA: "next-js",
           href: "/collections/loops",
-          icon: null,
         },
         {
-          text: "One shot drums",
+          text: "One Shot Drums",
           isA: "next-js",
           href: "/collections/one-shot-drums",
-          icon: null,
         },
         {
           text: "Sample Packs",
           isA: "next-js",
           href: "/collections/sample-packs",
-          icon: null,
         },
         {
           text: "Drum Kits",
           isA: "next-js",
           href: "/collections/drum-kits",
-          icon: null,
         },
         // { text: 'Construction Kits', isA: 'next-js', href: '/', icon: null },
         {
           text: "Presets",
           isA: "next-js",
           href: "/collections/presets",
-          icon: null,
         },
         {
           text: "Bundles",
           isA: "next-js",
           href: "/collections/bundles",
-          icon: null,
         },
       ],
     },
@@ -144,7 +137,6 @@ const MainLayoutFooter = () => {
       links: [
         {
           text: "Search",
-          icon: null,
           isA: "button",
           variants: null,
           onClick: toggleSearchMenuDropdown,
@@ -155,7 +147,15 @@ const MainLayoutFooter = () => {
           text: "License Agreement",
           isA: "next-js",
           href: "/policies/license-agreement",
-          icon: null,
+        },
+        {
+          text: "Blue Label",
+          isA: "next-js",
+          href: "/blue-label",
+        },
+        {
+          text: "Sitemap",
+          href: "sitemap.xml",
         },
       ],
     },
@@ -168,10 +168,6 @@ const MainLayoutFooter = () => {
           icon: <MdEmail />,
         },
       ],
-    },
-    {
-      text: "Sitemap",
-      clickable: { href: "sitemap.xml" },
     },
   ];
 

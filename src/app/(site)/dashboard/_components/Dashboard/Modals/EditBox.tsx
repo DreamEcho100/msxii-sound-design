@@ -6,7 +6,7 @@ import { Dialog } from "@headlessui/react";
 
 export default function EditBoxModal(props: {
   EditSideMenuChildren: ReactNode;
-  ShowcaseBoxChildren: ReactNode;
+  ShowcaseBxChildren: ReactNode;
   isOpen: boolean;
   setIsOpen: (isOpen: boolean | ((isOpen: boolean) => boolean)) => void;
 }) {
@@ -33,7 +33,7 @@ export default function EditBoxModal(props: {
         />
         <Dialog.Panel className="pointer-events-none relative flex h-full w-full flex-grow justify-between gap-16 p-8">
           <div className="pointer-events-auto flex h-full w-full flex-grow flex-col overflow-y-auto bg-bg-primary-500 px-8 py-12">
-            {props.ShowcaseBoxChildren}
+            {props.ShowcaseBxChildren}
           </div>
           <div className="pointer-events-auto flex w-[40rem] select-auto flex-col gap-8 overflow-y-auto bg-bg-primary-500 px-8 py-12">
             {props.EditSideMenuChildren}

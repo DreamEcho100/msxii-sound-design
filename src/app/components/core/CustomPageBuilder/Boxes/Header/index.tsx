@@ -1,8 +1,8 @@
 "use client";
 import { type ReactNode } from "react";
 import BoxEditOverlay from "../../BoxEditOverlay";
-import { type BoxTypeHeader, type PageStoreApi } from "../../types";
-import { BoxTypes, HeaderBoxHType } from "@prisma/client";
+import { type BxTypeHeader, type PgStoreApi } from "../../types";
+import { BxTypes, HeaderBxHType } from "@prisma/client";
 import { useStore } from "zustand";
 import { cx } from "class-variance-authority";
 import {
@@ -12,7 +12,7 @@ import {
 } from "@de100/form-echo";
 import { toast } from "react-toastify";
 
-import customPageClasses from "~/app/styles/_custom-page.module.css";
+import customPgClasses from "~/app/styles/_custom-page.module.css";
 import {
   type CustomCssFormStore,
   CustomCssForm,
@@ -26,41 +26,41 @@ import ContainedInputField from "~/app/components/common/@de100/form-echo/Fields
 import Form from "~/app/components/common/@de100/form-echo/Forms";
 import Accordion from "~/app/components/common/Accordion";
 import { getValueByPathArray, newUpdatedByPathArray } from "~/libs/obj/update";
-import { handleBoxVariants, type BoxVariants } from "~/libs/utils/appData";
-import { createOneHeaderBoxSchema } from "~/libs/utils/validations-schemas/dashboard/boxes/types/headers";
+import { handleBxVariants, type BxVariants } from "~/libs/utils/appData";
+import { createOneHeaderBxSchema } from "~/libs/utils/validations-schemas/dashboard/boxes/types/headers";
 import { CreateOneCustomCssSchema } from "~/libs/utils/validations-schemas/dashboard/css/customClasses";
 import { trpcApi } from "~/app/libs/trpc/client";
 
-type HeaderBox = {
+type HeaderBx = {
   title: string;
   description: string | null;
-  hType: HeaderBoxHType;
+  hType: HeaderBxHType;
 };
-type HeaderFormStore = FormStoreApi<HeaderBox, typeof createOneHeaderBoxSchema>;
+type HeaderFormStore = FormStoreApi<HeaderBx, typeof createOneHeaderBxSchema>;
 type SharedProps = {
-  boxDeepLevel: number;
-  parentBox?: BoxTypes;
+  bxDeepLevel: number;
+  parentBx?: BxTypes;
   className?: string;
 };
 type Props = {
-  box: BoxTypeHeader;
+  bx: BxTypeHeader;
   path: (string | number)[];
-  pageStore: PageStoreApi;
+  pageStore: PgStoreApi;
 } & SharedProps;
 
-const BOX_TYPE = BoxTypes.HEADER;
+const BOX_TYPE = BxTypes.HEADER;
 
-const HeaderBoxForm = (props: {
+const HeaderBxForm = (props: {
   store: HeaderFormStore;
   id: string;
   onSuccess: (params: {
     validatedValues: GetPassedValidationFieldsValues<
-      typeof createOneHeaderBoxSchema
+      typeof createOneHeaderBxSchema
     >;
   }) => void;
 }) => {
   const updateOneRequest =
-    trpcApi.dashboard.boxes.types.headers.updateOne.useMutation({
+    trpcApi.dashboard.bxes.types.headers.updateOne.useMutation({
       onError(error) {
         toast(error.message, { type: "error" });
       },
@@ -106,22 +106,22 @@ const HeaderBoxForm = (props: {
   );
 };
 
-const HeaderBoxView = (
+const HeaderBxView = (
   props: {
     childrenAfter?: ReactNode;
-    boxDeepLevel: number;
+    bxDeepLevel: number;
   } & SharedProps &
-    HeaderBox,
+    HeaderBx,
 ) => {
   const HType = (() => {
-    if (props.hType !== HeaderBoxHType.DYNAMIC)
+    if (props.hType !== HeaderBxHType.DYNAMIC)
       return props.hType.toLowerCase() as Lowercase<
-        Exclude<(typeof props)["hType"], (typeof HeaderBoxHType)["DYNAMIC"]>
+        Exclude<(typeof props)["hType"], (typeof HeaderBxHType)["DYNAMIC"]>
       >;
 
-    if (props.boxDeepLevel >= 5) return "h6";
+    if (props.bxDeepLevel >= 5) return "h6";
 
-    return `h${props.boxDeepLevel}` as "h1" | "h2" | "h3" | "h4" | "h5";
+    return `h${props.bxDeepLevel}` as "h1" | "h2" | "h3" | "h4" | "h5";
   })();
 
   return (
@@ -129,7 +129,7 @@ const HeaderBoxView = (
       {props.title && (
         <HType
           className={cx(
-            props.boxDeepLevel === 0 ? "font-semibold" : "",
+            props.bxDeepLevel === 0 ? "font-semibold" : "",
             "text-h3 text-text-primary-500",
           )}
         >
@@ -142,10 +142,10 @@ const HeaderBoxView = (
   );
 };
 
-const HeaderBoxFormView = (
+const HeaderBxFormView = (
   props: {
     headerFormStore: HeaderFormStore;
-    boxDeepLevel: number;
+    bxDeepLevel: number;
     twVariantsFormStore: TwVariantsFormStore;
     customCssFormStore: CustomCssFormStore;
   } & SharedProps,
@@ -163,47 +163,47 @@ const HeaderBoxFormView = (
     (store) => store.fields.hType.value,
   );
   const twVariantsStr = useStore(props.twVariantsFormStore, (store) =>
-    handleBoxVariants(store.fields.twVariants.value),
+    handleBxVariants(store.fields.twVariants.value),
   );
 
   const customCssStr = useStore(
     props.customCssFormStore,
     (store) =>
       store.fields.customClasses.value
-        ?.map((key) => customPageClasses[key])
+        ?.map((key) => customPgClasses[key])
         .join(" ") ?? undefined,
   );
 
   const className = cx(
     props.className,
-    customPageClasses[`${BOX_TYPE}-BOX`],
+    customPgClasses[`${BOX_TYPE}-BOX`],
     twVariantsStr,
     customCssStr,
   );
 
   return (
-    <HeaderBoxView
+    <HeaderBxView
       title={title}
       description={description}
       hType={hType}
       className={className}
-      boxDeepLevel={props.boxDeepLevel}
+      bxDeepLevel={props.bxDeepLevel}
     />
   );
 };
 
 const HeaderBoxEditOverlay = (props: Props) => {
-  const box = useStore(
+  const bx = useStore(
     props.pageStore,
-    (state) => getValueByPathArray<BoxTypeHeader>(state.page, props.path), // .slice(0, -1)
+    (state) => getValueByPathArray<BxTypeHeader>(state.page, props.path), // .slice(0, -1)
   );
   const headerFormStore: HeaderFormStore = useCreateFormStore({
     initValues: {
-      title: box.headerBox.title,
-      description: box.headerBox.description,
-      hType: box.headerBox.hType,
+      title: bx.headerBx.title,
+      description: bx.headerBx.description,
+      hType: bx.headerBx.hType,
     },
-    validationSchema: createOneHeaderBoxSchema,
+    validationSchema: createOneHeaderBxSchema,
     validationEvents: { change: true },
     valuesFromFieldsToStore: {
       description: (val) => (val ? val : null),
@@ -213,11 +213,11 @@ const HeaderBoxEditOverlay = (props: Props) => {
     },
   });
   const twVariantsFormStore = useCreateTwVariantsFormStore(
-    props.box.css.twVariants,
+    props.bx.css.twVariants,
   );
   const customCssFormStore: CustomCssFormStore = useCreateFormStore({
     initValues: {
-      customClasses: props.box.css.customClasses ?? [],
+      customClasses: props.bx.css.customClasses ?? [],
     },
     validationSchema: CreateOneCustomCssSchema,
   });
@@ -225,10 +225,10 @@ const HeaderBoxEditOverlay = (props: Props) => {
   return (
     <BoxEditOverlay
       {...props}
-      ShowcaseBoxChildren={
-        <HeaderBoxFormView
-          boxDeepLevel={props.boxDeepLevel}
-          parentBox={props.parentBox}
+      ShowcaseBxChildren={
+        <HeaderBxFormView
+          bxDeepLevel={props.bxDeepLevel}
+          parentBx={props.parentBx}
           className={props.className}
           //
           headerFormStore={headerFormStore}
@@ -243,13 +243,13 @@ const HeaderBoxEditOverlay = (props: Props) => {
               contentChildren: (
                 <TwVariantsForm
                   store={twVariantsFormStore}
-                  cssId={box.css.id}
+                  cssId={bx.css.id}
                   onSuccess={(params) => {
-                    props.pageStore.getState().utils.setPage((page) => {
+                    props.pageStore.getState().utils.setPg((page) => {
                       return newUpdatedByPathArray<
                         // eslint-disable-next-line @typescript-eslint/ban-types
                         Exclude<typeof page, Function>
-                      >([...props.path, "css"], page, (prev: BoxTypeHeader) => {
+                      >([...props.path, "css"], page, (prev: BxTypeHeader) => {
                         return {
                           ...prev,
                           twVariants: params.values.twVariants,
@@ -271,13 +271,13 @@ const HeaderBoxEditOverlay = (props: Props) => {
               contentChildren: (
                 <CustomCssForm
                   store={customCssFormStore}
-                  cssId={box.css.id}
+                  cssId={bx.css.id}
                   onSuccess={(params) => {
-                    props.pageStore.getState().utils.setPage((page) => {
+                    props.pageStore.getState().utils.setPg((page) => {
                       return newUpdatedByPathArray<
                         // eslint-disable-next-line @typescript-eslint/ban-types
                         Exclude<typeof page, Function>
-                      >([...props.path, "css"], page, (prev: BoxTypeHeader) => {
+                      >([...props.path, "css"], page, (prev: BxTypeHeader) => {
                         return {
                           ...prev,
                           customClasses: params.validatedValues.customClasses,
@@ -295,18 +295,18 @@ const HeaderBoxEditOverlay = (props: Props) => {
             {
               defaultOpen: true,
               contentChildren: (
-                <HeaderBoxForm
+                <HeaderBxForm
                   store={headerFormStore}
-                  id={box.headerBox.id}
+                  id={bx.headerBx.id}
                   onSuccess={(params) => {
-                    props.pageStore.getState().utils.setPage((page) => {
+                    props.pageStore.getState().utils.setPg((page) => {
                       return newUpdatedByPathArray<
                         // eslint-disable-next-line @typescript-eslint/ban-types
                         Exclude<typeof page, Function>
                       >(
-                        [...props.path, "headerBox"],
+                        [...props.path, "headerBx"],
                         page,
-                        (prev: BoxTypeHeader) => ({
+                        (prev: BxTypeHeader) => ({
                           ...prev,
                           title: params.validatedValues.title,
                           description: params.validatedValues.description,
@@ -318,11 +318,9 @@ const HeaderBoxEditOverlay = (props: Props) => {
                 />
               ),
               titleElem: (
-                <h3 className="text-h6 font-bold capitalize">
-                  header box form
-                </h3>
+                <h3 className="text-h6 font-bold capitalize">header bx form</h3>
               ),
-              ___key: "headerBox",
+              ___key: "headerBx",
             },
           ]}
         />
@@ -331,31 +329,31 @@ const HeaderBoxEditOverlay = (props: Props) => {
   );
 };
 
-export const HeaderBoxEditable = (props: Props) => {
-  const box = useStore(props.pageStore, (state) =>
-    getValueByPathArray<BoxTypeHeader>(state.page, props.path),
+export const HeaderBxEditable = (props: Props) => {
+  const bx = useStore(props.pageStore, (state) =>
+    getValueByPathArray<BxTypeHeader>(state.page, props.path),
   );
 
-  const headerBoxViewProps = {
-    boxDeepLevel: props.boxDeepLevel,
-    parentBox: props.parentBox,
+  const headerBxViewProps = {
+    bxDeepLevel: props.bxDeepLevel,
+    parentBx: props.parentBx,
     className: cx(
-      customPageClasses[`${BOX_TYPE}-BOX`],
+      customPgClasses[`${BOX_TYPE}-BOX`],
       props.className,
-      handleBoxVariants(box.css.twVariants as BoxVariants),
-      ...(box.css.customClasses
-        ? box.css.customClasses?.map((key) => customPageClasses[key])
+      handleBxVariants(bx.css.twVariants as BxVariants),
+      ...(bx.css.customClasses
+        ? bx.css.customClasses?.map((key) => customPgClasses[key])
         : []),
     ),
     //
-    title: box.headerBox.title,
-    description: box.headerBox.description,
-    hType: box.headerBox.hType,
+    title: bx.headerBx.title,
+    description: bx.headerBx.description,
+    hType: bx.headerBx.hType,
   };
 
   return (
-    <HeaderBoxView
-      {...headerBoxViewProps}
+    <HeaderBxView
+      {...headerBxViewProps}
       childrenAfter={<HeaderBoxEditOverlay {...props} />}
     />
   );

@@ -9,7 +9,7 @@ import { getBaseUrl } from "~/libs/utils";
 
 const limit = 24;
 type Props = { params: { handle: string } };
-const getPageData = cache(async (props: Props) => {
+const getPgData = cache(async (props: Props) => {
   const input: RouterInputs["shopify"]["collections"]["getOneByHandle"] = {
     handle: props.params.handle,
     limit,
@@ -41,7 +41,7 @@ export async function generateMetadata(
   parent: ResolvingMetadata,
 ): Promise<Metadata> {
   // read route params
-  const collectionData = await getPageData(props);
+  const collectionData = await getPgData(props);
 
   // optionally access and extend (rather than replace) parent metadata
   const previousImages = (await parent).openGraph?.images ?? [];
@@ -60,8 +60,8 @@ export async function generateMetadata(
   };
 }
 
-const CollectionPage = async (props: Props) => {
-  const collectionData = await getPageData(props);
+const CollectionPg = async (props: Props) => {
+  const collectionData = await getPgData(props);
 
   return (
     <section
@@ -87,4 +87,4 @@ const CollectionPage = async (props: Props) => {
   );
 };
 
-export default CollectionPage;
+export default CollectionPg;

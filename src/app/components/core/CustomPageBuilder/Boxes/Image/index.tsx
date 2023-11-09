@@ -1,8 +1,8 @@
 "use client";
 import { type ReactNode } from "react";
 import BoxEditOverlay from "../../BoxEditOverlay";
-import { type BoxTypeImage, type PageStoreApi } from "../../types";
-import { BoxTypes } from "@prisma/client";
+import { type BxTypeImage, type PgStoreApi } from "../../types";
+import { BxTypes } from "@prisma/client";
 import { useStore } from "zustand";
 import { cx } from "class-variance-authority";
 import {
@@ -28,43 +28,43 @@ import Form from "~/app/components/common/@de100/form-echo/Forms";
 import Accordion from "~/app/components/common/Accordion";
 import CustomNextImage from "~/app/components/common/CustomNextImage";
 import { getValueByPathArray, newUpdatedByPathArray } from "~/libs/obj/update";
-import { handleBoxVariants, type BoxVariants } from "~/libs/utils/appData";
-import { createOneImageBoxSchema } from "~/libs/utils/validations-schemas/dashboard/boxes/types/images";
+import { handleBxVariants, type BxVariants } from "~/libs/utils/appData";
+import { createOneImageBxSchema } from "~/libs/utils/validations-schemas/dashboard/boxes/types/images";
 import { CreateOneCustomCssSchema } from "~/libs/utils/validations-schemas/dashboard/css/customClasses";
 
-import customPageClasses from "~/app/styles/_custom-page.module.css";
+import customPgClasses from "~/app/styles/_custom-page.module.css";
 
-type ImageBox = {
+type ImageBx = {
   src: string;
   altText: string | null;
   width: number | null;
   height: number | null;
 };
-type ImageFormStore = FormStoreApi<ImageBox, typeof createOneImageBoxSchema>;
+type ImageFormStore = FormStoreApi<ImageBx, typeof createOneImageBxSchema>;
 type SharedProps = {
-  boxDeepLevel: number;
-  parentBox?: BoxTypes;
+  bxDeepLevel: number;
+  parentBx?: BxTypes;
   className?: string;
 };
 type Props = {
-  box: BoxTypeImage;
+  bx: BxTypeImage;
   path: (string | number)[];
-  pageStore: PageStoreApi;
+  pageStore: PgStoreApi;
 } & SharedProps;
 
-const BOX_TYPE = BoxTypes.IMAGE;
+const BOX_TYPE = BxTypes.IMAGE;
 
-const ImageBoxForm = (props: {
+const ImageBxForm = (props: {
   store: ImageFormStore;
   id: string;
   onSuccess: (params: {
     validatedValues: GetPassedValidationFieldsValues<
-      typeof createOneImageBoxSchema
+      typeof createOneImageBxSchema
     >;
   }) => void;
 }) => {
   const updateOneRequest =
-    trpcApi.dashboard.boxes.types.images.updateOne.useMutation({
+    trpcApi.dashboard.bxes.types.images.updateOne.useMutation({
       onError(error) {
         toast(error.message, { type: "error" });
       },
@@ -164,11 +164,11 @@ const ImageBoxForm = (props: {
   );
 };
 
-const ImageBoxView = (
+const ImageBxView = (
   props: {
     childrenAfter?: ReactNode;
   } & SharedProps &
-    ImageBox,
+    ImageBx,
 ) => {
   return (
     <div className={props.className}>
@@ -183,7 +183,7 @@ const ImageBoxView = (
   );
 };
 
-const ImageBoxFormView = (
+const ImageBxFormView = (
   props: {
     imageFormStore: ImageFormStore;
     twVariantsFormStore: TwVariantsFormStore;
@@ -204,27 +204,27 @@ const ImageBoxFormView = (
     (store) => store.fields.height.value,
   );
   const twVariantsStr = useStore(props.twVariantsFormStore, (store) =>
-    handleBoxVariants(store.fields.twVariants.value),
+    handleBxVariants(store.fields.twVariants.value),
   );
 
   const customCssStr = useStore(
     props.customCssFormStore,
     (store) =>
       store.fields.customClasses.value
-        ?.map((key) => customPageClasses[key])
+        ?.map((key) => customPgClasses[key])
         .join(" ") ?? undefined,
   );
   const className = cx(
     props.className,
-    customPageClasses[`${BOX_TYPE}-BOX`],
+    customPgClasses[`${BOX_TYPE}-BOX`],
     twVariantsStr,
     customCssStr,
   );
 
   return (
-    <ImageBoxView
-      boxDeepLevel={props.boxDeepLevel}
-      parentBox={props.parentBox}
+    <ImageBxView
+      bxDeepLevel={props.bxDeepLevel}
+      parentBx={props.parentBx}
       className={className}
       //
       src={src}
@@ -236,18 +236,18 @@ const ImageBoxFormView = (
 };
 
 const ImageBoxEditOverlay = (props: Props) => {
-  const box = useStore(
+  const bx = useStore(
     props.pageStore,
-    (state) => getValueByPathArray<BoxTypeImage>(state.page, props.path), // .slice(0, -1)
+    (state) => getValueByPathArray<BxTypeImage>(state.page, props.path), // .slice(0, -1)
   );
   const imageFormStore: ImageFormStore = useCreateFormStore({
     initValues: {
-      src: box.imageBox.src,
-      altText: box.imageBox.altText,
-      width: box.imageBox.width,
-      height: box.imageBox.height,
+      src: bx.imgBx.src,
+      altText: bx.imgBx.altText,
+      width: bx.imgBx.width,
+      height: bx.imgBx.height,
     },
-    validationSchema: createOneImageBoxSchema,
+    validationSchema: createOneImageBxSchema,
     validationEvents: { change: true },
     valuesFromFieldsToStore: {
       altText: (val) => (val ? val : null),
@@ -261,11 +261,11 @@ const ImageBoxEditOverlay = (props: Props) => {
     },
   });
   const twVariantsFormStore = useCreateTwVariantsFormStore(
-    props.box.css.twVariants,
+    props.bx.css.twVariants,
   );
   const customCssFormStore: CustomCssFormStore = useCreateFormStore({
     initValues: {
-      customClasses: props.box.css.customClasses ?? [],
+      customClasses: props.bx.css.customClasses ?? [],
     },
     validationSchema: CreateOneCustomCssSchema,
   });
@@ -273,10 +273,10 @@ const ImageBoxEditOverlay = (props: Props) => {
   return (
     <BoxEditOverlay
       {...props}
-      ShowcaseBoxChildren={
-        <ImageBoxFormView
-          boxDeepLevel={props.boxDeepLevel}
-          parentBox={props.parentBox}
+      ShowcaseBxChildren={
+        <ImageBxFormView
+          bxDeepLevel={props.bxDeepLevel}
+          parentBx={props.parentBx}
           className={props.className}
           //
           imageFormStore={imageFormStore}
@@ -291,13 +291,13 @@ const ImageBoxEditOverlay = (props: Props) => {
               contentChildren: (
                 <TwVariantsForm
                   store={twVariantsFormStore}
-                  cssId={box.css.id}
+                  cssId={bx.css.id}
                   onSuccess={(params) => {
-                    props.pageStore.getState().utils.setPage((page) => {
+                    props.pageStore.getState().utils.setPg((page) => {
                       return newUpdatedByPathArray<
                         // eslint-disable-next-line @typescript-eslint/ban-types
                         Exclude<typeof page, Function>
-                      >([...props.path, "css"], page, (prev: BoxTypeImage) => {
+                      >([...props.path, "css"], page, (prev: BxTypeImage) => {
                         return {
                           ...prev,
                           twVariants: params.values.twVariants,
@@ -319,13 +319,13 @@ const ImageBoxEditOverlay = (props: Props) => {
               contentChildren: (
                 <CustomCssForm
                   store={customCssFormStore}
-                  cssId={box.css.id}
+                  cssId={bx.css.id}
                   onSuccess={(params) => {
-                    props.pageStore.getState().utils.setPage((page) => {
+                    props.pageStore.getState().utils.setPg((page) => {
                       return newUpdatedByPathArray<
                         // eslint-disable-next-line @typescript-eslint/ban-types
                         Exclude<typeof page, Function>
-                      >([...props.path, "css"], page, (prev: BoxTypeImage) => {
+                      >([...props.path, "css"], page, (prev: BxTypeImage) => {
                         return {
                           ...prev,
                           customClasses: params.validatedValues.customClasses,
@@ -343,18 +343,18 @@ const ImageBoxEditOverlay = (props: Props) => {
             {
               defaultOpen: true,
               contentChildren: (
-                <ImageBoxForm
+                <ImageBxForm
                   store={imageFormStore}
-                  id={box.imageBox.id}
+                  id={bx.imgBx.id}
                   onSuccess={(params) => {
-                    props.pageStore.getState().utils.setPage((page) => {
+                    props.pageStore.getState().utils.setPg((page) => {
                       return newUpdatedByPathArray<
                         // eslint-disable-next-line @typescript-eslint/ban-types
                         Exclude<typeof page, Function>
                       >(
-                        [...props.path, "imageBox"],
+                        [...props.path, "imgBx"],
                         page,
-                        (prev: BoxTypeImage) => ({
+                        (prev: BxTypeImage) => ({
                           ...prev,
                           src: params.validatedValues.src,
                           altText: params.validatedValues.altText,
@@ -367,9 +367,9 @@ const ImageBoxEditOverlay = (props: Props) => {
                 />
               ),
               titleElem: (
-                <h3 className="text-h6 font-bold capitalize">image box form</h3>
+                <h3 className="text-h6 font-bold capitalize">image bx form</h3>
               ),
-              ___key: "imageBox",
+              ___key: "imgBx",
             },
           ]}
         />
@@ -378,32 +378,32 @@ const ImageBoxEditOverlay = (props: Props) => {
   );
 };
 
-export const ImageBoxEditable = (props: Props) => {
-  const box = useStore(props.pageStore, (state) =>
-    getValueByPathArray<BoxTypeImage>(state.page, props.path),
+export const ImageBxEditable = (props: Props) => {
+  const bx = useStore(props.pageStore, (state) =>
+    getValueByPathArray<BxTypeImage>(state.page, props.path),
   );
 
-  const imageBoxViewProps = {
-    boxDeepLevel: props.boxDeepLevel,
-    parentBox: props.parentBox,
+  const imageBxViewProps = {
+    bxDeepLevel: props.bxDeepLevel,
+    parentBx: props.parentBx,
     className: cx(
-      customPageClasses[`${BOX_TYPE}-BOX`],
+      customPgClasses[`${BOX_TYPE}-BOX`],
       props.className,
-      handleBoxVariants(box.css.twVariants as BoxVariants),
-      ...(box.css.customClasses
-        ? box.css.customClasses?.map((key) => customPageClasses[key])
+      handleBxVariants(bx.css.twVariants as BxVariants),
+      ...(bx.css.customClasses
+        ? bx.css.customClasses?.map((key) => customPgClasses[key])
         : []),
     ),
     //
-    src: box.imageBox.src,
-    altText: box.imageBox.altText,
-    width: box.imageBox.width,
-    height: box.imageBox.height,
+    src: bx.imgBx.src,
+    altText: bx.imgBx.altText,
+    width: bx.imgBx.width,
+    height: bx.imgBx.height,
   };
 
   return (
-    <ImageBoxView
-      {...imageBoxViewProps}
+    <ImageBxView
+      {...imageBxViewProps}
       childrenAfter={<ImageBoxEditOverlay {...props} />}
     />
   );

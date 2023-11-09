@@ -2,22 +2,22 @@
 import { cx } from "class-variance-authority";
 import { type HTMLAttributes, useState } from "react";
 import CustomNextImage from "../../common/CustomNextImage";
-import { type QuoteBox } from "~/libs/utils/types/custom-page";
+import { type QuoteBx } from "~/libs/utils/types/custom-page";
 
 export default function Quote({
-  box,
+  bx,
   ...props
-}: HTMLAttributes<HTMLDivElement> & { box: QuoteBox }) {
+}: HTMLAttributes<HTMLDivElement> & { bx: QuoteBx }) {
   const TEXT_MAX_LENGTH = 150;
-  const isTextLong = box.content.length > TEXT_MAX_LENGTH;
+  const isTextLong = bx.content.length > TEXT_MAX_LENGTH;
 
   const [isFullTextActive, setIsFullTextActive] = useState(!isTextLong);
 
   return (
     <div {...props} className={cx(props.className, "group")}>
       <CustomNextImage
-        src={`https://api.dicebear.com/6.x/initials/svg?seed=${box.cite}`}
-        alt={box.cite}
+        src={`https://api.dicebear.com/6.x/initials/svg?seed=${bx.cite}`}
+        alt={bx.cite}
         width={150}
         height={150}
         className="relative left-0 h-16 w-16 -translate-x-2/3 rounded-full"
@@ -31,7 +31,7 @@ export default function Quote({
               "group-focus-within:text-special-primary-400 group-hover:text-special-primary-400",
             )}
           >
-            {box.cite}
+            {bx.cite}
           </strong>
         </cite>
         <q className="flex-grow text-[70%] font-medium">
@@ -40,8 +40,8 @@ export default function Quote({
             style={{ fontFamily: "inherit" }}
           >
             {isFullTextActive
-              ? box.content
-              : box.content.slice(0, TEXT_MAX_LENGTH)}
+              ? bx.content
+              : bx.content.slice(0, TEXT_MAX_LENGTH)}
           </pre>
           {isTextLong && (
             <>

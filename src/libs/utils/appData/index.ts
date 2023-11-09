@@ -1,50 +1,50 @@
-export * from './custom-pages/utils';
+export * from "./custom-pages/utils";
 
-import { type CustomPage } from '../types/custom-page';
+import { type CustomPg } from "../types/custom-page";
 
 export const loFlyDirtBasicData = {
-	title: 'Lo-Fly Dirt',
-	slug: 'lo-fly-dirt',
+  title: "Lo-Fly Dirt",
+  slug: "lo-fly-dirt",
 };
 export const flyTape2BasicData = {
-	title: 'Fly Tape 2',
-	slug: 'fly-tape-2',
+  title: "Fly Tape 2",
+  slug: "fly-tape-2",
 };
 export const flyTapeBasicData = {
-	title: 'Fly Tape',
-	slug: 'fly-tape',
+  title: "Fly Tape",
+  slug: "fly-tape",
 };
 export const chomplrBasicData = {
-	title: 'Chomplr',
-	slug: 'chomplr',
+  title: "Chomplr",
+  slug: "chomplr",
 };
 
 export const IOSProductsBasicData = [
-	loFlyDirtBasicData,
-	flyTape2BasicData,
-	flyTapeBasicData,
-	chomplrBasicData,
+  loFlyDirtBasicData,
+  flyTape2BasicData,
+  flyTapeBasicData,
+  chomplrBasicData,
 ];
 
-export const CustomPages: CustomPage[] = [
-	{
-		twClassNameVariants: {
-			'gap-x': '16',
-			'gap-y': '16',
-		},
-		slug: 'champion-hoodie',
-		pageCategoryName: 'merch',
-		pageStructure: [
-			{
-				order: 0,
-				twClassNameVariants: { 'gap-y': '16' },
-				___type: 'standard-section',
-				body: [
-					{
-						twClassNameVariants: { 'max-w': '125ch', mx: 'auto' },
-						customPageClassesKeys: ['blog-post'],
-						___type: 'md',
-						content: `## Details
+export const CustomPgs: CustomPg[] = [
+  {
+    twClassNameVariants: {
+      "gap-x": "16",
+      "gap-y": "16",
+    },
+    slug: "champion-hoodie",
+    pgCategoryName: "merch",
+    pageStructure: [
+      {
+        order: 0,
+        twClassNameVariants: { "gap-y": "16" },
+        ___type: "standard-section",
+        body: [
+          {
+            twClassNameVariants: { "max-w": "125ch", mx: "auto" },
+            customPgClassesKeys: ["blog-post"],
+            ___type: "md",
+            content: `## Details
 Lorem ipsum dolor sit amet consectetur adipisicing elit.
 Necessitatibus amet tempore delectus voluptatibus perspiciatis, et
 tempora non, deserunt molestias sint unde at debitis obcaecati nobis
@@ -56,9 +56,9 @@ incidunt asperiores. Fugit, doloremque voluptates.
 | Width (inches)  |    21    |    23    | 	25 	 	 |    27  	|	 29      |
 
 `,
-					},
-				],
-			},
-		],
-	},
+          },
+        ],
+      },
+    ],
+  },
 ];

@@ -1,14 +1,14 @@
-import { createStandardSection } from "../../utils";
-import { type CustomPage } from "../../../../src/libs/utils/types/custom-page";
+import { createStandardSect } from "../../utils";
+import { type CustomPg } from "../../../../src/libs/utils/types/custom-page";
 import {
-  aboutPageCategory,
-  blueLabelPageCategory,
-  policiesPageCategory,
-  // productsPageCategory,
-  supportPageCategory,
+  aboutPgCategory,
+  blueLabelPgCategory,
+  policiesPgCategory,
+  // productsPgCategory,
+  supportPgCategory,
 } from "../pagesCategories";
 
-const otherCustomPages: CustomPage[] = [
+const otherCustomPages: CustomPg[] = [
   {
     twClassNameVariants: {
       "max-w": "100ch",
@@ -20,7 +20,7 @@ const otherCustomPages: CustomPage[] = [
       "gap-y": "16",
     },
     // slug: 'about',
-    pageCategoryName: aboutPageCategory.name,
+    pgCategoryName: aboutPgCategory.name,
     title: "About",
     description: "",
     pageStructure: [
@@ -31,7 +31,7 @@ const otherCustomPages: CustomPage[] = [
         title: "About MSX Audio",
         body: [
           {
-            customPageClassesKeys: ["blog-post"],
+            customPgClassesKeys: ["blog-post"],
             ___type: "md",
             content: `## What we do
 
@@ -66,11 +66,11 @@ With any questions regarding our kits, breaks, or sample packs, contact us at ms
     // },
     // title: 'Lo-Fly Dirt',
     // slug: 'lo-fly-dirt',
-    pageCategoryName: policiesPageCategory.name,
+    pgCategoryName: policiesPgCategory.name,
     title: "Policies",
     description: null,
     pageStructure: [
-      createStandardSection({
+      createStandardSect({
         order: 0,
         body: [
           {
@@ -93,7 +93,7 @@ With any questions regarding our kits, breaks, or sample packs, contact us at ms
       "gap-y": "16",
     },
     // slug: 'support',
-    pageCategoryName: supportPageCategory.name,
+    pgCategoryName: supportPgCategory.name,
     title: "Support",
     description: "",
     pageStructure: [
@@ -104,11 +104,11 @@ With any questions regarding our kits, breaks, or sample packs, contact us at ms
         title: "Support",
         body: [
           {
-            customPageClassesKeys: ["blog-post"],
+            customPgClassesKeys: ["blog-post"],
             ___type: "md",
             content: `## I purchased a product(s) and can't find the download link. Where is it?
 
-All drum kits and digital downloads links are sent to the e-mail address your order was placed under. Occasionally, some e-mail services and filters will re-direct our e-mails to your SPAM Folder/Filter. If your PayPal e-mail address is different than the order e-mail address, check your PayPal e-mail inbox. Please check your SPAM Folder/Filter before contacting us. Should you have further trouble locating your order download link, email us at support@msxaudio.com.
+All drum kits and digital downloads links are sent to the e-mail address your order was placed under. Occasionally, some e-mail services and filters will re-direct our e-mails to your SPAM Folder/Filter. If your PayPal e-mail address is different than the order e-mail address, check your PayPal e-mail inbx. Please check your SPAM Folder/Filter before contacting us. Should you have further trouble locating your order download link, email us at support@msxaudio.com.
 
 ## Are MSXII Sound Design packs royalty free?
 
@@ -130,7 +130,7 @@ We do these from time to time.  In order to be notified of any MSXII giveaways o
 
 ## PRIVACY POLICY
 
-We are committed to protecting your privacy. There is an opt-in policy to receive marketing and other e-blasts about future products available as well as deals and coupons. If you do not wish to receive these emails you can opt out by simply removing the check from the marketing box below upon check out. We will never sell your email or personal information.
+We are committed to protecting your privacy. There is an opt-in policy to receive marketing and other e-blasts about future products available as well as deals and coupons. If you do not wish to receive these emails you can opt out by simply removing the check from the marketing bx below upon check out. We will never sell your email or personal information.
 
 ## SECURITY POLICY
 
@@ -152,7 +152,7 @@ For all other questions and inquiries, feel free to email our support at support
       "gap-y": "16",
     },
     slug: "license-agreement",
-    pageCategoryName: policiesPageCategory.name,
+    pgCategoryName: policiesPgCategory.name,
     title: "Policies",
     description: "policies - license agreement",
     pageStructure: [
@@ -164,7 +164,7 @@ For all other questions and inquiries, feel free to email our support at support
         description: `By purchasing any MSXII Sound Design product you accept the following product license agreement:`,
         body: [
           {
-            customPageClassesKeys: ["blog-post"],
+            customPgClassesKeys: ["blog-post"],
             ___type: "md",
             content: `#### 1. License Grant:
 
@@ -186,7 +186,7 @@ TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, MSXII SOUND DESIGN DISCLAIMS 
 
 #### 4. Term:
 
-This license agreement is effective from the moment the product is received by any means, within or outside of these terms.  The license will remain in full effect until termination.  The license is terminated if you break any of the terms or conditions of this agreement.  Upon termination you agree to destroy all copies and contents of the product at your own expense.  In the event of termination, the following sections of this license will survive: 1,2,3,4,5 and 6.
+This license agreement is effective from the moment the product is received by any means, within or outside of these terms.  The license will remain in full effect until termination.  The license is terminated if you break any of the terms or conditions of this agreement.  Upon termination you agree to destroy all copies and contents of the product at your own expense.  In the event of termination, the following sects of this license will survive: 1,2,3,4,5 and 6.
 
 #### 5. Bundles & Discounts
 
@@ -212,7 +212,7 @@ All bundle and discounted purchases and prices apply only to the product line at
       "gap-y": "16",
     },
     // slug: 'merch',
-    pageCategoryName: "merch",
+    pgCategoryName: "merch",
     title: "Merch",
     description: "",
     pageStructure: [
@@ -234,7 +234,7 @@ All bundle and discounted purchases and prices apply only to the product line at
       "gap-y": "16",
     },
     // slug: 'blue-label',
-    pageCategoryName: blueLabelPageCategory.name,
+    pgCategoryName: blueLabelPgCategory.name,
     title: "Bue Label",
     description: "Explore our merch products",
     pageStructure: [
@@ -251,7 +251,7 @@ All bundle and discounted purchases and prices apply only to the product line at
               "max-w": "100ch",
               mx: "auto",
             },
-            ___type: "image-only",
+            ___type: "img-only",
             src: "https://res.cloudinary.com/dpjuamt6q/image/upload/v1690932892/blue-label_vdpfrk.png",
           },
           {
@@ -273,11 +273,11 @@ All bundle and discounted purchases and prices apply only to the product line at
   // 	// },
   // 	// title: 'Lo-Fly Dirt',
   // 	// slug: 'lo-fly-dirt',
-  // 	pageCategoryName: productsPageCategory.name,
+  // 	pgCategoryName: productsPgCategory.name,
   // 	title: 'Products',
   // 	description: null,
   // 	pageStructure: [
-  // 		createStandardSection({
+  // 		createStandardSect({
   // 			order: 0,
   // 			body: [
   // 				{
@@ -295,7 +295,7 @@ All bundle and discounted purchases and prices apply only to the product line at
   // 			'gap-y': '16',
   // 		},
   // 		slug: 'champion-hoodie',
-  // 		pageCategoryName: 'merch',
+  // 		pgCategoryName: 'merch',
   // 		pageStructure: [
   // 			{
   // 				order: 0,
@@ -304,7 +304,7 @@ All bundle and discounted purchases and prices apply only to the product line at
   // 				body: [
   // 					{
   // 						twClassNameVariants: { 'max-w': '125ch', mx: 'auto' },
-  // 						customPageClassesKeys: ['blog-post'],
+  // 						customPgClassesKeys: ['blog-post'],
   // 						___type: 'md',
   // 						content: `## Details
   // Lorem ipsum dolor sit amet consectetur adipisicing elit.

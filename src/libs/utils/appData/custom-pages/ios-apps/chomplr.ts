@@ -1,16 +1,16 @@
 import {
-  type StandardSection,
+  type StandardSect,
   BOXES_TYPES_map,
-  type IframeBox,
+  type IframeBx,
   SUB_BOXES_TYPES_map,
-  type TabsBox,
+  type TabsBx,
   type Slider,
-  type CustomPage,
+  type CustomPg,
   type Grid,
 } from "~/libs/utils/types/custom-page";
-import { createStandardSection } from "../utils";
+import { createStandardSect } from "../utils";
 
-export const ChomplrOSApp: StandardSection[] = (() => {
+export const ChomplrOSApp: StandardSect[] = (() => {
   const appLink = "https://apps.apple.com/us/app/chomplr/id1470553213";
 
   const grid: Grid = {
@@ -19,13 +19,13 @@ export const ChomplrOSApp: StandardSection[] = (() => {
     gridTemplateColumns: `repeat(auto-fit, minmax(20rem, 1fr))`,
     items: [
       {
-        customPageClassesKeys: ["center-on-ls-md-screens", "objects-contain"],
+        customPgClassesKeys: ["center-on-ls-md-screens", "objects-contain"],
         twClassNameVariants: { "aspect-ratio": "square" }, // w: '96', h: '96',
-        ___type: BOXES_TYPES_map["image-only"],
+        ___type: BOXES_TYPES_map["img-only"],
         src: "https://cdn.shopify.com/s/files/1/0345/7209/t/28/assets/pf-8930ec95--Chomplrappdisplay-Edited.jpg?v=1617338387",
       },
       {
-        customPageClassesKeys: ["center-on-ls-md-screens"],
+        customPgClassesKeys: ["center-on-ls-md-screens"],
         twClassNameVariants: { "gap-y": "2", px: "4" },
         ___type: BOXES_TYPES_map.md,
         content: `# Chomplr
@@ -39,12 +39,12 @@ As a standalone module or AUv3 plugin, Chomplr offers quick access to it's robus
       },
     ],
   };
-  const iframeBox: IframeBox = {
+  const iframeBx: IframeBx = {
     ___type: BOXES_TYPES_map.iframe,
     ___subType: SUB_BOXES_TYPES_map.youtube,
     src: "https://www.youtube.com/embed/sxgSyJ5J-LE?autoplay=0&loop=0&mute=0&controls=0&enablejsapi=1",
   };
-  const tabsBox: TabsBox = {
+  const tabsBx: TabsBx = {
     ___type: BOXES_TYPES_map.tabs,
     tabs: [
       {
@@ -75,7 +75,7 @@ Sample data can be edited and one or more effects added and adjusted in quick an
           gridTemplateColumns: `repeat(auto-fit, minmax(20rem, 1fr))`,
           items: [
             {
-              customPageClassesKeys: ["center-on-ls-md-screens"],
+              customPgClassesKeys: ["center-on-ls-md-screens"],
               twClassNameVariants: { "gap-y": "2", px: "4" },
               ___type: BOXES_TYPES_map.md,
               content: `### What's New:
@@ -87,17 +87,17 @@ Chomplr 1.2.0;
 
 You can check out the reference guide/manual below. Download and save to your iPhone/iPad on iBooks.
 
-[Download Now](https://www.dropbox.com/s/ayvw7jmr6ohu2wv/MSXII-Chomplr%201v2.pdf?dl=0)
+[Download Now](https://www.dropbx.com/s/ayvw7jmr6ohu2wv/MSXII-Chomplr%201v2.pdf?dl=0)
 
 > **READING IS FUNDAMENTAL.**`,
             },
             {
-              customPageClassesKeys: [
+              customPgClassesKeys: [
                 "center-on-ls-md-screens",
                 "object-contain",
               ],
               // twClassNameVariants: { w: '96' },
-              ___type: BOXES_TYPES_map["image-only"],
+              ___type: BOXES_TYPES_map["img-only"],
               src: "https://cdn.shopify.com/s/files/1/0345/7209/t/28/assets/pf-edf62089--Screen-Shot-20210621-at-123253-PM.png?v=1624482138",
             },
           ],
@@ -327,11 +327,11 @@ MSXII Sound really took iOS music production/beat making to	another level with t
     ___type: BOXES_TYPES_map.grid,
     twClassNameVariants: { "gap-y": "3" },
     gridTemplateColumns: `1fr`,
-    customPageClassesKeys: ["center-content"],
+    customPgClassesKeys: ["center-content"],
     items: [
       {
         twClassNameVariants: { rounded: "5xl", w: "40", h: "40" },
-        ___type: "image-only",
+        ___type: "img-only",
         src: "https://cdn.shopify.com/s/files/1/0345/7209/t/28/assets/pf-ce3c55b2--ChomplrAppstoreicon188x182.png?v=1589530651",
       },
       {
@@ -342,27 +342,27 @@ MSXII Sound really took iOS music production/beat making to	another level with t
   };
 
   return [
-    createStandardSection({ order: 0, body: [grid] }),
-    createStandardSection({ order: 1, body: [tabsBox] }),
-    createStandardSection({ order: 2, body: [iframeBox] }),
-    createStandardSection({
+    createStandardSect({ order: 0, body: [grid] }),
+    createStandardSect({ order: 1, body: [tabsBx] }),
+    createStandardSect({ order: 2, body: [iframeBx] }),
+    createStandardSect({
       order: 3,
       body: [slider],
       title: "Tutorial",
       twClassNameVariants: { "gap-y": "4" },
     }),
-    createStandardSection({
+    createStandardSect({
       order: 4,
       body: [grid2],
       // title: 'Chomplr Around The World',
       twClassNameVariants: { "gap-y": "8" },
-      // customPageClassesKeys: ['section-container-v1']
+      // customPgClassesKeys: ['section-container-v1']
     }),
-    createStandardSection({ order: 5, body: [grid3] }),
+    createStandardSect({ order: 5, body: [grid3] }),
   ];
 })();
 
-const chomplrPageData: CustomPage = {
+const chomplrPgData: CustomPg = {
   twClassNameVariants: {
     "max-w": "100ch",
     w: "full",
@@ -374,8 +374,8 @@ const chomplrPageData: CustomPage = {
   },
   slug: "chomplr",
   // title: 'Chomplr',
-  pageCategoryName: "ios-apps",
+  pgCategoryName: "ios-apps",
   pageStructure: ChomplrOSApp,
 };
 
-export default chomplrPageData;
+export default chomplrPgData;

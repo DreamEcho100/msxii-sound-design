@@ -1,9 +1,9 @@
 "use client";
 import {
-  type Box,
-  type BoxTypeTabs,
-  type TabsBox,
-  type PageStoreApi,
+  type Bx,
+  type BxTypeTabs,
+  type TabsBx,
+  type PgStoreApi,
 } from "./types";
 import { type ReactNode } from "react";
 import * as Tabs from "@radix-ui/react-tabs";
@@ -22,16 +22,16 @@ import { getValueByPathArray, newUpdatedByPathArray } from "~/libs/obj/update";
 import { SectionBoxContainer } from "./SectionBoxContainer";
 
 const EditBoxModal = (props: {
-  box: TabsBox;
-  boxDeepLevel: number;
+  bx: TabsBx;
+  bxDeepLevel: number;
   path: (string | number)[];
-  pageStore: PageStoreApi;
+  pageStore: PgStoreApi;
   isOpen: boolean;
   setIsOpen: (isOpen: boolean | ((isOpen: boolean) => boolean)) => void;
   title: string;
-  tabsBoxId: string;
+  tabsBxId: string;
   onSuccess: (
-    // result: RouterOutputs['dashboard']['boxes']['types']['tabs']['updateOneName'],
+    // result: RouterOutputs['dashboard']['bxes']['types']['tabs']['updateOneName'],
     params: {
       validatedValues: { title: string };
     },
@@ -43,7 +43,7 @@ const EditBoxModal = (props: {
     validationEvents: { change: true },
   });
   const updateOneRequest =
-    trpcApi.dashboard.boxes.types.tabs.updateOneName.useMutation({
+    trpcApi.dashboard.bxes.types.tabs.updateOneName.useMutation({
       onError(error) {
         toast(error.message, { type: "error" });
       },
@@ -59,7 +59,7 @@ const EditBoxModal = (props: {
         onSubmit={async (event, params) => {
           event.preventDefault();
           await updateOneRequest.mutateAsync({
-            tabsBoxId: props.tabsBoxId,
+            tabsBxId: props.tabsBxId,
             ...params.validatedValues,
           });
 
@@ -85,35 +85,35 @@ const EditBoxModal = (props: {
 };
 
 export default function CustomTabs(props: {
-  box: TabsBox;
+  bx: TabsBx;
   className: string;
-  boxDeepLevel: number;
+  bxDeepLevel: number;
   childrenAfter?: ReactNode;
   path: (string | number)[];
-  pageStore: PageStoreApi;
+  pageStore: PgStoreApi;
 }) {
   const pathname = usePathname();
-  const box = useStore(props.pageStore, (state) =>
-    getValueByPathArray<BoxTypeTabs>(state.page, props.path),
+  const bx = useStore(props.pageStore, (state) =>
+    getValueByPathArray<BxTypeTabs>(state.page, props.path),
   );
 
   const isTabsEditable = pathname.startsWith("/dashboard");
 
-  const newBoxDeepLevel = props.boxDeepLevel + 1;
+  const newBxDeepLevel = props.bxDeepLevel + 1;
 
   return (
     <div>
       <Tabs.Root
         className={cx("flex w-full flex-col gap-5 leading-7", props.className)}
-        defaultValue={box.tabs.tabsBoxes[0]?.title}
+        defaultValue={bx.tabs.tabsBxs[0]?.title}
       >
         <Tabs.List
-          className="box-container flex w-full items-center justify-center gap-4 md:items-start md:justify-start"
+          className="bx-container flex w-full items-center justify-center gap-4 md:items-start md:justify-start"
           aria-label="Manage your account"
         >
-          {box.tabs.tabsBoxes.map((tabsBox, tabsBoxesIndex) => (
+          {bx.tabs.tabsBxs.map((tabsBx, tabsBxsIndex) => (
             <div
-              key={tabsBox.id}
+              key={tabsBx.id}
               className={cx(
                 isTabsEditable || props.childrenAfter ? "relative" : undefined,
                 "inline",
@@ -125,9 +125,9 @@ export default function CustomTabs(props: {
                   "data-[state=active]:border-solid data-[state=active]:border-b-text-primary-400 data-[state=active]:pb-1 data-[state=active]:font-bold data-[state=active]:text-text-primary-600",
                   isTabsEditable || props.childrenAfter ? "z-[99]" : undefined,
                 )}
-                value={tabsBox.title}
+                value={tabsBx.title}
               >
-                {tabsBox.title}
+                {tabsBx.title}
               </Tabs.Trigger>
               {isTabsEditable && (
                 <BordersContainer
@@ -135,47 +135,47 @@ export default function CustomTabs(props: {
                   // boundaryMultiType={props.boundaryMultiType}
                   Component={EditBoxModal}
                   // EditSideMenuChildren={props.EditSideMenuChildren}
-                  // ShowcaseBoxChildren={props.ShowcaseBoxChildren}
+                  // ShowcaseBxChildren={props.ShowcaseBxChildren}
                   // childrenAfter={props.childrenAfter}
                   onSuccess={(params: {
                     validatedValues: {
                       title: string;
                     };
                   }) => {
-                    props.pageStore.getState().utils.setPage((page) => {
+                    props.pageStore.getState().utils.setPg((page) => {
                       return newUpdatedByPathArray<
                         // eslint-disable-next-line @typescript-eslint/ban-types
                         Exclude<typeof page, Function>
                       >(
-                        [...props.path, "tabs", "tabsBoxes", tabsBoxesIndex],
+                        [...props.path, "tabs", "tabsBxs", tabsBxsIndex],
                         page,
-                        (prev: BoxTypeTabs["tabs"]["tabsBoxes"][number]) => ({
+                        (prev: BxTypeTabs["tabs"]["tabsBxs"][number]) => ({
                           ...prev,
                           title: params.validatedValues.title,
                         }),
                       );
                     });
                   }}
-                  box={box.tabs}
-                  boxDeepLevel={props.boxDeepLevel}
-                  path={[...props.path, "tabs", "tabsBoxes", tabsBoxesIndex]}
+                  bx={bx.tabs}
+                  bxDeepLevel={props.bxDeepLevel}
+                  path={[...props.path, "tabs", "tabsBxs", tabsBxsIndex]}
                   pageStore={props.pageStore}
                   // isOpen: boolean;
                   // setIsOpen: (isOpen: boolean | ((isOpen: boolean) => boolean)) => void;
-                  title={tabsBox.title}
-                  tabsBoxId={tabsBox.id}
+                  title={tabsBx.title}
+                  tabsBxId={tabsBx.id}
                 />
               )}
             </div>
           ))}
         </Tabs.List>
 
-        {box.tabs.tabsBoxes.map((tabsBox, tabsBoxIndex) => (
-          <Tabs.Content key={tabsBox.boxId} className="" value={tabsBox.title}>
+        {bx.tabs.tabsBxs.map((tabsBx, tabsBxIndex) => (
+          <Tabs.Content key={tabsBx.bxId} className="" value={tabsBx.title}>
             <SectionBoxContainer
-              box={tabsBox.box as Box}
-              boxDeepLevel={newBoxDeepLevel}
-              path={[...props.path, "tabs", "tabsBoxes", tabsBoxIndex, "box"]}
+              bx={tabsBx.bx as Bx}
+              bxDeepLevel={newBxDeepLevel}
+              path={[...props.path, "tabs", "tabsBxs", tabsBxIndex, "bx"]}
               pageStore={props.pageStore}
             />
           </Tabs.Content>

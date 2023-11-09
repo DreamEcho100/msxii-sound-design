@@ -6,7 +6,7 @@ type Props = {
   searchParams: { q?: string };
 };
 
-async function getPageData(props: Props) {
+async function getPgData(props: Props) {
   const baseInput: RouterInputs["shopify"]["products"]["getManyBasic"] = {
     limit: 24,
     title:
@@ -27,8 +27,8 @@ export const metadata = {
   description: "Search for your desired products",
 };
 
-export default async function ProductsPage(props: Props) {
-  const basicManyBlogArticles = await getPageData(props);
+export default async function ProductsPg(props: Props) {
+  const basicManyBlogArticles = await getPgData(props);
 
   return (
     <ProductsScreen

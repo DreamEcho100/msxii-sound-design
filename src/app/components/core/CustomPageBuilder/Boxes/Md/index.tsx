@@ -1,8 +1,8 @@
 "use client";
 import { type ReactNode } from "react";
 import BoxEditOverlay from "../../BoxEditOverlay";
-import { type BoxTypeMd, type PageStoreApi } from "../../types";
-import { BoxTypes } from "@prisma/client";
+import { type BxTypeMd, type PgStoreApi } from "../../types";
+import { BxTypes } from "@prisma/client";
 import { useStore } from "zustand";
 import { cx } from "class-variance-authority";
 import {
@@ -12,7 +12,7 @@ import {
 } from "@de100/form-echo";
 import { toast } from "react-toastify";
 
-import customPageClasses from "~/app/styles/_custom-page.module.css";
+import customPgClasses from "~/app/styles/_custom-page.module.css";
 import {
   type CustomCssFormStore,
   CustomCssForm,
@@ -27,39 +27,39 @@ import Form from "~/app/components/common/@de100/form-echo/Forms";
 import Accordion from "~/app/components/common/Accordion";
 import ReactMarkdownFormatter from "~/app/components/common/ReactMarkdownFormatter";
 import { getValueByPathArray, newUpdatedByPathArray } from "~/libs/obj/update";
-import { handleBoxVariants, type BoxVariants } from "~/libs/utils/appData";
-import { createOneMdBoxSchema } from "~/libs/utils/validations-schemas/dashboard/boxes/types/mds";
+import { handleBxVariants, type BxVariants } from "~/libs/utils/appData";
+import { createOneMdBxSchema } from "~/libs/utils/validations-schemas/dashboard/boxes/types/mds";
 import { CreateOneCustomCssSchema } from "~/libs/utils/validations-schemas/dashboard/css/customClasses";
 import { trpcApi } from "~/app/libs/trpc/client";
 
-type MdBox = {
+type MdBx = {
   content: string;
 };
-type MdFormStore = FormStoreApi<MdBox, typeof createOneMdBoxSchema>;
+type MdFormStore = FormStoreApi<MdBx, typeof createOneMdBxSchema>;
 type SharedProps = {
-  boxDeepLevel: number;
-  parentBox?: BoxTypes;
+  bxDeepLevel: number;
+  parentBx?: BxTypes;
   className?: string;
 };
 type Props = {
-  box: BoxTypeMd;
+  bx: BxTypeMd;
   path: (string | number)[];
-  pageStore: PageStoreApi;
+  pageStore: PgStoreApi;
 } & SharedProps;
 
-const BOX_TYPE = BoxTypes.MD;
+const BOX_TYPE = BxTypes.MD;
 
-const MdBoxForm = (props: {
+const MdBxForm = (props: {
   store: MdFormStore;
   id: string;
   onSuccess: (params: {
     validatedValues: GetPassedValidationFieldsValues<
-      typeof createOneMdBoxSchema
+      typeof createOneMdBxSchema
     >;
   }) => void;
 }) => {
   const updateOneRequest =
-    trpcApi.dashboard.boxes.types.mds.updateOne.useMutation({
+    trpcApi.dashboard.bxes.types.mds.updateOne.useMutation({
       onError(error) {
         toast(error.message, { type: "error" });
       },
@@ -101,11 +101,11 @@ const MdBoxForm = (props: {
   );
 };
 
-const MdBoxView = (
+const MdBxView = (
   props: {
     childrenAfter?: ReactNode;
   } & SharedProps &
-    MdBox,
+    MdBx,
 ) => {
   return (
     <div className={props.className}>
@@ -115,7 +115,7 @@ const MdBoxView = (
   );
 };
 
-const MdBoxFormView = (
+const MdBxFormView = (
   props: {
     mdFormStore: MdFormStore;
     twVariantsFormStore: TwVariantsFormStore;
@@ -127,28 +127,28 @@ const MdBoxFormView = (
     (store) => store.fields.content.value,
   );
   const twVariantsStr = useStore(props.twVariantsFormStore, (store) =>
-    handleBoxVariants(store.fields.twVariants.value),
+    handleBxVariants(store.fields.twVariants.value),
   );
 
   const customCssStr = useStore(
     props.customCssFormStore,
     (store) =>
       store.fields.customClasses.value
-        ?.map((key) => customPageClasses[key])
+        ?.map((key) => customPgClasses[key])
         .join(" ") ?? undefined,
   );
 
   const className = cx(
     props.className,
-    customPageClasses[`${BOX_TYPE}-BOX`],
+    customPgClasses[`${BOX_TYPE}-BOX`],
     twVariantsStr,
     customCssStr,
   );
 
   return (
-    <MdBoxView
-      boxDeepLevel={props.boxDeepLevel}
-      parentBox={props.parentBox}
+    <MdBxView
+      bxDeepLevel={props.bxDeepLevel}
+      parentBx={props.parentBx}
       className={className}
       //
       content={content}
@@ -157,23 +157,23 @@ const MdBoxFormView = (
 };
 
 const MdBoxEditOverlay = (props: Props) => {
-  const box = useStore(
+  const bx = useStore(
     props.pageStore,
-    (state) => getValueByPathArray<BoxTypeMd>(state.page, props.path), // .slice(0, -1)
+    (state) => getValueByPathArray<BxTypeMd>(state.page, props.path), // .slice(0, -1)
   );
   const mdFormStore: MdFormStore = useCreateFormStore({
     initValues: {
-      content: box.mdBox.content,
+      content: bx.mdBx.content,
     },
-    validationSchema: createOneMdBoxSchema,
+    validationSchema: createOneMdBxSchema,
     validationEvents: { change: true },
   });
   const twVariantsFormStore = useCreateTwVariantsFormStore(
-    props.box.css.twVariants,
+    props.bx.css.twVariants,
   );
   const customCssFormStore: CustomCssFormStore = useCreateFormStore({
     initValues: {
-      customClasses: props.box.css.customClasses ?? [],
+      customClasses: props.bx.css.customClasses ?? [],
     },
     validationSchema: CreateOneCustomCssSchema,
   });
@@ -181,10 +181,10 @@ const MdBoxEditOverlay = (props: Props) => {
   return (
     <BoxEditOverlay
       {...props}
-      ShowcaseBoxChildren={
-        <MdBoxFormView
-          boxDeepLevel={props.boxDeepLevel}
-          parentBox={props.parentBox}
+      ShowcaseBxChildren={
+        <MdBxFormView
+          bxDeepLevel={props.bxDeepLevel}
+          parentBx={props.parentBx}
           className={props.className}
           //
           mdFormStore={mdFormStore}
@@ -199,13 +199,13 @@ const MdBoxEditOverlay = (props: Props) => {
               contentChildren: (
                 <TwVariantsForm
                   store={twVariantsFormStore}
-                  cssId={box.css.id}
+                  cssId={bx.css.id}
                   onSuccess={(params) => {
-                    props.pageStore.getState().utils.setPage((page) => {
+                    props.pageStore.getState().utils.setPg((page) => {
                       return newUpdatedByPathArray<
                         // eslint-disable-next-line @typescript-eslint/ban-types
                         Exclude<typeof page, Function>
-                      >([...props.path, "css"], page, (prev: BoxTypeMd) => {
+                      >([...props.path, "css"], page, (prev: BxTypeMd) => {
                         return {
                           ...prev,
                           twVariants: params.values.twVariants,
@@ -227,13 +227,13 @@ const MdBoxEditOverlay = (props: Props) => {
               contentChildren: (
                 <CustomCssForm
                   store={customCssFormStore}
-                  cssId={box.css.id}
+                  cssId={bx.css.id}
                   onSuccess={(params) => {
-                    props.pageStore.getState().utils.setPage((page) => {
+                    props.pageStore.getState().utils.setPg((page) => {
                       return newUpdatedByPathArray<
                         // eslint-disable-next-line @typescript-eslint/ban-types
                         Exclude<typeof page, Function>
-                      >([...props.path, "css"], page, (prev: BoxTypeMd) => {
+                      >([...props.path, "css"], page, (prev: BxTypeMd) => {
                         return {
                           ...prev,
                           customClasses: params.validatedValues.customClasses,
@@ -251,15 +251,15 @@ const MdBoxEditOverlay = (props: Props) => {
             {
               defaultOpen: true,
               contentChildren: (
-                <MdBoxForm
+                <MdBxForm
                   store={mdFormStore}
-                  id={box.mdBox.id}
+                  id={bx.mdBx.id}
                   onSuccess={(params) => {
-                    props.pageStore.getState().utils.setPage((page) => {
+                    props.pageStore.getState().utils.setPg((page) => {
                       return newUpdatedByPathArray<
                         // eslint-disable-next-line @typescript-eslint/ban-types
                         Exclude<typeof page, Function>
-                      >([...props.path, "mdBox"], page, (prev: BoxTypeMd) => ({
+                      >([...props.path, "mdBx"], page, (prev: BxTypeMd) => ({
                         ...prev,
                         content: params.validatedValues.content,
                       }));
@@ -268,9 +268,9 @@ const MdBoxEditOverlay = (props: Props) => {
                 />
               ),
               titleElem: (
-                <h3 className="text-h6 font-bold capitalize">MD box form</h3>
+                <h3 className="text-h6 font-bold capitalize">MD bx form</h3>
               ),
-              ___key: "mdBox",
+              ___key: "mdBx",
             },
           ]}
         />
@@ -279,29 +279,29 @@ const MdBoxEditOverlay = (props: Props) => {
   );
 };
 
-export const MdBoxEditable = (props: Props) => {
-  const box = useStore(props.pageStore, (state) =>
-    getValueByPathArray<BoxTypeMd>(state.page, props.path),
+export const MdBxEditable = (props: Props) => {
+  const bx = useStore(props.pageStore, (state) =>
+    getValueByPathArray<BxTypeMd>(state.page, props.path),
   );
 
-  const mdBoxViewProps = {
-    boxDeepLevel: props.boxDeepLevel,
-    parentBox: props.parentBox,
+  const mdBxViewProps = {
+    bxDeepLevel: props.bxDeepLevel,
+    parentBx: props.parentBx,
     className: cx(
-      customPageClasses[`${BOX_TYPE}-BOX`],
+      customPgClasses[`${BOX_TYPE}-BOX`],
       props.className,
-      handleBoxVariants(box.css.twVariants as BoxVariants),
-      ...(box.css.customClasses
-        ? box.css.customClasses?.map((key) => customPageClasses[key])
+      handleBxVariants(bx.css.twVariants as BxVariants),
+      ...(bx.css.customClasses
+        ? bx.css.customClasses?.map((key) => customPgClasses[key])
         : []),
     ),
     //
-    content: box.mdBox.content,
+    content: bx.mdBx.content,
   };
 
   return (
-    <MdBoxView
-      {...mdBoxViewProps}
+    <MdBxView
+      {...mdBxViewProps}
       childrenAfter={<MdBoxEditOverlay {...props} />}
     />
   );

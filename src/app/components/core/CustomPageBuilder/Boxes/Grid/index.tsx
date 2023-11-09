@@ -2,17 +2,17 @@
 import { type CSSProperties, type ReactNode } from "react";
 import BoxEditOverlay from "../../BoxEditOverlay";
 import {
-  type Box,
-  type BoxTypeGrid,
+  type Bx,
+  type BxTypeGrid,
   type Css,
-  type PageStoreApi,
+  type PgStoreApi,
 } from "../../types";
-import { BoxTypes } from "@prisma/client";
+import { BxTypes } from "@prisma/client";
 import { useStore } from "zustand";
 import { cx } from "class-variance-authority";
 import { useCreateFormStore } from "@de100/form-echo";
 
-import customPageClasses from "~/app/styles/_custom-page.module.css";
+import customPgClasses from "~/app/styles/_custom-page.module.css";
 import {
   type CustomCssFormStore,
   CustomCssForm,
@@ -32,7 +32,7 @@ import {
 import Form from "~/app/components/common/@de100/form-echo/Forms";
 import Accordion from "~/app/components/common/Accordion";
 import { getValueByPathArray, newUpdatedByPathArray } from "~/libs/obj/update";
-import { handleBoxVariants, type BoxVariants } from "~/libs/utils/appData";
+import { handleBxVariants, type BxVariants } from "~/libs/utils/appData";
 import { CreateOneCustomCssSchema } from "~/libs/utils/validations-schemas/dashboard/css/customClasses";
 import { SectionBoxContainer } from "../../SectionBoxContainer";
 
@@ -40,48 +40,48 @@ type Grid = {
   // slidesPerViewType: (typeof SlidesPerViewType)[keyof typeof SlidesPerViewType];
 };
 type SharedProps = {
-  boxDeepLevel: number;
-  parentBox?: BoxTypes;
+  bxDeepLevel: number;
+  parentBx?: BxTypes;
   className?: string;
   inlineStyles?: Css["inlineStyles"];
 
-  // gridsBoxes: BoxTypeGrid['grid']['gridsBoxes']
+  // gridsBxs: BxTypeGrid['grid']['gridsBxs']
   // path: (string | number)[];
-  // pageStore: PageStoreApi;
+  // pageStore: PgStoreApi;
 };
 type Props = SharedProps & {
-  box: BoxTypeGrid;
+  bx: BxTypeGrid;
   path: (string | number)[];
-  pageStore: PageStoreApi;
+  pageStore: PgStoreApi;
 };
 
-const BOX_TYPE = BoxTypes.GRID;
+const BOX_TYPE = BxTypes.GRID;
 
 const GridView = (
   props: {
     childrenAfter?: ReactNode;
-    gridsBoxes: BoxTypeGrid["grid"]["gridsBoxes"];
+    gridsBxs: BxTypeGrid["grid"]["gridsBxs"];
     path: (string | number)[];
-    pageStore: PageStoreApi;
+    pageStore: PgStoreApi;
     // isDisplayingSlidesOut?: boolean;
     // forceRerender?: boolean;
   } & SharedProps &
     Grid,
 ) => {
-  const newBoxDeepLevel = props.boxDeepLevel + 1;
+  const newBxDeepLevel = props.bxDeepLevel + 1;
 
   return (
     <div
       className={props.className}
       style={props.inlineStyles as CSSProperties}
     >
-      {props.gridsBoxes.map((gridBox, gridBoxIndex) => (
+      {props.gridsBxs.map((gridBx, gridBxIndex) => (
         <SectionBoxContainer
-          key={gridBox.boxId}
-          box={gridBox.box as Box}
-          parentBox={props.parentBox}
-          boxDeepLevel={newBoxDeepLevel}
-          path={[...props.path, "grid", "gridsBoxes", gridBoxIndex, "box"]}
+          key={gridBx.bxId}
+          bx={gridBx.bx as Bx}
+          parentBx={props.parentBx}
+          bxDeepLevel={newBxDeepLevel}
+          path={[...props.path, "grid", "gridsBxs", gridBxIndex, "bx"]}
           pageStore={props.pageStore}
         />
       ))}
@@ -160,9 +160,9 @@ const GridFormView = (
     customCssFormStore: CustomCssFormStore;
     inlineStylesFormStore: InlineStylesFormStore;
     //
-    gridsBoxes: BoxTypeGrid["grid"]["gridsBoxes"];
+    gridsBxs: BxTypeGrid["grid"]["gridsBxs"];
     path: (string | number)[];
-    pageStore: PageStoreApi;
+    pageStore: PgStoreApi;
   } & SharedProps,
 ) => {
   // const slidesPerViewType = useStore(
@@ -170,14 +170,14 @@ const GridFormView = (
   // 	(store) => store.fields.slidesPerViewType.value,
   // );
   const twVariantsStr = useStore(props.twVariantsFormStore, (store) =>
-    handleBoxVariants(store.fields.twVariants.value),
+    handleBxVariants(store.fields.twVariants.value),
   );
 
   const customCssStr = useStore(
     props.customCssFormStore,
     (store) =>
       store.fields.customClasses.value
-        ?.map((key) => customPageClasses[key])
+        ?.map((key) => customPgClasses[key])
         .join(" ") ?? undefined,
   );
 
@@ -197,20 +197,20 @@ const GridFormView = (
 
   const className = cx(
     props.className,
-    customPageClasses[`${BOX_TYPE}-BOX`],
+    customPgClasses[`${BOX_TYPE}-BOX`],
     twVariantsStr,
     customCssStr,
   );
 
   return (
     <GridView
-      boxDeepLevel={props.boxDeepLevel}
-      parentBox={props.parentBox}
+      bxDeepLevel={props.bxDeepLevel}
+      parentBx={props.parentBx}
       className={className}
       inlineStyles={styles}
       //
       // slidesPerViewType={slidesPerViewType}
-      gridsBoxes={props.gridsBoxes}
+      gridsBxs={props.gridsBxs}
       path={props.path}
       pageStore={props.pageStore}
       // isDisplayingSlidesOut
@@ -221,26 +221,26 @@ const GridFormView = (
 
 const GridEditOverlay = (
   props: Props & {
-    gridsBoxes: BoxTypeGrid["grid"]["gridsBoxes"];
+    gridsBxs: BxTypeGrid["grid"]["gridsBxs"];
   },
 ) => {
-  const box = useStore(
+  const bx = useStore(
     props.pageStore,
-    (state) => getValueByPathArray<BoxTypeGrid>(state.page, props.path), // .slice(0, -1)
+    (state) => getValueByPathArray<BxTypeGrid>(state.page, props.path), // .slice(0, -1)
   );
   // const gridFormStore: GridFormStore = useCreateFormStore({
   // 	initValues: {
-  // 		// slidesPerViewType: box.grid.slidesPerViewType,
+  // 		// slidesPerViewType: bx.grid.slidesPerViewType,
   // 	},
   // 	validationSchema: createOneGridSchema,
   // 	validationEvents: { change: true },
   // });
   const twVariantsFormStore = useCreateTwVariantsFormStore(
-    props.box.css.twVariants,
+    props.bx.css.twVariants,
   );
   const customCssFormStore: CustomCssFormStore = useCreateFormStore({
     initValues: {
-      customClasses: props.box.css.customClasses ?? [],
+      customClasses: props.bx.css.customClasses ?? [],
     },
     validationSchema: CreateOneCustomCssSchema,
   });
@@ -248,18 +248,18 @@ const GridEditOverlay = (
   const inlineStylesFormStore = useInlineStylesFormStore({
     gridTemplateColumns: "",
     gridTemplateRows: "",
-    ...((props.box.css.inlineStyles as Record<string, string>) || {}),
+    ...((props.bx.css.inlineStyles as Record<string, string>) || {}),
   });
 
   return (
     <BoxEditOverlay
       {...props}
-      ShowcaseBoxChildren={
+      ShowcaseBxChildren={
         <GridFormView
-          boxDeepLevel={props.boxDeepLevel}
-          parentBox={props.parentBox}
+          bxDeepLevel={props.bxDeepLevel}
+          parentBx={props.parentBx}
           className={props.className}
-          inlineStyles={props.box.css.inlineStyles}
+          inlineStyles={props.bx.css.inlineStyles}
           //
           // gridFormStore={gridFormStore}
           twVariantsFormStore={twVariantsFormStore}
@@ -268,7 +268,7 @@ const GridEditOverlay = (
           //
           path={props.path}
           pageStore={props.pageStore}
-          gridsBoxes={props.gridsBoxes}
+          gridsBxs={props.gridsBxs}
         />
       }
       EditSideMenuChildren={
@@ -278,13 +278,13 @@ const GridEditOverlay = (
               contentChildren: (
                 <TwVariantsForm
                   store={twVariantsFormStore}
-                  cssId={box.css.id}
+                  cssId={bx.css.id}
                   onSuccess={(params) => {
-                    props.pageStore.getState().utils.setPage((page) => {
+                    props.pageStore.getState().utils.setPg((page) => {
                       return newUpdatedByPathArray<
                         // eslint-disable-next-line @typescript-eslint/ban-types
                         Exclude<typeof page, Function>
-                      >([...props.path, "css"], page, (prev: BoxTypeGrid) => {
+                      >([...props.path, "css"], page, (prev: BxTypeGrid) => {
                         return {
                           ...prev,
                           twVariants: params.values.twVariants,
@@ -306,13 +306,13 @@ const GridEditOverlay = (
               contentChildren: (
                 <CustomCssForm
                   store={customCssFormStore}
-                  cssId={box.css.id}
+                  cssId={bx.css.id}
                   onSuccess={(params) => {
-                    props.pageStore.getState().utils.setPage((page) => {
+                    props.pageStore.getState().utils.setPg((page) => {
                       return newUpdatedByPathArray<
                         // eslint-disable-next-line @typescript-eslint/ban-types
                         Exclude<typeof page, Function>
-                      >([...props.path, "css"], page, (prev: BoxTypeGrid) => {
+                      >([...props.path, "css"], page, (prev: BxTypeGrid) => {
                         return {
                           ...prev,
                           customClasses: params.validatedValues.customClasses,
@@ -332,14 +332,14 @@ const GridEditOverlay = (
               contentChildren: (
                 <InlineStylesForm
                   store={inlineStylesFormStore}
-                  cssId={box.css.id}
+                  cssId={bx.css.id}
                   // eslint-disable-next-line @typescript-eslint/no-unused-vars
                   onSuccess={(params) => {
-                    props.pageStore.getState().utils.setPage((page) => {
+                    props.pageStore.getState().utils.setPg((page) => {
                       return newUpdatedByPathArray<
                         // eslint-disable-next-line @typescript-eslint/ban-types
                         Exclude<typeof page, Function>
-                      >([...props.path, "grid"], page, (prev: BoxTypeGrid) => ({
+                      >([...props.path, "grid"], page, (prev: BxTypeGrid) => ({
                         ...prev,
                         // slidesPerViewType:
                         // 	params.validatedValues.slidesPerViewType,
@@ -350,7 +350,7 @@ const GridEditOverlay = (
               ),
               titleElem: (
                 <h3 className="text-h6 font-bold capitalize">
-                  grid inline styles box form
+                  grid inline styles bx form
                 </h3>
               ),
               ___key: "grid",
@@ -363,35 +363,33 @@ const GridEditOverlay = (
 };
 
 export const GridEditable = (props: Props) => {
-  const box = useStore(props.pageStore, (state) =>
-    getValueByPathArray<BoxTypeGrid>(state.page, props.path),
+  const bx = useStore(props.pageStore, (state) =>
+    getValueByPathArray<BxTypeGrid>(state.page, props.path),
   );
 
   const gridViewProps = {
-    boxDeepLevel: props.boxDeepLevel,
-    parentBox: props.parentBox,
+    bxDeepLevel: props.bxDeepLevel,
+    parentBx: props.parentBx,
     className: cx(
-      customPageClasses[`${BOX_TYPE}-BOX`],
+      customPgClasses[`${BOX_TYPE}-BOX`],
       props.className,
-      handleBoxVariants(box.css.twVariants as BoxVariants),
-      ...(box.css.customClasses
-        ? box.css.customClasses?.map((key) => customPageClasses[key])
+      handleBxVariants(bx.css.twVariants as BxVariants),
+      ...(bx.css.customClasses
+        ? bx.css.customClasses?.map((key) => customPgClasses[key])
         : []),
     ),
-    inlineStyles: box.css.inlineStyles,
+    inlineStyles: bx.css.inlineStyles,
     //
-    // slidesPerViewType: box.grid.slidesPerViewType,
+    // slidesPerViewType: bx.grid.slidesPerViewType,
     path: props.path,
     pageStore: props.pageStore,
-    gridsBoxes: box.grid.gridsBoxes,
+    gridsBxs: bx.grid.gridsBxs,
   };
 
   return (
     <GridView
       {...gridViewProps}
-      childrenAfter={
-        <GridEditOverlay {...props} gridsBoxes={box.grid.gridsBoxes} />
-      }
+      childrenAfter={<GridEditOverlay {...props} gridsBxs={bx.grid.gridsBxs} />}
     />
   );
 };

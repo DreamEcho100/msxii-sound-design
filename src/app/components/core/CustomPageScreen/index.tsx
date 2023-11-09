@@ -9,19 +9,19 @@ import { type RouterOutputs } from "~/server/api/root";
 import { Fragment, Suspense } from "react";
 
 type Props = {
-  customPageStructureData: RouterOutputs["customPages"]["getOne"];
-  pageCategoryItemsData?: RouterOutputs["customPages"]["pagesCategories"]["getManyItems"];
+  customPgStructureData: RouterOutputs["customPgs"]["getOne"];
+  pageCategoryItemsData?: RouterOutputs["customPgs"]["pagesCategories"]["getManyItems"];
   pageParams: {
-    pageCategoryName: string;
+    pgCategoryName: string;
     slug?: string | null;
   };
-}; // & GetCustomPageDataProps;
+}; // & GetCustomPgDataProps;
 
-const PageCategoryItems = (props: {
-  data: RouterOutputs["customPages"]["pagesCategories"]["getManyItems"];
-  addPageToPageCategoryType?: "product";
+const PgCategoryItems = (props: {
+  data: RouterOutputs["customPgs"]["pagesCategories"]["getManyItems"];
+  addPgToPgCategoryType?: "product";
 }) => {
-  if (props.data.items.length === 0 && !props.addPageToPageCategoryType)
+  if (props.data.items.length === 0 && !props.addPgToPgCategoryType)
     return <></>;
 
   return (
@@ -34,7 +34,7 @@ const PageCategoryItems = (props: {
           : "grid-cols-[repeat(auto-fit,_minmax(12rem,_1fr))]",
       )}
     >
-      {props.addPageToPageCategoryType && (
+      {props.addPgToPgCategoryType && (
         <Suspense>
           <CreateProductPageButton
             dataLength={props.data.items.length}
@@ -50,8 +50,8 @@ const PageCategoryItems = (props: {
             <Clickable
               href={
                 item.slug
-                  ? `/${item.pageCategoryName}/${item.slug}`
-                  : `/${item.pageCategoryName}`
+                  ? `/${item.pgCategoryName}/${item.slug}`
+                  : `/${item.pgCategoryName}`
               }
               isA="next-js"
               className="aspect-square w-full overflow-hidden rounded-lg"
@@ -59,12 +59,12 @@ const PageCategoryItems = (props: {
               <CustomNextImage
                 priority
                 src={
-                  item?.image?.src ??
-                  `https://api.dicebear.com/6.x/shapes/svg?seed=${item.pageCategoryName}/${item.slug}`
+                  item?.img?.src ??
+                  `https://api.dicebear.com/6.x/shapes/svg?seed=${item.pgCategoryName}/${item.slug}`
                 }
-                alt={item?.image?.altText ?? undefined}
-                width={item?.image?.width ?? 500}
-                height={item?.image?.height ?? 500}
+                alt={item?.img?.altText ?? undefined}
+                width={item?.img?.width ?? 500}
+                height={item?.img?.height ?? 500}
                 className="h-full w-full object-cover"
               />
             </Clickable>
@@ -72,7 +72,7 @@ const PageCategoryItems = (props: {
               <p>
                 <Clickable
                   isA="next-js"
-                  href={`/${item.pageCategoryName}/${item.slug}`}
+                  href={`/${item.pgCategoryName}/${item.slug}`}
                   target="_blank"
                   className="capitalize"
                 >
@@ -89,12 +89,12 @@ const PageCategoryItems = (props: {
 
 const CustomPageScreen = (props: Props): React.JSX.Element => {
   return (
-    <CustomPageBuilder page={props.customPageStructureData}>
+    <CustomPageBuilder pg={props.customPgStructureData}>
       <Suspense>
-        {props.pageParams.pageCategoryName === "merch" &&
+        {props.pageParams.pgCategoryName === "merch" &&
         !props.pageParams.slug ? (
           <Merch />
-        ) : props.pageParams.pageCategoryName === "blue-label" &&
+        ) : props.pageParams.pgCategoryName === "blue-label" &&
           !props.pageParams.slug ? (
           <BlueLabel />
         ) : (
@@ -102,11 +102,11 @@ const CustomPageScreen = (props: Props): React.JSX.Element => {
         )}
       </Suspense>
       {!props.pageParams.slug && props.pageCategoryItemsData && (
-        <PageCategoryItems
+        <PgCategoryItems
           data={props.pageCategoryItemsData}
-          addPageToPageCategoryType={
+          addPgToPgCategoryType={
             !!(
-              props.pageParams.pageCategoryName === "products" &&
+              props.pageParams.pgCategoryName === "products" &&
               !props.pageParams.slug
             )
               ? "product"

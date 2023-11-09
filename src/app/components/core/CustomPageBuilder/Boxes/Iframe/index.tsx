@@ -1,8 +1,8 @@
 "use client";
 import { type ReactNode } from "react";
 import BoxEditOverlay from "../../BoxEditOverlay";
-import { type BoxTypeIframe, type PageStoreApi } from "../../types";
-import { BoxTypes, IframeBoxTypes } from "@prisma/client";
+import { type BxTypeIframe, type PgStoreApi } from "../../types";
+import { BxTypes, IframeBxTypes } from "@prisma/client";
 import { useStore } from "zustand";
 import { cx } from "class-variance-authority";
 import {
@@ -12,7 +12,7 @@ import {
 } from "@de100/form-echo";
 import { toast } from "react-toastify";
 
-import customPageClasses from "~/app/styles/_custom-page.module.css";
+import customPgClasses from "~/app/styles/_custom-page.module.css";
 import {
   type CustomCssFormStore,
   CustomCssForm,
@@ -33,40 +33,40 @@ import {
   SoundCloudIframe,
 } from "~/app/components/common/Iframes";
 import { getValueByPathArray, newUpdatedByPathArray } from "~/libs/obj/update";
-import { handleBoxVariants, type BoxVariants } from "~/libs/utils/appData";
-import { createOneIframeBoxSchema } from "~/libs/utils/validations-schemas/dashboard/boxes/types/iframes";
+import { handleBxVariants, type BxVariants } from "~/libs/utils/appData";
+import { createOneIframeBxSchema } from "~/libs/utils/validations-schemas/dashboard/boxes/types/iframes";
 import { CreateOneCustomCssSchema } from "~/libs/utils/validations-schemas/dashboard/css/customClasses";
 
-type IframeBox = {
+type IframeBx = {
   src: string;
   title: string | null;
-  type: IframeBoxTypes;
+  type: IframeBxTypes;
 };
-type IframeFormStore = FormStoreApi<IframeBox, typeof createOneIframeBoxSchema>;
+type IframeFormStore = FormStoreApi<IframeBx, typeof createOneIframeBxSchema>;
 type SharedProps = {
-  boxDeepLevel: number;
-  parentBox?: BoxTypes;
+  bxDeepLevel: number;
+  parentBx?: BxTypes;
   className?: string;
 };
 type Props = {
-  box: BoxTypeIframe;
+  bx: BxTypeIframe;
   path: (string | number)[];
-  pageStore: PageStoreApi;
+  pageStore: PgStoreApi;
 } & SharedProps;
 
-const BOX_TYPE = BoxTypes.IFRAME;
+const BOX_TYPE = BxTypes.IFRAME;
 
-const IframeBoxForm = (props: {
+const IframeBxForm = (props: {
   store: IframeFormStore;
   id: string;
   onSuccess: (params: {
     validatedValues: GetPassedValidationFieldsValues<
-      typeof createOneIframeBoxSchema
+      typeof createOneIframeBxSchema
     >;
   }) => void;
 }) => {
   const updateOneRequest =
-    trpcApi.dashboard.boxes.types.iframes.updateOne.useMutation({
+    trpcApi.dashboard.bxes.types.iframes.updateOne.useMutation({
       onError(error) {
         toast(error.message, { type: "error" });
       },
@@ -90,11 +90,11 @@ const IframeBoxForm = (props: {
       store={props.store}
     >
       <ContainedDropdownField
-        isA="combobox"
+        isA="combobx"
         data={
           Object.values(
-            IframeBoxTypes,
-          ) as unknown as (keyof typeof IframeBoxTypes)[]
+            IframeBxTypes,
+          ) as unknown as (keyof typeof IframeBxTypes)[]
         }
         store={props.store}
         name="type"
@@ -124,13 +124,13 @@ const IframeBoxForm = (props: {
   );
 };
 
-const IframeBoxView = (
+const IframeBxView = (
   props: {
     childrenAfter?: ReactNode;
   } & SharedProps &
-    IframeBox,
+    IframeBx,
 ) => {
-  if (props.type === IframeBoxTypes.YOUTUBE)
+  if (props.type === IframeBxTypes.YOUTUBE)
     return (
       <YouTubeIFrame
         containerProps={{
@@ -141,17 +141,17 @@ const IframeBoxView = (
         }}
         childrenAfter={props.childrenAfter}
         youTubeIconVariants={{
-          fontSize: props.parentBox === BoxTypes.SLIDER ? "small" : "medium",
+          fontSize: props.parentBx === BxTypes.SLIDER ? "small" : "medium",
         }}
-        width={props.parentBox === BoxTypes.SLIDER ? "200" : "550"}
-        height={props.parentBox === BoxTypes.SLIDER ? "200" : "550"}
+        width={props.parentBx === BxTypes.SLIDER ? "200" : "550"}
+        height={props.parentBx === BxTypes.SLIDER ? "200" : "550"}
         src={props.src}
         title={props.title ?? "YouTube video player"}
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
       />
     );
 
-  if (props.type === IframeBoxTypes.INSTAGRAM)
+  if (props.type === IframeBxTypes.INSTAGRAM)
     return (
       <InstagramIframe
         className={props.className}
@@ -161,7 +161,7 @@ const IframeBoxView = (
       />
     );
 
-  if (props.type === IframeBoxTypes.SOUND_CLOUD)
+  if (props.type === IframeBxTypes.SOUND_CLOUD)
     return (
       <SoundCloudIframe
         className={props.className}
@@ -174,7 +174,7 @@ const IframeBoxView = (
   return <></>;
 };
 
-const IframeBoxFormView = (
+const IframeBxFormView = (
   props: {
     iframeFormStore: IframeFormStore;
     twVariantsFormStore: TwVariantsFormStore;
@@ -202,28 +202,28 @@ const IframeBoxFormView = (
   // 	(store) => store.fields.height.value,
   // );
   const twVariantsStr = useStore(props.twVariantsFormStore, (store) =>
-    handleBoxVariants(store.fields.twVariants.value),
+    handleBxVariants(store.fields.twVariants.value),
   );
 
   const customCssStr = useStore(
     props.customCssFormStore,
     (store) =>
       store.fields.customClasses.value
-        ?.map((key) => customPageClasses[key])
+        ?.map((key) => customPgClasses[key])
         .join(" ") ?? undefined,
   );
 
   const className = cx(
     props.className,
-    customPageClasses[`${BOX_TYPE}-BOX`],
+    customPgClasses[`${BOX_TYPE}-BOX`],
     twVariantsStr,
     customCssStr,
   );
 
   return (
-    <IframeBoxView
-      boxDeepLevel={props.boxDeepLevel}
-      parentBox={props.parentBox}
+    <IframeBxView
+      bxDeepLevel={props.bxDeepLevel}
+      parentBx={props.parentBx}
       className={className}
       //
       src={src}
@@ -236,19 +236,19 @@ const IframeBoxFormView = (
 };
 
 const IframeBoxEditOverlay = (props: Props) => {
-  const box = useStore(
+  const bx = useStore(
     props.pageStore,
-    (state) => getValueByPathArray<BoxTypeIframe>(state.page, props.path), // .slice(0, -1)
+    (state) => getValueByPathArray<BxTypeIframe>(state.page, props.path), // .slice(0, -1)
   );
   const iframeFormStore: IframeFormStore = useCreateFormStore({
     initValues: {
-      src: box.iframeBox.src,
-      title: box.iframeBox.title,
-      type: box.iframeBox.type,
-      // width: box.iframeBox.width,
-      // height: box.iframeBox.height,
+      src: bx.iframeBx.src,
+      title: bx.iframeBx.title,
+      type: bx.iframeBx.type,
+      // width: bx.iframeBx.width,
+      // height: bx.iframeBx.height,
     },
-    validationSchema: createOneIframeBoxSchema,
+    validationSchema: createOneIframeBxSchema,
     validationEvents: { change: true },
     valuesFromFieldsToStore: {
       title: (val) => (val ? val : null),
@@ -262,11 +262,11 @@ const IframeBoxEditOverlay = (props: Props) => {
     },
   });
   const twVariantsFormStore = useCreateTwVariantsFormStore(
-    props.box.css.twVariants,
+    props.bx.css.twVariants,
   );
   const customCssFormStore: CustomCssFormStore = useCreateFormStore({
     initValues: {
-      customClasses: props.box.css.customClasses ?? [],
+      customClasses: props.bx.css.customClasses ?? [],
     },
     validationSchema: CreateOneCustomCssSchema,
   });
@@ -274,10 +274,10 @@ const IframeBoxEditOverlay = (props: Props) => {
   return (
     <BoxEditOverlay
       {...props}
-      ShowcaseBoxChildren={
-        <IframeBoxFormView
-          boxDeepLevel={props.boxDeepLevel}
-          parentBox={props.parentBox}
+      ShowcaseBxChildren={
+        <IframeBxFormView
+          bxDeepLevel={props.bxDeepLevel}
+          parentBx={props.parentBx}
           className={props.className}
           //
           iframeFormStore={iframeFormStore}
@@ -292,13 +292,13 @@ const IframeBoxEditOverlay = (props: Props) => {
               contentChildren: (
                 <TwVariantsForm
                   store={twVariantsFormStore}
-                  cssId={box.css.id}
+                  cssId={bx.css.id}
                   onSuccess={(params) => {
-                    props.pageStore.getState().utils.setPage((page) => {
+                    props.pageStore.getState().utils.setPg((page) => {
                       return newUpdatedByPathArray<
                         // eslint-disable-next-line @typescript-eslint/ban-types
                         Exclude<typeof page, Function>
-                      >([...props.path, "css"], page, (prev: BoxTypeIframe) => {
+                      >([...props.path, "css"], page, (prev: BxTypeIframe) => {
                         return {
                           ...prev,
                           twVariants: params.values.twVariants,
@@ -320,13 +320,13 @@ const IframeBoxEditOverlay = (props: Props) => {
               contentChildren: (
                 <CustomCssForm
                   store={customCssFormStore}
-                  cssId={box.css.id}
+                  cssId={bx.css.id}
                   onSuccess={(params) => {
-                    props.pageStore.getState().utils.setPage((page) => {
+                    props.pageStore.getState().utils.setPg((page) => {
                       return newUpdatedByPathArray<
                         // eslint-disable-next-line @typescript-eslint/ban-types
                         Exclude<typeof page, Function>
-                      >([...props.path, "css"], page, (prev: BoxTypeIframe) => {
+                      >([...props.path, "css"], page, (prev: BxTypeIframe) => {
                         return {
                           ...prev,
                           customClasses: params.validatedValues.customClasses,
@@ -344,18 +344,18 @@ const IframeBoxEditOverlay = (props: Props) => {
             {
               defaultOpen: true,
               contentChildren: (
-                <IframeBoxForm
+                <IframeBxForm
                   store={iframeFormStore}
-                  id={box.iframeBox.id}
+                  id={bx.iframeBx.id}
                   onSuccess={(params) => {
-                    props.pageStore.getState().utils.setPage((page) => {
+                    props.pageStore.getState().utils.setPg((page) => {
                       return newUpdatedByPathArray<
                         // eslint-disable-next-line @typescript-eslint/ban-types
                         Exclude<typeof page, Function>
                       >(
-                        [...props.path, "iframeBox"],
+                        [...props.path, "iframeBx"],
                         page,
-                        (prev: BoxTypeIframe) => ({
+                        (prev: BxTypeIframe) => ({
                           ...prev,
                           src: params.validatedValues.src,
                           title: params.validatedValues.title,
@@ -369,11 +369,9 @@ const IframeBoxEditOverlay = (props: Props) => {
                 />
               ),
               titleElem: (
-                <h3 className="text-h6 font-bold capitalize">
-                  iframe box form
-                </h3>
+                <h3 className="text-h6 font-bold capitalize">iframe bx form</h3>
               ),
-              ___key: "iframeBox",
+              ___key: "iframeBx",
             },
           ]}
         />
@@ -382,33 +380,33 @@ const IframeBoxEditOverlay = (props: Props) => {
   );
 };
 
-export const IframeBoxEditable = (props: Props) => {
-  const box = useStore(props.pageStore, (state) =>
-    getValueByPathArray<BoxTypeIframe>(state.page, props.path),
+export const IframeBxEditable = (props: Props) => {
+  const bx = useStore(props.pageStore, (state) =>
+    getValueByPathArray<BxTypeIframe>(state.page, props.path),
   );
 
-  const iframeBoxViewProps = {
-    boxDeepLevel: props.boxDeepLevel,
-    parentBox: props.parentBox,
+  const iframeBxViewProps = {
+    bxDeepLevel: props.bxDeepLevel,
+    parentBx: props.parentBx,
     className: cx(
-      customPageClasses[`${BOX_TYPE}-BOX`],
+      customPgClasses[`${BOX_TYPE}-BOX`],
       props.className,
-      handleBoxVariants(box.css.twVariants as BoxVariants),
-      ...(box.css.customClasses
-        ? box.css.customClasses?.map((key) => customPageClasses[key])
+      handleBxVariants(bx.css.twVariants as BxVariants),
+      ...(bx.css.customClasses
+        ? bx.css.customClasses?.map((key) => customPgClasses[key])
         : []),
     ),
     //
-    type: box.iframeBox.type,
-    src: box.iframeBox.src,
-    title: box.iframeBox.title,
-    // width: box.iframeBox.width,
-    // height: box.iframeBox.height,
+    type: bx.iframeBx.type,
+    src: bx.iframeBx.src,
+    title: bx.iframeBx.title,
+    // width: bx.iframeBx.width,
+    // height: bx.iframeBx.height,
   };
 
   return (
-    <IframeBoxView
-      {...iframeBoxViewProps}
+    <IframeBxView
+      {...iframeBxViewProps}
       childrenAfter={<IframeBoxEditOverlay {...props} />}
     />
   );

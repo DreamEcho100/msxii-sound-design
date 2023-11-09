@@ -70,13 +70,13 @@ type Props = {
   variants?: VariantProps<typeof handleClickableVariants> | null;
   className?: string;
   disabled?: boolean;
-  noDashboardCustomPages?: boolean;
+  noDashboardCustomPgs?: boolean;
 } & ClickableProps;
 
 const Clickable = ({
   variants = {},
   className,
-  noDashboardCustomPages,
+  noDashboardCustomPgs,
   ...props
 }: Props) => {
   const pathname = usePathname();
@@ -156,7 +156,7 @@ const Clickable = ({
   if (isInDashboard && props.href && props.isA === "next-js")
     props.href =
       typeof props.href === "string"
-        ? noDashboardCustomPages
+        ? noDashboardCustomPgs
           ? props.href
           : `/dashboard/custom-pages${props.href}`
         : props.href;

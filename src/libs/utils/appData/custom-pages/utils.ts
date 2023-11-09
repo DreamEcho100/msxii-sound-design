@@ -1,24 +1,24 @@
 import { type VariantProps, cva } from "class-variance-authority";
 import {
   SECTIONS_TYPES_map,
-  type StandardSection,
+  type StandardSect,
 } from "~/libs/utils/types/custom-page";
 // import {
 // 	SECTIONS_TYPES_map,
-// 	type StandardSection,
+// 	type StandardSect,
 // } from '~/utils/types/custom-page';
 
-export const createStandardSection = (
+export const createStandardSect = (
   params: Pick<
-    StandardSection,
+    StandardSect,
     | "order"
     | "body"
     | "title"
     | "description"
-    | "customPageClassesKeys"
+    | "customPgClassesKeys"
     | "twClassNameVariants"
   >,
-): StandardSection => ({
+): StandardSect => ({
   ___type: SECTIONS_TYPES_map["standard-section"],
   twClassNameVariants: { "gap-x": "2", "gap-y": "2" },
   ...params,
@@ -37,7 +37,7 @@ export enum ProductsTags {
   FreeLabel = "Free Label",
 }
 
-export const boxVariants = {
+export const bxVariants = {
   "max-w": {
     "100ch": "max-w-[100ch]",
     "125ch": "max-w-[125ch]",
@@ -287,8 +287,8 @@ export const boxVariants = {
   },
 } as const;
 
-export const handleBoxVariants = cva("", {
-  variants: boxVariants,
+export const handleBxVariants = cva("", {
+  variants: bxVariants,
 });
 
-export type BoxVariants = VariantProps<typeof handleBoxVariants>;
+export type BxVariants = VariantProps<typeof handleBxVariants>;

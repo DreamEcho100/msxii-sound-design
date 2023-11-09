@@ -12,7 +12,7 @@ import { type CreateOneCustomCssSchema } from "~/libs/utils/validations-schemas/
 // import { type CreateOneCustomCssSchema } from '~/server/utils/validations-schemas/dashboard/css/customClasses';
 // import { api } from '~/utils/api';
 
-import customPageClasses from "~/app/styles/_custom-page.module.css";
+import customPgClasses from "~/app/styles/_custom-page.module.css";
 
 export type CustomCssFormStore = FormStoreApi<
   { customClasses: string[] },
@@ -35,21 +35,20 @@ export const customClassesConfig = (() => {
     beatifiedKeyToOriginalKeyMap: {},
     beatifiedKeys: [],
   };
-  for (const key in customPageClasses) {
+  for (const key in customPgClasses) {
     if (!key.endsWith("BOX")) {
       customClassesConfig.originalKeys.push(key);
-      customClassesConfig.items[key] = customPageClasses[key]!;
+      customClassesConfig.items[key] = customPgClasses[key]!;
 
-      const beatifiedKey = customPageClasses[key]!.replace(
+      const beatifiedKey = customPgClasses[key]!.replace(
         /^_custom-page_|__\w+$/g,
         "",
       ).replace(/[-_]{1,}/g, " ");
       customClassesConfig.beatifiedKeys.push(beatifiedKey);
       customClassesConfig.beatifiedKeyToOriginalKeyMap[beatifiedKey] =
-        customPageClasses[key]!;
-      customClassesConfig.originalKeyToBeatifiedKeyMap[
-        customPageClasses[key]!
-      ] = beatifiedKey;
+        customPgClasses[key]!;
+      customClassesConfig.originalKeyToBeatifiedKeyMap[customPgClasses[key]!] =
+        beatifiedKey;
     }
   }
 
@@ -102,7 +101,7 @@ export const CustomCssForm = (props: {
       <fieldset className="flex min-w-[unset] flex-col gap-2">
         <div className="flex flex-wrap gap-2">
           {customClasses?.map((item) =>
-            !customPageClasses[item] ? (
+            !customPgClasses[item] ? (
               <Fragment key={item} />
             ) : (
               <button
@@ -112,7 +111,7 @@ export const CustomCssForm = (props: {
               >
                 {
                   customClassesConfig.originalKeyToBeatifiedKeyMap[
-                    customPageClasses[item]!
+                    customPgClasses[item]!
                   ]
                 }
               </button>
@@ -136,7 +135,7 @@ export const CustomCssForm = (props: {
           getDisplayValue={(value) => value[1]}
           getOptionKey={(value) => value[1]}
         />
-        {/* {boxVariantsData.variantsKeys.map((variantKey) => (
+        {/* {bxVariantsData.variantsKeys.map((variantKey) => (
 					<div
 						key={variantKey}
 						className="flex flex-col justify-between gap-1 py-2 px-4 border border-neutral-400 rounded-md"
@@ -160,7 +159,7 @@ export const CustomCssForm = (props: {
 							</button>
 						</div>
 						<CustomCombobox
-							data={boxVariantsData.variantsToItemsKeys[variantKey]!}
+							data={bxVariantsData.variantsToItemsKeys[variantKey]!}
 							value={customClasses[variantKey]}
 							setSelected={(value) => {
 								props.store

@@ -1,8 +1,8 @@
 "use client";
 import { useState, type ReactNode, useEffect } from "react";
 import BoxEditOverlay from "../../BoxEditOverlay";
-import { type Box, type BoxTypeSlider, type PageStoreApi } from "../../types";
-import { BoxTypes, SlidesPerViewType } from "@prisma/client";
+import { type Bx, type BxTypeSlider, type PgStoreApi } from "../../types";
+import { BxTypes, SlidesPerViewType } from "@prisma/client";
 import { useStore } from "zustand";
 import { cx } from "class-variance-authority";
 import {
@@ -12,7 +12,7 @@ import {
 } from "@de100/form-echo";
 import { toast } from "react-toastify";
 
-import customPageClasses from "~/app/styles/_custom-page.module.css";
+import customPgClasses from "~/app/styles/_custom-page.module.css";
 import {
   type CustomCssFormStore,
   CustomCssForm,
@@ -26,7 +26,7 @@ import { trpcApi } from "~/app/libs/trpc/client";
 import { createOneSliderSchema } from "~/libs/utils/validations-schemas/dashboard/boxes/types/sliders";
 import Form from "~/app/components/common/@de100/form-echo/Forms";
 import ContainedDropdownField from "~/app/components/common/@de100/form-echo/Fields/Contained/Dropdown";
-import { type BoxVariants, handleBoxVariants } from "~/libs/utils/appData";
+import { type BxVariants, handleBxVariants } from "~/libs/utils/appData";
 import { getValueByPathArray, newUpdatedByPathArray } from "~/libs/obj/update";
 import { CreateOneCustomCssSchema } from "~/libs/utils/validations-schemas/dashboard/css/customClasses";
 import Accordion from "~/app/components/common/Accordion";
@@ -38,21 +38,21 @@ type Slider = {
 };
 type SliderFormStore = FormStoreApi<Slider, typeof createOneSliderSchema>;
 type SharedProps = {
-  boxDeepLevel: number;
-  parentBox?: BoxTypes;
+  bxDeepLevel: number;
+  parentBx?: BxTypes;
   className?: string;
 
-  // slidersBoxes: BoxTypeSlider['slider']['slidersBoxes']
+  // slidesBxs: BxTypeSlider['slider']['slidesBxs']
   // path: (string | number)[];
-  // pageStore: PageStoreApi;
+  // pageStore: PgStoreApi;
 };
 type Props = SharedProps & {
-  box: BoxTypeSlider;
+  bx: BxTypeSlider;
   path: (string | number)[];
-  pageStore: PageStoreApi;
+  pageStore: PgStoreApi;
 };
 
-const BOX_TYPE = BoxTypes.SLIDER;
+const BOX_TYPE = BxTypes.SLIDER;
 
 const slidesPerViewTypeDropdownData = Object.values<
   (typeof SlidesPerViewType)[keyof typeof SlidesPerViewType]
@@ -77,7 +77,7 @@ const SliderForm = (props: {
   }) => void;
 }) => {
   const updateOneRequest =
-    trpcApi.dashboard.boxes.types.sliders.updateOne.useMutation({
+    trpcApi.dashboard.bxes.types.sliders.updateOne.useMutation({
       onError(error) {
         toast(error.message, { type: "error" });
       },
@@ -105,7 +105,7 @@ const SliderForm = (props: {
         store={props.store}
         name="slidesPerViewType"
         labelProps={{ children: "slides per view type" }}
-        isA="combobox"
+        isA="combobx"
         data={slidesPerViewTypeDropdownData}
         getOptionChildren={(value) =>
           (typeof value === "string" ? value : value.value).toLowerCase()
@@ -151,18 +151,18 @@ const SliderForm = (props: {
 };
 
 const SlideComp = (props: {
-  item: BoxTypeSlider["slider"]["slidersBoxes"][number];
-  parentBox: "SLIDER";
-  boxDeepLevel: number;
+  item: BxTypeSlider["slider"]["slidesBxs"][number];
+  parentBx: "SLIDER";
+  bxDeepLevel: number;
   path: (number | string)[];
-  pageStore: PageStoreApi;
+  pageStore: PgStoreApi;
 }) => {
   const { item, ..._props } = props;
 
   return (
     <>
-      {/* <SwiperSlide key={boxToSlider.boxId} className="flex flex-col"> */}
-      <SectionBoxContainer box={item.box as Box} {..._props} />
+      {/* <SwiperSlide key={slideBx.bxId} className="flex flex-col"> */}
+      <SectionBoxContainer bx={item.bx as Bx} {..._props} />
       {/* </SwiperSlide> */}
     </>
   );
@@ -171,15 +171,15 @@ const SlideComp = (props: {
 const SliderView = (
   props: {
     childrenAfter?: ReactNode;
-    slidersBoxes: BoxTypeSlider["slider"]["slidersBoxes"];
+    slidesBxs: BxTypeSlider["slider"]["slidesBxs"];
     path: (string | number)[];
-    pageStore: PageStoreApi;
+    pageStore: PgStoreApi;
     isDisplayingSlidesOut?: boolean;
     forceRerender?: boolean;
   } & SharedProps &
     Slider,
 ) => {
-  const newBoxDeepLevel = props.boxDeepLevel + 1;
+  const newBxDeepLevel = props.bxDeepLevel + 1;
   const [watchedStateForRerender, setWatchedStateForRerender] = useState({
     slidesPerViewType: props.slidesPerViewType,
   });
@@ -208,7 +208,7 @@ const SliderView = (
       <div className={props.className}>
         {!forceRerender && (
           <SliderComp
-            className={cx(customPageClasses.swiper, "swiper-fluid")}
+            className={cx(customPgClasses.swiper, "swiper-fluid")}
             breakpoints={
               props.slidesPerViewType === SlidesPerViewType.LARGE_SLIDES
                 ? {
@@ -219,19 +219,19 @@ const SliderView = (
                 : props.slidesPerViewType === SlidesPerViewType.ONE_SLIDE
                 ? { 0: { slidesPerView: 1 } }
                 : {
-									640: { slidesPerView: 2, spaceBetween: 20 },
+                    640: { slidesPerView: 2, spaceBetween: 20 },
                     768: { slidesPerView: 3, spaceBetween: 30 },
                     1024: { slidesPerView: 4, spaceBetween: 30 },
                     1280: { slidesPerView: 5, spaceBetween: 30 },
                   }
             }
-            data={props.slidersBoxes}
+            data={props.slidesBxs}
             getSlideKey={(item) => item.id}
             SlideComp={SlideComp}
             compProps={(_, itemIndex) => ({
-              parentBox: BOX_TYPE,
-              boxDeepLevel: newBoxDeepLevel,
-              path: [...props.path, "slider", "slidersBoxes", itemIndex, "box"],
+              parentBx: BOX_TYPE,
+              bxDeepLevel: newBxDeepLevel,
+              path: [...props.path, "slider", "slidesBxs", itemIndex, "bx"],
               pageStore: props.pageStore,
             })}
             isNavButtonsOutside
@@ -251,18 +251,18 @@ const SliderView = (
                 gridTemplateColumns: "repeat(auto-fill, minmax(15rem, 1fr))",
               }}
             >
-              {props.slidersBoxes.map((boxToSlider, boxToSliderIndex) => (
+              {props.slidesBxs.map((slideBx, slideBxIndex) => (
                 <SectionBoxContainer
-                  key={boxToSlider.boxId}
-                  box={boxToSlider.box as Box}
-                  parentBox={BOX_TYPE}
-                  boxDeepLevel={newBoxDeepLevel}
+                  key={slideBx.bxId}
+                  bx={slideBx.bx as Bx}
+                  parentBx={BOX_TYPE}
+                  bxDeepLevel={newBxDeepLevel}
                   path={[
                     ...props.path,
                     "slider",
-                    "slidersBoxes",
-                    boxToSliderIndex,
-                    "box",
+                    "slidesBxs",
+                    slideBxIndex,
+                    "bx",
                   ]}
                   pageStore={props.pageStore}
                 />
@@ -281,9 +281,9 @@ const SliderFormView = (
     twVariantsFormStore: TwVariantsFormStore;
     customCssFormStore: CustomCssFormStore;
     //
-    slidersBoxes: BoxTypeSlider["slider"]["slidersBoxes"];
+    slidesBxs: BxTypeSlider["slider"]["slidesBxs"];
     path: (string | number)[];
-    pageStore: PageStoreApi;
+    pageStore: PgStoreApi;
   } & SharedProps,
 ) => {
   const slidesPerViewType = useStore(
@@ -291,32 +291,32 @@ const SliderFormView = (
     (store) => store.fields.slidesPerViewType.value,
   );
   const twVariantsStr = useStore(props.twVariantsFormStore, (store) =>
-    handleBoxVariants(store.fields.twVariants.value),
+    handleBxVariants(store.fields.twVariants.value),
   );
 
   const customCssStr = useStore(
     props.customCssFormStore,
     (store) =>
       store.fields.customClasses.value
-        ?.map((key) => customPageClasses[key])
+        ?.map((key) => customPgClasses[key])
         .join(" ") ?? undefined,
   );
 
   const className = cx(
     props.className,
-    customPageClasses[`${BOX_TYPE}-BOX`],
+    customPgClasses[`${BOX_TYPE}-BOX`],
     twVariantsStr,
     customCssStr,
   );
 
   return (
     <SliderView
-      boxDeepLevel={props.boxDeepLevel}
-      parentBox={props.parentBox}
+      bxDeepLevel={props.bxDeepLevel}
+      parentBx={props.parentBx}
       className={className}
       //
       slidesPerViewType={slidesPerViewType}
-      slidersBoxes={props.slidersBoxes}
+      slidesBxs={props.slidesBxs}
       path={props.path}
       pageStore={props.pageStore}
       isDisplayingSlidesOut
@@ -327,26 +327,26 @@ const SliderFormView = (
 
 const SliderEditOverlay = (
   props: Props & {
-    slidersBoxes: BoxTypeSlider["slider"]["slidersBoxes"];
+    slidesBxs: BxTypeSlider["slider"]["slidesBxs"];
   },
 ) => {
-  const box = useStore(
+  const bx = useStore(
     props.pageStore,
-    (state) => getValueByPathArray<BoxTypeSlider>(state.page, props.path), // .slice(0, -1)
+    (state) => getValueByPathArray<BxTypeSlider>(state.page, props.path), // .slice(0, -1)
   );
   const sliderFormStore: SliderFormStore = useCreateFormStore({
     initValues: {
-      slidesPerViewType: box.slider.slidesPerViewType,
+      slidesPerViewType: bx.slider.slidesPerViewType,
     },
     validationSchema: createOneSliderSchema,
     validationEvents: { change: true },
   });
   const twVariantsFormStore = useCreateTwVariantsFormStore(
-    props.box.css.twVariants,
+    props.bx.css.twVariants,
   );
   const customCssFormStore: CustomCssFormStore = useCreateFormStore({
     initValues: {
-      customClasses: props.box.css.customClasses ?? [],
+      customClasses: props.bx.css.customClasses ?? [],
     },
     validationSchema: CreateOneCustomCssSchema,
   });
@@ -354,10 +354,10 @@ const SliderEditOverlay = (
   return (
     <BoxEditOverlay
       {...props}
-      ShowcaseBoxChildren={
+      ShowcaseBxChildren={
         <SliderFormView
-          boxDeepLevel={props.boxDeepLevel}
-          parentBox={props.parentBox}
+          bxDeepLevel={props.bxDeepLevel}
+          parentBx={props.parentBx}
           className={props.className}
           //
           sliderFormStore={sliderFormStore}
@@ -366,7 +366,7 @@ const SliderEditOverlay = (
           //
           path={props.path}
           pageStore={props.pageStore}
-          slidersBoxes={props.slidersBoxes}
+          slidesBxs={props.slidesBxs}
         />
       }
       EditSideMenuChildren={
@@ -376,13 +376,13 @@ const SliderEditOverlay = (
               contentChildren: (
                 <TwVariantsForm
                   store={twVariantsFormStore}
-                  cssId={box.css.id}
+                  cssId={bx.css.id}
                   onSuccess={(params) => {
-                    props.pageStore.getState().utils.setPage((page) => {
+                    props.pageStore.getState().utils.setPg((page) => {
                       return newUpdatedByPathArray<
                         // eslint-disable-next-line @typescript-eslint/ban-types
                         Exclude<typeof page, Function>
-                      >([...props.path, "css"], page, (prev: BoxTypeSlider) => {
+                      >([...props.path, "css"], page, (prev: BxTypeSlider) => {
                         return {
                           ...prev,
                           twVariants: params.values.twVariants,
@@ -404,13 +404,13 @@ const SliderEditOverlay = (
               contentChildren: (
                 <CustomCssForm
                   store={customCssFormStore}
-                  cssId={box.css.id}
+                  cssId={bx.css.id}
                   onSuccess={(params) => {
-                    props.pageStore.getState().utils.setPage((page) => {
+                    props.pageStore.getState().utils.setPg((page) => {
                       return newUpdatedByPathArray<
                         // eslint-disable-next-line @typescript-eslint/ban-types
                         Exclude<typeof page, Function>
-                      >([...props.path, "css"], page, (prev: BoxTypeSlider) => {
+                      >([...props.path, "css"], page, (prev: BxTypeSlider) => {
                         return {
                           ...prev,
                           customClasses: params.validatedValues.customClasses,
@@ -430,16 +430,16 @@ const SliderEditOverlay = (
               contentChildren: (
                 <SliderForm
                   store={sliderFormStore}
-                  id={box.slider.id}
+                  id={bx.slider.id}
                   onSuccess={(params) => {
-                    props.pageStore.getState().utils.setPage((page) => {
+                    props.pageStore.getState().utils.setPg((page) => {
                       return newUpdatedByPathArray<
                         // eslint-disable-next-line @typescript-eslint/ban-types
                         Exclude<typeof page, Function>
                       >(
                         [...props.path, "slider"],
                         page,
-                        (prev: BoxTypeSlider) => ({
+                        (prev: BxTypeSlider) => ({
                           ...prev,
                           slidesPerViewType:
                             params.validatedValues.slidesPerViewType,
@@ -450,9 +450,7 @@ const SliderEditOverlay = (
                 />
               ),
               titleElem: (
-                <h3 className="text-h6 font-bold capitalize">
-                  slider box form
-                </h3>
+                <h3 className="text-h6 font-bold capitalize">slider bx form</h3>
               ),
               ___key: "slider",
             },
@@ -464,33 +462,33 @@ const SliderEditOverlay = (
 };
 
 export const SliderEditable = (props: Props) => {
-  const box = useStore(props.pageStore, (state) =>
-    getValueByPathArray<BoxTypeSlider>(state.page, props.path),
+  const bx = useStore(props.pageStore, (state) =>
+    getValueByPathArray<BxTypeSlider>(state.page, props.path),
   );
 
   const sliderViewProps = {
-    boxDeepLevel: props.boxDeepLevel,
-    parentBox: props.parentBox,
+    bxDeepLevel: props.bxDeepLevel,
+    parentBx: props.parentBx,
     className: cx(
-      customPageClasses[`${BOX_TYPE}-BOX`],
+      customPgClasses[`${BOX_TYPE}-BOX`],
       props.className,
-      handleBoxVariants(box.css.twVariants as BoxVariants),
-      ...(box.css.customClasses
-        ? box.css.customClasses?.map((key) => customPageClasses[key])
+      handleBxVariants(bx.css.twVariants as BxVariants),
+      ...(bx.css.customClasses
+        ? bx.css.customClasses?.map((key) => customPgClasses[key])
         : []),
     ),
     //
-    slidesPerViewType: box.slider.slidesPerViewType,
+    slidesPerViewType: bx.slider.slidesPerViewType,
     path: props.path,
     pageStore: props.pageStore,
-    slidersBoxes: box.slider.slidersBoxes,
+    slidesBxs: bx.slider.slidesBxs,
   };
 
   return (
     <SliderView
       {...sliderViewProps}
       childrenAfter={
-        <SliderEditOverlay {...props} slidersBoxes={box.slider.slidersBoxes} />
+        <SliderEditOverlay {...props} slidesBxs={bx.slider.slidesBxs} />
       }
     />
   );

@@ -4,7 +4,7 @@ import BlogScreen from "./Screen";
 import type { Blog } from "schema-dts";
 import { getBaseUrl } from "~/libs/utils";
 
-const getPageData = async () => {
+const getPgData = async () => {
   const baseInput: RouterInputs["shopify"]["blog"]["articles"]["getManyBasic"] =
     { limit: 24 };
 
@@ -22,8 +22,8 @@ export const metadata = {
 
 const gidBase = "gid://shopify/Article/";
 
-export default async function BlogPage() {
-  const data = await getPageData();
+export default async function BlogPg() {
+  const data = await getPgData();
 
   const jsonSchema: Blog & { "@context": string } = {
     "@context": "https://schema.org",

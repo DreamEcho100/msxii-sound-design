@@ -351,7 +351,7 @@ content: attr(aria-label);
   );
 };
 
-const CustomerProfilePage = () => {
+const CustomerProfilePg = () => {
   const router = useRouter();
   const authSession = useStore(globalStore, (store) => store.authSession);
   const toggleOpenAuthDialog = useStore(
@@ -379,4 +379,4 @@ const CustomerProfilePage = () => {
   return authSession.status;
 };
 
-export default CustomerProfilePage;
+export default CustomerProfilePg;

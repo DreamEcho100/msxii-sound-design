@@ -38,7 +38,7 @@ const heroImages: { path: string }[] = [
   // }
 ];
 
-const HeroHomeSection = () => {
+const HeroHomeSect = () => {
   const isMounted = useIsMounted();
 
   return (
@@ -130,4 +130,4 @@ flex flex-col items-center justify-center gap-8 py-main-p-3 text-center text-[1.
   );
 };
 
-export default HeroHomeSection;
+export default HeroHomeSect;

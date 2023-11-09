@@ -1,65 +1,65 @@
 // import { createId } from '@paralleldrive/cuid2';
 
 // NOTICE: The counter is set manually.
-export const iosAppPagesPageCategory = {
+export const iosAppPgsPgCategory = {
   id: "j9tcino1tb4i6z51tpnjho9g",
   name: "ios-apps" as const,
   counter: 5,
-  hasSubPages: true,
-  isPage: true,
+  hasSubPgs: true,
+  isPg: true,
 };
-export const aboutPageCategory = {
+export const aboutPgCategory = {
   id: "olr0j2np96eoydnmmt77vcxo",
   name: "about" as const,
   counter: 1,
-  hasSubPages: false,
-  isPage: true,
+  hasSubPgs: false,
+  isPg: true,
 };
-export const supportPageCategory = {
+export const supportPgCategory = {
   id: "r1s8ys9l2zxhukai30mnyx89",
   name: "support" as const,
   counter: 1,
-  hasSubPages: false,
-  isPage: true,
+  hasSubPgs: false,
+  isPg: true,
 };
-export const policiesPageCategory = {
+export const policiesPgCategory = {
   id: "lnlog3gquw4s612c9ctypcq6",
   name: "policies" as const,
   counter: 1,
-  hasSubPages: true,
-  isPage: true,
+  hasSubPgs: true,
+  isPg: true,
 };
-export const merchPageCategory = {
+export const merchPgCategory = {
   id: "bkn7jft2ecnpt9ih8o05zpuv",
   name: "merch" as const,
   counter: 1,
-  hasSubPages: false,
-  isPage: true,
+  hasSubPgs: false,
+  isPg: true,
 };
-export const blueLabelPageCategory = {
+export const blueLabelPgCategory = {
   id: "gymm72pshbbv47oezq4lm3sa",
   name: "blue-label" as const,
   counter: 1,
-  hasSubPages: false,
-  isPage: true,
+  hasSubPgs: false,
+  isPg: true,
 };
-// export const productsPageCategory = {
+// export const productsPgCategory = {
 // 	id: 'jxhw3jtc4opuu0eg4y7nb07l',
 // 	name: 'products' as const,
 // 	counter: 1,
-// 	hasSubPages: true,
-// 	isPage: true,
+// 	hasSubPgs: true,
+// 	isPg: true,
 // };
 
 const pagesCategories = [
   ...new Set([
-    iosAppPagesPageCategory,
-    aboutPageCategory,
-    supportPageCategory,
-    policiesPageCategory,
-    merchPageCategory,
-    blueLabelPageCategory,
-    // productsPageCategory,
+    iosAppPgsPgCategory,
+    aboutPgCategory,
+    supportPgCategory,
+    policiesPgCategory,
+    merchPgCategory,
+    blueLabelPgCategory,
+    // productsPgCategory,
   ]),
 ];
 

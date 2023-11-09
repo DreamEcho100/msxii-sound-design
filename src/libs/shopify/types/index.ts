@@ -14,7 +14,7 @@ export type EdgesWithPagination<Node> = {
   edges: { cursor: string; node: Node }[];
   pageInfo: {
     hasNextPage: boolean;
-    hasPreviousPage: boolean;
+    hasPreviousPg: boolean;
   };
 };
 
@@ -208,7 +208,7 @@ export type Collection = {
   products: Edges<Product>;
 };
 
-export type CollectionWithPageProducts = {
+export type CollectionWithPgProducts = {
   description: string;
   descriptionHtml: string;
   handle: string;

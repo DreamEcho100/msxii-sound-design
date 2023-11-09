@@ -25,12 +25,12 @@ const products = [
   },
 ];
 
-const HomeIOSAppsSection = () => {
+const HomeIOSAppsSect = () => {
   return (
     <section className="p-main-p-3">
       <div className="flex flex-col gap-8">
         <header>
-          <h2 className="text-h1 leading-h2 font-semibold uppercase md:px-4">
+          <h2 className="text-h1 font-semibold uppercase leading-h2 md:px-4">
             iOS Apps
           </h2>
         </header>
@@ -73,4 +73,4 @@ const HomeIOSAppsSection = () => {
   );
 };
 
-export default HomeIOSAppsSection;
+export default HomeIOSAppsSect;

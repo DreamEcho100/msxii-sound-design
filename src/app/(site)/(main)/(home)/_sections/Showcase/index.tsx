@@ -6,13 +6,13 @@ import ProductsCardsSlider from "~/app/components/core/Shopify/Cards/ProductsCar
 import SeeMoreSlideChildren from "~/app/components/core/SeeMoreSlideChildren";
 import { Suspense } from "react";
 
-type HomeShowcaseSectionProps = {
+type HomeShowcaseSectProps = {
   flattenedCollectionEdges: BasicCollection[];
   bundlesCollections: BasicProduct[];
   selectedBundlesCollections: BasicProduct[];
 };
 
-export default function HomeShowcaseSection(props: HomeShowcaseSectionProps) {
+export default function HomeShowcaseSect(props: HomeShowcaseSectProps) {
   return (
     <section className="sm:p-main-p-3">
       <div className="flex flex-col gap-16 bg-bg-primary-100 px-main-p-4 py-main-p-2 dark:bg-bg-primary-900 sm:rounded-xl">

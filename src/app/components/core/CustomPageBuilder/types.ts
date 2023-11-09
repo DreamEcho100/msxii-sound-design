@@ -1,42 +1,39 @@
 import { type StoreApi } from "zustand";
 import { type RouterOutputs } from "~/server/api/root";
 
-export type PageStoreApi = StoreApi<PageStore>;
+export type PgStoreApi = StoreApi<PgStore>;
 
-export type Page = RouterOutputs["customPages"]["getOne"];
-export type Css = Page["css"];
-export type Section =
-  RouterOutputs["customPages"]["getOne"]["sections"][number];
-export type Box =
-  RouterOutputs["customPages"]["getOne"]["sections"][number]["body"][number];
+export type Pg = RouterOutputs["customPgs"]["getOne"];
+export type Css = Pg["css"];
+export type Sect = RouterOutputs["customPgs"]["getOne"]["sects"][number];
+export type Bx =
+  RouterOutputs["customPgs"]["getOne"]["sects"][number]["body"][number];
 
-export type GetBoxNonNullableItem<Key extends keyof Box> = NonNullable<
-  Box[Key]
->;
-export type GetBoxWithNullableItem<Key extends keyof Box> = Omit<Box, Key> & {
-  [key in Key]: NonNullable<Box[Key]>;
+export type GetBxNonNullableItem<Key extends keyof Bx> = NonNullable<Bx[Key]>;
+export type GetBxWithNullableItem<Key extends keyof Bx> = Omit<Bx, Key> & {
+  [key in Key]: NonNullable<Bx[Key]>;
 };
 
-export type BoxTypeMd = GetBoxWithNullableItem<"mdBox">;
-export type BoxTypeQuote = GetBoxWithNullableItem<"quoteBox">;
-export type BoxTypeHeader = GetBoxWithNullableItem<"headerBox">;
-export type BoxTypeImage = GetBoxWithNullableItem<"imageBox">;
-export type BoxTypeIframe = GetBoxWithNullableItem<"iframeBox">;
-export type BoxTypeTabs = GetBoxWithNullableItem<"tabs">;
-export type BoxTypeSlider = GetBoxWithNullableItem<"slider">;
-export type BoxTypeGrid = GetBoxWithNullableItem<"grid">;
+export type BxTypeMd = GetBxWithNullableItem<"mdBx">;
+export type BxTypeQuote = GetBxWithNullableItem<"quoteBx">;
+export type BxTypeHeader = GetBxWithNullableItem<"headerBx">;
+export type BxTypeImage = GetBxWithNullableItem<"imgBx">;
+export type BxTypeIframe = GetBxWithNullableItem<"iframeBx">;
+export type BxTypeTabs = GetBxWithNullableItem<"tabs">;
+export type BxTypeSlider = GetBxWithNullableItem<"slider">;
+export type BxTypeGrid = GetBxWithNullableItem<"grid">;
 
-export type MdBox = BoxTypeMd["mdBox"];
-export type QuoteBox = BoxTypeQuote["quoteBox"];
-export type HeaderBox = BoxTypeHeader["headerBox"];
-export type ImageBox = BoxTypeImage["imageBox"];
-export type IframeBox = BoxTypeIframe["iframeBox"];
-export type TabsBox = BoxTypeTabs["tabs"];
-export type Slider = BoxTypeSlider["slider"];
-export type Grid = BoxTypeSlider["grid"];
-export type PageStore = {
-  page: Page;
+export type MdBx = BxTypeMd["mdBx"];
+export type QuoteBx = BxTypeQuote["quoteBx"];
+export type HeaderBx = BxTypeHeader["headerBx"];
+export type ImageBx = BxTypeImage["imgBx"];
+export type IframeBx = BxTypeIframe["iframeBx"];
+export type TabsBx = BxTypeTabs["tabs"];
+export type Slider = BxTypeSlider["slider"];
+export type Grid = BxTypeSlider["grid"];
+export type PgStore = {
+  page: Pg;
   utils: {
-    setPage: (UpdaterOrValue: Page | ((UpdaterOrValue: Page) => Page)) => void;
+    setPg: (UpdaterOrValue: Pg | ((UpdaterOrValue: Pg) => Pg)) => void;
   };
 };

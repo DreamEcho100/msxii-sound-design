@@ -77,7 +77,7 @@ const getManyArticlesGQLQuery = async (
 								}
 								pageInfo {
 									hasNextPage
-									hasPreviousPage
+									hasPreviousPg
 								}
 							}
 						}
@@ -115,7 +115,7 @@ const getManyBasicArticlesGQLQuery = async (
 								}
 								pageInfo {
 									hasNextPage
-									hasPreviousPage
+									hasPreviousPg
 								}
 							}
 						}

@@ -1,11 +1,11 @@
-import { type PropsWithChildren } from 'react';
+import { type PropsWithChildren } from "react";
 
-const SectionLoaderContainer = (props: PropsWithChildren) => {
-	return (
-		<div className="p-8 min-h-[30rem] h-[70vh] sm:h-[50vh] max-h-[100rem] flex items-center justify-center">
-			{props.children}
-		</div>
-	);
+const SectLoaderContainer = (props: PropsWithChildren) => {
+  return (
+    <div className="flex h-[70vh] max-h-[100rem] min-h-[30rem] items-center justify-center p-8 sm:h-[50vh]">
+      {props.children}
+    </div>
+  );
 };
 
-export default SectionLoaderContainer;
+export default SectLoaderContainer;

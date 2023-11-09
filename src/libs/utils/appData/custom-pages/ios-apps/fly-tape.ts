@@ -1,16 +1,16 @@
 import {
-  type StandardSection,
+  type StandardSect,
   BOXES_TYPES_map,
-  type IframeBox,
+  type IframeBx,
   SUB_BOXES_TYPES_map,
-  type TabsBox,
+  type TabsBx,
   type Slider,
-  type CustomPage,
+  type CustomPg,
   type Grid,
 } from "~/libs/utils/types/custom-page";
-import { createStandardSection } from "../utils";
+import { createStandardSect } from "../utils";
 
-export const FlyTapeIOSApp: StandardSection[] = (() => {
+export const FlyTapeIOSApp: StandardSect[] = (() => {
   const appLink = "https://apps.apple.com/us/app/fly-tape/id1343651192";
 
   const grid: Grid = {
@@ -19,13 +19,13 @@ export const FlyTapeIOSApp: StandardSection[] = (() => {
     gridTemplateColumns: `repeat(auto-fit, minmax(20rem, 1fr))`,
     items: [
       {
-        customPageClassesKeys: ["center-on-ls-md-screens", "objects-contain"],
+        customPgClassesKeys: ["center-on-ls-md-screens", "objects-contain"],
         twClassNameVariants: { "aspect-ratio": "square" }, // w: '96', h: '96',
-        ___type: BOXES_TYPES_map["image-only"],
+        ___type: BOXES_TYPES_map["img-only"],
         src: "https://cdn.shopify.com/s/files/1/0345/7209/t/28/assets/pf-f357e20c--Flytapeappdisplay.png?v=1589053729",
       },
       {
-        customPageClassesKeys: ["center-on-ls-md-screens"],
+        customPgClassesKeys: ["center-on-ls-md-screens"],
         twClassNameVariants: { "gap-y": "2", px: "4" },
         ___type: BOXES_TYPES_map.md,
         content: `# Fly Tape
@@ -39,12 +39,12 @@ Fly Tape installs as an iOS AUv3 FX plugin, designed for use within host apps su
       },
     ],
   };
-  const iframeBox: IframeBox = {
+  const iframeBx: IframeBx = {
     ___type: BOXES_TYPES_map.iframe,
     ___subType: SUB_BOXES_TYPES_map.youtube,
     src: "https://www.youtube.com/embed/OLPSb69q5mM?autoplay=0&loop=0&mute=0&controls=0&enablejsapi=1",
   };
-  const tabsBox: TabsBox = {
+  const tabsBx: TabsBx = {
     ___type: BOXES_TYPES_map.tabs,
     tabs: [
       {
@@ -150,7 +150,7 @@ Fly Tape's Midi CC values are listed below:
           gridTemplateColumns: `repeat(auto-fit, minmax(20rem, 1fr))`,
           items: [
             {
-              customPageClassesKeys: ["center-on-ls-md-screens"],
+              customPgClassesKeys: ["center-on-ls-md-screens"],
               twClassNameVariants: { "gap-y": "2", px: "4" },
               ___type: BOXES_TYPES_map.md,
               content: `### Whats New:
@@ -160,15 +160,15 @@ Fly Tape's Midi CC values are listed below:
 
 You can check out the reference guide below
 
-[Download Now](https://www.dropbox.com/s/b3fb168ozmz3i4o/MSXII%20Fly%20Tape%202v0%20Final.pdf?dl=0)`,
+[Download Now](https://www.dropbx.com/s/b3fb168ozmz3i4o/MSXII%20Fly%20Tape%202v0%20Final.pdf?dl=0)`,
             },
             {
-              customPageClassesKeys: [
+              customPgClassesKeys: [
                 "center-on-ls-md-screens",
                 "object-contain",
               ],
               // twClassNameVariants: { w: '96' },
-              ___type: BOXES_TYPES_map["image-only"],
+              ___type: BOXES_TYPES_map["img-only"],
               src: "https://cdn.shopify.com/s/files/1/0345/7209/t/28/assets/pf-f7f4b998--FlyTapeManualImage.png?v=1589395846",
             },
           ],
@@ -226,11 +226,11 @@ You can check out the reference guide below
     ___type: BOXES_TYPES_map.grid,
     twClassNameVariants: { "gap-y": "3" },
     gridTemplateColumns: `1fr`,
-    customPageClassesKeys: ["center-content"],
+    customPgClassesKeys: ["center-content"],
     items: [
       {
         twClassNameVariants: { rounded: "5xl", w: "40", h: "40" },
-        ___type: "image-only",
+        ___type: "img-only",
         src: "https://res.cloudinary.com/dpjuamt6q/image/upload/v1690933087/image_8_sv6jc5.png",
       },
       {
@@ -241,26 +241,26 @@ You can check out the reference guide below
   };
 
   return [
-    createStandardSection({ order: 0, body: [grid] }),
-    createStandardSection({ order: 1, body: [tabsBox] }),
-    createStandardSection({ order: 2, body: [iframeBox] }),
-    createStandardSection({
+    createStandardSect({ order: 0, body: [grid] }),
+    createStandardSect({ order: 1, body: [tabsBx] }),
+    createStandardSect({ order: 2, body: [iframeBx] }),
+    createStandardSect({
       order: 3,
       body: [slider],
       title: "Tutorial",
       twClassNameVariants: { "gap-y": "4" },
     }),
-    createStandardSection({
+    createStandardSect({
       order: 4,
       body: [slider2],
       title: "Fly Tape Around The Web",
-      customPageClassesKeys: ["section-container-v1"],
+      customPgClassesKeys: ["section-container-v1"],
     }),
-    createStandardSection({ order: 5, body: [grid2] }),
+    createStandardSect({ order: 5, body: [grid2] }),
   ];
 })();
 
-const flyTapePageData: CustomPage = {
+const flyTapePgData: CustomPg = {
   twClassNameVariants: {
     "max-w": "100ch",
     w: "full",
@@ -272,8 +272,8 @@ const flyTapePageData: CustomPage = {
   },
   slug: "fly-tape",
   // title: 'Fly Tape',
-  pageCategoryName: "ios-apps",
+  pgCategoryName: "ios-apps",
   pageStructure: FlyTapeIOSApp,
 };
 
-export default flyTapePageData;
+export default flyTapePgData;

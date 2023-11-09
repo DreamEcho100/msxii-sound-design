@@ -1,26 +1,26 @@
 "use client";
 import * as Tabs from "@radix-ui/react-tabs";
 import { cx } from "class-variance-authority";
-import { type TabsBox } from "~/libs/utils/types/custom-page";
-import { SectionBodyBox } from "./SectionBodyBox";
+import { type TabsBx } from "~/libs/utils/types/custom-page";
+import { SectBodyBx } from "./SectionBodyBox";
 
-export default function TabsBoxComp({
-  box,
+export default function TabsBxComp({
+  bx,
   className,
 }: {
-  box: TabsBox;
+  bx: TabsBx;
   className: string;
 }) {
   return (
     <Tabs.Root
       className={cx("flex w-full flex-col gap-5 leading-7", className)}
-      defaultValue={box.tabs[0]?.title}
+      defaultValue={bx.tabs[0]?.title}
     >
       <Tabs.List
         className="flex w-full items-center justify-center gap-4 md:items-start md:justify-start"
         aria-label="Manage your account"
       >
-        {box.tabs.map((tab) => (
+        {bx.tabs.map((tab) => (
           <Tabs.Trigger
             key={tab.title}
             className={cx(
@@ -34,9 +34,9 @@ export default function TabsBoxComp({
         ))}
       </Tabs.List>
 
-      {box.tabs.map((tab) => (
+      {bx.tabs.map((tab) => (
         <Tabs.Content key={tab.title} className="" value={tab.title}>
-          <SectionBodyBox box={tab.data} />
+          <SectBodyBx bx={tab.data} />
         </Tabs.Content>
       ))}
     </Tabs.Root>

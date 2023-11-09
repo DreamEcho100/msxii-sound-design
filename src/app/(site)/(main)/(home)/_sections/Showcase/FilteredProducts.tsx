@@ -1,6 +1,6 @@
 "use client";
 import { cx } from "class-variance-authority";
-import { Fragment, useEffect, useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import Clickable from "~/app/components/core/Clickable";
 import SeeMoreSlideChildren from "~/app/components/core/SeeMoreSlideChildren";
 import ProductsCardsSlider from "~/app/components/core/Shopify/Cards/ProductsCardsSlider";
@@ -18,7 +18,7 @@ export default function FilteredProducts(props: {
     pagesCategories,
     collectionsByHandle,
     selectedHandles,
-    setSelectedHandles: setSelectedPagesCategories,
+    setSelectedHandles: setSelectedPgsCategories,
   } = useBasicCollectionsHandleFilterManager({
     collections: props.basicCollections,
     allProductsHandle: true,
@@ -32,7 +32,7 @@ export default function FilteredProducts(props: {
     [props.basicCollections],
   );
 
-  const selectedPageCategory = selectedHandles[0];
+  const selectedPgCategory = selectedHandles[0];
 
   const filteredCollections = useMemo(() => {
     if (!selectedHandles) return undefined;
@@ -49,12 +49,12 @@ export default function FilteredProducts(props: {
 
     return filteredCollections.length === 0 ? base : filteredCollections;
   }, [base, collectionsByHandle, selectedHandles]);
-  const firstPageCategory = pagesCategories[0];
+  const firstPgCategory = pagesCategories[0];
 
   useEffect(() => {
-    if (!firstPageCategory) return;
-    setSelectedPagesCategories([firstPageCategory]);
-  }, [firstPageCategory, setSelectedPagesCategories]);
+    if (!firstPgCategory) return;
+    setSelectedPgsCategories([firstPgCategory]);
+  }, [firstPgCategory, setSelectedPgsCategories]);
 
   return (
     <article className="flex flex-col gap-8 px-8">
@@ -65,10 +65,10 @@ export default function FilteredProducts(props: {
             <Clickable
               key={item}
               variants={null}
-              onClick={() => setSelectedPagesCategories([item])}
+              onClick={() => setSelectedPgsCategories([item])}
               className={cx(
                 "relative capitalize",
-                selectedPageCategory === item
+                selectedPgCategory === item
                   ? "font-bold text-text-primary-400/90"
                   : "font-medium text-text-primary-400/70 outline-none duration-100 hover:text-text-primary-500 focus:text-text-primary-500",
               )}
@@ -78,7 +78,7 @@ export default function FilteredProducts(props: {
                 <div
                   className={cx(
                     "h-1 translate-y-full bg-special-primary-500",
-                    selectedPageCategory === item ? "w-11/12" : "w-0",
+                    selectedPgCategory === item ? "w-11/12" : "w-0",
                   )}
                 />
               </div>
@@ -89,7 +89,7 @@ export default function FilteredProducts(props: {
       {/* <div className="hidden">
         {(filteredCollections ?? base).map((item) => {
           return (
-            <Fragment key={`${selectedPageCategory}-${item.title}-${item.id}`}>
+            <Fragment key={`${selectedPgCategory}-${item.title}-${item.id}`}>
               {item.handle}
             </Fragment>
           );
@@ -101,12 +101,12 @@ export default function FilteredProducts(props: {
         previousSlideButtonClassName="-translate-y-[200%] lg:-translate-y-[200%]"
         containerProps={{ className: "px-4" }}
         extraLastSlideChildren={
-          selectedPageCategory === "all-products" ? undefined : (
+          selectedPgCategory === "all-products" ? undefined : (
             <SeeMoreSlideChildren
               href={
-                selectedPageCategory === "merch"
+                selectedPgCategory === "merch"
                   ? "/merch"
-                  : `/collections/${selectedPageCategory}`
+                  : `/collections/${selectedPgCategory}`
               }
               linkClassName="-translate-y-[40%]"
             />

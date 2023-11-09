@@ -113,7 +113,7 @@ const manyProductsQuery = async (
 						}
 						pageInfo {
 							hasNextPage
-							hasPreviousPage
+							hasPreviousPg
 						}
 					}
 				}

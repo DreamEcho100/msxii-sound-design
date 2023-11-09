@@ -130,7 +130,7 @@ const CustomCombobox = <TData, FormattedData = undefined>(
     queryTimeoutId: undefined,
   });
 
-  const comboboxProps = useMemo(
+  const combobxProps = useMemo(
     () => ({
       ..._props,
       className: handleClassVariants(classVariants),
@@ -169,10 +169,10 @@ const CustomCombobox = <TData, FormattedData = undefined>(
   const handleSetSelected = useCallback(
     (value: NonNullable<GetData<TData, FormattedData>>[number]) => {
       setLocallySelected(value);
-      comboboxProps.onChange?.(value);
+      combobxProps.onChange?.(value);
       setQuery?.(undefined);
     },
-    [comboboxProps, setLocallySelected, setQuery],
+    [combobxProps, setLocallySelected, setQuery],
   );
 
   useEffect(() => {
@@ -208,7 +208,7 @@ const CustomCombobox = <TData, FormattedData = undefined>(
 
   return (
     <Combobox
-      {...comboboxProps}
+      {...combobxProps}
       value={locallySelected}
       onChange={(value) => handleSetSelected(value)}
     >
@@ -224,14 +224,14 @@ const CustomCombobox = <TData, FormattedData = undefined>(
                   : getDisplayValue(locallySelected)}
               </span>
               <RiArrowUpDownFill
-                className="text-text-primary-400 h-5 w-5"
+                className="h-5 w-5 text-text-primary-400"
                 aria-hidden="true"
               />
             </Combobox.Button>
           ) : (
             <>
               <Combobox.Input
-                className="text-text-primary-400 w-full border-none bg-transparent px-1 py-1 text-sm leading-5 outline-none focus:ring-0"
+                className="w-full border-none bg-transparent px-1 py-1 text-sm leading-5 text-text-primary-400 outline-none focus:ring-0"
                 displayValue={(
                   value: GetData<TData, FormattedData>[number] | undefined,
                 ) =>
@@ -244,7 +244,7 @@ const CustomCombobox = <TData, FormattedData = undefined>(
               />
               <Combobox.Button className="absolute inset-y-0 right-0 flex items-center bg-transparent pr-2">
                 <RiArrowUpDownFill
-                  className="text-text-primary-400 h-5 w-5"
+                  className="h-5 w-5 text-text-primary-400"
                   aria-hidden="true"
                 />
               </Combobox.Button>
@@ -258,9 +258,9 @@ const CustomCombobox = <TData, FormattedData = undefined>(
           leaveTo="opacity-0"
           afterLeave={() => handleSetQuery("")}
         >
-          <Combobox.Options className="bg-bg-primary-500 absolute z-[1] mt-1 max-h-60 w-full overflow-auto rounded-b-md py-1 text-base ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+          <Combobox.Options className="absolute z-[1] mt-1 max-h-60 w-full overflow-auto rounded-b-md bg-bg-primary-500 py-1 text-base ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
             {options.length === 0 && localQuery !== "" ? (
-              <div className="text-text-primary-400 relative cursor-default select-none px-4 py-2">
+              <div className="relative cursor-default select-none px-4 py-2 text-text-primary-400">
                 Nothing found.
               </div>
             ) : (

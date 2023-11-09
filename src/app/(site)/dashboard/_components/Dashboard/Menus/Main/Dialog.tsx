@@ -41,17 +41,17 @@ export default function SideMenuDialog(props: Props) {
               <li className="flex flex-col capitalize">
                 <p className="px-12">custom pages</p>
                 <ul className="flex flex-col">
-                  {props.data.map((pageCategory) => (
-                    <li key={pageCategory.id}>
+                  {props.data.map((pgCategory) => (
+                    <li key={pgCategory.id}>
                       <Link
                         className="flex px-12 py-1 capitalize hover:bg-initial-primary-400/70"
-                        href={`/dashboard/custom-pages/${pageCategory.name}?isPage=${pageCategory.isPage}`}
+                        href={`/dashboard/custom-pages/${pgCategory.name}?isPg=${pgCategory.isPg}`}
                         onClick={() => setMenuIsOpen("sideMain", false)}
                       >
                         <span className="px-2" />
                         <span>
-                          {pageCategory.name.replaceAll("-", " ")}&nbsp;(
-                          {pageCategory.counter})
+                          {pgCategory.name.replaceAll("-", " ")}&nbsp;(
+                          {pgCategory.counter})
                         </span>
                       </Link>
                     </li>

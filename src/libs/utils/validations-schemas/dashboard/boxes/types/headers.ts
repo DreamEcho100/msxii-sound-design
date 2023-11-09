@@ -1,14 +1,14 @@
-import { HeaderBoxHType } from '@prisma/client';
-import { z } from 'zod';
+import { HeaderBxHType } from "@prisma/client";
+import { z } from "zod";
 
-export const createOneHeaderBoxSchema = {
-	title: z.string().min(3),
-	description: z.string().nullable().optional(),
-	hType: z.nativeEnum(HeaderBoxHType).optional(),
+export const createOneHeaderBxSchema = {
+  title: z.string().min(3),
+  description: z.string().nullable().optional(),
+  hType: z.nativeEnum(HeaderBxHType).optional(),
 };
-export const updateOneHeaderBoxSchema = {
-	id: z.string().cuid2(),
-	title: z.string().min(3).optional(),
-	description: z.string().nullable().optional(),
-	hType: z.nativeEnum(HeaderBoxHType).optional(),
+export const updateOneHeaderBxSchema = {
+  id: z.string().cuid2(),
+  title: z.string().min(3).optional(),
+  description: z.string().nullable().optional(),
+  hType: z.nativeEnum(HeaderBxHType).optional(),
 };

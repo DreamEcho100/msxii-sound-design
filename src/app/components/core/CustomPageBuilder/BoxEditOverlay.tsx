@@ -1,24 +1,24 @@
-import { type Box, type PageStoreApi } from "./types";
+import { type Bx, type PgStoreApi } from "./types";
 import { type ReactNode } from "react";
 import BordersContainer from "./BordersContainer";
 import EditBoxModal from "./Modals/EditBox";
 
 export default function BoxEditOverlay(props: {
-  boxDeepLevel: number;
-  box: Box;
+  bxDeepLevel: number;
+  bx: Bx;
   path: (string | number)[];
-  pageStore: PageStoreApi;
+  pageStore: PgStoreApi;
   EditSideMenuChildren: ReactNode;
-  ShowcaseBoxChildren: ReactNode;
+  ShowcaseBxChildren: ReactNode;
   // boundaryMultiType?: 'sm' | 'semi-md';
 }) {
   return (
     <BordersContainer
-      boxDeepLevel={props.boxDeepLevel}
+      bxDeepLevel={props.bxDeepLevel}
       // boundaryMultiType={props.boundaryMultiType}
       Component={EditBoxModal}
       EditSideMenuChildren={props.EditSideMenuChildren}
-      ShowcaseBoxChildren={props.ShowcaseBoxChildren}
+      ShowcaseBxChildren={props.ShowcaseBxChildren}
     />
   );
 }

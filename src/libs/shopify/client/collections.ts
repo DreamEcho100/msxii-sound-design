@@ -2,7 +2,7 @@ import { gql } from "graphql-request";
 import {
   type Edges,
   type BasicCollection,
-  type CollectionWithPageProducts,
+  type CollectionWithPgProducts,
 } from "../types";
 import { graphQLClient } from "./_utils";
 import { gqlProductBasicSchemaText } from "./products";
@@ -41,7 +41,7 @@ const gqlCollectionSchemaWithBasicProductsText = (
 			}
 			pageInfo {
 				hasNextPage
-				hasPreviousPage
+				hasPreviousPg
 			}
 		}`;
 };
@@ -167,7 +167,7 @@ const oneCollectionByHandleQuery = async (
 	}`;
 
   return await graphQLClient.request<{
-    collectionByHandle: CollectionWithPageProducts;
+    collectionByHandle: CollectionWithPgProducts;
   }>(template, input);
 };
 

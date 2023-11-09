@@ -1,5 +1,5 @@
 import { blogRouter } from "./routers/blog";
-import { customPagesRouter } from "./routers/custom-pages";
+import { customPgsRouter } from "./routers/custom-pages";
 // import { createTRPCRouter } from '~/server/api/trpc';
 import { shopifyRouter } from "./routers/shopify";
 import { dashboardRouter } from "./routers/dashboard";
@@ -18,7 +18,7 @@ import { env } from "~/libs/env.mjs";
  * All routers added in /api/routers should be manually added here.
  */
 export const appRouter = createTRPCRouter({
-  customPages: customPagesRouter,
+  customPgs: customPgsRouter,
   blog: blogRouter,
   shopify: shopifyRouter,
   dashboard: dashboardRouter,

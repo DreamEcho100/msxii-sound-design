@@ -1,8 +1,8 @@
-import HeroHomeSection from "./_sections/Hero";
-import HomeLatestBlogsSection from "./_sections/LatestBlogs";
+import HeroHomeSect from "./_sections/Hero";
+import HomeLatestBlogsSect from "./_sections/LatestBlogs";
 import AboutMSXIISoundDesign from "./_sections/AboutMSXIISoundDesign";
-import HomeIOSAppsSection from "./_sections/IOSApps";
-import HomeShowcaseSection from "./_sections/Showcase";
+import HomeIOSAppsSect from "./_sections/IOSApps";
+import HomeShowcaseSect from "./_sections/Showcase";
 import { serverClient } from "~/app/libs/trpc/serverClient";
 import { getEdgeNodes } from "~/libs/shopify";
 import { type BasicProduct } from "~/libs/shopify/types";
@@ -69,10 +69,10 @@ export default async function HomeScreen() {
 
   return (
     <>
-      <HeroHomeSection />
-      <HomeShowcaseSection {...showcaseData} />
-      <HomeIOSAppsSection />
-      <HomeLatestBlogsSection basicArticles={basicArticles.items} />
+      <HeroHomeSect />
+      <HomeShowcaseSect {...showcaseData} />
+      <HomeIOSAppsSect />
+      <HomeLatestBlogsSect basicArticles={basicArticles.items} />
       <AboutMSXIISoundDesign />
     </>
   );

@@ -5,36 +5,36 @@ import { useStore } from "zustand";
 import CustomCombobox from "~/app/components/common/@de100/form-echo/Fields/Base/Combobox";
 import Form from "~/app/components/common/@de100/form-echo/Forms";
 import { trpcApi } from "~/app/libs/trpc/client";
-import { type BoxVariants, boxVariants } from "~/libs/utils/appData";
+import { type BxVariants, bxVariants } from "~/libs/utils/appData";
 import { CreateOneTwVariantsSchema } from "~/libs/utils/validations-schemas/dashboard/css/twVariants";
 
 export type TwVariantsFormStore = FormStoreApi<
   {
     twVariants: {
-      [Key in keyof BoxVariants]: BoxVariants[Key];
+      [Key in keyof BxVariants]: BxVariants[Key];
     };
-  }, // Box['css']['twVariants']
+  }, // Bx['css']['twVariants']
   typeof CreateOneTwVariantsSchema
 >;
 
 export const twVariantsConfig = (() => {
   const twVariantsConfig: {
     variantsToItemsKeys: {
-      -readonly [Key in keyof BoxVariants]: BoxVariants[Key][];
+      -readonly [Key in keyof BxVariants]: BxVariants[Key][];
     };
-    variants: typeof boxVariants;
-    variantsKeys: (keyof typeof boxVariants)[];
+    variants: typeof bxVariants;
+    variantsKeys: (keyof typeof bxVariants)[];
   } = {
     variantsToItemsKeys: {},
-    variants: boxVariants,
-    variantsKeys: Object.keys(boxVariants) as (keyof typeof boxVariants)[],
+    variants: bxVariants,
+    variantsKeys: Object.keys(bxVariants) as (keyof typeof bxVariants)[],
   };
 
-  let boxVariantsKey: keyof typeof boxVariants;
-  for (boxVariantsKey in boxVariants) {
+  let bxVariantsKey: keyof typeof bxVariants;
+  for (bxVariantsKey in bxVariants) {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-    twVariantsConfig.variantsToItemsKeys[boxVariantsKey] = Object.keys(
-      boxVariants[boxVariantsKey]!,
+    twVariantsConfig.variantsToItemsKeys[bxVariantsKey] = Object.keys(
+      bxVariants[bxVariantsKey]!,
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     ) as any;
   }
@@ -46,7 +46,7 @@ export function useCreateTwVariantsFormStore(twVariants: unknown) {
   return useCreateFormStore({
     initValues: {
       twVariants: twVariants as {
-        [Key in keyof BoxVariants]: BoxVariants[Key];
+        [Key in keyof BxVariants]: BxVariants[Key];
       },
     },
     validationSchema: CreateOneTwVariantsSchema,
@@ -57,10 +57,10 @@ export function TwVariantsForm(props: {
   store: TwVariantsFormStore;
   cssId: string;
   onSuccess: (params: {
-    // Box['css']['twVariants']
+    // Bx['css']['twVariants']
     values: {
       twVariants: {
-        [Key in keyof BoxVariants]: BoxVariants[Key];
+        [Key in keyof BxVariants]: BxVariants[Key];
       };
     };
   }) => void;

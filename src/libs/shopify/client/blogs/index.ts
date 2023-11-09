@@ -1,10 +1,10 @@
-import { gql } from 'graphql-request';
-import { type Edges } from '../../types';
-import { graphQLClient } from '../_utils';
-import articles from './articles';
+import { gql } from "graphql-request";
+import { type Edges } from "../../types";
+import { graphQLClient } from "../_utils";
+import articles from "./articles";
 
 type Blog = {
-	//
+  //
 };
 
 const gqlArticleSchemaText = `handle
@@ -24,13 +24,13 @@ title`;
 // 	}
 // 	pageInfo {
 // 		hasNextPage
-// 		hasPreviousPage
+// 		hasPreviousPg
 // 	}
 // }`;
 
 const allBlogsQuery = async () => {
-	// https://shopify.dev/docs/api/storefront/2023-04/objects/Blog
-	const template = gql`
+  // https://shopify.dev/docs/api/storefront/2023-04/objects/Blog
+  const template = gql`
 						query {
 							articles(first: 100) {
 								edges {
@@ -41,22 +41,22 @@ const allBlogsQuery = async () => {
 								}
 								pageInfo {
 									hasNextPage
-									hasPreviousPage
+									hasPreviousPg
 								}
 							}
 						}
 					`;
 
-	return (await graphQLClient.request<{
-		blogs: Edges<Blog>[];
-	}>(template)) ;
+  return await graphQLClient.request<{
+    blogs: Edges<Blog>[];
+  }>(template);
 };
 
 const blogs = {
-	queries: {
-		all: allBlogsQuery,
-	},
-	articles,
+  queries: {
+    all: allBlogsQuery,
+  },
+  articles,
 };
 
 export default blogs;

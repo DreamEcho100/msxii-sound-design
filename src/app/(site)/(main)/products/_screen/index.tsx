@@ -1,8 +1,6 @@
 "use client";
 import { BasicProductCard } from "~/app/components/core/Shopify/Cards/Card";
 import Clickable from "~/app/components/core/Clickable";
-import SectionPrimaryLoader from "~/app/components/common/Loaders/SectionPrimary";
-import SectionLoaderContainer from "~/app/components/common/LoadersContainers/Section";
 import { type RouterInputs, type RouterOutputs } from "~/server/api/root";
 import { trpcApi } from "~/app/libs/trpc/client";
 import { useEffect, useMemo, useRef } from "react";
@@ -50,12 +48,12 @@ function SearchForm(props: { q?: string | null }) {
 
   useEffect(() => {
     // inputRef.current?.value = q;
-    const productsPageProductTitleQuery = document.getElementById(
+    const productsPgProductTitleQuery = document.getElementById(
       "products-page-q",
     ) as HTMLInputElement | null;
 
-    if (productsPageProductTitleQuery) {
-      productsPageProductTitleQuery.value = q;
+    if (productsPgProductTitleQuery) {
+      productsPgProductTitleQuery.value = q;
     }
   }, [q]);
 
@@ -103,7 +101,7 @@ function ProductsSearch(props: Props) {
       getNextPageParam: (data) => data.nextCursor,
     });
 
-  const loadNextPage = async () => {
+  const loadNextPg = async () => {
     if (!dataQuery.hasNextPage || dataQuery.isFetchingNextPage) return;
 
     await dataQuery.fetchNextPage();
@@ -137,7 +135,7 @@ function ProductsSearch(props: Props) {
           onClick={async () =>
             dataQuery.isLoadingError || dataQuery.isRefetchError
               ? dataQuery.refetch()
-              : await loadNextPage()
+              : await loadNextPg()
           }
           disabled={
             !dataQuery.hasNextPage ||

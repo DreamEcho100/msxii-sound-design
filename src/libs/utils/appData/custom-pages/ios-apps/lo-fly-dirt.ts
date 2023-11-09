@@ -1,70 +1,70 @@
 // https://assets.stickpng.com/images/5a902db97f96951c82922874.png
 
 import {
-	type StandardSection,
-	BOXES_TYPES_map,
-	type IframeBox,
-	SUB_BOXES_TYPES_map,
-	type TabsBox,
-	type Slider,
-	type CustomPage,
-	type Grid,
-} from '../../../../utils/types/custom-page';
-import { createStandardSection } from '../utils';
+  type StandardSect,
+  BOXES_TYPES_map,
+  type IframeBx,
+  SUB_BOXES_TYPES_map,
+  type TabsBx,
+  type Slider,
+  type CustomPg,
+  type Grid,
+} from "../../../../utils/types/custom-page";
+import { createStandardSect } from "../utils";
 
-const LoflyDirtIOSApp: StandardSection[] = (() => {
-	const appLink =
-		'https://apps.apple.com/us/app/lo-fly-dirt/id1292776927?ign-mpt=uo%3D4';
+const LoflyDirtIOSApp: StandardSect[] = (() => {
+  const appLink =
+    "https://apps.apple.com/us/app/lo-fly-dirt/id1292776927?ign-mpt=uo%3D4";
 
-	const grid: Grid = {
-		twClassNameVariants: { 'gap-x': '8' },
-		___type: BOXES_TYPES_map.grid,
-		gridTemplateColumns: `repeat(auto-fit, minmax(20rem, 1fr))`,
-		items: [
-			{
-				customPageClassesKeys: ['center-on-ls-md-screens', 'objects-contain'],
-				twClassNameVariants: { 'aspect-ratio': 'square' }, // w: '96', h: '96',
-				___type: BOXES_TYPES_map['image-only'],
-				src: 'https://cdn.shopify.com/s/files/1/0345/7209/t/28/assets/pf-50b7d524--Screen-Shot-20200327-at-12507-AM.png?v=1585290536',
-			},
-			{
-				customPageClassesKeys: ['center-on-ls-md-screens'],
-				twClassNameVariants: { 'gap-y': '2', px: '4' },
-				___type: BOXES_TYPES_map.md,
-				content: `# LO-FLY DIRT
+  const grid: Grid = {
+    twClassNameVariants: { "gap-x": "8" },
+    ___type: BOXES_TYPES_map.grid,
+    gridTemplateColumns: `repeat(auto-fit, minmax(20rem, 1fr))`,
+    items: [
+      {
+        customPgClassesKeys: ["center-on-ls-md-screens", "objects-contain"],
+        twClassNameVariants: { "aspect-ratio": "square" }, // w: '96', h: '96',
+        ___type: BOXES_TYPES_map["img-only"],
+        src: "https://cdn.shopify.com/s/files/1/0345/7209/t/28/assets/pf-50b7d524--Screen-Shot-20200327-at-12507-AM.png?v=1585290536",
+      },
+      {
+        customPgClassesKeys: ["center-on-ls-md-screens"],
+        twClassNameVariants: { "gap-y": "2", px: "4" },
+        ___type: BOXES_TYPES_map.md,
+        content: `# LO-FLY DIRT
 	
 ## IOS-APP
 
 [![](https://texttofloss.com/wp-content/uploads/2021/01/App-Store-Button-transparent.png?className=w-44)](${appLink})
 
 An audio coloration utility plugin featuring individual modes for classic emulation of some iconic music production tools. This tool is meant to bring character, or "dirt" to your incoming audio signals. Lo-Fly Dirt installs as an Audio Unit effect for hosts that support the format such as Audio Bus, Beatmaker 3, Garage Band, Cubasis, AUM, etc.`,
-			},
-		],
-	};
-	const iframeBox: IframeBox = {
-		___type: BOXES_TYPES_map.iframe,
-		___subType: SUB_BOXES_TYPES_map.youtube,
-		src: 'https://www.youtube.com/embed/GeD0lopiqsw?autoplay=0&loop=0&mute=0&controls=0&enablejsapi=1',
-	};
-	const tabsBox: TabsBox = {
-		___type: BOXES_TYPES_map.tabs,
-		tabs: [
-			{
-				title: 'Description',
-				data: {
-					twClassNameVariants: { 'gap-y': '2', px: '4' },
-					___type: BOXES_TYPES_map.md,
-					content: `An audio coloration utility plugin featuring individual modes for classic emulation of some iconic music production tools. This tool is meant to bring character, or "dirt" to your incoming audio signals.
+      },
+    ],
+  };
+  const iframeBx: IframeBx = {
+    ___type: BOXES_TYPES_map.iframe,
+    ___subType: SUB_BOXES_TYPES_map.youtube,
+    src: "https://www.youtube.com/embed/GeD0lopiqsw?autoplay=0&loop=0&mute=0&controls=0&enablejsapi=1",
+  };
+  const tabsBx: TabsBx = {
+    ___type: BOXES_TYPES_map.tabs,
+    tabs: [
+      {
+        title: "Description",
+        data: {
+          twClassNameVariants: { "gap-y": "2", px: "4" },
+          ___type: BOXES_TYPES_map.md,
+          content: `An audio coloration utility plugin featuring individual modes for classic emulation of some iconic music production tools. This tool is meant to bring character, or "dirt" to your incoming audio signals.
 					
 Lo-Fly Dirt installs as an Audio Unit effect for hosts that support the format such as AUM, Audio Bus, Beatmaker 3, Garage Band, Cubasis, etc.`,
-				},
-			},
-			{
-				title: 'Specs',
-				data: {
-					twClassNameVariants: { 'gap-y': '2', px: '4' },
-					___type: BOXES_TYPES_map.md,
-					content: `### Default Mode:
+        },
+      },
+      {
+        title: "Specs",
+        data: {
+          twClassNameVariants: { "gap-y": "2", px: "4" },
+          ___type: BOXES_TYPES_map.md,
+          content: `### Default Mode:
 	
 Adds subtle character of the input sound. Simple saturation and light, preset compression are added to the overall sound bringing out unique tones & textures of your source audio. The wet/dry knob at the 100 or full position would leave source audio "warmed up.
 
@@ -87,20 +87,20 @@ Simply put, this mode brings back the classic sound of a legendary game console.
 ### SK- 5 Mode:
 
 Also built off the things we love about the classic 8 bit sound, but with a twist...this mode adds HP filtering and punch! Instant dirt is applied when this mode is activated, high pass filtering and punch is applied as you move the signal from dry to wet. The HP filter is set to cutoff at 300Hz`,
-				},
-			},
-			{
-				title: 'User Manual',
-				data: {
-					twClassNameVariants: { 'gap-x': '8', 'gap-y': '8' },
-					___type: BOXES_TYPES_map.grid,
-					gridTemplateColumns: `repeat(auto-fit, minmax(20rem, 1fr))`,
-					items: [
-						{
-							customPageClassesKeys: ['center-on-ls-md-screens'],
-							twClassNameVariants: { 'gap-y': '2', px: '4' },
-							___type: BOXES_TYPES_map.md,
-							content: `### Whats New:
+        },
+      },
+      {
+        title: "User Manual",
+        data: {
+          twClassNameVariants: { "gap-x": "8", "gap-y": "8" },
+          ___type: BOXES_TYPES_map.grid,
+          gridTemplateColumns: `repeat(auto-fit, minmax(20rem, 1fr))`,
+          items: [
+            {
+              customPgClassesKeys: ["center-on-ls-md-screens"],
+              twClassNameVariants: { "gap-y": "2", px: "4" },
+              ___type: BOXES_TYPES_map.md,
+              content: `### Whats New:
 	
 3.0 updates:
 - Adding factory & user presets
@@ -108,143 +108,143 @@ Also built off the things we love about the classic 8 bit sound, but with a twis
 
 You can check out the reference guide below:
 
-[Download Now](https://www.dropbox.com/s/qe3zlonoboja003/MSXII%20Lo-Fly%20Dirt%202v5%20Final.pdf?dl=0)`,
-						},
-						{
-							customPageClassesKeys: [
-								'center-on-ls-md-screens',
-								'object-contain',
-							],
-							// twClassNameVariants: { w: '96' },
-							___type: BOXES_TYPES_map['image-only'],
-							src: 'https://res.cloudinary.com/dpjuamt6q/image/upload/v1690932837/Lo-fly_2x_1_mblfhp.jpg',
-						},
-					],
-				},
-			},
-		],
-	};
-	const slider: Slider = {
-		___type: BOXES_TYPES_map.slider,
-		slides: [
-			{
-				___type: BOXES_TYPES_map.iframe,
-				___subType: SUB_BOXES_TYPES_map.youtube,
-				src: 'https://www.youtube.com/embed/fVYFHfw5bxE?autoplay=0&loop=0&mute=0&controls=1&enablejsapi=1',
-			},
-			{
-				___type: BOXES_TYPES_map.iframe,
-				___subType: SUB_BOXES_TYPES_map.youtube,
-				src: 'https://www.youtube.com/embed/vWyepI8I_R8?autoplay=0&loop=0&mute=0&controls=1&enablejsapi=1',
-			},
-			{
-				___type: BOXES_TYPES_map.iframe,
-				___subType: SUB_BOXES_TYPES_map.youtube,
-				src: 'https://www.youtube.com/embed/cGYDLxCIKnc?autoplay=0&loop=0&mute=0&controls=1&enablejsapi=1',
-			},
-		],
-	};
-	const grid2: Grid = {
-		___type: BOXES_TYPES_map.grid,
-		twClassNameVariants: { 'gap-x': '10', 'gap-y': '8' },
-		gridTemplateColumns: `repeat(auto-fill, minmax(15rem, 1fr))`,
-		items: [
-			{
-				// 06/06/2020
-				___type: BOXES_TYPES_map.quote,
-				cite: 'John Bartholomew',
-				content: `Sound design made easy!!
+[Download Now](https://www.dropbx.com/s/qe3zlonoboja003/MSXII%20Lo-Fly%20Dirt%202v5%20Final.pdf?dl=0)`,
+            },
+            {
+              customPgClassesKeys: [
+                "center-on-ls-md-screens",
+                "object-contain",
+              ],
+              // twClassNameVariants: { w: '96' },
+              ___type: BOXES_TYPES_map["img-only"],
+              src: "https://res.cloudinary.com/dpjuamt6q/image/upload/v1690932837/Lo-fly_2x_1_mblfhp.jpg",
+            },
+          ],
+        },
+      },
+    ],
+  };
+  const slider: Slider = {
+    ___type: BOXES_TYPES_map.slider,
+    slides: [
+      {
+        ___type: BOXES_TYPES_map.iframe,
+        ___subType: SUB_BOXES_TYPES_map.youtube,
+        src: "https://www.youtube.com/embed/fVYFHfw5bxE?autoplay=0&loop=0&mute=0&controls=1&enablejsapi=1",
+      },
+      {
+        ___type: BOXES_TYPES_map.iframe,
+        ___subType: SUB_BOXES_TYPES_map.youtube,
+        src: "https://www.youtube.com/embed/vWyepI8I_R8?autoplay=0&loop=0&mute=0&controls=1&enablejsapi=1",
+      },
+      {
+        ___type: BOXES_TYPES_map.iframe,
+        ___subType: SUB_BOXES_TYPES_map.youtube,
+        src: "https://www.youtube.com/embed/cGYDLxCIKnc?autoplay=0&loop=0&mute=0&controls=1&enablejsapi=1",
+      },
+    ],
+  };
+  const grid2: Grid = {
+    ___type: BOXES_TYPES_map.grid,
+    twClassNameVariants: { "gap-x": "10", "gap-y": "8" },
+    gridTemplateColumns: `repeat(auto-fill, minmax(15rem, 1fr))`,
+    items: [
+      {
+        // 06/06/2020
+        ___type: BOXES_TYPES_map.quote,
+        cite: "John Bartholomew",
+        content: `Sound design made easy!!
 Such a great app. Makes sound design super easy and fun. Add texture to your drums and make them stand out in the mix with a punch. Really with this app bring flava to any sound within your productions. Definitely cop this if you have been missing out!`,
-			},
-			{
-				// 02/01/2021
-				___type: BOXES_TYPES_map.quote,
-				cite: 'seltzernpopcorn',
-				content: `iiilllilillliiiild(-_-)bliiiilllilillliii
+      },
+      {
+        // 02/01/2021
+        ___type: BOXES_TYPES_map.quote,
+        cite: "seltzernpopcorn",
+        content: `iiilllilillliiiild(-_-)bliiiilllilillliii
 Thank you to MSXII for putting out this indispensable app for any producer looking to add a layer of grit and dirt that most distortion effects just don't do. I find myself using it on just about every production. The added presets have been wonderful (Goose Down in particular) I'll be bumping the MSXII creations through AUM and KOALA from here on out. SALUTE`,
-			},
-			{
-				// 07/05/2020
-				___type: BOXES_TYPES_map.quote,
-				cite: 'Dj Jiggz',
-				content: `Use it on everything
+      },
+      {
+        // 07/05/2020
+        ___type: BOXES_TYPES_map.quote,
+        cite: "Dj Jiggz",
+        content: `Use it on everything
 I love how this app makes my samples sound. Plus its so much easier to treat a track with lo- fly rather than all the steps it would take to do the same thing with a number of different effects and plugins. Saturation, compression, bit reduction and more with just the turn of a knob and a few button presses. I use it on all my drum kits too. It gets a lot of use for many things.`,
-			},
-			// {
-			// 	___type: BOXES_TYPES_map.iframe,
-			// 	___subType: 'instagram',
-			// 	src: 'https://www.instagram.com/p/B-PxUFQDDJv/?utm_source=ig_embed&utm_campaign=loading'
-			// },
-			// {
-			// 	___type: BOXES_TYPES_map.iframe,
-			// 	___subType: 'instagram',
-			// 	src: 'https://www.instagram.com/p/B7zHSBxHmrw/?utm_source=ig_embed&utm_campaign=loading'
-			// },
-			// {
-			// 	___type: BOXES_TYPES_map.iframe,
-			// 	___subType: 'instagram',
-			// 	src: 'https://www.instagram.com/p/BhcibxMAG8Z/?utm_source=ig_embed&utm_campaign=loading'
-			// },
-			// {
-			// 	___type: BOXES_TYPES_map.iframe,
-			// 	___subType: 'instagram',
-			// 	src: 'https://www.instagram.com/p/B7sPExan8Js/?utm_source=ig_embed&utm_campaign=loading'
-			// }
-		],
-	};
-	const grid3: Grid = {
-		___type: BOXES_TYPES_map.grid,
-		twClassNameVariants: { 'gap-y': '3' },
-		gridTemplateColumns: `1fr`,
-		customPageClassesKeys: ['center-content'],
-		items: [
-			{
-				twClassNameVariants: { rounded: '5xl', w: '40', h: '40' },
-				___type: 'image-only',
-				src: 'https://cdn.shopify.com/s/files/1/0345/7209/t/28/assets/pf-d22a5c09--MSXIIAUDIOLOFIDIRTAPPICON3x-Edited.jpg?v=1582621861',
-			},
-			{
-				___type: 'md',
-				content: `[![](https://texttofloss.com/wp-content/uploads/2021/01/App-Store-Button-transparent.png?className=w-44)](${appLink})`,
-			},
-		],
-	};
+      },
+      // {
+      // 	___type: BOXES_TYPES_map.iframe,
+      // 	___subType: 'instagram',
+      // 	src: 'https://www.instagram.com/p/B-PxUFQDDJv/?utm_source=ig_embed&utm_campaign=loading'
+      // },
+      // {
+      // 	___type: BOXES_TYPES_map.iframe,
+      // 	___subType: 'instagram',
+      // 	src: 'https://www.instagram.com/p/B7zHSBxHmrw/?utm_source=ig_embed&utm_campaign=loading'
+      // },
+      // {
+      // 	___type: BOXES_TYPES_map.iframe,
+      // 	___subType: 'instagram',
+      // 	src: 'https://www.instagram.com/p/BhcibxMAG8Z/?utm_source=ig_embed&utm_campaign=loading'
+      // },
+      // {
+      // 	___type: BOXES_TYPES_map.iframe,
+      // 	___subType: 'instagram',
+      // 	src: 'https://www.instagram.com/p/B7sPExan8Js/?utm_source=ig_embed&utm_campaign=loading'
+      // }
+    ],
+  };
+  const grid3: Grid = {
+    ___type: BOXES_TYPES_map.grid,
+    twClassNameVariants: { "gap-y": "3" },
+    gridTemplateColumns: `1fr`,
+    customPgClassesKeys: ["center-content"],
+    items: [
+      {
+        twClassNameVariants: { rounded: "5xl", w: "40", h: "40" },
+        ___type: "img-only",
+        src: "https://cdn.shopify.com/s/files/1/0345/7209/t/28/assets/pf-d22a5c09--MSXIIAUDIOLOFIDIRTAPPICON3x-Edited.jpg?v=1582621861",
+      },
+      {
+        ___type: "md",
+        content: `[![](https://texttofloss.com/wp-content/uploads/2021/01/App-Store-Button-transparent.png?className=w-44)](${appLink})`,
+      },
+    ],
+  };
 
-	return [
-		createStandardSection({ order: 0, body: [grid] }),
-		createStandardSection({ order: 1, body: [tabsBox] }),
-		createStandardSection({ order: 2, body: [iframeBox] }),
-		createStandardSection({
-			order: 3,
-			body: [slider],
-			title: 'Tutorial',
-			twClassNameVariants: { 'gap-y': '4' },
-		}),
-		createStandardSection({
-			order: 4,
-			body: [grid2],
-			// title: 'LO-FLY Dirt Around The Web',
-			twClassNameVariants: { 'gap-y': '8' },
-			// customPageClassesKeys: ['section-container-v1']
-		}),
-		createStandardSection({ order: 5, body: [grid3] }),
-	];
+  return [
+    createStandardSect({ order: 0, body: [grid] }),
+    createStandardSect({ order: 1, body: [tabsBx] }),
+    createStandardSect({ order: 2, body: [iframeBx] }),
+    createStandardSect({
+      order: 3,
+      body: [slider],
+      title: "Tutorial",
+      twClassNameVariants: { "gap-y": "4" },
+    }),
+    createStandardSect({
+      order: 4,
+      body: [grid2],
+      // title: 'LO-FLY Dirt Around The Web',
+      twClassNameVariants: { "gap-y": "8" },
+      // customPgClassesKeys: ['section-container-v1']
+    }),
+    createStandardSect({ order: 5, body: [grid3] }),
+  ];
 })();
 
-const loFlyDirtPageData: CustomPage = {
-	twClassNameVariants: {
-		'max-w': '100ch',
-		w: 'full',
-		mx: 'auto',
-		px: '8',
-		py: '16',
-		'gap-x': '16',
-		'gap-y': '16',
-	},
-	// title: 'Lo-Fly Dirt',
-	slug: 'lo-fly-dirt',
-	pageCategoryName: 'ios-apps',
-	pageStructure: LoflyDirtIOSApp,
+const loFlyDirtPgData: CustomPg = {
+  twClassNameVariants: {
+    "max-w": "100ch",
+    w: "full",
+    mx: "auto",
+    px: "8",
+    py: "16",
+    "gap-x": "16",
+    "gap-y": "16",
+  },
+  // title: 'Lo-Fly Dirt',
+  slug: "lo-fly-dirt",
+  pgCategoryName: "ios-apps",
+  pageStructure: LoflyDirtIOSApp,
 };
 
-export default loFlyDirtPageData;
+export default loFlyDirtPgData;

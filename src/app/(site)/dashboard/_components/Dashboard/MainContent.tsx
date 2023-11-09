@@ -2,7 +2,7 @@
 import { useRouter } from "next/navigation";
 import { useEffect, type PropsWithChildren } from "react";
 import SectionPrimaryLoader from "~/app/components/common/Loaders/SectionPrimary";
-import SectionLoaderContainer from "~/app/components/common/LoadersContainers/Section";
+import SectLoaderContainer from "~/app/components/common/LoadersContainers/Section";
 import { useCheckIsAdmin } from "~/app/libs/hooks";
 
 function MainContent(props: PropsWithChildren) {
@@ -15,9 +15,9 @@ function MainContent(props: PropsWithChildren) {
 
   if (customerStatus === "loading")
     return (
-      <SectionLoaderContainer>
+      <SectLoaderContainer>
         <SectionPrimaryLoader />
-      </SectionLoaderContainer>
+      </SectLoaderContainer>
     );
 
   if (!isAdmin) return <>Not Authorized</>;

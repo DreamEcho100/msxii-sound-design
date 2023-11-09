@@ -1,159 +1,144 @@
 import { relations } from "drizzle-orm";
-import {
-  gridBox,
-  boxToSlider,
-  tabsBox,
-  pageCategory,
-  image,
-  seo,
-} from "./schema";
-import {
-  mdBox,
-  imageBox,
-  iframeBox,
-  quoteBox,
-  tabs,
-  slider,
-  grid,
-} from "./schema";
-import { page, section, css, box, headerBox } from "./schema";
+import { gridBx, slideBx, tabsBx, pgCategory, img, seo } from "./schema";
+import { mdBx, imgBx, iframeBx, quoteBx, tabs, slider, grid } from "./schema";
+import { pg, sect, css, bx, headerBx } from "./schema";
 
 export const cssRelations = relations(css, ({ many }) => ({
-  pages: many(page),
-  sections: many(section),
+  pgs: many(pg),
+  sects: many(sect),
 }));
 export const seoRelations = relations(seo, ({ one }) => ({
-  pages: one(page),
+  pgs: one(pg),
 }));
-export const pageCategoryRelations = relations(pageCategory, ({ many }) => ({
-  pages: many(page),
+export const pgCategoryRelations = relations(pgCategory, ({ many }) => ({
+  pgs: many(pg),
 }));
-export const imageRelations = relations(image, ({ many }) => ({
-  pages: many(page),
+export const imgRelations = relations(img, ({ many }) => ({
+  pgs: many(pg),
 }));
 
-export const pageRelations = relations(page, ({ many, one }) => ({
-  sections: many(section),
+export const pgRelations = relations(pg, ({ many, one }) => ({
+  sects: many(sect),
   css: one(css, {
-    fields: [page.cssId],
+    fields: [pg.cssId],
     references: [css.id],
   }),
   seo: one(seo, {
-    fields: [page.seoId],
+    fields: [pg.seoId],
     references: [seo.id],
   }),
-  pageCategory: one(pageCategory, {
-    fields: [page.pageCategoryName],
-    references: [pageCategory.name],
+  pgCategory: one(pgCategory, {
+    fields: [pg.pgCategoryName],
+    references: [pgCategory.name],
   }),
-  image: one(image, {
-    fields: [page.imageId],
-    references: [image.id],
+  img: one(img, {
+    fields: [pg.imgId],
+    references: [img.id],
   }),
 }));
-export const sectionRelations = relations(section, ({ many, one }) => ({
-  body: many(box),
-  page: one(page, {
-    fields: [section.pageId],
-    references: [page.id],
+export const sectRelations = relations(sect, ({ many, one }) => ({
+  body: many(bx),
+  pg: one(pg, {
+    fields: [sect.pgId],
+    references: [pg.id],
   }),
   css: one(css, {
-    fields: [section.cssId],
+    fields: [sect.cssId],
     references: [css.id],
   }),
 }));
 
-export const boxRelations = relations(box, ({ many, one }) => ({
+export const bxRelations = relations(bx, ({ many, one }) => ({
   css: one(css, {
-    fields: [box.cssId],
+    fields: [bx.cssId],
     references: [css.id],
   }),
-  section: one(section, {
-    fields: [box.sectionId],
-    references: [section.id],
+  sect: one(sect, {
+    fields: [bx.sectId],
+    references: [sect.id],
   }),
   //
-  headerBox: one(headerBox, {
-    fields: [box.id],
-    references: [headerBox.boxId],
+  headerBx: one(headerBx, {
+    fields: [bx.id],
+    references: [headerBx.bxId],
   }),
-  mdBox: one(mdBox, {
-    fields: [box.id],
-    references: [mdBox.boxId],
+  mdBx: one(mdBx, {
+    fields: [bx.id],
+    references: [mdBx.bxId],
   }),
-  imageBox: one(imageBox, {
-    fields: [box.id],
-    references: [imageBox.boxId],
+  imgBx: one(imgBx, {
+    fields: [bx.id],
+    references: [imgBx.bxId],
   }),
-  iframeBox: one(iframeBox, {
-    fields: [box.id],
-    references: [iframeBox.boxId],
+  iframeBx: one(iframeBx, {
+    fields: [bx.id],
+    references: [iframeBx.bxId],
   }),
-  quoteBox: one(quoteBox, {
-    fields: [box.id],
-    references: [quoteBox.boxId],
+  quoteBx: one(quoteBx, {
+    fields: [bx.id],
+    references: [quoteBx.bxId],
   }),
   //
 
   tabs: one(tabs, {
-    fields: [box.id],
-    references: [tabs.boxId],
+    fields: [bx.id],
+    references: [tabs.bxId],
   }),
   slider: one(slider, {
-    fields: [box.id],
-    references: [slider.boxId],
+    fields: [bx.id],
+    references: [slider.bxId],
   }),
   grid: one(grid, {
-    fields: [box.id],
-    references: [grid.boxId],
+    fields: [bx.id],
+    references: [grid.bxId],
   }),
 
   //
-  tabsBoxes: many(tabsBox),
-  slidersBoxes: many(slider),
-  gridsBoxes: many(gridBox),
+  tabsBxs: many(tabsBx),
+  slidesBxs: many(slider),
+  gridsBxs: many(gridBx),
 }));
 
-export const gridBoxRelations = relations(gridBox, ({ one }) => ({
-  box: one(box, {
-    fields: [gridBox.boxId],
-    references: [box.id],
+export const gridBxRelations = relations(gridBx, ({ one }) => ({
+  bx: one(bx, {
+    fields: [gridBx.bxId],
+    references: [bx.id],
   }),
   grid: one(grid, {
-    fields: [gridBox.gridId],
+    fields: [gridBx.gridId],
     references: [grid.id],
   }),
 }));
 export const gridRelations = relations(grid, ({ many }) => ({
-  gridsBoxes: many(gridBox),
+  gridsBxs: many(gridBx),
 }));
 
-export const boxToSliderRelations = relations(boxToSlider, ({ one }) => ({
-  box: one(box, {
-    fields: [boxToSlider.boxId],
-    references: [box.id],
+export const slideBxRelations = relations(slideBx, ({ one }) => ({
+  bx: one(bx, {
+    fields: [slideBx.bxId],
+    references: [bx.id],
   }),
   slider: one(slider, {
-    fields: [boxToSlider.sliderId],
+    fields: [slideBx.sliderId],
     references: [slider.id],
   }),
 }));
 export const sliderRelations = relations(slider, ({ many }) => ({
-  slidersBoxes: many(boxToSlider),
+  slidesBxs: many(slideBx),
 }));
 
-export const tabsBoxRelations = relations(tabsBox, ({ one }) => ({
-  box: one(box, {
-    fields: [tabsBox.boxId],
-    references: [box.id],
+export const tabsBxRelations = relations(tabsBx, ({ one }) => ({
+  bx: one(bx, {
+    fields: [tabsBx.bxId],
+    references: [bx.id],
   }),
   tabs: one(tabs, {
-    fields: [tabsBox.tabsId],
+    fields: [tabsBx.tabsId],
     references: [tabs.id],
   }),
 }));
 export const tabsRelations = relations(tabs, ({ many }) => ({
-  tabsBoxes: many(tabsBox),
+  tabsBxs: many(tabsBx),
 }));
 
 /*
@@ -174,26 +159,26 @@ export const creativeWorkToTagRelations = relations(
 */
 
 /*
-export const headerBoxRelations = relations(headerBox, ({ one }) => ({
-	// sections: many(section),
-	box: one(box, {
-		fields: [headerBox.boxId],
-		references: [box.id],
+export const headerBxRelations = relations(headerBx, ({ one }) => ({
+	// sects: many(sect),
+	bx: one(bx, {
+		fields: [headerBx.bxId],
+		references: [bx.id],
 	}),
 	//
-	// headerBox HeaderBox?
-	// mdBox     MdBox?
-	// imageBox  ImageBox?
-	// IframeBox IframeBox?
-	// quoteBox  QuoteBox?
+	// headerBx HeaderBx?
+	// mdBx     MdBx?
+	// imgBx  ImageBx?
+	// IframeBx IframeBx?
+	// quoteBx  QuoteBx?
 
 	// tabs    Tabs?
 	// slider Slider?
 	// grid             Grid?
 
-	// tabsBoxes    TabsBox[]
-	// slidersBoxes SliderBox[]
-	// gridBox             gridBox[]
+	// tabsBxs    TabsBx[]
+	// slidesBxs SliderBx[]
+	// gridBx             gridBx[]
 }));
 */
 

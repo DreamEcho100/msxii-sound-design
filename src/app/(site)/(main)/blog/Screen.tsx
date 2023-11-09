@@ -15,7 +15,7 @@ type Props = {
 };
 
 export default function BlogScreen(props: Props) {
-  const [currentPageIndex, setCurrentPageIndex] = useState(0);
+  const [currentPgIndex, setCurrentPgIndex] = useState(0);
   const [articles, articlesQuery] =
     trpcApi.shopify.blog.articles.getManyBasic.useSuspenseInfiniteQuery(
       props.baseInput,
@@ -31,30 +31,30 @@ export default function BlogScreen(props: Props) {
 
   const pages = articles.pages;
   const pagesLength = pages.length;
-  const isOnLastPage = currentPageIndex === pagesLength - 1;
+  const isOnLastPage = currentPgIndex === pagesLength - 1;
 
-  if (!pages[currentPageIndex]) return <>No articles found</>;
+  if (!pages[currentPgIndex]) return <>No articles found</>;
 
-  const currentPageItems = pages[currentPageIndex]!.items;
+  const currentPgItems = pages[currentPgIndex]!.items;
 
-  const disableNextPageButton =
+  const disableNextPgButton =
     articlesQuery.isFetching || (isOnLastPage && !articlesQuery.hasNextPage); //  || !articlesQuery.hasNextPage;
-  const disablePreviousPageButton =
-    articlesQuery.isFetching || currentPageIndex === 0;
+  const disablePreviousPgButton =
+    articlesQuery.isFetching || currentPgIndex === 0;
 
-  const goToNextPage = async () => {
+  const goToNextPg = async () => {
     if (isOnLastPage) {
       if (!articlesQuery.hasNextPage) return;
 
       await articlesQuery.fetchNextPage();
     }
 
-    setCurrentPageIndex((prev) => prev + 1);
+    setCurrentPgIndex((prev) => prev + 1);
   };
-  const goToPreviousPage = () => {
-    if (currentPageIndex === 0) return;
+  const goToPreviousPg = () => {
+    if (currentPgIndex === 0) return;
 
-    setCurrentPageIndex((prev) => prev - 1);
+    setCurrentPgIndex((prev) => prev - 1);
   };
 
   return (
@@ -73,7 +73,7 @@ export default function BlogScreen(props: Props) {
           }}
         >
           <Suspense>
-            {currentPageItems.map(({ node }) => (
+            {currentPgItems.map(({ node }) => (
               <article
                 key={node.id}
                 className="flex w-56 flex-col gap-4 text-center"
@@ -109,10 +109,10 @@ export default function BlogScreen(props: Props) {
             <Clickable
               variants={null}
               className="flex items-center disabled:cursor-not-allowed disabled:text-text-primary-200"
-              disabled={disablePreviousPageButton}
-              onClick={goToPreviousPage}
+              disabled={disablePreviousPgButton}
+              onClick={goToPreviousPg}
             >
-              {!disablePreviousPageButton && (
+              {!disablePreviousPgButton && (
                 <>
                   <HiOutlineArrowNarrowLeft className="translate-y-[10%]" />
                   &nbsp;
@@ -123,12 +123,12 @@ export default function BlogScreen(props: Props) {
             <Clickable
               variants={null}
               className="flex items-center disabled:cursor-not-allowed disabled:text-text-primary-200"
-              disabled={disableNextPageButton}
+              disabled={disableNextPgButton}
               // eslint-disable-next-line @typescript-eslint/no-misused-promises
-              onClick={goToNextPage}
+              onClick={goToNextPg}
             >
               Newer
-              {!disableNextPageButton && (
+              {!disableNextPgButton && (
                 <>
                   &nbsp;
                   <HiOutlineArrowNarrowRight className="translate-y-[10%]" />

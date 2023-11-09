@@ -1,8 +1,7 @@
-import customPageClasses from "~/app/styles/custom-page.module.css";
+import customPgClasses from "~/app/styles/custom-page.module.css";
 
-export function createBoxTypeClass(type: string) {
-  return `${customPageClasses[`${type}-BOX`]} ${customPageClasses.BOX} box ${
-    customPageClasses.box
+export function createBxTypeClass(type: string) {
+  return `${customPgClasses[`${type}-BOX`]} ${customPgClasses.BOX} bx ${
+    customPgClasses.bx
   }`;
 }
-

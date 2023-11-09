@@ -4,49 +4,49 @@ import { z } from "zod";
 import { useRouter } from "next/router";
 import { useMemo } from "react";
 
-export type CustomPageProps = {
+export type CustomPgProps = {
   pageParams: {
-    pageCategoryName: string;
+    pgCategoryName: string;
     slug?: string | null;
   };
-  // getOnePageCategoryQuery: UseTRPCQueryResult<
+  // getOnePgCategoryQuery: UseTRPCQueryResult<
   // 	RouterOutputs['dashboard']['pagesCategories']['getOne'],
   // 	unknown // TRPCClientErrorLike<TProcedure>
   // >;
-  customPageStructureQuery: UseTRPCQueryResult<
-    RouterOutputs["customPages"]["getOne"],
+  customPgStructureQuery: UseTRPCQueryResult<
+    RouterOutputs["customPgs"]["getOne"],
     unknown // TRPCClientErrorLike<TProcedure>
   >;
-  getManyPagesCategoriesItemsQuery: UseTRPCQueryResult<
-    RouterOutputs["customPages"]["pagesCategories"]["getManyItems"],
+  getManyPgsCategoriesItemsQuery: UseTRPCQueryResult<
+    RouterOutputs["customPgs"]["pagesCategories"]["getManyItems"],
     unknown // TRPCClientErrorLike<TProcedure>
   >;
 };
 
-export type GetCustomPageDataProps = {
+export type GetCustomPgDataProps = {
   pageParams?: {
-    pageCategoryName: string;
+    pgCategoryName: string;
     slug?: string | null;
   };
-  isAShowcasePage?: boolean;
-  isACustomPage?: boolean;
+  isAShowcasePg?: boolean;
+  isACustomPg?: boolean;
 };
 
-export const useGetCustomPageData = (props?: {
+export const useGetCustomPgData = (props?: {
   pageParams?: {
-    pageCategoryName: string;
+    pgCategoryName: string;
     slug?: string | null;
   } | null;
-  isAShowcasePage?: boolean;
-  isACustomPage?: boolean;
+  isAShowcasePg?: boolean;
+  isACustomPg?: boolean;
 }) => {
   const router = useRouter();
   const isRouterReady = router.isReady;
 
-  const isInAdminPage = !!router.pathname?.startsWith("/dashboard");
+  const isInAdminPg = !!router.pathname?.startsWith("/dashboard");
 
   const pageParams: {
-    pageCategoryName?: string;
+    pgCategoryName?: string;
     slug?: string | null;
   } = useMemo(() => {
     return typeof props?.pageParams === "object"
@@ -56,64 +56,64 @@ export const useGetCustomPageData = (props?: {
       : router.isReady
       ? z
           .object({
-            pageCategoryName: z.string(),
+            pgCategoryName: z.string(),
             slug: z.string().optional().nullable(),
           })
           .parse(router.query)
       : {};
   }, [props?.pageParams, router.isReady, router.query]);
 
-  const isAShowcasePage = useMemo(
+  const isAShowcasePg = useMemo(
     () =>
       !pageParams.slug &&
-      (typeof props?.isAShowcasePage === "boolean" ||
-        !!pageParams.pageCategoryName),
-    [pageParams?.slug, pageParams.pageCategoryName, props?.isAShowcasePage],
+      (typeof props?.isAShowcasePg === "boolean" ||
+        !!pageParams.pgCategoryName),
+    [pageParams?.slug, pageParams.pgCategoryName, props?.isAShowcasePg],
   );
 
-  // const getOnePageCategoryQuery = api.dashboard.pagesCategories.getOne.useQuery(
-  // 	{ pageCategoryName: pageParams.pageCategoryName! },
-  // 	{ enabled: isAShowcasePage },
+  // const getOnePgCategoryQuery = api.dashboard.pagesCategories.getOne.useQuery(
+  // 	{ pgCategoryName: pageParams.pgCategoryName! },
+  // 	{ enabled: isAShowcasePg },
   // );
 
-  const isACustomPage = useMemo(
+  const isACustomPg = useMemo(
     () =>
-      typeof props?.isACustomPage === "boolean" ||
-      typeof pageParams.pageCategoryName === "string",
-    // !!getOnePageCategoryQuery.data?.isPage ||
+      typeof props?.isACustomPg === "boolean" ||
+      typeof pageParams.pgCategoryName === "string",
+    // !!getOnePgCategoryQuery.data?.isPg ||
     // !!(
-    // 	pageParams.pageCategoryName &&
-    // 	['ios-apps'].includes(pageParams.pageCategoryName)
+    // 	pageParams.pgCategoryName &&
+    // 	['ios-apps'].includes(pageParams.pgCategoryName)
     // )
     [
-      props?.isACustomPage,
-      pageParams.pageCategoryName,
-      // getOnePageCategoryQuery.data?.isPage,
+      props?.isACustomPg,
+      pageParams.pgCategoryName,
+      // getOnePgCategoryQuery.data?.isPg,
     ],
   );
 
-  const customPageStructureQuery = api.customPages.getOne.useQuery(
+  const customPgStructureQuery = api.customPgs.getOne.useQuery(
     {
-      pageCategoryName: pageParams.pageCategoryName!,
+      pgCategoryName: pageParams.pgCategoryName!,
       slug: pageParams.slug,
     },
-    { enabled: isACustomPage },
+    { enabled: isACustomPg },
   );
 
-  const getManyPagesCategoriesItemsQuery =
-    api.customPages.pagesCategories.getManyItems.useInfiniteQuery(
-      { pageCategoryName: pageParams.pageCategoryName! },
-      { enabled: isAShowcasePage },
+  const getManyPgsCategoriesItemsQuery =
+    api.customPgs.pagesCategories.getManyItems.useInfiniteQuery(
+      { pgCategoryName: pageParams.pgCategoryName! },
+      { enabled: isAShowcasePg },
     );
 
   return {
     pageParams,
-    isACustomPage,
-    isAShowcasePage,
-    isInAdminPage,
+    isACustomPg,
+    isAShowcasePg,
+    isInAdminPg,
     isRouterReady,
-    // getOnePageCategoryQuery,
-    customPageStructureQuery,
-    getManyPagesCategoriesItemsQuery,
+    // getOnePgCategoryQuery,
+    customPgStructureQuery,
+    getManyPgsCategoriesItemsQuery,
   };
 };

@@ -8,7 +8,7 @@ type Props = {
   basicArticles: RouterOutputs["shopify"]["blog"]["articles"]["getManyBasic"]["items"];
 };
 
-const HomeLatestBlogsSection = (props: Props) => {
+const HomeLatestBlogsSect = (props: Props) => {
   return (
     <section className="sm:px-main-p-3 sm:py-main-p-2">
       <div className="bg-bg-primary-0 px-main-p-2 py-main-p-1 sm:rounded-xl md:p-main-p-1">
@@ -81,4 +81,4 @@ const HomeLatestBlogsSection = (props: Props) => {
   );
 };
 
-export default HomeLatestBlogsSection;
+export default HomeLatestBlogsSect;

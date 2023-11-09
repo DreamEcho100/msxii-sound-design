@@ -1,11 +1,11 @@
-import { type PropsWithChildren } from 'react';
+import { type PropsWithChildren } from "react";
 
 const PageLoaderContainer = (props: PropsWithChildren) => {
-	return (
-		<div className="p-8 h-screen flex items-center justify-center">
-			{props.children}
-		</div>
-	);
+  return (
+    <div className="flex h-screen items-center justify-center p-8">
+      {props.children}
+    </div>
+  );
 };
 
 export default PageLoaderContainer;

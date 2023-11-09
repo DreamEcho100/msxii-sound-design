@@ -46,11 +46,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   });
 
   await Promise.all([
-    drizzleQueryClient.query.pageCategory
+    drizzleQueryClient.query.pgCategory
       .findMany({
         columns: { name: true },
         with: {
-          pages: {
+          pgs: {
             columns: {
               slug: true,
             },
@@ -66,7 +66,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
             priority: 1,
           });
 
-          for (const page of category.pages) {
+          for (const page of category.pgs) {
             if (!page.slug) continue;
 
             sitemap.push({

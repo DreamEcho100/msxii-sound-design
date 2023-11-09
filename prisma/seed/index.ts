@@ -1,27 +1,27 @@
 import {
-  BoxTypes,
-  IframeBoxTypes,
+  BxTypes,
+  IframeBxTypes,
   PrismaClient,
   SlidesPerViewType,
-  type Box as BoxModel,
+  type Bx as BxModel,
 } from "@prisma/client";
 // import page from './data/lo-fly-dirt';
-import defaultIOSAppsPages, {
-  chomplrPageData,
-  flyTape2PageData,
-  flyTapePageData,
-  loFlyDirtPageData,
+import defaultIOSAppsPgs, {
+  chomplrPgData,
+  flyTape2PgData,
+  flyTapePgData,
+  loFlyDirtPgData,
 } from "./data/ios-apps";
 import pagesCategories from "./data/pagesCategories";
 import { createId } from "@paralleldrive/cuid2";
 import otherCustomPages from "./data/otherCustomPages";
 import {
-  type Box,
-  type CustomPage,
-  type RowsOnlyBox,
-  TwoColumnsBox,
+  type Bx,
+  type CustomPg,
+  type RowsOnlyBx,
+  type TwoColumnsBx,
 } from "../../src/libs/utils/types/custom-page";
-// import loFlyDirtPageData from './data/lo-fly-dirt';
+// import loFlyDirtPgData from './data/lo-fly-dirt';
 
 declare global {
   // eslint-disable-next-line no-var
@@ -42,10 +42,10 @@ if (process.env.NODE_ENV !== "production") {
   global.prisma = prisma;
 }
 
-const seedPagesCategories = async () => {
+const seedPgsCategories = async () => {
   console.log("Starting seeding pagesCategories");
 
-  await prisma.pageCategory.createMany({
+  await prisma.pgCategory.createMany({
     data: pagesCategories,
   });
 
@@ -53,14 +53,14 @@ const seedPagesCategories = async () => {
   console.log("\n\n");
 };
 
-const seedPage = async (page: CustomPage) => {
+const seedPg = async (page: CustomPg) => {
   console.log(
-    `Starting seeding page: ${page.pageCategoryName}${
+    `Starting seeding page: ${page.pgCategoryName}${
       page.slug ? `/${page.slug}` : ""
     }`,
   );
 
-  const createdCustomPage = await prisma.page.create({
+  const createdCustomPg = await prisma.pg.create({
     data: {
       id: createId(),
       slug: page.slug,
@@ -70,7 +70,7 @@ const seedPage = async (page: CustomPage) => {
         create: {
           id: createId(),
           twVariants: page.twClassNameVariants,
-          customClasses: page.customPageClassesKeys,
+          customClasses: page.customPgClassesKeys,
         },
       },
       seo: page.title
@@ -82,11 +82,11 @@ const seedPage = async (page: CustomPage) => {
             },
           }
         : undefined,
-      pageCategory: { connect: { name: page.pageCategoryName } },
-      image: page.image && {
+      pgCategory: { connect: { name: page.pgCategoryName } },
+      img: page.img && {
         connectOrCreate: {
-          create: { id: createId(), ...page.image },
-          where: { src: page.image.src },
+          create: { id: createId(), ...page.img },
+          where: { src: page.img.src },
         },
       },
     },
@@ -96,18 +96,18 @@ const seedPage = async (page: CustomPage) => {
     page.pageStructure.map((section) => [section.order, section]),
   );
 
-  const createSections = async () =>
+  const createSects = async () =>
     await prisma.$transaction(
       page.pageStructure.map((section) =>
-        prisma.section.create({
+        prisma.sect.create({
           data: {
             id: createId(),
-            page: { connect: { id: createdCustomPage.id } },
+            pg: { connect: { id: createdCustomPg.id } },
             css: {
               create: {
                 id: createId(),
                 twVariants: section.twClassNameVariants,
-                customClasses: section.customPageClassesKeys,
+                customClasses: section.customPgClassesKeys,
               },
             },
             order: section.order,
@@ -116,20 +116,20 @@ const seedPage = async (page: CustomPage) => {
       ),
     );
 
-  for await (const createdSection of await createSections()) {
-    const section = sectionToOrderMap[createdSection.order]!;
+  for await (const createdSect of await createSects()) {
+    const section = sectionToOrderMap[createdSect.order]!;
 
-    const sectionBoxes: (Exclude<Box, RowsOnlyBox | TwoColumnsBox> & {
+    const sectionBxs: (Exclude<Bx, RowsOnlyBx | TwoColumnsBx> & {
       order: number;
     })[] = [];
 
-    type SectionBoxes = typeof sectionBoxes;
+    type SectBxs = typeof sectionBxs;
 
     let sizePreBodyLoop = 0;
 
     if (section.title) {
       sizePreBodyLoop++;
-      sectionBoxes.push({
+      sectionBxs.push({
         ___type: "header",
         title: section.title,
         description: section.description,
@@ -137,117 +137,117 @@ const seedPage = async (page: CustomPage) => {
       });
     }
 
-    section.body.forEach((box, boxIndex) => {
-      if (box.___type === "rows-only" || box.___type === "two-columns") return;
+    section.body.forEach((bx, bxIndex) => {
+      if (bx.___type === "rows-only" || bx.___type === "two-columns") return;
 
-      sectionBoxes.push({ ...box, order: sizePreBodyLoop + boxIndex });
+      sectionBxs.push({ ...bx, order: sizePreBodyLoop + bxIndex });
     });
 
-    const createBoxes = async <Meta = undefined>(
-      sectionBoxes: SectionBoxes,
+    const createBxs = async <Meta = undefined>(
+      sectionBxs: SectBxs,
       params: {
-        sectionId?: string;
+        sectId?: string;
         meta?: Meta;
       },
     ): Promise<
-      Meta extends undefined ? BoxModel[] : { meta: Meta; boxes: BoxModel[] }
+      Meta extends undefined ? BxModel[] : { meta: Meta; bxes: BxModel[] }
     > => {
-      const boxes: BoxModel[] = [];
+      const bxes: BxModel[] = [];
 
-      const createTypeBoxData = async (
-        box: SectionBoxes[number],
+      const createTypeBxData = async (
+        bx: SectBxs[number],
       ): Promise<
         | false
         | (Omit<
-            Parameters<PrismaClient["box"]["create"]>[0]["data"],
-            "id" | "section" | "css" | "sectionId" | "cssId" | "order"
+            Parameters<PrismaClient["bx"]["create"]>[0]["data"],
+            "id" | "section" | "css" | "sectId" | "cssId" | "order"
           > &
             Partial<
-              Pick<Parameters<PrismaClient["box"]["create"]>[0]["data"], "css">
+              Pick<Parameters<PrismaClient["bx"]["create"]>[0]["data"], "css">
             >)
       > => {
-        switch (box.___type) {
+        switch (bx.___type) {
           case "header":
             return {
-              type: BoxTypes.HEADER,
-              headerBox: {
+              type: BxTypes.HEADER,
+              headerBx: {
                 create: {
                   id: createId(),
-                  title: box.title,
-                  description: box.description,
+                  title: bx.title,
+                  description: bx.description,
                 },
               },
             };
 
           case "md":
             return {
-              type: BoxTypes.MD,
-              mdBox: {
-                create: { id: createId(), content: box.content },
+              type: BxTypes.MD,
+              mdBx: {
+                create: { id: createId(), content: bx.content },
               },
             };
 
-          case "image-only":
+          case "img-only":
             return {
-              type: BoxTypes.IMAGE,
-              imageBox: {
+              type: BxTypes.IMAGE,
+              imgBx: {
                 create: {
                   id: createId(),
-                  src: box.src,
-                  altText: box.altText,
-                  width: box.width,
-                  height: box.height,
+                  src: bx.src,
+                  altText: bx.altText,
+                  width: bx.width,
+                  height: bx.height,
                 },
               },
             };
 
           case "iframe":
             return {
-              type: BoxTypes.IFRAME,
-              iframeBox: {
+              type: BxTypes.IFRAME,
+              iframeBx: {
                 create: {
                   id: createId(),
-                  src: box.src,
-                  title: box.title,
+                  src: bx.src,
+                  title: bx.title,
                   type:
-                    box.___subType === "instagram"
-                      ? IframeBoxTypes.INSTAGRAM
-                      : box.___subType === "soundcloud"
-                      ? IframeBoxTypes.SOUND_CLOUD
-                      : IframeBoxTypes.YOUTUBE,
+                    bx.___subType === "instagram"
+                      ? IframeBxTypes.INSTAGRAM
+                      : bx.___subType === "soundcloud"
+                      ? IframeBxTypes.SOUND_CLOUD
+                      : IframeBxTypes.YOUTUBE,
                 },
               },
             };
 
           case "quote":
             return {
-              type: BoxTypes.QUOTE,
-              quoteBox: {
+              type: BxTypes.QUOTE,
+              quoteBx: {
                 create: {
                   id: createId(),
-                  cite: box.cite,
-                  content: box.content,
+                  cite: bx.cite,
+                  content: bx.content,
                 },
               },
             };
 
           case "grid": {
-            const itemsData = await createBoxes(
-              box.items.map((item, itemIndex) => ({
+            const itemsData = await createBxs(
+              bx.items.map((item, itemIndex) => ({
                 ...item,
                 order: itemIndex,
               })),
               {},
-            ).then((boxes) =>
-              boxes.map((box) => ({ id: createId(), boxId: box.id })),
+            ).then((bxes) =>
+              bxes.map((bx) => ({ id: createId(), bxId: bx.id })),
             );
 
             return {
-              type: BoxTypes.GRID,
+              type: BxTypes.GRID,
               grid: {
                 create: {
                   id: createId(),
-                  gridsBoxes: {
+                  gridsBxs: {
                     createMany: { data: itemsData },
                   },
                 },
@@ -255,10 +255,10 @@ const seedPage = async (page: CustomPage) => {
               css: {
                 create: {
                   id: createId(),
-                  twVariants: box.twClassNameVariants,
-                  customClasses: box.customPageClassesKeys,
+                  twVariants: bx.twClassNameVariants,
+                  customClasses: bx.customPgClassesKeys,
                   inlineStyles: {
-                    gridTemplateColumns: box.gridTemplateColumns,
+                    gridTemplateColumns: bx.gridTemplateColumns,
                   },
                 },
               },
@@ -266,26 +266,26 @@ const seedPage = async (page: CustomPage) => {
           }
 
           case "tabs": {
-            const itemsData = await createBoxes(
-              box.tabs.map((item, itemIndex) => ({
+            const itemsData = await createBxs(
+              bx.tabs.map((item, itemIndex) => ({
                 ...item.data,
                 order: itemIndex,
               })),
               {},
-            ).then((boxes) =>
-              boxes.map((_box, _boxIndex) => ({
+            ).then((bxes) =>
+              bxes.map((_bx, _bxIndex) => ({
                 id: createId(),
-                boxId: _box.id,
-                title: box.tabs[_boxIndex]?.title ?? "",
+                bxId: _bx.id,
+                title: bx.tabs[_bxIndex]?.title ?? "",
               })),
             );
 
             return {
-              type: BoxTypes.TABS_HOLDER,
+              type: BxTypes.TABS_HOLDER,
               tabs: {
                 create: {
                   id: createId(),
-                  tabsBoxes: {
+                  tabsBxs: {
                     createMany: { data: itemsData },
                   },
                 },
@@ -294,35 +294,35 @@ const seedPage = async (page: CustomPage) => {
           }
 
           case "slider": {
-            const slidesData = await createBoxes(
-              box.slides.map((item, itemIndex) => ({
+            const slidesData = await createBxs(
+              bx.slides.map((item, itemIndex) => ({
                 ...item,
                 order: itemIndex,
               })),
               {},
-            ).then((boxes) =>
-              boxes.map((_box, _boxIndex) => ({
+            ).then((bxes) =>
+              bxes.map((_bx, _bxIndex) => ({
                 id: createId(),
-                boxId: _box.id,
+                bxId: _bx.id,
                 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                 // @ts-ignore
                 // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-                title: box.slides[_boxIndex]?.title,
+                title: bx.slides[_bxIndex]?.title,
               })),
             );
 
             return {
-              type: BoxTypes.SLIDER,
+              type: BxTypes.SLIDER,
               slider: {
                 create: {
                   id: createId(),
                   slidesPerViewType:
-                    box.slidesPerViewType === "one-slide"
+                    bx.slidesPerViewType === "one-slide"
                       ? SlidesPerViewType.ONE_SLIDE
-                      : box.slidesPerViewType === "large-slides"
+                      : bx.slidesPerViewType === "large-slides"
                       ? SlidesPerViewType.LARGE_SLIDES
                       : SlidesPerViewType.DEFAULT,
-                  slidersBoxes: {
+                  slidesBxs: {
                     createMany: { data: slidesData },
                   },
                 },
@@ -335,78 +335,76 @@ const seedPage = async (page: CustomPage) => {
         }
       };
 
-      for await (const box of sectionBoxes) {
-        const boxTypeData = await createTypeBoxData(box);
+      for await (const bx of sectionBxs) {
+        const bxTypeData = await createTypeBxData(bx);
 
-        if (!boxTypeData) continue;
+        if (!bxTypeData) continue;
 
-        boxes.push(
-          await prisma.box.create({
+        bxes.push(
+          await prisma.bx.create({
             data: {
               id: createId(),
-              section: !params.sectionId
+              sect: !params.sectId
                 ? undefined
-                : { connect: { id: params.sectionId } },
+                : { connect: { id: params.sectId } },
               css: {
                 create: {
                   id: createId(),
-                  twVariants: box.twClassNameVariants,
-                  customClasses: box.customPageClassesKeys,
+                  twVariants: bx.twClassNameVariants,
+                  customClasses: bx.customPgClassesKeys,
                 },
               },
-              order: box.order,
-              ...boxTypeData,
+              order: bx.order,
+              ...bxTypeData,
             },
           }),
         );
       }
 
       if (!params.meta) {
-        return boxes as unknown as Promise<
-          Meta extends undefined
-            ? BoxModel[]
-            : { meta: Meta; boxes: BoxModel[] }
+        return bxes as unknown as Promise<
+          Meta extends undefined ? BxModel[] : { meta: Meta; bxes: BxModel[] }
         >;
       }
 
       return {
         meta: params.meta,
-        boxes,
+        bxes,
       } as unknown as Promise<
-        Meta extends undefined ? BoxModel[] : { meta: Meta; boxes: BoxModel[] }
+        Meta extends undefined ? BxModel[] : { meta: Meta; bxes: BxModel[] }
       >;
     };
 
-    await createBoxes(sectionBoxes, {
-      sectionId: createdSection.id,
+    await createBxs(sectionBxs, {
+      sectId: createdSect.id,
     });
 
     // break; // Closes iterator, triggers return
   }
 
   console.log(
-    `Ending seeding page: ${page.pageCategoryName}${
+    `Ending seeding page: ${page.pgCategoryName}${
       page.slug ? `/${page.slug}` : ""
     }`,
   );
   console.log("\n");
 };
 
-const seedPages = async () => {
+const seedPgs = async () => {
   console.log("Starting seeding pages");
   console.log("\n");
 
   const pages = [
     ...otherCustomPages,
-    defaultIOSAppsPages,
-    loFlyDirtPageData,
-    flyTapePageData,
-    flyTape2PageData,
-    chomplrPageData,
+    defaultIOSAppsPgs,
+    loFlyDirtPgData,
+    flyTapePgData,
+    flyTape2PgData,
+    chomplrPgData,
   ];
 
   for await (const page of pages) {
-    await seedPage(page);
+    await seedPg(page);
   }
 
   console.log("\n");
@@ -415,8 +413,8 @@ const seedPages = async () => {
 };
 
 const seedAll = async () => {
-  await seedPagesCategories();
-  await seedPages();
+  await seedPgsCategories();
+  await seedPgs();
 };
 
 await seedAll();

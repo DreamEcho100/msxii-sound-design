@@ -9,7 +9,7 @@ import { Switch } from "@headlessui/react";
 import TextTruncateManager from "../../common/TextTruncater";
 import Clickable from "../Clickable";
 import { trpcApi } from "~/app/libs/trpc/client";
-import SectionLoaderContainer from "../../common/LoadersContainers/Section";
+import SectLoaderContainer from "../../common/LoadersContainers/Section";
 import SectionPrimaryLoader from "../../common/Loaders/SectionPrimary";
 import CustomNextImage from "../../common/CustomNextImage";
 import { type Product } from "~/libs/shopify/types";
@@ -67,9 +67,9 @@ const ProductRecommendations = (props: { productId: string }) => {
 
   if (getOneProductRecommendations.isLoading)
     return (
-      <SectionLoaderContainer>
+      <SectLoaderContainer>
         <SectionPrimaryLoader />
-      </SectionLoaderContainer>
+      </SectLoaderContainer>
     );
 
   if (getOneProductRecommendations.isError)
@@ -208,7 +208,7 @@ const CustomProductScreen = ({
                   "relative isolate",
                 )}
               >
-                {productData.variants.edges.map(({ node }, index) => (
+                {productData.variants.edges.map(({ node }) => (
                   <button
                     key={node.id}
                     type="button"

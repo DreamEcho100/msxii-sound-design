@@ -2,7 +2,6 @@
 import { cx } from "class-variance-authority";
 import { type SetStateAction, useState } from "react";
 import { type ShopifyImage, type Product } from "~/libs/shopify/types";
-import ImageMagnifier from "../../common/ImageMagnifier";
 import CustomNextImage from "../../common/CustomNextImage";
 import Slider from "../../common/Slider";
 

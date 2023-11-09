@@ -14,220 +14,220 @@ model css {
   twVariants    Json      @default("{}")
   inlineStyles  Json      @default("{}")
   customClasses String[]  @default([])
-  boxes         Box[]
-  pages         Page[]
-  sections      Section[]
+  bxes          Bx[]
+  pgs           Pg[]
+  sects         Sect[]
 }
 
-model MdBox {
+model MdBx {
   id        String    @id(map: "MdBx_PK")
   createdAt DateTime  @default(now())
   updatedAt DateTime? @updatedAt
-  boxId     String
-  boxType   BoxTypes  @default(MD)
+  bxId      String
+  bxType    BxTypes   @default(MD)
   content   String    @db.Text
-  box       Box       @relation(fields: [boxId, boxType], references: [id, type], onDelete: Cascade, map: "MdBx_BxId_BT_FK")
+  bx        Bx        @relation(fields: [bxId, bxType], references: [id, type], onDelete: Cascade, map: "MdBx_BxId_BT_FK")
 
-  @@unique([boxId, boxType], map: "MdBx_BxId_BxT_K")
+  @@unique([bxId, bxType], map: "MdBx_BxId_BxT_K")
 }
 
-model ImageBox {
-  id        String    @id(map: "ImageBx_PK")
+model ImgBx {
+  id        String    @id(map: "ImgBx_PK")
   createdAt DateTime  @default(now())
   updatedAt DateTime? @updatedAt
-  boxId     String
-  boxType   BoxTypes  @default(IMAGE)
+  bxId      String
+  bxType    BxTypes   @default(IMAGE)
   src       String
   altText   String?
   width     Int?
   height    Int?
-  box       Box       @relation(fields: [boxId, boxType], references: [id, type], onDelete: Cascade, map: "ImhBx_BxId_BT_FK")
+  bx        Bx        @relation(fields: [bxId, bxType], references: [id, type], onDelete: Cascade, map: "ImhBx_BxId_BT_FK")
 
-  @@unique([boxId, boxType], map: "ImgBx_BxId_BxT_K")
+  @@unique([bxId, bxType], map: "ImgBx_BxId_BxT_K")
 }
 
-model IframeBox {
-  id        String         @id(map: "IframeBx_PK")
-  createdAt DateTime       @default(now())
-  updatedAt DateTime?      @updatedAt
-  boxId     String
-  boxType   BoxTypes       @default(IFRAME)
-  type      IframeBoxTypes
+model IframeBx {
+  id        String        @id(map: "IframeBx_PK")
+  createdAt DateTime      @default(now())
+  updatedAt DateTime?     @updatedAt
+  bxId      String
+  bxType    BxTypes       @default(IFRAME)
+  type      IframeBxTypes
   src       String
   title     String?
-  box       Box            @relation(fields: [boxId, boxType], references: [id, type], onDelete: Cascade, map: "IframeBx_BxId_BT_FK")
+  bx        Bx            @relation(fields: [bxId, bxType], references: [id, type], onDelete: Cascade, map: "IframeBx_BxId_BT_FK")
 
-  @@unique([boxId, boxType], map: "IframeBx_BxId_BxT_K")
+  @@unique([bxId, bxType], map: "IframeBx_BxId_BxT_K")
 }
 
-model QuoteBox {
+model QuoteBx {
   id        String    @id(map: "QuoteBx_PK")
   createdAt DateTime  @default(now())
   updatedAt DateTime? @updatedAt
-  boxId     String
-  boxType   BoxTypes  @default(QUOTE)
+  bxId      String
+  bxType    BxTypes   @default(QUOTE)
   cite      String
   content   String    @db.Text
-  box       Box       @relation(fields: [boxId, boxType], references: [id, type], onDelete: Cascade, map: "QuoteBx_BxId_BT_FK")
+  bx        Bx        @relation(fields: [bxId, bxType], references: [id, type], onDelete: Cascade, map: "QuoteBx_BxId_BT_FK")
 
-  @@unique([boxId, boxType], map: "QuoteBx_BxId_BxT_K")
+  @@unique([bxId, bxType], map: "QuoteBx_BxId_BxT_K")
 }
 
-model HeaderBox {
-  id          String         @id(map: "HeaderBx_PK")
-  createdAt   DateTime       @default(now())
-  updatedAt   DateTime?      @updatedAt
+model HeaderBx {
+  id          String        @id(map: "HeaderBx_PK")
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime?     @updatedAt
   title       String
   description String?
-  hType       HeaderBoxHType @default(DYNAMIC)
-  boxId       String
-  boxType     BoxTypes       @default(HEADER)
-  box         Box            @relation(fields: [boxId, boxType], references: [id, type], onDelete: Cascade, map: "HeaderBx_BxId_BT_FK")
+  hType       HeaderBxHType @default(DYNAMIC)
+  bxId        String
+  bxType      BxTypes       @default(HEADER)
+  bx          Bx            @relation(fields: [bxId, bxType], references: [id, type], onDelete: Cascade, map: "HeaderBx_BxId_BT_FK")
 
-  @@unique([boxId, boxType], map: "HeaderBx_BxId_BxT_K")
+  @@unique([bxId, bxType], map: "HeaderBx_BxId_BxT_K")
 }
 
 model Tabs {
   id        String    @id
   createdAt DateTime  @default(now())
   updatedAt DateTime? @updatedAt
-  boxId     String
-  boxType   BoxTypes  @default(TABS_HOLDER)
-  tabsBoxes TabsBox[]
-  box       Box       @relation(fields: [boxId, boxType], references: [id, type], onDelete: Cascade, map: "TabsBx_BxId_BT_FK")
+  bxId      String
+  bxType    BxTypes   @default(TABS_HOLDER)
+  tabsBxs   TabsBx[]
+  bx        Bx        @relation(fields: [bxId, bxType], references: [id, type], onDelete: Cascade, map: "TabsBx_BxId_BT_FK")
 
-  @@unique([boxId, boxType], map: "Tabs_BxId_BxT_K")
+  @@unique([bxId, bxType], map: "Tabs_BxId_BxT_K")
 }
 
-model TabsBox {
+model TabsBx {
   id        String    @unique(map: "BTTs_id_K")
   createdAt DateTime  @default(now())
   updatedAt DateTime? @updatedAt
   title     String
   order     Int       @default(autoincrement())
-  boxId     String
+  bxId      String
   tabsId    String
-  box       Box       @relation(fields: [boxId], references: [id], onDelete: Cascade, map: "BTCB_BxId_FK")
-  tabsBox   Tabs      @relation(fields: [tabsId], references: [id], onDelete: Cascade, map: "BTCB_tabsId_FK")
+  bx        Bx        @relation(fields: [bxId], references: [id], onDelete: Cascade, map: "BTCB_BxId_FK")
+  tabsBx    Tabs      @relation(fields: [tabsId], references: [id], onDelete: Cascade, map: "BTCB_tabsId_FK")
 
-  @@id([tabsId, boxId], map: "BTTs_PK")
-  @@index([boxId], map: "BTTs_BxId_idx")
+  @@id([tabsId, bxId], map: "BTTs_PK")
+  @@index([bxId], map: "BTTs_BxId_idx")
   @@index([order], map: "BTTs_order_idx")
   @@index([tabsId], map: "BTTs_tabsBxId_idx")
 }
 
 model Slider {
-  id                String            @id(map: "SliderBx_PK")
+  id                String            @id(map: "SlideBx_PK")
   createdAt         DateTime          @default(now())
   updatedAt         DateTime?         @updatedAt
-  boxId             String
-  boxType           BoxTypes          @default(SLIDER)
+  bxId              String
+  bxType            BxTypes           @default(SLIDER)
   slidesPerViewType SlidesPerViewType @default(DEFAULT)
-  slidersBoxes      SliderBox[]
-  box               Box               @relation(fields: [boxId, boxType], references: [id, type], onDelete: Cascade, map: "SliderBx_BxId_BT_FK")
+  slidesBxs         SlideBx[]
+  bx                Bx                @relation(fields: [bxId, bxType], references: [id, type], onDelete: Cascade, map: "SlideBx_BxId_BT_FK")
 
-  @@unique([boxId, boxType], map: "SliderBx_BxId_BxT_K")
+  @@unique([bxId, bxType], map: "SlideBx_BxId_BxT_K")
 }
 
-model SliderBox {
+model SlideBx {
   id        String    @unique(map: "BTS_id_K")
   createdAt DateTime  @default(now())
   updatedAt DateTime? @updatedAt
   title     String?
   order     Int       @default(autoincrement())
-  boxId     String
+  bxId      String
   sliderId  String
-  box       Box       @relation(fields: [boxId], references: [id], onDelete: Cascade, map: "BTSB_BxId_FK")
-  slider    Slider    @relation(fields: [sliderId], references: [id], onDelete: Cascade, map: "BTSB_sliderBxId_FK")
+  bx        Bx        @relation(fields: [bxId], references: [id], onDelete: Cascade, map: "BTSB_BxId_FK")
+  slider    Slider    @relation(fields: [sliderId], references: [id], onDelete: Cascade, map: "BTSB_slideBxId_FK")
 
-  @@id([sliderId, boxId], map: "BTS_PK")
-  @@index([boxId], map: "BTS_BxId_idx")
+  @@id([sliderId, bxId], map: "BTS_PK")
+  @@index([bxId], map: "BTS_BxId_idx")
   @@index([order], map: "BTS_order_idx")
-  @@index([sliderId], map: "BTS_sliderBxId_idx")
+  @@index([sliderId], map: "BTS_slideBxId_idx")
 }
 
 model Grid {
-  id         String    @id(map: "GridBx_PK")
-  createdAt  DateTime  @default(now())
-  updatedAt  DateTime? @updatedAt
-  boxId      String
-  boxType    BoxTypes  @default(GRID)
-  gridsBoxes GridBox[]
-  box        Box       @relation(fields: [boxId, boxType], references: [id, type], onDelete: Cascade, map: "GridBx_BxId_BT_FK")
+  id        String    @id(map: "GridBx_PK")
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt
+  bxId      String
+  bxType    BxTypes   @default(GRID)
+  gridsBxs  GridBx[]
+  bx        Bx        @relation(fields: [bxId, bxType], references: [id, type], onDelete: Cascade, map: "GridBx_BxId_BT_FK")
 
-  @@unique([boxId, boxType], map: "GridBx_BxId_BxT_K")
+  @@unique([bxId, bxType], map: "GridBx_BxId_BxT_K")
 }
 
-model GridBox {
+model GridBx {
   id        String    @unique(map: "BTG_id_K")
   createdAt DateTime  @default(now())
   updatedAt DateTime? @updatedAt
   order     Int       @default(autoincrement())
-  boxId     String
+  bxId      String
   gridId    String
-  box       Box       @relation(fields: [boxId], references: [id], onDelete: Cascade, map: "BTGB_BxId_FK")
+  bx        Bx        @relation(fields: [bxId], references: [id], onDelete: Cascade, map: "BTGB_BxId_FK")
   grid      Grid      @relation(fields: [gridId], references: [id], onDelete: Cascade, map: "BTGB_gridBxId_FK")
 
-  @@id([gridId, boxId], map: "BTG_PK")
-  @@index([boxId], map: "BTG_BxId_idx")
+  @@id([gridId, bxId], map: "BTG_PK")
+  @@index([bxId], map: "BTG_BxId_idx")
   @@index([gridId], map: "BTG_gridBxId_idx")
   @@index([order], map: "BTG_order_idx")
 }
 
-model Box {
-  id           String      @unique
-  type         BoxTypes
-  createdAt    DateTime    @default(now())
-  order        Int         @default(autoincrement())
-  cssId        String
-  sectionId    String?
-  css          css         @relation(fields: [cssId], references: [id])
-  section      Section?    @relation(fields: [sectionId], references: [id], onDelete: Cascade)
-  gridsBoxes   GridBox[]
-  slidersBoxes SliderBox[]
-  tabsBoxes    TabsBox[]
-  grid         Grid?
-  headerBox    HeaderBox?
-  iframeBox    IframeBox?
-  imageBox     ImageBox?
-  mdBox        MdBox?
-  quoteBox     QuoteBox?
-  slider       Slider?
-  tabs         Tabs?
+model Bx {
+  id        String    @unique
+  type      BxTypes
+  createdAt DateTime  @default(now())
+  order     Int       @default(autoincrement())
+  cssId     String
+  sectId    String?
+  css       css       @relation(fields: [cssId], references: [id])
+  sect      Sect?     @relation(fields: [sectId], references: [id], onDelete: Cascade)
+  gridsBxs  GridBx[]
+  slidesBxs SlideBx[]
+  tabsBxs   TabsBx[]
+  grid      Grid?
+  headerBx  HeaderBx?
+  iframeBx  IframeBx?
+  imgBx     ImgBx?
+  mdBx      MdBx?
+  quoteBx   QuoteBx?
+  slider    Slider?
+  tabs      Tabs?
 
   @@id([id, type])
   @@index([order])
   @@index([cssId])
-  @@index([sectionId])
+  @@index([sectId])
 }
 
-model Section {
+model Sect {
   id        String   @id
   createdAt DateTime @default(now())
   order     Int      @default(autoincrement())
-  pageId    String
+  pgId      String
   cssId     String
-  body      Box[]
+  body      Bx[]
   css       css      @relation(fields: [cssId], references: [id])
-  page      Page     @relation(fields: [pageId], references: [id], onDelete: Cascade)
+  pg        Pg       @relation(fields: [pgId], references: [id], onDelete: Cascade)
 
   @@index([order])
-  @@index([pageId])
+  @@index([pgId])
   @@index([cssId])
 }
 
-model PageCategory {
-  id          String    @id
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime? @updatedAt
-  name        String    @unique
-  counter     Int       @default(0)
-  pages       Page[]
-  hasSubPages Boolean   @default(false)
-  isPage      Boolean   @default(false)
+model PgCategory {
+  id        String    @id
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt
+  name      String    @unique
+  counter   Int       @default(0)
+  pgs       Pg[]
+  hasSubPgs Boolean   @default(false)
+  isPg      Boolean   @default(false)
 }
 
-model Image {
+model Img {
   id        String    @id
   createdAt DateTime  @default(now())
   updatedAt DateTime? @updatedAt
@@ -235,7 +235,7 @@ model Image {
   altText   String?
   width     Int?
   height    Int?
-  pages     Page[]
+  pgs       Pg[]
 }
 
 model seo {
@@ -246,34 +246,34 @@ model seo {
   title       String
   description String? @db.Text
 
-  // pageId String?
-  // page   Page?   @relation(fields: [pageId], references: [id])
-  page Page?
+  // pgId String?
+  // pg   Pg?   @relation(fields: [pgId], references: [id])
+  pg Pg?
 }
 
-model Page {
-  id               String       @id
-  createdAt        DateTime     @default(now())
-  updatedAt        DateTime?    @updatedAt
-  cssId            String
-  slug             String?
-  pageCategoryName String
-  imageId          String?
-  pageCategory     PageCategory @relation(fields: [pageCategoryName], references: [name])
-  css              css          @relation(fields: [cssId], references: [id])
-  image            Image?       @relation(fields: [imageId], references: [id])
-  sections         Section[]
+model Pg {
+  id             String     @id
+  createdAt      DateTime   @default(now())
+  updatedAt      DateTime?  @updatedAt
+  cssId          String
+  slug           String?
+  pgCategoryName String
+  imgId          String?
+  pgCategory     PgCategory @relation(fields: [pgCategoryName], references: [name])
+  css            css        @relation(fields: [cssId], references: [id])
+  img            Img?       @relation(fields: [imgId], references: [id])
+  sects          Sect[]
 
   isActive Boolean @default(false)
 
   seoId String? @unique
   seo   seo?    @relation(fields: [seoId], references: [id])
 
-  @@unique([pageCategoryName, slug])
+  @@unique([pgCategoryName, slug])
   @@index([cssId])
 }
 
-enum HeaderBoxHType {
+enum HeaderBxHType {
   DYNAMIC
   H1
   H2
@@ -283,7 +283,7 @@ enum HeaderBoxHType {
   H6
 }
 
-enum IframeBoxTypes {
+enum IframeBxTypes {
   YOUTUBE
   INSTAGRAM
   SOUND_CLOUD
@@ -295,7 +295,7 @@ enum SlidesPerViewType {
   LARGE_SLIDES
 }
 
-enum BoxTypes {
+enum BxTypes {
   MD
   IMAGE
   IFRAME

@@ -8,7 +8,7 @@ export type BordersContainerBaseProps = {
 };
 
 export type BordersContainerProps = {
-  boxDeepLevel: number;
+  bxDeepLevel: number;
   borderAtTheEnd?: boolean;
 };
 
@@ -18,7 +18,7 @@ const BordersContainer = <CompProps extends BordersContainerBaseProps>(
   } & BordersContainerProps &
     Omit<CompProps, "isOpen" | "setIsOpen">,
 ) => {
-  const { boxDeepLevel, Component, borderAtTheEnd, ..._props } = props;
+  const { bxDeepLevel, Component, borderAtTheEnd, ..._props } = props;
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
 
@@ -27,13 +27,13 @@ const BordersContainer = <CompProps extends BordersContainerBaseProps>(
   return (
     <>
       <div
-        className="box-edit-overlay"
+        className="bx-edit-overlay"
         style={{
-          zIndex: boxDeepLevel.toString(),
-          top: boxDeepLevel === 0 ? 0 : "3.5%", // `${(boxDeepLevel - 1) * boundaryMulti}rem`,
-          right: boxDeepLevel === 0 ? 0 : "3.5%", // `${(boxDeepLevel - 1) * boundaryMulti}rem`,
-          bottom: boxDeepLevel === 0 ? 0 : "3.5%", // `${(boxDeepLevel - 1) * boundaryMulti}rem`,
-          left: borderAtTheEnd ? "50%" : boxDeepLevel === 0 ? 0 : "3.5%", // `${(boxDeepLevel - 1) * boundaryMulti}rem`,
+          zIndex: bxDeepLevel.toString(),
+          top: bxDeepLevel === 0 ? 0 : "3.5%", // `${(bxDeepLevel - 1) * boundaryMulti}rem`,
+          right: bxDeepLevel === 0 ? 0 : "3.5%", // `${(bxDeepLevel - 1) * boundaryMulti}rem`,
+          bottom: bxDeepLevel === 0 ? 0 : "3.5%", // `${(bxDeepLevel - 1) * boundaryMulti}rem`,
+          left: borderAtTheEnd ? "50%" : bxDeepLevel === 0 ? 0 : "3.5%", // `${(bxDeepLevel - 1) * boundaryMulti}rem`,
         }}
       >
         <button

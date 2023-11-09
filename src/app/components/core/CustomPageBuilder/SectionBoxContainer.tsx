@@ -1,29 +1,29 @@
 import { type CSSProperties } from "react";
-import { type BoxTypes } from "@prisma/client";
-import { type Box, type PageStoreApi } from "./types";
-import SectionBox from "./SectionBox";
+import { type BxTypes } from "@prisma/client";
+import { type Bx, type PgStoreApi } from "./types";
+import SectBx from "./SectionBox";
 
 export function SectionBoxContainer(props: {
-  box: Box;
-  parentBox?: BoxTypes;
-  boxDeepLevel: number;
+  bx: Bx;
+  parentBx?: BxTypes;
+  bxDeepLevel: number;
   path: (string | number)[];
-  pageStore: PageStoreApi;
+  pageStore: PgStoreApi;
 }) {
   return (
     <div
-      className="box-container"
+      className="bx-container"
       style={
         {
-          "--boxDeepLevel": props.boxDeepLevel,
-          zIndex: props.boxDeepLevel.toString(),
+          "--bxDeepLevel": props.bxDeepLevel,
+          zIndex: props.bxDeepLevel.toString(),
         } as CSSProperties
       }
     >
-      <SectionBox
-        box={props.box}
-        parentBox={props.parentBox}
-        boxDeepLevel={props.boxDeepLevel}
+      <SectBx
+        bx={props.bx}
+        parentBx={props.parentBx}
+        bxDeepLevel={props.bxDeepLevel}
         path={props.path}
         pageStore={props.pageStore}
       />

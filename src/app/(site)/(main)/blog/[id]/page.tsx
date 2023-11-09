@@ -16,7 +16,7 @@ type Props = { params: { id: string } };
 
 const gidBase = "gid://shopify/Article/";
 
-const getPageData = cache(async (props: Props) => {
+const getPgData = cache(async (props: Props) => {
   return await serverClient.shopify.blog.articles.getOneById(
     `${gidBase}${props.params.id}`,
   );
@@ -38,7 +38,7 @@ export async function generateMetadata(
   parent: ResolvingMetadata,
 ): Promise<Metadata> {
   // read route params
-  const articleData = await getPageData(props);
+  const articleData = await getPgData(props);
 
   // optionally access and extend (rather than replace) parent metadata
   const previousImages = (await parent).openGraph?.images ?? [];
@@ -53,8 +53,8 @@ export async function generateMetadata(
   };
 }
 
-export default async function ProductPage(props: Props) {
-  const data = await getPageData(props);
+export default async function ProductPg(props: Props) {
+  const data = await getPgData(props);
 
   const publishedAt = data.publishedAt
     ? Intl.DateTimeFormat("en-gd", {

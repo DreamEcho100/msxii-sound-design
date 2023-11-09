@@ -1,9 +1,9 @@
-import { z } from 'zod';
+import { z } from "zod";
 
-export const createOneMdBoxSchema = {
-	content: z.string().min(3),
+export const createOneMdBxSchema = {
+  content: z.string().min(3),
 };
-export const updateOneMdBoxSchema = {
-	id: z.string().cuid2(),
-	content: z.string().min(3),
+export const updateOneMdBxSchema = {
+  id: z.string().cuid2(),
+  content: z.string().min(3),
 };

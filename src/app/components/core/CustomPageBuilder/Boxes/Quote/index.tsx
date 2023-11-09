@@ -1,8 +1,8 @@
 "use client";
 import { type CSSProperties, type ReactNode } from "react";
 import BoxEditOverlay from "../../BoxEditOverlay";
-import { type BoxTypeQuote, type PageStoreApi } from "../../types";
-import { BoxTypes } from "@prisma/client";
+import { type BxTypeQuote, type PgStoreApi } from "../../types";
+import { BxTypes } from "@prisma/client";
 import { useStore } from "zustand";
 import { cx } from "class-variance-authority";
 import {
@@ -12,7 +12,7 @@ import {
 } from "@de100/form-echo";
 import { toast } from "react-toastify";
 
-import customPageClasses from "~/app/styles/_custom-page.module.css";
+import customPgClasses from "~/app/styles/_custom-page.module.css";
 import {
   type CustomCssFormStore,
   CustomCssForm,
@@ -25,41 +25,41 @@ import {
 import { trpcApi } from "~/app/libs/trpc/client";
 import Form from "~/app/components/common/@de100/form-echo/Forms";
 import CustomNextImage from "~/app/components/common/CustomNextImage";
-import { type BoxVariants, handleBoxVariants } from "~/libs/utils/appData";
+import { type BxVariants, handleBxVariants } from "~/libs/utils/appData";
 import { getValueByPathArray, newUpdatedByPathArray } from "~/libs/obj/update";
 import { CreateOneCustomCssSchema } from "~/libs/utils/validations-schemas/dashboard/css/customClasses";
 import Accordion from "~/app/components/common/Accordion";
 import ContainedInputField from "~/app/components/common/@de100/form-echo/Fields/Contained/Input";
-import { createOneQuoteBoxSchema } from "~/libs/utils/validations-schemas/dashboard/boxes/types/quotes";
+import { createOneQuoteBxSchema } from "~/libs/utils/validations-schemas/dashboard/boxes/types/quotes";
 import TextTruncateManager from "~/app/components/common/TextTruncater";
 
-type QuoteBox = { content: string; cite: string };
-type QuoteFormStore = FormStoreApi<QuoteBox, typeof createOneQuoteBoxSchema>;
+type QuoteBx = { content: string; cite: string };
+type QuoteFormStore = FormStoreApi<QuoteBx, typeof createOneQuoteBxSchema>;
 type SharedProps = {
-  boxDeepLevel: number;
-  parentBox?: BoxTypes;
+  bxDeepLevel: number;
+  parentBx?: BxTypes;
   className?: string;
 };
 type Props = SharedProps & {
-  box: BoxTypeQuote;
+  bx: BxTypeQuote;
   path: (string | number)[];
-  pageStore: PageStoreApi;
+  pageStore: PgStoreApi;
   style?: CSSProperties;
 };
 
-const BOX_TYPE = BoxTypes.QUOTE;
+const BOX_TYPE = BxTypes.QUOTE;
 
-const QuoteBoxForm = (props: {
+const QuoteBxForm = (props: {
   store: QuoteFormStore;
   id: string;
   onSuccess: (params: {
     validatedValues: GetPassedValidationFieldsValues<
-      typeof createOneQuoteBoxSchema
+      typeof createOneQuoteBxSchema
     >;
   }) => void;
 }) => {
   const updateOneRequest =
-    trpcApi.dashboard.boxes.types.quotes.updateOne.useMutation({
+    trpcApi.dashboard.bxes.types.quotes.updateOne.useMutation({
       onError(error) {
         toast(error.message, { type: "error" });
       },
@@ -105,12 +105,12 @@ const QuoteBoxForm = (props: {
   );
 };
 
-const QuoteBoxView = (
+const QuoteBxView = (
   props: {
     childrenAfter?: ReactNode;
     style?: CSSProperties;
   } & SharedProps &
-    QuoteBox,
+    QuoteBx,
 ) => {
   return (
     <div className={cx(props.className, "group")} style={props.style}>
@@ -142,7 +142,7 @@ const QuoteBoxView = (
   );
 };
 
-const QuoteBoxFormView = (
+const QuoteBxFormView = (
   props: {
     quoteFormStore: QuoteFormStore;
     twVariantsFormStore: TwVariantsFormStore;
@@ -159,28 +159,28 @@ const QuoteBoxFormView = (
     (store) => store.fields.cite.value,
   );
   const twVariantsStr = useStore(props.twVariantsFormStore, (store) =>
-    handleBoxVariants(store.fields.twVariants.value),
+    handleBxVariants(store.fields.twVariants.value),
   );
 
   const customCssStr = useStore(
     props.customCssFormStore,
     (store) =>
       store.fields.customClasses.value
-        ?.map((key) => customPageClasses[key])
+        ?.map((key) => customPgClasses[key])
         .join(" ") ?? undefined,
   );
 
   const className = cx(
     props.className,
-    customPageClasses[`${BOX_TYPE}-BOX`],
+    customPgClasses[`${BOX_TYPE}-BOX`],
     twVariantsStr,
     customCssStr,
   );
 
   return (
-    <QuoteBoxView
-      boxDeepLevel={props.boxDeepLevel}
-      parentBox={props.parentBox}
+    <QuoteBxView
+      bxDeepLevel={props.bxDeepLevel}
+      parentBx={props.parentBx}
       className={className}
       //
       content={content}
@@ -191,24 +191,24 @@ const QuoteBoxFormView = (
 };
 
 const QuoteBoxEditOverlay = (props: Props) => {
-  const box = useStore(
+  const bx = useStore(
     props.pageStore,
-    (state) => getValueByPathArray<BoxTypeQuote>(state.page, props.path), // .slice(0, -1)
+    (state) => getValueByPathArray<BxTypeQuote>(state.page, props.path), // .slice(0, -1)
   );
   const quoteFormStore: QuoteFormStore = useCreateFormStore({
     initValues: {
-      content: box.quoteBox.content,
-      cite: box.quoteBox.cite,
+      content: bx.quoteBx.content,
+      cite: bx.quoteBx.cite,
     },
-    validationSchema: createOneQuoteBoxSchema,
+    validationSchema: createOneQuoteBxSchema,
     validationEvents: { change: true },
   });
   const twVariantsFormStore = useCreateTwVariantsFormStore(
-    props.box.css.twVariants,
+    props.bx.css.twVariants,
   );
   const customCssFormStore: CustomCssFormStore = useCreateFormStore({
     initValues: {
-      customClasses: props.box.css.customClasses ?? [],
+      customClasses: props.bx.css.customClasses ?? [],
     },
     validationSchema: CreateOneCustomCssSchema,
   });
@@ -216,10 +216,10 @@ const QuoteBoxEditOverlay = (props: Props) => {
   return (
     <BoxEditOverlay
       {...props}
-      ShowcaseBoxChildren={
-        <QuoteBoxFormView
-          boxDeepLevel={props.boxDeepLevel}
-          parentBox={props.parentBox}
+      ShowcaseBxChildren={
+        <QuoteBxFormView
+          bxDeepLevel={props.bxDeepLevel}
+          parentBx={props.parentBx}
           className={props.className}
           //
           quoteFormStore={quoteFormStore}
@@ -236,13 +236,13 @@ const QuoteBoxEditOverlay = (props: Props) => {
               contentChildren: (
                 <TwVariantsForm
                   store={twVariantsFormStore}
-                  cssId={box.css.id}
+                  cssId={bx.css.id}
                   onSuccess={(params) => {
-                    props.pageStore.getState().utils.setPage((page) => {
+                    props.pageStore.getState().utils.setPg((page) => {
                       return newUpdatedByPathArray<
                         // eslint-disable-next-line @typescript-eslint/ban-types
                         Exclude<typeof page, Function>
-                      >([...props.path, "css"], page, (prev: BoxTypeQuote) => {
+                      >([...props.path, "css"], page, (prev: BxTypeQuote) => {
                         return {
                           ...prev,
                           twVariants: params.values.twVariants,
@@ -264,13 +264,13 @@ const QuoteBoxEditOverlay = (props: Props) => {
               contentChildren: (
                 <CustomCssForm
                   store={customCssFormStore}
-                  cssId={box.css.id}
+                  cssId={bx.css.id}
                   onSuccess={(params) => {
-                    props.pageStore.getState().utils.setPage((page) => {
+                    props.pageStore.getState().utils.setPg((page) => {
                       return newUpdatedByPathArray<
                         // eslint-disable-next-line @typescript-eslint/ban-types
                         Exclude<typeof page, Function>
-                      >([...props.path, "css"], page, (prev: BoxTypeQuote) => {
+                      >([...props.path, "css"], page, (prev: BxTypeQuote) => {
                         return {
                           ...prev,
                           customClasses: params.validatedValues.customClasses,
@@ -288,18 +288,18 @@ const QuoteBoxEditOverlay = (props: Props) => {
             {
               defaultOpen: true,
               contentChildren: (
-                <QuoteBoxForm
+                <QuoteBxForm
                   store={quoteFormStore}
-                  id={box.quoteBox.id}
+                  id={bx.quoteBx.id}
                   onSuccess={(params) => {
-                    props.pageStore.getState().utils.setPage((page) => {
+                    props.pageStore.getState().utils.setPg((page) => {
                       return newUpdatedByPathArray<
                         // eslint-disable-next-line @typescript-eslint/ban-types
                         Exclude<typeof page, Function>
                       >(
-                        [...props.path, "quoteBox"],
+                        [...props.path, "quoteBx"],
                         page,
-                        (prev: BoxTypeQuote) => ({
+                        (prev: BxTypeQuote) => ({
                           ...prev,
                           content: params.validatedValues.content,
                           cite: params.validatedValues.cite,
@@ -310,9 +310,9 @@ const QuoteBoxEditOverlay = (props: Props) => {
                 />
               ),
               titleElem: (
-                <h3 className="text-h6 font-bold capitalize">quote box form</h3>
+                <h3 className="text-h6 font-bold capitalize">quote bx form</h3>
               ),
-              ___key: "quoteBox",
+              ___key: "quoteBx",
             },
           ]}
         />
@@ -321,31 +321,31 @@ const QuoteBoxEditOverlay = (props: Props) => {
   );
 };
 
-export const QuoteBoxEditable = (props: Props) => {
-  const box = useStore(props.pageStore, (state) =>
-    getValueByPathArray<BoxTypeQuote>(state.page, props.path),
+export const QuoteBxEditable = (props: Props) => {
+  const bx = useStore(props.pageStore, (state) =>
+    getValueByPathArray<BxTypeQuote>(state.page, props.path),
   );
 
-  const quoteBoxViewProps = {
-    boxDeepLevel: props.boxDeepLevel,
-    parentBox: props.parentBox,
+  const quoteBxViewProps = {
+    bxDeepLevel: props.bxDeepLevel,
+    parentBx: props.parentBx,
     className: cx(
-      customPageClasses[`${BOX_TYPE}-BOX`],
+      customPgClasses[`${BOX_TYPE}-BOX`],
       props.className,
-      handleBoxVariants(box.css.twVariants as BoxVariants),
-      ...(box.css.customClasses
-        ? box.css.customClasses?.map((key) => customPageClasses[key])
+      handleBxVariants(bx.css.twVariants as BxVariants),
+      ...(bx.css.customClasses
+        ? bx.css.customClasses?.map((key) => customPgClasses[key])
         : []),
     ),
     //
-    content: box.quoteBox.content,
-    cite: box.quoteBox.cite,
+    content: bx.quoteBx.content,
+    cite: bx.quoteBx.cite,
     style: props.style,
   };
 
   return (
-    <QuoteBoxView
-      {...quoteBoxViewProps}
+    <QuoteBxView
+      {...quoteBxViewProps}
       childrenAfter={<QuoteBoxEditOverlay {...props} />}
     />
   );

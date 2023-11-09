@@ -1,6 +1,6 @@
 "use client";
 import { cx } from "class-variance-authority";
-import { dashboardStore, showcaseBoxId, sideEditMenuId } from "../utils";
+import { dashboardStore, showcaseBxId, sideEditMenuId } from "../utils";
 import { useStore } from "zustand";
 
 export default function EditSideMenu() {
@@ -29,7 +29,7 @@ export default function EditSideMenu() {
         <div className="pointer-events-none relative flex h-full w-full flex-grow">
           <div className="pointer-events-auto m-8 flex h-full w-full flex-grow justify-end">
             <div className="pointer-events-auto flex-grow select-auto overflow-auto" />
-            <div id={showcaseBoxId} className="flex"></div>
+            <div id={showcaseBxId} className="flex"></div>
           </div>
           <div
             className="pointer-events-auto m-8 flex select-auto"
@@ -51,10 +51,10 @@ export default function EditSideMenu() {
 //   return createPortal(props.children, sideEditMenuElem);
 // }
 
-// export function ShowcaseBoxPortal(props: PropsWithChildren) {
+// export function ShowcaseBxPortal(props: PropsWithChildren) {
 //   if (typeof window === "undefined") return <></>;
 
-//   const sideEditMenuElem = document.getElementById(showcaseBoxId);
+//   const sideEditMenuElem = document.getElementById(showcaseBxId);
 
 //   if (!sideEditMenuElem) return <></>;
 

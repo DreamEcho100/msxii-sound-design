@@ -3,14 +3,14 @@
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import type { InputHTMLAttributes } from "react";
 
-const CheckboxField = ({
+const CheckbxField = ({
   children,
   ...props
 }: InputHTMLAttributes<HTMLInputElement>) => {
   return (
     <label className="flex cursor-pointer items-center gap-1 capitalize md:whitespace-nowrap">
       <input
-        type="checkbox"
+        type="checkbx"
         className="aspect-square h-5 w-5 accent-special-primary-500"
         {...props}
       />
@@ -23,10 +23,10 @@ const CheckboxField = ({
 // Change to a nested layout?
 export default function PagesCategoriesMenu({
   handles,
-  selectedHandles: selectedPagesCategories,
+  selectedHandles: selectedPgsCategories,
 }: {
   handles: string[];
-  // setSelectedPagesCategories: Dispatch<SetStateAction<string[]>>;
+  // setSelectedPgsCategories: Dispatch<SetStateAction<string[]>>;
   selectedHandles?: string[];
 }) {
   const router = useRouter();
@@ -35,11 +35,11 @@ export default function PagesCategoriesMenu({
 
   return (
     <div className="flex flex-col gap-1">
-      {handles.map((pageCategoryName) => (
-        <CheckboxField
-          key={pageCategoryName}
-          checked={selectedPagesCategories?.includes(pageCategoryName)}
-          value={pageCategoryName}
+      {handles.map((pgCategoryName) => (
+        <CheckbxField
+          key={pgCategoryName}
+          checked={selectedPgsCategories?.includes(pgCategoryName)}
+          value={pgCategoryName}
           onChange={(event) => {
             const params = new URLSearchParams(
               Array.from(searchParams.entries()),
@@ -50,9 +50,9 @@ export default function PagesCategoriesMenu({
               ? handlesSearchParams.split(",").filter(Boolean)
               : [];
 
-            if (event.target.checked) handles.push(pageCategoryName);
+            if (event.target.checked) handles.push(pgCategoryName);
             else
-              handles = handles.filter((handle) => handle !== pageCategoryName);
+              handles = handles.filter((handle) => handle !== pgCategoryName);
 
             params.set("handles", handles.join(","));
 
@@ -64,8 +64,8 @@ export default function PagesCategoriesMenu({
             router.replace(`${pathname}${query}`, {});
           }}
         >
-          {pageCategoryName.replaceAll("-", " ")}
-        </CheckboxField>
+          {pgCategoryName.replaceAll("-", " ")}
+        </CheckbxField>
       ))}
     </div>
   );

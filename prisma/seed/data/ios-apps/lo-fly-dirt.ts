@@ -1,19 +1,19 @@
 // https://assets.stickpng.com/images/5a902db97f96951c82922874.png
 
 import {
-  type StandardSection,
+  type StandardSect,
   BOXES_TYPES_map,
-  type IframeBox,
+  type IframeBx,
   SUB_BOXES_TYPES_map,
-  type TabsBox,
+  type TabsBx,
   type Slider,
-  type CustomPage,
+  type CustomPg,
   type Grid,
 } from "../../../../src/libs/utils/types/custom-page";
-import { createStandardSection } from "../../utils";
-import { iosAppPagesPageCategory } from "../pagesCategories";
+import { createStandardSect } from "../../utils";
+import { iosAppPgsPgCategory } from "../pagesCategories";
 
-const LoflyDirtIOSApp: StandardSection[] = (() => {
+const LoflyDirtIOSApp: StandardSect[] = (() => {
   const appLink =
     "https://apps.apple.com/us/app/lo-fly-dirt/id1292776927?ign-mpt=uo%3D4";
 
@@ -23,17 +23,17 @@ const LoflyDirtIOSApp: StandardSection[] = (() => {
     gridTemplateColumns: `repeat(auto-fit, minmax(20rem, 1fr))`,
     items: [
       {
-        customPageClassesKeys: [
+        customPgClassesKeys: [
           "center-on-ls-md-screens",
           "objects-contain",
           "img-w-h-full",
         ],
         twClassNameVariants: { "aspect-ratio": "square" }, // w: '96', h: '96',
-        ___type: BOXES_TYPES_map["image-only"],
+        ___type: BOXES_TYPES_map["img-only"],
         src: "https://cdn.shopify.com/s/files/1/0345/7209/t/28/assets/pf-50b7d524--Screen-Shot-20200327-at-12507-AM.png?v=1585290536",
       },
       {
-        customPageClassesKeys: ["center-on-ls-md-screens"],
+        customPgClassesKeys: ["center-on-ls-md-screens"],
         twClassNameVariants: { "gap-y": "2", px: "4" },
         ___type: BOXES_TYPES_map.md,
         content: `# LO-FLY DIRT
@@ -46,12 +46,12 @@ An audio coloration utility plugin featuring individual modes for classic emulat
       },
     ],
   };
-  const iframeBox: IframeBox = {
+  const iframeBx: IframeBx = {
     ___type: BOXES_TYPES_map.iframe,
     ___subType: SUB_BOXES_TYPES_map.youtube,
     src: "https://www.youtube.com/embed/GeD0lopiqsw?autoplay=0&loop=0&mute=0&controls=0&enablejsapi=1",
   };
-  const tabsBox: TabsBox = {
+  const tabsBx: TabsBx = {
     ___type: BOXES_TYPES_map.tabs,
     tabs: [
       {
@@ -102,7 +102,7 @@ Also built off the things we love about the classic 8 bit sound, but with a twis
           gridTemplateColumns: `repeat(auto-fit, minmax(20rem, 1fr))`,
           items: [
             {
-              customPageClassesKeys: ["center-on-ls-md-screens"],
+              customPgClassesKeys: ["center-on-ls-md-screens"],
               twClassNameVariants: { "gap-y": "2", px: "4" },
               ___type: BOXES_TYPES_map.md,
               content: `### Whats New:
@@ -113,15 +113,15 @@ Also built off the things we love about the classic 8 bit sound, but with a twis
 
 You can check out the reference guide below:
 
-[Download Now](https://www.dropbox.com/s/qe3zlonoboja003/MSXII%20Lo-Fly%20Dirt%202v5%20Final.pdf?dl=0)`,
+[Download Now](https://www.dropbx.com/s/qe3zlonoboja003/MSXII%20Lo-Fly%20Dirt%202v5%20Final.pdf?dl=0)`,
             },
             {
-              customPageClassesKeys: [
+              customPgClassesKeys: [
                 "center-on-ls-md-screens",
                 "object-contain",
               ],
               // twClassNameVariants: { w: '96' },
-              ___type: BOXES_TYPES_map["image-only"],
+              ___type: BOXES_TYPES_map["img-only"],
               src: "https://res.cloudinary.com/dpjuamt6q/image/upload/v1690932837/Lo-fly_2x_1_mblfhp.jpg",
             },
           ],
@@ -201,11 +201,11 @@ I love how this app makes my samples sound. Plus its so much easier to treat a t
     ___type: BOXES_TYPES_map.grid,
     twClassNameVariants: { "gap-y": "3" },
     gridTemplateColumns: `1fr`,
-    customPageClassesKeys: ["center-content"],
+    customPgClassesKeys: ["center-content"],
     items: [
       {
         twClassNameVariants: { rounded: "5xl", w: "40", h: "40" },
-        ___type: "image-only",
+        ___type: "img-only",
         src: "https://cdn.shopify.com/s/files/1/0345/7209/t/28/assets/pf-d22a5c09--MSXIIAUDIOLOFIDIRTAPPICON3x-Edited.jpg?v=1582621861",
       },
       {
@@ -216,27 +216,27 @@ I love how this app makes my samples sound. Plus its so much easier to treat a t
   };
 
   return [
-    createStandardSection({ order: 0, body: [grid] }),
-    createStandardSection({ order: 1, body: [tabsBox] }),
-    createStandardSection({ order: 2, body: [iframeBox] }),
-    createStandardSection({
+    createStandardSect({ order: 0, body: [grid] }),
+    createStandardSect({ order: 1, body: [tabsBx] }),
+    createStandardSect({ order: 2, body: [iframeBx] }),
+    createStandardSect({
       order: 3,
       body: [slider],
       title: "Tutorial",
       twClassNameVariants: { "gap-y": "4" },
     }),
-    createStandardSection({
+    createStandardSect({
       order: 4,
       body: [grid2],
       // title: 'LO-FLY Dirt Around The Web',
       twClassNameVariants: { "gap-y": "8" },
-      // customPageClassesKeys: ['section-container-v1']
+      // customPgClassesKeys: ['section-container-v1']
     }),
-    createStandardSection({ order: 5, body: [grid3] }),
+    createStandardSect({ order: 5, body: [grid3] }),
   ];
 })();
 
-const loFlyDirtPageData: CustomPage = {
+const loFlyDirtPgData: CustomPg = {
   twClassNameVariants: {
     "max-w": "100ch",
     w: "full",
@@ -246,13 +246,13 @@ const loFlyDirtPageData: CustomPage = {
     "gap-x": "16",
     "gap-y": "16",
   },
-  image: {
+  img: {
     src: "https://res.cloudinary.com/dpjuamt6q/image/upload/v1690933307/Lo-Fly_Dirt_kub4wv.png",
   },
   // title: 'Lo-Fly Dirt',
   slug: "lo-fly-dirt",
-  pageCategoryName: iosAppPagesPageCategory.name,
+  pgCategoryName: iosAppPgsPgCategory.name,
   pageStructure: LoflyDirtIOSApp,
 };
 
-export default loFlyDirtPageData;
+export default loFlyDirtPgData;

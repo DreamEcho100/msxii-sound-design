@@ -1,49 +1,44 @@
 "use client";
 
 import { type ReactNode } from "react";
-import { handleBoxVariants } from "~/libs/utils/appData";
+import { handleBxVariants } from "~/libs/utils/appData";
 import { cx } from "class-variance-authority";
 import { createStore } from "zustand";
-import { type BoxVariants } from "~/libs/utils/appData";
-import {
-  type PageStoreApi,
-  type PageStore,
-  type Page,
-  type Section,
-} from "./types";
+import { type BxVariants } from "~/libs/utils/appData";
+import { type PgStoreApi, type PgStore, type Pg, type Sect } from "./types";
 import { SectionBoxContainer } from "./SectionBoxContainer";
-import customPageClasses from "~/app/styles/custom-page.module.css";
+import customPgClasses from "~/app/styles/custom-page.module.css";
 
 type Props = {
-  page: Page;
+  pg: Pg;
   children?: ReactNode;
   path?: (string | number)[];
 };
 
-function SectionBody(props: {
-  section: Section;
-  boxDeepLevel?: number;
+function SectBody(props: {
+  sect: Sect;
+  bxDeepLevel?: number;
   path: (string | number)[];
-  pageStore: PageStoreApi;
+  pageStore: PgStoreApi;
 }) {
-  const boxDeepLevel = props.boxDeepLevel ?? 1;
+  const bxDeepLevel = props.bxDeepLevel ?? 1;
   return (
     <section
       className={cx(
         "flex flex-col",
-        handleBoxVariants(props.section.css.twVariants as BoxVariants),
-        ...(props.section.css.customClasses
-          ? props.section.css.customClasses.map((key) => customPageClasses[key])
+        handleBxVariants(props.sect.css.twVariants as BxVariants),
+        ...(props.sect.css.customClasses
+          ? props.sect.css.customClasses.map((key) => customPgClasses[key])
           : []),
       )}
     >
-      {props.section.body.map((box, boxIndex) => {
+      {props.sect.body.map((bx, bxIndex) => {
         return (
           <SectionBoxContainer
-            key={box.id}
-            box={box}
-            boxDeepLevel={boxDeepLevel}
-            path={[...props.path, "body", boxIndex]}
+            key={bx.id}
+            bx={bx}
+            bxDeepLevel={bxDeepLevel}
+            path={[...props.path, "body", bxIndex]}
             pageStore={props.pageStore}
           />
         );
@@ -52,12 +47,12 @@ function SectionBody(props: {
   );
 }
 
-export default function CustomPageBuilder(props: Props): React.JSX.Element {
-  const pageStore = createStore<PageStore>((set) => ({
-    page: props.page,
+export default function CustomPgBuilder(props: Props): React.JSX.Element {
+  const pageStore = createStore<PgStore>((set) => ({
+    page: props.pg,
     utils: {
-      setPage: (UpdaterOrValue) =>
-        set((prevState: PageStore) => ({
+      setPg: (UpdaterOrValue) =>
+        set((prevState: PgStore) => ({
           page:
             typeof UpdaterOrValue === "function"
               ? UpdaterOrValue(prevState.page)
@@ -68,16 +63,16 @@ export default function CustomPageBuilder(props: Props): React.JSX.Element {
 
   return (
     <div
-      className={handleBoxVariants({
-        ...(props.page.css.twVariants as BoxVariants),
+      className={handleBxVariants({
+        ...(props.pg.css.twVariants as BxVariants),
         className: "flex flex-col text-h6 text-text-primary-400",
       })}
     >
-      {props.page.sections.map((section, index) => (
-        <SectionBody
+      {props.pg.sects.map((section, index) => (
+        <SectBody
           key={section.id}
-          section={section}
-          path={[...(props.path ?? []), "sections", index]}
+          sect={section}
+          path={[...(props.path ?? []), "sects", index]}
           pageStore={pageStore}
         />
       ))}

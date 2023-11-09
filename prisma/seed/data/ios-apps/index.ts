@@ -1,13 +1,13 @@
-import { iosAppPagesPageCategory } from "../pagesCategories";
-import { createStandardSection } from "../../utils";
-import { type CustomPage } from "../../../../src/libs/utils/types/custom-page";
+import { iosAppPgsPgCategory } from "../pagesCategories";
+import { createStandardSect } from "../../utils";
+import { type CustomPg } from "../../../../src/libs/utils/types/custom-page";
 
-export { default as chomplrPageData } from "./chomplr";
-export { default as flyTapePageData } from "./fly-tape";
-export { default as flyTape2PageData } from "./fly-tape-2";
-export { default as loFlyDirtPageData } from "./lo-fly-dirt";
+export { default as chomplrPgData } from "./chomplr";
+export { default as flyTapePgData } from "./fly-tape";
+export { default as flyTape2PgData } from "./fly-tape-2";
+export { default as loFlyDirtPgData } from "./lo-fly-dirt";
 
-const defaultIOSAppsPages: CustomPage = {
+const defaultIOSAppsPgs: CustomPg = {
   twClassNameVariants: {
     px: "12",
     py: "8",
@@ -19,11 +19,11 @@ const defaultIOSAppsPages: CustomPage = {
   // },
   // title: 'Lo-Fly Dirt',
   // slug: 'lo-fly-dirt',
-  pageCategoryName: iosAppPagesPageCategory.name,
+  pgCategoryName: iosAppPgsPgCategory.name,
   title: "IOS Apps",
   description: null,
   pageStructure: [
-    createStandardSection({
+    createStandardSect({
       order: 0,
       body: [
         {
@@ -36,4 +36,4 @@ const defaultIOSAppsPages: CustomPage = {
   ],
 };
 
-export default defaultIOSAppsPages;
+export default defaultIOSAppsPgs;

@@ -12,7 +12,7 @@ type TComboboxProps<TData, FormattedData> = Exclude<
   ComboboxProps<TData, FormattedData>,
   "onChange" | "value"
 > & {
-  isA: "combobox";
+  isA: "combobx";
 };
 
 export type DropdownFieldProps<
@@ -33,7 +33,7 @@ export type DropdownFieldProps<
       valueOrUpdater?: (value: SelectProps["value"]) => SelectProps["value"];
     } & SelectProps)
   | ({
-      isA: "combobox";
+      isA: "combobx";
     } & TComboboxProps<TData, FormattedData>)
 );
 // (SelectType extends "multiple"
@@ -81,7 +81,7 @@ const DropdownField = <
       (props["aria-describedby"] as string | undefined) ?? `describe-${id}`,
   }; // as DropdownFieldProps<Fields, ValidatedFields, Name>;
 
-  if (isA === "combobox")
+  if (isA === "combobx")
     return (
       <Combobox<TData, FormattedData>
         {...(fieldProps as unknown as ComboboxProps<TData, FormattedData>)}

@@ -3,11 +3,11 @@ export { default as CustomPageBuilder_ } from ".";
 import { type CSSProperties } from "react";
 
 import { cx } from "class-variance-authority";
-import customPageClasses from "~/app/styles/custom-page.module.css";
+import customPgClasses from "~/app/styles/custom-page.module.css";
 import {
   type BOXES_TYPE,
   BOXES_TYPES_map,
-  type Box,
+  type Bx,
   SUB_BOXES_TYPES_map,
 } from "~/libs/utils/types/custom-page";
 import {
@@ -15,122 +15,122 @@ import {
   SoundCloudIframe,
   YouTubeIFrame,
 } from "../../common/Iframes";
-import { handleBoxVariants } from "~/libs/utils/appData";
+import { handleBxVariants } from "~/libs/utils/appData";
 import CustomNextImage from "../../common/CustomNextImage";
 import ReactMarkdownFormatter from "../../common/ReactMarkdownFormatter";
 import Quote from "./Quote";
-import { createBoxTypeClass } from "./utils";
+import { createBxTypeClass } from "./utils";
 import TabsBoxComp from "./TabsBox";
 import SliderBoxComp from "./SliderBoxComp";
 
-export const SectionBodyBox = ({
-  box,
-  parentBox,
+export const SectBodyBx = ({
+  bx,
+  parentBx,
 }: {
-  box: Box;
-  parentBox?: BOXES_TYPE;
+  bx: Bx;
+  parentBx?: BOXES_TYPE;
 }) => {
-  const customPageClassName = cx(
-    createBoxTypeClass(box.___type),
-    handleBoxVariants(box.twClassNameVariants),
-    ...(box.customPageClassesKeys
-      ? box.customPageClassesKeys?.map((key) => customPageClasses[key])
+  const customPgClassName = cx(
+    createBxTypeClass(bx.___type),
+    handleBxVariants(bx.twClassNameVariants),
+    ...(bx.customPgClassesKeys
+      ? bx.customPgClassesKeys?.map((key) => customPgClasses[key])
       : []),
   );
 
-  if (box.___type === BOXES_TYPES_map["two-columns"])
+  if (bx.___type === BOXES_TYPES_map["two-columns"])
     return (
-      <div className={cx(customPageClassName)}>
-        {box.columns.map((column, index) => (
-          <SectionBodyBox key={index} box={column} parentBox={box.___type} />
+      <div className={cx(customPgClassName)}>
+        {bx.columns.map((column, index) => (
+          <SectBodyBx key={index} bx={column} parentBx={bx.___type} />
         ))}
       </div>
     );
 
-  if (box.___type === BOXES_TYPES_map["rows-only"])
+  if (bx.___type === BOXES_TYPES_map["rows-only"])
     return (
-      <div className={cx(customPageClassName)}>
-        {box.rows.map((row, index) => (
-          <SectionBodyBox key={index} box={row} parentBox={box.___type} />
+      <div className={cx(customPgClassName)}>
+        {bx.rows.map((row, index) => (
+          <SectBodyBx key={index} bx={row} parentBx={bx.___type} />
         ))}
       </div>
     );
 
-  if (box.___type === BOXES_TYPES_map["image-only"])
+  if (bx.___type === BOXES_TYPES_map["img-only"])
     return (
-      <div className={cx(customPageClassName)}>
-        <CustomNextImage src={box.src} width={800} height={800} />
+      <div className={cx(customPgClassName)}>
+        <CustomNextImage src={bx.src} width={800} height={800} />
       </div>
     );
 
-  if (box.___type === BOXES_TYPES_map.md)
+  if (bx.___type === BOXES_TYPES_map.md)
     return (
-      <div className={cx(customPageClassName)}>
-        <ReactMarkdownFormatter content={box.content} />
+      <div className={cx(customPgClassName)}>
+        <ReactMarkdownFormatter content={bx.content} />
       </div>
     );
 
-  if (box.___type === BOXES_TYPES_map.quote)
+  if (bx.___type === BOXES_TYPES_map.quote)
     return (
       <Quote
-        className={cx(customPageClassName)}
+        className={cx(customPgClassName)}
         style={{ "--divider": 1 / 3, "--w": "3rem" } as CSSProperties}
-        box={box}
+        bx={bx}
       />
     );
 
-  if (box.___type === BOXES_TYPES_map.tabs) {
-    return <TabsBoxComp box={box} className={cx(customPageClassName)} />;
+  if (bx.___type === BOXES_TYPES_map.tabs) {
+    return <TabsBoxComp bx={bx} className={cx(customPgClassName)} />;
   }
 
-  if (box.___type === BOXES_TYPES_map.iframe) {
-    if (box.___subType === SUB_BOXES_TYPES_map.youtube)
+  if (bx.___type === BOXES_TYPES_map.iframe) {
+    if (bx.___subType === SUB_BOXES_TYPES_map.youtube)
       return (
         <YouTubeIFrame
           containerProps={{
             className: cx(
               "w-full rounded-3xl overflow-hidden relative isolate",
-              customPageClassName,
+              customPgClassName,
             ),
           }}
           youTubeIconVariants={{
-            fontSize: parentBox === BOXES_TYPES_map.slider ? "small" : "medium",
+            fontSize: parentBx === BOXES_TYPES_map.slider ? "small" : "medium",
           }}
-          width={parentBox === BOXES_TYPES_map.slider ? "200" : "550"}
-          height={parentBox === BOXES_TYPES_map.slider ? "200" : "550"}
-          src={box.src}
+          width={parentBx === BOXES_TYPES_map.slider ? "200" : "550"}
+          height={parentBx === BOXES_TYPES_map.slider ? "200" : "550"}
+          src={bx.src}
           title="YouTube video player"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
         />
       );
-    if (box.___subType === SUB_BOXES_TYPES_map.instagram)
-      return <InstagramIframe src={box.src} className={customPageClassName} />;
-    if (box.___subType === SUB_BOXES_TYPES_map.soundcloud)
-      return <SoundCloudIframe src={box.src} className={customPageClassName} />;
+    if (bx.___subType === SUB_BOXES_TYPES_map.instagram)
+      return <InstagramIframe src={bx.src} className={customPgClassName} />;
+    if (bx.___subType === SUB_BOXES_TYPES_map.soundcloud)
+      return <SoundCloudIframe src={bx.src} className={customPgClassName} />;
   }
 
-  if (box.___type === BOXES_TYPES_map.slider) {
+  if (bx.___type === BOXES_TYPES_map.slider) {
     return (
-      <div className={customPageClassName}>
+      <div className={customPgClassName}>
         <SliderBoxComp
-          box={box}
-          className={cx(customPageClassName, customPageClasses.swiper)}
+          bx={bx}
+          className={cx(customPgClassName, customPgClasses.swiper)}
         />
       </div>
     );
   }
 
-  if (box.___type === BOXES_TYPES_map.grid) {
+  if (bx.___type === BOXES_TYPES_map.grid) {
     return (
       <div
-        className={customPageClassName}
+        className={customPgClassName}
         style={{
-          gridTemplateColumns: box.gridTemplateColumns,
-          gridTemplateRows: box.gridTemplateRows,
+          gridTemplateColumns: bx.gridTemplateColumns,
+          gridTemplateRows: bx.gridTemplateRows,
         }}
       >
-        {box.items.map((item, index) => (
-          <SectionBodyBox key={index} box={item} parentBox={box.___type} />
+        {bx.items.map((item, index) => (
+          <SectBodyBx key={index} bx={item} parentBx={bx.___type} />
         ))}
       </div>
     );

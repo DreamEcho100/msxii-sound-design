@@ -1,12 +1,12 @@
 "use client";
 import SectionPrimaryLoader from "~/app/components/common/Loaders/SectionPrimary";
-import SectionLoaderContainer from "~/app/components/common/LoadersContainers/Section";
+import SectLoaderContainer from "~/app/components/common/LoadersContainers/Section";
 
 function Loading() {
   return (
-    <SectionLoaderContainer>
+    <SectLoaderContainer>
       <SectionPrimaryLoader />
-    </SectionLoaderContainer>
+    </SectLoaderContainer>
   );
 }
 

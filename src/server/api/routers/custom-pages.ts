@@ -4,59 +4,59 @@ import { isNull, lte } from "drizzle-orm";
 import { createTRPCRouter, publicProcedure } from "~/server/libs/trpc";
 import { TRPCError } from "@trpc/server";
 
-export const customPagesRouter = createTRPCRouter({
+export const customPgsRouter = createTRPCRouter({
   getOne: publicProcedure
     .input(
       z.object({
         slug: z.string().nullable().optional(),
-        pageCategoryName: z.string().min(1),
+        pgCategoryName: z.string().min(1),
       }),
     )
     .query(async ({ ctx, input }) => {
-      const page = await ctx.drizzleQueryClient.query.page.findFirst({
+      const page = await ctx.drizzleQueryClient.query.pg.findFirst({
         with: {
           css: true,
-          pageCategory: true,
-          image: true,
+          pgCategory: true,
+          img: true,
           seo: true,
-          sections: {
+          sects: {
             with: {
               css: true,
               body: {
                 with: {
                   css: true,
-                  headerBox: true,
-                  mdBox: true,
-                  imageBox: true,
-                  iframeBox: true,
-                  quoteBox: true,
+                  headerBx: true,
+                  mdBx: true,
+                  imgBx: true,
+                  iframeBx: true,
+                  quoteBx: true,
                   //
 
                   tabs: {
                     with: {
-                      tabsBoxes: {
+                      tabsBxs: {
                         with: {
-                          box: {
+                          bx: {
                             with: {
                               css: true,
-                              headerBox: true,
-                              mdBox: true,
-                              imageBox: true,
-                              iframeBox: true,
-                              quoteBox: true,
+                              headerBx: true,
+                              mdBx: true,
+                              imgBx: true,
+                              iframeBx: true,
+                              quoteBx: true,
                               //
                               grid: {
                                 with: {
-                                  gridsBoxes: {
+                                  gridsBxs: {
                                     with: {
-                                      box: {
+                                      bx: {
                                         with: {
                                           css: true,
-                                          headerBox: true,
-                                          mdBox: true,
-                                          imageBox: true,
-                                          iframeBox: true,
-                                          quoteBox: true,
+                                          headerBx: true,
+                                          mdBx: true,
+                                          imgBx: true,
+                                          iframeBx: true,
+                                          quoteBx: true,
                                         },
                                       },
                                     },
@@ -77,16 +77,16 @@ export const customPagesRouter = createTRPCRouter({
                   },
                   slider: {
                     with: {
-                      slidersBoxes: {
+                      slidesBxs: {
                         with: {
-                          box: {
+                          bx: {
                             with: {
                               css: true,
-                              headerBox: true,
-                              mdBox: true,
-                              imageBox: true,
-                              iframeBox: true,
-                              quoteBox: true,
+                              headerBx: true,
+                              mdBx: true,
+                              imgBx: true,
+                              iframeBx: true,
+                              quoteBx: true,
                             },
                           },
                         },
@@ -98,29 +98,29 @@ export const customPagesRouter = createTRPCRouter({
                   },
                   grid: {
                     with: {
-                      gridsBoxes: {
+                      gridsBxs: {
                         with: {
-                          box: {
+                          bx: {
                             with: {
                               css: true,
-                              headerBox: true,
-                              mdBox: true,
-                              imageBox: true,
-                              iframeBox: true,
-                              quoteBox: true,
+                              headerBx: true,
+                              mdBx: true,
+                              imgBx: true,
+                              iframeBx: true,
+                              quoteBx: true,
                               //
                               grid: {
                                 with: {
-                                  gridsBoxes: {
+                                  gridsBxs: {
                                     with: {
-                                      box: {
+                                      bx: {
                                         with: {
                                           css: true,
-                                          headerBox: true,
-                                          mdBox: true,
-                                          imageBox: true,
-                                          iframeBox: true,
-                                          quoteBox: true,
+                                          headerBx: true,
+                                          mdBx: true,
+                                          imgBx: true,
+                                          iframeBx: true,
+                                          quoteBx: true,
                                         },
                                       },
                                     },
@@ -152,7 +152,7 @@ export const customPagesRouter = createTRPCRouter({
         },
         where(fields, operators) {
           return operators.and(
-            operators.eq(fields.pageCategoryName, input.pageCategoryName),
+            operators.eq(fields.pgCategoryName, input.pgCategoryName),
             input.slug
               ? operators.eq(fields.slug, input.slug)
               : isNull(fields.slug),
@@ -168,7 +168,7 @@ export const customPagesRouter = createTRPCRouter({
     getManyItems: publicProcedure
       .input(
         z.object({
-          pageCategoryName: z.string().min(1),
+          pgCategoryName: z.string().min(1),
           limit: z.number().min(1).max(100).optional().default(20),
           cursor: z.date().nullish(), // <-- "cursor" needs to exist, but can be any type
         }),
@@ -176,10 +176,10 @@ export const customPagesRouter = createTRPCRouter({
       .query(async ({ ctx, input }) => {
         const limit = input.limit + 1;
 
-        const items = await ctx.drizzleQueryClient.query.page.findMany({
+        const items = await ctx.drizzleQueryClient.query.pg.findMany({
           where(fields, operators) {
             return operators.and(
-              operators.eq(fields.pageCategoryName, input.pageCategoryName),
+              operators.eq(fields.pgCategoryName, input.pgCategoryName),
               input.cursor ? lte(fields.createdAt, input.cursor) : undefined,
             );
           },
@@ -188,8 +188,8 @@ export const customPagesRouter = createTRPCRouter({
           },
           limit,
           with: {
-            image: true,
-            pageCategory: true,
+            img: true,
+            pgCategory: true,
           },
         });
 

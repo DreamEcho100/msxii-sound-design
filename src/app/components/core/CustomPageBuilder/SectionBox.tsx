@@ -1,130 +1,130 @@
 import { type CSSProperties } from "react";
 
 import { cx } from "class-variance-authority";
-// import { type BoxVariants, handleBoxVariants } from "~/utils/appData";
-import customPageClasses from "~/app/styles/_custom-page.module.css";
+// import { type BxVariants, handleBxVariants } from "~/utils/appData";
+import customPgClasses from "~/app/styles/_custom-page.module.css";
 
 // import { type RouterOutputs } from "~/utils/api";
-import { BoxTypes } from "@prisma/client";
+import { BxTypes } from "@prisma/client";
 // import BoxEditOverlay from './BoxEditOverlay';
 import CustomTabs from "./CustomTabs";
-import { MdBoxEditable } from "./Boxes/Md";
-import { QuoteBoxEditable } from "./Boxes/Quote";
-import { HeaderBoxEditable } from "./Boxes/Header";
-import { ImageBoxEditable } from "./Boxes/Image";
-import { IframeBoxEditable } from "./Boxes/Iframe";
+import { MdBxEditable } from "./Boxes/Md";
+import { QuoteBxEditable } from "./Boxes/Quote";
+import { HeaderBxEditable } from "./Boxes/Header";
+import { ImageBxEditable } from "./Boxes/Image";
+import { IframeBxEditable } from "./Boxes/Iframe";
 import { SliderEditable } from "./Boxes/Slider";
 import { GridEditable } from "./Boxes/Grid";
-import { handleBoxVariants, type BoxVariants } from "~/libs/utils/appData";
-import { createBoxTypeClass } from "./utils";
-import { type Box, type PageStoreApi } from "./types";
+import { handleBxVariants, type BxVariants } from "~/libs/utils/appData";
+import { createBxTypeClass } from "./utils";
+import { type Bx, type PgStoreApi } from "./types";
 
-export default function SectionBox(props: {
-  box: Box;
-  parentBox?: BoxTypes;
-  boxDeepLevel: number;
+export default function SectBx(props: {
+  bx: Bx;
+  parentBx?: BxTypes;
+  bxDeepLevel: number;
   path: (string | number)[];
-  pageStore: PageStoreApi;
+  pageStore: PgStoreApi;
 }) {
-  const newBoxDeepLevel = props.boxDeepLevel + 1;
-  const customPageClassName = cx(
-    createBoxTypeClass(props.box.type),
-    handleBoxVariants(props.box.css.twVariants as BoxVariants),
-    ...(props.box.css.customClasses
-      ? props.box.css.customClasses?.map((key) => customPageClasses[key])
+  const newBxDeepLevel = props.bxDeepLevel + 1;
+  const customPgClassName = cx(
+    createBxTypeClass(props.bx.type),
+    handleBxVariants(props.bx.css.twVariants as BxVariants),
+    ...(props.bx.css.customClasses
+      ? props.bx.css.customClasses?.map((key) => customPgClasses[key])
       : []),
   );
 
-  if (props.box.type === BoxTypes.HEADER && props.box.headerBox)
+  if (props.bx.type === BxTypes.HEADER && props.bx.headerBx)
     return (
-      <HeaderBoxEditable
-        boxDeepLevel={props.boxDeepLevel}
-        parentBox={props.parentBox}
+      <HeaderBxEditable
+        bxDeepLevel={props.bxDeepLevel}
+        parentBx={props.parentBx}
         pageStore={props.pageStore}
-        box={props.box}
+        bx={props.bx}
         path={props.path}
       />
     );
 
-  if (props.box.type === BoxTypes.IMAGE && props.box.imageBox)
+  if (props.bx.type === BxTypes.IMAGE && props.bx.imgBx)
     return (
-      <ImageBoxEditable
-        boxDeepLevel={props.boxDeepLevel}
-        parentBox={props.parentBox}
+      <ImageBxEditable
+        bxDeepLevel={props.bxDeepLevel}
+        parentBx={props.parentBx}
         pageStore={props.pageStore}
-        box={props.box}
+        bx={props.bx}
         path={props.path}
       />
     );
 
-  if (props.box.type === BoxTypes.MD && props.box.mdBox)
+  if (props.bx.type === BxTypes.MD && props.bx.mdBx)
     return (
-      <MdBoxEditable
-        boxDeepLevel={props.boxDeepLevel}
-        parentBox={props.parentBox}
+      <MdBxEditable
+        bxDeepLevel={props.bxDeepLevel}
+        parentBx={props.parentBx}
         pageStore={props.pageStore}
-        box={props.box}
+        bx={props.bx}
         path={props.path}
       />
     );
 
-  if (props.box.type === BoxTypes.QUOTE && props.box.quoteBox)
+  if (props.bx.type === BxTypes.QUOTE && props.bx.quoteBx)
     return (
-      <QuoteBoxEditable
-        boxDeepLevel={props.boxDeepLevel}
-        parentBox={props.parentBox}
+      <QuoteBxEditable
+        bxDeepLevel={props.bxDeepLevel}
+        parentBx={props.parentBx}
         pageStore={props.pageStore}
-        box={props.box}
+        bx={props.bx}
         path={props.path}
         // It's already passed inside
-        // path={[...props.path, 'quoteBox']}
+        // path={[...props.path, 'quoteBx']}
         style={{ "--divider": 1 / 3, "--w": "3rem" } as CSSProperties}
       />
     );
 
-  if (props.box.type === BoxTypes.IFRAME && props.box.iframeBox)
+  if (props.bx.type === BxTypes.IFRAME && props.bx.iframeBx)
     return (
-      <IframeBoxEditable
-        boxDeepLevel={props.boxDeepLevel}
-        parentBox={props.parentBox}
+      <IframeBxEditable
+        bxDeepLevel={props.bxDeepLevel}
+        parentBx={props.parentBx}
         pageStore={props.pageStore}
-        box={props.box}
+        bx={props.bx}
         path={props.path}
       />
     );
 
-  if (props.box.type === BoxTypes.SLIDER && props.box.slider)
+  if (props.bx.type === BxTypes.SLIDER && props.bx.slider)
     return (
       <SliderEditable
-        boxDeepLevel={props.boxDeepLevel}
-        parentBox={props.parentBox}
+        bxDeepLevel={props.bxDeepLevel}
+        parentBx={props.parentBx}
         pageStore={props.pageStore}
-        box={props.box}
+        bx={props.bx}
         path={props.path}
       />
     );
 
-  if (props.box.type === BoxTypes.GRID && props.box.grid)
+  if (props.bx.type === BxTypes.GRID && props.bx.grid)
     return (
       <GridEditable
-        boxDeepLevel={props.boxDeepLevel}
-        parentBox={props.parentBox}
+        bxDeepLevel={props.bxDeepLevel}
+        parentBx={props.parentBx}
         pageStore={props.pageStore}
-        box={props.box}
+        bx={props.bx}
         path={props.path}
       />
     );
 
-  if (props.box.type === BoxTypes.TABS_HOLDER && props.box.tabs) {
+  if (props.bx.type === BxTypes.TABS_HOLDER && props.bx.tabs) {
     return (
       <CustomTabs
-        box={props.box.tabs}
-        className={cx(customPageClassName)}
-        boxDeepLevel={newBoxDeepLevel}
+        bx={props.bx.tabs}
+        className={cx(customPgClassName)}
+        bxDeepLevel={newBxDeepLevel}
         // childrenAfter={
         // 	<BoxEditOverlay
-        // 		boxDeepLevel={props.boxDeepLevel}
-        // 		box={props.box}
+        // 		bxDeepLevel={props.bxDeepLevel}
+        // 		bx={props.bx}
         // 		path={[...props.path, 'tabs']}
         // 		pageStore={props.pageStore}
         // 	/>
@@ -135,5 +135,5 @@ export default function SectionBox(props: {
     );
   }
 
-  throw new Error("Unknown box type");
+  throw new Error("Unknown bx type");
 }

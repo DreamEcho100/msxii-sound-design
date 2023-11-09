@@ -23,7 +23,7 @@ import LabelAndFieldItemContainerBase, {
 // 					'ring-gray-500/75 grayscale bg-black/5 cursor-not-allowed group disabled-field select-none',
 // 			},
 // 			type: {
-// 				checkbox: 'w-fit items-center gap-2',
+// 				checkbx: 'w-fit items-center gap-2',
 // 				field: 'ring-1 px-4 py-1',
 // 			},
 // 			'flex-dir': {

@@ -5,7 +5,7 @@ import CollectionsScreen from "./screen";
 import { getBaseUrl } from "~/libs/utils";
 import type { ItemList } from "schema-dts";
 
-async function getPageData() {
+async function getPgData() {
   const input: RouterInputs["shopify"]["collections"]["getAllBasic"] = {
     productsFirst: 7,
     collectionsFirst: 50,
@@ -19,14 +19,14 @@ export const metadata = {
   description: "Our Collections",
 };
 
-const CollectionsPage = async (props: {
+const CollectionsPg = async (props: {
   params: Record<string, never>;
   searchParams: { handles?: string };
 }) => {
   let selectedHandles = props.searchParams.handles?.split(",");
   if (selectedHandles?.length === 1)
     selectedHandles = selectedHandles.filter(Boolean);
-  const basicCollectionsEdges = await getPageData();
+  const basicCollectionsEdges = await getPgData();
   const data = getCollectionWithNoEdges(basicCollectionsEdges, {
     withHandles: true,
     filterHandles(handle) {
@@ -91,4 +91,4 @@ const CollectionsPage = async (props: {
   );
 };
 
-export default CollectionsPage;
+export default CollectionsPg;

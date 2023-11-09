@@ -25,7 +25,7 @@ const InfiniteLoadCollectionProductsSection = (props: Props) => {
       },
     );
 
-  const loadNextPage = async () => {
+  const loadNextPg = async () => {
     if (!dataQuery.hasNextPage || dataQuery.isFetchingNextPage) return;
 
     await dataQuery.fetchNextPage();
@@ -66,7 +66,7 @@ const InfiniteLoadCollectionProductsSection = (props: Props) => {
         <Clickable
           variants={{ w: "full", rounded: null }}
           // eslint-disable-next-line @typescript-eslint/no-misused-promises
-          onClick={async () => await loadNextPage()}
+          onClick={async () => await loadNextPg()}
           disabled={!dataQuery.hasNextPage || dataQuery.isFetchingNextPage}
         >
           load more

@@ -8,7 +8,7 @@ import type { Product } from "schema-dts";
 
 type Props = { params: { handle: string } };
 
-const getPageData = cache(async (props: Props) => {
+const getPgData = cache(async (props: Props) => {
   return await serverClient.shopify.products.getOneByHandle(props.params);
 });
 
@@ -28,7 +28,7 @@ export async function generateMetadata(
   parent: ResolvingMetadata,
 ): Promise<Metadata> {
   // read route params
-  const productData = await getPageData(props);
+  const productData = await getPgData(props);
 
   // optionally access and extend (rather than replace) parent metadata
   const previousImages = (await parent).openGraph?.images ?? [];
@@ -42,8 +42,8 @@ export async function generateMetadata(
     },
   };
 }
-export default async function ProductPage(props: Props) {
-  const productData = await getPageData(props);
+export default async function ProductPg(props: Props) {
+  const productData = await getPgData(props);
 
   const mainVariant = productData.variants.edges[0]?.node;
 

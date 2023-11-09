@@ -51,28 +51,28 @@ const SectionPrimaryLoader = () => {
         @keyframes spin {
           0%,
           100% {
-            box-shadow: 0.2em 0px 0 0px currentcolor;
+            bx-shadow: 0.2em 0px 0 0px currentcolor;
           }
           12% {
-            box-shadow: 0.2em 0.2em 0 0 currentcolor;
+            bx-shadow: 0.2em 0.2em 0 0 currentcolor;
           }
           25% {
-            box-shadow: 0 0.2em 0 0px currentcolor;
+            bx-shadow: 0 0.2em 0 0px currentcolor;
           }
           37% {
-            box-shadow: -0.2em 0.2em 0 0 currentcolor;
+            bx-shadow: -0.2em 0.2em 0 0 currentcolor;
           }
           50% {
-            box-shadow: -0.2em 0 0 0 currentcolor;
+            bx-shadow: -0.2em 0 0 0 currentcolor;
           }
           62% {
-            box-shadow: -0.2em -0.2em 0 0 currentcolor;
+            bx-shadow: -0.2em -0.2em 0 0 currentcolor;
           }
           75% {
-            box-shadow: 0px -0.2em 0 0 currentcolor;
+            bx-shadow: 0px -0.2em 0 0 currentcolor;
           }
           87% {
-            box-shadow: 0.2em -0.2em 0 0 currentcolor;
+            bx-shadow: 0.2em -0.2em 0 0 currentcolor;
           }
         }
       `}</style>

@@ -11,7 +11,7 @@ import Form from "~/app/components/common/@de100/form-echo/Forms";
 import CustomNextImage from "~/app/components/common/CustomNextImage";
 import Dialog from "~/app/components/common/Dialog";
 import SectionPrimaryLoader from "~/app/components/common/Loaders/SectionPrimary";
-import SectionLoaderContainer from "~/app/components/common/LoadersContainers/Section";
+import SectLoaderContainer from "~/app/components/common/LoadersContainers/Section";
 import { trpcApi } from "~/app/libs/trpc/client";
 import { type RouterInputs } from "~/server/api/root";
 
@@ -90,9 +90,9 @@ function SelectProductModal(props: {
           )}
         />
         {getShopifyProductsQuery.isLoading && (
-          <SectionLoaderContainer>
+          <SectLoaderContainer>
             <SectionPrimaryLoader />
-          </SectionLoaderContainer>
+          </SectLoaderContainer>
         )}
         {getShopifyProductsQuery.isError && (
           <>{getShopifyProductsQuery.error.message}</>
@@ -145,7 +145,7 @@ function SelectProductModal(props: {
   );
 }
 
-function CreateProductPageModal(props: {
+function CreateProductPgModal(props: {
   isOpen: boolean;
   setIsOpen: (isOpen: boolean | ((isOpen: boolean) => boolean)) => void;
   itemsSlugs: (string | null)[];
@@ -180,7 +180,7 @@ function CreateProductPageModal(props: {
       seoDescription: (val) => (val ? val : null),
     },
   });
-  const createProductPage =
+  const createProductPg =
     trpcApi.dashboard.pages.createOneProductByTemplate.useMutation({
       onError(error) {
         toast(error.message, { type: "error" });
@@ -197,7 +197,7 @@ function CreateProductPageModal(props: {
           // eslint-disable-next-line @typescript-eslint/no-misused-promises
           onSubmit={async (event, params) => {
             event.preventDefault();
-            await createProductPage.mutateAsync(params.validatedValues);
+            await createProductPg.mutateAsync(params.validatedValues);
 
             // props.onSuccess(params);
           }}
@@ -254,7 +254,7 @@ function CreateProductPageModal(props: {
 
           <button
             type="submit"
-            disabled={createProductPage.isLoading}
+            disabled={createProductPg.isLoading}
             className="focus:shadow-outline rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700 focus:outline-none"
           >
             submit
@@ -291,7 +291,7 @@ export default function CreateProductPageButton(props: {
         <BiPlus className="text-9xl" />
       </button>
       {isOpen && (
-        <CreateProductPageModal
+        <CreateProductPgModal
           isOpen={isOpen}
           setIsOpen={setIsOpen}
           itemsSlugs={props.itemsSlugs}

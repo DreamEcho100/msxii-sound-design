@@ -1,19 +1,19 @@
 import {
   SECTIONS_TYPES_map,
-  type StandardSection,
+  type StandardSect,
 } from "../../../src/libs/utils/types/custom-page";
 
-export const createStandardSection = (
+export const createStandardSect = (
   params: Pick<
-    StandardSection,
+    StandardSect,
     | "order"
     | "body"
     | "title"
     | "description"
-    | "customPageClassesKeys"
+    | "customPgClassesKeys"
     | "twClassNameVariants"
   >,
-): StandardSection => ({
+): StandardSect => ({
   ___type: SECTIONS_TYPES_map["standard-section"],
   twClassNameVariants: { "gap-x": "2", "gap-y": "2" },
   ...params,

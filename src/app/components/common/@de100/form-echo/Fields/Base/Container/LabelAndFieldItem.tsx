@@ -9,7 +9,7 @@ const handleLabelAndInputContainerClassVariants = cva("flex", {
       col: "flex-col",
     },
     type: {
-      checkbox: "w-full items-center justify-end gap-1",
+      checkbx: "w-full items-center justify-end gap-1",
     },
   },
   defaultVariants: {

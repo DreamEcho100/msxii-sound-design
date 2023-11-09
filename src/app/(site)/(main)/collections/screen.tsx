@@ -74,7 +74,7 @@ const SideMenu = (props: {
           <Suspense>
             <PagesCategoriesMenu
               handles={props.allHandles}
-              // setSelectedPagesCategories={props.setSelectedHandles}
+              // setSelectedPgsCategories={props.setSelectedHandles}
               selectedHandles={props.selectedHandles}
             />
           </Suspense>

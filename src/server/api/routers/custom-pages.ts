@@ -9,7 +9,7 @@ export const customPagesRouter = createTRPCRouter({
     .input(
       z.object({
         slug: z.string().nullable().optional(),
-        pageCategoryName: z.string().nonempty(),
+        pageCategoryName: z.string().min(1),
       }),
     )
     .query(async ({ ctx, input }) => {
@@ -168,7 +168,7 @@ export const customPagesRouter = createTRPCRouter({
     getManyItems: publicProcedure
       .input(
         z.object({
-          pageCategoryName: z.string().nonempty(),
+          pageCategoryName: z.string().min(1),
           limit: z.number().min(1).max(100).optional().default(20),
           cursor: z.date().nullish(), // <-- "cursor" needs to exist, but can be any type
         }),

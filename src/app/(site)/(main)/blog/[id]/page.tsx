@@ -3,13 +3,14 @@ import {
   type ResolvingMetadata,
   type GetStaticPaths,
 } from "next";
-import Head from "next/head";
 import CustomNextImage from "~/app/components/common/CustomNextImage";
 import { serverClient } from "~/app/libs/trpc/serverClient";
 import shopify from "~/libs/shopify/client";
 import OnClient from "./_components/OnClient";
 import { Suspense, cache } from "react";
 import { getBaseUrl } from "~/libs/utils";
+import { cx } from "class-variance-authority";
+import type { Article } from "schema-dts";
 
 type Props = { params: { id: string } };
 
@@ -44,45 +45,67 @@ export async function generateMetadata(
   const images = [articleData.image.url, ...previousImages];
 
   return {
-    title: articleData.title,
-    description: articleData.excerpt ?? undefined,
+    title: articleData.seo?.title ?? articleData.title,
+    description:
+      articleData.seo?.description ?? articleData.excerpt ?? undefined,
     metadataBase: new URL(getBaseUrl()),
     openGraph: { images },
   };
 }
 
 export default async function ProductPage(props: Props) {
-  const articleByIdData = await getPageData(props);
+  const data = await getPageData(props);
 
-  const publishedAt = articleByIdData.publishedAt
+  const publishedAt = data.publishedAt
     ? Intl.DateTimeFormat("en-gd", {
         dateStyle: "long",
-      }).format(new Date(articleByIdData.publishedAt))
-    : null;
+      }).format(new Date(data.publishedAt))
+    : undefined;
 
-  if (!articleByIdData) return <>Article is not found</>;
+  if (!data) return <>Article is not found</>;
+
+  const jsonSchema: Article & { "@context": string } = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    name: data.seo?.title ?? data.title,
+    description: data.seo?.description ?? data.excerpt ?? undefined,
+    headline: data.excerpt,
+    author: {
+      "@type": "Person",
+      name: data.authorV2.name,
+      email: data.authorV2.email,
+    },
+    datePublished: publishedAt,
+    image: data.image.url,
+    // "keywords": "keyword1, keyword2, keyword3",
+    url: `${getBaseUrl()}/blog/${data.id.replace(gidBase, "")}`,
+    publisher: {
+      "@type": "Organization",
+      name: "msxaudio",
+      logo: {
+        "@type": "ImageObject",
+        url: `${getBaseUrl()}/images/logo.png`,
+      },
+    },
+  };
 
   return (
     <>
-      <Head>
-        <title>{articleByIdData.title}</title>
-        <meta name="description" content={articleByIdData.excerpt} />
-      </Head>
-      <section className="flex flex-col items-center justify-center px-main-p-4 py-main-p-1 sm:px-main-p-2 md:flex-nowrap">
+      <section className="flex flex-col items-center justify-center gap-16 px-main-p-4 py-main-p-1 sm:px-main-p-2 md:flex-nowrap">
         <header className="flex w-full flex-col gap-4">
           <div className="flex flex-col gap-4 p-8 text-center">
-            <h1 className="text-h1">{articleByIdData.title}</h1>
-            <p>Posted on{publishedAt ?? articleByIdData.publishedAt}</p>
+            <h1 className="text-h1">{data.title}</h1>
+            <p>Posted on {publishedAt ?? data.publishedAt}</p>
           </div>
           <CustomNextImage
-            src={articleByIdData.image.url}
-            alt={articleByIdData.image.altText ?? ""}
-            width={articleByIdData.image.width ?? 800}
-            height={articleByIdData.image.height ?? 800}
+            src={data.image.url}
+            alt={data.image.altText ?? ""}
+            width={data.image.width ?? 800}
+            height={data.image.height ?? 800}
             className="mx-auto max-h-[50rem] max-w-full object-contain"
             priority
           />
-          <div className="flex flex-col p-8 text-center">
+          {/* <div className="flex flex-col p-8 text-center">
             <p>{articleByIdData.authorV2.name}</p>
             <p>
               <a
@@ -97,19 +120,27 @@ export default async function ProductPage(props: Props) {
             {articleByIdData.authorV2.bio && (
               <p>{articleByIdData.authorV2.bio}</p>
             )}
-          </div>
+          </div> */}
         </header>
         <Suspense>
           <OnClient />
         </Suspense>
         <section
           id="article-content"
-          className="blog-article prose mx-auto flex w-full max-w-[120ch] flex-col px-4 leading-loose dark:prose-invert lg:prose-xl prose-lead:leading-loose md:px-8"
+          className={cx(
+            // "blog-article prose mx-auto flex w-full max-w-[120ch] flex-col px-4 leading-loose dark:prose-invert lg:prose-lg prose-lead:leading-loose md:px-8"
+            "mx-auto w-full max-w-[120ch]",
+          )}
           dangerouslySetInnerHTML={{
-            __html: articleByIdData.contentHtml,
+            __html: data.contentHtml,
           }}
         />
       </section>
+
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonSchema) }}
+      />
     </>
   );
 }

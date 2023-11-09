@@ -2,6 +2,8 @@ import { serverClient } from "~/app/libs/trpc/serverClient";
 import { getCollectionWithNoEdges } from "~/libs/shopify";
 import { type RouterInputs } from "~/server/api/root";
 import CollectionsScreen from "./screen";
+import { getBaseUrl } from "~/libs/utils";
+import type { ItemList } from "schema-dts";
 
 async function getPageData() {
   const input: RouterInputs["shopify"]["collections"]["getAllBasic"] = {
@@ -39,7 +41,54 @@ const CollectionsPage = async (props: {
     },
   });
 
-  return <CollectionsScreen {...data} selectedHandles={selectedHandles} />;
+  const jsonSchema: ItemList & { "@context": string } = {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    name: metadata.title,
+    description: metadata.description,
+    url: `${getBaseUrl()}/collections`,
+    itemListElement: data.collectionsWithNoEdges.map((item) => ({
+      "@type": "Collection",
+      name: item.title,
+      description: item.description,
+      url: `${getBaseUrl()}/collections/${item.handle}`,
+      itemListElement: item.products.map((product) => {
+        const mainVariant = product.variants.edges[0]?.node;
+
+        return {
+          "@type": "Product",
+          name: product.title,
+          description: product.description,
+          url: `${getBaseUrl()}/products/${product.handle}`,
+          brand: {
+            "@type": "Brand",
+            name: product.vendor,
+          },
+          image: product.featuredImage.url,
+          offers: mainVariant?.compareAtPrice && {
+            "@type": "Offer",
+            price: mainVariant.compareAtPrice.amount,
+            priceCurrency: mainVariant.compareAtPrice.currencyCode,
+            availability: "https://schema.org/InStock",
+            seller: {
+              "@type": "Organization",
+              name: "msxaudio",
+            },
+          },
+        };
+      }),
+    })),
+  };
+
+  return (
+    <>
+      <CollectionsScreen {...data} selectedHandles={selectedHandles} />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonSchema) }}
+      />
+    </>
+  );
 };
 
 export default CollectionsPage;

@@ -245,7 +245,6 @@ export type BasicArticle = {
   id: string;
   onlineStoreUrl: string;
   excerpt: string;
-  excerptHtml: string;
   title: string;
   publishedAt: string;
   tags: string[];

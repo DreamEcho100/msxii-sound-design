@@ -61,7 +61,7 @@ export default function PagesCategoriesMenu({
             // or const query = `${'?'.repeat(search.length && 1)}${search}`;
             const query = search ? `?${search}` : "";
 
-            router.replace(`${pathname}${query}`);
+            router.replace(`${pathname}${query}`, {});
           }}
         >
           {pageCategoryName.replaceAll("-", " ")}

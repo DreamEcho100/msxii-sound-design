@@ -10,7 +10,7 @@ export const shopifyProductsRouter = createTRPCRouter({
     .input(
       z.object({
         limit: z.number().min(5).max(100),
-        cursor: z.string().nonempty().nullish(),
+        cursor: z.string().min(1).nullish(),
         title: z.string().optional().nullable(),
       }),
     )

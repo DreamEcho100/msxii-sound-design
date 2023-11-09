@@ -4,6 +4,7 @@ import { serverClient } from "~/app/libs/trpc/serverClient";
 import shopify from "~/libs/shopify/client";
 import { cache } from "react";
 import { getBaseUrl } from "~/libs/utils";
+import type { Product } from "schema-dts";
 
 type Props = { params: { handle: string } };
 
@@ -48,5 +49,37 @@ export default async function ProductPage(props: Props) {
 
   if (!mainVariant) return <>Product is not found</>;
 
-  return <CustomProductScreen productData={productData} />;
+  const jsonSchema: Product & { "@context": string } = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name: productData.title,
+    description: productData.description,
+    url: `${getBaseUrl()}/products/${productData.handle}`,
+    sku: "Product SKU",
+    brand: {
+      "@type": "Brand",
+      name: productData.vendor,
+    },
+    image: productData.images.edges.map((image) => image.node.src),
+    offers: mainVariant.compareAtPrice && {
+      "@type": "Offer",
+      price: mainVariant.compareAtPrice.amount,
+      priceCurrency: mainVariant.compareAtPrice.currencyCode,
+      availability: "https://schema.org/InStock",
+      seller: {
+        "@type": "Organization",
+        name: "msxaudio",
+      },
+    },
+  };
+
+  return (
+    <>
+      <CustomProductScreen productData={productData} />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonSchema) }}
+      />
+    </>
+  );
 }

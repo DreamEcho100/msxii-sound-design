@@ -12,7 +12,6 @@ const gqlBasicArticleSchemaText = `handle
 id
 onlineStoreUrl
 excerpt
-excerptHtml
 title
 publishedAt
 tags

@@ -26,10 +26,10 @@ export const env = createEnv({
     SHOPIFY_STORE_DOMAIN: z.string(),
     SHOPIFY_API_KEY: z.string(),
     SHOPIFY_API_SECRET: z.string(),
-    JWT_TOKEN_KEY: z.string().nonempty(),
-		MAIL_CHIMP_DC: z.string().nonempty(),
-		MAIL_CHIMP_API_KEY: z.string().nonempty(),
-		MAIL_CHIMP_AUDIENCE_ID: z.string().nonempty(),
+    JWT_TOKEN_KEY: z.string().min(1),
+    MAIL_CHIMP_DC: z.string().min(1),
+    MAIL_CHIMP_API_KEY: z.string().min(1),
+    MAIL_CHIMP_AUDIENCE_ID: z.string().min(1),
   },
 
   /**
@@ -61,10 +61,10 @@ export const env = createEnv({
     SHOPIFY_STORE_DOMAIN: process.env.SHOPIFY_STORE_DOMAIN,
     SHOPIFY_API_KEY: process.env.SHOPIFY_API_KEY,
     SHOPIFY_API_SECRET: process.env.SHOPIFY_API_SECRET,
-		JWT_TOKEN_KEY: process.env.JWT_TOKEN_KEY,
-		MAIL_CHIMP_DC: process.env.MAIL_CHIMP_DC,
-		MAIL_CHIMP_API_KEY: process.env.MAIL_CHIMP_API_KEY,
-		MAIL_CHIMP_AUDIENCE_ID: process.env.MAIL_CHIMP_AUDIENCE_ID,
+    JWT_TOKEN_KEY: process.env.JWT_TOKEN_KEY,
+    MAIL_CHIMP_DC: process.env.MAIL_CHIMP_DC,
+    MAIL_CHIMP_API_KEY: process.env.MAIL_CHIMP_API_KEY,
+    MAIL_CHIMP_AUDIENCE_ID: process.env.MAIL_CHIMP_AUDIENCE_ID,
   },
   /**
    * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation.

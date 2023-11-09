@@ -42,8 +42,8 @@ export const getDecryptedShopifyUserDataFromAccessToKen = (token: unknown) => {
   return z
     .object({
       payload: z.object({
-        shopifyAccessToken: z.string().nonempty(),
-        shopifyUserId: z.string().nonempty(),
+        shopifyAccessToken: z.string().min(1),
+        shopifyUserId: z.string().min(1),
         shopifyUserEmail: z.string().email(),
       }),
       iat: z.number(),

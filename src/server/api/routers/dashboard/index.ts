@@ -423,8 +423,8 @@ Levels set under 0 Db to allow for max idea building, minimal gain staging Chop 
     getOne: adminProtectedProcedure
       .input(
         z.object({
-          pageCategoryName: z.string().nonempty(),
-          slug: z.string().nonempty().optional(),
+          pageCategoryName: z.string().min(1),
+          slug: z.string().min(1).optional(),
         }),
       )
       .query(async ({ ctx, input }) => {

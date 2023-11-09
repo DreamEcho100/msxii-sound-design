@@ -7,7 +7,7 @@ export const allowedAdminEmails = z
   .parse(
     z
       .string()
-      .nonempty()
+      .min(1)
       .parse(env.NEXT_PUBLIC_ALLOWED_ADMIN_EMAILS_STRING)
       .split(","),
   );

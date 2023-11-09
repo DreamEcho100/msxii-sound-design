@@ -4,7 +4,6 @@ import Clickable from "./Clickable";
 import Head from "next/head";
 import { type RouterInputs, type RouterOutputs } from "~/server/api/root";
 import { trpcApi } from "~/app/libs/trpc/client";
-import { Suspense } from "react";
 import LoadingSection from "~/app/(site)/dashboard/LoadingSection";
 
 type Props = {
@@ -12,19 +11,18 @@ type Props = {
   profileData?: RouterOutputs["shopify"]["collections"]["getOneByHandle"];
 };
 
-const InfiniteLoadCollectionProductsSection = (props: Props) => {
-  const [data, dataQuery] =
-    trpcApi.shopify.collections.getOneByHandle.useSuspenseInfiniteQuery(
-      props.baseInput,
-      {
-        initialData: props.profileData && {
-          pageParams: [undefined],
-          pages: [props.profileData],
-        },
-        keepPreviousData: !!props.profileData,
-        getNextPageParam: (data) => data.nextCursor,
+export default function InfiniteLoadCollectionProductsSection(props: Props) {
+  const dataQuery = trpcApi.shopify.collections.getOneByHandle.useInfiniteQuery(
+    props.baseInput,
+    {
+      initialData: props.profileData && {
+        pageParams: [undefined],
+        pages: [props.profileData],
       },
-    );
+      keepPreviousData: !!props.profileData,
+      getNextPageParam: (data) => data.nextCursor,
+    },
+  );
 
   const loadNextPg = async () => {
     if (!dataQuery.hasNextPage || dataQuery.isFetchingNextPage) return;
@@ -32,15 +30,19 @@ const InfiniteLoadCollectionProductsSection = (props: Props) => {
     await dataQuery.fetchNextPage();
   };
 
-  const productsData = data.pages
+  if (dataQuery.isLoading) return <LoadingSection />;
+  if (dataQuery.isError) return <>{dataQuery.error.message}</>;
+
+  const productsData = dataQuery.data.pages
     .map((page) => page.items.products.edges.map((item) => item.node))
     .flat();
 
   const profileData =
-    data.pages[data.pages.length - 1].items ?? props.profileData?.items;
+    dataQuery.data.pages[dataQuery.data.pages.length - 1].items ??
+    props.profileData?.items;
 
   return (
-    <Suspense fallback={<LoadingSection />}>
+    <>
       <Head>
         <title>
           {profileData?.title ??
@@ -73,8 +75,6 @@ const InfiniteLoadCollectionProductsSection = (props: Props) => {
           load more
         </Clickable>
       )}
-    </Suspense>
+    </>
   );
-};
-
-export default InfiniteLoadCollectionProductsSection;
+}

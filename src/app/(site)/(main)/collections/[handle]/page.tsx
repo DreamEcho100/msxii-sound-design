@@ -4,9 +4,8 @@ import InfiniteLoadCollectionProductsSection from "~/app/components/core/Infinit
 import { serverClient } from "~/app/libs/trpc/serverClient";
 import shopify from "~/libs/shopify/client";
 import { type RouterInputs } from "~/server/api/root";
-import { Suspense, cache } from "react";
+import { cache } from "react";
 import { getBaseUrl } from "~/libs/utils";
-import LoadingSection from "~/app/(site)/dashboard/LoadingSection";
 
 const limit = 24;
 type Props = { params: { handle: string } };
@@ -80,12 +79,10 @@ const CollectionPage = async (props: Props) => {
               .join(" ")}
         </h1>
       </header>
-      <Suspense fallback={<LoadingSection />}>
-        <InfiniteLoadCollectionProductsSection
-          profileData={collectionData.profile}
-          baseInput={collectionData.baseInput}
-        />
-      </Suspense>
+      <InfiniteLoadCollectionProductsSection
+        profileData={collectionData.profile}
+        baseInput={collectionData.baseInput}
+      />
     </section>
   );
 };

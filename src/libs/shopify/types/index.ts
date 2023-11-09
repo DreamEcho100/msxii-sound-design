@@ -14,7 +14,7 @@ export type EdgesWithPagination<Node> = {
   edges: { cursor: string; node: Node }[];
   pageInfo: {
     hasNextPage: boolean;
-    hasPreviousPg: boolean;
+    hasPreviousPage: boolean;
   };
 };
 

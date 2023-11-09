@@ -24,7 +24,7 @@ title`;
 // 	}
 // 	pageInfo {
 // 		hasNextPage
-// 		hasPreviousPg
+// 		hasPreviousPage
 // 	}
 // }`;
 
@@ -41,7 +41,7 @@ const allBlogsQuery = async () => {
 								}
 								pageInfo {
 									hasNextPage
-									hasPreviousPg
+									hasPreviousPage
 								}
 							}
 						}

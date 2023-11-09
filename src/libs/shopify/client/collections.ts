@@ -41,7 +41,7 @@ const gqlCollectionSchemaWithBasicProductsText = (
 			}
 			pageInfo {
 				hasNextPage
-				hasPreviousPg
+				hasPreviousPage
 			}
 		}`;
 };

@@ -5,7 +5,8 @@ import Head from "next/head";
 import { type RouterInputs, type RouterOutputs } from "~/server/api/root";
 import { trpcApi } from "~/app/libs/trpc/client";
 import { Suspense } from "react";
-import Loading from "~/app/(site)/(main)/loading";
+import LoadingSection from "~/app/(site)/dashboard/LoadingSection";
+
 type Props = {
   baseInput: RouterInputs["shopify"]["collections"]["getOneByHandle"];
   profileData?: RouterOutputs["shopify"]["collections"]["getOneByHandle"];
@@ -39,7 +40,7 @@ const InfiniteLoadCollectionProductsSection = (props: Props) => {
     data.pages[data.pages.length - 1].items ?? props.profileData?.items;
 
   return (
-    <Suspense fallback={<Loading />}>
+    <Suspense fallback={<LoadingSection />}>
       <Head>
         <title>
           {profileData?.title ??

@@ -37,7 +37,11 @@ export default function NavMenuOnLtLg() {
             {headersLinks.map((item) => (
               <li
                 key={item.title}
-                className={cx("flex flex-wrap hover:bg-bg-primary-400")}
+                className={cx(
+                  "flex flex-wrap",
+                  "hover:bg-bg-primary-600 hover:text-white",
+                  "hover:text-black hover:dark:bg-bg-primary-400",
+                )}
               >
                 <HeadersLink item={item} />
               </li>

@@ -6,7 +6,7 @@ import CTAButton from "../Shopify/Cards/CTAButton";
 import ProductPrice from "../Shopify/ProductPrice";
 import AddToCartButton from "../Shopify/Buttons/AddToCart";
 import { Switch } from "@headlessui/react";
-import TextTruncateManager from "../../common/TextTruncater";
+// import TextTruncateManager from "../../common/TextTruncater";
 import Clickable from "../Clickable";
 import { trpcApi } from "~/app/libs/trpc/client";
 import SectLoaderContainer from "../../common/LoadersContainers/Section";

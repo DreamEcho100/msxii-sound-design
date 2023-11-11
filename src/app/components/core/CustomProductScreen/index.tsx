@@ -111,7 +111,7 @@ const CustomProductScreen = ({
 }) => {
   const [selectedQuantity, setSelectedQuantity] = useState(1);
   const [newViewEnabled, setNewViewEnabled] = useState(false);
-  const [isShortDetailsActive, setIsShortDetailsActive] = useState(false);
+  // const [isShortDetailsActive, setIsShortDetailsActive] = useState(false);
   const [selectedVariant, setSelectedVariant] = useState(
     productData.variants.edges[0]?.node,
   );
@@ -123,29 +123,29 @@ const CustomProductScreen = ({
     ? extractDataFromHTMLDescription.detailsHTML
     : productData.descriptionHtml || productData.description;
   const hasVariants = productData.variants.edges.length > 1;
-  const description =
-    (!hasVariants && isShortDetailsActive) ||
-    htmlDescription !== productData.description
-      ? productData.description
-      : undefined;
+  // const description = false
+  // (!hasVariants && isShortDetailsActive) ||
+  // htmlDescription !== productData.description
+  //   ? productData.description
+  //   : undefined;
 
   useEffect(() => {
     if (!extractDataFromHTMLDescription.detailsText) return;
 
-    setIsShortDetailsActive(
-      productData.description
-        .trim()
-        .replace(/\s{2,}/g, " ")
-        .slice(0, 50)
-        .toLowerCase()
-        .startsWith(
-          extractDataFromHTMLDescription.detailsText
-            .trim()
-            .replace(/\s{2,}/g, " ")
-            .slice(0, 50)
-            .toLowerCase(),
-        ),
-    );
+    // setIsShortDetailsActive(
+    //   productData.description
+    //     .trim()
+    //     .replace(/\s{2,}/g, " ")
+    //     .slice(0, 50)
+    //     .toLowerCase()
+    //     .startsWith(
+    //       extractDataFromHTMLDescription.detailsText
+    //         .trim()
+    //         .replace(/\s{2,}/g, " ")
+    //         .slice(0, 50)
+    //         .toLowerCase(),
+    //     ),
+    // );
   }, [extractDataFromHTMLDescription.detailsText, productData.description]);
 
   return (
@@ -154,10 +154,11 @@ const CustomProductScreen = ({
         <div
           className={cx(
             "md:text-align-initial my-4 flex flex-grow flex-col gap-2 text-center",
-            !hasVariants && !description
-              ? "md:py-16"
-              : !description
-              ? "md:py-12"
+            !hasVariants
+              ? // && !description
+                //   ? "md:py-16"
+                //   : !description
+                "md:py-12"
               : "",
           )}
         >
@@ -196,11 +197,11 @@ const CustomProductScreen = ({
                 />
               </div>
             </div>
-            {description && (
+            {/* {description && (
               <p className="max-w-[50ch]">
                 <TextTruncateManager content={description} />
               </p>
-            )}
+            )} */}
             {hasVariants && (
               <div
                 className={cx(

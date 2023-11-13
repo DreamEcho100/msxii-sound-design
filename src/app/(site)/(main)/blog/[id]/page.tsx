@@ -12,6 +12,10 @@ import { getBaseUrl } from "~/libs/utils";
 import { cx } from "class-variance-authority";
 import type { Article } from "schema-dts";
 
+import classes from "./index.module.css";
+import Clickable from "~/app/components/core/Clickable";
+import { BiLogoFacebook, BiLogoPinterest, BiLogoTwitter } from "react-icons/bi";
+
 type Props = { params: { id: string } };
 
 const gidBase = "gid://shopify/Article/";
@@ -125,16 +129,62 @@ export default async function ProductPg(props: Props) {
         <Suspense>
           <OnClient />
         </Suspense>
-        <section
-          id="article-content"
-          className={cx(
-            // "blog-article prose mx-auto flex w-full max-w-[120ch] flex-col px-4 leading-loose dark:prose-invert lg:prose-lg prose-lead:leading-loose md:px-8"
-            "mx-auto w-full max-w-[120ch]",
-          )}
-          dangerouslySetInnerHTML={{
-            __html: data.contentHtml,
-          }}
-        />
+        <section className="flex flex-col gap-2">
+          <div
+            id="article-content"
+            className={cx(
+              // "blog-article prose mx-auto flex w-full max-w-[120ch] flex-col px-4 leading-loose dark:prose-invert lg:prose-lg prose-lead:leading-loose md:px-8"
+              // 'prose',
+              classes["article-content"],
+              "mx-auto w-full max-w-[120ch]",
+            )}
+            dangerouslySetInnerHTML={{
+              __html: data.contentHtml,
+            }}
+          />
+          <div className="flex justify-center gap-1 text-center text-text-primary-300">
+            <Clickable
+              title="Share on Facebook"
+              href={`//www.facebook.com/sharer.php?u=${getBaseUrl()}/blog/${
+                data.id
+              }`}
+            >
+              <BiLogoFacebook className="h-6 w-6" />
+            </Clickable>
+            <Clickable
+              title="Share on Twitter"
+              href={`//twitter.com/home?status=${getBaseUrl()}/blog/${
+                data.id
+              } via @https://twitter.com/msxiisound`}
+            >
+              <BiLogoTwitter className="h-6 w-6" />
+            </Clickable>
+
+            <Clickable
+              title="Share on Pinterest"
+              href={`//pinterest.com/pin/create/button/?url=${getBaseUrl()}/blog/${
+                data.id
+              }&amp;media=http://www.msxaudio.com/cdn/shop/articles/Drift-Theory-artwork_grande.png?v=1695929891`}
+            >
+              <BiLogoPinterest className="h-6 w-6" />
+            </Clickable>
+          </div>
+          <div className="flex justify-center gap-1 text-center">
+            <h2 className="font-ibold mt-2 text-2xl">
+              <Clickable
+                href="/blog"
+                isA="next-js"
+                className={cx(
+                  "border-b border-special-primary-700",
+                  "hover:border-b-special-primary-500 focus:border-b-special-primary-500",
+                  "hover:shadow-sm hover:shadow-special-primary-300 focus:shadow-sm focus:shadow-special-primary-300",
+                )}
+              >
+                MORE POSTS
+              </Clickable>
+            </h2>
+          </div>
+        </section>
       </section>
 
       <script

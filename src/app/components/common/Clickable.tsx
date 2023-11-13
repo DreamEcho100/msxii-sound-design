@@ -43,7 +43,12 @@ const isABasicAnchorProps = (
   isA?: string,
 ): props is AnchorHTMLAttributes<HTMLAnchorElement> =>
   isA === "basic-link" ||
-  !!(typeof props.href === "string" && !props.href.startsWith("/"));
+  !!(
+    typeof props.href === "string" &&
+    (!props.href.startsWith("/") ||
+      (props.href.startsWith("//") &&
+        !(props.href.startsWith("//next") || props.href.startsWith("//_next"))))
+  );
 const isAButtonProps = (
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   props: Record<string, any>,
@@ -61,21 +66,22 @@ const handleClassName = (options: {
 };
 
 const Clickable = ({ isA, className, ...props }: ClickableProps) => {
-  if (isAButtonProps(props, isA))
-    return (
-      <BasicButton
-        {...props}
-        className={handleClassName({ className, clickableType: "button" })}
-      />
-    );
+  if (props.href) {
+    if (isAButtonProps(props, isA))
+      return (
+        <BasicButton
+          {...props}
+          className={handleClassName({ className, clickableType: "button" })}
+        />
+      );
 
-  if (isANextJSAnchorProps(props, isA))
     return (
       <Link
-        {...props}
+        {...(props as Parameters<typeof Link>[0])}
         className={handleClassName({ className, clickableType: "next-js" })}
       />
     );
+  }
 
   if (isABasicAnchorProps(props, isA))
     return (

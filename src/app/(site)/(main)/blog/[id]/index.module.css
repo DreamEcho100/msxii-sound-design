@@ -1,0 +1,22 @@
+.article-content,
+.article-content > * {
+  font-size: 1.25rem;
+  font-weight: 100;
+}
+
+.article-content em {
+  font-style: italic;
+}
+
+.article-content strong,
+.article-content b {
+  font-weight: 600;
+}
+
+.article-content iframe {
+  width: 100%;
+}
+.article-content img {
+  margin-left: auto;
+  margin-right: auto;
+}

@@ -33,7 +33,7 @@ export default function NavMenuOnLtLg() {
             "bg-bg-primary-500",
           )}
         >
-          <ul className="text-center text-xl">
+          <ul className="text-center text-lg">
             {headersLinks.map((item) => (
               <li
                 key={item.title}

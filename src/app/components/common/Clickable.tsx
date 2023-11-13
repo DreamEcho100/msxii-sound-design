@@ -67,11 +67,16 @@ const handleClassName = (options: {
 
 const Clickable = ({ isA, className, ...props }: ClickableProps) => {
   if (props.href) {
-    if (isAButtonProps(props, isA))
+    if (isABasicAnchorProps(props, isA))
       return (
-        <BasicButton
+        <a
+          rel="noopener noreferrer"
+          target="_blank"
           {...props}
-          className={handleClassName({ className, clickableType: "button" })}
+          className={handleClassName({
+            className,
+            clickableType: "basic-link",
+          })}
         />
       );
 
@@ -83,15 +88,12 @@ const Clickable = ({ isA, className, ...props }: ClickableProps) => {
     );
   }
 
-  if (isABasicAnchorProps(props, isA))
-    return (
-      <a
-        rel="noopener noreferrer"
-        target="_blank"
-        {...props}
-        className={handleClassName({ className, clickableType: "basic-link" })}
-      />
-    );
+  return (
+    <BasicButton
+      {...props as ButtonHTMLAttributes<HTMLButtonElement>}
+      className={handleClassName({ className, clickableType: "button" })}
+    />
+  );
 
   const errorMessage = `Invalid properties passed`;
 

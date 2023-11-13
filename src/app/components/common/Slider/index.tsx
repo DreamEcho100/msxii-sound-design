@@ -127,7 +127,7 @@ export default function Slider<Item, CompProps>(
 
       <Swiper
         slidesPerView={1}
-        spaceBetween={15}
+        spaceBetween={20}
         modules={[Navigation, A11y]}
         rewind={true}
         navigation={

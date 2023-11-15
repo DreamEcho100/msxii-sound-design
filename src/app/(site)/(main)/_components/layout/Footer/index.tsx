@@ -199,49 +199,6 @@ function ListsOnSm() {
       ))}
     </Accordion>
   );
-
-  return footerLinks.map((item) => (
-    <ul className="flex flex-col gap-2 sm:hidden" key={item.text}>
-      <li>
-        <h3 className="text-h6 font-medium dark:text-text-primary-500">
-          <Clickable
-            variants={{
-              py: "extra-sm",
-              px: "md",
-              rounded: null,
-            }}
-            onClick={() => setIsActive((prev) => !prev)}
-          >
-            {item.text}
-          </Clickable>
-        </h3>
-      </li>
-      <ul
-        className={cx(
-          "flex flex-col gap-2 overflow-hidden",
-          isActive ? "h-0 flex-shrink flex-grow-0" : "flex-shrink-0 flex-grow",
-          "transition-all duration-300",
-        )}
-      >
-        {item.links?.map(({ icon, text, ...itemProps }) => (
-          <li key={text}>
-            <Clickable
-              {...itemProps}
-              className={cx(
-                "flex w-fit flex-wrap items-center gap-1 border-b-[0.125rem] border-solid border-b-transparent outline-none sm:flex-nowrap",
-                "transition-all duration-150",
-                "focus:border-b-text-primary-200 focus:text-text-primary-300",
-                "hover:border-b-text-primary-500 hover:text-text-primary-500",
-              )}
-            >
-              {icon}
-              {text}
-            </Clickable>
-          </li>
-        ))}
-      </ul>
-    </ul>
-  ));
 }
 
 const MainLayoutFooter = () => {

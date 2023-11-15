@@ -5,14 +5,12 @@ import { motion } from "framer-motion";
 import { cx } from "class-variance-authority";
 import { MdEmail } from "react-icons/md";
 import Link from "next/link";
-import { useStore } from "zustand";
 import { globalStore } from "~/app/libs/store";
 import CustomNextImage from "~/app/components/common/CustomNextImage";
 import { useTheme } from "next-themes";
 import { trpcApi } from "~/app/libs/trpc/client";
 import z from "zod";
 import { toast } from "react-toastify";
-import { useState } from "react";
 import {
   Accordion,
   AccordionContent,

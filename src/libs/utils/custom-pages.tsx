@@ -1,8 +1,9 @@
 import { type UseTRPCQueryResult } from "@trpc/react-query/shared";
-import { api, type RouterOutputs } from "../../../_old/src/utils/api";
 import { z } from "zod";
 import { useRouter } from "next/router";
 import { useMemo } from "react";
+import { type RouterOutputs } from "~/server/api/root";
+import { trpcApi } from "~/app/libs/trpc/client";
 
 export type CustomPgProps = {
   pageParams: {
@@ -92,7 +93,7 @@ export const useGetCustomPgData = (props?: {
     ],
   );
 
-  const customPgStructureQuery = api.customPgs.getOne.useQuery(
+  const customPgStructureQuery = trpcApi.customPgs.getOne.useQuery(
     {
       pgCategoryName: pageParams.pgCategoryName!,
       slug: pageParams.slug,
@@ -101,7 +102,7 @@ export const useGetCustomPgData = (props?: {
   );
 
   const getManyPgsCategoriesItemsQuery =
-    api.customPgs.pagesCategories.getManyItems.useInfiniteQuery(
+    trpcApi.customPgs.pagesCategories.getManyItems.useInfiniteQuery(
       { pgCategoryName: pageParams.pgCategoryName! },
       { enabled: isAShowcasePg },
     );

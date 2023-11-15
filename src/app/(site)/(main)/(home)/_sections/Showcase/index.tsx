@@ -19,7 +19,7 @@ export default function HomeShowcaseSect(props: HomeShowcaseSectProps) {
         <Suspense>
           <FilteredProducts basicCollections={props.flattenedCollectionEdges} />
         </Suspense>
-        <article className="flex flex-col gap-4 px-4">
+        <article className="flex flex-col gap-4 px-8 xl-2-sm:px-16 sm:px-8">
           <header>
             <h2 className="px-8 text-h1 font-semibold leading-h2">Bundles</h2>
           </header>

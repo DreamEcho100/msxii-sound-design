@@ -126,7 +126,7 @@ const Slider = ({
         slidesPerView={1}
         spaceBetween={40}
         breakpoints={{
-          640: { slidesPerView: 2, spaceBetween: 10 },
+          640: { slidesPerView: 2, spaceBetween: 15 },
           768: { slidesPerView: 3 },
           1024: { slidesPerView: 5 },
           1280: { slidesPerView: 6 },

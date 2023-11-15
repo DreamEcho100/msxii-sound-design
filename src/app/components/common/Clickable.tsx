@@ -90,17 +90,10 @@ const Clickable = ({ isA, className, ...props }: ClickableProps) => {
 
   return (
     <BasicButton
-      {...props as ButtonHTMLAttributes<HTMLButtonElement>}
+      {...(props as ButtonHTMLAttributes<HTMLButtonElement>)}
       className={handleClassName({ className, clickableType: "button" })}
     />
   );
-
-  const errorMessage = `Invalid properties passed`;
-
-  console.error(errorMessage);
-  console.error(props);
-
-  return <></>;
 };
 
 export default Clickable;

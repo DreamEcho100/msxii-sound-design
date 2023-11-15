@@ -12,6 +12,13 @@ import { useTheme } from "next-themes";
 import { trpcApi } from "~/app/libs/trpc/client";
 import z from "zod";
 import { toast } from "react-toastify";
+import { useState } from "react";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "~/app/components/common/ui/accordion";
 
 function Subscribe() {
   const subscribeToEmailList = trpcApi.subscribeToEmailList.useMutation({
@@ -71,112 +78,182 @@ function Subscribe() {
   );
 }
 
-const MainLayoutFooter = () => {
-  const toggleSearchMenuDropdown = useStore(
-    globalStore,
-    (store) => store.menus.toggleSearchMenuDropdown,
+const footerLinks: {
+  text: string;
+  // href?: string;
+  clickable?: Parameters<typeof Clickable>[0];
+  links?: ({
+    text: string;
+    // href: string;
+    icon?: JSX.Element | null;
+  } & Parameters<typeof Clickable>[0])[];
+}[] = [
+  {
+    text: "Collections",
+    clickable: { href: "/collections", isA: "next-js" },
+    links: [
+      {
+        text: "New Releases",
+        isA: "next-js",
+        href: "/collections/new-releases",
+      },
+      {
+        text: "Loops",
+        isA: "next-js",
+        href: "/collections/loops",
+      },
+      {
+        text: "One Shot Drums",
+        isA: "next-js",
+        href: "/collections/one-shot-drums",
+      },
+      {
+        text: "Sample Packs",
+        isA: "next-js",
+        href: "/collections/sample-packs",
+      },
+      {
+        text: "Drum Kits",
+        isA: "next-js",
+        href: "/collections/drum-kits",
+      },
+      // { text: 'Construction Kits', isA: 'next-js', href: '/', icon: null },
+      {
+        text: "Presets",
+        isA: "next-js",
+        href: "/collections/presets",
+      },
+      {
+        text: "Bundles",
+        isA: "next-js",
+        href: "/collections/bundles",
+      },
+    ],
+  },
+  {
+    text: "Navigation",
+    links: [
+      {
+        text: "Search",
+        isA: "button",
+        variants: null,
+        onClick: globalStore.getState().menus.toggleSearchMenuDropdown,
+      },
+      { text: "About Us", isA: "next-js", href: "/about", icon: null },
+      { text: "Support", isA: "next-js", href: "/support", icon: null },
+      {
+        text: "License Agreement",
+        isA: "next-js",
+        href: "/policies/license-agreement",
+      },
+      {
+        text: "Blue Label",
+        isA: "next-js",
+        href: "/blue-label",
+      },
+      {
+        text: "Sitemap",
+        href: "sitemap.xml",
+      },
+    ],
+  },
+  {
+    text: "Contact Us",
+    links: [
+      {
+        text: "support@msxaudio.com",
+        href: "mailto:support@msxaudio.com",
+        icon: <MdEmail />,
+      },
+    ],
+  },
+];
+
+function ListsOnSm() {
+  return (
+    <Accordion type="multiple" className="w-full">
+      {footerLinks.map((item) => (
+        <AccordionItem value={item.text} key={item.text}>
+          <AccordionTrigger className="pb-0">{item.text}</AccordionTrigger>
+          <AccordionContent>
+            <ul>
+              {item.links?.map(({ icon, text, ...itemProps }) => (
+                <li key={text}>
+                  <Clickable
+                    {...itemProps}
+                    className={cx(
+                      "flex w-fit flex-wrap items-center gap-1 border-b-[0.125rem] border-solid border-b-transparent outline-none sm:flex-nowrap",
+                      "transition-all duration-150",
+                      "focus:border-b-text-primary-200 focus:text-text-primary-300",
+                      "hover:border-b-text-primary-500 hover:text-text-primary-500",
+                    )}
+                  >
+                    {icon}
+                    {text}
+                  </Clickable>
+                </li>
+              ))}
+            </ul>
+          </AccordionContent>
+        </AccordionItem>
+      ))}
+    </Accordion>
   );
 
+  return footerLinks.map((item) => (
+    <ul className="flex flex-col gap-2 sm:hidden" key={item.text}>
+      <li>
+        <h3 className="text-h6 font-medium dark:text-text-primary-500">
+          <Clickable
+            variants={{
+              py: "extra-sm",
+              px: "md",
+              rounded: null,
+            }}
+            onClick={() => setIsActive((prev) => !prev)}
+          >
+            {item.text}
+          </Clickable>
+        </h3>
+      </li>
+      <ul
+        className={cx(
+          "flex flex-col gap-2 overflow-hidden",
+          isActive ? "h-0 flex-shrink flex-grow-0" : "flex-shrink-0 flex-grow",
+          "transition-all duration-300",
+        )}
+      >
+        {item.links?.map(({ icon, text, ...itemProps }) => (
+          <li key={text}>
+            <Clickable
+              {...itemProps}
+              className={cx(
+                "flex w-fit flex-wrap items-center gap-1 border-b-[0.125rem] border-solid border-b-transparent outline-none sm:flex-nowrap",
+                "transition-all duration-150",
+                "focus:border-b-text-primary-200 focus:text-text-primary-300",
+                "hover:border-b-text-primary-500 hover:text-text-primary-500",
+              )}
+            >
+              {icon}
+              {text}
+            </Clickable>
+          </li>
+        ))}
+      </ul>
+    </ul>
+  ));
+}
+
+const MainLayoutFooter = () => {
   const { theme: currentTheme, setTheme } = useTheme();
   const isDarkTheme = currentTheme === "dark";
-
-  const footerLinks: {
-    text: string;
-    // href?: string;
-    clickable?: Parameters<typeof Clickable>[0];
-    links?: ({
-      text: string;
-      // href: string;
-      icon?: JSX.Element | null;
-    } & Parameters<typeof Clickable>[0])[];
-  }[] = [
-    {
-      text: "Collections",
-      clickable: { href: "/collections", isA: "next-js" },
-      links: [
-        {
-          text: "New Releases",
-          isA: "next-js",
-          href: "/collections/new-releases",
-        },
-        {
-          text: "Loops",
-          isA: "next-js",
-          href: "/collections/loops",
-        },
-        {
-          text: "One Shot Drums",
-          isA: "next-js",
-          href: "/collections/one-shot-drums",
-        },
-        {
-          text: "Sample Packs",
-          isA: "next-js",
-          href: "/collections/sample-packs",
-        },
-        {
-          text: "Drum Kits",
-          isA: "next-js",
-          href: "/collections/drum-kits",
-        },
-        // { text: 'Construction Kits', isA: 'next-js', href: '/', icon: null },
-        {
-          text: "Presets",
-          isA: "next-js",
-          href: "/collections/presets",
-        },
-        {
-          text: "Bundles",
-          isA: "next-js",
-          href: "/collections/bundles",
-        },
-      ],
-    },
-    {
-      text: "Navigation",
-      links: [
-        {
-          text: "Search",
-          isA: "button",
-          variants: null,
-          onClick: toggleSearchMenuDropdown,
-        },
-        { text: "About Us", isA: "next-js", href: "/about", icon: null },
-        { text: "Support", isA: "next-js", href: "/support", icon: null },
-        {
-          text: "License Agreement",
-          isA: "next-js",
-          href: "/policies/license-agreement",
-        },
-        {
-          text: "Blue Label",
-          isA: "next-js",
-          href: "/blue-label",
-        },
-        {
-          text: "Sitemap",
-          href: "sitemap.xml",
-        },
-      ],
-    },
-    {
-      text: "Contact Us",
-      links: [
-        {
-          text: "support@msxaudio.com",
-          href: "mailto:support@msxaudio.com",
-          icon: <MdEmail />,
-        },
-      ],
-    },
-  ];
 
   return (
     <footer id="main-footer">
       <div className="mx-auto flex max-w-main flex-col gap-4 px-main-p-3 py-main-p-4 text-text-primary-400 dark:text-text-primary-600 sm:px-main-p-2">
         <div className="flex flex-wrap justify-between gap-4">
           {footerLinks.map((item) => (
-            <ul key={item.text} className="flex flex-col gap-2">
+            <ul key={item.text} className="hidden flex-col gap-2 sm:flex">
               <li>
                 <h3 className="text-h6 font-medium dark:text-text-primary-500">
                   {item.clickable ? (
@@ -214,10 +291,11 @@ const MainLayoutFooter = () => {
               ))}
             </ul>
           ))}
+          <ListsOnSm />
           <Subscribe />
         </div>
         <div className="mx-auto flex w-full max-w-main flex-grow flex-wrap items-center justify-around gap-x-8 gap-y-4 text-center font-normal sm:justify-between">
-          <div className="">
+          <div>
             <small>
               &copy;&nbsp;2023&nbsp;
               <Link

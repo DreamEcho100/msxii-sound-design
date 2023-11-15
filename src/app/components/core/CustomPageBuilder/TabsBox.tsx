@@ -35,7 +35,7 @@ export default function TabsBxComp({
       </Tabs.List>
 
       {bx.tabs.map((tab) => (
-        <Tabs.Content key={tab.title} className="" value={tab.title}>
+        <Tabs.Content key={tab.title} value={tab.title}>
           <SectBodyBx bx={tab.data} />
         </Tabs.Content>
       ))}

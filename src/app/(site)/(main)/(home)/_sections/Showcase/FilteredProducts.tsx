@@ -57,7 +57,7 @@ export default function FilteredProducts(props: {
   }, [firstPgCategory, setSelectedPgsCategories]);
 
   return (
-    <article className="flex flex-col gap-8 px-8">
+    <article className="flex flex-col gap-8 px-8 xl-2-sm:px-16 sm:px-8">
       <header className="flex flex-col gap-4 px-4">
         <h2 className="text-h1 font-semibold leading-h2">New Releases</h2>
         <div className="flex flex-wrap gap-x-4 gap-y-3 text-base">
@@ -99,7 +99,7 @@ export default function FilteredProducts(props: {
         data={filteredCollections ?? base}
         nextSlideButtonClassName="-translate-y-[200%] lg:-translate-y-[200%]"
         previousSlideButtonClassName="-translate-y-[200%] lg:-translate-y-[200%]"
-        containerProps={{ className: "px-4" }}
+        containerProps={{ className: "sm:px-4" }}
         extraLastSlideChildren={
           selectedPgCategory === "all-products" ? undefined : (
             <SeeMoreSlideChildren

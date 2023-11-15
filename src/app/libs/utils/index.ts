@@ -1,9 +1,12 @@
+import { clsx } from "clsx";
+import { twMerge } from "tailwind-merge";
 import {
   type BasicCollection,
   type Collection,
   type Edges,
 } from "~/libs/shopify/types";
 import { getEdgeNodes } from "~/libs/shopify";
+import type { ClassValue } from "class-variance-authority/types";
 
 export const useGetEdgeNodes = <Data>(item: Edges<Data>) => getEdgeNodes(item);
 
@@ -26,3 +29,13 @@ export const filterBasicCollectionProductsByTitle = <
     },
   };
 };
+
+/**
+ * Combines multiple class names into a single string.
+ *
+ * @param {...import("clsx").ClassValue} inputs - The class names to combine.
+ * @returns {string} - The combined class names.
+ */
+export function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs));
+}

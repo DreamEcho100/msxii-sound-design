@@ -136,14 +136,14 @@ export default function CollectionsScreen(props: {
                     {collection.title.replaceAll("-", " ")}
                   </Clickable>
                 </h2>
-                <div className="">
+                <div>
                   <ProductsCardsSlider
                     isNavButtonsOutside
                     data={collection.products}
                     nextSlideButtonClassName="scale-[50%] -translate-y-[200%] lg:-translate-y-[225%]"
                     previousSlideButtonClassName="scale-[50%] -translate-y-[200%] lg:-translate-y-[225%]"
                     breakpoints={{
-                      640: { slidesPerView: 2, spaceBetween: 10 },
+                      640: { slidesPerView: 2, spaceBetween: 15 },
                       768: { slidesPerView: 3 },
                       1024: { slidesPerView: 4 },
                       1280: { slidesPerView: 5 },

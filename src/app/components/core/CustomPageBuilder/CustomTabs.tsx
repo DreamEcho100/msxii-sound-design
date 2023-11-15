@@ -171,7 +171,7 @@ export default function CustomTabs(props: {
         </Tabs.List>
 
         {bx.tabs.tabsBxs.map((tabsBx, tabsBxIndex) => (
-          <Tabs.Content key={tabsBx.bxId} className="" value={tabsBx.title}>
+          <Tabs.Content key={tabsBx.bxId} value={tabsBx.title}>
             <SectionBoxContainer
               bx={tabsBx.bx as Bx}
               bxDeepLevel={newBxDeepLevel}

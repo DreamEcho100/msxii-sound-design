@@ -8,6 +8,7 @@ import AddToCartButton from "../Buttons/AddToCart";
 import PlayButton from "./PlayButton";
 import CustomNextImage from "~/app/components/common/CustomNextImage";
 import { type BasicProduct, type Product } from "~/libs/shopify/types";
+import { AspectRatio } from "@radix-ui/react-aspect-ratio";
 
 const handleBasicProductCardHolderVariants = cva(
   "card flex flex-col px-1 group duration-300 delay-75 transition-all",
@@ -89,59 +90,73 @@ export const BasicProductCard = (props: {
   const isGif = props.item.featuredImage.url.includes(".gif");
 
   return (
-    <article
-      className={handleBasicProductCardHolderVariants({
-        ...(props.containerVariants ?? {}),
-        className: props.containerClassName,
-      })}
+    <AspectRatio
+      ratio={
+        props.containerVariants?.["aspect-ratio"] === "video"
+          ? 16 / 9
+          : undefined
+      }
+      asChild
     >
-      <div
-        className={handleBasicProductCardImageHolderVariants(
-          props.imageHolderVariants,
-        )}
+      <article
+        className={handleBasicProductCardHolderVariants({
+          ...(props.containerVariants ?? {}),
+          className: props.containerClassName,
+        })}
       >
-        <Link href={`${routeBase}/${props.item.handle}`}>
-          {isGif ? (
-            <video
-              poster={props.item.featuredImage.url}
-              title={props.item.title}
-              width={325}
-              height={325}
-              className={handleBasicProductCardImageVariants(
-                props.imageVariants,
-              )}
-              autoPlay
-              loop
-              muted
-              playsInline
-            />
-          ) : (
-            <CustomNextImage
-              src={props.item.featuredImage.url}
-              alt={props.item.title}
-              width={280}
-              height={280}
-              className={handleBasicProductCardImageVariants(
-                props.imageVariants,
-              )}
-              priority={props.imgPriority}
-            />
+        <AspectRatio
+          className={handleBasicProductCardImageHolderVariants(
+            props.imageHolderVariants,
           )}
-        </Link>
-        {props.isPlayButtonActive && <PlayButton product={props.item} />}
-      </div>
-      <div className="text-align-initial flex flex-grow flex-col justify-between gap-2 px-2 py-3 leading-primary-5">
-        <h3
-          className={handleBasicProductCardTitleVariants(props.titleVariants)}
-          title={props.item.title}
+          ratio={
+            props.containerVariants?.["aspect-ratio"] === "video"
+              ? 16 / 9
+              : 1 / 1
+          }
         >
           <Link href={`${routeBase}/${props.item.handle}`}>
-            {props.item.title}
+            {isGif ? (
+              <video
+                poster={props.item.featuredImage.url}
+                title={props.item.title}
+                width={325}
+                height={325}
+                className={handleBasicProductCardImageVariants(
+                  props.imageVariants,
+                )}
+                autoPlay
+                loop
+                muted
+                playsInline
+              />
+            ) : (
+              <CustomNextImage
+                src={props.item.featuredImage.url}
+                alt={props.item.title}
+                width={280}
+                height={280}
+                className={handleBasicProductCardImageVariants(
+                  props.imageVariants,
+                )}
+                priority={props.imgPriority}
+              />
+            )}
           </Link>
-        </h3>
-        {props.extraDetailsElem}
-      </div>
-    </article>
+          {props.isPlayButtonActive && <PlayButton product={props.item} />}
+        </AspectRatio>
+        <div className="text-align-initial flex flex-grow flex-col justify-between gap-2 px-2 py-3 leading-primary-5">
+          <h3
+            className={handleBasicProductCardTitleVariants(props.titleVariants)}
+            title={props.item.title}
+          >
+            <Link href={`${routeBase}/${props.item.handle}`}>
+              {props.item.title}
+            </Link>
+          </h3>
+          {props.extraDetailsElem}
+        </div>
+      </article>
+    </AspectRatio>
   );
 };
 

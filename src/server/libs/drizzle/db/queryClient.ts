@@ -14,7 +14,7 @@ const drizzleQueryClient = (() => {
     return globalForPrisma.drizzleQueryClient;
 
   const pool = postgres(z.string().min(1).parse(process.env.DATABASE_URL));
-  drizzle(pool, {
+  return drizzle(pool, {
     schema: drizzleSchemaWithRelations,
     logger: !!process.env.IsDrizzleLoggerOn,
   });

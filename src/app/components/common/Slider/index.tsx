@@ -50,13 +50,13 @@ export type SliderProps<Item, CompProps> = SliderPropsBase &
         data?: undefined;
       }>
     : CompProps extends { item: Item }
-    ? SliderPropsWithComp<Item, CompProps>
-    : PropsWithChildren<{
-        getSlideKey?: undefined;
-        SlideComp?: undefined;
-        compProps?: undefined;
-        data?: undefined;
-      }>);
+      ? SliderPropsWithComp<Item, CompProps>
+      : PropsWithChildren<{
+          getSlideKey?: undefined;
+          SlideComp?: undefined;
+          compProps?: undefined;
+          data?: undefined;
+        }>);
 
 export default function Slider<Item, CompProps>(
   props: SliderProps<Item, CompProps>,
@@ -126,7 +126,7 @@ export default function Slider<Item, CompProps>(
       )}
 
       <Swiper
-        slidesPerView={1}
+        slidesPerView={3}
         spaceBetween={20}
         modules={[Navigation, A11y]}
         rewind={true}
@@ -139,16 +139,18 @@ export default function Slider<Item, CompProps>(
             : true
         }
         autoplay={{ delay: 7500 }}
+        style={{
+          padding: isNavButtonsOutside ? "0 1rem" : undefined,
+        }}
+        {..._props}
         breakpoints={{
           640: { slidesPerView: 2, spaceBetween: 15 },
           768: { slidesPerView: 4, spaceBetween: 20 },
           // 1024: { slidesPerView: 4, spaceBetween: 30 },
           1280: { slidesPerView: 5, spaceBetween: 50 },
+          ..._props,
+          50: { slidesPerView: 1 },
         }}
-        style={{
-          padding: isNavButtonsOutside ? "0 1rem" : undefined,
-        }}
-        {..._props}
         className={cx("w-full", _props.className)}
       >
         {_props.children ??

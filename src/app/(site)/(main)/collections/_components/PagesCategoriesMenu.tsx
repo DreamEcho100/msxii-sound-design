@@ -10,7 +10,7 @@ const CheckbxField = ({
   return (
     <label className="flex cursor-pointer items-center gap-1 capitalize md:whitespace-nowrap">
       <input
-        type="checkbx"
+        type="checkbox"
         className="aspect-square h-5 w-5 accent-special-primary-500"
         {...props}
       />

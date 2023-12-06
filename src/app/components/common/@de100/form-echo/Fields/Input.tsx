@@ -66,7 +66,7 @@ const InputField = <Fields, ValidatedFields>(
     <Input
       value={value as string}
       onChange={
-        "type" in props && props.type === "checkbx"
+        "type" in props && props.type === "checkbox"
           ? (event: { target: { checked: boolean } }) =>
               handleOnInputChange(props.name, event.target.checked)
           : (event) => handleOnInputChange(props.name, event.target.value)

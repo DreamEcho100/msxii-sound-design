@@ -7,7 +7,7 @@ const handleClassVariants = cva(
   {
     variants: {
       type: {
-        checkbx: "accent-special-primary-500 w-5 h-5",
+        checkbox: "accent-special-primary-500 w-5 h-5",
       },
     },
   },
@@ -24,8 +24,8 @@ const InputFormField = (props: InputProps) => {
     ..._props,
     className: cx(handleClassVariants(classVariants), props.className),
     checked:
-      props.type === "checkbx" ? props.checked ?? !!props.value : undefined,
-    value: props.type !== "checkbx" ? props.value ?? "" : undefined,
+      props.type === "checkbox" ? props.checked ?? !!props.value : undefined,
+    value: props.type !== "checkbox" ? props.value ?? "" : undefined,
   };
 
   return <input {...inputProps} />;

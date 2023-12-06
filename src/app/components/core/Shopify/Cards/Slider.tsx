@@ -123,16 +123,18 @@ const Slider = ({
         }}
         modules={[A11y, Autoplay, Navigation]}
         autoplay={{ delay: 7500 }}
-        slidesPerView={1}
+        slidesPerView={3}
         spaceBetween={40}
-        breakpoints={{
-          640: { slidesPerView: 2, spaceBetween: 15 },
-          768: { slidesPerView: 3 },
-          1024: { slidesPerView: 5 },
-          1280: { slidesPerView: 6 },
-        }}
         loop
         {...swiperProps}
+				breakpoints={{
+					640: { slidesPerView: 2, spaceBetween: 15 },
+          768: { slidesPerView: 3 },
+          1024: { slidesPerView: 5 },
+					1280: { slidesPerView: 6 },
+					...swiperProps.breakpoints,
+					50: { slidesPerView: 1},
+        }}
       >
         {children}
       </Swiper>

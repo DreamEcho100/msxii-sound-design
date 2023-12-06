@@ -39,7 +39,7 @@ export default function HomeShowcaseSect(props: HomeShowcaseSectProps) {
             </Suspense>
             <div
               className={cx(
-                "md flex flex-wrap justify-center gap-8 px-8",
+                "md flex justify-center gap-8 px-8",
                 // "sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4",
               )}
             >
@@ -47,7 +47,12 @@ export default function HomeShowcaseSect(props: HomeShowcaseSectProps) {
                 <ProductBundleCard
                   key={item.id}
                   item={item}
-                  containerVariants={{ flex: "grow", w: null, "max-w": null }}
+                  containerVariants={{
+                    flex: "grow",
+                    w: null,
+                    "max-w": null,
+                    "aspect-ratio": "none",
+                  }}
                   containerClassName={cx(
                     "md:w-[calc(25%-2rem)]",
                     "max-w-[22rem]",

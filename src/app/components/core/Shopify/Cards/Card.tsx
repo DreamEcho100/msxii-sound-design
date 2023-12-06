@@ -90,73 +90,62 @@ export const BasicProductCard = (props: {
   const isGif = props.item.featuredImage.url.includes(".gif");
 
   return (
-    <AspectRatio
-      ratio={
-        props.containerVariants?.["aspect-ratio"] === "video"
-          ? 16 / 9
-          : undefined
-      }
-      asChild
+    <article
+      className={handleBasicProductCardHolderVariants({
+        ...(props.containerVariants ?? {}),
+        className: props.containerClassName,
+      })}
     >
-      <article
-        className={handleBasicProductCardHolderVariants({
-          ...(props.containerVariants ?? {}),
-          className: props.containerClassName,
-        })}
+      <AspectRatio
+        className={handleBasicProductCardImageHolderVariants(
+          props.imageHolderVariants,
+        )}
+        ratio={
+          props.containerVariants?.["aspect-ratio"] === "video" ? 16 / 9 : 1 / 1
+        }
       >
-        <AspectRatio
-          className={handleBasicProductCardImageHolderVariants(
-            props.imageHolderVariants,
+        <Link href={`${routeBase}/${props.item.handle}`}>
+          {isGif ? (
+            <video
+              poster={props.item.featuredImage.url}
+              title={props.item.title}
+              width={325}
+              height={325}
+              className={handleBasicProductCardImageVariants(
+                props.imageVariants,
+              )}
+              autoPlay
+              loop
+              muted
+              playsInline
+            />
+          ) : (
+            <CustomNextImage
+              src={props.item.featuredImage.url}
+              alt={props.item.title}
+              width={280}
+              height={280}
+              className={handleBasicProductCardImageVariants(
+                props.imageVariants,
+              )}
+              priority={props.imgPriority}
+            />
           )}
-          ratio={
-            props.containerVariants?.["aspect-ratio"] === "video"
-              ? 16 / 9
-              : 1 / 1
-          }
+        </Link>
+        {props.isPlayButtonActive && <PlayButton product={props.item} />}
+      </AspectRatio>
+      <div className="text-align-initial flex flex-grow flex-col justify-between gap-2 px-2 py-3 leading-primary-5">
+        <h3
+          className={handleBasicProductCardTitleVariants(props.titleVariants)}
+          title={props.item.title}
         >
           <Link href={`${routeBase}/${props.item.handle}`}>
-            {isGif ? (
-              <video
-                poster={props.item.featuredImage.url}
-                title={props.item.title}
-                width={325}
-                height={325}
-                className={handleBasicProductCardImageVariants(
-                  props.imageVariants,
-                )}
-                autoPlay
-                loop
-                muted
-                playsInline
-              />
-            ) : (
-              <CustomNextImage
-                src={props.item.featuredImage.url}
-                alt={props.item.title}
-                width={280}
-                height={280}
-                className={handleBasicProductCardImageVariants(
-                  props.imageVariants,
-                )}
-                priority={props.imgPriority}
-              />
-            )}
+            {props.item.title}
           </Link>
-          {props.isPlayButtonActive && <PlayButton product={props.item} />}
-        </AspectRatio>
-        <div className="text-align-initial flex flex-grow flex-col justify-between gap-2 px-2 py-3 leading-primary-5">
-          <h3
-            className={handleBasicProductCardTitleVariants(props.titleVariants)}
-            title={props.item.title}
-          >
-            <Link href={`${routeBase}/${props.item.handle}`}>
-              {props.item.title}
-            </Link>
-          </h3>
-          {props.extraDetailsElem}
-        </div>
-      </article>
-    </AspectRatio>
+        </h3>
+        {props.extraDetailsElem}
+      </div>
+    </article>
   );
 };
 

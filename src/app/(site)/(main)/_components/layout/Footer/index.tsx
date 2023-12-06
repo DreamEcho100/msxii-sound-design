@@ -169,7 +169,7 @@ const footerLinks: {
 
 function ListsOnSm() {
   return (
-    <Accordion type="multiple" className="w-full">
+    <Accordion type="multiple" className="w-full sm:hidden">
       {footerLinks.map((item) => (
         <AccordionItem value={item.text} key={item.text}>
           <AccordionTrigger className="pb-0">{item.text}</AccordionTrigger>

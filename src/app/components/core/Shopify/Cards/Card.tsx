@@ -16,7 +16,7 @@ const handleBasicProductCardHolderVariants = cva(
     variants: {
       "aspect-ratio": { video: "aspect-video" },
       flex: { grow: "flex-grow" },
-      w: { "64": "w-64", "72": "w-72" },
+      w: { "64": "w-64", "72": "w-72" , "full": "w-full" },
       "max-w": {
         full: "max-w-full",
         "22rem": "max-w-[22rem]",

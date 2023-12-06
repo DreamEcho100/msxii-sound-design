@@ -123,7 +123,7 @@ function ProductsSearch(props: Props) {
           <BasicProductCard
             key={item.id}
             item={item}
-            containerVariants={{ w: null }}
+            containerVariants={{ w: "full" }}
             imgPriority={itemIndex < 8}
           />
         ))}

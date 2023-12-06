@@ -80,7 +80,7 @@ flex flex-col items-center justify-center gap-8 py-main-p-3 text-center text-[1.
           )}
         >
           <Clickable
-            href="collections"
+            href="/collections"
             isA="next-js"
             variants={{
               btn: "primary",

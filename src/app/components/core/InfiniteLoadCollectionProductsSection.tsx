@@ -60,7 +60,7 @@ export default function InfiniteLoadCollectionProductsSection(props: Props) {
           <BasicProductCard
             key={item.handle}
             item={item}
-            containerVariants={{ w: null }}
+            containerVariants={{ w: 'full' }}
             imgPriority={itemIndex < 8}
           />
         ))}

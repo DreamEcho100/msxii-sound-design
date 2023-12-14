@@ -6,8 +6,8 @@ import {
   type TGetCollectionWithNoEdges,
 } from "./types";
 
-export const ACCESS_TOKEN_COOKIE_KEY = "customerAccessToken";
-export const CHECKOUT_ID_COOKIE_KEY = "customerCheckoutId";
+export const ACCESS_TOKEN_COOKIE_KEY = "customerAccessToken_";
+export const CHECKOUT_ID_COOKIE_KEY = "customerCheckoutId_";
 
 export const formatPrice = (
   price: number | bigint,

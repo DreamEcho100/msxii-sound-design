@@ -14,9 +14,7 @@ export async function getStaticPaths() {
       columns: { name: true },
       with: {
         pgs: {
-          columns: {
-            slug: true,
-          },
+          columns: { slug: true, },
           where(fields) {
             return not(isNull(fields.slug));
           },

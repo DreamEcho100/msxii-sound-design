@@ -139,6 +139,9 @@ export const shopifyAuthRouter = createTRPCRouter({
   }),
 
   signOut: customerProtectedProcedure.mutation(async ({ ctx }) => {
+    const cookiesStore = ctx.getCookieManger();
+    cookiesStore.delete(ACCESS_TOKEN_COOKIE_KEY);
+
     const data = (await ctx.shopify.auth.customer.mutations.accessTokenDelete({
       customerAccessToken:
         ctx.shopifyUserDecryptedData.payload.shopifyAccessToken,
@@ -149,9 +152,6 @@ export const shopifyAuthRouter = createTRPCRouter({
         userErrors: [];
       };
     };
-
-    const cookiesStore = ctx.getCookieManger();
-    cookiesStore.delete(ACCESS_TOKEN_COOKIE_KEY);
 
     return data;
   }),

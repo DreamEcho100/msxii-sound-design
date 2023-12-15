@@ -76,6 +76,27 @@ export interface ShopifyOrder {
   processedAt: string;
 }
 
+type CountryCode = string;
+export interface ShopifyAddress {
+  id: string;
+  formatted: string;
+  address1?: string;
+  address2?: string;
+  city?: string;
+  company?: string;
+  country?: string;
+  countryCodeV2?: CountryCode;
+  firstName?: string;
+  formattedArea?: string[];
+  lastName?: string;
+  latitude?: number;
+  longitude?: number;
+  name?: string;
+  phone?: string;
+  province?: string;
+  provinceCode?: string;
+  zip?: string;
+}
 export interface ShopifyCustomer {
   id: string;
   firstName: string;
@@ -85,30 +106,8 @@ export interface ShopifyCustomer {
   phone: string | null;
   createdAt: string;
   updatedAt: string;
-  defaultAddress: {
-    id: string;
-    address1: string | null;
-    address2: string | null;
-    city: string | null;
-    company: string | null;
-    country: string;
-    zip: string | null;
-    province: string | null;
-    phone: string | null;
-  };
-  addresses: Edges<{
-    id: string;
-    address1: string | null;
-    address2: string | null;
-    city: string | null;
-    company: string | null;
-    country: string;
-    firstName: string;
-    lastName: string;
-    province: string | null;
-    zip: string | null;
-    phone: string | null;
-  }>;
+  defaultAddress: ShopifyAddress;
+  addresses: Edges<ShopifyAddress>;
   orders: Edges<ShopifyOrder>;
 }
 
@@ -178,7 +177,6 @@ export type BasicProduct = {
   productType: string;
   handle: string;
   featuredImage: ShopifyImage;
-
   priceRange: {
     maxVariantPrice: {
       amount: string;

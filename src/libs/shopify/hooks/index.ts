@@ -18,7 +18,7 @@ export const useRegisterMutation = ({
     (store) => store.authSession.utils.set,
   );
 
-  const registerMutation = trpcApi.shopify.auth.register.useMutation({
+  const registerMutation = trpcApi.shopify.customers.register.useMutation({
     onMutate: () => setCustomerSession({ type: "LOADING" }),
     onSuccess: (result) => {
       setCustomerSession({ type: "AUTHENTICATED", payload: result });
@@ -46,7 +46,7 @@ export const useLoginMutation = ({
     (store) => store.authSession.utils.set,
   );
 
-  const loginMutation = trpcApi.shopify.auth.login.useMutation({
+  const loginMutation = trpcApi.shopify.customers.login.useMutation({
     onMutate: () => setCustomerSession({ type: "LOADING" }),
     onSuccess: (result) => {
       setCustomerSession({ type: "AUTHENTICATED", payload: result });
@@ -74,9 +74,8 @@ export const useCheckAccessToken = ({
     (store) => store.authSession.utils.set,
   );
 
-  const checkAccessTokenQuery = trpcApi.shopify.auth.checkAccessToken.useQuery(
-    undefined,
-    {
+  const checkAccessTokenQuery =
+    trpcApi.shopify.customers.checkAccessToken.useQuery(undefined, {
       onSuccess: (result) => {
         setCustomerSession({ type: "AUTHENTICATED", payload: result });
         onSuccess?.();
@@ -89,8 +88,7 @@ export const useCheckAccessToken = ({
       refetchOnWindowFocus: true,
       refetchOnReconnect: true,
       retry: 1,
-    },
-  );
+    });
 
   // useEffect(() => {
   // 	if (customerStatus !== 'loading') setCustomerSession({ type: 'LOADING' });
@@ -106,7 +104,7 @@ export const useSignOutMutation = ({
   onSuccess?: () => void;
   onError?: (err: { message: string }) => void;
 }) => {
-  return trpcApi.shopify.auth.signOut.useMutation({
+  return trpcApi.shopify.customers.signOut.useMutation({
     onSuccess: () => {
       onSuccess?.();
       window.location.reload();

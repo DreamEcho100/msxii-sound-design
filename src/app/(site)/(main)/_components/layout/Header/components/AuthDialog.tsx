@@ -138,7 +138,7 @@ const RegisterDialogContent = () => {
     (store) => store.dialogs.auth.toggleOpen,
   );
   const [formValues, setFormValues] = useState<
-    RouterInputs["shopify"]["auth"]["register"]
+    RouterInputs["shopify"]["customers"]["register"]
   >({
     firstName: "",
     lastName: "",

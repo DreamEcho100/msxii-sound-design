@@ -60,7 +60,7 @@ export default async function ProductPg(props: Props) {
       "@type": "Brand",
       name: productData.vendor,
     },
-    image: productData.images.edges.map((image) => image.node.src),
+    image: productData.images.edges.map((image) => image.node.url),
     offers: mainVariant.compareAtPrice && {
       "@type": "Offer",
       price: mainVariant.compareAtPrice.amount,

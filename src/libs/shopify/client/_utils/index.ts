@@ -15,7 +15,7 @@ export const getShopifyClient = () =>
   Client.buildClient({
     domain: env.SHOPIFY_STORE_DOMAIN,
     storefrontAccessToken: env.SHOPIFY_STORE_FRONT_ACCESS_TOKEN,
-    apiVersion: "2023-04",
+    apiVersion: "2023-10",
   });
 
 export const handleShopifyErrors = <ErrorCodes extends string>(

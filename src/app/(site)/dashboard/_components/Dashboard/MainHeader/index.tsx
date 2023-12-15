@@ -13,7 +13,7 @@ export default function MainHeader() {
               alt="logo"
               width="240"
               height="192"
-              className="h-12 w-16"
+              className="h-10 w-14 object-contain"
               priority
             />
           </Clickable>

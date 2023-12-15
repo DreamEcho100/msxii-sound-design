@@ -91,7 +91,7 @@ const getQQLManyCollectionText = (
 const allCollectionsHandlesQuery = async () =>
   // input: z.infer<typeof customerAccessTokenInputSchema>
   {
-    // https://shopify.dev/docs/api/storefront/2023-04/queries/collections
+    // https://shopify.dev/docs/api/storefront/2023-10/queries/collections
     const template = gql`
       query {
         collections(first: 100) {
@@ -118,7 +118,7 @@ const allCollectionsHandlesQuery = async () =>
   };
 
 // const allCollectionsQuery = async () => {
-// 	// https://shopify.dev/docs/api/storefront/2023-04/queries/collections
+// 	// https://shopify.dev/docs/api/storefront/2023-10/queries/collections
 // 	const template = gql`
 // 						query {
 // 							collections(first: 100) {
@@ -138,7 +138,7 @@ const allCollectionsHandlesQuery = async () =>
 const manyCollectionsQuery = async (
   input?: z.infer<typeof getQQLManyCollectionTextSchema>,
 ) => {
-  // https://shopify.dev/docs/api/storefront/2023-04/queries/collections
+  // https://shopify.dev/docs/api/storefront/2023-10/queries/collections
   const template = gql`
 						query {
 							collections(first: ${input?.collectionsFirst}) {
@@ -159,7 +159,7 @@ const manyCollectionsQuery = async (
 const oneCollectionByHandleQuery = async (
   input: z.infer<typeof oneCollectionByHandleQuerySchema>,
 ) => {
-  // https://shopify.dev/docs/api/storefront/2023-04/queries/collectionByHandle
+  // https://shopify.dev/docs/api/storefront/2023-10/queries/collectionByHandle
   const template = gql`query ($handle: String!) {
 		collectionByHandle(handle: $handle) {
 			${gqlCollectionSchemaWithBasicProductsText(input)}
@@ -198,7 +198,7 @@ export default collections;
 										tags
 										variantBySelectedOptions
 	*/
-// https://shopify.dev/docs/api/storefront/2023-04/objects/Customer
+// https://shopify.dev/docs/api/storefront/2023-10/objects/Customer
 // const template = gql`
 // 	query {
 // 		collections(first: 250) {

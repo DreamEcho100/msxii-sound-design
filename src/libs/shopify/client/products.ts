@@ -38,6 +38,11 @@ variants(first: 100) {
 			image { ${gqlImageText} }
 			price { ${gqlPriceText} }
 			compareAtPrice { ${gqlPriceText} }
+			availableForSale
+			quantityAvailable
+			requiresShipping
+			sku
+			barcode
 		}
 	}
 }`;
@@ -85,7 +90,7 @@ export const manyProductsQuerySchema = z.object({
 const manyProductsQuery = async (
   input: z.infer<typeof manyProductsQuerySchema>,
 ) => {
-  // https://shopify.dev/docs/api/storefront/2023-04/queries/products
+  // https://shopify.dev/docs/api/storefront/2023-10/queries/products
 
   const queryStr =
     input.query &&
@@ -128,7 +133,7 @@ const manyProductsQuery = async (
 };
 
 const manyProductsHandles = async () => {
-  // https://shopify.dev/docs/api/storefront/2023-04/queries/products
+  // https://shopify.dev/docs/api/storefront/2023-10/queries/products
   z;
 
   const template = gql`
@@ -155,7 +160,7 @@ export const oneProductByHandleQuerySchema = z.object({ handle: z.string() });
 const oneProductByHandleQuery = async (
   input: z.infer<typeof oneProductByHandleQuerySchema>,
 ) => {
-  // https://shopify.dev/docs/api/storefront/2023-04/queries/productByHandle
+  // https://shopify.dev/docs/api/storefront/2023-10/queries/productByHandle
   const template = gql`query ($handle: String!) {
 		productByHandle(handle: $handle) {
 			${gqlProductSchemaText}
@@ -173,7 +178,7 @@ export const oneProductHTMLDescriptionByHandleQuerySchema = z.object({
 const oneProductHTMLDescriptionByHandleQuery = async (
   input: z.infer<typeof oneProductHTMLDescriptionByHandleQuerySchema>,
 ) => {
-  // https://shopify.dev/docs/api/storefront/2023-04/queries/productByHandle
+  // https://shopify.dev/docs/api/storefront/2023-10/queries/productByHandle
   const template = gql`
     query ($handle: String!) {
       productByHandle(handle: $handle) {
@@ -193,7 +198,7 @@ export const oneProductRecommendationsQuerySchema = z.object({
 const oneProductRecommendationsQuery = async (
   input: z.infer<typeof oneProductRecommendationsQuerySchema>,
 ) => {
-  // https://shopify.dev/docs/api/storefront/2023-04/queries/productRecommendations
+  // https://shopify.dev/docs/api/storefront/2023-10/queries/productRecommendations
   const template = gql`query productRecommendations($productId: ID!) {
     productRecommendations(productId: $productId) {
 			${gqlProductSchemaText}

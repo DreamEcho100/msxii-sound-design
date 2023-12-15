@@ -25,15 +25,36 @@ const config = {
   //   defaultLocale: "en",
   // },
   images: {
-    domains: [
-      "cdn.shopify.com",
-      "res.cloudinary.com",
-      "www.msxaudio.com",
-      "api.dicebear.com",
-    ],
     dangerouslyAllowSVG: true,
     contentDispositionType: "attachment",
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "cdn.shopify.com",
+      },
+      {
+        protocol: "https",
+        hostname: "res.cloudinary.com",
+      },
+      {
+        protocol: "https",
+        hostname: "msxaudio.com",
+      },
+      {
+        protocol: "https",
+        hostname: "api.dicebear.com",
+      },
+    ],
+    // domains: [
+    //   "cdn.shopify.com",
+    //   "res.cloudinary.com",
+    //   "www.msxaudio.com",
+    //   "api.dicebear.com",
+    // ],
+    // dangerouslyAllowSVG: true,
+    // contentDispositionType: "attachment",
+    // contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
   },
   typescript: {
     ignoreBuildErrors: !process.env.IS_LOCAL_ENV,

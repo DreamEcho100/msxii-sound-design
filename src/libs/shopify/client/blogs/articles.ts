@@ -65,7 +65,7 @@ const getManyArticlesGQLQuery = async (
     after: input.cursor && `"${input.cursor}"`,
   };
 
-  // https://shopify.dev/docs/api/storefront/2023-04/objects/Article
+  // https://shopify.dev/docs/api/storefront/2023-10/objects/Article
   const template = gql`
 						query {
 							articles(${buildGQLArgsString(argsMap)}) {
@@ -103,7 +103,7 @@ const getManyBasicArticlesGQLQuery = async (
     sortKey: "PUBLISHED_AT",
   };
 
-  // https://shopify.dev/docs/api/storefront/2023-04/objects/Article
+  // https://shopify.dev/docs/api/storefront/2023-10/objects/Article
   const template = gql`
 						query {
 							articles(${buildGQLArgsString(argsMap)}) {
@@ -126,7 +126,7 @@ const getManyBasicArticlesGQLQuery = async (
   }>(template);
 };
 const geAllIdsAndHandlesGQLQuery = async () => {
-  // https://shopify.dev/docs/api/storefront/2023-04/objects/Article
+  // https://shopify.dev/docs/api/storefront/2023-10/objects/Article
   const template = gql`
     query {
       articles(first: 250) {
@@ -149,7 +149,7 @@ export const getOneArticleByIdGQLQueryInputSchema = z.string().min(1);
 const getOneArticleByIdGQLQuery = async (
   input: z.infer<typeof getOneArticleByIdGQLQueryInputSchema>,
 ) => {
-  // https://shopify.dev/docs/api/storefront/2023-04/objects/Article
+  // https://shopify.dev/docs/api/storefront/2023-10/objects/Article
   const template = gql`
 		query {
 			article(id: "${input}") {
@@ -167,7 +167,7 @@ export const getOneArticleByHandleGQLQueryInputSchema = z.string().min(1);
 const getOneArticleByHandleGQLQuery = async (
   input: z.infer<typeof getOneArticleByHandleGQLQueryInputSchema>,
 ) => {
-  // https://shopify.dev/docs/api/storefront/2023-04/objects/Article
+  // https://shopify.dev/docs/api/storefront/2023-10/objects/Article
   const template = gql`
 		query {
 			blogByHandle(handle: "${input}") {

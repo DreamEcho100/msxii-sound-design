@@ -79,17 +79,13 @@ const MainLayoutHeader = () => {
                 : "bg-bg-primary-500/80 backdrop-blur-sm dark:bg-bg-primary-500/90",
             )}
           >
-            <Clickable
-              href="/"
-              isA="next-js"
-              className="aspect-video h-12 w-16"
-            >
+            <Clickable href="/" isA="next-js">
               <CustomNextImage
                 src="/images/logo.png"
                 alt="logo"
                 width="240"
                 height="192"
-                className="h-12 w-16 object-contain"
+                className="h-10 w-14 object-contain"
                 priority
               />
             </Clickable>

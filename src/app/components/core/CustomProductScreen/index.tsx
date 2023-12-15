@@ -16,7 +16,7 @@ import { type Product } from "~/libs/shopify/types";
 import { useExtractDataFromHTMLDescription } from "~/libs/shopify/hooks";
 import { SoundCloudIframe, YouTubeIFrame } from "../../common/Iframes";
 import { type NextJsLinkProps } from "../../common/Clickable";
-import ProductImageShowcase from "./ProductRecommendations";
+import ProductImageShowcase from "./ProductImageShowcase";
 import Slider from "../../common/Slider";
 
 function ProductSlidComp(props: { item: Product }) {
@@ -229,7 +229,7 @@ const CustomProductScreen = ({
                       )}
                     >
                       <CustomNextImage
-                        src={node.image.src}
+                        src={node.image.url}
                         alt={node.image.altText}
                         width={node.image.width}
                         height={node.image.height}
@@ -280,7 +280,7 @@ const CustomProductScreen = ({
                 extractDataFromHTMLDescription.detailsHTML.length === 0
                   ? "invisible"
                   : undefined,
-                "relative inline-flex h-6 w-12 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2  focus-visible:ring-white focus-visible:ring-opacity-75",
+                "relative inline-flex h-6 w-12 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75",
               )}
             >
               <span className="sr-only">enabled new view</span>
@@ -293,6 +293,7 @@ const CustomProductScreen = ({
                 }
 								pointer-events-none
             inline-block h-5 w-5 transform rounded-full bg-bg-primary-500 shadow-lg ring-0 transition duration-200 ease-in-out`}
+                style={{ animationDuration: '3s' }}
               />
             </Switch>
           </div>
@@ -353,6 +354,7 @@ const CustomProductScreen = ({
                     data={extractDataFromHTMLDescription.iframes.youtube}
                     getSlideKey={(_, itemIndex) => itemIndex}
                     SlideComp={YoutubeIFrameSlidComp}
+                    isNavButtonsOutside
                     // compProps={undefined}
                   />
                 </div>

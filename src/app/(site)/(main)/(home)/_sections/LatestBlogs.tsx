@@ -64,7 +64,7 @@ const HomeLatestBlogsSect = (props: Props) => {
                     className="block h-full w-full overflow-hidden"
                   >
                     <CustomNextImage
-                      src={node.image.src}
+                      src={node.image.url}
                       alt={node.image.altText}
                       width={375}
                       height={425}

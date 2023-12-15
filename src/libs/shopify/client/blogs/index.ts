@@ -29,7 +29,7 @@ title`;
 // }`;
 
 const allBlogsQuery = async () => {
-  // https://shopify.dev/docs/api/storefront/2023-04/objects/Blog
+  // https://shopify.dev/docs/api/storefront/2023-10/objects/Blog
   const template = gql`
 						query {
 							articles(first: 100) {

@@ -23,7 +23,7 @@ export type GetNodeFromEdge<TEdges> = TEdges extends Edges<infer Node>
   : never;
 
 export type ShopifyErrorShape<ErrorCodes> = {
-  // https://shopify.dev/docs/api/storefront/2023-04/enums/CustomerErrorCode
+  // https://shopify.dev/docs/api/storefront/2023-10/enums/CustomerErrorCode
   code: ErrorCodes;
   field: string[];
   message: string;
@@ -114,7 +114,7 @@ export interface ShopifyCustomer {
 
 export type ShopifyImage = {
   id: string;
-  src: string;
+  // src: string;
   url: string;
   altText?: string;
   width: number;
@@ -124,7 +124,7 @@ export type ShopifySEO = {
   title: string | null;
   description: string | null;
 };
-// https://shopify.dev/docs/api/storefront/2023-04/objects/MoneyV2
+// https://shopify.dev/docs/api/storefront/2023-10/objects/MoneyV2
 export type ShopifyMoneyV2 = {
   amount: string;
   currencyCode: string;
@@ -136,6 +136,12 @@ export type ShopifyProductVariant = {
   image: ShopifyImage;
   price: ShopifyMoneyV2;
   compareAtPrice?: ShopifyMoneyV2;
+  //
+  availableForSale: boolean;
+  quantityAvailable?: number;
+  requiresShipping: boolean;
+  sku?: string;
+  barcode?: string;
 };
 
 export type Product = {

@@ -54,6 +54,23 @@
   content: "" !important;
 }
 
+.swiper-vertical .swiper-button-prev,
+[dir="rtl"] .swiper-vertical .swiper-button-next {
+  bottom: 0 !important;
+  top: auto !important;
+  left: 50% !important;
+  right: auto !important;
+  transform: translate(-50%, 0.5rem) rotate(-90deg) !important;
+}
+.swiper-vertical .swiper-button-next,
+[dir="rtl"] .swiper-vertical .swiper-button-next {
+  top: 0 !important;
+  bottom: auto !important;
+  left: 50% !important;
+  right: auto !important;
+  transform: translate(-50%, -0.5rem) rotate(-90deg) !important;
+}
+
 .swiper-button-next,
 .swiper-button-prev {
   --transform-scale: 1;

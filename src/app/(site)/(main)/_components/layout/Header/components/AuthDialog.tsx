@@ -1,12 +1,5 @@
 "use client";
-import {
-  type Dispatch,
-  type InputHTMLAttributes,
-  type LabelHTMLAttributes,
-  type SetStateAction,
-  useId,
-  useState,
-} from "react";
+import { useState } from "react";
 
 import { cx } from "class-variance-authority";
 
@@ -18,6 +11,7 @@ import CustomDialog, {
 import { type RouterInputs } from "~/server/api/root";
 import { useLoginMutation, useRegisterMutation } from "~/libs/shopify/hooks";
 import Clickable from "~/app/components/core/Clickable";
+import FormInput from "~/app/components/core/FormInput";
 
 const AuthDialog = () => {
   const isAuthDialogOpen = useStore(
@@ -46,7 +40,7 @@ const AuthDialog = () => {
 
 export default AuthDialog;
 
-const LoginDialogContent = () => {
+function LoginDialogContent() {
   const setAuthDialogState = useStore(
     globalStore,
     (store) => store.dialogs.auth.setDialogType,
@@ -104,6 +98,7 @@ const LoginDialogContent = () => {
         <FormInput
           name={"email"}
           setFormValues={setFormValues}
+          value={formValues.email}
           placeholder="* Email"
           required
           type="email"
@@ -111,6 +106,7 @@ const LoginDialogContent = () => {
         <FormInput
           name={"password"}
           setFormValues={setFormValues}
+          value={formValues.password}
           placeholder="* Password"
           required
           type="password"
@@ -126,7 +122,7 @@ const LoginDialogContent = () => {
       </form>
     </>
   );
-};
+}
 
 const RegisterDialogContent = () => {
   const setAuthDialogState = useStore(
@@ -191,6 +187,7 @@ const RegisterDialogContent = () => {
         <FormInput
           name={"firstName"}
           setFormValues={setFormValues}
+          value={formValues.firstName}
           placeholder="* First Name"
           required
           type="firstName"
@@ -198,6 +195,7 @@ const RegisterDialogContent = () => {
         <FormInput
           name={"lastName"}
           setFormValues={setFormValues}
+          value={formValues.lastName}
           placeholder="* Last Name"
           required
           type="lastName"
@@ -205,6 +203,7 @@ const RegisterDialogContent = () => {
         <FormInput
           name={"email"}
           setFormValues={setFormValues}
+          value={formValues.email}
           placeholder="* Email"
           required
           type="email"
@@ -212,6 +211,7 @@ const RegisterDialogContent = () => {
         <FormInput
           name={"password"}
           setFormValues={setFormValues}
+          value={formValues.password}
           placeholder="* Password"
           required
           type="password"
@@ -226,41 +226,5 @@ const RegisterDialogContent = () => {
         </Clickable>
       </form>
     </>
-  );
-};
-
-const FormInput = <FormValues extends Record<string, unknown>>({
-  name,
-  label,
-  labelProps = {},
-  setFormValues,
-  ...props
-}: InputHTMLAttributes<HTMLInputElement> & {
-  name: keyof FormValues;
-  label?: string;
-  labelProps?: LabelHTMLAttributes<HTMLLabelElement>;
-  setFormValues: Dispatch<SetStateAction<FormValues>>;
-}) => {
-  const baseId = useId();
-  return (
-    <div className="flex flex-col gap-2">
-      {(labelProps || label) && (
-        <label htmlFor={baseId} {...labelProps}>
-          {label}
-        </label>
-      )}
-      <input
-        className="rounded-t-sm border-[0.0625rem] border-transparent border-b-text-primary-500/50 px-3 py-2 hover:border-b-text-primary-500/75 focus:border-b-text-primary-500 focus:outline-none"
-        id={baseId}
-        onChange={(event) =>
-          setFormValues((prev) => ({
-            ...prev,
-            [name]: event.target.value,
-          }))
-        }
-        {...props}
-        name={name}
-      />
-    </div>
   );
 };

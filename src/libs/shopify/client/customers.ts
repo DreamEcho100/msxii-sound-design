@@ -152,11 +152,16 @@ const customerUpdateMutation = async (
   const customerFields: string[] = [];
 
   Object.entries(input).forEach((item) => {
-    if (typeof item[1] !== "undefined") customerFields.push(item[0]);
+    if (typeof item[1] !== "undefined") {
+      customerFields.push(item[0]);
+    }
   });
 
   if (customerFields.length === 0) {
-    throw new TRPCError({ code: "BAD_REQUEST" });
+    throw new TRPCError({
+      code: "BAD_REQUEST",
+      message: "No item found to update",
+    });
   }
 
   const template = gql`
@@ -178,7 +183,7 @@ const customerUpdateMutation = async (
 		}
 	`;
 
-  return await graphQLClient.request<{
+  const res = await graphQLClient.request<{
     customerUpdate: {
       customer: ShopifyCustomer;
       customerAccessToken: {
@@ -191,6 +196,7 @@ const customerUpdateMutation = async (
     customerAccessToken,
     customer: input,
   });
+  return res;
 };
 
 const customerCreateAddressSchema_ = z.object(customerCreateAddressSchema);
@@ -208,7 +214,10 @@ const customerCreateAddressMutation = async (
   });
 
   if (addressFieldsKeys.length === 0) {
-    throw new TRPCError({ code: "BAD_REQUEST" });
+    throw new TRPCError({
+      code: "BAD_REQUEST",
+      message: "No item found to update",
+    });
   }
 
   const template = gql`
@@ -256,7 +265,10 @@ const customerUpdateAddressMutation = async (
   });
 
   if (addressFieldsKeys.length === 0) {
-    throw new TRPCError({ code: "BAD_REQUEST" });
+    throw new TRPCError({
+      code: "BAD_REQUEST",
+      message: "No item found to update",
+    });
   }
 
   const template = gql`
@@ -301,7 +313,10 @@ const customerDeleteAddressMutation = async (
   });
 
   if (customerFields.length === 0) {
-    throw new TRPCError({ code: "BAD_REQUEST" });
+    throw new TRPCError({
+      code: "BAD_REQUEST",
+      message: "No item found to update",
+    });
   }
 
   const template = gql`

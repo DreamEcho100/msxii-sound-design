@@ -28,20 +28,23 @@ export const handleShopifyErrors = <ErrorCodes extends string>(
     customMessage?: string;
   },
 ) => {
-  if (customerUserErrors.length > 0)
+  if (customerUserErrors.length > 0) {
     throw new TRPCError({
       code: options?.code ?? "INTERNAL_SERVER_ERROR",
       message: [
-        options?.customMessage,
-        ...customerUserErrors.map((item) =>
-          options?.errorCodeMessageMap?.[item.code]
-            ? options.errorCodeMessageMap[item.code]
-            : item.message,
-        ),
+        ...new Set([
+          options?.customMessage,
+          ...customerUserErrors.map((item) =>
+            options?.errorCodeMessageMap?.[item.code]
+              ? options.errorCodeMessageMap[item.code]
+              : item?.message,
+          ),
+        ]),
       ]
         .filter(Boolean)
         .join(". \n"),
     });
+  }
 };
 
 export const customerGQLFields = `id

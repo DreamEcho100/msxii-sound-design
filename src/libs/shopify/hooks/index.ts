@@ -81,7 +81,6 @@ export const useCheckAccessToken = ({
         onSuccess?.();
       },
       onError: (err) => {
-        console.log("err", err);
         setCustomerSession({ type: "UNAUTHENTICATED" });
         onError?.({ message: err.message });
       },

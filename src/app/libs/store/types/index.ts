@@ -1,8 +1,11 @@
 import { type Checkout } from "shopify-buy";
 import { type ShopifyCustomer } from "~/libs/shopify/types";
 
+type ValueOrUpdater<Value> = Value | ((value: Value) => Value);
+
 type AuthSession = {
   utils: {
+    update: (valueOrUpdater: ValueOrUpdater<ShopifyCustomer>) => void;
     set: (
       params:
         | { type: "LOADING"; payload?: null }
@@ -81,8 +84,6 @@ type Cart = {
       data: Checkout;
     }
 );
-
-type ValueOrUpdater<Value> = Value | ((value: Value) => Value);
 
 type SoundCloudPlayerData =
   | {

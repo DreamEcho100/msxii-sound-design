@@ -1,0 +1,81 @@
+.orders-table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+/* .orders-table tr {
+				padding: 0.35em;
+			} */
+
+.orders-table th,
+.orders-table td {
+  text-align: center;
+}
+
+/* .orders-table th {
+				text-transform: uppercase;
+			} */
+
+@media screen and (max-width: 600px) {
+  .orders-table {
+    border: 0;
+  }
+
+  .orders-table caption {
+    font-size: 1.3em;
+  }
+
+  .orders-table thead {
+    border: none;
+    clip: rect(0 0 0 0);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
+  }
+
+  .orders-table tr {
+    border-bottom: 3px solid #ddd;
+    display: block;
+    margin-bottom: 0.625em;
+  }
+
+  .orders-table td {
+    border-bottom: 1px solid #ddd;
+    display: block;
+    font-size: 0.8em;
+    text-align: initial;
+  }
+
+  .orders-table td .title {
+    display: inline-block;
+    width: 25%;
+    max-width: fit-content;
+  }
+
+  .orders-table td::before {
+    /*
+* aria-label has no advantage, it won't be read inside a table
+content: attr(aria-label);
+*/
+    content: attr(data-label);
+    float: left;
+    font-weight: bold;
+    text-transform: uppercase;
+  }
+
+  .orders-table td:last-child {
+    border-bottom: 0;
+  }
+}
+@media screen and (max-width: 400px) {
+  .orders-table td {
+    padding: 0.5rem;
+    white-space: break-spaces;
+  }
+  .orders-table td .title {
+    width: auto;
+  }
+}

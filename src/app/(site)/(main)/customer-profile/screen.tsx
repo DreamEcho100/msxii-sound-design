@@ -7,27 +7,16 @@ import PagePrimaryLoader from "~/app/components/common/Loaders/PagePrimary";
 import PageLoaderContainer from "~/app/components/common/LoadersContainers/Page";
 import { globalStore } from "~/app/libs/store";
 import { formatPrice } from "~/libs/shopify";
-import { useIsMounted } from "~/app/libs/hooks";
 import { type ShopifyCustomer, type ShopifyOrder } from "~/libs/shopify/types";
 import CustomDialog, {
   DialogContentHeader,
 } from "~/app/components/common/Dialog";
 import CustomNextImage from "~/app/components/common/CustomNextImage";
+import classes from "./index.module.css";
+import { cx } from "class-variance-authority";
+import CustomerProfileBasicInfo from "./_sections/basic-info";
 
-const TitleValue = (props: {
-  title: string;
-  value?: string | number | null;
-}) => {
-  if (!props.value) return <></>;
-
-  return (
-    <div className="flex">
-      <span className="text-sm font-semibold">{props.title}:</span>
-      <span className="text-sm">{props.value}</span>
-    </div>
-  );
-};
-const ProductsOnOrder = ({
+function ProductsOnOrder({
   lineItems,
   buttonText,
   statusUrl,
@@ -37,8 +26,7 @@ const ProductsOnOrder = ({
   buttonText: string;
   statusUrl: string;
   financialStatus: string;
-}) => {
-  const isMounted = useIsMounted();
+}) {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -46,11 +34,7 @@ const ProductsOnOrder = ({
       <button type="button" onClick={() => setIsOpen(true)}>
         {buttonText}
       </button>
-      <CustomDialog
-        // contentVariants={{ bg: 'primary-2' }}
-        isOpen={isOpen}
-        setIsOpen={setIsOpen}
-      >
+      <CustomDialog isOpen={isOpen} setIsOpen={setIsOpen}>
         <DialogContentHeader
           titleProps={{
             children:
@@ -86,12 +70,11 @@ const ProductsOnOrder = ({
                   </div>
                   <div className="p-2">
                     <p>{item.title}</p>
-                    <p>
+                    <p suppressHydrationWarning>
                       Total Price{" "}
                       {formatPrice(
                         Number(item.originalTotalPrice.amount),
                         item.originalTotalPrice.currencyCode,
-                        isMounted,
                       )}
                     </p>
                   </div>
@@ -103,12 +86,11 @@ const ProductsOnOrder = ({
       </CustomDialog>
     </>
   );
-};
+}
 
-const CustomerProfileScreenContent = (props: {
+function CustomerProfileScreenContent(props: {
   customerData: ShopifyCustomer;
-}) => {
-  const isMounted = useIsMounted();
+}) {
   const orders = useMemo(() => {
     let aNum: number;
     let bNum: number;
@@ -124,73 +106,7 @@ const CustomerProfileScreenContent = (props: {
 
   return (
     <>
-      <section className="p-8">
-        <h1 className="text-h1">Customer Profile</h1>
-        {/* <p>
-					<TitleValue title="ID" value={props.customerData.id} />
-				</p> */}
-        <p>
-          <TitleValue title="email" value={props.customerData.email} />
-        </p>
-        <p>
-          <TitleValue title="first name" value={props.customerData.firstName} />
-        </p>
-        <p>
-          <TitleValue title="last name" value={props.customerData.lastName} />
-        </p>
-        <p>
-          <TitleValue title="phone" value={props.customerData.phone} />
-        </p>
-        {props.customerData.defaultAddress && (
-          <address>
-            <p>
-              <TitleValue
-                title="address 1"
-                value={props.customerData.defaultAddress.address1}
-              />
-            </p>
-            <p>
-              <TitleValue
-                title="address 2"
-                value={props.customerData.defaultAddress.address2}
-              />
-            </p>
-            <p>
-              <TitleValue
-                title="country"
-                value={props.customerData.defaultAddress.country}
-              />
-            </p>
-            <p>
-              <TitleValue
-                title="province"
-                value={props.customerData.defaultAddress.province}
-              />
-            </p>
-            <p>
-              <TitleValue
-                title="city"
-                value={props.customerData.defaultAddress.city}
-              />
-            </p>
-            <p>
-              <TitleValue
-                title="phone"
-                value={props.customerData.defaultAddress.phone}
-              />
-            </p>
-            <p>
-              <TitleValue
-                title="zip"
-                value={props.customerData.defaultAddress.zip}
-              />
-            </p>
-          </address>
-        )}
-        {/* <p>Created At: {props.customerData.createdAt}</p> */}
-        {/* <p>Updated At: {props.customerData.updatedAt}</p> */}
-        {/* <p>Accepts Marketing: {props.customerData.acceptsMarketing}</p> */}
-      </section>
+      <CustomerProfileBasicInfo customerData={props.customerData} />
 
       <section className="p-8">
         {!Array.isArray(orders) ||
@@ -207,7 +123,12 @@ const CustomerProfileScreenContent = (props: {
           </p>
         ) : (
           <>
-            <table className="orders-table w-full table-fixed border-collapse overflow-x-auto">
+            <table
+              className={cx(
+                classes["orders-table"],
+                "w-full table-fixed border-collapse overflow-x-auto",
+              )}
+            >
               <thead className="border border-gray-500 font-bold">
                 <tr>
                   <th className="px-4 py-6 sm:px-8 md:py-8 lg:px-12">Order</th>
@@ -249,111 +170,30 @@ const CustomerProfileScreenContent = (props: {
                       </span>
                       {itemNode.financialStatus?.toLowerCase()}
                     </td>
-                    <td className="border border-gray-500 px-4 py-6 sm:px-8 md:py-8 lg:px-12">
+                    <td
+                      className="border border-gray-500 px-4 py-6 sm:px-8 md:py-8 lg:px-12"
+                      suppressHydrationWarning
+                    >
                       <span className="title hidden font-bold">
                         Total:&nbsp;
                       </span>
                       {formatPrice(
                         Number(itemNode.totalPrice.amount),
                         itemNode.totalPrice.currencyCode,
-                        isMounted,
                       )}
                     </td>
                   </tr>
                 ))}
               </tbody>
             </table>
-            <style jsx>{`
-              .orders-table {
-                border-collapse: collapse;
-                width: 100%;
-              }
-
-              /* .orders-table tr {
-				padding: 0.35em;
-			} */
-
-              .orders-table th,
-              .orders-table td {
-                text-align: center;
-              }
-
-              /* .orders-table th {
-				text-transform: uppercase;
-			} */
-
-              @media screen and (max-width: 600px) {
-                .orders-table {
-                  border: 0;
-                }
-
-                .orders-table caption {
-                  font-size: 1.3em;
-                }
-
-                .orders-table thead {
-                  border: none;
-                  clip: rect(0 0 0 0);
-                  height: 1px;
-                  margin: -1px;
-                  overflow: hidden;
-                  padding: 0;
-                  position: absolute;
-                  width: 1px;
-                }
-
-                .orders-table tr {
-                  border-bottom: 3px solid #ddd;
-                  display: block;
-                  margin-bottom: 0.625em;
-                }
-
-                .orders-table td {
-                  border-bottom: 1px solid #ddd;
-                  display: block;
-                  font-size: 0.8em;
-                  text-align: initial;
-                }
-
-                .orders-table td .title {
-                  display: inline-block;
-                  width: 25%;
-                  max-width: fit-content;
-                }
-
-                .orders-table td::before {
-                  /*
-* aria-label has no advantage, it won't be read inside a table
-content: attr(aria-label);
-*/
-                  content: attr(data-label);
-                  float: left;
-                  font-weight: bold;
-                  text-transform: uppercase;
-                }
-
-                .orders-table td:last-child {
-                  border-bottom: 0;
-                }
-              }
-              @media screen and (max-width: 400px) {
-                .orders-table td {
-                  padding: 0.5rem;
-                  white-space: break-spaces;
-                }
-                .orders-table td .title {
-                  width: auto;
-                }
-              }
-            `}</style>
           </>
         )}
       </section>
     </>
   );
-};
+}
 
-const CustomerProfileScreen = () => {
+export default function CustomerProfileScreen() {
   const router = useRouter();
   const authSession = useStore(globalStore, (store) => store.authSession);
   const toggleOpenAuthDialog = useStore(
@@ -379,6 +219,4 @@ const CustomerProfileScreen = () => {
     return <CustomerProfileScreenContent customerData={authSession.data} />;
 
   return authSession.status;
-};
-
-export default CustomerProfileScreen;
+}

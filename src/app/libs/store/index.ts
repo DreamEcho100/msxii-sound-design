@@ -47,6 +47,21 @@ export const globalStore = createStore<GlobalStore>((set, get) => ({
             }));
         }
       },
+      update(valueOrUpdater) {
+        set((prev) => {
+          return {
+            authSession: {
+              ...prev.authSession,
+              data:
+                prev.authSession.status === "authenticated"
+                  ? typeof valueOrUpdater === "function"
+                    ? valueOrUpdater(prev.authSession.data)
+                    : valueOrUpdater
+                  : prev.authSession.data,
+            } as (typeof prev)["authSession"],
+          };
+        });
+      },
     },
   },
   cart: {

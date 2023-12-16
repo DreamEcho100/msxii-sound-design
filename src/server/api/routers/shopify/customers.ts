@@ -163,12 +163,12 @@ export const shopifyCustomersRouter = createTRPCRouter({
   updateOneBasic: customerProtectedProcedure
     .input(z.object(customerUpdateSchema))
     .mutation(async ({ ctx, input }) => {
+      console.log("input", input);
       const data = await ctx.shopify.customers.mutations
         .update(input, ctx.shopifyUserDecryptedData.payload.shopifyAccessToken)
         .then((result) => {
           handleShopifyErrors(result.customerUpdate.customerUserErrors, {
             code: "BAD_REQUEST",
-            customMessage: result.customerUpdate.customerUserErrors[0]!.message,
           });
 
           return result;
@@ -189,8 +189,6 @@ export const shopifyCustomersRouter = createTRPCRouter({
           .then((result) => {
             handleShopifyErrors(result.customerAddress.customerUserErrors, {
               code: "BAD_REQUEST",
-              customMessage:
-                result.customerAddress.customerUserErrors[0]!.message,
             });
 
             return result;
@@ -210,8 +208,6 @@ export const shopifyCustomersRouter = createTRPCRouter({
           .then((result) => {
             handleShopifyErrors(result.customerAddress.customerUserErrors, {
               code: "BAD_REQUEST",
-              customMessage:
-                result.customerAddress.customerUserErrors[0]!.message,
             });
 
             return result;
@@ -231,8 +227,6 @@ export const shopifyCustomersRouter = createTRPCRouter({
           .then((result) => {
             handleShopifyErrors(result.customerAddress.customerUserErrors, {
               code: "BAD_REQUEST",
-              customMessage:
-                result.customerAddress.customerUserErrors[0]!.message,
             });
 
             return result;

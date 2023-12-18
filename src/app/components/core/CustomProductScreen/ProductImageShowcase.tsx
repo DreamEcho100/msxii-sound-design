@@ -7,28 +7,36 @@ import { AspectRatio } from "../../common/ui/aspect-ratio";
 import { A11y, Navigation } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 
+// Import Swiper styles
+import "swiper/css";
+import "swiper/css/navigation";
+
 const VariantsSlideComp = (props: {
   item: { node: ShopifyImage };
   selectedImage: ShopifyImage;
   setSelectedImage: (value: SetStateAction<ShopifyImage>) => void;
-  containerClassName?: string
+  containerClassName?: string;
 }) => {
   return (
-    <div className={cx("flex h-full w-full items-center justify-center", props.containerClassName)}>
-      <AspectRatio ratio={1} className="flex items-center justify-center">
+    <div
+      className={cx(
+        "mx-auto flex h-full w-full items-center justify-center",
+        props.containerClassName,
+      )}
+    >
+      <AspectRatio ratio={1}>
         <button
           className={cx(
-            "flex h-full w-full items-center justify-center transition-all duration-300",
-            "items-center justify-center",
-            props.selectedImage.id === props.item.node.id ? "p-1.5" : "",
+            "flex h-full w-full transition-all duration-300",
+            // props.selectedImage.id === props.item.node.id ? "p-1.5" : "",
           )}
           type="button"
           onClick={() => props.setSelectedImage(props.item.node)}
         >
           <CustomNextImage
             src={props.item.node.url}
-            width={112}
-            height={112}
+            width={115}
+            height={115}
             className={cx(
               "aspect-square h-full w-full object-contain transition-all duration-300",
               props.selectedImage.id === props.item.node.id
@@ -55,7 +63,7 @@ export default function ProductImageShowcase(props: {
   return (
     <div
       className={cx(
-        "flex max-w-full flex-grow flex-col gap-4 sm:min-w-[20rem] lg:flex-row",
+        "flex max-w-full flex-grow flex-col gap-4 sm:min-w-[20rem] lg:flex-row lg:gap-0",
         props.noCustomWith
           ? undefined
           : hasImagesVariations
@@ -63,19 +71,6 @@ export default function ProductImageShowcase(props: {
             : "md:w-5/12",
       )}
     >
-      {/* <ImageMagnifier
-        src={selectedImage.src}
-        width={selectedImage.width || 800}
-        height={selectedImage.height || 800}
-        className="w-full rounded-xl object-contain"
-        containerProps={{
-          className: cx(
-            "w-full max-w-[20rem] mx-auto md:max-w-full md:mx-0",
-            hasImagesVariations ? "lg:w-[calc(100%-6rem)]" : "",
-          ),
-        }}
-        priority
-      /> */}
       <div
         className={cx(
           "mx-auto w-full max-w-[20rem] md:mx-0 md:max-w-full",
@@ -92,28 +87,29 @@ export default function ProductImageShowcase(props: {
       </div>
       {hasImagesVariations && (
         <>
-          <div className="hidden flex-grow lg:flex no-custom-swiper h-[28rem] max-h-full">
+          <div className="hidden h-full max-h-[24rem] flex-grow lg:flex">
             <Swiper
               modules={[Navigation, A11y]}
-              rewind={true}
+              rewind
               direction="vertical"
-              navigation={true}
+              navigation
               autoplay={{ delay: 7500 }}
               slidesPerView={4}
+              mousewheel
               loopAddBlankSlides
-              spaceBetween={8}
-              style={{ padding: '1rem 0' }}
+              style={{ padding: "0.75rem 0" }}
             >
               {props.productData.images.edges.map((item) => {
                 return (
-                  <SwiperSlide key={item.node.id}>
-                    {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
-                    {/* @ts-ignore */}
+                  <SwiperSlide
+                    key={item.node.id}
+                    className="swiper-slide-flex items-center justify-center"
+                  >
                     <VariantsSlideComp
                       item={item}
                       selectedImage={selectedImage}
                       setSelectedImage={setSelectedImage}
-                      containerClassName='mb-1.5'
+                      containerClassName="max-w-[4rem] max-h-[4rem]"
                     />
                   </SwiperSlide>
                 );
@@ -121,34 +117,31 @@ export default function ProductImageShowcase(props: {
             </Swiper>
           </div>
 
-          <div className="lg:hidden no-custom-swiper">
-            <AspectRatio ratio={16 / 9} className="mx-auto max-h-[14rem]">
-              <Swiper
-                modules={[Navigation, A11y]}
-                rewind={true}
-                navigation={true}
-                autoplay={{ delay: 7500 }}
-                slidesPerView={4}
-                loopAddBlankSlides
-                spaceBetween={14}
-                style={{ padding: '0 1rem' }}
-              >
-                {props.productData.images.edges.map((item) => {
-                  return (
-                    <SwiperSlide key={item.node.id}>
-                      {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
-                      {/* @ts-ignore */}
-                      <VariantsSlideComp
-                        item={item}
-                        selectedImage={selectedImage}
-                        setSelectedImage={setSelectedImage}
-                        containerClassName='px-1'
-                      />
-                    </SwiperSlide>
-                  );
-                })}
-              </Swiper>
-            </AspectRatio>
+          <div className="mx-auto w-full max-w-[30rem] lg:hidden">
+            <Swiper
+              modules={[Navigation, A11y]}
+              rewind
+              navigation
+              autoplay={{ delay: 7500 }}
+              slidesPerView={4}
+              mousewheel
+              loopAddBlankSlides
+              spaceBetween={14}
+              style={{ padding: "0 1rem" }}
+            >
+              {props.productData.images.edges.map((item) => {
+                return (
+                  <SwiperSlide key={item.node.id}>
+                    <VariantsSlideComp
+                      item={item}
+                      selectedImage={selectedImage}
+                      setSelectedImage={setSelectedImage}
+                      containerClassName="px-1 max-h-[6rem] max-w-[6rem]"
+                    />
+                  </SwiperSlide>
+                );
+              })}
+            </Swiper>
           </div>
         </>
       )}

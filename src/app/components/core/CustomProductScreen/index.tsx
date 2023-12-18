@@ -18,6 +18,7 @@ import { SoundCloudIframe, YouTubeIFrame } from "../../common/Iframes";
 import { type NextJsLinkProps } from "../../common/Clickable";
 import ProductImageShowcase from "./ProductImageShowcase";
 import Slider from "../../common/Slider";
+import { AspectRatio } from "../../common/ui/aspect-ratio";
 
 function ProductSlidComp(props: { item: Product }) {
   return (
@@ -49,13 +50,19 @@ function YoutubeIFrameSlidComp(props: {
   };
 }) {
   return (
-    <YouTubeIFrame
-      width={props.item.width}
-      height={props.item.height}
-      src={props.item.src}
-      title={props.item.title}
-      allow={props.item.allow}
-    />
+    <AspectRatio
+      ratio={16 / 9}
+      className="flex items-center justify-center px-4"
+    >
+      <YouTubeIFrame
+        width={props.item.width}
+        height={props.item.height}
+        src={props.item.src}
+        title={props.item.title}
+        allow={props.item.allow}
+        className="h-full w-full rounded-md"
+      />
+    </AspectRatio>
   );
 }
 
@@ -148,18 +155,15 @@ const CustomProductScreen = ({
     // );
   }, [extractDataFromHTMLDescription.detailsText, productData.description]);
 
+  console.log("extractDataFromHTMLDescription", extractDataFromHTMLDescription);
+
   return (
     <div className="mx-auto flex w-[140ch] max-w-full flex-col gap-16 overflow-x-hidden px-4 py-8 text-h6 leading-primary-3 text-text-primary-300 sm:px-8 md:py-12 lg:px-12">
       <section className="flex w-full flex-col-reverse justify-between gap-12 md:flex-row-reverse">
         <div
           className={cx(
-            "md:text-align-initial my-4 flex flex-grow flex-col gap-2 text-center",
-            !hasVariants
-              ? // && !description
-                //   ? "md:py-16"
-                //   : !description
-                "md:py-12"
-              : "",
+            "md:text-align-initial flex flex-grow flex-col gap-2 text-center",
+            !hasVariants ? "md:py-12" : "",
           )}
         >
           <div className="flex flex-col items-center gap-6 md:items-start">
@@ -217,7 +221,7 @@ const CustomProductScreen = ({
                     className={cx(
                       "flex h-full w-full items-start",
                       selectedVariant?.title === node.title &&
-                        "relative isolate z-[1] origin-top scale-90 ring-inset",
+                        "relative isolate z-[1] origin-top scale-95 ring-inset",
                     )}
                   >
                     <div
@@ -293,7 +297,7 @@ const CustomProductScreen = ({
                 }
 								pointer-events-none
             inline-block h-5 w-5 transform rounded-full bg-bg-primary-500 shadow-lg ring-0 transition duration-200 ease-in-out`}
-                style={{ animationDuration: '3s' }}
+                style={{ animationDuration: "3s" }}
               />
             </Switch>
           </div>
@@ -346,15 +350,16 @@ const CustomProductScreen = ({
               ) : (
                 <div>
                   <Slider
-                    className="swiper-fluid"
-                    breakpoints={{
+                    className="swiper-fluid swiper-x-padded"
+                    newBreakpoints={{
                       400: { slidesPerView: 2 },
                       1024: { slidesPerView: 3 },
                     }}
+                    slidesPerView={1}
                     data={extractDataFromHTMLDescription.iframes.youtube}
                     getSlideKey={(_, itemIndex) => itemIndex}
                     SlideComp={YoutubeIFrameSlidComp}
-                    isNavButtonsOutside
+                    // isNavButtonsOutside
                     // compProps={undefined}
                   />
                 </div>

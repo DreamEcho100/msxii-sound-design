@@ -142,6 +142,7 @@ export default function Slider<Item, CompProps>(
             : true
         }
         autoplay={{ delay: 7500 }}
+        mousewheel
         style={{
           padding: isNavButtonsOutside ? "0 0.75rem" : undefined,
         }}

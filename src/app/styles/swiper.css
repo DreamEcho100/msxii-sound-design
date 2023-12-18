@@ -92,7 +92,7 @@
 }
 .swiper-button-next:hover,
 .swiper-button-prev:hover {
-  --transform-scale: 1.25 !important;
+  --transform-scale: 1.15 !important;
 }
 
 /* .swiper.nav-button-outside .swiper-button-next {
@@ -116,4 +116,16 @@
 .swiper-wrapper-items-center .swiper-wrapper {
   display: flex;
   align-items: center;
+}
+
+/*  */
+/*  */
+/*  */
+.swiper-slide.swiper-slide-flex {
+  display: flex !important;
+}
+
+.swiper-x-padded {
+  padding-left: 1rem !important;
+  padding-right: 1rem !important;
 }

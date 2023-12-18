@@ -155,8 +155,6 @@ const CustomProductScreen = ({
     // );
   }, [extractDataFromHTMLDescription.detailsText, productData.description]);
 
-  console.log("extractDataFromHTMLDescription", extractDataFromHTMLDescription);
-
   return (
     <div className="mx-auto flex w-[140ch] max-w-full flex-col gap-16 overflow-x-hidden px-4 py-8 text-h6 leading-primary-3 text-text-primary-300 sm:px-8 md:py-12 lg:px-12">
       <section className="flex w-full flex-col-reverse justify-between gap-12 md:flex-row-reverse">
